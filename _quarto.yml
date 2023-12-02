@@ -109,6 +109,7 @@ format:
     fontsize: 0.90em
     code-copy: true
     code-block-bg: true
+    code-block-background: true
     code-overflow: wrap
     css: styles.css
     grid:
