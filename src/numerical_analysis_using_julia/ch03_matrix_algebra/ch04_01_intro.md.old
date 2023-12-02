@@ -1,0 +1,392 @@
+# 이제 `LiniearAlgebra` 를 사용하자
+
+지금까지 선형대수학에 대한 여러 기능을 만들었다. 앞으로는 이것을 버리고 Julia 에서 제공하는 `LinearAlgebra` 모듈을 사용하도록 하자. Julia 의 `LinearAlgebra` 모듈은 선형대수학에서 사용하는 많은 기능을 포함하고 있다. 여기서는 중요한 것만 설명할 것이며 자세한 것은 [LinearAlgbra.jl 공식 문서](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/)  를 참고하자.
+
+`LinearAlgebra` 를 우리가 지금껏 작성한 함수와 그 속도를 비교해보면 `LinearAlgebra` 쪽이 훨씬 빠르다. 그리고 `LinearAlgebra` module 은 많은 프로그래밍 언어에서 사용중이며, 수십년의 역사를 가진 [BLAS(Basic Linear Algebra Subprograms)](https://netlib.org/blas/) 과 [LAPACK(Linear Algebra PACKage)](https://netlib.org/lapack/) 에 기반하여 만들어졌으므로 믿을만 하다.
+
+</br>
+
+## 희소행렬과 밀집행렬
+
+우리가 손으로 계산할 때 처럼 행렬의 전체 원소를 저장하여 다루는 것을 밀집행렬 (denxe matrix) 라 한다. 만약 행렬의 크기가 매우 크고 행렬 성분의 대부분이 $0$ 일 경우에는 다양한 방법으로 $0$ 이 아닌 행렬 성분의 위치와 값만을 저장하도록 하는데 이것을 **희소행렬(Sparse matrix)** 라 한다. 희소행렬은 이후 다루고 여기서는 밀집행렬에 대해서만 고려하도록 한다.
+
+</br>
+
+## `LinearAlgbra.jl` 이 제공하는 기본 함수
+
+`LininearAlgebra.jl` 은 행렬 `A` 와 벡터 `u`, `v` 에 대해 다음과 같은 함수를 지원한다. (`LinearAlgebra.jl` 이 지원하는 함수증 일부이다.)
+
+| 함수 | 설명 | 비고 |
+|:------:|:------:|:-------|
+| `tr(A)` | $\text{tr}(\mathbf{A})$ | |
+|`det(A)` | $\det(\mathbf{A})$ | |
+|`inv(A)` | $\mathbf{A}^{-1}$| `A` 가 정사각행렬일 경우  |
+| `transpose(A)` | $\mathbf{A}^{T}$| `A` 의 전치행렬 |
+|`A'` or `adjoint(A)` | $\mathbf{A}^\dagger$ | `A` 에르미트 전치행렬   |
+| `diag(A)` | $[A_{11},\,A_{22},\ldots]$ | 대각성분 |
+| `dot(u, v)` or `u⋅v` (`\cdot`+[tab])  | $\mathbf{u} \cdot \mathbf{v}$| dot product |
+| `dot(u, A, v)` | `dot(u, A*v)` 와 같다 | dot product |
+| `cross(u, v)` or `×(u, v)` (`\times`+[tab]) | $\mathbf{u \times v}$ | 3차원 유클리드 공간에서의 외적 |
+| `norm(u, p)` or `norm(A, p)`|$p$-norm of vector `u` or matrix `A` | see below |
+| `opnorm(A::AbstractMatrix, p::Real=2)` | $p$-norm of matrix `A`| see below|
+|`normalize(a::AbstractArray, p::Real=2)` | normalization of Array | `norm(a, p)==1` 되도록 normalize 한다.|
+| `exp(A)` | exponential of $\mathbf{A}$  | $\displaystyle \sum_{k=1}^\infty \dfrac{\mathbf{A}^k}{k!}$ |
+
+</br>
+
+### `norm` 과 `opnomr` 함수
+
+- `norm(u, p)` : $\displaystyle \|\mathbf{u}\|_p = \sum_{i=1}^n \left( |u_i|^p \right)^{1/p}$
+- `norm(A, p)` : $\displaystyle \|\mathbf{A}\|_p = \sum_{i, j} \left(|A_{ij}|^p\right)^{1/p}$
+- `p=Inf` 이면 $\|u\|_{\infty} = \max \{ |u_1|,\ldots,\,|u_n|\}$ 이다.
+
+- `opnorm(A, p)` : $m\times n$ 행렬 $\mathbf{A}$ 에 대한 $p$-norm 은 $\|\mathbf{A}\|_p$ 라 쓰고 다음과 같이 정의된다.
+
+$$
+\|\mathbf{A}\|_p = \left\{ \begin{array}{ll} \displaystyle \max_{1\le j\le n} \left(\sum_{i=1}^m |A_{ij}|^p\right)^{1/p} \qquad &; p=1, 2 \\ \displaystyle \max_{1\le i \le m} \left(  \sum_{j=1}^n |A_{ij}|\right) &; p=\text{Inf}\end{array} \right.
+$$
+
+</br>
+
+## 특수한 행렬
+
+`LinearAlgebra.jl` 은 선형대수학에서 사용되는 특별한 명칭이 붙은 행렬중 일부를 특별히 별도의 타입으로 지정하였다. 아주 단순한 예를 들자면 선형 시스템 $\mathbf{Ax}=\mathbf{b}$ 를 풀 때, $\mathbf{A}$ 가 대각성분을 제외한 성분이 모두 $0$ 인 대각행렬이라면 아주 쉽게 풀 수 있으며, 상삼각행렬이나, 하삼각행렬이라도 일반적인 행렬에 비해서도 훨씬 쉽게 풀 수 있다. 그러나 컴퓨터가 임의로 $\mathbf{A}$ 가 어떤 행렬인지 결정하게 하기는 힘들며, 때때로 바람직 하지 않은 오류를 낼 수 있다. Julia 에서는 다중 디스패치를 이용할 수 있으므로 행렬 $\mathbf{A}$ 를 각각의 형태에 맞는 타입으로(대각행렬이라든가, 상삼각행렬이라든가) 정해 줄 수 있다면 이에 맞춰서 선형 시스템을 푸는 함수를 공통적으로 정의 할 수 있다. 즉 `solve_linearsystem_diagonal`, `solve_linearsystem_uppertriangula` 등을 따로 정의 할 필요 없이 `solve_linearsystem(A::Diatonal)`, `solve_linearsystem(A::UpperTriangula)` 와 같이 할 수 있다는 뜻이다.
+
+`LinearAlgebra.jl` 에 정의된 특수한 타입으로서의 행렬의 목록은 아래와 같다.
+
+</br>
+
+| 타입 | 명칭 | 설명 |
+|:---------:|:----------|:-------:|
+| `UniformScaling` | Uniform scaling operator | c$\mathbf{I}$|
+| `Diagonal` | 대각행렬 (Diagonal matrix) |
+| `Bidiagonal` | 상/하 쌍대각 행렬 (Upper/lower bidiagonal matrix) |
+| `Tridiagonal` | 삼중 대각 행렬 (Tridiagonal matrix) |
+| `SymTridiagonal` | 대칭 삼중 대각 행렬 (Symmetric tridiagonal matrix) |
+| `UpperTriangular` | 상삼각행렬 (Upper triangular matrix) | $i>j \implies A_{ij}=0$
+| `UnitUpperTriangular` | 단위 상삼각행렬 (Upper triangular matrix with unit diagonal) | 상삼각행렬이며 대각성분이 $1$ |
+| `LowerTriangular` | 하삼각행렬 (Lower triangular matrix) | $i<j \implies A_{ij}=0$ |
+| `UnitLowerTriangular` | 단위 하삼각행렬 (Lower triangular matrix with unit diagonal) | 하삼각행렬이며 대각성분이 $1$ |
+| `UpperHessenberg` | 상 헤센베르크 행렬 (Upper Hessenberg matrix) |
+| `Symmetric` | 대칭 행렬 (Symmetric matrix) | $\mathbf{A} =\mathbf{A}^T$ |
+| `Hermitian` | 에르미트 행렬 (Hermitian matrix) | $\mathbf{A} =\mathbf{A}^\ast$ |
+
+</br>
+
+### `UniformScaling`
+
+`UniformScaling` 은 행렬 뿐만 아니라 어떤 스칼라량의 단위에 상수를 곱한것을 말한다. `UniformScaling(2.0)` 은 (`2.0` 이 `Float64` 타입의 부동소수이므로) `Float64` 타입의 성분을 갖는 단위행렬이다. 다만 아직까지는 차원이 정해지지 않으며 다른 행렬과 연산될 때 적절한 차원을 갖게 된다. 단위행렬을 나타내는 `I` 를 대신 사용 할 수 있으며, `UniformScaling(2.0)=2.0I` 이다.
+
+```sh
+julia> using LinearAlgebra
+
+julia> 2.0I + 3
+5.0
+
+julia> 2.0I + [0 1; 2 3]
+2×2 Matrix{Float64}:
+ 2.0  1.0
+ 2.0  5.0
+```
+
+</br>
+
+### `Diagonal`
+
+대각행렬을 나타내는 타입이다. $n$ 차원 벡터를 입력하면 차례로 대각성분이 되는 대각행렬을 만든다.
+
+```sh
+julia> Diagonal([1, 10, 100])
+3×3 Diagonal{Int64, Vector{Int64}}:
+ 1   ⋅    ⋅
+ ⋅  10    ⋅
+ ⋅   ⋅  100
+```
+
+`Diagonal` 타입의 행렬에 `UniformScaling` 을 더하면, 아마 여러분이 예상한 결과가 나올 것이다.
+
+```sh
+julia> Diagonal([1, 10, 100])+3.0I
+3×3 Diagonal{Float64, Vector{Float64}}:
+ 4.0    ⋅      ⋅
+  ⋅   13.0     ⋅
+  ⋅     ⋅   103.0
+```
+
+</br>
+
+### 띠행렬, 쌍대각행렬, 삼쌍대각행렬 : `Bidiagonal`, `Tridiagonal`, `SymTridiagonal`
+
+$m\times n$ 행렬 $A_{ij}$ 에서 $A_{ii},\, i=1,\ldots,\, \min \{m,\,n\}$ 을 대각(diagonal) 성분이라 한다. 대각 성분의 바로 오른쪽 성분, 즉 $A_{i,\, i+1}$ 을 **상대각 (superdialgonal)** 성분이라 하며, 왼쪽 성분, 즉 $A_{i+1,\,i}$ 을 **하대각(subdiagonal)** 성분이라 한다.(적절한 번역어를 못찾아서 임의로 붙인 이름이다.)
+
+대각행렬과 대각성분 근처의 일부만을 제외한 모든 성분이 $0$ 인 행렬을 **띠행렬 (Band matrix)**이라 한다. 대각성분과 상대각 성분/하대각 성성분 가운데 하나를 제외한 모든 성분이 $0$ 인 행렬을 각각 상쌍대각 행렬/하쌍대각 행렬이라 한다. 아래의 보기에서 $\mathbf{B}_U$ 는 상쌍대각행렬, $\mathbf{B}_L$ 은 하쌍대각행렬이다.
+
+$$
+\mathbf{B}_U = \begin{bmatrix} 4 & 1 & 0 &0  \\ 0 & 3 & 1 & 0 \\ 0 & 0 & 2 &  2 \\ 0 & 0 & 0 & 5 \end{bmatrix} ,\qquad \mathbf{B}_L = \begin{bmatrix} 4 & 0 & 0 &0  \\ 1 & 3 & 0 & 0 \\ 0 & 1 & 2 &  0 \\ 0 & 0 & 2 & 5 \end{bmatrix}
+$$
+
+쌍대각 행렬은 `Bidiagonal` 객체로 표현되며, 두가지 방법으로 구성 할 수 있다. 첫번째 방법은 생성자에(객체의 생성자이므로 객체와 같은 이름을 가진다.) 첫번째 인자로 대각성분을, 두번째 인자로 $0$ 이 아닌 대각성분의 위/아래 성분을, 세번째 인자로 상쌍대각행렬이면 `:U` 를 하쌍대각행렬이면 `:L` 을 입력하는 방법이다.
+
+```sh
+julia> Bu = Bidiagonal([4, 3, 2, 5], [1, 1, 0], :U)
+4×4 Bidiagonal{Int64, Vector{Int64}}:
+ 4  1  ⋅  ⋅
+ ⋅  3  1  ⋅
+ ⋅  ⋅  2  0
+ ⋅  ⋅  ⋅  5
+
+julia> Bl = Bidiagonal([4, 3, 2, 5], [1, 1, 2], :L)
+4×4 Bidiagonal{Int64, Vector{Int64}}:
+ 4  ⋅  ⋅  ⋅
+ 1  3  ⋅  ⋅
+ ⋅  1  2  ⋅
+ ⋅  ⋅  2  5
+```
+
+`Bidiangoal` 타입 행렬을 구성하는 두번째 방법은 이미 존재하는 행렬로부터 대각성분을 포함한 $0$ 이 아닌 성분을 가져오는 방법이다. 다음을 보면 쉽게 이해 할 수 있을 것이다.
+
+```sh
+julia> A = [1 1 1 1; 2 2 2 2; 3 3 3 3; 4 4 4 4]
+4×4 Matrix{Int64}:
+ 1  1  1  1
+ 2  2  2  2
+ 3  3  3  3
+ 4  4  4  4
+
+julia> Bidiagonal(A, :U) # contains the main diagonal and first superdiagonal of A
+4×4 Bidiagonal{Int64, Vector{Int64}}:
+ 1  1  ⋅  ⋅
+ ⋅  2  2  ⋅
+ ⋅  ⋅  3  3
+ ⋅  ⋅  ⋅  4
+
+julia> Bidiagonal(A, :L) # contains the main diagonal and first subdiagonal of A
+4×4 Bidiagonal{Int64, Vector{Int64}}:
+ 1  ⋅  ⋅  ⋅
+ 2  2  ⋅  ⋅
+ ⋅  3  3  ⋅
+ ⋅  ⋅  4  4
+```
+
+</br>
+
+대각성분, 상대각성분, 하대각성분을 제외한 성분이 모두 $0$ 인 성분을 삼중대각행렬 (Tridiagonal matrix) 라 하며 `LinearAlgebra.jl` 에서는 `Tridiagonal` 타입으로 정의된다. 아래의 행렬 $\mathbf{C}$ 는 삼중 대각행렬이다.
+
+$$
+\mathbf{C} = \begin{bmatrix} 4 & 1 & 0 & 0 & 0 \\ 2 & 3 & 1 & 0 & 0 \\ 0 & 3 &1& 2 &  0 \\ 0 & 0 & 2& 5 & 1 \\ 0 & 0 & 0 &3 & 6 \end{bmatrix}
+$$
+
+삼중대각행렬을 구성하는 방법은 쌍대각행렬을 구성하는 방법과 비슷하게 두가지 방법이다. 하나는 대각행렬 아래 성분들을 나타내는 벡터, 대각성분벡터, 대각성분 위의 성분들을 나타내는 벡터를 차례로 입력하는 것이다.
+
+위의 행렬 $\mathbf{C}$ 를 구성한다면
+
+```sh
+julia> C = Tridiagonal([2, 3, 2, 3], [4, 3, 1, 5, 6], [1, 1, 2, 1])
+5×5 Tridiagonal{Int64, Vector{Int64}}:
+ 4  1  ⋅  ⋅  ⋅
+ 2  3  1  ⋅  ⋅
+ ⋅  3  1  2  ⋅
+ ⋅  ⋅  2  5  1
+ ⋅  ⋅  ⋅  3  6
+```
+
+와 같이 할 수 있다.
+
+다른 방법은 이미 존재하는 행렬로부터 구성하는 것이다.
+
+```sh
+julia> D = [1 2 3 4 5]' *ones(Int64, 5)'
+5×5 Matrix{Int64}:
+ 1  1  1  1  1
+ 2  2  2  2  2
+ 3  3  3  3  3
+ 4  4  4  4  4
+ 5  5  5  5  5
+
+julia> Tridiagonal(D)
+5×5 Tridiagonal{Int64, Vector{Int64}}:
+ 1  1  ⋅  ⋅  ⋅
+ 2  2  2  ⋅  ⋅
+ ⋅  3  3  3  ⋅
+ ⋅  ⋅  4  4  4
+ ⋅  ⋅  ⋅  5  5
+```
+
+`SymTridiagonal` 은 대칭인 삼중대각행렬을 나타내는 타입이다. 대칭행렬이므로 대각행렬의 위 띠와 아래띠가 같다. 이것은 어떻게 구성할까? 여러분이 짐작할 수 있듯이 대각성분과, 띠 성분을 벡터로 입력하면 된다.
+
+```sh
+julia> SymTridiagonal([1,2, 3, 4, 5], [-1, -2, -3, -4])
+5×5 SymTridiagonal{Int64, Vector{Int64}}:
+  1  -1   ⋅   ⋅   ⋅
+ -1   2  -2   ⋅   ⋅
+  ⋅  -2   3  -3   ⋅
+  ⋅   ⋅  -3   4  -4
+  ⋅   ⋅   ⋅  -4   5
+```
+
+</br>
+
+### 삼각행렬
+
+상삼각행렬과 하삼각행렬을 다루기 위한 타입은 각각 `UpperTriangular`, `LowerTriangular` 이다. 거기에 대각성분이 $1$ 인 행렬로 특별히 `UnitUpperTriangular`, `UnitLowerTriangular` 타입이 준비되어 있다. 이미 존재하는 행렬로부터 필요한 만큼의 행렬 원소를 취하여 행렬을 구성 할 수 있다.
+
+```sh
+julia> A = [1.0 2.0 3.0; 4.0 5.0 6.0; 7.0 8.0 9.0]
+3×3 Matrix{Float64}:
+ 1.0  2.0  3.0
+ 4.0  5.0  6.0
+ 7.0  8.0  9.0
+
+julia> UpperTriangular(A)
+3×3 UpperTriangular{Float64, Matrix{Float64}}:
+ 1.0  2.0  3.0
+  ⋅   5.0  6.0
+  ⋅    ⋅   9.0
+
+julia> LowerTriangular(A)
+3×3 LowerTriangular{Float64, Matrix{Float64}}:
+ 1.0   ⋅    ⋅
+ 4.0  5.0   ⋅
+ 7.0  8.0  9.0
+
+julia> UnitUpperTriangular(A)
+3×3 UnitUpperTriangular{Float64, Matrix{Float64}}:
+ 1.0  2.0  3.0
+  ⋅   1.0  6.0
+  ⋅    ⋅   1.0
+
+julia> UnitLowerTriangular(A)
+3×3 UnitLowerTriangular{Float64, Matrix{Float64}}:
+ 1.0   ⋅    ⋅
+ 4.0  1.0   ⋅
+ 7.0  8.0  1.0
+```
+
+</br>
+
+### 헤센베르그 행렬
+
+헤센베르그 행렬은 상헤센베르그 행렬(Upper Hessenberg matrix) 과 하헤센베르그 행렬(Lower Hessenberg matrix) 로 이루어진다. 상헤센베르그 행렬(Upper Hessenberg matrix) 은 정사각행렬이며 행렬의 좌하단 모서리 부근이 모두 $0$ 인 행렬이다. 하헤센베르그 행렬(Lower Hessenberg matrix) 는 정사각 행렬이며 행렬의 우하단 모서리 부근이 모두 $0$ 인 행렬이다. 아래의 보기에서 $\mathbf{H}_U$ 는 상헤센베르그 행렬, $\mathbf{H}_L$ 은 하헤센베르그 행렬이다.
+
+$$
+\mathbf{H}_U = \begin{bmatrix} 3 & 4 & 2 & 3\\ 1 & 4 & 2 & 3\\ 0 & 2 & 3 & 5 \\ 0 & 0 & 1 & 1\\\end{bmatrix}
+,\qquad \mathbf{H}_L = \begin{bmatrix} 1 & 2 & 0 & 0 \\ 7 & 2 & 3 & 0 \\ 3 & 4 & 3 & 7 \\ 5 & 3 & 1 &2 \end{bmatrix}
+$$
+
+Julia 에서는 상헤센베르그 행렬 가운데 첫번째 subdiagonal elements 아래의 성분을 `0` 으로 하는 행렬만 따로 `UpperHessenberg` 타입으로 정의한다. 임의의 정사각 행렬에 대해 `UpperHessenberg` 생성자를 취하면 다음과 같다.
+
+```sh
+julia> HH = [3  4  2  3; 1  4  2  3; 1  2  3  5 ; 1  2  1  1]
+4×4 Matrix{Int64}:
+ 3  4  2  3
+ 1  4  2  3
+ 1  2  3  5
+ 1  2  1  1
+
+julia> HU = UpperHessenberg(HH)
+4×4 UpperHessenberg{Int64, Matrix{Int64}}:
+ 3  4  2  3
+ 1  4  2  3
+ ⋅  2  3  5
+ ⋅  ⋅  1  1
+```
+
+</br>
+
+### 대칭행렬과 에르미트 행렬
+
+어떤 행렬 $\mathbf{A}$ 의 행과 열을 바꾼 행렬을 그 행렬의 전치행렬 (transposed matrix) 라 하고 $\mathbf{A}^T$ 이라 한다. 즉 $(\mathbf{A}^T)_{ij} = (\mathbf{A})_{ji}$ 이다. 행렬 $\mathbf{A}$ 행과 열을 바꾸고 켤레복소수를 취한것을 켤레전치 행렬(conjugate transpose matrix) 혹은 에르미트 전치 행렬(Hermite transpose matrix)라 하고 $\mathbf{A}^\ast$ 나 $\mathbf{A}^\dagger$ 라 쓴다. 전자는 수학에서, 후자는 물리학에서 주로 쓰는 표현이다. $\mathbf{A}=\mathbf{A}^T$ 이면 **대칭행렬** 이라 한다. $\mathbf{A}=\mathbf{A}^\ast$ 이면 에르미트 행렬(Hermitian matrix), 혹은 자기수반 행렬(Self-adjoint matrix) 라 한다. 예를 들어 $\mathbf{A} =\begin{bmatrix} 2+3i & i \\ 2i & 3\end{bmatrix}$  에 대해,
+
+$$
+\mathbf{A}^T =\begin{bmatrix} 2+3i & 2i \\ i & 3\end{bmatrix},\qquad \mathbf{A}^\ast = \begin{bmatrix} 2-3i & -i \\ -2i & 3\end{bmatrix}
+$$
+
+이다. 행렬 $\mathbf{A}$ 가 실수 성분만을 가진다면 $\mathbf{A}^T = \mathbb{A}^\ast$ 이다.
+
+대칭행렬에 대한 타입은 `Symmetric` 이다. 이미 존재 하는 행렬에서 하삼각부분이나 상삼각부분을 취하여 대칭행렬로 만든다.
+
+```sh
+julia> A = [1 0 2 0 3; 0 4 0 5 0; 6 0 7 0 8; 0 9 0 1 0; 2 0 3 0 4]
+5×5 Matrix{Int64}:
+ 1  0  2  0  3
+ 0  4  0  5  0
+ 6  0  7  0  8
+ 0  9  0  1  0
+ 2  0  3  0  4
+
+julia> Supper = Symmetric(A, :U)
+5×5 Symmetric{Int64, Matrix{Int64}}:
+ 1  0  2  0  3
+ 0  4  0  5  0
+ 2  0  7  0  8
+ 0  5  0  1  0
+ 3  0  8  0  4
+
+julia> Slower = Symmetric(A, :L)
+5×5 Symmetric{Int64, Matrix{Int64}}:
+ 1  0  6  0  2
+ 0  4  0  9  0
+ 6  0  7  0  3
+ 0  9  0  1  0
+ 2  0  3  0  4
+```
+
+행렬 `A` 의 하삼각 부분을 취하여 대칭행렬로 만들 때는 `Symmetric(A, :U)` 라 하고, 하삼각 부분을 취하여 대칭행렬로 만들 때는 `Symmetric(A, :L)` 라 한다. 이 때 `:U` 나 `:L` 을 입력하지 않으면 `:U` 를 기본값으로 하여 대칭행렬을 만든다.
+
+에르미트 행렬에 대한 타입은 `Hermite` 이며 마찬가지로 `Hermite(A, :U)` 나 `Hermite(A, :L)` 로 에르미트행렬을 만든다. 역시 기본값은 `:U` 이다.
+
+```sh
+julia> A = [1 0 2+2im 0 3-3im; 0 4 0 5 0; 6-6im 0 7 0 8+8im; 0 9 0 1 0; 2+2im 0 3-3im 0 4];
+
+julia> Hupper = Hermitian(A)
+5×5 Hermitian{Complex{Int64}, Matrix{Complex{Int64}}}:
+ 1+0im  0+0im  2+2im  0+0im  3-3im
+ 0+0im  4+0im  0+0im  5+0im  0+0im
+ 2-2im  0+0im  7+0im  0+0im  8+8im
+ 0+0im  5+0im  0+0im  1+0im  0+0im
+ 3+3im  0+0im  8-8im  0+0im  4+0im
+
+julia> Hlower = Hermitian(A, :L)
+5×5 Hermitian{Complex{Int64}, Matrix{Complex{Int64}}}:
+ 1+0im  0+0im  6+6im  0+0im  2-2im
+ 0+0im  4+0im  0+0im  9+0im  0+0im
+ 6-6im  0+0im  7+0im  0+0im  3+3im
+ 0+0im  9+0im  0+0im  1+0im  0+0im
+ 2+2im  0+0im  3-3im  0+0im  4+0im
+```
+
+</br>
+
+## `LinearAlgebra.jl` 의 다양한 함수들
+
+</br>
+
+### `\`  연산자
+
+정사각 행렬`A` 와, `B` 에 대해 `A\B` 는 `A*X==B` 를 만족하는 행렬 `X` 를 리턴한다. `A` 의 행렬에 따라 다양한 방법으로 `X` 를 구한다.
+
+</br>
+
+### `/` 연산자
+
+`A / B` 는 `(B' \ A')'` 와 같다. `A` 가 정사각해열일 경우 `A == X*B` 를 만족하는 `X` 를 구한다.
+
+</br>
+
+### `factorize()`
+
+행렬 `A` 에 대해 `factorize(A)` 함수는 `A` 의 특성에 따라 다음과 같은 기능을 수행한다.
+
+| Properties of A | type of factorization |
+|:----------------:|:--------------------|
+| Positive-definite |Cholesky (see cholesky) |
+| Dense Symmetric/Hermitian | Bunch-Kaufman (see bunchkaufman) |
+| Sparse Symmetric/Hermitian | LDLt (see ldlt) |
+| Triangular | Triangular |
+|Diagonal | Diagonal |
+| Bidiagonal | Bidiagonal |
+| Tridiagonal | LU (see lu) |
+| Symmetric real tridiagonal | LDLt (see ldlt) |
+| General square | LU (see lu) |
+| General non-square | QR (see qr) |
+

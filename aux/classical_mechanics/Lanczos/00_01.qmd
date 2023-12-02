@@ -1,0 +1,122 @@
+<!-- ---
+title: "Introductions"
+lang: ko   
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: true
+--- -->
+
+# Introduction
+
+## The Variational approach to mechanics {#sec-variational_approach}
+
+### 뉴튼과 라이프니츠의 역학
+
+#### 뉴튼 역학 (벡터 역학)
+
+$$
+\dfrac{d\boldsymbol{p}}{dt} = \boldsymbol{F} 
+$$ {#eq-newton_equation_of_motion}
+
+
+#### 라이프니츠의 해석 역학
+
+- *운동에너지(vis viva)* 와 *힘에 의한 일(work of the force)* 과 같은 스칼라 함수를 사용. 
+- 라이프니츠가 정의한 *vis viva* 는 $mv^2$
+- work of the force 는 work function 이란 용어로 대체되었으며 후에는 potential energy 라는 용어로 대치되었다.
+
+</br>
+
+### 에너지 Theorem
+
+- 역학적 에너지 보존
+
+</br>
+
+## 오일러와 라그랑쥬의 과정 {#sec-euler_lagrange_procedure}
+
+- 두 점 $P_1,\, P_2$ 를 지나는 경로는 어떤 경로를 따르는가? $P_1$ 을 지나는 시간은 $t_1$, 속도는 $\boldsymbol{v}_1$ 이라고 하자.
+- 무한개의 선이 $P_1 - P_2$ 를 지날 수 있지만 자연은 그 가운데 하나의 경로만을 선택한다.
+
+- 오일러와 라그랑쥬는 정확한 최소작용을 발견했다.
+
+</br>
+
+![Euler Lagrange](../../tools/Asymptote/src/classical_mechanics/path1.png){width=50%}
+
+</br>
+
+- 이 당시 action 은 *vis viva* 로 불린 $2K$ 의 시간에 대한 적분이었다. 가능한 모든 경로에 대해 이 action 을 계산 할 수 있으며 실제 경로는 이 action 값이 최소가 되는 경로라는 것이다.
+
+::: {.callout-note}
+우리는 action $S$ 가 운동에너지 $T$ 와 potential $U$ 에 대해 
+
+$$
+S = \int_{t_1}^{t_2} (T-U)\, dt
+$$
+
+임을 안다. 에너지가 보존되는 상황, 즉 $E=T+U$ 라면 
+
+$$
+S= \int_{t_1}^{t_2} (T-U)\, dt = \int_{t_1}^{t_2} (2T-E)\, dt = \int_{t_1}^{t_2} 2T\, dt + \text{const.}
+$$
+
+이므로 에너지가 보존되는 상황에서는 action 을 $2T$ 의 시간에 대한 적분으로 정의해도 된다.
+
+:::
+
+</br>
+
+## 해밀턴의 과정 {#sec-hamintol_procedure}
+
+- work function 이 시간에 대한 함수라면 에너지 보존 법칙시 성립하지 않으며, 오일러와 라그랑쥬의 방법, 즉 action 을 $2T$ 의 시간에 대한 적분으로 정의하는 것을 적용 할 수 없다.
+
+- 오일러-라그랑쥬 과정에 정해진 $P_1,\,P_2$ 에 대해 모든 경로를 고려하는 것이었다면, 해밀턴의 과정은 $t_1,\,t_2$ 를 고정하고 경로와 $P_2$ 를 변경시키는 것이다. 
+  
+- *action* 은 $T-U$ 의 시간에 대한 적분으로 계산된다. 해밀턴은 action 이 최소화 되는 경로가 실제 경로라고 생각했다.
+
+</br>
+
+## 변분법 (Calculus of variation) {#sec-calculus_of_variation}
+
+- 적분을 최소화 하는 것은 변분법이라 불리는 수학 문제이다. 
+- 무한개의 가능한 경로를 모두 계산하는 것이 아니라. 실제 경로에 infinitesimal 하게 가까운 경로를 생각한다. 이것을 실제 경로에 대한 *variation* 이라 한다.
+- 변분법은 실제 경로와 variation 사이의 적분값으 변화를 탐구한다.
+
+</br>
+
+## 벡터 역학과 변분 역학의 비교 {#sec-comparision_vector_variational_mechanics}
+
+| 역학 | 기본 물리량 |
+|:---:| :--------|
+| 벡터 역학 | 운동량(momentum), 힘(force) |
+| 변분 역학 | 운동 에너지(kinetic eneergy), 일함수 (work function)|
+
+: 두 역학의 비교 {.striped .responsive-lg}
+
+</br>
+
+- 자유입자의 경우 : 두 역학이 동등함
+
+- System of constraints : 변분 역학이 더 간단하고 경제적임
+
+- 마찰력과 같이 scalar function 의 미분으로 표현 할 수 없는 힘일 경우 : 뉴턴 역학은 힘의 성질을 제한하지 않는 반면, 변분 역학은 work function 으로 부터 유도되야 한다. 따라서 마찰력과 같은 양을 다룰 경우 뉴턴 역학이 유용하다.
+
+</br>
+
+## 변분 원리의 mathematical evaluation
+
+- 벡터 역학은 직교 좌표계에 적합하며 곡선좌표계에서는 텐서 calculus 가 필요하다.
+- 변분 역학은 <u>문제에 적합한 좌표계를 자유롭게 선택 할 수 있다</u>는 데 장점이 있다.
+
+</br>
+
+
+
+
+
+
+
+

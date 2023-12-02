@@ -1,0 +1,157 @@
+## 일변수 함수의 미분
+
+이 장에서는 수치해석적으로 주어진 함수의 미분을 구하는 방법을 알아본다. 앞서 설명했듯이함수 $f: X\subset \mathbb{R} \to \mathbb {R}$ 이 $x_0 \in X$ 에서 미분가능하다는 것은 다음의 극한이 존재한다는 것이다.
+
+$$
+f'(x_0)=\lim_{h\to 0} \dfrac{f(x_0+h)- f(x_0)}{h}
+$$
+
+여기서 $h$ 는 음수도, 양수도 가능하다. 그리고 우리가 앞서 배웠듯이 컴퓨터가 다룰수 있는 가장 $0$ 에 가깝지만 가장 작은 수에는 한계가 있으므로 이러한 극한을 다룰수 없다. 따라서 수치해석적으로 미분을 계산할 때는 우리가 관심있는 영역 $[a,\,b]\subset X$ 를 분할하여 수열을 만들어 다룰 수 밖에 없다. 즉 우리는 $x_1=a<x_2<\cdots <x_n=b$ 에 대해 $f(x_i) = y_i$ 로 정하고 수열 $(x_i)$ 와 $(y_i)$ 를 이용하여 수치해석적으로 미분을 구한다. 이것은 미분가능한 함수가 주어졌을 때 뿐만 아니라 이산적인 값 $\{(x_i,\, y_i)\}$ 가 주어졌을 때도 동일하게 사용 할 수 있다. 우리는 $[a,\,b]$ 를 일정한 간격으로 분할한, 즉 $x_{i+1}-x_i =h$ 가 상수일 경우만 생각하기로 한다. 
+
+</br>
+
+### 전방차분과 후방차분
+
+수열 $y_1,\,y_2,\ldots$ 에 대해 **전방 차분 (forward difference)** 는 $\Delta_F y_i = y_{i+1}-y_i$ 로 정의된다. **후방 차분 (backward difference)** 는 $\Delta_B y_i = y_{i}-y_{i-1}$ 로 정의된다. 함수 $f(x)$ 에 대해 어떤 특정한 간격 $h>0$ 가 주어졌을 때 전방 차분은 $\Delta_F f(x) = f(x+h)-f(x)$ 이며 후방차분은 $\Delta_B f(x) = f(x)-f(x-h)$ 이다. 앞서 말했듯이 수치해석에서는 $h\to 0$ 극한을 사용할 수 없으므로 차분을 이용하여 미분값을 계산한다.
+
+
+</br>
+
+### 두 점을 이용한 미분
+
+함수 $f$ 가 $C^2$ 함수일 때 $f$ 에 대한 테일러 전개는 아래와 같다.
+
+$$
+\begin{aligned}
+f(x-h) &= f(x) - f'(x)h + \dfrac{f''(\xi_1)}{2} h^2,  \\
+f(x+h) &= f(x) + f'(x)h + \dfrac{f''(\xi_2)}{2} h^2.
+\end{aligned}
+$$ {#eq-difference_taylor_1nd}
+
+$h>0$ 일 때 전방차분과 후방차분을 이용하여
+
+$$
+\begin{aligned}
+f'(x) &= \dfrac{f(x+h)-f(x)}{h} + O(h) = \dfrac{\Delta_F f(x)}{h} + O(h) \\
+&= \dfrac{f(x)-f(x-h)}{h} + O(h) = \dfrac{\Delta_B f(x)}{h} + O(h) 
+\end{aligned}
+$$
+
+로 근사 할 수 있다. 
+
+</br>
+
+### 세 점을 이용한 미분
+
+2차와 3차 테일러 다항식 까지 전개한다면
+$$
+\begin{aligned}
+f(x-h) &= f(x) - f'(x)h + \dfrac{f''(x)}{2} h^2 - \dfrac{f^{(3)}(\xi_1)}{6} h^3,  \\
+&= f(x) - f'(x)h + \dfrac{f''(x)}{2} h^2 - \dfrac{f^{(3)}(x)}{6} h^3 + \dfrac{f^{(4)}(\xi'_1)}{24}h^4,  \\
+f(x+h) &= f(x) + f'(x)h + \dfrac{f''(x)}{2} h^2 + \dfrac{f^{(3)}(\xi_2)}{6} h^3, \\
+&= f(x) + f'(x)h + \dfrac{f''(x)}{2} h^2 + \dfrac{f^{(3)}(x)}{6} h^3 + \dfrac{f^{(4)}(\xi'_2)}{24}h^4
+\end{aligned} 
+$$ {#eq-difference_taylor_2nd}
+
+를 만족하는 $\xi_1,\,\xi'_1\in (x-h,\, x),\, \xi_2,\,\xi'_2 \in (x,\,x+h)$ 가 존재한다. 
+
+이로부터
+
+$$
+\begin{aligned}
+f(x+h)-f(x-h) &= 2f'(x) h + \dfrac{1}{6} \left(f^{(3)}(\xi_2) +f^{(3)}(\xi_1) \right)h^3, \\
+f(x+h) -2 f(x) + f(x-h) &= f''(x) h^2 + \dfrac{1}{24}\left(f^{(4)}(\xi'_1) +f^{(4)}(\xi'_2) \right)h^4 
+\end{aligned}
+$$
+
+이므로 우리는 이것을 이용하여 1차 뿐만 아니라 2차 도함수에 대한 근사값도 구할 수 있다. 여기서 $f^{(3)}(\xi_2) +f^{(3)}(\xi_1)$ 를 보자. $\xi_1\in [x-h,\,x],\, \xi_2 \in [x,\,x+h]$ 인데, $f\in C^3_{[x-h,x+h]}$ 이면 [따름정리 : 여러 점의 경우](01_basic.qmd#sec-intermediate_value_for_many_points) 에 의해 $f^{(3)}(\xi) = \frac{1}{2}\left(f^{(3)}(\xi_2) +f^{(3)}(\xi_1) \right)$ 를 만족하는 $\xi\in[x-h,\,x+h]$ 가 존재하며, 같은 이유로 $f\in C^4_{[x-h,\,x+h]}$ 이면 $f^{(4)}(\xi')=\frac{1}{2}\left(f^{(4)}(\xi'_1) +f^{(4)}(\xi'_2) \right)$ 를 만족하는 $\xi'\in [x-h,\,x+h]$ 가 항상 존재한다. 따라서 다음과 같이 도함수와 2차도함수를 근사 할 수 있다.
+
+$$
+\begin{aligned}
+f'(x) &= \dfrac{f(x+h)-f(x-h)}{2h} - \dfrac{f^{(3)}(\xi)}{6}h^2 ,\\
+f''(x) &=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h^2
+\end{aligned}
+$$ {#eq-difference_3points}
+
+이 때 수치해석적으로 계산한 미분의 오차는 $h^2$ 에 비례한다. 따라서 $h$ 을 작게 잡을 수록 오차가 작아지며 충분히 작을 때 전방차분이나 후방차분보다 오차가 작을 것을 기대 할 수 있다. 위의 식에 의해 구한 미분의 추정값을 **중앙 차분 (central difference)** 라고 한다. 아래 그림은 함수 $f$ 에 대한 전방 차분, 후방 차분, 중앙 차분값을 그림으로 표현하였다. 실제 미분값은 중앙차분에 의한 값과 거의 같다.
+
+![Finite difference](difference_01.png){width=100%}
+
+
+
+양 끝점에서는 도함수를 구할 수 없는데 이때는 전방차분이나 후방차분과 비슷한 방법을 사용하여 구할 수 있다.
+
+$$
+\begin{aligned}
+f(x+2h) & = f(x) + f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 + \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4) \qquad &(1)\\
+f(x-2h) &= f(x) - f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 - \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4), \qquad &(2)
+\end{aligned}
+$$
+
+
+
+$$
+\begin{aligned}
+y'_1 &= \dfrac{-y_{3}+4y_{2}-3y_1}{2h} + O(h^2),\\
+y'_n &= \dfrac{3y_{n}-4x_{n-1}+y_{n-2}}{2h} + O(h^2).
+\end{aligned}
+$$ {#eq-3points_forward_backward_difference}
+
+
+
+</br>
+
+### Roundoff 에러
+
+$h$ 값이 작을 수록 오차가 작아지지만 $h$ 값이 어느 이하로 작아지면 에러가 발생한다. 아래는 쉬운 예를 보여준다. 우리는 $f(x)=e^x$ 의 도함수는 자기 자신과 같으며, $f(0)=f'(0)=1$ 임을 알고 있다. 앞의 전방, 후반 차분법과 보통의 차분법에 대해 $h$ 값을 변화시키며 $f'(0)$ 의 값을 계산하였다. $h$ 값이 충분히 작지 않을 때는 오차가 발생하였으나 어느 정도 작아지면 그 값이 정확하고 안정적이다. 그러나 $h$ 값이 $10^{-13}$ 보다 작아지면 roundoff 에러가 발생하여 불안정해지는 것을 알 수 있다. 
+
+![Roundioff-Finite difference](difference_02.png){width=100%}
+
+</br>
+
+### 다섯개의 점을 이용한 미분
+
+지금까지 1차와 2차 테일러 전개를 이용하여 미분계수를 $O(h)$ 나 $O(h^2)$ 의 오차로 구하는 방법을 소개하였다. 고차 테일러 전개를 이용하면 더 정확하게 미분값을 구할 수 있다. 4차 테일러 다항식과 나머지 값은 다음과 같다.
+
+$$
+\begin{aligned}
+f(x-2h) &= f(x) - f'(x) \cdot (2h) + \dfrac{f''(x)}{2}(2h)^2  \\
+&\qquad \qquad - \dfrac{f'''(x)}{6} (2h)^3 + \dfrac{f^{(4)}(x)}{24}(2h)^4 - \dfrac{f^{(5)}(\xi_1)}{120} (2h)^5\,\\
+f(x-h) &= f(x) - f'(x) \cdot (h) + \dfrac{f''(x)}{2}(h)^2  \\
+&\qquad \qquad - \dfrac{f'''(x)}{6} (h)^3 + \dfrac{f^{(4)}(x)}{24}(h)^4 - \dfrac{f^{(5)}(\xi_2)}{120} (h)^5\,\\
+f(x+h) &= f(x) + f'(x) \cdot (h) + \dfrac{f''(x)}{2}(h)^2 \\
+&\qquad \qquad + \dfrac{f'''(x)}{6} (h)^3 + \dfrac{f^{(4)}(x)}{24}(h)^4 + \dfrac{f^{(5)}(\xi_3)}{120} (h)^5\,\\
+f(x+2h) &= f(x) + f'(x) \cdot (2h) + \dfrac{f''(x)}{2}(2h)^2 \\
+&\qquad \qquad + \dfrac{f'''(x)}{6} (2h)^3 + \dfrac{f^{(4)}(x)}{24}(2h)^4 + \dfrac{f^{(5)}(\xi_4)}{120} (2h)^5\,\\
+\end{aligned}
+$$ {#eq-difference_taylor_4th}
+
+이로부터,
+
+$$
+\begin{aligned}
+f(x-2h) -8f(x-h) + 8f(x+h)  - f(x+2h) &= 12 f'(x) h+ O (h^5) \,,\\
+-f(x-2h) + 16f(x-h) -30 f(x) + 16 f(x+h) - f(x+2h) &= 12 f''(x) h^2 + O(h^5) .
+\end{aligned}
+$$
+
+임을 안다. 즉, 
+
+$$
+\begin{aligned}
+f'(x) & = \dfrac{f(x-2h) -8f(x-h) + 8f(x+h)  - f(x+2h)}{12h} + O(h^5)\,,\\
+f''(x) &= \dfrac{-f(x-2h) + 16f(x-h) -30 f(x) + 16 f(x+h) - f(x+2h)}{12h^2} + O(h^4)
+\end{aligned}
+$$
+
+이다.
+
+
+
+다음 그림은 함수 $f(x) = x\sin (x)$ 에 대해 $h$ 를 변화시켜 가면서로 잡고 위에서 설명한 두가지 방법을 이용하여 도함수를 구했을때의 그래프("3 Points", "5 Points") 와 $f'(x) = \sin (x) + x\cos (x)$ 의 그래프 ("Analytical") 를 같이 그린 것이다. $h=1\times 10^{-1}$ 에서는 첫번째 수치미분보다 두번째 수치미분이 좀 더 실제 값에 가까우며 $1 \times 10^{-2}$ 부터 $1.0 \times 10^{-14}$ 까지는 두 방법 모두 상당히 정확한 값을 보여준다. 그러나 $h$ 값이 $1.0\times 10^{-15}$ 보다 작아지면서부터는 뚜렷하게 오차를 보여준다. 이것은 수치 미분을 구할 때 분모를 $h$ 로 나누게 되는데, 이 값이 작을수록 round-off 에러가 발생하기 때문이다. 따라서 적당한 $h$ 값을 잡는 것이 중요하다.
+
+</br>
+
+![Derivative](derivative1.png)
+
+</br>

@@ -1,0 +1,854 @@
+---
+title: "수치해석 입문 : 선형시스템과 다항식"
+language: ../_language-ko_custom.yml 
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+이번 장에서는 본격적인 수치해석에 들어가기에 앞서 선형 시스템을 코딩을 통해 푸는 방법, 코딩에서 이루어지는 계산의 성능 분석과 다항식에 관한 객체를 만들어본다. 수학적 내용을 코드로 만들어 보고 이를 이용하여 문제를 풀어 보면서 선형대수학과 julia 언어에 대한 지식을 습득하게 된다. 그리고 다항식에 대한 객체는 이후 계속 사용하게 될 것이다.
+
+## 선형 시스템과 선형 방정식
+
+어떤 시스템이 $n$ 개의 독립변수 $x_1,\ldots,\,x_n$ 에 대해 아래와 같은 방정식으로 기술될 때 이 시스템을 선형 시스템이라고 한다.
+$$
+\begin{aligned}
+f_1 (x_1,\ldots,\,x_n ) &= A_{11}x_1 + \cdots + A_{1n}x_n \\
+ & \vdots \\
+f_m (x_1,\ldots,\,x_n ) &= A_{m1}x_1 + \cdots + A_{mn}x_n \\
+\end{aligned}
+$$
+
+이 시스템은 $m \times n$ 행렬 $\boldsymbol{A}$ 와 $n \times 1$ 행렬 $\boldsymbol{x}$ 를 이용해 다음과 같은 식으로 정리 할 수 있다. 
+
+$$
+f_i(\boldsymbol{x})=\boldsymbol{Ax},\qquad \boldsymbol{A} = \begin{bmatrix} A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{m1} & \cdots &A_{mn} \end{bmatrix},\qquad \boldsymbol{x} = \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix}
+$$
+
+
+
+이 시스템이 선형시스템이라고 불리는 이유는 $\boldsymbol{x}_1,\,\boldsymbol{x}_2 \in \mathbb{F}^{n \times 1}$ 이며 $a$ 가 상수 일 때, 
+
+$$
+f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\boldsymbol{x}_2) = \boldsymbol{Ax}_1 + a\boldsymbol{Ax}_2
+$$
+
+를 만족하기 때문이다.
+
+주어진 $m \times n$ 행렬 $\boldsymbol{A}$ 에 대해 $\boldsymbol{A}$ 의 커널 $\ker (\boldsymbol{A})$ 와 이미지 $\text{im}(\boldsymbol{A})$ 를 다음과 같이 정의한다.
+
+$$
+\begin{aligned}
+\ker (\boldsymbol{A}) &:= \left\{\boldsymbol{x}\in \mathbb{F}^{n\times 1} : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\
+\text{im}(\boldsymbol{A}) &:= \left\{\boldsymbol{Ax}: \boldsymbol{x} \in \mathbb{F}^{n \times 1}\right\}
+\end{aligned}
+$$
+
+
+만약 $\boldsymbol{b}\in \text{im}(\boldsymbol{A})$ 라면 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}$ 가 존재하며 이 $\boldsymbol{x}$ 를 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해(solution) 라고 한다. $\boldsymbol{x}_0 \in \ker (\boldsymbol{A})$ 라면 $\boldsymbol{A}(\boldsymbol{x}+\boldsymbol{x}_0) = \boldsymbol{Ax}$ 이다.
+
+$\boldsymbol{A}$ 가 $n \times n$ 정사각 행렬이며 $\det (\boldsymbol{A}) \ne 0$ 이면, 즉 $\boldsymbol{A}$ 의 역행렬이 존재한다면 선형방정식의 해는 유일하게 존재하며 $\boldsymbol{x}=\boldsymbol{A}^{-1}\boldsymbol{b}$ 를 통해 구할 수 있다. 역행렬이 존재하지 않는 정사각 행렬을 **특이 행렬 (singular matrix)** 라고 한다. $\boldsymbol{A}$ 가 특이행렬이라면 선형방정식의 해는 존재하지 않거나, 그 해가 무수히 많이 존재한다. 예를 들어 
+
+$$
+\boldsymbol{A}=\begin{bmatrix} 1 & 1 \\ 0 & 0 \end{bmatrix}, \qquad \boldsymbol{b}=\begin{bmatrix} 1 \\ 0 \end{bmatrix}
+$$
+
+의 해는 $\begin{bmatrix} x \\ 1-x\end{bmatrix},\, x\in \mathbb{F}$ 인 모든 행렬이다.
+
+</br>
+
+
+::: {.callout-note}
+다음부터 소개할 여러가지 방법은 `LinearAlgebra` 모듈에 그 기능이 거의 포함되어 있기으며 아마 직접 코딩하는 것보다 처리속도가 더 빠를 것이다. 그러나 우리가 배워야 할 것은 모듈과 함수의 사용법 뿐만 아니라, 생각하는 알고리즘을 코드로 만들어 정확하게 구현하는 것이기에 앞으로 나올 여려 방법들을 직접 구현해보고자 한다.
+:::
+
+</br>
+
+## 상삼각 행렬과 하삼각 행렬과 선형방정식
+
+선형 시스템 가운데 비교적 단순한 상삼각 행렬과 하삼각 행렬에 대해 알아보자. 상삼각 행렬이나 하삼각 행렬의 선형방정식은 단순하지만 복잡한 선형 시스템을 푸는 기반이 된다. 이에 관련된 것은 [LU 분해](#sec-lu_decomposition) 에서 다루기로 한다
+
+
+$n\times n$ 정사각 행렬에 대해 상삼각 행렬(upper triangular matrix)은 (대각성분을 포함하지 않은) 대각 성분의 아랫부분이 모두 $0$ 인 행렬을 말한다, 하삼각 행렬(lower triangular matrix)은 대각성분의 윗부분이 모두 $0$ 인 행렬을 말한다. 예를 들어 
+$$
+\boldsymbol{U}=\left[\begin{array}{rrr} 1 & 3 & 4 \\ 0 & 2 & 1 \\ 0 & 0 & -1\end{array}\right], \qquad \boldsymbol{L}=\left[\begin{array}{rrr} 4 & 0 & 0 \\ 0 & 1 & 0 \\ -1 & 0 & -3\end{array} \right]
+$$ 
+
+에서 $\boldsymbol{U}$ 는 상삼각행렬, $\boldsymbol{L}$ 은 하삼각행렬이다. 두 삼각행렬에 대해 다음이 성립한다.
+
+
+
+::: {#prp-properties_of_triangular_matrix}
+
+행렬 $\boldsymbol{A} \in \mathbb{F}^{n \times n}$ 가 상삼각 행렬 혹은 하삼각 행렬일 때 다음은 동치이다.
+
+1. $\det (\boldsymbol{A}) = \prod_{i=1}^n A_{ii} \ne 0$
+
+2. $\boldsymbol{A}$ 는 가역행렬이다.
+
+3. $\boldsymbol{b}\in \mathbb{F}^{n \times 1}$ 에 대해 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}$ 가 유일하게 정해진다.
+:::
+
+</br>
+
+### 하삼각 행렬에서의 선형방정식의 풀이
+
+$\boldsymbol{L}\in \mathbb{F}^{n \times n}$ 과 $\boldsymbol{b}\in \mathbb{F}^{n \times 1}$ 에 대해 $\boldsymbol{Lx}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}\in \mathbb{F}^{n\times 1}$ 을 구해보자.
+
+$$
+\begin{bmatrix} L_{11} & & & \\ L_{21} & L_{22}  & & \\ \vdots & & \ddots & \\ L_{n1} & L_{n2} & \cdots & L_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
+$$
+
+에 대해, 
+
+$$
+\begin{aligned}
+L_{11} x_1 &= b_1, \\
+L_{21} x_1 + L_{22} x_2 &= b_2, \\
+\vdots \\
+L_{k1} x_k + L_{k2}x_2 + \cdots + L_{kk}x_k &= b_k,\\
+\vdots \\
+L_{n1}x_1 + L_{n2}x_2 + \cdots + L_{nn}x_n &= b_n
+\end{aligned}
+$$
+를 얻는다. 첫번째 식으로부터 $x_1$ 을 구할 수 있으며, 두번째 식에서는 이미 구한 $x_1$ 을 이용하여 $x_2$ 를 구할 수 있다. 즉 $x_1,\ldots,\,x_k$ 까지 구했다면 이미 알고 있는 $\boldsymbol{L}$ 과 $\boldsymbol{b}$ 의 성분을 이용하여 $x_{k+1}$ 을 구할 수 있다. 이를 정리하면 다음과 같다.
+$$
+\begin{aligned}
+x_1 &= \dfrac{b_1}{L_{11}}, \\
+x_k &= \dfrac{1}{L_{kk}} \left( b_k - \sum_{i=1}^{k-1} L_{ki}x_{i}\right),\,k=2,\ldots,\,n
+\end{aligned}
+$$
+
+
+</br>
+
+### 상삼각 행렬의 선형방정식의 풀이
+
+상삼각 행렬 $\boldsymbol{U}\in \mathbb{F}^{n \times n}$ 와 $\boldsymbol{b}\in \mathbb{F}^{n \times 1}$ 에 대해 $\boldsymbol{Ux}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}\in \mathbb{F}^{n\times 1}$ 을 구해보자.
+
+$$
+\begin{bmatrix} U_{11} & U_{12} &\cdots & U_{11} \\  & U_{22}  &\cdots  & U_{21} \\  & & \ddots & \vdots\\  & &  & U_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
+$$
+
+에 대해, 
+
+$$
+\begin{aligned}
+U_{nn} x_n &= b_n, \\
+U_{n-1,n-1} x_{n-1} + U_{n-1,n} x_n &= b_{n-1}, \\
+\vdots \\
+U_{kk} x_k + U_{k,k+1}x_{k+1} + \cdots + U_{kn}x_n &= b_k,\\
+\vdots \\
+U_{11}x_1 + U_{12}x_2 + \cdots + U_{1n}x_1 &= b_1
+\end{aligned}
+$$
+를 얻는다. 첫번째 식으로부터 $x_n$ 을 구할 수 있으며,  두번째 식에서는 이미 구한 $x_{n}$ 을 이용하여 $x_{n-1}$ 를 구할 수 있다. 즉 $x_{n},\ldots,\,x_{k}$ 까지 구했다면 이미 알고 있는 $\boldsymbol{L}$ 과 $\boldsymbol{b}$ 의 성분을 이용하여 $x_{k-1}$ 을 구할 수 있다. 이를 정리하면 다음과 같다.
+$$
+\begin{aligned}
+x_n &= \dfrac{b_n}{U_{nn}}, \\
+x_k &= \dfrac{1}{U_{kk}} \left( b_k - \sum_{i=k+1}^{n} U_{ki}x_{i}\right),\,k=n-1,\,n-2,\ldots,\,1
+\end{aligned}
+$$
+
+임을 안다. 
+
+</br>
+
+### 코드 분석
+
+Julia 의 장점중의 하나는 알고리즘을 코드로 구현 했을 때 코드에서 알고리즘을 명확히 표현할 수 있다는 것이다. 또한 Julia 의 코드 실행 속도가 빠르기 때문에 많은 경우 알고리즘을 그대로 코드화 한 경우라도 상당한 속도를 낸다는 것이다. 
+
+
+상삼각행렬에 대해서는 `Us()`, 하삼각행렬에 대해서는 `Ls()` 함수로 구현하였다.
+
+```{.julia code-line-numbers="true"}
+"""
+    Ls(A, b)
+
+하삼각행렬 A 에 대해 Ax=b 의 해 x 를 구한다.
+"""
+function Ls(L::Matrix, b::Vector) 
+    m, n = size(L)        
+    x = zeros(n)
+    x[1] = b[1]/L[1, 1]
+    for i in 2:n
+        x[i] = b[i]
+        for j in 1:1:(i-1)
+            x[i] -= L[i, j]*x[j]
+        end
+        x[i] = x[i]/L[i, i]
+    end
+    return x
+end
+
+"""
+    Us(A, b)
+
+상삼각행렬 A 에 대해 Ax=b 의 해 x 를 구한다.
+"""
+function Us(U::Matrix, b::Vector) 
+    m, n = size(U)       
+    x = zeros(n)
+    x[n] = b[n]/U[n, n]
+
+    for i in (n-1):-1:1
+        x[i] = b[i]
+        for j in (i+1):1:n
+            x[i] -= U[i, j] * x[j]
+        end
+        x[i] = x[i]/U[i, i]
+    end
+    return x
+end
+```
+
+`size(L)` 은 인자로 주어지는 배열(Array) `L` 의 차원을 튜플(tuple) 로 반환한다. 
+
+
+
+</br>
+
+이제 $\boldsymbol{L}=\begin{bmatrix} 1 & 0 & 0 & 0 \\ 2 & 2 & 0 & 0 \\3 & 1 & -3 & 0 \\5 & -2 & 3 & 7 \end{bmatrix}$  와 $\boldsymbol{b}= \begin{bmatrix} 3.1 \\  5.3 \\ -2.2 \\ 6.0 \end{bmatrix}$ 에 대해 풀어보면
+
+```julia
+L = [1. 0. 0. 0.; 2. 2. 0. 0.; 3. 1. -3. 0.; 5. -2. 3. 7.]
+b = [3.1; 5.3; -2.2; 6.0]
+x = Ls(L, b) 
+```
+
+를 통해 $\boldsymbol{x}$ 를 구할 수 있다. 이제 $\boldsymbol{L\cdot x}$ 가 $\boldsymbol{b}$ 와 같은지 확인하기 위해 `L*x` 를 실행해보면,
+
+```sh
+4-element Vector{Float64}:
+  3.1
+  5.3
+ -2.2
+  6.0
+```
+
+의 결과가 나오므로 $\boldsymbol{b}$ 를 잘 구했다. 
+
+</br>
+
+#### Roundoff 에러의 예
+
+이제 약간 극단적인 경우를 살펴 보자. 하삼각 행렬에서 대각성분이 0 이 아닌 다른 성분에 비해 매우 작은 경우이다.
+
+```julia
+A1= [1.0 0 0; 1.0e8 1 0; 1.0e8 1.0e8 1]
+b1 = [1; 1; 1.0]
+x1 = Ls(A1, b1)
+```
+
+이 때 구한 `x1` 은 다음과 같다.
+
+```sh
+3-element Vector{Float64}:
+  1.0
+ -9.9999999e7
+  9.9999998e15
+```
+
+이 경우 `A1*x1` 을 수행하면,
+
+```sh
+3-element Vector{Float64}:
+ 1.0
+ 1.0
+ 0.0
+```
+
+가 나와 실제 `b1` 값과 차이가 남을 알 수 있다. 이것은 64 비트 부동소수의 유효자리수 때문이다. 직접 손으로 계산해 보면 알겠지만 `x1` 은 정확히 계산이 되었다. 다만 `A1*x1` 의 세번째 성분은 다음 식을 통해 계산되는데
+
+$$
+1.0\times 10^8 \times 1 - 9.9999999\times 10^{15} + (1- 1.0\times 10^8 \times 1 + 9.9999999\times 10^{15})
+$$
+
+뒤의 괄호 안을 계산 할 때 $9.9999999\times 10^{15}$ 라는 숫자가 너무 커서 1 정도의 차이를 표현 할 수 없다. `Float64` 에서 `9.9e15+1` 은 `9.9e15` 과 구별 할 수 없다. 즉 Roundoff 에러가 발생한 것이다. 이런 문제는 `BigFloat` 와 같은 타입을 사용하면 어느 정도 해소되지만 여기서는 일단은 다루지 않는다.
+
+
+</br>
+
+### 계산 복잡도 분석
+
+하삼각 행렬의 경우 $x_1$ 을 계산하는데흔 한번의 나눗셈, $k\ne 1$ 일 때 $x_k$ 를 계산하는데 스칼라곱이 $k-1$ 번, 덧셈과 뺄셈이 $k$ 번, 나눗셈 $1$ 번이 필요하므로 모두 $2k$ 번의 계신이 필요하다. $n \times n$ 하삼각 행렬의 행렬식에 대해서
+
+$$
+T(n) = 1 + \sum_{k=2}^n 2k = n^2 + n -1 = O(n^2)
+$$
+
+이다.
+
+</br>
+
+## 가우스-요르단 소거법 {#sec-gauss_jordan_elimination}
+
+$m \times n$ 행렬 $\boldsymbol{A}$ 와 $n \times k$ 행렬 $\boldsymbol{X}$, $m \times k$ 행렬 $B$ 가 $\boldsymbol{AX}=\boldsymbol{B}$ 를 만족하며 $\boldsymbol{L}$ 이 $n \times n$ 가역행렬 일 때 다음이 성립한다.
+
+$$
+\boldsymbol{AX}=\boldsymbol{B} \iff  \boldsymbol{LAX} = \boldsymbol{LB}
+$$
+
+만약 $k=1$ 이라면, 즉 $n \times 1$ 행렬 $\boldsymbol{x}$,\, $m \times 1$ 행렬 $\boldsymbol{b}$ 에 대해,
+
+$$
+\boldsymbol{Ax}=\boldsymbol{b} \iff  \boldsymbol{LAx} = \boldsymbol{Lb}
+$$
+
+가 성립한다.
+즉 주어진 $\boldsymbol{A}$ 와 $\boldsymbol{b}$ 에 대해 가역 행렬 $\boldsymbol{L}$ 을 통해 $\boldsymbol{LA}$ 를 매우 간단하게 만든다면 $\boldsymbol{LAx}=\boldsymbol{Lb}$ 를 만족하는 $\boldsymbol{x}$ 를 쉽게 구할 수 있으며, 이 $\boldsymbol{x}$ 가 우리가 구하고자하는 선형방정식의 해이다. 
+
+
+</br>
+
+
+### 행 사다리꼴 행렬, 행 간소 사다리꼴 행렬과 행 기본 연산
+
+#### 행 사다리꼴과  행 간소 사다리꼴
+
+행 사다리꼴 행렬(row echelon form matrix)은 다음의 조건을 만족하는 행렬이다.
+
+1. 영벡터가 존재할 경우 이 영벡터는 영벡터가 아닌 행벡터의 아래에 위치한다. 
+
+2. 행렬의 행벡터가 영벡터가 아닐 때, 처음으로 나타나는 0 이 아닌 성분을 **선행 성분**이라 한다. 윗 행의 선행 성분은 아래 행 전체의 각각의 선행성분보다 앞서 존재한다.
+
+
+아래의 행렬 $\boldsymbol{A}_1,\,\boldsymbol{A}_2$ 는 각각 1, 2 번 조건을 거스르는 행렬이므로 행사다리꼴이 아니다. (선행 성분을 밑줄로 표시하였다.)
+
+$$
+\begin{aligned}
+\boldsymbol{A}_1 &= \begin{bmatrix} \underline{1} & 2 & 0 \\0 & 0 & 0 \\ 0 & \underline{1} & 0\end{bmatrix}, \\
+\boldsymbol{A}_2 &= \begin{bmatrix} 0 & 0 & \underline{1} \\ \underline{1} & 0 & 2\end{bmatrix}. 
+\end{aligned}
+$$
+
+</br>
+
+행 간소 사다리꼴 행렬(row-reduced echelon form matrix)은 행 사다리꼴 행렬의 조건에 더해 다음의 조건이 추가된다.
+
+1. 각 행의 선행성분은 $1$ 이다. 이를 **선행 1 성분** 이라 하자.
+
+2. 선행 1 성분이 존재하는 열은 선행성분을 제외한 모든 성분이 $0$ 이다.
+
+</br>
+
+#### 기본 행 연산
+
+우리는 선형대수학으로부터 모든 행렬은 세가지의 기본 행 연산(elementary row operation)을 통해 행 사다리꼴과 행 간소 사다리꼴 행렬로 만들 수 있으며, 행렬의 행 간소 사다리꼴은 유일하다는 것을 안다. 이때의 기본 행 연산은 다음과 같다.
+
+1. 두 행의 위치를 서로 바꾼다. ($\hat{L}_1$ 연산)
+
+2. 특정 행에 $0$ 이 아닌 스칼라를 곱한다. ($\hat{L}_2$ 연산)
+
+3. 한 행에 다른 행의 스칼라곱을 더한다. ($\hat{L}_3$ 연산)
+
+</br>
+
+$m \times n$ 행렬에 대한 행 기본 연산은 $m \times m$ 행렬로 표현된다. $k$ 번째 행과 $l$ 번째 행의 위치를 서로 바꾸는 행렬 $\boldsymbol{L}_1 (k, l)$ 는
+$$
+[\boldsymbol{L}_1(k,\,l)]_{i,\, j} = \left\{\begin{array}{ll} 1 \qquad &\text{if } i = j \ne k, \text{ and }i = j \ne l \\ 1 & \text{if } i = k,\, j = l,\\ 1 & \text{if } j = k,\, i = l, \\ 0 & \text{otherwise}\end{array} \right.
+$$
+
+이며 $4 \times 4$ 행렬에서 1 행과 3행을 교환하는 행렬 $\boldsymbol{L}_1 (1, 3)$ 은 다음과 같다.
+
+$$
+\boldsymbol{L}_1(1, 3)
+=\begin{bmatrix}
+0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0\\  0 & 0 & 0 & 1
+\end{bmatrix} .
+$$
+
+$k$ 번째 행에 스칼라 $c$ 를 곱하는 연산을 나타내는 행렬 $\boldsymbol{L}_2(k, c)$ 는
+
+$$
+[\boldsymbol{L}_2(k,\, c)]_{i,\,j}= \left\{\begin{array}{ll} 1 \qquad & \text{if } i=j\ne k,\, \\ c &\text{if } i=j=k,\,\\ 0 &\text{otherwise}\end{array}\right.
+$$
+
+이며 $4\times 4$ 행렬에서 2행에 스칼라 $c$ 를 곱하는 행렬은 $\boldsymbol{L}_2 (2, c)$ 는 다음과 같다.
+
+$$
+[\boldsymbol{L}_2 (2,\,c)] = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 2 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}.
+$$
+
+$l$ 번째 행에 $c$ 를 곱한 것을 $k$ 번째 행에 더하는 행렬 $\boldsymbol{L}_3 (k, l, c)$ 은
+
+$$
+[\boldsymbol{L}_3 (k,\,l,\,c)]_{i,\,j} = \left\{ \begin{array}{ll}1 \qquad & \text{if } i=j \,,\\
+c & \text{if } i = k, j = l\,, \\ 0 &\text{oterwise}  \end{array}\right.
+$$
+
+이며 $4 \times 4$ 행렬에서 3 행에 $c$ 를 곱해 $1$ 행에 더하는 행렬 $\boldsymbol{R}$ 은 다음과 같다.
+
+$$
+\boldsymbol{L}_3 (1, 3, c) = \begin{bmatrix} 1 & 0 & c & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1\end{bmatrix}.
+$$
+
+모든 행 기본 연산은 $\boldsymbol{L}_1,\,\boldsymbol{L}_2,\,\boldsymbol{L}_3$ 가역행렬이며 그 역행렬은 다음과 같다.
+
+$$
+\begin{aligned}
+\left[\boldsymbol{L}_1(k, l) \right]^{-1} &= \boldsymbol{L}_1(k, l), \\
+\left[\boldsymbol{L}_2(k, c) \right]^{-1} &= \boldsymbol{L}_2(k, 1/c), \\
+\left[\boldsymbol{L}_3(k, l, c) \right]^{-1} &= \boldsymbol{L}_3(k, l, -c),
+\end{aligned}
+$$
+
+</br>
+
+### 가우스-요르단 소거 과정 (Gauss-Jordan elimination method) {#sec-gauss_jordan_elimination_process}
+
+가우스 소거법은 기본 행 연산을 유한번 시행하여 행렬을 행 사다리꼴(Row echelon form) 행렬로 변환시키는 것을 말한다. 목적이 사다리꼴이 아닌 행 간소 사다리꼴(Row-reduced echelon form) 일 경우 가우스-요르단 소거법이라 한다. 사람에 따라 가우스-요르단 소거법을 가우스 소거법이라고 하는데 여기서는 둘을 구분하기로 하자. 정사각행렬의 경우 가우스 소거법에 의해 상삼각행렬로 변환되며, 가역행렬일 경우 가우스-요르단 소거법의 결과는 단위행렬이다. 
+
+이제 $m\times n$ 행렬 $\boldsymbol{A}$ 에 대한 가우스 소거법을 생각해보자. $\boldsymbol{A}$ 가 영행렬이면 의미가 없으므로 영행렬이 아닐 때만 생각한다. 
+
+
+**P<sub>1</sub>-1.** 영벡터가 아닌 첫번째 열벡터를 찾는다. 그 열벡터의 첫번째 행이 $0$ 이거나 절대값이 작을 경우 그 열벡터에서 적당한 $0$ 이 아닌 행을 찾아 그 행과 첫번째 행을 교환한다($\hat{L}_1$ 연산). 이것을 **피보팅 (pivoting)** 이라 한다. 보통 첫번째 행이 $0$ 이 아니더라도 절대값이 가장 큰 값을 찾아 교환한다. 예를 들어
+
+$$
+\boldsymbol{A}=\begin{bmatrix} 1 & 3 & 2 \\ 0 & 2 & 4 \\ 4 & 1 & 3\end{bmatrix}
+$$
+
+일 경우, 첫번째 열벡터가 영벡터가 아니며, 이 열벡터의 첫번째 행이 $0$ 이 아니지만 이 열벡터에 절대값이 가장 큰 $4$ 가 성분으로 존재하므로 첫번째 행과 마지막 행을 교환한다. 이를 $\boldsymbol{A}_{1-1}$ 이라 하자. 이 때 선행 성분은 $4$ 이다.
+$$
+\boldsymbol{A}_{1-1}=\begin{bmatrix} \underline{4} & 1 & 3\\ 1 & 3 & 2 \\ 0 & 2 & 4\end{bmatrix}
+$$
+
+**P<sub>1</sub>-2.** 선행성분으로 첫번째 행벡터를 나누어준다($\hat{L}_2$ 연산). 이제 첫번째 행의 첫번째 성분은 1이다(선행 1 성분). 여기까지 수행한 행렬을 $\boldsymbol{A}_{1-2}$ 라고 하면 다음과 같다.
+
+$$
+\boldsymbol{A}_{1-2}=\begin{bmatrix} \underline{1} & 1/4 & 3/4 \\ 1 & 3 & 2 \\ 0 & 2 & 4\end{bmatrix}.
+$$
+
+**P<sub>1</sub>-3.** 첫번째 행벡터의 선행 1 성분의 열 위치를 $l_1$ 이라 하자. $j=2,\ldots,\,m$ 에 대해 $\hat{L}_3 (j, i, -A_{j,l_1})$ 를 적용하면 $l_1$ 열은 첫번째 성분을 제외하면 모두 $0$ 이 된다. 첫번째 행에 대한 마지막 과정이므로 $\boldsymbol{A}_1$ 이라 하면 다음과 같다.
+
+$$
+\boldsymbol{A}_1=\begin{bmatrix} \underline{1} & 1/4 & 3/4 \\ 0 & 3/4 & 5/4 \\ 0 & 2 & 4\end{bmatrix}.
+$$
+
+</br>
+
+이제 행렬 $\boldsymbol{A}_k$ 가 1) $1$ 행부터 $k$ 행까지는 1) 행 간소 사다리꼴 행렬이며, 2) $k$ 행의 선행 1 성분의 위치가 $l_k$ 열일 때 $k$ 행 아래의 모든 행이 1열부터 $l_k$ 열까지 $0$ 이라고 하자. 이에 다음 **P<sub>k-1</sub>-1.**, **P<sub>k-1</sub>-2.**, **P<sub>k-1</sub>-1.** 과정을 수행한다.
+
+**P<sub>k+1</sub>-1.** $k+1$ 행부터 $m$ 행까지만 생각한다. 여기서 첫번째 $0$ 벡터가 아닌 열벡터를 찾는다. 당연히 이 열벡터는 $l_k$ 열보다 오른쪽의 열이다. 이것을 $l_{k+1}$ 열이라고 하자. 이 열에서 가장 절대값이 큰 성분의 행과 $k+1$ 행을 교환한다 ($\hat{L}_1$ 연산). 만약 존재하지 않는다면 $k+1$ 행부터 마지막 행 까지의 모든 행벡터가 영벡터이므로 과정을 더 이상 진행시키지 않는다.
+
+
+**P<sub>k+1</sub>-2.** 교환된 $k+1$ 행을 가장 처음 $0$ 이 아닌 성분으로 나눈다 ($\hat{L}_2$ 연산). 이제 첫번째 행의 첫번째 성분은 1이다.(선행 1 성분)  
+
+**P<sub>k+1</sub>-3.** $k+1$ 행이 마지막 행이라면 더 이상 진행하지 않는다. 그렇지 않다면 $j=1, \ldots, \, k, k+2,\ldots,\,m$ 에 대해 $\hat{L}_3 (j, k+1, -A_{j,l_1})$ 를 적용하면 $l_{k+1}$ 열 의 $k+2$ 행 이하는 모두 $0$ 이 된다.  
+
+
+이 과정을 수행한 후 $1$ 행부터 $k+1$ 행까지 행 간소 사다리꼴 형태가 됨을 알 수 있다. 이제 $m \times n$ 행렬에 대해 1 행부터 $m$ 행에 대해 위의 과정을 수행한다면 행렬의 행 간소 사다리꼴 형태를 얻을 수 있다.
+
+우리는 가역행렬의 행 간소 사다리꼴이 항등행렬임을 안다. $n \times n$ 가역행렬 $\boldsymbol{A}$ 와 $n$ 차원 열벡터 $\boldsymbol{b}$ 에 대해 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 만족하는 열벡터 $\boldsymbol{x}$ 를 찾는다고 하자. $\boldsymbol{A}$ 가 기본 행 연산 $\boldsymbol{E}_1, \ldots,\,\boldsymbol{E}_N$ 에 대해 행 간소 사다리꼴이 된다고 하면 
+
+$$
+\begin{aligned}
+&\boldsymbol{E}_N \cdots \boldsymbol{E}_1 \boldsymbol{Ax} = \boldsymbol{E}_N \cdots \boldsymbol{E}_1 \boldsymbol{b} \\
+\implies &\boldsymbol{x} = \boldsymbol{E}_N \cdots \boldsymbol{E}_1 \boldsymbol{b} 
+\end{aligned}
+$$
+
+이다. 이 때 $\boldsymbol{E}=\boldsymbol{E}_N \cdots \boldsymbol{E}_1$ 라고 하면, $\boldsymbol{EA}=\boldsymbol{I}$ 이므로,
+
+$$
+\boldsymbol{E} = \boldsymbol{E}_N \cdots \boldsymbol{E}_1 = \boldsymbol{A}^{-1}
+$$
+
+이다. 즉 우리는 가우스-요르단 소거법을 통해 선형방정식을 풀 수 있을 뿐만 아니라, 역행렬도 구할 수 있다. 
+
+이제 가우스-요르단 소거법을 수행하는 함수를 만들어 보자. 행렬 $\boldsymbol{A}$ 와 열행렬 혹은 행렬 $\boldsymbol{B}$ 에 대해 $\boldsymbol{A}$ 를 행 간소 사다리꼴로 만드는 프로세스를 $\begin{bmatrix}\boldsymbol{A} & \boldsymbol{B}\end{bmatrix}$ 에 대해 수행하도록 한다. 다만 $\boldsymbol{B}$ 는 선택적으로 입력 가능하다. 함수 `gauss_jordan_elimination` 을 아래에 구현하였다. 여기서 `eptols` 는 절대값이 작은 수로 피보팅 할 때 절대값이 이 수보다 작다면 `0` 과 차이가 없도록 간주한다.
+
+
+```{.julia code-line-numbers="true"}
+function gauss_jordan_elimination(A::Matrix, b::Union{Nothing, Vector, Matrix}=nothing; eptols = 1.0e-10)
+    m, n = size(A)
+
+    if b ≠ nothing
+        @assert m == size(b)[1]
+        B = [A b]
+    else
+        B = A
+    end
+    
+    ld = 0 #선행 1 성분의 column index
+
+    for i in 1:m
+        termination = true # 종료 조건
+        for j in (ld+1):n
+            p = argmax(abs.(B[i:end, j])) + i -1
+            
+            if abs(B[p, j]) > eptols
+                B[i,:], B[p, :] = B[p, :], B[i,:]
+                ld = j
+                termination = false
+                break
+            end
+        end
+
+        if termination 
+            break
+        end
+        
+        B[i, :] .= B[i, :]./B[i, ld]
+        
+        # 선행 1 성분의 열을 자신을 제외하고는 제거
+        for k in 1:m
+            if k ≠ i 
+                B[k, :] .= B[k, :] .- (B[k, ld].* B[i, :])
+            end
+        end
+    end
+
+    if b ≠ nothing 
+         return B[:, 1:n], B[:,(n+1):end]
+    else 
+         return B
+    end
+end
+```
+
+</br>
+
+### 계산 복잡도 분석
+
+우선 피보팅 없이 $n \times n$ 행렬 $\boldsymbol{A}$ 와 $n$ 차원 벡터 $\boldsymbol{b}$ 에 대해 $\boldsymbol{Ax}=b$ 를 만족하는 $\boldsymbol{x}$ 를 가우스-요르단 소거법을 통해 구하는 데 필요한 계산복잡도를 알아보자. 우선 $n\times (n+1)$ 행렬 $\begin{bmatrix} \boldsymbol{A} & \boldsymbol{b}\end{bmatrix}$ 에 대해 수행하므로, 
+
+우선 $k$ 번째 행에 대해 
+
+1. $k$ 행을 대각성분 $A_{k,k}$ 으로 나누어 주는데 $n-k+2$ 번의 연산이 필요하며,
+   
+2. $k$ 행 아래의 $n-k$ 개의 행에 대해 $\hat{L}_3$ 연산을 통해 $k$ 열의 성분을 대각성분을 제외하고 모두 $0$ 으로 만드는데, 각각 나누기 한번과 빼기 한번, 두번의 연산이 소요되므로, $2(n-k)(n-k+2)$ 번의 스칼라 사칙연산이 필요하다 
+
+따라서
+
+$$
+T(n) = \sum_{k=1}^n (n-k+2) + 2(n-k)(n-k+2) = O\left( \frac{2}{3}n^3 \right) = O(n^3)
+$$
+
+이다.
+
+</br>
+
+## LU 분해 {#sec-lu_decomposition}
+
+선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해를 수치해석적으로 얻는 가장 기본적인 방법이 **LU 분해(LU decomposition, LU factorization)** 이다. 또한 행렬의 행렬식과 역행렬을 구하는 가장 기본적인 방법이 LU 분해를 통해 구하는 것이다. 
+
+</br>
+
+### LU 분해 (LU decomposition) 
+
+행렬 $\boldsymbol{A}$ 를 어떤 하삼각행렬 $\boldsymbol{L}$ 과 상삼각행렬 $\boldsymbol{U}$ 의 곱으로 다음과 같이 나타내는 것을 LU 분해 (LU decomposition 혹은 LU factorization) 이라고 한다. LU 분해 자체는 정사각 행렬이 아니더라도 가능하다.
+
+$$
+\boldsymbol{A}=\boldsymbol{LU}
+$$
+
+$2 \times 2$ 행렬의 예를 보자. 
+
+$$
+\boldsymbol{A}=\begin{bmatrix} 2 & 3 \\ 2 & 4 \end{bmatrix} =\boldsymbol{LU}=\begin{bmatrix} l_{11} & 0 \\ l_{21} & l_{22} \end{bmatrix} \begin{bmatrix} u_{11} & u_{12} \\ 0 & u_{22} \end{bmatrix} 
+$$
+
+이 경우, 
+
+$$
+\begin{aligned}
+l_{11}u_{11} & = 2, \\
+l_{11}u_{12} &= 3 , \\
+l_{21}u_{11} &= 2 , \\ 
+l_{21}u_{12} + l_{22}u_{22} & = 4,
+\end{aligned}
+$$
+
+의 네 개의 식이 나온다. 미지수 6개에 식이 4개이므로 미지수를 결정 할 수 없다. 만약 $l_{11}= l_{22}=1$ 의 제한조건을 걸어 놓고 계산을 하면,
+
+$$
+\boldsymbol{L} = \begin{bmatrix} 1 & 0 \\ 1 & 1\end{bmatrix},\qquad \boldsymbol{U} = \begin{bmatrix} 2 & 3 \\ 0 &1\end{bmatrix}
+$$
+
+이라는 것을 알 수 있다. 일반적인 LU 분해에서도 하삼각행렬 $\boldsymbol{L}$ 의 대각성분을 1로 고정시켜 구한다.
+
+다음 행렬에 대한 $LU$ 분해를 생각하자. 
+
+$$
+\boldsymbol{B}=\begin{bmatrix} 0 & 3 \\ 2 & 4 \end{bmatrix} =\boldsymbol{LU}=\begin{bmatrix} l_{11} & 0 \\ l_{21} & l_{22} \end{bmatrix} \begin{bmatrix} u_{11} & u_{12} \\ 0 & u_{22} \end{bmatrix} 
+$$
+
+이 경우, 
+
+$$
+\begin{aligned}
+l_{11}u_{11} & = 0, \\
+l_{11}u_{12} &= 3 , \\
+l_{21}u_{11} &= 2 , \\ 
+l_{21}u_{12} + l_{22}u_{22} & = 4,
+\end{aligned}
+$$
+
+이며, $u_{11}=0$ 이므로 $l_{21}$ 값을 정할 수 없다. $l_{11}=l_{22}=1$ 이라는 제한조건을 푼다고 해도 마찬가지 이다. 이 경우 우리가 가우스 소거법에서 수행했던 행 교환 연산인 피보팅을 한다. 1행과 2행을 바꾼 행렬을 $\boldsymbol{B}$ 라고 하면, 
+
+$$
+\boldsymbol{B}'=\begin{bmatrix} 2 & 4 \\ 0 & 3 \end{bmatrix} =\boldsymbol{LU}=\begin{bmatrix} l_{11} & 0 \\ l_{21} & l_{22} \end{bmatrix} \begin{bmatrix} u_{11} & u_{12} \\ 0 & u_{22} \end{bmatrix} 
+$$
+
+이 경우, 
+
+$$
+\begin{aligned}
+l_{11}u_{11} & = 2, \\
+l_{11}u_{12} &= 4 , \\
+l_{21}u_{11} &= 0 , \\ 
+l_{21}u_{12} + l_{22}u_{22} & = 3,
+\end{aligned}
+$$
+
+이므로 
+
+$$
+\boldsymbol{L} =  \begin{bmatrix}1 &  0 \\ 0 & 1 \end{bmatrix},\qquad \boldsymbol{U} =  \begin{bmatrix} 2 & 4 \\ 0 & 3 \end{bmatrix}
+$$
+
+로 LU 분해가 가능하다. 즉 $\boldsymbol{P} =\begin{bmatrix} 0 & 1 \\ 1 & 0\end{bmatrix}$ 에 대해 $\boldsymbol{PB}$ 가 LU 분해가 가능하다. 이렇게 피보팅까지 포함하여 LU 분해를 수행하는 것을 **PLU 분해**라고 하며 보통 LU 분해를 구현하는 경우 PLU 분해를 포함하여 구현할 수 밖에 없다. <u>이제부터는 LU 분해는 항상 PLU 분해를 의미한다.</u>
+
+</br>
+
+### LU 분해를 이용한 선형방정식의 풀이 및 행렬식
+
+$\boldsymbol{A}$ 가 LU 분해 가능이고 $\boldsymbol{PA}=\boldsymbol{LU}$ 로 분해되었다고 하자. $\boldsymbol{A}$ 가 가역행렬이 아니라면 분해가 의미가 없으므로 가역행렬일 때만 생각한다. 치환행렬 $\boldsymbol{P}$ 는 가역행렬이므로
+
+$$
+\boldsymbol{Ax}=\boldsymbol{b} \iff \boldsymbol{PAx}=\boldsymbol{Pb} \iff \boldsymbol{LUx}=\boldsymbol{Pb}
+$$
+
+가 성립한다. 여기서 우리는 $\boldsymbol{y}=\boldsymbol{Ux}$ 라고 놓고 우선 $\boldsymbol{Ly}=\boldsymbol{Pb}$ 를 통해 $\boldsymbol{y}$ 를 구한 후, $\boldsymbol{Ux}=\boldsymbol{y}$ 를 풀어서 우리가 구하고자 하는 $\boldsymbol{x}$ 를 구한다. 가우스-요르단 소거법으로 선형 시스템을 풀기 위해서는 $\boldsymbol{b}$ 값이 바뀔 때마다 소거법을 수행해야 하지만, LU 분해나 PLU 분해는 $\boldsymbol{A}$ 에 대해서만 분해 한 후 삼각행렬에 대한 식을 풀면 되기 때문에 훨씬 간단하다. 또한 뒤에 보겠지만 대각성분으로 나눠주는 항이 없기 때문에 roundoff 에러로부터 더 안전하다.
+
+행렬식 $\det$ 를 구하는 데도 사용된다. LU 분해 시 $\boldsymbol{L}$ 의 모든 대각성분을 $1$ 로 고정시키기 때문에,
+
+$$
+\det(\boldsymbol{A}) = \det (\boldsymbol{P}) \det(\boldsymbol{U}) = (-1)^n(P) \prod_{i=1}^n U_{ii}
+$$
+
+이다. 여기서 $n(P)$ 는 $\boldsymbol{P}$ 에 나타나는 치환의 횟수이다.
+
+
+</br>
+
+
+### PLU 분해 {#sec-plu_decomposition}
+
+$n \times n$ 행렬 $\boldsymbol{A}$ 가 어떤 행교환 행렬 $\boldsymbol{P}$ 와 하삼각 행렬 $\boldsymbol{L}$, 상삼각 행렬 $\boldsymbol{U}$ 에 대해 $\boldsymbol{PA} = \boldsymbol{LU}$ 라 하자. $\boldsymbol{P}$, $\boldsymbol{L}$, $\boldsymbol{U}$ 는 모두 $n \times n$ 행렬이다. $\boldsymbol{A}$ 의 첫번째 열벡터에서 절대값이 최대값인 행과 1행을 교환하는 행교환 행렬을 $\boldsymbol{P}_1$ 이라고 하고  $\boldsymbol{B}_1=\boldsymbol{P}_1\boldsymbol{A}$ 라 하자. 행렬 $\boldsymbol{B}_1$ 과 $\boldsymbol{L},\,\boldsymbol{U}$ 를 1행, 1열과 나머지 부분행렬로 아래와 같이 구분한다.
+
+$$
+\boldsymbol{B}_1=\left[\begin{array}{cc} b_1 & \boldsymbol{r}_1^T \\ \boldsymbol{c}_1 & \boldsymbol{C}_1\end{array}\right],\qquad \boldsymbol{L}=\begin{bmatrix} 1 & 0 \\ \boldsymbol{l}_1 & \boldsymbol{L}_1\end{bmatrix}, \qquad \boldsymbol{U} = \begin{bmatrix} v_1 & \boldsymbol{u}_1^T \\ 0 & \boldsymbol{U}_1\\\end{bmatrix}
+$$
+
+$\boldsymbol{P}_1\boldsymbol{A} =\boldsymbol{B}_1=\boldsymbol{LU}$ 라 하면 다음을 얻는다.
+$$
+\begin{aligned}
+v_1 & = b_1, \\
+\boldsymbol{u}_1 &= \boldsymbol{r}_1, \\
+u_1 \boldsymbol{l}_1 &= \boldsymbol{c}_1, \\
+\boldsymbol{l}_1 \cdot \boldsymbol{u}_1^T + \boldsymbol{L}_1 \boldsymbol{U}_1 &= \boldsymbol{C}_1
+\end{aligned}
+$$
+
+이를 통해 $\boldsymbol{L}$ 과 $\boldsymbol{U}$ 의 1행과 1열이 결정되며, $(n-1)\times (n-1)$ 행렬인 $\boldsymbol{L}_1\boldsymbol{U}_1$ 이 결정된다. $\boldsymbol{A}$ 의 첫번째 열벡터가 영벡터라면 $b_1=0,\, \boldsymbol{c}_1=\boldsymbol{0}$ 이며, 따라서 $u_1=0$ 으로 $\boldsymbol{l}_1$ 은 어떤 벡터를 놓아도 계산에 영향을 주지 않기 때문에 가장 간단하게 $\boldsymbol{0}$ 으로 놓는다.
+
+이제 $\boldsymbol{A}_1=\boldsymbol{L}_1\boldsymbol{U}_1 = \boldsymbol{C}-\boldsymbol{l} \cdot \boldsymbol{u}^T$ 이라 놓고, $\boldsymbol{A}_1$ 에 대해 행교환 행렬 $\boldsymbol{Q}_2$ 위의 과정을 똑같이 수행하여 
+
+$$
+\boldsymbol{Q}_2\boldsymbol{A}_1=\boldsymbol{B}_2 = \left[\begin{array}{cc} b_2& \boldsymbol{r}_2^T \\ \boldsymbol{c}_2 & \boldsymbol{C}_2\end{array}\right] = \begin{bmatrix} 1 & 0 \\ \boldsymbol{l}_2 & \boldsymbol{L}_2\end{bmatrix}\begin{bmatrix} v_2 & \boldsymbol{u}_2^T \\ 0 & \boldsymbol{U}_2\\\end{bmatrix}
+$$
+
+을 얻는다. 여기서 $\boldsymbol{l}_2,\, v_2,\, \boldsymbol{u}_2$ 와 $\boldsymbol{L_2}\boldsymbol{U}_2 = \boldsymbol{C}_2-\boldsymbol{l}_2 \cdot \boldsymbol{u}_2^T$ 라는 것을 안다. $\boldsymbol{P}_2 = \begin{bmatrix} 1 & \boldsymbol{0}^T \\ \boldsymbol{0} & \boldsymbol{Q}_2\end{bmatrix}$ 라고 하면, 
+
+
+$$
+\boldsymbol{P}_2 \boldsymbol{P}_1 \boldsymbol{A} = \begin{bmatrix} 1 &  &  \\\vdots  & 1 &  \\ \boldsymbol{Q}_2 \boldsymbol{l}_1 & \boldsymbol{l}_2 & \boldsymbol{L}_2\end{bmatrix} \begin{bmatrix} v_1 & \cdots & \boldsymbol{u}_1^T \\  & v_2 & \boldsymbol{u}_2^T \\ & & \boldsymbol{U}_2 \end{bmatrix}
+$$
+이 된다. 여기서 행렬의 $~\vdots~$ 는 $\boldsymbol{Q}_2 \boldsymbol{l}_2$ 의 연장이며 , $\cdots$ 는 $\boldsymbol{u}_1^T$ 의 연장이다. $\boldsymbol{L}_1\boldsymbol{U}_1$ 에 대해 위의 과정을 반복적으로 수행하면, 결국 $\boldsymbol{P}$, $\boldsymbol{L}$, $\boldsymbol{U}$ 를 얻을 수 있다. 이것을 수행하는 코드는 다음과 같다.
+
+```{.julia code-line-numbers="true"}
+function PLU(A::Matrix{T}; eptols = 1.0e-10) where T<:Real
+    M, N = size(A)
+    @assert M == N
+
+    L, P, U = one(A), one(A), zero(A)
+    B = copy(A)
+    
+    for i in 1:(M-1)
+        p = argmax(abs.(B[i:end, i])) + i -1
+        
+        if abs(B[p, i]) < eptols
+            error("Singularity error")    
+        end
+
+        P[i,:], P[p, :] = P[p, :], P[i, :]
+        B[i,:], B[p, :] = B[p, :], B[i, :]
+        
+        if i>1
+            L[i,1:i-1], L[p, 1:i-1] = L[p, 1:i-1], L[i, 1:i-1]
+        end
+        
+        U[i, i] = B[i, i]
+        U[i, (i+1):end] = B[i, (i+1):end]
+        L[(i+1):end, i] = B[(i+1):end, i] / B[i, i]
+        B[(i+1):end, (i+1):end] = B[(i+1):end, (i+1):end] - (L[(i+1):end, i:i] * U[i:i, (i+1):end])
+    end
+    U[M, M] = B[M, M]
+    return P, L, U
+end
+```
+
+
+::: {.callout-warning}
+이 코드는 이해를 돕기 위한 코드로, PLU 를 정상적으로 계산 해 주지만 효율적인 코드는 아니다.
+:::
+
+</br>
+
+### 복잡도 분석
+
+피봇을 고려하지 않은 복잡도를 분석해보자. $m\times m$ 행렬에 대해 첫번째 열의 각 열에 대한 연산은 $m$ 번의 곱하기(코딩상으로는 나누기) 와 $m$ 번의 더하기(코딩상으로는 빼기) 가 이루어지며 총 $m-1$ 번의 행에 대해 이루어지기 때문에 $2m(m-1)$ 번의 연산이 이루어진다. $n\times n$ 행렬에 대해서라면 $m$ 값이 $2$ 부터 $n$ 까지 변할때의 합이므로 
+
+$$
+T(n) = \sum_{m=2}^{n} 2m(m-1) = \sum_{m=1}^n 2m(m-1)= O\left(\dfrac{2n^3}{3}\right)
+$$
+
+이다. 즉 가
+
+</br>
+
+### 왜 LU 인가?
+
+가우스 소거법과 LU 분해는 복잡도가 같다. 그러나 많은 경우 선형시스템을 푼다는 것은 시스템 행렬 $\boldsymbol{A}$ 가 주어진 상태에서 $\boldsymbol{b}$ 가 변함에 따라 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}$ 를 찾는다. 가우스 소거법을 이용하는 경우라면 매번 $O(n^3)$ 복잡도의 계산을 해 주어야 한다. LU 분해의 경우 $\boldsymbol{A}=\boldsymbol{LU}$ (혹은 $\boldsymbol{A}=\boldsymbol{P}^{-1}\boldsymbol{LU}$) 에 대해 $\boldsymbol{L}$, $\boldsymbol{U}$ 가 정해져 있기 때문에 각각 한번의 상삼각행렬과 하삼각행렬에 대해 풀어주면 된다. 상삼각 행렬과 하삼각 행렬의 복잡도는 $O(n^2)$ 이므로 주어진 시스템 행렬에 대해 많은 계산을 할 때는 LU 분해가 훨씬 유리하다.
+
+</br>
+
+### LDU 분해
+
+LU 분해에서 상삼각해렬 $\boldsymbol{U}$ 를 대각행렬 $\boldsymbol{D}$ 와 대각성분이 $1$ 인 상삼각행렬 $\boldsymbol{U}'$ 의 곱으로 나타 낼 수 있다. 이를 LDU 분해라고 한다.
+$$
+\underbrace{\begin{bmatrix} U_{11} & U_{12} & \cdots & U_{1n} \\ 0 & U_{22} & \cdots & U_{2n} \\ & & \ddots & \\ 0 & 0 & \cdots & U_{nn}\end{bmatrix}}_{\Large\boldsymbol{U}} = \underbrace{\begin{bmatrix} U_{11} &  &  & 0 \\   & U_{22} &  &  \\ & & \ddots & \\ 0& & & U_{nn}\end{bmatrix}}_{\Large{\boldsymbol{D}}} \underbrace{\begin{bmatrix} 1 & U_{12}/U_{11}& \cdots & U_{1n}/U_{11} \\ 0 & 1 & \cdots & U_{2n}/U_{22} \\ & & \ddots & \\ 0 & 0 & \cdots & 1\end{bmatrix}}_{\Large\boldsymbol{U}'}
+$$
+
+
+</br>
+
+## QR 분해 (QR-Factorization)
+
+$m \times n$ 행렬 $\boldsymbol{A}$ 을 $m \times m$ 행렬 $\boldsymbol{Q}$ 와  $m\times n$ 상 삼각행렬 $\boldsymbol{R}$  분해하여 $\boldsymbol{A}=\boldsymbol{QR}$ 로 나타내는 것을 QR 분해라 한다. 이 때 $\boldsymbol{Q}$ 행렬의 각 열벡터는 서로 직교하며, 그 크기가 $1$ 이다. $m=n$ 이면 $\boldsymbol{Q}$ 가 유니터리행렬(unitary matrix) 로 $\boldsymbol{Q}\boldsymbol{Q}^\ast = \boldsymbol{I}$ 가 된다. 행렬 $\boldsymbol{A}$ 가 실수체에서 정의되었다면 $\boldsymbol{Q}$ 행렬은 직교행렬로 $\boldsymbol{Q}\boldsymbol{Q}^T = \boldsymbol{I}$ 이다.
+
+보통 이론적으로 QR 분해를 설명할 때는 그람-슈미트 과정(Gram-Schmidt process)을 사용하지만, 실제 수치해석적으로 구할 때는 Householder reflection 방법을 사용하거나 기븐스 회전(Givens rotation)을 사용한다. 
+
+</br>
+
+### 정사영 (Projection)
+
+$\mathbb{F}$ 에서 정의된 내적 벡터공간 $V$ 의 기저 $\{\boldsymbol{u}_1,\,\boldsymbol{u}_2,\ldots,\boldsymbol{u}_n\}$ 이 $\langle \boldsymbol{u}_i,\,\boldsymbol{u}_j \rangle=\delta_{ij}$ 를 만족할 때 이 기저를 정규직교기저 (orthonormal basis) 라 한다. 내적이 정의되면 임의의 기저로부터 항상 정규직교기저를 구할 수 있으며, 이중 가장 유명한 방법이 그람-슈미트 방법이다.
+
+벡터 $\boldsymbol{v}$ 의 $\boldsymbol{u}$ 에 대한 정사영 $\textrm{Proj}_\boldsymbol{u} \boldsymbol{v}$ 는 다음과 같이 정의된다.
+
+$$
+\textrm{Proj}_{\boldsymbol{u}}\boldsymbol{v} := \dfrac{\langle\boldsymbol{v},\, \boldsymbol{u}\rangle}{\langle \boldsymbol{u,\, u}\rangle} \boldsymbol{u}
+$$
+
+$\text{Proj}_\boldsymbol{u}\boldsymbol{v}$ 는 $\boldsymbol{u}$ 에 평행하며 $\boldsymbol{v}-\text{Proj}_{\boldsymbol{u}}\boldsymbol{v}$ 는 $\boldsymbol{u}$ 에 수직하다. 즉
+
+$$
+\langle  \boldsymbol{u} , \,\boldsymbol{v}-\text{Proj}_{\boldsymbol{u}}\boldsymbol{v} \rangle  = \boldsymbol{0}
+$$
+
+이다. $\boldsymbol{v} = \text{Proj}_\boldsymbol{u}\boldsymbol{v} + (\boldsymbol{v} - \text{Proj}_{\boldsymbol{u}}\boldsymbol{v})$ 이므로 $\boldsymbol{v}$ 를 $\boldsymbol{u}$ 와 평행한 성분과 $\boldsymbol{u}$ 에 수직한 성분으로 분리할 수 있다는 것을 알게 되었다. 단위벡터 $\boldsymbol{e} = \dfrac{\boldsymbol{u}}{\|\boldsymbol{u}\|}$ 를 생각하면,
+
+$$
+\text{Proj}_{\boldsymbol{u}}\boldsymbol{v} = \langle \boldsymbol{v },\,\boldsymbol{e}\rangle\, \boldsymbol{e}
+$$
+
+이다.
+
+</br>
+
+### 그람-슈미트 과정
+
+그람-슈미트 과정을 통해 유한차원 내적 벡터공간에서 주어진 독립 벡터를 이용하여 같은 갯수의 정규 직교 벡터를 얻을 수 있다. $N$ 차원 내적 벡터 공간 $V$ 에서 $M$ 개의 독립벡터 $\{\boldsymbol{v}_1,\ldots,\boldsymbol{v}_M\}$ 가 주어졌다고 하자. (당연히 $M \le N$ 이다). 다음을 이용하여 $\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_M$ 을 얻을 수 있다. 이를 그람-슈미트 과정이라고 한다.
+
+$$
+\begin{aligned}
+\boldsymbol{u}_1 &=  \boldsymbol{v}_1, \hat{\boldsymbol{u}}_1 = \dfrac{\boldsymbol{u}_1}{\|\boldsymbol{u}_1\|}, \\
+\boldsymbol{u}_i &= \boldsymbol{v}_{i} - \sum_{j=1}^{i-1} \text{Proj}_{\boldsymbol{u}_j} \boldsymbol{v}_i = \boldsymbol{v}_i-\sum_{j=1}^{i-1} \left\langle \boldsymbol{v}_i,\,\hat{\boldsymbol{u}}_j \right\rangle\hat{\boldsymbol{u}}_j,\qquad \hat{\boldsymbol{u}}_i = \dfrac{\boldsymbol{u}_i}{\|\boldsymbol{u}_i\|}
+\end{aligned}
+$$
+
+그람 슈미트 과정에 대해 다음 명제가 성립함을 안다. 
+
+::: {#exr-gram_schmidt}
+독립벡터의 집합 $\{\boldsymbol{v}_1,\ldots,\boldsymbol{v}_M\}$ 로부터 그람 슈미트 과정을 통해 얻은 $\{\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_M\}$ 는 각각 단위행렬이며 서로 직교한다. 즉 $\hat{\boldsymbol{u}}_i \cdot \hat{\boldsymbol{u}}_j = \delta_{ij}$ 이다. 
+:::
+
+::: {#exr-gram_schmidt_dependent}
+벡터의 집합 $\{\boldsymbol{v}_1,\ldots,\boldsymbol{v}_M\}$ 에서 $\boldsymbol{v}_k$ 를 $\boldsymbol{v}_1,\ldots,\boldsymbol{v}_{k-1}$ 의 선형결합으로 표현할 수 있을 때 그람-슈미트 과정을 통해 얻은 벡터는 영벡터이다.
+:::
+
+
+</br>
+
+### 그람 슈미트 과정을 이용한 QR 분해 (QR decomppsition)
+
+이제 우리는 주어진 독립벡터들로 정규직교벡터를 구성하는 법을 배웠다. 여기서는 $m \times n$ 행렬 $\boldsymbol{A}$ 의 열벡터 $\boldsymbol{A}_{:1},\ldots$, $\boldsymbol{A}_{:n}$ 에 대해 그람-슈미트 과정을 수행한다고 하자. 
+$$
+\begin{aligned}
+\boldsymbol{u}_1 &=  \boldsymbol{A}_{:1},\qquad \hat{\boldsymbol{u}}_1 = \dfrac{\boldsymbol{u}_1}{\|\boldsymbol{u}_1\|}, \\
+\boldsymbol{u}_j &= \boldsymbol{A}_{:j} - \sum_{k=1}^{j-1} \text{Proj}_{\boldsymbol{u}_k} \boldsymbol{A}_{:j} = \boldsymbol{A}_{:j}-\sum_{k=1}^{j-1} \left\langle \boldsymbol{A}_{:j},\,\hat{\boldsymbol{u}}_k \right\rangle\hat{\boldsymbol{u}}_k,\qquad \hat{\boldsymbol{u}}_j = \dfrac{\boldsymbol{u}_j}{\|\boldsymbol{u}_j\|}
+\end{aligned}
+$$
+라 하면,
+
+
+$$
+A_{ij}=(\boldsymbol{A}_{:j})_i = \sum_{k=1}^n \left(\langle \boldsymbol{A}_{:j},\,\hat{\boldsymbol{u}}_k\rangle \hat{\boldsymbol{u}}_k \right)_i
+$$
+이다. 이 때 $\boldsymbol{Q},\, \boldsymbol{R}$ 을 다음과 같이 정의하면 $\boldsymbol{A}= \boldsymbol{QR}$ 이 된다.
+
+$$
+Q_{ik} := (\hat{\boldsymbol{u}}_k)_i,\qquad R_{kj} := \langle \boldsymbol{A}_{:j},\,\hat{\boldsymbol{u}}_k\rangle
+$$
+
+즉 $\boldsymbol{Q}$ 의 $i$ 번째 열벡터는  $\boldsymbol{A}$ 의 각각의 열벡터에 대해 그람-슈미트 과정을 수행했을 때의 단위벡터 혹은 영벡터(@exr-gram_schmidt_dependent) 이며 $\boldsymbol{R}$ 은 그람-슈미트 과정에서의 계수이다. 아래는 그람-슈미트 과정에 의한 QR 분해를 구현한 코드이다.
+
+
+```julia
+function qr_gram_schmidt(A::AbstractMatrix{T}, normeps=1.0e-14) where T<:Number
+    M, N = size(A)
+    Q = zeros(Float64, (M, N))
+    R = zeros(Float64, (N, N))
+    
+    Q[:,1] = A[:,1]/norm(A[:,1])
+    R[1,1] = dot(A[:,1], Q[:,1])
+
+    for j = 2:N
+        Uj = A[:,j] 
+        for k = 1:j-1
+            R[k, j] = dot(A[:,j], Q[:, k])
+            Uj = Uj .- R[k, j] .* Q[:,k]
+        end
+        if norm(Uj)>normeps
+            Q[:,j]= Uj/norm(Uj)
+            R[j, j] = dot(A[:,j], Q[:, j])
+        end 
+    end
+    return Q, R
+
+end
+```
+
+</br>
+
+여기서 `norm(A)` 는 벡터의 노름을 구하는데 사용되었으며, 정확히는 `norm(A, p::Real=2)` 의 형태로 벡터, 혹은 행렬의 $p$-노름을 구하는데 사용되는 함수이다. 앞선 벡터들의 선형결합인 벡터는 영벡터가 되어야 하지만 Roundoff 에러로 인해 0 이 아닌 작은 노름을 가질 수 있으므로, 함수의 `normeps` 보다 작은 값을 가질 경우 영벡터로 간주한다.
+
+실제로는 그람-슈미트 방법을 이용한 QR-분해는 잘 사용되지 않는데, round-off 에러가 발생하여 수치해석적으로 불안정하기 때문이다. 보통은 밀집 행렬의 경우 하우스홀더 변환을 통한 방법을 사용한다. 하우스홀더 변환을 통한 QR 분해는 --to be done-- 를 참고하라.
+
+</br>
+

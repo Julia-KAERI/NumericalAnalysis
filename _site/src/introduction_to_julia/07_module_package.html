@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.290">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Physics, Math &amp; Computing - 이름공간, 모듈, 패키지</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../src/introduction_to_julia/07_I_sort.html" rel="next">
+<link href="../../src/introduction_to_julia/06_I_function_composition_and_piping.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Physics, Math &amp; Computing</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="검색"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../src/introduction_to_julia/index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Introduction to Julia</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="">
+ <span class="menu-text">Numerical Analysis using Julia</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/tools/tools.html" rel="" target="">
+ <span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/07_module_package.html">7장 이름공간, 모듈, 패키지</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Julia</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/01_julia_language.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1장 설치와 환경 구성</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/02_variables_basic_types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2장 변수와 기본 타입</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/03_functions_and_operators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3장 함수와 연산자</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/04_containers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4장 컨테이너</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/04_I_splat_operator.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : Splat 연산자</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/05_control_flows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5장 흐름 제어</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/06_arrays.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6장 배열</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/06_I_function_composition_and_piping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 함수의 합성과 전달</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/07_module_package.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">7장 이름공간, 모듈, 패키지</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/07_I_sort.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 정렬</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/08_type_hierarchy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8장 타입의 계층구조와 메서드 디스패치</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/08_I_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 문서화</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/09_composite_types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9장 복합 타입</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/09_I_pretty_printing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 보기 좋게 출력하기</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/introduction_to_julia/10_metaprogramming_and_macro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10장 메타프로그래밍과 매크로</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#이름-공간과-변수의-범위" id="toc-이름-공간과-변수의-범위" class="nav-link active" data-scroll-target="#이름-공간과-변수의-범위"><span class="header-section-number">1</span> 이름 공간과 변수의 범위</a></li>
+  <li><a href="#모듈" id="toc-모듈" class="nav-link" data-scroll-target="#모듈"><span class="header-section-number">2</span> 모듈</a>
+  <ul class="collapse">
+  <li><a href="#using" id="toc-using" class="nav-link" data-scroll-target="#using"><code>using</code></a></li>
+  <li><a href="#import" id="toc-import" class="nav-link" data-scroll-target="#import"><code>import</code></a></li>
+  <li><a href="#using-...-as-import-...-as" id="toc-using-...-as-import-...-as" class="nav-link" data-scroll-target="#using-...-as-import-...-as"><code>using ... as</code>, <code>import ... as</code></a></li>
+  </ul></li>
+  <li><a href="#변수의-범위" id="toc-변수의-범위" class="nav-link" data-scroll-target="#변수의-범위"><span class="header-section-number">3</span> 변수의 범위</a>
+  <ul class="collapse">
+  <li><a href="#영역-타입" id="toc-영역-타입" class="nav-link" data-scroll-target="#영역-타입">영역 타입</a></li>
+  <li><a href="#sec-local_keyword" id="toc-sec-local_keyword" class="nav-link" data-scroll-target="#sec-local_keyword"><code>local</code></a></li>
+  </ul></li>
+  <li><a href="#패키지" id="toc-패키지" class="nav-link" data-scroll-target="#패키지"><span class="header-section-number">4</span> 패키지</a>
+  <ul class="collapse">
+  <li><a href="#패키지-추가" id="toc-패키지-추가" class="nav-link" data-scroll-target="#패키지-추가">패키지 추가</a></li>
+  <li><a href="#패키지-update" id="toc-패키지-update" class="nav-link" data-scroll-target="#패키지-update">패키지 update</a></li>
+  <li><a href="#패키지-제거" id="toc-패키지-제거" class="nav-link" data-scroll-target="#패키지-제거">패키지 제거</a></li>
+  <li><a href="#패키지의-사용" id="toc-패키지의-사용" class="nav-link" data-scroll-target="#패키지의-사용">패키지의 사용</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">이름공간, 모듈, 패키지</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="이름-공간과-변수의-범위" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="이름-공간과-변수의-범위"><span class="header-section-number">1</span> 이름 공간과 변수의 범위</h2>
+<p>프로그래밍할 때에는 많은 변수, 함수, 자료형의 이름이 필요합니다. 보통은 이름이 중복된다면 에러가 발생하거나 나중에 나오는 것이 앞에 나온 것을 삭제시키고 그 자리를 대신하게 되는데 이것은 큰 문제를 발생시킬 수 있습니다. 이런 것을 막기 위해 중복되지 않은 이름을 사용해야 하지만 코드가 길어지면 이것도 아주 골치아픈 일이 될 수 있습니다. 그래서 많은 프로그래밍 언어들이 이름공간(namespace)과 변수가 유효한 범위를 구현합니다. Julia 에서 이름공간은 뒤에 설명할 모듈(module) 마다 생성됩니다. Julia 가 실행될 때 <code>Main</code> 모듈로 실행되며, julia REPL 이나 Jupyter 에서도 <code>Main</code> 이 최상위 모듈입니다.</p>
+<p><br></p>
+</section>
+<section id="모듈" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="모듈"><span class="header-section-number">2</span> 모듈</h2>
+<p>모듈은 어떤 기능과 관련된 값, 함수, 자료형 등의 모음입니다. 추상적인 개념이 아닌 julia 에 그 문법이 정의된 기능으로 아래의 예제 코드와 같이 <code>module</code> 로 시작해서 <code>end</code> 로 끝납니다. 모듈 안에는 다른 모듈이 포함 될 수 있습니다. 하나의 파일에 여러개의 모듈이 같이 있을 수도 있습니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> mymodule1</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">export</span> a, mf</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span><span class="fl">2</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>b<span class="op">=</span><span class="fl">3</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mf</span>(x)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">*</span><span class="fl">2</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>앞서 설명했듯이 모듈은 새로운 전역적인 이름공간을 만들 수 있습니다. 그 안에서 정의된 이름들은 다른 이름공간의 이름과 충돌할 염려 없이 사용 할 수 있습니다. 다른 이름공간에서 모듈의 이름을 사용하기 위해서는 우선 모듈 내에서 <code>export</code> 명령어를 통해 밖에서 사용 할 수 있는 이름을 지정해 줘야 합니다. 예를 들어</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="kw">module</span> mymodule1</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="kw">export</span> a, mf</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        a<span class="op">=</span><span class="fl">2</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        b<span class="op">=</span><span class="fl">3</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">function</span> <span class="fu">mf</span>(x)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> x<span class="op">*</span><span class="fl">2</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="bu">Main</span>.mymodule1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이 모듈은 REPL 이 실행될 때 만들어지는 <code>Main</code> 이라는 전역적인 이름공간 내에 <code>mymodule1</code> 이라는 이름이 붙은 부분적인 이름공간을 만듭니다. 부분적 이름공간의 이름에 접근할 때는 <code>.</code> 으로 구분하여 <code>Main.mymodule1.a</code> 와 같이 접근하거나 전역적 이름공간을 제외한 <code>mymodule1.a</code> 와 같이 접근합니다. 예를 들어</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> mymodule1.<span class="fu">mf</span>(<span class="fl">3</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">6</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>는 <code>mymodule1</code> 모둘의 함수 <code>mf</code> 를 의미합니다.</p>
+<section id="using" class="level3">
+<h3 class="anchored" data-anchor-id="using"><code>using</code></h3>
+<p><code>using</code> 명령어는 <code>module</code> 에서 <code>export</code> 명령어를 통해 지정한 이름들을 전역적 이름공간에서 사용 할 수 있게 해 줍니다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule1</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> a</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="fl">2</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> <span class="fu">mf</span>(<span class="fl">3</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">6</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> mymodule1.b</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> <span class="fl">3</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">10</span>]<span class="op">:</span> b</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`b`</span> not defined</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>export</code> 를 통해 지정되지 않은 <code>b</code> 는 전역 이름공간에서 사용 할 수 없으며 굳이 접근하고자 하면 <code>mymodule1.b</code> 와 같이 접근해야 합니다.</p>
+<p><br></p>
+</section>
+<section id="import" class="level3">
+<h3 class="anchored" data-anchor-id="import"><code>import</code></h3>
+<p><code>using</code> 명령어는 모듈 내의 이름을 전역적인 이름공간으로 가져오는데 비해 <code>import</code> 명령어는 모듈 이름만을 전역적인 이름공간으로 가져옵니다. 즉 <code>import mymodule1</code> 을 하면 <code>mymodule1.a</code> 나 <code>mymodule1.mf</code> 를 통해 접근해야 합니다. 그렇다면 단순히 REPL 에서 사용할 때는 차이가 없게 됩니다. 이 차이를 알기 위해 다음과 같은 내용을 <code>mymodule.jl</code> 파일로 저장합니다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> mymodule1</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">export</span> a, mf</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span><span class="fl">2</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>b<span class="op">=</span><span class="fl">3</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mf</span>(x)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">*</span><span class="fl">2</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> mymodule2</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">export</span> b, mf</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span><span class="fl">4</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>b<span class="op">=</span><span class="fl">5</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mf</span>(x)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">*</span>a<span class="op">*</span>b</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>두 모듈 모두 <code>mf</code> 란 함수가 존재하며 <code>export</code> 되므로 충돌의 가능성이 있습니다.. 이제 julia REPL 에서 모듈이 있는 파일을 읽고 <code>mf</code> 함수를 실행시켜 봅니다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">include</span>(<span class="st">"mymodule.jl"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="bu">Main</span>.mymodule2</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule1</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">mf</span>(<span class="fl">1</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>In [2]</code> 에서는 <code>mymodule1</code> 모듈만을 반입했으므로 <code>mf</code> 함수는 <code>mymodule1</code> 모듈의 그것입니다.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule2</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>WARNING<span class="op">:</span> <span class="im">using</span> <span class="bu">mymodule2.mf </span><span class="kw">in</span> <span class="kw">module</span> <span class="bu">Main</span> conflicts with an existing identifier.</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> b</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">5</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="fu">mf</span>(<span class="fl">3</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">6</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>using .mymodule2</code> 를 하면 충돌이 발생하기 때문에 julia 인터프리터는 경고합니다. <code>b</code> 는 <code>mymodule2</code> 에서 반입된 <code>5</code> 가 사용되며 <code>mf</code> 함수는 먼저 반입된 <code>mymodule1</code> 의 그것입니다. 이렇게 이름이 충돌하는 것은 중요한 오류를 발생시킬 수 있으므로 절대로 피해야 합니다. 이런 경우에는 <code>import</code> 를 사용하는 것이 하나의 방법입니다. <code>import</code> 를 사용하면 모듈 이름에 다음에 <code>.</code> 을 붙이고</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">include</span>(<span class="st">"mymodule.jl"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="bu">Main</span>.mymodule2</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="im">import</span> <span class="bu">.mymodule1</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="im">import</span> <span class="bu">.mymodule2</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> mymodule1.<span class="fu">mf</span>(<span class="fl">1</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fl">2</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> mymodule2.<span class="fu">mf</span>(<span class="fl">2</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">40</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="using-...-as-import-...-as" class="level3">
+<h3 class="anchored" data-anchor-id="using-...-as-import-...-as"><code>using ... as</code>, <code>import ... as</code></h3>
+<p>또 하나의 방법은 이름을 바꾸는 것입니다. <code>usimg .mymodule1: a as a1, mf as mf1</code> 이라고 하면 <code>mymodule1</code> 모듈의 <code>a</code> 를 전역적인 이름영역으로 반입하면서 그 이름을 <code>a1</code> 으로 바꾸며, <code>mf</code> 를 <code>mf1</code> 으로 이름을 바꿉니다. 이름울 바꾸지 않고 반입할 경우는 <code>as ...</code> 없이 이름만 쓰면 됩니다. 아래 코드의 <code>In [2]</code> 처럼 하면 됩니다.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">include</span>(<span class="st">"mymodule.jl"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="bu">Main</span>.mymodule2</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule1</span>: a, mf as mf1</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> a</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> mf</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`mf`</span> not defined</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> mf1</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> mf (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule2</span>:b, mf as mf2</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> b</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="fl">5</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> <span class="fu">mf2</span>(a)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">40</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> <span class="fu">mf1</span>(<span class="fl">1</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> <span class="fl">2</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이름을 바꾸는 것은 이름의 중복을 방지하는데도 사용되지만, 긴 이름을 짧게 해서 편리하게 쓰고자 할 경우나, 짧은 이름을 명확하게 하기위해 긴 이름으로 바꿀 때도 사용할 수 있습니다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="변수의-범위" class="level2 page-columns page-full" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="변수의-범위"><span class="header-section-number">3</span> 변수의 범위</h2>
+<p>모듈을 통해 이름공간과 다른 이름공간을 현재의 이름공간으로 반입하는 법을 알아보았습니다. 이름공간 내에서 사용 할 수 있는 변수를 전역적(global) 이라고 합니다. 반대로 이름공간 내의 특정 부분에서만 사용할 수 있는 변수를 지역적(local) 이라고 합니다. 변수가 유효한 지역적인 범위를 만들어 낼 수 있는 코드 영역을 <strong>블럭</strong>이라고 합시다. 대표적으로 함수를 정의하는 <code>function ... end</code> 구문이나 흐름 제어문인 <code>for ... end</code> 구문입니다. 이들은 그 내에서만 유효한 변수를 선언 할 수 있습니다.</p>
+<p>이제 이름 공간 내에서 변수의 범위를 알아봅시다. 아래 코드를 수행하기 전에 <code>i</code> 와 <code>j</code> 라는 변수를 할당하지 않았다고 합시다.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>            j<span class="op">=</span>i<span class="op">+</span><span class="fl">1</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이 때 <code>i</code> 나 <code>j</code> 는 <code>for ... end</code> 블럭 밖에서는 접근 할 수 없으며, 접근하려고 하면 에러가 발생합니다.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> j</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`j`</span> not defined</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> i</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`i`</span> not defined</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>그러나 아래 코드와 같이 미리 <code>j</code> 변수를 정해둔 경우에는 <code>j</code> 변수는 <code>for ... end</code> 블럭 안에서 그대로 적용됩니다.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> j<span class="op">=</span><span class="fl">0</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">0</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        j<span class="op">=</span>i<span class="op">+</span><span class="fl">1</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> j</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">11</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<p>이젠 함수의 경우를 봅시다.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> j<span class="op">=</span><span class="fl">4</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">4</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">mf1</span>(x)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> x<span class="op">+</span>j</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> k</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> mf1 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">mf1</span>(<span class="fl">5</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">9</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> k</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`k`</span> not defined</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="page-columns page-full"><p>위의 코드에서 <code>j</code> 는 전역적 범위에서 <code>4</code> 를 할당받았습니다<span class="math inline">\(^\ast\)</span>. <code>mf1</code> 이라는 함수 안의 <code>k</code> 라는 변수는 함수 내부에만 영항을 끼칠 수 있습니다. 그러나 <code>j</code> 는 전역변수이므로 함수 내의 <code>j</code> 는 함수 밖의 <code>j</code> 와 동일합니다. </p><div class="no-row-height column-margin column-container"><span class=""><span class="math inline">\(^\ast\)</span> 함수 내에서 인자로 주어지지 않은 함수 밖의 변수를 사용하는 것은 대부분의 경우 피해야 할 습관입니다. 이 경우는 무조건 인자로 전달해서 함수에서 처리해야 하지만, 변수 범위를 설명하기 위해 억지로 예를 든 것입니다.</span></div></div>
+<p><br></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">mf2</span>(x)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> x<span class="op">+</span><span class="fl">1</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>            <span class="kw">function</span> <span class="fu">mf3</span>(y)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> (k<span class="op">+</span><span class="fl">1</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>            <span class="kw">end</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="fu">mf3</span>(x<span class="op">+</span><span class="fl">1</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> mf2 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> <span class="fu">mf2</span>(<span class="fl">3</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">5</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="page-columns page-full"><p><code>mf2</code> 함수 정의 안에서는 새로운 지역적 변수들을 정의 할 수 있으며 <code>mf3</code> 는 <code>mf2</code> 안에서 더 지역적인 변수들을 만들 수 있습니다. <code>k</code> 는 <code>mf2</code> 함수 내에서 정의되었기 때문에 <code>mf3</code> 함수 정의 내에서 사용 할 수 있습니다. 이렇게 변수의 범위는 계층적입니다. 최상위에 전역적인 이름들이 있으며, 그 하위 범위마다 지역적인 변수를 사용 할 수 있습니다. 하위의 블럭에서는 상위의 변수를 사용 할 수 있습니다. 필요하다면 지역적 블럭에서 전역적인 혹은 상위의 블럭의 변수와 같은 이름을 갖지만 별도로 동작하는 이름을 만들 수 있습니다<span class="math inline">\(^\ast\)</span>.  하지만 혼동을 일으키며, 이러한 혼동은 에러의 큰 원인이 되기 때문에 되도록이면 피해야 할 것입니다.</p><div class="no-row-height column-margin column-container"><span class=""><span class="math inline">\(^\ast\)</span> 이렇게 상위 이름공간에서 정의된 이름을 하위 이름공간에서 별도로 사용할 때, 해당하는 상위 이름공간의 이름의 효과를 일시적으로 멈추는 것을 <strong>shadowing</strong> 이라고 합니다.</span></div></div>
+<p><br></p>
+<section id="영역-타입" class="level3">
+<h3 class="anchored" data-anchor-id="영역-타입">영역 타입</h3>
+<p>전역적 혹은 지역적 범위의 변수를 생성 할 수 있는 블럭은 다음과 같습니다.</p>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Construct</th>
+<th style="text-align: center;">영역 타입</th>
+<th style="text-align: center;">혀용되는 이름공간</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>module</code>, <code>baremodule</code></td>
+<td style="text-align: center;">전역</td>
+<td style="text-align: center;">전역</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>struct</code></td>
+<td style="text-align: center;">지역 (soft)</td>
+<td style="text-align: center;">전역</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>for</code>, <code>while</code>, <code>try</code></td>
+<td style="text-align: center;">전역, 지역 (soft)</td>
+<td style="text-align: center;">전역</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>macro</code></td>
+<td style="text-align: center;">지역 (hard)</td>
+<td style="text-align: center;">전역</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>functions</code>, <code>do</code> blocks, <code>let</code> blocks, comprehensions, generators</td>
+<td style="text-align: center;">지역 (hard)</td>
+<td style="text-align: center;">전역, 지역</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>begin</code> blocks, <code>if</code> blocks</td>
+<td style="text-align: center;">전역</td>
+<td style="text-align: center;">전역</td>
+</tr>
+</tbody>
+</table>
+<p>상위 범위의 이름은 하위 범위에서 사용 할 수 있습니다. 문제는 상위 범위에 있는 이름과 같은 이름을 하위 범위에서 사용할 때 이며 크게 두가지로 나눌 수 있겠습니다.</p>
+<ol type="1">
+<li>상위 범위 변수를 그대로 사용하고 싶을 때.</li>
+<li>상위 변수와 같은 이름을 가진 변수를 별도로 하위 범위에서 사용하고 싶을 때.</li>
+</ol>
+<p>2번의 경우는 굳이 상위 변수와 같은 이름을 사용한다기 보다는, 상위 범위에 많은 변수명과 연산이 얽혀 있는데 그것을 일일이 확인하고 싶지 않을 때에 발생한다고 볼 수 있겠습니다. 이때는 <a href="#sec-local_keyword"><code>local</code></a> 을 사용하면 되는데 이후 설명하겠습니다.</p>
+<p>상위 범위에서 <code>v=1</code> 이라고 이름을 할당 했다고 합시다. 하위 범위에서 <code>v=2</code> 라고 변수를 명시적으로 할당 했다면 하위 이름공간의 영역에서는 <code>v==2</code> 이며 상위 이름공간의 <code>v</code> 는 가려집니다. 그런데 변수에 값을 할당 하지 않고 <code>w=v+2</code> 와 같이 <code>v</code> 의 값을 사용 할 때의 성질에 따라 hard scope 와 soft scope 로 나뉩니다.</p>
+<ol type="1">
+<li>Hard scope 의 경우 : 해당 하위 이름공간에 지역적 범위의 변수 <code>v</code> 가 생성됩니다.</li>
+</ol>
+<div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> v<span class="op">=</span><span class="fl">1</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">1</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">myfunc1</span>(x)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">println</span>(<span class="st">"in myfunc1, v+x="</span>, v<span class="op">+</span>x)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> myfunc1 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">myfunc2</span>(x)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            v<span class="op">=</span><span class="fl">3</span> <span class="co"># local variable 이 생성됩니다. shadowing !!</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">println</span>(<span class="st">"in myfunc1, v=3, v+x="</span>, v<span class="op">+</span>x)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> myfunc2 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="fu">myfunc1</span>(<span class="fl">3</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> myfunc1, v<span class="op">+</span>x<span class="op">=</span><span class="fl">4</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> <span class="fu">myfunc2</span>(<span class="fl">3</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> myfunc1, v<span class="op">=</span><span class="fl">3</span>, v<span class="op">+</span>x<span class="op">=</span><span class="fl">6</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> v</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">1</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Soft scope 의 경우
+<ul>
+<li>Julia REPL 이나 jupyter 와 같이 interactive mode 일 경우에는 상위 범위의 변수 <code>v</code> 가 할당됩니다.</li>
+<li>Interactive mode 가 아닐경우에는 경고가 출력되며 하위 범위의 변수 <code>v</code> 가 생성됩니다.</li>
+</ul></li>
+</ol>
+<div id="exr-variable_scope_1" class="theorem exercise">
+<p><span class="theorem-title"><strong>연습문제 1 </strong></span><code>for ... end</code> 는 soft scope 입니다. 아래의 코드를 파일로 저장하고 julia 로 실행시켜보고 어떤 경고(<code>Warning</code>) 가 출력되는지 확인해 봅시다. Julia REPL 이나 jupyter 로 실행시켜 봅시다.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>v<span class="op">=</span><span class="fl">10</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    v<span class="op">=</span>i</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+<section id="sec-local_keyword" class="level3">
+<h3 class="anchored" data-anchor-id="sec-local_keyword"><code>local</code></h3>
+<p>다음 코드를 봅시다.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1"></a>v1 <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>v2 <span class="op">=</span> <span class="fl">3</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="cf">if</span> v2 <span class="op">&lt;</span> <span class="fl">5</span> </span>
+<span id="cb17-4"><a href="#cb17-4"></a>    v1 <span class="op">=</span> v2<span class="op">+</span><span class="fl">1</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a>    x <span class="op">=</span> <span class="fu">sin</span>(v1)</span>
+<span id="cb17-6"><a href="#cb17-6"></a><span class="cf">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이미 <code>v1=0</code> 라고 선언되었으며 <code>if</code> 문의 분기조건을 충족하기 때문에 위 코드의 실행이 끝나면 <code>v1=4</code> 가 됩니다. 그런데 당신이 실제로 원하는 것은 <code>v1</code> 값을 바꾸는 것이 아니라 단지 <code>sin(v2+1)</code> 을 계산하는 것이었다고 합시다. 코드가 길거나 많은 변수가 복잡하게 계산되고 있다면 이런 일이 벌어질 수 있습니다. 이 때 변수 할당 앞에 <code>local</code> 키워드를 놓으면 이 변수는 더 상위 범위의 같은 이름의 변수와 내부적으로 다르게 처리하며, 상위 범위의 미리 선언된 변수의 값에 영향을 주지 않습니다. 즉</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1"></a>v1 <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>v2 <span class="op">=</span> <span class="fl">3</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="cf">if</span> v2 <span class="op">&lt;</span> <span class="fl">5</span> </span>
+<span id="cb18-4"><a href="#cb18-4"></a>    <span class="kw">local</span> v1 <span class="op">=</span> v2<span class="op">+</span><span class="fl">1</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a>    x <span class="op">=</span> <span class="fu">sin</span>(v1)</span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="cf">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>를 실행시키고 난 뒤에도 <code>v1 == 0</code> 입니다. <code>local</code> 키워드는 전역적으로 어떤 변수가 선언되었</p>
+<p><br></p>
+</section>
+</section>
+<section id="패키지" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="패키지"><span class="header-section-number">4</span> 패키지</h2>
+<p>패키지는 모듈들과 모듈들을 관리하고 테스트하기위한 여러 파일들의 모음입니다. 공식적으로 지원되는 패키지들은 <a href="https://juliapackages.com">https://juliapackages.com</a> 에서 확인 할 수 있습니다.</p>
+<p>Julia 를 설치하면 기본적으로 많은 자료형과 함수들도 같이 설치되지만 이것만으로는 충분하지 않습니다. 어떤 패키지는 Julia 언어와 함께 제공되며, 어떠 패키지는 패키지 관리자 <code>Pkg.jl</code> 을 이용하여 설치할 수 있습니다. Julia 의 패키지들은 Github 저장소에서 관리됩니다.</p>
+<section id="패키지-추가" class="level3">
+<h3 class="anchored" data-anchor-id="패키지-추가">패키지 추가</h3>
+<p>패키지를 추가하는 방법은 두가지가 있습니다. 우선은</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>를 실햄합니다. <code>Pkg</code> 는 패키지를 관리해주는 패키지로 기본적으로 julia 에 포함된 패키지 입니다. <code>using Pkg</code> 는 이제 <code>Pkg</code> 패키지에 포함된 여러 값, 함수, 자료형 등을 사용수 있도록 julia 에게 준비하라는 뜻입니다. 패키지 설치는 <code>Pkg.add</code> 함수를 사용합니다. 예를 들어 코드의 수행을 분석해주는 <code>BenchmarkTools</code> 를 설치한다면</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">add</span>(<span class="st">"BenchmarkTools"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>를 실행시키면 됩니다. 보통 하나의 패키지는 다른 패키지를 필요로 하는데 이 필요성 관계를 <strong>의존성(dependency)</strong> 이라고 합니다. Julia 는 자동적으로 이 패키지를 설치하는데 필요한 다른 패키지도 설치합니다. 패키지 설치가 성공하면</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>명령문을 통해 <code>BenchmarkTools</code> 패키지의 여러 기능을 사용 할 수 있습니다.</p>
+<p><br></p>
+</section>
+<section id="패키지-update" class="level3">
+<h3 class="anchored" data-anchor-id="패키지-update">패키지 update</h3>
+<p>보통 널리 사용되는 패키지는 끊임없이 개선됩니다. 이것을 update 라고 하며</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">update</span>()</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>명령어는 이미 설치된 패키지 전체를 자동적으로 업데이트 합니다. 설치된 패키지가 많으면 몇분 정도의 시간이 걸릴 수도 있습니다.</p>
+<p><br></p>
+</section>
+<section id="패키지-제거" class="level3">
+<h3 class="anchored" data-anchor-id="패키지-제거">패키지 제거</h3>
+<p><code>BenchmarkTools</code> 패키지를 제거할때는 <code>Pkg.rm("BenchmarkTools")</code> 명렬어를 수행하면 됩니다. 만약 제거하고자 하는 패키지에 의존하는 다른 패키지가 존재한다면 제거 할 수 없습니다. 억지로 제거할 수는 있지만 추천하지 않습니다. 다른 패키지를 먼저 제거하고 제거하십시요.</p>
+<p><br></p>
+</section>
+<section id="패키지의-사용" class="level3">
+<h3 class="anchored" data-anchor-id="패키지의-사용">패키지의 사용</h3>
+<p>앞의 모듈의 사용과 마찬가지로 <code>using</code> 혹은 <code>import</code> 명령문을 사용합니다.</p>
+<p><br></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../src/introduction_to_julia/06_I_function_composition_and_piping.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Interude : 함수의 합성과 전달</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../src/introduction_to_julia/07_I_sort.html" class="pagination-link">
+        <span class="nav-page-text">Interude : 정렬</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

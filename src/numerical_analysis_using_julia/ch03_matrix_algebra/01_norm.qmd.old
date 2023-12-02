@@ -1,0 +1,133 @@
+## 노름(norm) 과 조건수 {#sec-norm_and_condition_number}
+
+::: {.callout-note}
+벡터공간이 어떤 체(field) $\mathbb{F}$ 위에서 정의되었을 때 $\mathbb{F}$-벡터공간이라고 한다. 대표적인 체로는 실수 $\mathbb{R}$ 과 복소수 $\mathbb{C}$ 가 있다. 여기서 $\mathbb{F}$-벡터공간이라고 할 때는 $\mathbb{R}$-벡터공간 혹은 $\mathbb{C}$-벡터공간을 의미한다. $\mathbb{F}$-벡터공간, 혹은 그냥 벡터공간 이라고 할 때는 $\mathbb{F}$ 가 $\mathbb{R}$ 이든 $\mathbb{C}$ 이든 무관하다는 의미이다. 
+:::
+
+</br>
+
+### 벡터의 노름
+
+벡터의 노름(norm) 은 벡터의 크기에 대한 척도로서 실수, 혹은 복소수의 절대값과 비슷한 역할을 한다. 보통 $n$ 차원 공간에서 사용하는 피타고라스 정리에 의한 거리도 노름의 일종이다. 벡터공간에서의 노름은 특정한 성질을 만족하는 함수 가운데 선택된다.
+
+
+::: {#def-norm_of_vector}
+$\mathbb{F}$-벡터공간 $V$ 에서 정의된 함수 $\|\cdot\| : V \to \mathbb{R}$ 가 $\boldsymbol{v},\,\boldsymbol{u}\in V$ 와 $\alpha \in \mathbb{F}$ 에 대해 다음을 만족할 때 이 함수는 벡터공간의 노름이 될 수 있다.
+
+1. $\|\boldsymbol{v}\| \ge 0$, 
+
+2. $\|\boldsymbol{v}\| = 0 \iff \boldsymbol{v}=\boldsymbol{0}$, 
+
+3. $\|\alpha \boldsymbol{v} \| = |\alpha| \|\boldsymbol{v}\|$, 
+
+4. $\|\boldsymbol{u}+\boldsymbol{v}\| \le \|\boldsymbol{u}\| + \|\boldsymbol{v}\|$
+
+노름이 주어진 공간을 노름 벡터 공간 (normed vector space) 라고 하며, 가능한 노름 가운데 하나가 주어진다.
+:::
+
+</br>
+
+벡터의 노름에 대한 성질을 알기 위해 다음 부등식을 알 필요가 있다.
+
+::: {#prp-norm_inequality}
+
+#### 횔더부등식(Hölder's inequality) 과 민코프스키 부등식(Minkowski's ineqality)
+
+$p\ge 1$ 이며 $1/p+1/q =1$ 일 때 다음이 성립한다.
+$$
+\begin{aligned}
+\text{H\"older's inequality} & \sum_{i=1}^n |u_i v_i| \le \left(\sum_{i=1}^n |u_i|^p\right)^{1/p}\left(\sum_{i=1}^n |v_i|^q\right)^{1/q}, \\
+\text{Mincowski's inequality} & \left(\sum_{i=1}^n |u_i+v_i|^p\right)^{1/p} \le \left(\sum_{i=1}^n |u_i|^p\right)^{1/p} + \left(\sum_{i=1}^n |v_i|^p\right)^{1/p}.
+\end{aligned}
+$$
+
+:::
+
+
+::: {.proof}
+
+[수학적 증명](../appendix/appendix_01.qmd#sec-mathematical_proof) 의 [Hölder 부등식](../appendix/appendix_01.qmd#prp-hoelders_inequality) 를 참고하라.
+
+:::
+
+
+</br>
+
+::: {#def-p_morm}
+
+#### $L_p$-노름 과 $\infty$-노름
+
+$p\ge 1$ 에 대해 다음과 같이 $L_p$-노름 $\|\cdot \|_p$ 를 정의한다.
+
+$$
+\|\boldsymbol{v}\|_p := \left( \sum_{i=1} |v_i|^p \right)^{1/p}.
+$$ 
+
+:::
+
+</br>
+
+$p=1,\,2,\,\infty$ 인 경우가 많이 사용된다. $p=1$ 인 경우는 맨해튼 노름(Manhattan norm) 혹은 taxicab norm 이라고 하며, 
+
+$$
+\|\boldsymbol{v}\|_1 = \sum_i |v_i|
+$$
+
+이다. $p=2$ 인 경우는 우리가 많이 사용하는 유클리드 노름(Euclidean norm) 으로
+
+$$
+\|\boldsymbol{v}\|_2 = \sqrt{\sum_i |v_i|^2} 
+$$
+
+이다. $p=\infty$ 인 경우는 상한 노름(maximum norm) 이라고 하며
+
+$$
+\|\boldsymbol{v}\|_{\infty} = \max_{i=1,\ldots} |x_i|
+$$
+
+이다. 혹은 단순히 $L_1,\,L_2,\,L_\infty$ 노름 이라고도 한다.
+
+</br>
+
+다음은 쉽게 증명 할 수 있다.
+
+::: {#prp-p_norm}
+$p=\infty$ 를 포함하여 $p \ge 1$ 일 때, 유한차원 벡터공간에서의 $L_p$-노름은 노름의 정의를 만족한다.
+:::
+
+</br>
+
+보통 $p$ 는 $1$ 이상의 자연수 혹은 $\infty$ 인 경우가 많다. Julia 에서는 `LinearAlgebra` 모듈에 `norm(v, p=2)` 로 정의되는 함수로 사용할 수 있으며, $\infty$-노름은 `norm(v, Inf)` 로 사용한다. 노름이 정의된 벡터공간에서 벡터를 그 크기로 나누는 것 ($\boldsymbol{v}/\|\boldsymbol{v}\|$) 을 정규화(normalization) 라고 하며 역시 `LinearAlgebra` 모듈에 `normalize(v, p=2)` 함수로 구현되어 있다.
+
+::: {.callout-note}
+`norm(v, p=2)` 에서 `p=2` 는 `p` 의 기본값이 `2` 라는 의미이다. `norm(v)` 로 함수를 호출했을 때 `p=2` 일 경우를 계산한다.
+:::
+
+```julia
+julia> using LinearAlgebra
+
+julia> v=[1, 2, 3]
+3-element Vector{Int64}:
+ 1
+ 2
+ 3
+
+julia> norm(v, 1)
+6.0
+
+julia> norm(v, Inf)
+3.0
+
+julia> norm(v, 2)
+3.7416573867739413
+
+julia> normalize(v)
+3-element Vector{Float64}:
+ 0.2672612419124244
+ 0.5345224838248488
+ 0.8017837257372732
+```
+
+</br>
+
+{{< include 01_norm_2.qmd >}}

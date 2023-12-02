@@ -1,0 +1,56 @@
+## 선형 시스템과 선형 방정식
+
+어떤 시스템이 $n$ 개의 독립변수 $x_1,\ldots,\,x_n$ 에 대해 아래와 같은 방정식으로 기술될 때 이 시스템을 선형 시스템이라고 한다.
+$$
+\begin{aligned}
+f_1 (x_1,\ldots,\,x_n ) &= A_{11}x_1 + \cdots + A_{1n}x_n \\
+ & \vdots \\
+f_m (x_1,\ldots,\,x_n ) &= A_{m1}x_1 + \cdots + A_{mn}x_n \\
+\end{aligned}
+$$
+
+이 시스템은 $m \times n$ 행렬 $\boldsymbol{A}$ 와 $n \times 1$ 행렬 $\boldsymbol{x}$ 를 이용해 다음과 같은 식으로 정리 할 수 있다. 
+
+$$
+f_i(\boldsymbol{x})=\boldsymbol{Ax},\qquad \boldsymbol{A} = \begin{bmatrix} A_{11} & \cdots & A_{1n} \\ \vdots & \ddots & \vdots \\ A_{m1} & \cdots &A_{mn} \end{bmatrix},\qquad \boldsymbol{x} = \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix}
+$$
+
+
+
+이 시스템이 선형시스템이라고 불리는 이유는 $\boldsymbol{x}_1,\,\boldsymbol{x}_2 \in \mathbb{F}^{n \times 1}$ 이며 $a$ 가 상수 일 때, 
+
+$$
+f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\boldsymbol{x}_2) = \boldsymbol{Ax}_1 + a\boldsymbol{Ax}_2
+$$
+
+를 만족하기 때문이다.
+
+주어진 $m \times n$ 행렬 $\boldsymbol{A}$ 에 대해 $\boldsymbol{A}$ 의 커널 $\ker (\boldsymbol{A})$ 와 이미지 $\text{im}(\boldsymbol{A})$ 를 다음과 같이 정의한다.
+
+$$
+\begin{aligned}
+\ker (\boldsymbol{A}) &:= \left\{\boldsymbol{x}\in \mathbb{F}^{n\times 1} : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\
+\text{im}(\boldsymbol{A}) &:= \left\{\boldsymbol{Ax}: \boldsymbol{x} \in \mathbb{F}^{n \times 1}\right\}
+\end{aligned}
+$$
+
+
+만약 $\boldsymbol{b}\in \text{im}(\boldsymbol{A})$ 라면 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}$ 가 존재하며 이 $\boldsymbol{x}$ 를 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해(solution) 라고 한다. $\boldsymbol{x}_0 \in \ker (\boldsymbol{A})$ 라면 $\boldsymbol{A}(\boldsymbol{x}+\boldsymbol{x}_0) = \boldsymbol{Ax}$ 이다.
+
+$\boldsymbol{A}$ 가 $n \times n$ 정사각 행렬이며 $\det (\boldsymbol{A}) \ne 0$ 이면, 즉 $\boldsymbol{A}$ 의 역행렬이 존재한다면 선형방정식의 해는 유일하게 존재하며 $\boldsymbol{x}=\boldsymbol{A}^{-1}\boldsymbol{b}$ 를 통해 구할 수 있다. 역행렬이 존재하지 않는 정사각 행렬을 **특이 행렬 (singular matrix)** 라고 한다. $\boldsymbol{A}$ 가 특이행렬이라면 선형방정식의 해는 존재하지 않거나, 그 해가 무수히 많이 존재한다. 예를 들어 
+
+$$
+\boldsymbol{A}=\begin{bmatrix} 1 & 1 \\ 0 & 0 \end{bmatrix}, \qquad \boldsymbol{b}=\begin{bmatrix} 1 \\ 0 \end{bmatrix}
+$$
+
+의 해는 $\begin{bmatrix} x \\ 1-x\end{bmatrix},\, x\in \mathbb{F}$ 인 모든 행렬이다.
+
+</br>
+
+
+::: {.callout-note}
+다음부터 소개할 여러가지 방법은 `LinearAlgebra` 모듈에 그 기능이 거의 포함되어 있기으며 아마 직접 코딩하는 것보다 처리속도가 더 빠를 것이다. 그러나 우리가 배워야 할 것은 모듈과 함수의 사용법 뿐만 아니라, 생각하는 알고리즘을 코드로 만들어 정확하게 구현하는 것이기에 앞으로 나올 여려 방법들을 직접 구현해보고자 한다.
+:::
+
+</br>
+

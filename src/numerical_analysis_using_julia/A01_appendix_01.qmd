@@ -1,0 +1,115 @@
+---
+title: "부록"
+language: ../_language-ko_custom.yml 
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+## 수학적 증명 {#sec-mathematical_proof}
+
+
+### Hölder's inequality and Minkowski ineqality
+
+::: {#prp-young_inequality}
+
+#### Young's Inequality {#sec-young_inequality}
+$a\ge 0,\, b\ge 0, p>1,\, q>1$ 이며 $1/p+1/q=1$ 일 때 다음이 성립한다.
+
+$$
+ab \le \dfrac{a^p}{p} + \dfrac{b^q}{q}.
+$$
+
+등호는 $a^p=b^q$ 일 때 성립한다.
+:::
+
+::: {.proof}
+우선 $p>1,\,q>1$ 에 대해 다음이 성립한다.
+$$
+\int_0^a x^{p-1}\, dx + \int_0^b y^{q-1}\, dy = \dfrac{a^p}{p} + \dfrac{b^q}{q}
+$$
+
+$\dfrac{1}{p}+ \dfrac{1}{q}$ 로부터 $p-1 = \dfrac{1}{q-1}$ 임을 안다. 따라서, $y=x^{p-1}$ 이면 $x=y^{q-1}$ 이다. 이제 $\displaystyle \int_0^a x^{p-1}\, dx + \int_0^b y^{q-1}\, dy$ 를 생각하자. 아래 그림을 생각하면, 위의 적분이 $ab$ 보다 항상 크다는 것을 알 수 있다. $\square$
+:::
+![Plots for Young's inequality](young_inequality.png){width=100%}
+
+</br>
+
+::: {#prp-hoelders_inequality}
+
+#### Hölder's inequality and Minkowski ineqality
+
+$p\ge 1$ 이며 $1/p+1/q =1$ 일 때 다음이 성립한다.
+$$
+\begin{aligned}
+\text{H\"older's inequality} : & \sum_{i=1}^n |u_i v_i| \le \left(\sum_{i=1}^n |u_i|^p\right)^{1/p}\left(\sum_{i=1}^n |v_i|^q\right)^{1/q}, \\
+\text{Mincowski inequality}  : & \left(\sum_{i=1}^n |u_i+v_i|^p\right)^{1/p} = \left(\sum_{i=1}^n |u_i|^p\right)^{1/p} + \left(\sum_{i=1}^n |v_i|^q\right)^{1/q}.
+\end{aligned}
+$$
+
+:::
+
+::: {.proof}
+우선 횔더 부등식을 보이자. 영의 부등식 $ab < \dfrac{a^p}{p}+ \dfrac{b^q}{q}$ 를 이용한다. $\boldsymbol{u},\,\boldsymbol{v}\in \mathbb{F}^n$ 에 대해 $\displaystyle \|\boldsymbol{u}\|_p = \left(\sum_{i=1}^n |u_i|^p\right)^{1/p},\, \|\boldsymbol{v}\|_q = \left(\sum_{i=1}^n |v_i|^q\right)^{1/q}$ 라 하자. $a_i,\,b_i$ 를 각각
+
+$$
+a_i = \dfrac{|u_i|}{\|\boldsymbol{u}\|_p},\, \qquad b_i = \dfrac{|v_i|}{\|\boldsymbol{v}\|_q}
+$$
+
+라 하면, 영의 부등식에 의해
+
+$$
+a_i b_i = \dfrac{|u_iv_i|}{\|\boldsymbol{u}\|_p \|\boldsymbol{v}\|_q} \le \dfrac{|u_i|^p}{p (\|\boldsymbol{u}\|_p)^p} +  \dfrac{|v_i|^p}{q(\|\boldsymbol{v}\|_q)^q} 
+$$
+
+이며, 
+
+$$
+\sum_{i=1}^n a_ib_i = \dfrac{\sum_{i=1}^n |u_i v_i|}{\|\boldsymbol{u}\|_p \|\boldsymbol{v}\|_q} \le \dfrac{\sum_{i=1}^n|u_i|^p}{p (\|\boldsymbol{u}\|_p)^p} +  \dfrac{\sum_{i=1}^n |v_i|^p}{q(\|\boldsymbol{v}\|_q)^q}  =  \dfrac{1}{p} + \dfrac{1}{q} = 1
+$$
+
+이므로,
+
+$$
+\sum_{i=1}^n |u_i v_i| \le \|\boldsymbol{u}\|_p \| \boldsymbol{v}\|_q = \left( \sum_{i=1}^n |u_i|^p)^{1/p} \right)^{1/p} \left( \sum_{i=1}^n |v_i|^q)^{1/q} \right)^{1/q}
+$$
+
+이다. 
+
+
+이제 민코프스키 부등식을 보이자. $p>1$ 이므로 삼각부등식에 의해 다음이 성립한다.
+
+$$
+|u_i+v_i|^p = |u_i + v_i| |u_i + v_i|^{p-1} \le (|u_i|+|v_i|)|u_i + v_i|^{p-1} = |u_i||u_i+v_i|^{p-1} + |v_i||u_i+v_i|^{p-1}
+$$
+
+Hölder's inequality 에 의해,
+
+$$
+\begin{aligned}
+\sum_{i=1}^n |u_i| |u_i + v_i|^{p-1} &\le \left(\sum_{i=1}^n |u_i|^p\right)^{1/p}\left(\sum_{i=1}^n |u_i+v_i|^{q(p-1)}\right)^{1/q}, \\
+\sum_{i=1}^n |v_i| |u_i + v_i|^{p-1} &\le \left(\sum_{i=1}^n |v_i|^p\right)^{1/p}\left(\sum_{i=1}^n |u_i+v_i|^{q(p-1)}\right)^{1/q}, 
+\end{aligned}
+$$
+
+$1/p + 1/q=1$ 로부터 $q(p-1)=p$ 임을 안다. 따라서,
+
+$$
+\sum_{i=1}^n (|u_i|+|v_i|) |u_i+v_i|^{p-1} \le \left[\left(\sum_{i=1}^n |u_i|^p\right)^{1/p} + \left(\sum_{i=1}^n |v_i|^p\right)^{1/p}\right]\left(\sum_{i=1}^n |u_i+v_i|^{p}\right)^{1/q}
+$$
+
+이므로,
+
+$$
+\begin{aligned}
+\left(\sum_{i=1}^n |u_i|^p\right)^{1/p} + \left(\sum_{i=1}^n |v_i|^p\right)^{1/p} &\ge \dfrac{\displaystyle\sum_{i=1}^n (|u_i|+|v_i|) |u_i+v_i|^{p-1}}{\left(\displaystyle \sum_{i=1}^n |u_i+v_i|^{p}\right)^{1/q}} \ge \dfrac{\displaystyle \sum_{i=1}^n |u_i + v_i|^p}{\left(\displaystyle \sum_{i=1}^n |u_i+v_i|^{p}\right)^{1/q}}, \\
+& = \left(\sum_{i=1}^n |u_i + v_i|^p\right)^{1-1/q} = \left(\sum_{i=1}^n |u_i + v_i|^p\right)^{1/p}
+\end{aligned}
+$$
+
+이다. 따라서 민코프스키 부등식이 성립한다. 
+
+
+:::

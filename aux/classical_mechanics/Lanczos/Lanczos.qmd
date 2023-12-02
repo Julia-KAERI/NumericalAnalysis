@@ -1,0 +1,13 @@
+---
+title: "The Variational Principles of Mechanics"
+lang: ko   
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: true
+---
+
+
+{{< include 00_01.qmd >}}
+{{< include 01_01.qmd >}}

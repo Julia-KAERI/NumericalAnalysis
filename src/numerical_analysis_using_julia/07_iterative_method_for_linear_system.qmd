@@ -1,0 +1,613 @@
+---
+title: "반복법을 이용한 선형 시스템의 해를 구하기"
+language: ../_language-ko_custom.yml 
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+## 특별한 선형 시스템
+
+### 대각 지배 행렬
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-diagonally_dominat_matrix}
+
+#### 대각 지배 행렬 (Diagonally dominant matrix)
+
+행렬 $\boldsymbol{A}\in \mathbb{F}^{n\times n}$ 의 각 행의 대각성분의 절대값이 그 행의 대각성분을 제외한 성분의 절대값의 합보다 크면, 즉 각각의 $i=1,\ldots,\,n$ 행에 대해
+
+$$
+|A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ij}|, \qquad i=1,\ldots,\,n
+$$
+
+이면 이 행렬 $\boldsymbol{A}$ 를 **행에 대한 대각 지배 행렬**이라 한다. 또한 각 열에대해 
+
+$$
+|A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ji}|, \qquad i=1,\ldots,\,n
+$$
+
+이면 이 행렬 $\boldsymbol{A}$ 를 **열에 대한 대각 지배 행렬**이라 한다. 행/열 에 대한 대각 지배 행렬의 조건에서 등호 조건을 제외하고 성립하면  **행/열 에 대한 엄격한 대각 지배 행렬** 이라 한다. 
+
+:::
+:::
+
+
+</br>
+
+::: {#prp-strictly_diagonallly_dominat_matrix_is_invertible}
+
+엄격한 대각 지배 행렬은 가역행렬이다.
+
+:::
+
+
+::: {.proof}
+
+행에 대해 엄격한 대각 지배 행렬 $\boldsymbol{A}$ 이 가역행렬이면, $\boldsymbol{A}^T$ 는 열에 대해 엄격한 대각 지배 행렬이며 가역행렬이다. 따라서 행에 대해 엄격한 대각 지배 행렬이 가역행렬임을 보이면 된다. 
+
+$\boldsymbol{A}\in \mathbb{F}^{n \times n}$ 이 행에 대한 엄격한 대각 지배 행렬이며 가역행렬이 아니라고 하자. $\boldsymbol{Ax}=\boldsymbol{0}$ 을 만족하는 $\boldsymbol{x}\ne \boldsymbol{0}$ 이 존재한다. 이 $\boldsymbol{x}$ 가운데 그 절대값이 가장 큰 $|x_k|\ne 0$ 을 찾을 수 있다. $\boldsymbol{Ax}=0$ 이므로, 각각의 $i=1,\ldots,\,n$ 에 대해
+
+$$
+\sum_{j=1}^n A_{ij}x_j=0
+$$
+
+이며, 따라서 $x_k$ 의 $k$ 에 대해 
+
+$$
+A_{kk}x_k = -\sum_{j=1,\,j \ne k}^n A_{kj}x_j
+$$
+
+이다. $\boldsymbol{A}$ 가 행에 대해 엄격한 대각 지배 행렬이므로 모든 대각성분은 $0$ 이 아니다. 삼각부등식에 의해, 
+
+$$
+|A_{kk}| |x_k|  \le \sum_{j=1,\,j\ne k}^n |A_{kj}| |x_j|
+$$
+
+이므로, 
+
+$$
+|A_k| \le \sum_{j= 1,\, j \ne k}^n \dfrac{|x_j|}{|x_k|} |A_{kj}| < \sum_{j= 1,\, j \ne k}^n |A_{kj}|
+$$
+
+이므로 $\boldsymbol{A}$ 가 행에 대해 엄격한 대각 지배 행렬이라는 가정에 위배된다. 따라서 $\boldsymbol{A}$ 는 가역행렬이다. $\square$
+
+
+:::
+
+</br>
+
+::: {#prp-diagonally_dominant_matrix_and_LU_factorization}
+
+행에 대해 엄격한 대각 지배 행렬은 피보팅 없이 가우스-요르단 소거법을 수행 할 수 있다.
+
+:::
+
+::: {.proof}
+
+$\boldsymbol{A}\in \mathbb{F}^{n \times n}$ 이 행에 대해 엄격한 대각 지배 행렬일 때 induction 으로 증명한다. 우선 $n=1$ 일 경우는 자명하다. $n$ 에 대해 명제가 성립함을 가정하자. 가우스-요르단 소거법을 첫번째 행을 가준으로 하여 피보팅 없이 두번째 행부터 $n+1$ 번째 행까지 첫번째 열을 소거한 행렬을 $\boldsymbol{A}'$ 이라 하면
+$$
+A'_{ij} = A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j},\qquad i=2,\ldots,\,n+1 \tag{1}
+$$ 
+
+이다. 
+
+$$
+\begin{aligned}
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| &= \sum_{j=2,\, j \ne i} \left|A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j}\right| \le \sum_{j=2,\, j \ne i}^n |A_{ij}| + \sum_{j=2,\,j \ne i} \left|\dfrac{A_{i1}}{A_{11}}A_{1j}\right| 
+\end{aligned}\tag{2}
+$$
+
+인데, 
+
+$$
+\begin{aligned}
+\sum_{j=2,\, j \ne i}^n |A_{ij}| < |A_{ii}| - |A_{i1}|,\\
+\sum_{j=2,\, j \ne i}^n |A_{1j}| < |A_{11}| - |A_{1i}|
+\end{aligned} \tag{3}
+$$
+
+이므로, $(2)$ 과 $(3)$ 를 보면
+$$
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| < |A_{ii}|-|A_{i1}| + \dfrac{|A_{i1}|}{|A_{11}|} \left(|A_{11}| - |A_{1i}|\right) = |A_{ii}| - \dfrac{|A_{i1}|}{|A_{11}|} |A_{1i}| \tag{4}
+$$
+
+이다. $1$ 로 부터, 
+
+$$
+|A'_{ii}| = \left|A_{ii}- \dfrac{A_{i1}}{A_{11}}A_{1i}\right| \ge \left|A_{ii}\right|- \left|\dfrac{A_{i1}}{A_{11}}A_{1i}\right| \tag{5}
+$$
+
+이므로, $(4)$ 와 $(5)$ 를 결합하면, 
+
+$$
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| < |A'_{ii}|
+$$
+
+이다. 즉 2행 2열부터 $n+1$ 행 $n+1$ 열까지의 $\boldsymbol{A}'$ 의 부분행렬은 행에 대해 엄격한 지배행렬이므로 가정에 의해 피보팅 없이 가우스-조르단 소거법을 수행 할 수 있다. 따라서 임의의 크기의 정사각 행렬이 행에 대해 엄격한 대각 지배 행렬일 때, 피보팅 없이 가우스-조르단 소거법을 수행 할 수 있다. 
+
+:::
+
+</br>
+
+### Positive Definite 행렬
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-positive_definite_matrices}
+
+#### Positive definite 행렬
+
+행렬 $\boldsymbol{A}\in \mathbb{R}^{n \times n}$ 이 대칭행렬이며 모든 $\boldsymbol{x}\in \mathbb{R}^{n}$, $\boldsymbol{x}\ne \boldsymbol{0}$ 에 대해 $\langle \boldsymbol{Ax},\boldsymbol{x}\rangle > 0$ 일 경우 $\boldsymbol{A}$ 를 **positive definite** 라 한다.
+
+:::
+:::
+
+</br>
+
+
+Positive definite 행렬은 복소수체에서 정의할 수도 있으나 여기서는 실수체에서 정의된 행렬만 생각하기로 한다. 다음 명제는 대부분의 선형대수학 교재에서 다루기 때문에 증명 없이 사용하기로 하자. 우선 실수체에서 정의된 대칭행렬의 중요한 성질에 대해 알아보자.
+
+::: {#thm-spectrum_theorem_of_real_vector_space}
+
+#### 실수체($\mathbb{R}$) 에서 정의된 행렬의 스펙트럼 정리
+
+$\boldsymbol{A} \in \mathbb{R}^{n \times n}$ 행렬에 대해 다음 세 명제는 동치이다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 는 대칭행렬이다.
+
+&emsp; ($2$) $\boldsymbol{A}$ 는 직교변환에 의해 대각행렬로 표현된다.
+
+&emsp; ($3$) $\boldsymbol{A}$ 의 고유벡터로 정규직교기저를 구성 할 수 있다.
+
+:::
+
+</br>
+
+즉 모든 $\boldsymbol{x}\in \mathbb{R}^n$ 은 $\boldsymbol{A}$ 의 고유벡터의 선형결합으로 표현 할 수 있다. 이제 positive definite 행렬에 대한 성질을 알아보자.
+
+
+</br>
+
+::: {#prp-positive_definite_matrix_1}
+
+$\boldsymbol{A}\in \mathbb{R}^{n \times n}$ 이 positive definite 일 경우 다음이 성립한다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 의 모든 고유값은 양수이다.
+
+&emsp; ($2$) $\det (\boldsymbol{A}) >0$ 이다.
+
+&emsp; ($3$) $\boldsymbol{A}$ 는 가역행렬이다.
+
+&emsp; ($4$) $\boldsymbol{A}$ 의 대각성분은 모두 양수이다.
+
+&emsp; ($5$) $|A_{ij}| \le \max \{|A_{ii}| : i=1,\ldots,\,n\}$.
+
+&emsp; ($6$) $(A_{ij})^2 < A_{ii}A_{jj}$.
+
+:::
+
+::: {.proof}
+
+($1$) $\lambda$ 가 $\boldsymbol{A}$ 의 고유값이며 $\boldsymbol{v}$ 가 $\lambda$ 에 대한 고유벡터일 경우 $\lambda = \langle \boldsymbol{Av}, \boldsymbol{v}\rangle >0$ 이어야 한다.
+
+($2$) 대칭행렬 $\boldsymbol{A}$ 의 행렬식은 모든 고유값의 곱이므로 양수이다.
+
+($3$) $\boldsymbol{x}\ne 0$ 이며 $\boldsymbol{Ax}=\boldsymbol{0}$ 일 경우 $\langle \boldsymbol{Ax}, \boldsymbol{x}\rangle = 0$ 인데 이는 $\boldsymbol{A}$ 가 positive definite 가 아니라는 의미이다.
+
+($4$) $A_{ii} = \langle \boldsymbol{Ae}_i,\, \boldsymbol{e}_i\rangle  > 0$ 
+
+($5$) $i\ne j$ 에 대해 
+
+$$
+\begin{aligned}
+0< \langle \boldsymbol{A}(\boldsymbol{e}_i-\boldsymbol{e}_j), (\boldsymbol{e}_i-\boldsymbol{e}_j)\rangle = A_{ii}+ A_{ij} - 2 A_{ij} \\
+0< \langle \boldsymbol{A}(\boldsymbol{e}_i+\boldsymbol{e}_j), (\boldsymbol{e}_i+\boldsymbol{e}_j)\rangle = A_{ii}+ A_{ij} + 2 A_{ij} \\
+\end{aligned}
+$$
+
+이므로 
+$$
+|A_{ij}| < \dfrac{A_{ii}+A_{jj}}{2} \le \max \{|A_{ii}| : i=1,\ldots,\,n\}
+$$
+
+이다. 
+
+($6$) $i\ne j$ 와 임의의 실수 $t$ 에 대해
+
+$$
+0 < \langle \boldsymbol{A}(t\boldsymbol{e}_i + \boldsymbol{e}_j),\, (t\boldsymbol{e}_i + \boldsymbol{e}_j)\rangle = t^2A_{ii} +2tA_{ij}+ A_{jj}
+$$
+
+이므로 $(A_{ij})^2 < A_{ii}A_{jj}$ 이다. $\square$
+
+:::
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-submatrix}
+
+#### 부분 행렬(submatrix) 와 선행 주 부분 행렬(leading principal submatrix)
+
+행렬 $\boldsymbol{A}\in \mathbb{F}^{m \times n}$ 에 대해 임의의 중복되지 않은 행 $I=\{i_1,\ldots,\,i_p: 1\le i_k\le m\}$ 과 중복되지 않은 열 $J=\{j_1,\ldots,\,j_q: 1 \le j_l \le n \}$ 을 모아 만든 행렬을 $\boldsymbol{A}$ 의 **부분 행렬**이라고 하고 $\boldsymbol{A}[I, J]$ 라고 쓴다. $I=1,\ldots,\,k$, $J=1,\ldots,\,k$ 일 때 $\boldsymbol{A}[I, J]$ 를 **선행 주 부분 행렬** 이라고 하고 $\boldsymbol{A}_k$ 라고 쓴다. 
+
+:::
+:::
+
+</br>
+
+이제 $\boldsymbol{A}$ 가 positive definite 인 것과 $\boldsymbol{A}$ 의 모든 선행 주 부분행렬의 행렬식이 $0$ 보다 큰 것이 동치임을 보이고자 한다. 이를 위해 몇가지 미리 보여야 할 것이 있다.
+
+
+::: {#lem-positive_definite}
+
+$\boldsymbol{A}\in \mathbb{R}^{n \times n}$ 이 대칭행렬이고 $\boldsymbol{Q} \in \mathbb{R}^{n \times n}$ 이 가역행렬 일 때 다음은 동치이다. 
+
+&emsp; ($1$) $\boldsymbol{A}$ 가 positive definite 이고 $\boldsymbol{Q}^T\boldsymbol{AQ}$ 가 대칭행렬이다.
+
+&emsp; ($2$) $\boldsymbol{Q}^T \boldsymbol{AQ}$ 가 positive definte 이다.
+
+:::
+
+::: {.proof}
+($1 \implies 2$) 임의의 $\boldsymbol{0}$ 벡터가 아닌 $\boldsymbol{v}\in \mathbb{R}^{n}$ 에 대해 $\boldsymbol{Qv}\ne \boldsymbol{0}$ 이다. $\boldsymbol{A}$ 가 positive definite 이므로, 
+
+$$
+0 < (\boldsymbol{Qv})^T \boldsymbol(A)(\boldsymbol{Qv}) = \boldsymbol{v} \left(\boldsymbol{Q}^T\boldsymbol{AQ}\right)\boldsymbol{z}
+$$
+
+이므로 $\boldsymbol{Q}^T\boldsymbol{AQ}$ 는 positive definite 이다.
+
+($2 \implies 1$) $\boldsymbol{A}$ 가 대칭행렬이므로 $(\boldsymbol{Q}^T\boldsymbol{AQ})^T = \boldsymbol{Q}^T \boldsymbol{A}^T\boldsymbol{Q} = \boldsymbol{Q}^T\boldsymbol{AQ}$ 이다. 즉 $\boldsymbol{Q}^T\boldsymbol{AQ}$ 는 대칭행렬이다. $\boldsymbol{Q}$ 가 가역이므로 임의의 $\boldsymbol{x}\in \mathbb{R}^{n}$ 에 대해 $\boldsymbol{x}=\boldsymbol{Qy}$ 를 만족하는 $\boldsymbol{y}\in \mathbb{R}^n$ 이 존재한다. 
+
+$$
+\boldsymbol{x}^T\boldsymbol{Ax} =  (\boldsymbol{Qy})^T \boldsymbol{A}\boldsymbol{Qy} = \boldsymbol{y}^T\boldsymbol{Q}^T\boldsymbol{AQ}\boldsymbol{y} > 0
+$$
+
+이므로 $\boldsymbol{A}$ 는 positive defnite 이다. $\square$ 
+
+:::
+
+</br>
+
+::: {#prp-leading_principal_submatrix}
+
+대칭행렬 $\boldsymbol{A}$ 가 positive definite 일 필요충분조건은 $\boldsymbol{A}$ 의 모든 선행 주 부분 행렬의 행렬식이 양수인 것이다.
+
+:::
+
+
+
+::: {.proof}
+
+Inductinon 을 통해 증명한다.[Carl P.Simon & Lawrence E. Blume 의 *Mathematics for Economists* 의 증명이다]{.aside} $1 \times 1$ 행렬의 경우는 trivial 하다. 이제 $n\times n$ 행렬에 대해 성립한다고 가정한다. $\boldsymbol{A}$ 가 $(n+1)\times (n+1)$ 행렬이라 하자. 
+
+우선 모든 $\boldsymbol{A}_i$, $i=1,\ldots,\,n$ 의 행렬식이 양수이면 $\boldsymbol{A}$ 가 positive definite 임을 보이자. 우선 $\boldsymbol{A}$ 를 $\boldsymbol{A}_n$ 에 대하여 아래와 같이 분할하여 보자. 
+
+$$
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{A}_n & \boldsymbol{a} \\ \hline \boldsymbol{a}^T & a\end{array}\right]
+$$
+
+여기서 $\boldsymbol{a}=\begin{bmatrix} A_{1, n+1} & \cdots & A_{n, n+1}\end{bmatrix}^T$ 이고 $a=A_{n+1, n+1}$ 이다. 그렇다면, 
+
+$$
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{I}_n & \boldsymbol{0} \\ \hline (\boldsymbol{A}_n^{-1}\boldsymbol{a})^T & 1\end{array}\right] \left[\begin{array}{c|c} \boldsymbol{A}_n & \boldsymbol{0}_n \\ \hline (\boldsymbol{0}_n)^T & d\end{array}\right] \left[\begin{array}{c|c} \boldsymbol{I}_n & \boldsymbol{A}_n^{-1}\boldsymbol{a} \\ \hline \boldsymbol{0}_n^T & 1\end{array}\right] = \boldsymbol{Q}^T\boldsymbol{BQ}
+$$
+
+이며 이 때 $d=a-\boldsymbol{a}^T(\boldsymbol{A}_n)^{-1}\boldsymbol{a}$ 이다. 또한 $\boldsymbol{A}_n$ 이 대칭행렬이므로 $\boldsymbol{A}_n^{-1}$ 도 대칭행렬이다. (즉 $(\boldsymbol{A}_n^{-1})^{T} = \boldsymbol{A}_n^{-1}$ 이다.)
+
+우리는 $\det (\boldsymbol{Q}^T) = \det (\boldsymbol{Q})=1$ 이며 $\det (\boldsymbol{B})=d \cdot \det (\boldsymbol{A}_n)$ 임을 안다. 즉 
+
+$$
+\det (\boldsymbol{A}) =  d \cdot \det (\boldsymbol{A}_n)
+$$ 
+
+이다. $\boldsymbol{A}$ 가 positive definite 이며 $\det (\boldsymbol{A})>0$ 이므로 $d>0$ 이다. 
+
+이제 임의의 $\boldsymbol{x}\in \mathbb{R}^{n+1}$ 을 생각하자. $\boldsymbol{x} = \begin{bmatrix} \boldsymbol{x}_0 & x \end{bmatrix}^T$, $\boldsymbol{x}_0 \in \mathbb{R}^n$ 이라 하면, 
+
+$$
+\boldsymbol{x}^T \boldsymbol{Bx} = \boldsymbol{x}^T \boldsymbol{A}_n \boldsymbol{x} + d\cdot x
+$$
+
+이다. $\boldsymbol{A}_n$ 이 가정에 의해 positive definite 이며, $d>0$ 이므로 $\boldsymbol{x}^T\boldsymbol{Bx}>0$ 이다. 따라서 @lem-positive_definite 에 의해 $\boldsymbol{B}=\boldsymbol{Q}^T\boldsymbol{AQ}$ 일 때 $\boldsymbol{A}$ 는 positive definite 이다. $\square$
+
+:::
+
+</br>
+
+::: {#prp-positive_definite_}
+
+대칭행렬 $\boldsymbol{A}$ 에 대해 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 는 positive definite 하다.
+
+&emsp; ($2$) $\boldsymbol{A}$ 는 피보팅 없이 가우스-요르단 소거법을 수행 할 수 있으며, 피봇 성분은 양수이다.
+
+:::
+
+::: {.proof}
+
+
+:::
+
+</br>
+
+## 스펙트럼 반경과 반복법을 통한 선형시스템의 해
+
+
+### 스펙트럼 반경
+
+우리는 앞서 직접적으로 선형 시스템 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해를 구하였다. 그러나 선형 시스템이 매우 크며, $\boldsymbol{A}$ 의 대분이 $0$ 일 경우는 직접적으로 구하지 않고 반복법을 통해 구하는 방법이 더 빠르다. 여기서는 이를 알아보기로 한다. 먼저 많이 사용하게 될 개념을 우선 정하기로 하자.
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-spectra_radius}
+
+#### 스펙트럼 반경(spectral radius)
+&emsp; ($1$) 정사각 행렬 $\boldsymbol{A}$ 에 대해 $\lambda(\boldsymbol{A})$ 는 $\boldsymbol{A}$ 의 모든 고유값들의 집합이다.
+
+&emsp; ($2$) 행렬 $\boldsymbol{A}$ 의 스펙트럼 반경 $\rho(\boldsymbol{A})$ 는 $\lambda(\boldsymbol{A})$ 의 절대값의 상한으로 정의된다. 즉,
+
+$$
+\rho (\boldsymbol{A}) := \max \{ |\lambda| : \lambda \in \lambda(\boldsymbol{A})\}.
+$$
+
+:::
+:::
+
+</br>
+
+$\rho(\boldsymbol{A})$ 는 행렬에 대해 고유하게 정해지는 값이지만 행렬의 노름이 될 수 없다. 예를 들어 
+
+$$
+\boldsymbol{A} = \begin{bmatrix}2 & 1\\  2 &-2\end{bmatrix},\, \boldsymbol{B} = \begin{bmatrix} 2 & 4 \\ 1 &-3\end{bmatrix}
+$$
+
+의 경우 $\rho(\boldsymbol{A}) \approx 2.45$, $\rho(\boldsymbol{B}) \approx 3.70$, $\rho(\boldsymbol{A}+\boldsymbol{B}) \approx 6.44$ 이므로 $\rho(\boldsymbol{A}+\boldsymbol{B}) > \rho(\boldsymbol{A}) + \rho (\boldsymbol{B})$ 인데 이것은 행렬의 노름이 될 조건에 위배된다.
+
+</br>
+
+::: {#prp-spectral_radius} 
+
+$\boldsymbol{A}\in \mathbb{F}^{n \times n}$ 에 대해 
+
+&emsp; ($1$) $\boldsymbol{A} \in \mathbb{F}^{n \times n}$ 에 대해 다음이 성립한다.
+
+
+&emsp; ($2$) $\rho(\boldsymbol{A})$ 는 모든 자연스러운 노름에 대해  $\|\boldsymbol{A}\|$ 보다 작거나 같다. 
+:::
+
+::: {.proof}
+($1$) 증명은 Isacson, Keller 의 *Analysis of numerical method* (1966) 을 참고하라
+
+($2$) $\lambda \in \lambda(\boldsymbol{A})$ 이고 $\boldsymbol{x}\in \mathbb{F}^n$ 에 대해 $\|\boldsymbol{x}\|=1$ 일 때, 
+
+$$
+|\lambda| =  \|\lambda \boldsymbol{x}\| = \|\boldsymbol{Ax}\| \le \|\boldsymbol{A}\| \|\boldsymbol{x}\| = \|\boldsymbol{A}\|
+$$
+
+:::
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-convergent_matrix}
+
+#### 행렬의 수렴
+
+정사각 행렬 $\boldsymbol{A}\in \mathbb{F}^{n \times n}$ 이 다음 조건을 만족할 때 행렬 $\boldsymbol{A}$ 가 수렴한다고 한다.
+
+$$
+\lim_{k \to \infty} \boldsymbol{A}^k = \boldsymbol{0}.
+$$
+:::
+:::
+
+</br>
+
+::: {#prp-convergent_matrix}
+
+정사각 행렬 $\boldsymbol{A}\in \mathbb{F}^{n \times n}$ 에 대해 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 는 수렴한다.
+
+&emsp; ($2$) 자연스러운 행렬 노름에 대해 $\displaystyle \lim_{k \to \infty} \left\|\boldsymbol{A}^k\right\|=\boldsymbol{0}$ 이다.
+
+&emsp; ($3$) $\rho (\boldsymbol{A})< 1$.
+
+&emsp; ($3$) $\displaystyle \lim_{k\to \infty} \boldsymbol{A}^k \boldsymbol{x} = \boldsymbol{0}$. 
+
+:::
+
+::: {.proof}
+증명은 Isacson, Keller 의 *Analysis of numerical method* (1966) 을 참고하라
+::: 
+
+
+</br>
+
+선형 시스템 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 반복법으로 구하는 방법중에 가장 일반적으로 사용되는 방법은 주어진 선형 방정식을 다음의 형태로 변형하는데서 시작한다. 
+
+$$
+\boldsymbol{x} = \boldsymbol{Tx}+ \boldsymbol{c}.
+$$
+
+만약 $\boldsymbol{T}$ 가 어떤 조건을 만족하면 초기값 $\boldsymbol{x}^{(0)}$ 부터 시작하여 
+$$
+\boldsymbol{x}^{(k+1)} =  \boldsymbol{Tx}^{(k)}  + \boldsymbol{c}
+$$
+
+에서 생성되는 수열 $\langle \boldsymbol{x}^{(k)}\rangle$, $k=0,\,1,\ldots$ 는 $\boldsymbol{x} = \boldsymbol{Tx}+ \boldsymbol{c}$ 를 만족하는 $\boldsymbol{x}$ 로 수렴한다. 
+
+</br>
+
+::: {#lem-iterative_method_1}
+
+행렬 $\boldsymbol{T}\in \mathbb{F}^{n \times n}$ 의 스펙트럼 반경이 $1$ 보다 작다면 $\boldsymbol{I}-\boldsymbol{T}$ 는 가역행렬이며,
+
+$$
+(\boldsymbol{I}-\boldsymbol{T})^{-1} = \sum_{j=0}^{\infty} \boldsymbol{T}^j
+$$
+
+이다.
+
+:::
+
+::: {.proof}
+
+$\boldsymbol{x}$ 가 $\boldsymbol{T}$ 의 고유벡터이며 그 고유값이 $\lambda$ 인것과 $\boldsymbol{x}$ 가 $\boldsymbol{I}-\boldsymbol{T}$ 의 공유벡터이며 그 고유값이 $(1-\lambda)$ 인것은 동치이다. 그런데 $\boldsymbol{T}$ 의 고유값의 절대값이 $1$ 보다 작기 때문에 0 은 $(\boldsymbol{I}-\boldsymbol{T})$ 의 고유값이 될 수 없으며, 따라서 $\boldsymbol{I}-\boldsymbol{T}$ 는 가역행렬이다.
+
+또한 
+
+$$
+(\boldsymbol{I}-\boldsymbol{T})\left(\sum_{j=0}^N \boldsymbol{T}^j\right) = \boldsymbol{I} -\boldsymbol{T}^{N+1}
+$$
+
+
+이므로 @prp-convergent_matrix 에 의해 $(\boldsymbol{I}-\boldsymbol{T})^{-1} = \displaystyle\sum_{j=0}^\infty \boldsymbol{T}^j$ 이다. $\square$
+
+:::
+
+</br>
+
+::: {#thm-iterative_method}
+
+임의의 $\boldsymbol{x}^{(0)},\, \boldsymbol{c}\in \mathbb{F}^{n}$ 과 행렬 $\boldsymbol{T}\in \mathbb{F}^{n \times n}$ 에 대해 
+
+$$
+\boldsymbol{x}^{(k+1)} =  \boldsymbol{Tx}^{(k)}+ \boldsymbol{c}
+$$
+
+에 의해 생성되는 수열 $\langle \boldsymbol{x}^{k}\rangle$ 이 $\boldsymbol{x}=\boldsymbol{Tx}+\boldsymbol{c}$ 를 만족하는 유일한 $\boldsymbol{x}$ 로 수렴할 필요충분조건은 $\rho(\boldsymbol{T})<1$ 이다.
+
+:::
+
+::: {.proof}
+
+$\rho(\boldsymbol{T})<1$ 임을 가정하자. 
+
+$$
+\begin{aligned}
+\boldsymbol{x}^{(k+1)} &= \boldsymbol{Tx}^{k}+\boldsymbol{c} \\
+&= \boldsymbol{T}\left(\boldsymbol{Tx}^{k-1} + \boldsymbol{c}\right) + \boldsymbol{c}  \\
+&\qquad \qquad \vdots \\
+&=  \boldsymbol{T}^{k+1}\boldsymbol{x}^{(0)} + (\boldsymbol{T}^{k}+ \cdots + \boldsymbol{T}+ \boldsymbol{I})\boldsymbol{c}
+\end{aligned} 
+$$
+
+이므로 $k \to \infty$ 극한에서 $\boldsymbol{x}^{(\infty)} = \left(\boldsymbol{I}-\boldsymbol{T}\right)^{-1}\boldsymbol{c}$ 이므로, $\boldsymbol{x}$ 는 수렴하며 $\boldsymbol{x}^{(\infty)} = \boldsymbol{Tx}^{(\infty)} +\boldsymbol{c}$ 를 만족한다. 
+
+이제 $\displaystyle \lim_{k \to \infty}\boldsymbol{x}^{(k)} = \boldsymbol{x}$ 이며 $\boldsymbol{x}$ 가 $\boldsymbol{x}=\boldsymbol{Tx}+\boldsymbol{c}$ 를 만족하는 유일한 해라고 하자. 즉 $\boldsymbol{I}-\boldsymbol{T}$ 는 가역이다. 임의의 $\boldsymbol{z}\in \mathbb{F}^n$ 에 대해 $\boldsymbol{x}^{(0)} = \boldsymbol{x}-\boldsymbol{z}$ 라고 하자. $\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)} + \boldsymbol{c}$ 이면 $\langle \boldsymbol{x}^{k}\rangle$ 은 $\boldsymbol{x}$ 로 수렴하며,
+
+$$
+\boldsymbol{x}-\boldsymbol{x}^{(k+1)} = (\boldsymbol{Tx}+\boldsymbol{c})-(\boldsymbol{Tx}^{k}+\boldsymbol{c}) =  \boldsymbol{T}(\boldsymbol{x}-\boldsymbol{x}^{(k)})
+$$
+
+이므로, 
+
+$$
+\boldsymbol{x}-\boldsymbol{x}^{(k+1)} = \boldsymbol{T}^{k+1}(\boldsymbol{x}-\boldsymbol{x}^{(0)}) = \boldsymbol{T}^{(k+1)}\boldsymbol{z}
+$$
+
+이다. @prp-convergent_matrix 에 따라 임의의 $\boldsymbol{z}$ 에 대해 $\displaystyle \lim_{k \to \infty} \boldsymbol{T}^{(k+1)}\boldsymbol{z}=0$ 이면 $\rho(\boldsymbol{T})<1$ 이다. $\square$
+
+:::
+
+</br>
+
+::: {#cor-iterative_method}
+
+임의의 자연스러운 행렬 노름에 대해 $\|\boldsymbol{T}\|<1$ 이면 임의의 벡터 $\boldsymbol{c}$ 에 대해 $\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)}+\boldsymbol{c}$ 에 의해 생성되는 수열 $\langle \boldsymbol{x}^{(k)} \rangle$ 은 초기값 $\boldsymbol{x}^{(0)}$ 에 무관하게 $\boldsymbol{x}=\boldsymbol{Tx} + \boldsymbol{c}$ 를 만족하는 $\boldsymbol{x}$ 로 수렴한다. 또한 다음을 만족한다.
+
+&emsp; ($1$) $\| \boldsymbol{x}-\boldsymbol{x}^{(k)}\| \le \|\boldsymbol{T}\|^k \|\boldsymbol{x}-\boldsymbol{x}^{(0)}\|$,
+
+&emsp; ($2$) $\displaystyle \|\boldsymbol{x}-\boldsymbol{x}^{(k)}\| \le \dfrac{\|\boldsymbol{T}\|^k}{1-\|\boldsymbol{T}\|} \|\boldsymbol{x}^{(1)}-\boldsymbol{x}^{(0)}\|$.
+:::
+
+::: {.proof}
+
+$\langle \boldsymbol{x}^{(k)} \rangle$ 의 수렴은 @thm-iterative_method 로 부터 알 수 있다. @prp-spectral_radius 에 의해 $\rho(\boldsymbol{T}) \le \|\boldsymbol{T}\|<1$ 이다. 따라서 
+
+$$
+\|\boldsymbol{x}-\boldsymbol{x}^{(k)}\| \le \|\boldsymbol{T}\| \cdot \|\boldsymbol{x}-\boldsymbol{x}^{(k-1)}\| \le  \cdots \le \|\boldsymbol{T}\|^{k} \cdot \|\boldsymbol{x}-\boldsymbol{x}^{(0)}\|
+$$
+
+이다. 
+
+또한
+
+$$
+\begin{aligned}
+\|\boldsymbol{x}^{(k+1)}-\boldsymbol{x}^{(k)}\| & = \|\boldsymbol{Tx}^{(k)}- \boldsymbol{Tx}^{(k-1)}\|\le \|\boldsymbol{T}\|\cdot \| \boldsymbol{x}^{(k)}-\boldsymbol{x}^{(k-1)} \| \\
+& \le \cdots \le \|\boldsymbol{T}\|^k \cdot \|\boldsymbol{x}^{(1)}-\boldsymbol{x}^{(0)}\|
+\end{aligned}
+$$
+
+이므로 양의 정수 $m$ 에 대해
+
+$$
+\begin{aligned}
+\|\boldsymbol{x}^{(k+m)} -\boldsymbol{x}^{(k)}\| & = \| \boldsymbol{x}^{(k+m)} - \boldsymbol{x}^{(k+m-1)} + \boldsymbol{x}^{(k+m-1)} - \cdots + \boldsymbol{x}^{(k+1)}- \boldsymbol{x}^{(k)} \| \\
+&\le  \| \boldsymbol{x}^{(k+m)} - \boldsymbol{x}^{(k+m-1)} \| + \cdots +  \| \boldsymbol{x}^{(k+1)} - \boldsymbol{x}^{(k)}\| \\
+&\le \|\boldsymbol{T}\|^{k+m-1} \cdot \|\boldsymbol{x}^{(1)} - \boldsymbol{x}^{(0)}\| + \cdots +\|\boldsymbol{T}\|^k \|\boldsymbol{x}^{(1)} - \boldsymbol{x}^{(0)}\|  \\
+& = \|\boldsymbol{T}\|^k \left(1 + \|\boldsymbol{T}\| + \cdots +\|\boldsymbol{T}\|^{m-1}\right) \|\boldsymbol{x}^{(1)} - \boldsymbol{x}^{(0)}\| \\
+\end{aligned}
+$$
+
+이므로 $m \to \infty$ 극한에서, 
+
+$$
+\|\boldsymbol{x}-\boldsymbol{x}^{(k)} \| \le \dfrac{\|\boldsymbol{T}\|^{k}}{1-\|\boldsymbol{T}\|} \|\boldsymbol{x}^{(1)}-\boldsymbol{x}^{(0)}\|
+$$
+
+이다.
+
+:::
+
+</br>
+
+
+## 야코비(Jacobi) 방법과 가우스-지델(Gauss-Siedel) 방법
+
+### 야코비 방법
+
+모든 대각 성분이 $0$ 이 아닌 행렬 $\boldsymbol{A}$ 를 대각행렬 $\boldsymbol{D}$ 와 하삼각행렬 $\boldsymbol{L}$, 상삼각행렬 $\boldsymbol{U}$ 의 합으로 표현한다고 하자. 이 때 $\boldsymbol{Ax}=\boldsymbol{b}$ 는 $(\boldsymbol{D} + \boldsymbol{L} +\boldsymbol{U})\boldsymbol{x}=\boldsymbol{b}$ 가 되며,
+
+$$
+\boldsymbol{Dx}=-(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x}+\boldsymbol{b}
+$$
+
+이다. 모든 대각 성분이 $0$ 이 아닌 대각행렬 $\boldsymbol{D}$ 는 가역행렬이므로, 
+
+$$
+\boldsymbol{x} = -\boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x} + \boldsymbol{D}^{-1}\boldsymbol{b}
+$$
+
+이다.
+
+
+
+
+선형 방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 에 대해 $\boldsymbol{A}$ 의 모든 대각 성분이 $0$ 이 아니라고 하자. 초기 벡터 $\boldsymbol{x}^{(0)}$ 의 $i$ 번째 성분 $x^0_i$ 를 다음과 같이 정한다.
+
+$$
+x_i^{(0)} = \sum_{j=1,\,j\ne1}^n \left(- \dfrac{-a_{ij}x_j}{A_{ii}}\right) + \dfrac{b_j}{a_{ii}}.
+$$
+
+$k$ 번째 i
+
+$$
+x_i^{(k+1)} = \dfrac{1}{A_{ii}} \left[\sum_{j=1,\,j\ne i}^n \left( -A_{ij}\, x_j^{(k)} \right) + b_i\right]
+$$
+
+
+

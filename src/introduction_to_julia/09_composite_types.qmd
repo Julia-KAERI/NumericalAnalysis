@@ -1,0 +1,226 @@
+---
+title: "복합 타입"
+language: ../_language-ko_custom.yml 
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+## `Complex` 
+
+복합 타입(composite type) 은 필드(field)라고 불리는 하위 변수를 갖는 타입입니다. Julia 에서 복소수는 실수부와 허수부를 필드로 갖는 복합타입으로 다음과 같이 정의됩니다. 
+
+```julia
+struct Complex{T<:Real} <: Number
+    re::T
+    im::T
+end
+
+Complex(x::Real, y::Real) = Complex(promote(x,y)...)
+Complex(x::Real) = Complex(x, zero(x))
+```
+
+`struct ... end` 부분은 복합 타입을 선언하는 부분입니다. 
+
+- `<:Number` 를 통해 `Complex` 객체는 `Number` 의 하위타입으로 정의됩니다. 
+
+- `{T<:Real}` 은 `Complex` 의 필드인 `re` 와 `im` 의 타입을 제한하기 위한 것입니다. `T<:Real` 는 `T` 라는 타입 변수는 `Real` 의 하위 타입을 가져야 한다는 것을 의미합니다. 필드의 타입을 제한할 필요가 없을 경우에는 `{T<:Real}` 과 같은 부분을 제거해도 됩니다. 두 개 이상의 타입이 필요할 경우는 `{T1<:Real, T2<:Integer}` 와 같이 `{ }` 안에 `,` 로 분리하여 나열하면 됩니다. 
+
+- `re::T` 와 `im::T` 이라는 두개의 필드(field) 를 갖는데 이름은 `re` 와 `im` 이며 둘 다 같은 `T` 타입입니다. 
+
+- 타입과 같은 이름을 가진 함수를 정의 할 수 있으며, 이 함수는 타입의 변수를 생성하는데 사용됩니다. 이렇게 어떤 타입과 같은 이름을 가지며, 그 타입의 값을 만드는데 사용되는 함수를 **생성자(constructor)** 라고 합니다.
+
+- 첫번째 생성자는 `x` 와 `y` 가 `Real` 타입의 하위 타입일 때 타입을 일치시키기 위한 생성자입니다. `promote(x, y)` 는 `x` 와 `y` 변수의 타입을 두 변수를 공통적으로 표현할 수 있는 타입으로 변환시켜 튜플로 반환합니다. 둘 이상의 값을 같은 타입이 되도록 변환하는 것을 promotion 이라고 합니다. `promote(2, 3.0) == (2.0, 3.0)` 입니다. 그런데 `Complex(promote(2, 3.0))` 은 `Complex(2.0, 3.0)` 이 아니라 `Complex((2.0, 3.0))` 으로 튜플 인자 하나만 주어지며, 따라서 에러가 발생합니다. `Complex(promote(2, 3.0)...)` 는 `promote(2, 3.0)` 의 결과로 주어지는 튜플을 풀어서 함수의 인자로 넣도록 합니다. 즉, `Complex(promote(2, 3.0)...)` 은 결과적으로 `Complex(2.0, 3.0)` 입니다. 
+
+- 두번째 생성자는 인자가 하나만 주어졌을 때 허수부를 인자 `x` 와 같은 타입의 `0` 으로 간주하여 생성하도록 하는 생성자입니다.
+
+
+`Complex{T<:Real}` 은 다음과 같이 사용 할 수 있습니다.
+
+```julia
+In [1]: com1=Complex{Float32}(3.3, 2.3) #Float32 타입의 필드를 갖는 복소수
+Out[1]: 3.3f0 + 2.3f0im
+
+In [2]: com2=Complex(3.3, 2.3) # 3.3, 2.3 이 Float64 이므로 타입의 필드를 갖는 복소수
+Out[2]: 3.3 + 2.3im
+
+In [3]: com3 = 3.3 + 2.3im # 복소수를 선언하는 두번째 방법
+Out[3]: 3.3 + 2.3im
+
+In [4]: com2 == com3 # 둘은 같다
+Out[4]: true
+true
+```
+
+</br>
+
+위의 `Complex{T<:Real}` 과 유사하지만 필드의 타입을 강제하지 않는 복합타입을 `mycomplex` 라는 이름으로 만들면 다음과 같습니다.
+
+```julia
+struct mycomplex1
+    re
+    im
+end
+```
+
+문법적으로는 문제가 없지만 거의 쓸모 없는 코드입니다. 그러나 `Complex{T<:Real}` 와 비교하여 복합 타입에 대한 이해를 도울 수 있습니다. `Complex{T<:Real}` 과 다른 것은 필드의 타입을 제한하는 타입 매개변수 `T` 가 없다는 것이고, 필드인 `re` 와 `im` 이 어떤 타입이든 가질 수 있다는 것입니다. `mycomplex1` 은 복합 타입의 이름이기도 하며 이 복합타입을 생성하는 함수이기도 합니다. 함수의 인자로 멤버를 정의된 순서대로 입력하면 됩니다.
+
+```julia
+In [1]: struct mycomplex1
+            re
+            im
+        end
+
+In [2]: c1=mycomplex1(2, 3)
+Out[2]: mycomplex1(2, 3)
+
+In [3]: c1.re
+Out[3]: 2
+
+In [4]: c1.im
+Out[4]: 3
+
+In [5]: c2=mycomplex1(3)
+ERROR: MethodError: no method matching mycomplex1(::Int64)
+...
+```
+
+`In [1]` 에서 처럼 별도의 생성자 없이 타입 이름으로 복합 타입의 정의에서의 멤버의 순서대로, 멤버의 타입이 지정되었다면 지정된 타입에 맞게 입력하면 타입이 생성됩니다. 이렇게 별도의 생성자를 정의하지 않아도 자동적으로 생기는 생성자를 **기본 생성자** 라고 합니다. 하지만 `In [5]` 에서와 같이 인자를 하나만 입력하면 필요함 멤버 수에 부족하기 때문에 에러가 발생합니다. 생성자는 이 경우에 필요합니다.
+
+```julia
+struct mycomplex2
+    re
+    im
+    function mycomplex2(x)
+        return new(x, zero(x))
+    end
+
+    function mycomplex2(x, y)
+        return new(promote(x, y)...)
+    end
+end
+```
+
+여기서 생성자는 `Complex` 와는 다르게 복합 타입 선언 내부에 정의되었습니다. 이렇게 복합 타입 선언 내부에서 정의된 생성자를 **내부생성자 (inner constructor)** 라고 합니다. 반대로 `Complex` 처럼 생성자가 복합 타입 선언 밖에서 정의된 생성자를 **외부 생성자 (outer constructor)** 라고 합니다. 내부생성자에는 `new` 함수를 사용 할 수 있는데 `new` 함수는 생성자를 찾지 않고 즉각적으로 멤버에 접근하여 복합 타입을 만들게 해 줍니다. `new` 함수는 외부생성자에서는 사용 할 수 없습니다.
+
+</br>
+
+### 내부생성자와 외부생성자
+
+코드 유지보수의 관점에서는 아무래도 외부생성자가 편리합니다. 그러나 내부생성자만이 할 수 있는 일은 기본생성자를 변경하는 것입니다. 다음의 예를 봅시다.
+
+```julia
+struct A
+    m::Int64
+    function A(x, y)
+        return new(Int64(x+y))
+    end
+end
+
+struct B
+    m::Int64
+end
+
+function B(x, y)
+    return B(Int64(x+y))
+end
+```
+
+이 때 `B(3)` 은 기본생성자가 호출되어 `B.m==3` 인 객체가 만들어지지만 `A(3)` 은 기본생성자가 교체되었으므로 에러가 발생합니다.
+
+</br>
+
+## 변경할 수 있는 복합 타입 (mutable struct)
+
+
+
+### Mutable and imutabile 타입
+
+
+
+Julia 에서 타입은 비트 타입과 복합 타입으로 나뉩니다. 비트타입은 기본 타입으로
+
+
+
+
+복합타입은 기본적으로 immutable 입니다. 이 말은 한 번 생성된 복합타입의 필드를 바꿀 수 없다는 뜻입니다. `Complex` 는 이미 julia 에서 사용하고 있는 자료형이기 때문에 같은 복합타입을 다른 이름으로 만들어 봅시다.
+
+```julia
+In [1]: struct mycomplex1{T<:Real} <: Number
+        re::T
+        im::T
+        end
+
+In [2]: mycomplex1(x::Real, y::Real) = mycomplex1(promote(x, y)...)
+Out[2]: mycomplex1
+
+In [3]: mycomplex1(x::Real) = mycomplex1(x, zero(x))
+Out[3]: mycomplex1
+
+In [4]: c1= mycomplex1(2.0, 4)
+Out[4]: mycomplex1{Float64}(2.0, 4.0)
+
+In [5]: c1.re
+Out[5]: 2.0
+
+In [6]: c1.re = 4.0
+ERROR: setfield!: immutable struct of type mycomplex1 cannot be changed
+```
+
+`c1` 을 `mycomplex1` 타입으로 생성한 후 실수부를 `c1.re` 로 접근할 수는 있지만 그것을 바꾸면 에러가 발생합니다. 필드를 바꿀 수 있는 복합타입은 `struct` 앞에 `mutable` 키워드를 넣습니다.
+
+```julia
+In [1]: mutable struct mycomplex2{T<:Real} <: Number
+        re::T
+        im::T
+        end
+
+In [2]: mycomplex2(x::Real, y::Real) = mycomplex2(promote(x, y)...)
+Out[2]: mycomplex2
+
+In [3]: mycomplex2(x::Real) = mycomplex2(x, zero(x))
+Out[3]: mycomplex2
+
+In [4]: c2 = mycomplex2(2.0, 3.0)
+Out[4]: mycomplex2{Float64}(2.0, 3.0)
+
+In [5]: c2.im
+Out[5]: 3.0
+
+In [6]: c2.im = -3
+Out[6]: -3
+
+In [7]: c2
+Out[7]: mycomplex2{Float64}(2.0, -3.0)
+```
+
+
+</br>
+
+## 타입 매개변수를 갖는 타입 (Parametric types) {#sec-parametric_types}
+
+우리가 앞서 `Complex` 에 대한 정의를 보았을 때 `Complex{T<:Real}` 로 정의했습니다. 이렇게 특정 타입 매개변수를 갖는 복합 타입을 정의 할 수 있으며, 타입 매개변수는 하나 이상이어도 됩니다. 예를 들어 실수를 정수와 $[0.0, 1.0)$ 사이의 실수로 나누는 `dFloat` 라는 두개의 타입 매개변수를 갖는 복합 타입을 아래와 같이 정의해 봅시다. 외부 생성자를 사용했으며 다음에 알아볼 [보기좋게 출력하는법](09_I_pretty_printing.qmd)을 미리 사용했습니다.
+
+```julia
+struct dFloat{N<:Integer, T<:Real} <:Number
+    vint::N
+    vfloat::T
+end
+
+function dFloat(x<:Real)
+    vint = floor(Int64, x)
+    vfloat = x-vint
+    dFloat(vint, vfloat)
+end
+
+Base.show(io::IO, v::dFloat) = println(v.vint , "+", v.vfloat)
+```
+
+
+
+
+
+
+

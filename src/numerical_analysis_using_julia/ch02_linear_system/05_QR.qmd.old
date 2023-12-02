@@ -1,0 +1,115 @@
+## QR 분해 (QR-Factorization)
+
+$m \times n$ 행렬 $\boldsymbol{A}$ 을 $m \times m$ 행렬 $\boldsymbol{Q}$ 와  $m\times n$ 상 삼각행렬 $\boldsymbol{R}$  분해하여 $\boldsymbol{A}=\boldsymbol{QR}$ 로 나타내는 것을 QR 분해라 한다. 이 때 $\boldsymbol{Q}$ 행렬의 각 열벡터는 서로 직교하며, 그 크기가 $1$ 이다. $m=n$ 이면 $\boldsymbol{Q}$ 가 유니터리행렬(unitary matrix) 로 $\boldsymbol{Q}\boldsymbol{Q}^\ast = \boldsymbol{I}$ 가 된다. 행렬 $\boldsymbol{A}$ 가 실수체에서 정의되었다면 $\boldsymbol{Q}$ 행렬은 직교행렬로 $\boldsymbol{Q}\boldsymbol{Q}^T = \boldsymbol{I}$ 이다.
+
+보통 이론적으로 QR 분해를 설명할 때는 그람-슈미트 과정(Gram-Schmidt process)을 사용하지만, 실제 수치해석적으로 구할 때는 Householder reflection 방법을 사용하거나 기븐스 회전(Givens rotation)을 사용한다. 
+
+</br>
+
+### 정사영 (Projection)
+
+$\mathbb{F}$ 에서 정의된 내적 벡터공간 $V$ 의 기저 $\{\boldsymbol{u}_1,\,\boldsymbol{u}_2,\ldots,\boldsymbol{u}_n\}$ 이 $\langle \boldsymbol{u}_i,\,\boldsymbol{u}_j \rangle=\delta_{ij}$ 를 만족할 때 이 기저를 정규직교기저 (orthonormal basis) 라 한다. 내적이 정의되면 임의의 기저로부터 항상 정규직교기저를 구할 수 있으며, 이중 가장 유명한 방법이 그람-슈미트 방법이다.
+
+벡터 $\boldsymbol{v}$ 의 $\boldsymbol{u}$ 에 대한 정사영 $\textrm{Proj}_\boldsymbol{u} \boldsymbol{v}$ 는 다음과 같이 정의된다.
+
+$$
+\textrm{Proj}_{\boldsymbol{u}}\boldsymbol{v} := \dfrac{\langle\boldsymbol{v},\, \boldsymbol{u}\rangle}{\langle \boldsymbol{u,\, u}\rangle} \boldsymbol{u}
+$$
+
+$\text{Proj}_\boldsymbol{u}\boldsymbol{v}$ 는 $\boldsymbol{u}$ 에 평행하며 $\boldsymbol{v}-\text{Proj}_{\boldsymbol{u}}\boldsymbol{v}$ 는 $\boldsymbol{u}$ 에 수직하다. 즉
+
+$$
+\langle  \boldsymbol{u} , \,\boldsymbol{v}-\text{Proj}_{\boldsymbol{u}}\boldsymbol{v} \rangle  = \boldsymbol{0}
+$$
+
+이다. $\boldsymbol{v} = \text{Proj}_\boldsymbol{u}\boldsymbol{v} + (\boldsymbol{v} - \text{Proj}_{\boldsymbol{u}}\boldsymbol{v})$ 이므로 $\boldsymbol{v}$ 를 $\boldsymbol{u}$ 와 평행한 성분과 $\boldsymbol{u}$ 에 수직한 성분으로 분리할 수 있다는 것을 알게 되었다. 단위벡터 $\boldsymbol{e} = \dfrac{\boldsymbol{u}}{\|\boldsymbol{u}\|}$ 를 생각하면,
+
+$$
+\text{Proj}_{\boldsymbol{u}}\boldsymbol{v} = \langle \boldsymbol{v },\,\boldsymbol{e}\rangle\, \boldsymbol{e}
+$$
+
+이다.
+
+</br>
+
+### 그람-슈미트 과정
+
+그람-슈미트 과정을 통해 유한차원 내적 벡터공간에서 주어진 독립 벡터를 이용하여 같은 갯수의 정규 직교 벡터를 얻을 수 있다. $N$ 차원 내적 벡터 공간 $V$ 에서 $M$ 개의 독립벡터 $\{\boldsymbol{v}_1,\ldots,\boldsymbol{v}_M\}$ 가 주어졌다고 하자. (당연히 $M \le N$ 이다). 다음을 이용하여 $\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_M$ 을 얻을 수 있다. 이를 그람-슈미트 과정이라고 한다.
+
+$$
+\begin{aligned}
+\boldsymbol{u}_1 &=  \boldsymbol{v}_1, \hat{\boldsymbol{u}}_1 = \dfrac{\boldsymbol{u}_1}{\|\boldsymbol{u}_1\|}, \\
+\boldsymbol{u}_i &= \boldsymbol{v}_{i} - \sum_{j=1}^{i-1} \text{Proj}_{\boldsymbol{u}_j} \boldsymbol{v}_i = \boldsymbol{v}_i-\sum_{j=1}^{i-1} \left\langle \boldsymbol{v}_i,\,\hat{\boldsymbol{u}}_j \right\rangle\hat{\boldsymbol{u}}_j,\qquad \hat{\boldsymbol{u}}_i = \dfrac{\boldsymbol{u}_i}{\|\boldsymbol{u}_i\|}
+\end{aligned}
+$$
+
+그람 슈미트 과정에 대해 다음 명제가 성립함을 안다. 
+
+::: {#exr-gram_schmidt}
+독립벡터의 집합 $\{\boldsymbol{v}_1,\ldots,\boldsymbol{v}_M\}$ 로부터 그람 슈미트 과정을 통해 얻은 $\{\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_M\}$ 는 각각 단위행렬이며 서로 직교한다. 즉 $\hat{\boldsymbol{u}}_i \cdot \hat{\boldsymbol{u}}_j = \delta_{ij}$ 이다. 
+:::
+
+::: {#exr-gram_schmidt_dependent}
+벡터의 집합 $\{\boldsymbol{v}_1,\ldots,\boldsymbol{v}_M\}$ 에서 $\boldsymbol{v}_k$ 를 $\boldsymbol{v}_1,\ldots,\boldsymbol{v}_{k-1}$ 의 선형결합으로 표현할 수 있을 때 그람-슈미트 과정을 통해 얻은 벡터는 영벡터이다.
+:::
+
+
+</br>
+
+### 그람 슈미트 과정을 이용한 QR 분해 (QR decomppsition)
+
+이제 우리는 주어진 독립벡터들로 정규직교벡터를 구성하는 법을 배웠다. 여기서는 $m \times n$ 행렬 $\boldsymbol{A}$ 의 열벡터 $\boldsymbol{A}_{:1},\ldots$, $\boldsymbol{A}_{:n}$ 에 대해 그람-슈미트 과정을 수행한다고 하자. 
+$$
+\begin{aligned}
+\boldsymbol{u}_1 &=  \boldsymbol{A}_{:1},\qquad \hat{\boldsymbol{u}}_1 = \dfrac{\boldsymbol{u}_1}{\|\boldsymbol{u}_1\|}, \\
+\boldsymbol{u}_j &= \boldsymbol{A}_{:j} - \sum_{k=1}^{j-1} \text{Proj}_{\boldsymbol{u}_k} \boldsymbol{A}_{:j} = \boldsymbol{A}_{:j}-\sum_{k=1}^{j-1} \left\langle \boldsymbol{A}_{:j},\,\hat{\boldsymbol{u}}_k \right\rangle\hat{\boldsymbol{u}}_k,\qquad \hat{\boldsymbol{u}}_j = \dfrac{\boldsymbol{u}_j}{\|\boldsymbol{u}_j\|}
+\end{aligned}
+$$
+라 하면,
+
+
+$$
+A_{ij}=(\boldsymbol{A}_{:j})_i = \sum_{k=1}^n \left(\langle \boldsymbol{A}_{:j},\,\hat{\boldsymbol{u}}_k\rangle \hat{\boldsymbol{u}}_k \right)_i
+$$
+이다. 이 때 $\boldsymbol{Q},\, \boldsymbol{R}$ 을 다음과 같이 정의하면 $\boldsymbol{A}= \boldsymbol{QR}$ 이 된다.
+
+$$
+Q_{ik} := (\hat{\boldsymbol{u}}_k)_i,\qquad R_{kj} := \langle \boldsymbol{A}_{:j},\,\hat{\boldsymbol{u}}_k\rangle
+$$
+
+즉 $\boldsymbol{Q}$ 의 $i$ 번째 열벡터는  $\boldsymbol{A}$ 의 각각의 열벡터에 대해 그람-슈미트 과정을 수행했을 때의 단위벡터 혹은 영벡터(@exr-gram_schmidt_dependent) 이며 $\boldsymbol{R}$ 은 그람-슈미트 과정에서의 계수이다. 아래는 그람-슈미트 과정에 의한 QR 분해를 구현한 코드이다.
+
+
+```julia
+function qr_gram_schmidt(A::AbstractMatrix{T}, normeps=1.0e-14) where T<:Number
+    M, N = size(A)
+    Q = zeros(Float64, (M, N))
+    R = zeros(Float64, (N, N))
+    
+    Q[:,1] = A[:,1]/norm(A[:,1])
+    R[1,1] = dot(A[:,1], Q[:,1])
+
+    for j = 2:N
+        Uj = A[:,j] 
+        for k = 1:j-1
+            R[k, j] = dot(A[:,j], Q[:, k])
+            Uj = Uj .- R[k, j] .* Q[:,k]
+        end
+        if norm(Uj)>normeps
+            Q[:,j]= Uj/norm(Uj)
+            R[j, j] = dot(A[:,j], Q[:, j])
+        end 
+    end
+    return Q, R
+
+end
+```
+
+</br>
+
+여기서 `norm(A)` 는 벡터의 노름을 구하는데 사용되었으며, 정확히는 `norm(A, p::Real=2)` 의 형태로 벡터, 혹은 행렬의 $p$-노름을 구하는데 사용되는 함수이다. 앞선 벡터들의 선형결합인 벡터는 영벡터가 되어야 하지만 Roundoff 에러로 인해 0 이 아닌 작은 노름을 가질 수 있으므로, 함수의 `normeps` 보다 작은 값을 가질 경우 영벡터로 간주한다.
+
+실제로는 그람-슈미트 방법을 이용한 QR-분해는 잘 사용되지 않는데, round-off 에러가 발생하여 수치해석적으로 불안정하기 때문이다. 보통은 밀집 행렬의 경우 하우스홀더 변환을 통한 방법을 사용한다. 하우스홀더 변환을 통한 QR 분해는 --to be done-- 를 참고하라.
+
+</br>
+

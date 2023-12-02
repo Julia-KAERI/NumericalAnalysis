@@ -1,0 +1,119 @@
+project:
+  type: website
+  output-dir: _site
+  render: 
+    - "*.qmd"
+    - "!aux/"
+
+
+website:
+  title: "Physics, Math & Computing"
+  page-navigation: true
+  navbar:
+    background: primary
+    # collapse-below: lg
+    left:
+      - href: index.qmd
+        text: Home
+      - href : src/introduction_to_julia/index.qmd
+        text : "Introduction to Julia"
+      - href : src/numerical_analysis_using_julia/index.qmd
+        text : "Numerical Analysis using Julia"
+      
+      - href : src/tools/tools.qmd
+        text : "Tools"
+      - about.qmd
+
+  sidebar:
+    - title : "Introduction to Julia"
+      collapse-level : 2
+      contents :
+        - text : Introduction to Julia
+          href : src/introduction_to_julia/index.qmd
+        - text : "1장 설치와 환경 구성"
+          href : src/introduction_to_julia/01_julia_language.qmd 
+        - text : "2장 변수와 기본 타입"
+          href : src/introduction_to_julia/02_variables_basic_types.qmd
+        - text : "3장 함수와 연산자"
+          href : src/introduction_to_julia/03_functions_and_operators.qmd
+        - text : "4장 컨테이너"
+          href : src/introduction_to_julia/04_containers.qmd
+        - text : "Interude : Splat 연산자"
+          href : src/introduction_to_julia/04_I_splat_operator.qmd
+        - text : "5장 흐름 제어"
+          href : src/introduction_to_julia/05_control_flows.qmd
+        - text : "6장 배열"
+          href : src/introduction_to_julia/06_arrays.qmd
+        - text : "Interude : 함수의 합성과 전달"
+          href : src/introduction_to_julia/06_I_function_composition_and_piping.qmd
+        - text : "7장 이름공간, 모듈, 패키지"
+          href : src/introduction_to_julia/07_module_package.qmd
+        - text : "Interude : 정렬"
+          href : src/introduction_to_julia/07_I_sort.qmd
+        - text : "8장 타입의 계층구조와 메서드 디스패치"
+          href : src/introduction_to_julia/08_type_hierarchy.qmd
+        - text : "Interude : 문서화"
+          href : src/introduction_to_julia/08_I_documentation.qmd
+        - text : "9장 복합 타입"
+          href : src/introduction_to_julia/09_composite_types.qmd
+        - text : "Interude : 보기 좋게 출력하기"
+          href : src/introduction_to_julia/09_I_pretty_printing.qmd
+        - text : "10장 메타프로그래밍과 매크로"
+          href : src/introduction_to_julia/10_metaprogramming_and_macro.qmd
+
+    
+    - title : "Numerical Analysis using Julia"
+      collapse-level: 2
+      contents:
+        - src/numerical_analysis_using_julia/index.qmd
+        - text: "1장 수치해석과 알고리즘"
+          href: src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.qmd
+        - text: "2장 수치해석 입문 : 선형 시스템과 다항식"
+          href: src/numerical_analysis_using_julia/02_linear_system.qmd
+        - text: "3장 Julia 에서의 행렬 계산"
+          href: src/numerical_analysis_using_julia/03_matrix_algebra.qmd
+        - text: "Interude : 다항식의 구현"
+          href: src/numerical_analysis_using_julia/03I_polynomial.qmd
+        - text: "4장 다항식을 이용한 보간법"
+          href: src/numerical_analysis_using_julia/04_interpolation.qmd
+        - text: "Interude : 국소적 보간법의 구현"
+          href: src/numerical_analysis_using_julia/04I_interpolation_struct.qmd
+        - text: "5장 일변수 함수의 미분과 적분"
+          href: src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.qmd
+        - text: "6장 일변수 방정식의 해"
+          href: src/numerical_analysis_using_julia/06_finding_root.qmd
+        - text: "7장 반복법을 이용한 선형 시스템의 해 구하기"
+          href: src/numerical_analysis_using_julia/07_iterative_method_for_linear_system.qmd
+        - text: "7장 최소자승 문제"
+          href: src/numerical_analysis_using_julia/08_least_square_problem.qmd
+        - text: "8장 상미분 방정식"
+          href: src/numerical_analysis_using_julia/09_ode.qmd
+        - text: "부록"
+          href: src/numerical_analysis_using_julia/A01_appendix_01.qmd
+          
+    - title: "Tools"
+      collapse-level: 2
+      contents:
+        - src/tools/tools.qmd
+        - text: "Asymptote"
+          href: src/tools/Asymptote/asymptote.qmd
+        # - text: "해석역학의 기본 개념"
+        #   href: src/classical_mechanics/Lanczos/ch01/01_01.qmd
+        # - text: "Tutorial: Authoring"
+        #   href: docs/get-started/authoring/
+format:
+  html:
+    toc: true
+    theme:
+      light: [cosmo, theme.scss]
+    fontsize: 0.90em
+    code-copy: true
+    code-block-bg: true
+    code-overflow: wrap
+    css: styles.css
+    grid:
+      sidebar-width: 250px
+      body-width: 900px
+      margin-width: 300px
+
+

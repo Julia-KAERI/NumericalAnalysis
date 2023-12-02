@@ -1,0 +1,105 @@
+<!-- ---
+title: "해석역학의 기본 개념"
+lang: ko   
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: true
+---  -->
+
+# 해석역학의 기본 개념
+
+::: {#thm-bla}
+
+Theorem test
+:::
+
+
+## 해석역학의 기본 관점
+
+### 뉴튼 역학
+
+- 동역학 시스템은 입자의 총합이며, 개별적인 입자에 작용하는 힘을 분리시켜, 그 개별적인 입자의 운동을 각각의 입자에 대한 운동방정식으로 기술한다. $\boldsymbol{F}=m\boldsymbol{a}$. 
+
+- 상호작용은 뉴턴의 제 3법칙 (작용-반작용) 으로 기술된다. 
+
+- 뉴튼은 이것만으로 모든 동역학적 문제를 해결할 수 있다고 생각했지만, 실제로는 rigid body 문제에 대해서도 central force 를 가정하지 않으면 문제를 풀 수 없다.
+
+</br>
+
+### 해석 역학
+
+- 상호작용하는 모든 입자를 하나의 시스템으로 간주며, 각각의 입자는 부차적이다. 중요한 것은 work function 이다.
+
+- "auxiliary condition" 이 주어졌을 경우 이 조건을 유지하기 위해 작용하는 개별적이고 구체적인 힘에 대한 분석 없이 문제를 풀 수 있다.
+
+- 무엇보다도 가장 중요한 것은 *Action* 이라는 근본적인 양으로, 모든 입자의 운동을 기술하는 미분방정식을 얻을 수 있다는 것이다. 더구나 Action 이 stationary 해야 한다는 근본적인 원리는 coordinate system 과 독립적이다. 즉 해석역학에서의 운동방정식은 좌표 변환에 대해 불변이다.
+
+</br>
+
+## 일반화된 좌표계 
+
+$N$ 개의 입자의 좌표를 데카르트 좌표계(Cartesian coordinate system)에서
+
+$$
+\boldsymbol{r}_i = (x_i,\,y_i,\,z_i),\qquad (i=1,\ldots,\,N)
+$$ {#eq-position_rectangular_coordinate}
+
+으로 기술한다고 하자. 각각의 $x_i,\,y_i,\,z_i$ 가 $t$ 에 대한 함수로 주어졌다면 우리는 이 입자들의 운동을 풀었다고 한다. 만약 $x_i,\,y_i,\,z_i$ 가 $q_1,\ldots,\,q_{3N}$ 의 함수이며, 각각의 $q_i$ 가 $t$ 에 대한 함수로 주어졌다면 우리는 역시 운동을 풀었다고 말할 수 있다.
+
+
+
+$N$ 개의 입자에 대해 $m$ 개의 독립적인 운동 조건(kinematical conditions) 가 주어졌다면 자유도(degree of freedom) $n$ 은 
+$$
+n = 3N- m
+$$
+
+이다. 즉 운동이 $n$ 개의 변수 $q_1,\ldots,\,q_n$ 로 기술 될 수 있다. 
+
+$$
+\begin{aligned}
+x_1 & = f_1 (q_1,\ldots,\,q_n), \\
+& \vdots \\
+z_N &= f_{3N}(q_1,\ldots,\,q_n).
+\end{aligned} 
+$$ {#eq-3N_generalized_coordinates}
+
+이 독립적인 $n$ 개의 변수를 **일반화된 좌표 (generalized coordinates)** 라고 한다. 
+
+</br>
+
+
+### $f_i$ 의 조건들
+
+#### 작은 조건
+
+위의 함수들은 finite, single valued, 연속이며 미분가능해야 하고 어떤 $n$ 개 의 함수들의 조합에 대한 Jacobian 이 $0$ 과 달라야 한다. 이 조건은 어떤 특이점(singular point)에 대해서는 충족되지 않아도 되는데, 이 경우 특이점은 고려에서 제외된다. 특이점의 예는 극좌표계에서의 원점이 있다.
+
+#### 큰 조건
+
+$q_1,\ldots,\,q_n$ 의 영역에서  $f_1,\ldots,\,f_{3N}$ 이 충분히 넓은 범위를 가져야 한다.
+
+</br>
+
+## Configuration Space
+
+- $n$ 개의 일반화된 좌표 $q_1,\ldots,\,q_n$ 에 대해 $q_i(t)$ 로 이루어진 점들의 공간을 **configuraiton space** 라고 한다. 즉 자유도 $n$ 개인 시스템은 $n$ 차원 configuraiton space 상에서 나타 낼 수 있다.
+
+$$
+\begin{aligned}
+x_1 & = f_1 (q_1,\ldots,\,q_n), \\
+& \vdots \\
+z_N &= f_{3N}(q_1,\ldots,\,q_n).
+\end{aligned} 
+$$ {#eq-3N_generalized_coordinates2}
+
+
+
+
+
+
+
+
+
+
