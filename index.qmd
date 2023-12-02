@@ -2,6 +2,4 @@
 title: "Physics, Math & Computing"
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+이 웹사이트는 현재 제가 공부한것들을 정리하는 곳입니다. 많은 오류가 있을 수 있으며, 지속적으로 수정될 것입니다. 어떤 것도 보장하지 않습니다. 
