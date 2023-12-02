@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.302">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Physics, Math &amp; Computing - 다항식을 이용한 보간법</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../src/numerical_analysis_using_julia/04I_interpolation_struct.html" rel="next">
+<link href="../../src/numerical_analysis_using_julia/03I_polynomial.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Physics, Math &amp; Computing</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="검색"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/introduction_to_julia/index.html" rel="" target="">
+ <span class="menu-text">Introduction to Julia</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Numerical Analysis using Julia</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/tools/tools.html" rel="" target="">
+ <span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/04_interpolation.html">4장 다항식을 이용한 보간법</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Numerical Analysis Using Julia</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1장 수치해석과 알고리즘</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/02_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2장 수치해석 입문 : 선형 시스템과 다항식</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/03_matrix_algebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3장 Julia 에서의 행렬 계산</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/03I_polynomial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 다항식의 구현</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/04_interpolation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">4장 다항식을 이용한 보간법</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/04I_interpolation_struct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 국소적 보간법의 구현</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5장 일변수 함수의 미분과 적분</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/06_finding_root.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6장 일변수 방정식의 해</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/07_iterative_method_for_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7장 반복법을 이용한 선형 시스템의 해 구하기</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/08_least_square_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7장 최소자승 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/09_ode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8장 상미분 방정식</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">부록</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#바이어슈트라스-근사정리" id="toc-바이어슈트라스-근사정리" class="nav-link active" data-scroll-target="#바이어슈트라스-근사정리"><span class="header-section-number">1</span> 바이어슈트라스 근사정리</a></li>
+  <li><a href="#sec-global_interpolation_using_polynomial" id="toc-sec-global_interpolation_using_polynomial" class="nav-link" data-scroll-target="#sec-global_interpolation_using_polynomial"><span class="header-section-number">2</span> 다항식을 이용한 전역적 보간법</a>
+  <ul class="collapse">
+  <li><a href="#sec-interpolation_valdermond_method" id="toc-sec-interpolation_valdermond_method" class="nav-link" data-scroll-target="#sec-interpolation_valdermond_method">발데르몽드 방법</a></li>
+  <li><a href="#sec-interpolation_lagrange" id="toc-sec-interpolation_lagrange" class="nav-link" data-scroll-target="#sec-interpolation_lagrange">라그랑쥬 다항식을 이용한 보간법</a></li>
+  <li><a href="#sec-interpolation_newton" id="toc-sec-interpolation_newton" class="nav-link" data-scroll-target="#sec-interpolation_newton">뉴턴 보간법</a></li>
+  <li><a href="#sec-error_for_polynomial_interpolation" id="toc-sec-error_for_polynomial_interpolation" class="nav-link" data-scroll-target="#sec-error_for_polynomial_interpolation">다항식을 이용한 보간법의 오차</a></li>
+  <li><a href="#전역적-보간법의-문제점" id="toc-전역적-보간법의-문제점" class="nav-link" data-scroll-target="#전역적-보간법의-문제점">전역적 보간법의 문제점</a></li>
+  </ul></li>
+  <li><a href="#sec-Neville_method" id="toc-sec-Neville_method" class="nav-link" data-scroll-target="#sec-Neville_method"><span class="header-section-number">3</span> 네빌 방법 (Neville’s Method)</a>
+  <ul class="collapse">
+  <li><a href="#코드-3" id="toc-코드-3" class="nav-link" data-scroll-target="#코드-3">코드</a></li>
+  </ul></li>
+  <li><a href="#sec-local_interpolation_using_polynomial" id="toc-sec-local_interpolation_using_polynomial" class="nav-link" data-scroll-target="#sec-local_interpolation_using_polynomial"><span class="header-section-number">4</span> 다항식을 이용한 구간별 보간법</a>
+  <ul class="collapse">
+  <li><a href="#최근접-보간법-nearest-neighbor-interpolation" id="toc-최근접-보간법-nearest-neighbor-interpolation" class="nav-link" data-scroll-target="#최근접-보간법-nearest-neighbor-interpolation">최근접 보간법 (Nearest Neighbor Interpolation)</a></li>
+  <li><a href="#선형-보간법-linear-interpolation" id="toc-선형-보간법-linear-interpolation" class="nav-link" data-scroll-target="#선형-보간법-linear-interpolation">선형 보간법 (Linear Interpolation)</a></li>
+  <li><a href="#삼차함수-보간법-cubic-interpolation" id="toc-삼차함수-보간법-cubic-interpolation" class="nav-link" data-scroll-target="#삼차함수-보간법-cubic-interpolation">삼차함수 보간법 (Cubic interpolation)</a></li>
+  <li><a href="#cubic-spline-interpolation" id="toc-cubic-spline-interpolation" class="nav-link" data-scroll-target="#cubic-spline-interpolation">Cubic Spline Interpolation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">다항식을 이용한 보간법</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="바이어슈트라스-근사정리" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="바이어슈트라스-근사정리"><span class="header-section-number">1</span> 바이어슈트라스 근사정리</h2>
+<p>이산적인 데이터 <span class="math inline">\((x_1,\,y_1),\,(x_2,\,y_2),\ldots,\, (x_N,\, y_N)\)</span> 가 주어졌으며 <span class="math inline">\(x_1&lt;x_2&lt;\cdots &lt;x_N\)</span> 으로 정렬되어 있다고 하자. 이 때 주어진 데이터를 바탕으로 임의의 <span class="math inline">\(x\)</span> 값을 추측할 경우, <span class="math inline">\(x_1 \le x \le x_N\)</span> 의 <span class="math inline">\(x\)</span> 값에 대해 추측하는 것을 보간법(interpolation) 이라 하고, <span class="math inline">\(x&lt;x_1\)</span> 이거나 <span class="math inline">\(x &gt;x_N\)</span> 일 경우 추축하는것을 외삽법(extrapolation) 이라 한다. 여기서는 보간법에 대해 다루기로 한다. 기본적으로 여기서 다루는 보간법은 데이터를 다항식으로 근사시키는데, 이 방법은 아래의 바이어스트라스 근사 정리(Weierstrass approximation theorem)로 정당화된다.</p>
+<div id="thm-Weierstrass_approximation_theorem" class="theorem">
+<p><span class="theorem-title"><strong>정리 1 (바이어슈트라스 근사 정리) </strong></span>함수 <span class="math inline">\(f : X \subset \mathbb{R} \to \mathbb{R}\)</span> 가 <span class="math inline">\([a,\,b] \subset I\)</span> 구간에서 연속일 때, 임의의 <span class="math inline">\(\varepsilon &gt; 0\)</span> 에 대해</p>
+<p><span class="math display">\[
+|f(x)-P(x)|&lt;\varepsilon,\qquad \forall x\in [a,\,b]
+\]</span></p>
+<p>인 다항식 <span class="math inline">\(P(x)\)</span> 가 항상 존재한다.</p>
+</div>
+<p>이 정리에 대한 증명은 해석학(Analysis) 교과서(예를 들면, Terrence Tao의 해석학 교과서 2권) 를 참고하라.</p>
+<p><br></p>
+</section>
+<section id="sec-global_interpolation_using_polynomial" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="sec-global_interpolation_using_polynomial"><span class="header-section-number">2</span> 다항식을 이용한 전역적 보간법</h2>
+<p>전역적 보간법은 전체 데이터를 하나의 다항식으로 표현하는 방법이며, 후술할 국소적 보간법은 구하고자 하는 값 주위의 몇개의 데이터만을 이용하여 국소적으로 다항식으로 표현한다. 여기서는 <span class="math inline">\(n+1\)</span> 개의 데이터 <span class="math inline">\(\{ (x_i,\, y_i): i=1,\ldots,\,n\}\)</span> 이 주어졌으며 <span class="math inline">\(i\ne j \implies x_i \ne x_j\)</span> 일 때, 즉 어떤 두 <span class="math inline">\(x_i,\,x_j\)</span> 도 같지 않을 경우에 대해, 이 점을 모두 지나는 <span class="math inline">\(n-1\)</span> 차 다항식은 유일하게 정해진다는 사실을 이용하여 <span class="math inline">\(n-1\)</span> 차 다항식을 구하는 방법을 설명한다. 이 다항식을 구하는 방법은 방데르몽드(Vandermond) 방법, 라그랑쥬(Lagrange) 방법, 뉴턴(Newton) 방법 등이 있다</p>
+<p><br></p>
+<section id="sec-interpolation_valdermond_method" class="level3">
+<h3 class="anchored" data-anchor-id="sec-interpolation_valdermond_method">발데르몽드 방법</h3>
+<p>다항식을 다음과 같이 놓는다. <span class="math display">\[
+V_{n} (x) = a_0 + a_1 x + \cdots + a_{n-1}x^{n-1}
+\]</span></p>
+<p>이 때 <span class="math inline">\(V_{n} (x_i)= y_i\)</span> 이므로 아래와 같은 선형방정식 <span class="math inline">\(\boldsymbol{Va}=\boldsymbol{y}\)</span> 을 통해 계수 <span class="math inline">\(a_0,\ldots,\,a_{n-1}\)</span> 을 구할 수 있다.</p>
+<p><span id="eq-vandermond_matrix"><span class="math display">\[
+\underbrace{\begin{bmatrix} 1 &amp; x_1 &amp; x_1^2 &amp; \cdots &amp; x_1^{n-1} \\ 1 &amp; x_2 &amp; x_2^2 &amp; \cdots &amp; x_2^{n-1} \\ \vdots &amp; &amp; &amp; &amp; \vdots \\ 1 &amp; x_n &amp; x_n^2 &amp; \cdots &amp; x_n^{n-1}\end{bmatrix}}_{{\Large \boldsymbol{V}}} \underbrace{\begin{bmatrix}a_0 \\ a_1 \\ \vdots \\ a_{n-1}\end{bmatrix}}_{{\Large \boldsymbol{a}}} = \underbrace{ \begin{bmatrix}y_1 \\ y_2 \\ \vdots \\ y_n\end{bmatrix}}_{{\Large\boldsymbol{y}}}
+\tag{1}\]</span></span></p>
+<p><br></p>
+<div id="exr-determinant_of_valdermond_matrix" class="theorem exercise">
+<p><span class="theorem-title"><strong>연습문제 1 </strong></span>위의 <span class="math inline">\(\boldsymbol{V}\)</span> 와 같이 주어진 발데르몽드 행렬의 행렬식은 다음과 같음이 잘 알려져 있다.</p>
+<p><span class="math display">\[
+\det(\boldsymbol{V}) = \prod_{1\le i&lt;j\le n} (x_j-x_i)
+\]</span></p>
+<p>즉 어떤 두 <span class="math inline">\(x_i,\,x_j\)</span> 같지 않으면 행렬식은 <span class="math inline">\(0\)</span> 이 아니므로 가역행렬이다.</p>
+</div>
+<p><br></p>
+<p>데이터로 부터 행렬 <span class="math inline">\(\boldsymbol{V}\)</span> 와 벡터 <span class="math inline">\(\boldsymbol{y}\)</span> 를 구할 수 있으며, 어떤 두 <span class="math inline">\(x_i,\,x_j\)</span> 도 같지 않으므로 선형방정식의 풀이를 통해 다항식의 계수 벡터 <span class="math inline">\(\boldsymbol{a}\)</span> 를 구할 수 있다.</p>
+<p><br></p>
+<section id="코드" class="level4">
+<h4 class="anchored" data-anchor-id="코드">코드</h4>
+<p>발데르몽드 행렬을 생성하는 가장 직관적이고 이해하기 쉬은 코드는 다음과 같다. <code>xp</code> 가 배열 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 에 대한 변수라고 하자.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="fu">Array</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, <span class="fu">length</span>(xp), <span class="fu">length</span>(xp))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, x) <span class="kw">in</span> <span class="fu">enumerate</span>(xp), j <span class="kw">in</span> <span class="fu">eachindex</span>(xp)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    V[i, j] <span class="op">=</span> x<span class="op">^</span>(j<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>그러나 가장 효율적인 코드, 특히 <code>xp</code> 의 크기가 클 때 효율적인 코드는 array comprehension 을 사용하는 것이다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> [x<span class="op">^</span>(j<span class="op">-</span><span class="fl">1</span>) for x <span class="kw">in</span> xp, j <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(xp)]</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이렇게 생성된 <code>V</code> 와 데이터로 알고 있는 <span class="math inline">\(y_1,\ldots,\, y_n\)</span> 에 대한 배열 <code>yp</code> 에 대해 다항식은</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SimplePolynomial</span>(V<span class="op">\</span>yp)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>로 구할 수 있다. 이것은 <code>simplepolynomials.jl</code> 의 <code>valdermond_polynomial</code> 함수로 구현되었다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">function</span> <span class="fu">valdermond_polynomial</span>(</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    xp<span class="op">::</span><span class="dt">AbstractVector{T1}</span>, </span>
+<span id="cb4-3"><a href="#cb4-3"></a>    yp<span class="op">::</span><span class="dt">AbstractVector{T2}</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>    ) <span class="kw">where</span> {T1<span class="op">&lt;:</span><span class="dt">Number</span>, T2<span class="op">&lt;:</span><span class="dt">Number</span>}</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    </span>
+<span id="cb4-6"><a href="#cb4-6"></a>    N <span class="op">=</span> <span class="fu">length</span>(xp)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    <span class="pp">@assert</span> <span class="fu">length</span>(xp) <span class="op">==</span> <span class="fu">length</span>(yp)</span>
+<span id="cb4-8"><a href="#cb4-8"></a>    V <span class="op">=</span> [x<span class="op">^</span>(j<span class="op">-</span><span class="fl">1</span>) for x <span class="kw">in</span> xp, j <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(xp)]</span>
+<span id="cb4-9"><a href="#cb4-9"></a>    <span class="cf">return</span> <span class="fu">SimplePolynomial</span>(V<span class="op">\</span>yp)</span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+</section>
+<section id="sec-interpolation_lagrange" class="level3">
+<h3 class="anchored" data-anchor-id="sec-interpolation_lagrange">라그랑쥬 다항식을 이용한 보간법</h3>
+<p>가장 직관적으로 이해하기 쉬운 라그랑쥬 방법을 알아보자. <span class="math inline">\(n\)</span> 개의 데이터 <span class="math inline">\(\{(x_i,\,y_i):i=1,\ldots\, n\}\)</span> 에 대해 함수 <span class="math inline">\(l_k(x)\)</span> 를 다음과 같이 정의하자.</p>
+<p><span id="eq-lagrange_interpolation_function"><span class="math display">\[
+\begin{aligned}
+l_k (x) &amp;:= \prod_{i=1,\, i \ne k}^n \dfrac{(x-x_i)}{(x_k-x_i)} \\
+&amp;= \dfrac{(x-x_1)\cdots (x-x_{k-1})(x-x_{k+1})\cdots (x-x_n)}{(x_k-x_1)\cdots (x_k-x_{k-1})(x_k-x_{k+1})\cdots (x_k-x_n)}.
+\end{aligned}
+\tag{2}\]</span></span></p>
+<p>이 다항식은 다음을 만족한다.</p>
+<p><span class="math display">\[
+l_k (x_j) = \delta_{xj} = \left\{ \begin{array}{ll} 1 \qquad &amp; j=k,\\ 0 \qquad &amp;\text{otherwise} \end{array}\right.
+\]</span></p>
+<p>다항식 <span class="math inline">\(L_n(x)\)</span> 를 다음과 같이 정의하자.</p>
+<p><span id="eq-Lagrange_polynomial"><span class="math display">\[
+L_{n}(x) := \sum_{k=1}^n y_k \, l_k(x)
+\tag{3}\]</span></span></p>
+<p>그렇다면 <span class="math inline">\(i=1,\ldots,\,n\)</span> 에 대해 <span class="math inline">\(L_{n}(x_i)=y_i\)</span> 인 것은 쉽게 알 수 있다. 즉 <span class="math inline">\(L_{n} (x)\)</span> 는 주어진 점들을 모두 지나는 다항식이다. 이 다항식 <span class="math inline">\(L_{n}(x)\)</span> 를 라그랑쥬 다항식이라고 한다.</p>
+<section id="코드-1" class="level4">
+<h4 class="anchored" data-anchor-id="코드-1">코드</h4>
+<p>라그랑쥬 다항식은 다음과 같이 구현 할 수 있다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">function</span> <span class="fu">lagrange_polynomial</span>(</span>
+<span id="cb5-2"><a href="#cb5-2"></a>    xp<span class="op">::</span><span class="dt">AbstractVector{T1}</span>, </span>
+<span id="cb5-3"><a href="#cb5-3"></a>    yp<span class="op">::</span><span class="dt">AbstractVector{T2}</span>) <span class="kw">where</span> {T1<span class="op">&lt;:</span><span class="dt">Number</span>, T2<span class="op">&lt;:</span><span class="dt">Number</span>}</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a>    N <span class="op">=</span> <span class="fu">length</span>(xp)</span>
+<span id="cb5-6"><a href="#cb5-6"></a>    <span class="pp">@assert</span> <span class="fu">length</span>(xp) <span class="op">==</span> <span class="fu">length</span>(yp)</span>
+<span id="cb5-7"><a href="#cb5-7"></a>    </span>
+<span id="cb5-8"><a href="#cb5-8"></a>    r <span class="op">=</span> <span class="fu">SimplePolynomial</span>([<span class="fu">zero</span>(T2), ])</span>
+<span id="cb5-9"><a href="#cb5-9"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb5-10"><a href="#cb5-10"></a>        coef <span class="op">=</span> yp[i]</span>
+<span id="cb5-11"><a href="#cb5-11"></a>        rt <span class="op">=</span> <span class="fu">one</span>(T2)</span>
+<span id="cb5-12"><a href="#cb5-12"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb5-13"><a href="#cb5-13"></a>            <span class="cf">if</span> i <span class="op">≠</span> j</span>
+<span id="cb5-14"><a href="#cb5-14"></a>                <span class="pp">@inbounds</span> coef <span class="op">=</span> coef<span class="op">/</span>(xp[i]<span class="op">-</span>xp[j])</span>
+<span id="cb5-15"><a href="#cb5-15"></a>                <span class="pp">@inbounds</span> rt <span class="op">=</span> <span class="fu">rt*SimplePolynomial</span>([<span class="op">-</span>xp[j], <span class="fl">1.0</span>])</span>
+<span id="cb5-16"><a href="#cb5-16"></a>            <span class="cf">end</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a>        <span class="cf">end</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a>        r <span class="op">+=</span> rt<span class="op">*</span>coef</span>
+<span id="cb5-19"><a href="#cb5-19"></a>    <span class="cf">end</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a>    <span class="cf">return</span> r</span>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+</section>
+<section id="sec-interpolation_newton" class="level3">
+<h3 class="anchored" data-anchor-id="sec-interpolation_newton">뉴턴 보간법</h3>
+<p>뉴턴 보간법은 <span class="math inline">\(n\)</span> 개의 데이터 <span class="math inline">\(\{ (x_i,\, y_i): i=1,\ldots,\,n\}\)</span> 를 지나는 <span class="math inline">\(n-1\)</span> 차 다항식을 <span id="eq-Newton_polynomial"><span class="math display">\[
+\begin{aligned}
+N_{n}(x) &amp; = a_0 + a_1 (x-x_1)+ a_2 (x-x_1)(x-x_2)+ \cdots \\
+&amp; \qquad + a_{n-1}(x-x_1)\cdots (x-x_{n-1})
+\end{aligned}
+\tag{4}\]</span></span></p>
+<p>으로 두고 그 계수 <span class="math inline">\(a_0,\,a_1,\ldots,\,a_{n-1}\)</span> 을 찾는다. 우선 <span class="math inline">\(n_k(x)\)</span> 를 아래와 같이 정의하자. <span id="eq-Newton_basis_polynomial"><span class="math display">\[
+n_k (x) := \left\{ \begin{array}{ll} 1 &amp; \text{if }k=0 \\ \displaystyle \prod_{i=1}^k (x-x_i) &amp;\text{if }k\ne 0\end{array}\right.
+\tag{5}\]</span></span></p>
+<p>이 <span class="math inline">\(n_k(x)\)</span> 를 <strong>뉴턴 기저 다항식</strong> 이라 한다. 뉴턴 다항식 <span class="math inline">\(N_n (x)\)</span> 는 다음과 같다.</p>
+<p><span class="math display">\[
+N_{n}(x) = \sum_{k=0}^{n-1} a_k n_k (x).
+\]</span></p>
+<p>이 때 <span class="math inline">\(N_n(x_1)=a_1= y_1\)</span> 이며, <span class="math inline">\(k=1,\ldots,\, n-1\)</span> 에 대해</p>
+<p><span class="math display">\[
+a_k = \dfrac{y_{k+1} - a_1 - a_2(x_{k+1}-x_1) - \cdots - a_{k-1}(x_{k+1}-x_1)\cdots (x_{k+1}-x_k)}{(x_{k+1}-x_1)\cdots (x_{k+1}-x_k)}
+\]</span></p>
+<p>임을 알 수 있다. 이것을 아래와 같은 선형방정식 <span class="math inline">\(\boldsymbol{Na}=\boldsymbol{y}\)</span> 를 통해 표현 할 수 있다.</p>
+<p><span id="eq-newton_polynomial_matrix"><span class="math display">\[
+\underbrace{\begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ 1 &amp; n_1(x_2) &amp; 0 &amp; \cdots &amp; 0 \\ 1 &amp; n_1(x_3) &amp; n_2(x_3) &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 1 &amp; n_{n-1}(x_n) &amp; \cdots &amp; \cdots &amp; n_{n-1}(x_n)  \end{bmatrix}}
+_{{\Large \boldsymbol{N}}}
+\underbrace{\begin{bmatrix} a_0 \\ a_1 \\ a_2 \\ \vdots \\ a_{n-1}\end{bmatrix}}_{{\Large \boldsymbol{a}}} =
+\underbrace{\begin{bmatrix} y_1 \\ y_2 \\ y_3 \\ \vdots \\y_n \end{bmatrix}}_{{\Large \boldsymbol{y}}}.
+\tag{6}\]</span></span></p>
+<p>뉴턴 보간법을 행렬로 표현하는 <span class="math inline">\(\boldsymbol{N}\)</span> 은 하삼각행렬로 방데르몽드 방법이나, 라그랑쥬 방법에 의한 보간법보다 그 계수를 구하는 것이 빠르고 수치해석적으로 안정적이다.</p>
+<p><br></p>
+<section id="코드-2" class="level4">
+<h4 class="anchored" data-anchor-id="코드-2">코드</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">function</span> <span class="fu">newton_polynomial</span>(</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    xp<span class="op">::</span><span class="dt">AbstractVector{T1}</span>, </span>
+<span id="cb6-3"><a href="#cb6-3"></a>    yp<span class="op">::</span><span class="dt">AbstractVector{T2}</span>) <span class="kw">where</span> {T1<span class="op">&lt;:</span><span class="dt">Number</span>, T2<span class="op">&lt;:</span><span class="dt">Number</span>}</span>
+<span id="cb6-4"><a href="#cb6-4"></a>    n <span class="op">=</span> <span class="fu">length</span>(xp)    </span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="pp">@assert</span> n <span class="op">==</span> <span class="fu">length</span>(yp)</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    T <span class="op">=</span> <span class="fu">promote_type</span>(T1, T2)</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    N <span class="op">=</span> <span class="fu">LowerTriangular</span>(<span class="fu">ones</span>(T, n, n))</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>n, i <span class="kw">in</span> j<span class="op">:</span>n</span>
+<span id="cb6-9"><a href="#cb6-9"></a>        <span class="pp">@inbounds</span> N[i, j] <span class="op">=</span> N[i, j<span class="op">-</span><span class="fl">1</span>]<span class="fu">*</span>(xp[i] <span class="op">-</span> xp[j<span class="op">-</span><span class="fl">1</span>]) </span>
+<span id="cb6-10"><a href="#cb6-10"></a>    <span class="cf">end</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>    a <span class="op">=</span> N<span class="op">\</span>yp</span>
+<span id="cb6-12"><a href="#cb6-12"></a>    r <span class="op">=</span> <span class="fu">SimplePolynomial</span>([a[<span class="fl">1</span>], ])</span>
+<span id="cb6-13"><a href="#cb6-13"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>(n)</span>
+<span id="cb6-14"><a href="#cb6-14"></a>        <span class="pp">@inbounds</span> r <span class="op">+=</span> a[i] <span class="op">*</span> <span class="fu">polynomial_from_roots</span>(xp[<span class="fl">1</span><span class="op">:</span>i<span class="op">-</span><span class="fl">1</span>])</span>
+<span id="cb6-15"><a href="#cb6-15"></a>    <span class="cf">end</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a>    <span class="cf">return</span> r</span>
+<span id="cb6-17"><a href="#cb6-17"></a></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="세-방법의-비교" class="level4">
+<h4 class="anchored" data-anchor-id="세-방법의-비교">세 방법의 비교</h4>
+<p>주어진 점에 대해 보간하는 세가지 방법은 수학적으로 동등하지만 수치해석적으로는 뉴턴 방법을 권장하는데 그 이유는 다음과 같다.</p>
+<ol type="1">
+<li><p>일반적으로 라그랑쥬 다항식보다 뉴턴 다항식을 빠르게 계산 할 수 있다.</p></li>
+<li><p><span class="math inline">\(n\)</span> 개의 데이터에 대해 다항식을 구한 후 데이터를 추가할 때 라그랑쥬 다항식은 모든 계수를 다시 계산해야 하지만 뉴턴 다항식은 위의 이미 알고 있는 계수와 점들을 를 이용하여 계산할 수 있다. 여기서는 새로운 점을 추가하는 것을 구현하지는 않았다.</p></li>
+<li><p>데이터가 어느 정도 많이 주어졌을 때 라그랑쥬 다항식보다 뉴턴 다항식이 수치해석적으로 안정하다.</p></li>
+</ol>
+<p><br></p>
+</section>
+</section>
+<section id="sec-error_for_polynomial_interpolation" class="level3">
+<h3 class="anchored" data-anchor-id="sec-error_for_polynomial_interpolation">다항식을 이용한 보간법의 오차</h3>
+<div id="prp-roll_theorem_many_x0" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 1 </strong></span><span class="math inline">\(f\in C^{n}[a,\,b]\)</span> 이고 <span class="math inline">\(\{x_1,\ldots,\,x_n\}\subset [a,\,b]\)</span> 이며 <span class="math inline">\(i\ne j \implies x_i \ne x_j\)</span> 라고 하자. <span class="math inline">\(P_{n-1}(x)\)</span> 가 <span class="math inline">\(P_{n-1}(x_i) = f(x_i)\)</span> (<span class="math inline">\(i=1,\ldots,\,n\)</span>) 인 <span class="math inline">\(n-1\)</span> 차 다항식이라면</p>
+<p><span class="math display">\[
+f(x) - P_{n-1}(x) = \dfrac{f^{(n)}(\xi)}{n!} \prod_{j=1}^n (x-x_j)
+\]</span></p>
+<p>를 만족하는 <span class="math inline">\(\xi \in [a,\,b]\)</span> 가 존재한다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(F(t)\)</span> 를 다음과 같이 정의하자.</p>
+<p><span class="math display">\[
+F(t) = f(t) - P_{n-1} (t) - (f(x)-P_{n-1} (x)) \prod_{i=1}^n \dfrac{(t-x_i)}{(x-x_i)} \tag{1}
+\]</span></p>
+<p>이 때 <span class="math inline">\(t=x_k,\, k=1,\ldots,\, n\)</span> 에 대해 <span class="math inline">\(F(x_k)=0\)</span> 이다. 또한</p>
+<p><span class="math display">\[
+F(x) = f(x)-P_{n-1}(x) - (f(x)-P_{n-1}(x)) = 0
+\]</span></p>
+<p>이므로 <span class="math inline">\(x,\,x_1,\ldots,\,x_n\)</span> 의 <span class="math inline">\(n+1\)</span> 개의 점에서 <span class="math inline">\(F(t)=0\)</span> 이 된다. <a href="../../src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.html#sec-generalized_roll_theorem">일반화된 롤의 정리</a> 를 이용하면 <span class="math inline">\(n\)</span> 개의 점에서 <span class="math inline">\(F'(t)=0\)</span> 이며, 이것을 반복하면 <span class="math inline">\(F^{(n)}(\xi)=0\)</span> 을 만족하는 <span class="math inline">\(\xi\in [a,\,b]\)</span> 가 존재한다. 그런데 <span class="math inline">\(P_{n-1}(x)\)</span> 는 <span class="math inline">\(n-1\)</span> 차 다항식이므로 <span class="math inline">\(P_{n-1}^{(n)} (x)=0\)</span> 이며 (<span class="math inline">\(1\)</span>) 의 <span class="math inline">\(\displaystyle \prod_{i=1}^n \dfrac{(t-x_i)}{(x-x_i)}\)</span> 에 대한 <span class="math inline">\(n\)</span> 차 미분은</p>
+<p><span class="math display">\[
+\dfrac{d^n}{dt^n} \left(\prod_{i=1}^n \dfrac{(t-x_i)}{(x-x_i)}\right) = \dfrac{n!}{\prod_{i=1}^n (x-x_i)}
+\]</span></p>
+<p>이므로,</p>
+<p><span class="math display">\[
+F^{(n)}(\xi) = f^{(n)}(\xi) - (f(x)-P_{n-1} (x))\dfrac{n!}{\prod_{i=1}^n (x-x_i)} = 0
+\]</span></p>
+<p>이다. 즉</p>
+<p><span class="math display">\[
+f(x) = P_{n-1}(x) + \dfrac{f^{(n)}(\xi)}{n!}\prod_{i=1}^n (x-x_i)
+\]</span></p>
+<p>를 만족하는 <span class="math inline">\(\xi \in [a,\,b]\)</span> 가 존재한다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+</section>
+<section id="전역적-보간법의-문제점" class="level3">
+<h3 class="anchored" data-anchor-id="전역적-보간법의-문제점">전역적 보간법의 문제점</h3>
+<p>데이터 갯수가 많을 경우 고차다항식으로 보간을 하게 되는데, 이 경우 다항식이 심하게 진동하는 경우가 있을 수 있다. 아래 그림의 데이터는 15개의 포인트로 가우스 분포 <span class="math inline">\(e^{-(x-x_0)/2\sigma^2}\)</span> 를 그린 것이며, 라그랑쥬나 뉴턴 방법을 통해 14차 다항식으로 보간한 결과를 같이 보여준다.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch04_interpolation/interpolation_oscillation.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Oscilating behavior</figcaption><p></p>
+</figure>
+</div>
+<p>게다가 데이터 갯수가 상당히 많으면 수치적으로 불안정해 진다. 예를 들어, 25개의 데이터에 대한 가우스 분포를 다항식으로 보간하면 아래와 같이 더 이상 사용할 수 없는 결과가 발생한다.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch04_interpolation/interpolation_oscillation2.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Oscilating behavior2</figcaption><p></p>
+</figure>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="sec-Neville_method" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="sec-Neville_method"><span class="header-section-number">3</span> 네빌 방법 (Neville’s Method)</h2>
+<p>다항식을 이용한 전역적인 보간법에서의 세 방법이 <span class="math inline">\(\{(x_i,\,y_i): i=1,\ldots,\,n\}\)</span> 를 모두 지나는 <span class="math inline">\(n-1\)</span> 차 다항식을 구하는 방법이라면 네빌 방법은 다항식을 직접 구한다기 보다는 다항식으로 보간했을 때의 값만을 구하는 방법이다.</p>
+<p><span class="math inline">\(n\)</span> 개의 데이터 <span class="math inline">\(\{(x_i,\,y_i): i=1,\ldots,\,n\}\)</span> 가 주어졌을 때 한 다항식 <span class="math inline">\(P_{1,\ldots,\,n-1}(x)\)</span> 는 <span class="math inline">\(i=1,\ldots,\,n-1\)</span> 에서 데이터와 일치하며, 다른 다항식 <span class="math inline">\(P_{2,\ldots,\,n}\)</span> 은 <span class="math inline">\(i=2,\ldots,\,n\)</span> 에서 데이터가 일치한다고 하자. 이 때</p>
+<p><span class="math display">\[
+P_{1,\ldots,\,n}(x) = \dfrac{(x-x_1)P_{2,\ldots,n}(x) - (x-x_n)P_{1,\ldots,\,n-1}(x)}{x_n-x_1}
+\]</span></p>
+<p>은 모든 <span class="math inline">\(i=1,\ldots,\,n\)</span> 에 대해 <span class="math inline">\(P_{1,\ldots,\,n}(x_i) = y_i\)</span> 이다.</p>
+<p>4 개의 점으로 이루어진 데이터를 다항식으로 보간한다고 생각하자. 각 <span class="math inline">\(P_i(x)\)</span> 는 <span class="math inline">\(y_i\)</span> 의 값을 갖는 상수함수로 놓는다. <span class="math inline">\(P_1,\,P_2,\,P_3,\,P_4\)</span> 를 이용하여 <span class="math inline">\(P_{1,\,2}\)</span>, <span class="math inline">\(P_{2,\,3}\)</span>, <span class="math inline">\(P_{3,4}\)</span> 를 계산하며, 이를 이용하여 <span class="math inline">\(P_{1,2,3}\)</span> 와 <span class="math inline">\(P_{2,3,4}\)</span> 를 계산한다. 마지막으로 이를 이용하여 <span class="math inline">\(P_{1,2,3,4}\)</span> 를 계산하면 종료된다.</p>
+<table class="table-striped table-hover table">
+<caption></caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">회차</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(x_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(P_1 (x)\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(P_{1, 2} (x)\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(x_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(P_2 (x)\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(P_{1, 2, 3} (x)\)</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(P_{2, 3} (x)\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(P_{1, 2, 3, 4} (x)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(x_3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(P_3 (x)\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(P_{2, 3, 4} (x)\)</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(P_{3, 4} (x)\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(x_4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(P_4 (x)\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<section id="코드-3" class="level3">
+<h3 class="anchored" data-anchor-id="코드-3">코드</h3>
+<p>네빌 방법에 대한 코드는 아래와 같다. Julia 의 배열 comprehension 방법을 사용하였기 때문에 한번에 이해하기 어려울 수 있다는 것에 주의하라.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">function</span> <span class="fu">neville</span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>    xp<span class="op">::</span><span class="dt">AbstractVector{T1}</span>, </span>
+<span id="cb7-3"><a href="#cb7-3"></a>    yp<span class="op">::</span><span class="dt">AbstractVector{T2}</span>, </span>
+<span id="cb7-4"><a href="#cb7-4"></a>    x<span class="op">::</span><span class="dt">Real</span>) <span class="kw">where</span> {T1<span class="op">&lt;:</span><span class="dt">Real</span>, T2<span class="op">&lt;:</span><span class="dt">Real</span>}</span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="pp">@assert</span> <span class="fu">length</span>(xp) <span class="op">==</span> <span class="fu">length</span>(yp)</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    P <span class="op">=</span> <span class="fu">copy</span>(yp)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(<span class="fu">length</span>(xp)<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb7-8"><a href="#cb7-8"></a>        P <span class="op">=</span> [((x<span class="op">-</span>xp[j<span class="op">+</span>i])<span class="op">*</span>P[j] <span class="op">-</span> (x<span class="op">-</span>xp[j])<span class="op">*</span>P[j<span class="op">+</span><span class="fl">1</span>])<span class="op">/</span>(xp[j]<span class="op">-</span>xp[j<span class="op">+</span>i]) for j <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(<span class="fu">length</span>(xp)<span class="op">-</span>i)]</span>
+<span id="cb7-9"><a href="#cb7-9"></a>    <span class="cf">end</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>    <span class="cf">return</span> P[<span class="fl">1</span>]</span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+</section>
+<section id="sec-local_interpolation_using_polynomial" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="sec-local_interpolation_using_polynomial"><span class="header-section-number">4</span> 다항식을 이용한 구간별 보간법</h2>
+<p>앞서의 전역적 보간법은 주어진 전체 데이터를 이용한 보간법인데 반해 지금 소개하는 보간법은 구하고자 하는 독립변수값 근처의 소수의 점만을 이용하여 다항식으로 보간한다. 따라서 전역적 보간법에서 보이는 진동이 없으며, 데이터가 많더라도 사용 할 수 있다.</p>
+<p><br></p>
+<section id="최근접-보간법-nearest-neighbor-interpolation" class="level3">
+<h3 class="anchored" data-anchor-id="최근접-보간법-nearest-neighbor-interpolation">최근접 보간법 (Nearest Neighbor Interpolation)</h3>
+<p>가장 간단한 보간법 은 최근접 보간법 (nearest neighbor interpolation) 으로 <span class="math inline">\(x_1,\ldots,\,x_N\)</span> 가운데 <span class="math inline">\(x\)</span> 값에 가장 가까운 값을 취하는 방법이다. 즉 <span class="math inline">\(x_i\le x&lt;x_{i+1}\)</span> 일 때 <span class="math inline">\(x_i\)</span> 와 <span class="math inline">\(x_{i+1}\)</span> 중 <span class="math inline">\(x\)</span> 와의 거리가 더 가까운 값을 <span class="math inline">\(f(x)\)</span> 로 선택하는 방법이다. 가장 단순하면서도 빠르지만 보간법의 결과로 나온 함수는 연속함수가 아니다.</p>
+<p><br></p>
+</section>
+<section id="선형-보간법-linear-interpolation" class="level3">
+<h3 class="anchored" data-anchor-id="선형-보간법-linear-interpolation">선형 보간법 (Linear Interpolation)</h3>
+<p><span class="math inline">\(x_{i}\le x &lt; x_{i+1}\)</span> 일 때 <span class="math inline">\((x_i,\,y_i)\)</span> 와 <span class="math inline">\((x_{i+1},\, y_{i+1})\)</span> 의 두 점을 지나는 직선 <span class="math inline">\(l_i (x)\)</span> 는 다음과 같다.</p>
+<p><span id="eq-linear_interpolation"><span class="math display">\[
+l_i (x) = \dfrac{y_{i+1}-y_i}{x_{+1}-x_i} (x-x_i) + y_i
+\tag{7}\]</span></span></p>
+<p>이 직선 <span class="math inline">\(l_i(x)\)</span> 값으로 <span class="math inline">\(f(x)\)</span> 값을 추산하는 것을 선형보간법이라 한다. 선형 보간법으로 구한 함수는 연속이지만 일반적으로 미분가능하지 않다.</p>
+<p><br></p>
+</section>
+<section id="삼차함수-보간법-cubic-interpolation" class="level3">
+<h3 class="anchored" data-anchor-id="삼차함수-보간법-cubic-interpolation">삼차함수 보간법 (Cubic interpolation)</h3>
+<p><span class="math inline">\(x_{i}\le x&lt; x_{i+1}\)</span> 일 때 <span class="math inline">\((x_{i-1},\, y_{i-1})\)</span>, <span class="math inline">\((x_i,\,y_{i})\)</span>, <span class="math inline">\((x_{i+1},\,y_{i+1})\)</span>, <span class="math inline">\((x_{i+2},\, y_{i+2})\)</span> 를 이용하여 3차함수를 구하여 보간한다. 보간하는 함수는 앞서 언급한 발데르몽드, 라그랑쥬, 뉴턴 방식중에 사용할 수 있으며, 여기서는 뉴턴 다항식을 이용하여 보간하도록 한다. <span class="math inline">\((x_{i-1},\, y_{i-1})\)</span>, <span class="math inline">\((x_i,\,y_{i})\)</span>, <span class="math inline">\((x_{i+1},\,y_{i+1})\)</span>, <span class="math inline">\((x_{i+2},\, y_{i+2})\)</span> 를 이용하여 구한 3차 다항식을 <span class="math inline">\(N_i(x)\)</span> 라고 하면 <span class="math inline">\(x_1\le x&lt;x_2\)</span> 일 경우에는 <span class="math inline">\(x_0\)</span> 가 없으므로 <span class="math inline">\(N_1(x)\)</span> 를 이용하며, <span class="math inline">\(x_{N-1}\le x \le x_{N}\)</span> 일 경우에는 <span class="math inline">\(N_{N-2}\)</span> 를 이용하여 보간한다. 삼차함수 보간법을 사용하여 구한 함수는 연속이며 선형 보간법보다 나은 결과를 보여주지만 역시 미분 가능하지 않다.</p>
+<p>일단 위의 세가지를 julia 로 구현해 보자. <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 과 <span class="math inline">\(y_1,\ldots,\,y_n\)</span> 이 각각 벡터 <code>xp</code>, <code>yp</code> 라고 하고 <span class="math inline">\(x_1 &lt; x_2 &lt; \cdots &lt; x_n\)</span> 임을 가정하자.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1"></a><span class="st">"""</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="st">    nearest neighbor interpolation</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">"""</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">function</span> <span class="fu">interp_nearest</span>(</span>
+<span id="cb8-5"><a href="#cb8-5"></a>    xp<span class="op">::</span><span class="dt">AbstractVector{T}</span>, </span>
+<span id="cb8-6"><a href="#cb8-6"></a>    yp<span class="op">::</span><span class="dt">Vector{S}</span>, </span>
+<span id="cb8-7"><a href="#cb8-7"></a>    x<span class="op">::</span><span class="dt">AbstractVector{R}</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>    ) <span class="kw">where</span> {T<span class="op">&lt;:</span><span class="dt">Real</span>, S<span class="op">&lt;:</span><span class="dt">Real</span>, R<span class="op">&lt;:</span><span class="dt">Real</span>}</span>
+<span id="cb8-9"><a href="#cb8-9"></a>    </span>
+<span id="cb8-10"><a href="#cb8-10"></a>    <span class="pp">@assert</span> <span class="fu">length</span>(xp) <span class="op">==</span> <span class="fu">length</span>(yp)</span>
+<span id="cb8-11"><a href="#cb8-11"></a>    N <span class="op">=</span> <span class="fu">length</span>(xp)</span>
+<span id="cb8-12"><a href="#cb8-12"></a>    result <span class="op">=</span> <span class="fu">zeros</span>(x)</span>
+<span id="cb8-13"><a href="#cb8-13"></a>    <span class="cf">for</span> (i, v) <span class="kw">in</span> <span class="fu">enumerate</span>(x)</span>
+<span id="cb8-14"><a href="#cb8-14"></a>        <span class="cf">if</span> v<span class="op">&lt;</span>xp[<span class="fl">1</span>] <span class="op">||</span> v<span class="op">&gt;</span>xp[<span class="kw">end</span>]</span>
+<span id="cb8-15"><a href="#cb8-15"></a>            result[i] <span class="op">=</span> <span class="fu">zero</span>(T)</span>
+<span id="cb8-16"><a href="#cb8-16"></a>        <span class="cf">else</span> </span>
+<span id="cb8-17"><a href="#cb8-17"></a>            ind <span class="op">=</span> <span class="fu">findfirst</span>(<span class="fu">xs-&gt;</span>(xs<span class="op">&gt;=</span>v), xp)<span class="op">-</span><span class="fl">1</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a>            <span class="cf">if</span> ind <span class="op">==</span> <span class="fl">0</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a>                result[i]<span class="op">=</span>yp[<span class="fl">1</span>]</span>
+<span id="cb8-20"><a href="#cb8-20"></a>            <span class="cf">elseif</span> v<span class="op">-</span>xp[ind] <span class="op">&gt;</span> xp[ind<span class="op">+</span><span class="fl">1</span>]<span class="op">-</span>v</span>
+<span id="cb8-21"><a href="#cb8-21"></a>                result[i] <span class="op">=</span> yp[ind<span class="op">+</span><span class="fl">1</span>]</span>
+<span id="cb8-22"><a href="#cb8-22"></a>            <span class="cf">else</span> </span>
+<span id="cb8-23"><a href="#cb8-23"></a>                result[i] <span class="op">=</span> yp[ind]</span>
+<span id="cb8-24"><a href="#cb8-24"></a>            <span class="cf">end</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a>        <span class="cf">end</span></span>
+<span id="cb8-26"><a href="#cb8-26"></a>    <span class="cf">end</span></span>
+<span id="cb8-27"><a href="#cb8-27"></a>    <span class="cf">return</span> result</span>
+<span id="cb8-28"><a href="#cb8-28"></a><span class="kw">end</span></span>
+<span id="cb8-29"><a href="#cb8-29"></a></span>
+<span id="cb8-30"><a href="#cb8-30"></a><span class="st">"""</span></span>
+<span id="cb8-31"><a href="#cb8-31"></a><span class="st">    linear interpolation</span></span>
+<span id="cb8-32"><a href="#cb8-32"></a><span class="st">"""</span></span>
+<span id="cb8-33"><a href="#cb8-33"></a><span class="kw">function</span> <span class="fu">interp_linear</span>(xp<span class="op">::</span><span class="dt">AbstractVector{T}</span>, yp<span class="op">::</span><span class="dt">Vector{S}</span>, x<span class="op">::</span><span class="dt">AbstractVector{R}</span>) <span class="kw">where</span> {T<span class="op">&lt;:</span><span class="dt">Real</span>, S<span class="op">&lt;:</span><span class="dt">Real</span>, R<span class="op">&lt;:</span><span class="dt">Real</span>}</span>
+<span id="cb8-34"><a href="#cb8-34"></a>    <span class="pp">@assert</span> <span class="fu">length</span>(xp) <span class="op">==</span> <span class="fu">length</span>(yp)</span>
+<span id="cb8-35"><a href="#cb8-35"></a>    N <span class="op">=</span> <span class="fu">length</span>(xp)</span>
+<span id="cb8-36"><a href="#cb8-36"></a>    result <span class="op">=</span> <span class="fu">zero</span>(x)</span>
+<span id="cb8-37"><a href="#cb8-37"></a>    <span class="cf">for</span> (i, v) <span class="kw">in</span> <span class="fu">enumerate</span>(x)</span>
+<span id="cb8-38"><a href="#cb8-38"></a>        <span class="cf">if</span> v<span class="op">&lt;</span>xp[<span class="fl">1</span>] <span class="op">||</span> v<span class="op">&gt;</span>xp[<span class="kw">end</span>]</span>
+<span id="cb8-39"><a href="#cb8-39"></a>            result[i] <span class="op">=</span> <span class="fu">zero</span>(T)</span>
+<span id="cb8-40"><a href="#cb8-40"></a>        <span class="cf">else</span> </span>
+<span id="cb8-41"><a href="#cb8-41"></a>            ind <span class="op">=</span> <span class="fu">findfirst</span>(<span class="fu">xs-&gt;</span>(xs<span class="op">&gt;=</span>v), xp)<span class="op">-</span><span class="fl">1</span></span>
+<span id="cb8-42"><a href="#cb8-42"></a>            <span class="cf">if</span> ind <span class="op">==</span> <span class="fl">0</span></span>
+<span id="cb8-43"><a href="#cb8-43"></a>                result[i] <span class="op">=</span> yp[<span class="fl">1</span>]</span>
+<span id="cb8-44"><a href="#cb8-44"></a>            <span class="cf">else</span></span>
+<span id="cb8-45"><a href="#cb8-45"></a>                result[i] <span class="op">=</span> (yp[ind<span class="op">+</span><span class="fl">1</span>]<span class="op">-</span>yp[ind])<span class="op">/</span>(xp[ind<span class="op">+</span><span class="fl">1</span>]<span class="op">-</span>xp[ind])<span class="fu">*</span>(v<span class="op">-</span>xp[ind]) <span class="op">+</span> yp[ind]</span>
+<span id="cb8-46"><a href="#cb8-46"></a>            <span class="cf">end</span></span>
+<span id="cb8-47"><a href="#cb8-47"></a>        <span class="cf">end</span></span>
+<span id="cb8-48"><a href="#cb8-48"></a>    <span class="cf">end</span></span>
+<span id="cb8-49"><a href="#cb8-49"></a>    <span class="cf">return</span> result</span>
+<span id="cb8-50"><a href="#cb8-50"></a><span class="kw">end</span></span>
+<span id="cb8-51"><a href="#cb8-51"></a></span>
+<span id="cb8-52"><a href="#cb8-52"></a><span class="st">"""</span></span>
+<span id="cb8-53"><a href="#cb8-53"></a><span class="st">    cubic interpolation</span></span>
+<span id="cb8-54"><a href="#cb8-54"></a><span class="st">"""</span></span>
+<span id="cb8-55"><a href="#cb8-55"></a><span class="kw">function</span> <span class="fu">interp_cubic</span>(xp<span class="op">::</span><span class="dt">AbstractVector{T}</span>, yp<span class="op">::</span><span class="dt">Vector{S}</span>, x<span class="op">::</span><span class="dt">AbstractVector{R}</span>) <span class="kw">where</span> {T<span class="op">&lt;:</span><span class="dt">Real</span>, S<span class="op">&lt;:</span><span class="dt">Real</span>, R<span class="op">&lt;:</span><span class="dt">Real</span>}</span>
+<span id="cb8-56"><a href="#cb8-56"></a>    <span class="pp">@assert</span> <span class="fu">length</span>(xp) <span class="op">==</span> <span class="fu">length</span>(yp)</span>
+<span id="cb8-57"><a href="#cb8-57"></a>    N <span class="op">=</span> <span class="fu">length</span>(xp)</span>
+<span id="cb8-58"><a href="#cb8-58"></a>    result <span class="op">=</span> <span class="fu">zero</span>(x)</span>
+<span id="cb8-59"><a href="#cb8-59"></a>    <span class="cf">for</span> (i, v) <span class="kw">in</span> <span class="fu">enumerate</span>(x)</span>
+<span id="cb8-60"><a href="#cb8-60"></a>        </span>
+<span id="cb8-61"><a href="#cb8-61"></a>        <span class="cf">if</span> v<span class="op">&lt;</span>xp[<span class="fl">1</span>] <span class="op">||</span> v<span class="op">&gt;</span>xp[<span class="kw">end</span>]</span>
+<span id="cb8-62"><a href="#cb8-62"></a>            result[i] <span class="op">=</span> <span class="fu">zero</span>(T)</span>
+<span id="cb8-63"><a href="#cb8-63"></a>        <span class="cf">else</span> </span>
+<span id="cb8-64"><a href="#cb8-64"></a>            ind <span class="op">=</span> <span class="fu">findfirst</span>(<span class="fu">xs-&gt;</span>(xs<span class="op">&gt;=</span>v), xp)<span class="op">-</span><span class="fl">1</span></span>
+<span id="cb8-65"><a href="#cb8-65"></a>            <span class="cf">if</span> ind <span class="op">∈</span> (<span class="fl">0</span>, <span class="fl">1</span>)</span>
+<span id="cb8-66"><a href="#cb8-66"></a>                xs, ys <span class="op">=</span> xp[<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>], yp[<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>]</span>
+<span id="cb8-67"><a href="#cb8-67"></a>            <span class="cf">elseif</span> ind <span class="op">∈</span> (N, N<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb8-68"><a href="#cb8-68"></a>                xs, ys <span class="op">=</span> xp[<span class="kw">end</span><span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span>], yp[<span class="kw">end</span><span class="op">-</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span>]</span>
+<span id="cb8-69"><a href="#cb8-69"></a>            <span class="cf">else</span> </span>
+<span id="cb8-70"><a href="#cb8-70"></a>                xs, ys <span class="op">=</span> xp[ind<span class="op">-</span><span class="fl">1</span><span class="op">:</span>ind<span class="op">+</span><span class="fl">2</span>], yp[ind<span class="op">-</span><span class="fl">1</span><span class="op">:</span>ind<span class="op">+</span><span class="fl">2</span>]</span>
+<span id="cb8-71"><a href="#cb8-71"></a>            <span class="cf">end</span></span>
+<span id="cb8-72"><a href="#cb8-72"></a>            result[i] <span class="op">=</span> <span class="fu">newton_polynomial</span>(xp, yp)(v)</span>
+<span id="cb8-73"><a href="#cb8-73"></a>        <span class="cf">end</span></span>
+<span id="cb8-74"><a href="#cb8-74"></a>    <span class="cf">end</span></span>
+<span id="cb8-75"><a href="#cb8-75"></a>    <span class="cf">return</span> result</span>
+<span id="cb8-76"><a href="#cb8-76"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<p>이것을 다음 코드로 확인해 보았다.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> <span class="fl">0.0</span><span class="op">:</span><span class="fl">1.0</span><span class="op">:</span><span class="fl">15.0</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> <span class="fu">cos</span>.(xp) <span class="op">.*</span> <span class="fu">exp</span>.(<span class="op">-</span>xp<span class="op">/</span><span class="fl">10.0</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>xt <span class="op">=</span> <span class="fu">collect</span>(<span class="fl">0.0</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">15.0</span>) </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xp, yp, label <span class="op">=</span> L<span class="st">"\cos </span><span class="sc">\t</span><span class="st">heta"</span>, dpi<span class="op">=</span><span class="fl">300</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp_nearest</span>(xp, yp, xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>red, label<span class="op">=</span>L<span class="st">"\mathrm{Nearest}"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp_linear</span>(xp, yp, xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>blue, label<span class="op">=</span>L<span class="st">"\mathrm{Linear}"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp_cubic</span>(xp, yp, xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>green, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic}"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch04_interpolation/Interpolation.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Interpolation</figcaption><p></p>
+</figure>
+</div>
+<p><br></p>
+</section>
+<section id="cubic-spline-interpolation" class="level3">
+<h3 class="anchored" data-anchor-id="cubic-spline-interpolation">Cubic Spline Interpolation</h3>
+<p>위에서 설명한 세가지 보간법은 연속이 아니거나 미분 가능하지 않았다. Spline 보간법은 보간하고자 하는 구간 내에서 미분가능한 함수를 구해준다.</p>
+<p><span class="math inline">\(n\)</span> 개의 데이터 <span class="math inline">\(\{(x_i,\,y_i): i=1,\ldots,\,n\}\)</span> 에 대해 <span class="math inline">\([x_i,\,x_{i+1}]\)</span> 구간을 보간하는 다항식을 <span class="math inline">\(s_i(x)\)</span> 라 하자. 이 때 각각의 <span class="math inline">\(s_i(x)\)</span> 를 3차 다항식으로 하고</p>
+<p><span id="eq-cubic_spline_condition_1"><span class="math display">\[
+\begin{aligned}
+s_i(x_{i}) &amp; = y_{i}\\
+s_i(x_{i+1}) &amp;= y_{i+1}\\
+s'_i(x_{i+1}) &amp;= s'_{i+1}(x_{i+1}) \\
+s''_i(x_{i+1}) &amp;= s''_{i+1}(x_{i+1})
+\end{aligned}
+\tag{8}\]</span></span> 을 만족하도록 보간하는 것을 cubic spline interpolation 이라 한다. <span class="math inline">\([x_i,\,x_{i+1}]\)</span> 구간에서의 삼차함수 <span class="math inline">\(s_i(x)\)</span> 를 <span class="math display">\[
+s_{i}(x) = a_i + b_i x + c_ix^2 + d_i x^3
+\]</span></p>
+<p>이라 하자. <span class="math inline">\(s_i(x)\)</span> 에 대한 일차 도함수와 이차 도함수는</p>
+<p><span class="math display">\[
+\begin{aligned}
+s'_i (x) &amp;= b_i + 2c_i x + 3d_i x^2,\\
+s''_{i}(x) &amp;= 2c_i + 6d_ix
+\end{aligned}
+\]</span></p>
+<p>이므로, <span class="math inline">\(a_{i-1},\,b_{i-1},\, c_{i-1},\, d_{i-1}\)</span> 로부터</p>
+<p><span id="eq-cubic_spline_condition_2"><span class="math display">\[
+\begin{array}{c}
+a_i + b_i x_{i}+ c_i(x_{i})^2+ d_{i} (x_{i})^3 = y_{i} \\
+a_i + b_i x_{i+1}+ c_i(x_{i+1})^2+ d_{i} (x_{i+1})^3 = y_{i+1} \\
+b_i + 2c_i (x_{i+1})+ 3d_i (x_{i+1})^2 =b_{i+1} + 2c_{i+1} (x_{i+1})+ 3d_{i+1} (x_{i+1})^2 \\
+2c_i + 6d_ix_{i+1} = 2c_{i+1}+ 6d_{i+1}x_{i+1}
+\end{array}
+\tag{9}\]</span></span></p>
+<p>의 조건을 얻었으며, 이를 통해 <span class="math inline">\(a_i,\,b_i,\,c_i,\,d_i\)</span> 를 구할 수 있다. 위 식에서 아래의 두 식은 <span class="math inline">\(i=1\)</span> 일 때 사용 할 수 없으므로 우리는 추가로 조건을 두어야 한다. 이 때 보통 아래와 같은 2가지의 경계조건 가운데 선택한다.</p>
+<ol type="1">
+<li><p>Free or natural boundary: <span class="math inline">\(s''_1 (x_1) = s''_{n-1} (x_n) = 0\)</span></p></li>
+<li><p>Clamped boundary: <span class="math inline">\(s'_1(x_1) = f'(x_0),\, s'_{n-1} (x_n) = f'(x_n)\)</span></p></li>
+</ol>
+<p>Clampled boundary 일 경우 <span class="math inline">\(f'(x_0),\, f'(x_n)\)</span> 값은 주어져야 한다.</p>
+<p><br></p>
+<p><span class="math inline">\(n-1\)</span> 개의 구간에 대해 각각 4 개의 변수를 결정해야 하므로 미지수 행렬을 <span class="math inline">\(4(n-1)\times 1\)</span> 행렬 <span class="math inline">\(\boldsymbol{a}\)</span> 으로 두자. <span class="math inline">\(j=1,\ldots,\,n-1\)</span> 에 대해</p>
+<p><span class="math display">\[
+a_{4j-3} = a_j, \, a_{4j-2} = b_j, \, a_{4j-1} = c_j,\, a_{4j} = d_j
+\]</span></p>
+<p>라고 하면 미지수 전체에 대한 행렬이다. 이제 주어진 데이터와 미지수와의 관계를 이용하여 선형방정식 <span class="math inline">\(\boldsymbol{Ma}=\boldsymbol{b}\)</span> 를 만들자. 이 때 <span class="math inline">\(\boldsymbol{M}\)</span> 은 <span class="math inline">\(4(n-1) \times 4(n-1)\)</span> 행렬이다. <span class="math inline">\(j=1,\ldots,\, n-1\)</span> 에 대해 <span class="math inline">\(\boldsymbol{M}\)</span> 의 <span class="math inline">\(4(j-1)+1\)</span> 행부터 <span class="math inline">\(4(j-1)+4\)</span> 행까지, <span class="math inline">\(4(j-1)+1\)</span> 열부터 <span class="math inline">\(4(j-1)+8\)</span> 열까지의 <span class="math inline">\(4 \times 8\)</span> 부분행렬을 <span class="math inline">\(\boldsymbol{M}_j\)</span> 라고 하자. 위의 조건 <a href="#eq-cubic_spline_condition_2">식&nbsp;9</a> 으로부터 <span class="math inline">\(\boldsymbol{M}_j\)</span> 가 포함하지 않는 성분은 모두 <span class="math inline">\(0\)</span> 임을 알 수 있다. <span class="math inline">\(i=1,\ldots, n-2\)</span> 에 대해 <span class="math inline">\(\boldsymbol{M}_i\)</span> 는 다음과 같다. <span class="math display">\[
+\boldsymbol{M}_j = \begin{bmatrix}
+1 &amp; x_i &amp; (x_i)^2 &amp; (x_i)^3 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; x_{i+1} &amp; (x_{i+1})^2 &amp; (x_{i+1})^3 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 2x_{i+1} &amp; 3(x_{i+1})^2 &amp; 0 &amp; -1 &amp; -2 x_{i+1} &amp; -3(x_{i+1})^3\\
+0 &amp; 0 &amp; 2 &amp; 6x_{i+1} &amp; 0 &amp; 0 &amp; -2 &amp; -6x_{i+1}
+\end{bmatrix}
+\]</span></p>
+<p><span class="math inline">\(x_{n+1}\)</span> 은 주어져 있지 않으므로 <span class="math inline">\(\boldsymbol{M}_{n-1}\)</span> 은 <span class="math inline">\(2 \times 8\)</span> 행렬이며 다음과 같다.</p>
+<p><span class="math display">\[\boldsymbol{M}_{n-1} = \begin{bmatrix}
+1 &amp; x_{n-1} &amp; (x_{n-1})^2 &amp; (x_{n-1})^3 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+1 &amp; x_{n} &amp; (x_{n})^2 &amp; (x_{n})^3 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\
+\end{bmatrix}
+\]</span></p>
+<p>또한 역시 <a href="#eq-cubic_spline_condition_2">식&nbsp;9</a> 로 부터 <span class="math inline">\(4(n-1)\times 1\)</span> 행렬 <span class="math inline">\(\boldsymbol{y}\)</span> 는 <span class="math inline">\(i=1,\ldots,\,n\)</span> 에 대해 다음과 같이 정할 수 있다.</p>
+<p><span class="math display">\[
+b_{4j-3}= y_i, \, b_{4j-2}= y_{i+1},\, b_{4j-1} = 0,\, b_{4j}= 0
+\]</span></p>
+<p>이제 <span class="math inline">\(\boldsymbol{M}\)</span> 의 마지막 두 행을 경계조건에 따라 정해야 한다.</p>
+<p><br></p>
+<section id="free-boundary" class="level4">
+<h4 class="anchored" data-anchor-id="free-boundary">Free boundary</h4>
+<p>우선 첫번째 경계조건이 주어졌을 경우 <span class="math display">\[
+\begin{aligned}
+s''_1 (x_1)=0 &amp;\implies 2c_1+ 6 d_1 (x_1)=0, \\
+s''_{n-1}(x_n) = 0 &amp;\implies 2c_{n-1} + 6d_{n-1}(x_n) = 0
+\end{aligned}
+\]</span></p>
+<p>를 얻는다. 이 조건으로부터,</p>
+<p><span class="math display">\[
+M_{4n-5, 3}=2,\, M_{4n-5, 4}= 6x_1,\, M_{4n-4, 4n-5} = 2,\, M_{4n-4, 4n-4} = 6x_n
+\]</span></p>
+<p>을 얻는다.</p>
+<p><br></p>
+</section>
+<section id="clamped-boundary" class="level4">
+<h4 class="anchored" data-anchor-id="clamped-boundary">Clamped boundary</h4>
+<p><span class="math display">\[
+\begin{aligned}
+s'_1 (x_1)=f'(x_0) &amp;\implies b_1 + 2c_1(x_1)+ 3d_1 (x_1)^2=f'(x_0), \\
+s'_{n-1}(x_n) = f'(x_n) &amp;\implies b_{n-1}+ 2c_{n-1}(x_n) + 3d_{n-1}(x_n)^2 = f'(x_n)
+\end{aligned}
+\]</span></p>
+<p>를 얻는다. 이 조건으로부터,</p>
+<p><span class="math display">\[
+\begin{aligned}
+M_{4n-5, 2}=1,\, M_{4n-5, 3}=2x_1,\, M_{4n-5, 4} = 3(x_1)^2,\, b_{4n-5}=f'(x_0), \\
+M_{4n-4, 4n-6}=1,\, M_{4n-4, 4n-5}=2x_n,\, M_{4n-4,4n-4}=3(x_n)^2,\, b_{4n-4}=f'(x_n)
+\end{aligned}
+\]</span></p>
+<p>을 얻는다.</p>
+<p><br></p>
+<p>이제 행렬 <span class="math inline">\(\boldsymbol{M}\)</span> 과 벡터 <span class="math inline">\(\boldsymbol{b}\)</span> 를 얻었으므로 <span class="math inline">\(\boldsymbol{Ma}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{a}\)</span> 를 구할 수 있다. <span class="math inline">\(\boldsymbol{a}\)</span> 는 이 보간법의 각 구간에서의 3차 다항식의 계수를 결정하기 때문에 우리는 보간법을 사용하여 정해진 구간 내의 모든 값을 계산 할 수 있다.</p>
+<p>여기에 사용된 모든 보간법은 <code>interpolation.jl</code> 에 <code>Interpolation1D</code> 객체로 구현되었다.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span>, <span class="bu">LaTeXStrings</span>, <span class="bu">LinearAlgebra</span>, <span class="bu">Plots</span>, <span class="bu">SparseArrays</span>, <span class="bu">Printf</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">include</span>(<span class="st">"../lib/interpolation.jl"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> <span class="fl">0.0</span><span class="op">:</span><span class="fl">0.75</span><span class="op">:</span><span class="fl">15.0</span> <span class="co"># change step to vector</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> <span class="fu">cos</span>.(<span class="fl">3</span> <span class="op">.*</span> xp) <span class="op">.*</span> <span class="fu">exp</span>.(<span class="op">-</span>xp<span class="op">/</span><span class="fl">10.0</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>yp[<span class="fl">8</span><span class="op">:</span><span class="fl">9</span>]<span class="op">=</span>[<span class="op">-</span><span class="fl">0.15</span> <span class="op">-</span><span class="fl">0.3</span>]<span class="co"># </span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>xt <span class="op">=</span> <span class="fl">0.0</span><span class="op">:</span><span class="fl">0.05</span><span class="op">:</span><span class="fl">15.0</span> <span class="co"># change step to vector</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>interp1<span class="op">=</span><span class="fu">Interpolator1D</span>(xp, yp, <span class="op">:</span>cubic)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>interp2<span class="op">=</span><span class="fu">Interpolator1D</span>(xp, yp, <span class="op">:</span>cubic_spline_naturalbc)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>interp3<span class="op">=</span><span class="fu">Interpolator1D</span>(xp, yp, <span class="op">:</span>cubic_spline_clampedbc, [<span class="fl">0.0</span>, <span class="fl">0.0</span>])</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xp, yp, label <span class="op">=</span> L<span class="st">"\mathrm{Data}"</span>, dpi<span class="op">=</span><span class="fl">300</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp1</span>.(xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>green, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic}"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp2</span>.(xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>red, ls <span class="op">=</span> <span class="op">:</span>dash, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic\;Spline\;with\;natural\;BC}"</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp3</span>.(xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>blue, ls <span class="op">=</span> <span class="op">:</span>dot, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic\;Spline\;with\;clamped\;BC}"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이 결과로 다음의 그래프를 얻었다.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch04_interpolation/test_spline.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Cubic Spline Interpolation</figcaption><p></p>
+</figure>
+</div>
+<p><br></p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../src/numerical_analysis_using_julia/03I_polynomial.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Interude : 다항식의 구현</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../src/numerical_analysis_using_julia/04I_interpolation_struct.html" class="pagination-link">
+        <span class="nav-page-text">Interude : 국소적 보간법의 구현</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

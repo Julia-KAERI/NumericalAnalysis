@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.302">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Physics, Math &amp; Computing - 최소자승 문제</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../src/numerical_analysis_using_julia/09_ode.html" rel="next">
+<link href="../../src/numerical_analysis_using_julia/07_iterative_method_for_linear_system.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Physics, Math &amp; Computing</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="검색"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/introduction_to_julia/index.html" rel="" target="">
+ <span class="menu-text">Introduction to Julia</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Numerical Analysis using Julia</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/tools/tools.html" rel="" target="">
+ <span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/08_least_square_problem.html">7장 최소자승 문제</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Numerical Analysis Using Julia</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1장 수치해석과 알고리즘</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/02_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2장 수치해석 입문 : 선형 시스템과 다항식</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/03_matrix_algebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3장 Julia 에서의 행렬 계산</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/03I_polynomial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 다항식의 구현</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/04_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4장 다항식을 이용한 보간법</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/04I_interpolation_struct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 국소적 보간법의 구현</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5장 일변수 함수의 미분과 적분</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/06_finding_root.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6장 일변수 방정식의 해</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/07_iterative_method_for_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7장 반복법을 이용한 선형 시스템의 해 구하기</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/08_least_square_problem.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">7장 최소자승 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/09_ode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8장 상미분 방정식</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">부록</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#하우스홀더-행렬과-qr-분해" id="toc-하우스홀더-행렬과-qr-분해" class="nav-link active" data-scroll-target="#하우스홀더-행렬과-qr-분해"><span class="header-section-number">1</span> 하우스홀더 행렬과 QR 분해</a>
+  <ul class="collapse">
+  <li><a href="#하우스홀더-변환과-하우스홀더-반사" id="toc-하우스홀더-변환과-하우스홀더-반사" class="nav-link" data-scroll-target="#하우스홀더-변환과-하우스홀더-반사">하우스홀더 변환과 하우스홀더 반사</a></li>
+  <li><a href="#하우스홀더-변환과-qr-분해" id="toc-하우스홀더-변환과-qr-분해" class="nav-link" data-scroll-target="#하우스홀더-변환과-qr-분해">하우스홀더 변환과 QR 분해</a></li>
+  <li><a href="#qr-분해를-이용한-최소자승법" id="toc-qr-분해를-이용한-최소자승법" class="nav-link" data-scroll-target="#qr-분해를-이용한-최소자승법">QR 분해를 이용한 최소자승법</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">최소자승 문제</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="하우스홀더-행렬과-qr-분해" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="하우스홀더-행렬과-qr-분해"><span class="header-section-number">1</span> 하우스홀더 행렬과 QR 분해</h2>
+<p><span class="math inline">\(\mathbb{C}^{n\times 1}\)</span> 에서의 벡터 <span class="math inline">\(\boldsymbol{v}\)</span> 에 대해 다음과 같이 정의된 <span class="math inline">\(\boldsymbol{H}_v\)</span> 를 <strong>하우스홀더 행렬 (Householder matrix)</strong> 이라 한다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{H}_{\boldsymbol{v}} := I_n- \dfrac{2\boldsymbol{v}\boldsymbol{v}^{\ast}}{\|\boldsymbol{v}\|^2}, \qquad \text{i. e. }\quad
+(\boldsymbol{H}_{\boldsymbol{v}})_{ij} := \delta_{ij} - \dfrac{2 v_i \overline{v_j}}{\|\boldsymbol{v}\|^2}.
+\end{aligned}
+\]</span></p>
+<p>여기서 <span class="math inline">\(\boldsymbol{v}\boldsymbol{v}^{\ast}\)</span> 는 벡터의 내적이 아니라 <span class="math inline">\(n\times 1\)</span> 행렬 <span class="math inline">\(\boldsymbol{v}\)</span> 와 <span class="math inline">\(1 \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{v}^{\ast}\)</span> 가 곱해진 <span class="math inline">\(n \times n\)</span> 행렬을 의미한다. 벡터 <span class="math inline">\(\boldsymbol{x}\in \mathbb{C}^n\)</span> 에 대해 <span class="math inline">\(\boldsymbol{H}_{\boldsymbol{v}} \boldsymbol{x}\in \mathbb{C}^n\)</span> 을 <strong>하우스홀더 변환</strong> 이라 한다. <span class="math inline">\(\boldsymbol{v}\)</span> 가 단위벡터일 경우, 즉 <span class="math inline">\(\|\boldsymbol{v}\|=1\)</span> 라면 좀 더 간단하게 쓸 수 있다.</p>
+<p><span class="math display">\[
+\boldsymbol{H}_{\boldsymbol{v}} = I_n- 2\boldsymbol{v}\boldsymbol{v}^{\ast},\qquad \text{where } \|\boldsymbol{v}\|=1.
+\]</span></p>
+<p><br></p>
+<div id="prp-perperties_of_householder_matrix" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 1 </strong></span>위와 같이 정의된 하우스홀더 행렬 <span class="math inline">\(\boldsymbol{H}_{\boldsymbol{v}}\)</span> 은 다음의 특징을 가진다.</p>
+<p>  (<span class="math inline">\(1\)</span>) 에르미트 행렬이다. 즉 <span class="math inline">\(\boldsymbol{H}_{\boldsymbol{v}}= \boldsymbol{H}_{\boldsymbol{v}}^\ast\)</span>.</p>
+<p>  (<span class="math inline">\(2\)</span>) 유니타리 행렬이다. 즉 <span class="math inline">\(\boldsymbol{H}_{\boldsymbol{v}} (\boldsymbol{H}_{\boldsymbol{v}})^\ast = I\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>(<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{v}\)</span> 가 단위벡터일 경우에만 보여도 된다. <span class="math inline">\(\boldsymbol{H} = \boldsymbol{H}_{\boldsymbol{v}}\)</span> 라 하면,</p>
+<p><span class="math display">\[
+(\boldsymbol{H}^\ast)_{ij} = \overline{H_{ji}}= \delta_{ij}-2 \overline{v_j \overline{v_i}} = \delta_{ij}-2 v_i \overline{v_j} = (\boldsymbol{H})_{ij}
+\]</span></p>
+<p>이므로 <span class="math inline">\(\boldsymbol{H}_{\boldsymbol{v}}\)</span> 는 에르미트 행렬이다.</p>
+<p>(<span class="math inline">\(2\)</span>) 또한,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left(\boldsymbol{H} (\boldsymbol{H}^\ast)\right)_{ij} &amp;= \left((\boldsymbol{H})^2\right)_{ij} = \sum_{k}(\delta_{ik}-2 v_i \overline{v_k})(\delta_{kj} -2 v_k \overline{v_j}) \\
+&amp;= \sum_k \delta_{ik}\delta_{kj} - 2\sum_k \delta_{ik}v_k \overline{v_j} - 2 \sum_k \delta_{kj} v_i \overline{v_k} + 4 \sum_{k} v_i \overline{v_j} v_k \overline{v_k} \\
+&amp;= \delta_{ij} - 2 v_i \overline{v_{j}} - 2 v_i \overline{v_j} + 4 v_i \overline{v_j} = \delta_{ij}
+\end{aligned}
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p>따라서 <span class="math inline">\(\mathbb{R}^n\)</span> 에서 생각 할 경우 하우스홀더 행렬은 대칭행렬이며, 직교행렬(orthogonal matrix) 이다.</p>
+<p><br></p>
+<section id="하우스홀더-변환과-하우스홀더-반사" class="level3">
+<h3 class="anchored" data-anchor-id="하우스홀더-변환과-하우스홀더-반사">하우스홀더 변환과 하우스홀더 반사</h3>
+<p>하우스 홀더 변환이 리플렉션(reflection, 반사) 라고 불린다. 수학적으로 <span class="math inline">\(\mathbb{R}^n\)</span> 공간에서 벡터 <span class="math inline">\(\boldsymbol{v}\)</span> 만으로 <span class="math inline">\(\boldsymbol{v}\)</span> 와 수직이며 원점을 지나는 평면이 유일하게 정의될 수 있다. 임의의 벡터 <span class="math inline">\(\boldsymbol{x} \in \mathbb{F}^n\)</span> 에 대해,</p>
+<p><span class="math display">\[
+\begin{aligned}
+(\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x})_k &amp;=  x_k - \dfrac{2}{\|\boldsymbol{v}\|^2}  \sum_{j=1}^n v_k \overline{v_j} x_j\\
+\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x} &amp;= \boldsymbol{x} - 2 \dfrac{\langle \boldsymbol{x},\,  \boldsymbol{v} \rangle \boldsymbol{v}}{\|\boldsymbol{v}\|^2}
+\end{aligned}
+\]</span></p>
+<p>이며,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{1}{2 }(\boldsymbol{x}+\boldsymbol{Hx}) &amp;= \boldsymbol{x} - \langle \boldsymbol{v,\,  x}\rangle \boldsymbol{v} = \boldsymbol{x} - \text{Proj}_{\boldsymbol{v}} \boldsymbol{x} \\
+\boldsymbol{x}-\boldsymbol{Hx} &amp;= 2\langle \boldsymbol{v ,\, x} \rangle  \boldsymbol{v} = 2\, \text{Proj}_{\boldsymbol{v}}\boldsymbol{x}
+\end{aligned}
+\]</span></p>
+<p>이다. 즉 <span class="math inline">\(\boldsymbol{x}\)</span> 와 <span class="math inline">\(\boldsymbol{Hx}\)</span> 는 <span class="math inline">\(\boldsymbol{v}\)</span> 에 의해 정의되는 평면에 대해 대칭이다.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch07_least_square_problem/householder1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Householder 반사</figcaption><p></p>
+</figure>
+</div>
+<p><span class="math inline">\(\boldsymbol{x}\)</span> 를 <span class="math inline">\(\boldsymbol{v}\)</span> 와 평행한 부분과 수직한 부분으로 분리하자. 즉 <span class="math inline">\(\boldsymbol{x}_{\|} = \text{Proj}_{\boldsymbol{v}}\boldsymbol{x}\)</span>, <span class="math inline">\(\boldsymbol{x}_{\perp} = \boldsymbol{x}-\text{Proj}_{\boldsymbol{v}}\boldsymbol{x}\)</span> 라 하면, <span class="math inline">\(\boldsymbol{x} = \boldsymbol{x}_{\|} + \boldsymbol{x}_{\perp}\)</span> 이며 <span class="math inline">\(\boldsymbol{x}\cdot \boldsymbol{v} = \boldsymbol{x}_{\|}\cdot \boldsymbol{v}\)</span> 이다.</p>
+<p><span class="math display">\[
+\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x} = \boldsymbol{x} - 2 \boldsymbol{x}_{\|} = \boldsymbol{x}_{\perp} - \boldsymbol{x}_{\|}
+\]</span></p>
+<p>이다.</p>
+<p><br></p>
+</section>
+<section id="하우스홀더-변환과-qr-분해" class="level3">
+<h3 class="anchored" data-anchor-id="하우스홀더-변환과-qr-분해">하우스홀더 변환과 QR 분해</h3>
+<div id="prp-householder_transform" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 2 </strong></span><span class="math inline">\(\mathbb{F}^m\)</span> 에서의 벡터 <span class="math inline">\(\boldsymbol{x}\)</span> 과 표준 기저 <span class="math inline">\(\{\boldsymbol{e}_1,\ldots,\,\boldsymbol{e}_m\}\)</span> 를 생각하자. <span class="math inline">\(\alpha\)</span> 를 <span class="math inline">\(\boldsymbol{x}\)</span> 의 첫번째 성분 <span class="math inline">\(x_1 = re^{i\theta}\)</span> 에 대해 다음과 같이 정의한다.</p>
+<p><span class="math display">\[
+\alpha = \left\{ \begin{array}{ll} \|\boldsymbol{x}\|_2  &amp; \text{where } \mathbb{F}=\mathbb{R}, \\ e^{i\theta}\|\boldsymbol{x}\|_2 \qquad &amp; \text{where } \mathbb{F} =\mathbb{C}. \end{array} \right.
+\]</span></p>
+<p><span class="math inline">\(\boldsymbol{x}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{v}\)</span> 를 다음과 같이 정하자.</p>
+<p><span class="math display">\[
+\boldsymbol{v} = \boldsymbol{x} - \alpha \boldsymbol{e}_1, \\
+\]</span></p>
+<p>이 때 <span class="math inline">\(\boldsymbol{x}\)</span> 의 <span class="math inline">\(\boldsymbol{v}\)</span> 에 대한 하우스홀더 변환 <span class="math inline">\(\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x}\)</span> 는 다음과 같다.</p>
+<p><span class="math display">\[
+\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x} = \boldsymbol{x}-\boldsymbol{v} = \alpha \boldsymbol{e}_1.
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\alpha \overline{x}_1 = \overline{\alpha}x_1 = |x_1| \|\boldsymbol{x}\|_2\)</span> 이며 <span class="math inline">\(|\alpha|^2 = \|\boldsymbol{x}\|_2^2\)</span> 이다. <span class="math inline">\(a=\alpha\overline{x}_1=\overline{\alpha}x_1\)</span> 이라 놓고 다음을 계산해 보자. <span class="math display">\[
+\begin{aligned}
+\langle \boldsymbol{x},\,\boldsymbol{v}\rangle &amp; = \langle \, \boldsymbol{x} , \boldsymbol{x}-\alpha \boldsymbol{e}_1\rangle = \|\boldsymbol{x}\|_2^2-\overline{\alpha} x_1  = \|\boldsymbol{x}\|_2^2 - a\\
+\langle \boldsymbol{v},\,\boldsymbol{v}\rangle &amp;= \langle \boldsymbol{x} -\alpha \boldsymbol{e}_1,\, \boldsymbol{x} -\alpha\boldsymbol{e}_1 \rangle  = \|\boldsymbol{x}\|^2 - \overline{\alpha} x_1 -\alpha \overline{x_1} + |\alpha|^2 = 2(\|\boldsymbol{x}\|_2^2 -a) \\
+&amp;= 2 \langle \boldsymbol{x},\, \boldsymbol{v} \rangle
+\end{aligned}
+\]</span></p>
+<p>이므로, (잠시 <span class="math inline">\(\|\boldsymbol{x}\|_2\)</span> 를 <span class="math inline">\(\|\boldsymbol{x}\|\)</span> 라 하자.)</p>
+<p><span class="math display">\[
+\boldsymbol{H}_\boldsymbol{v} \boldsymbol{x} = \boldsymbol{x} - 2\dfrac{\langle \boldsymbol{x},\, \boldsymbol{v}\rangle}{\|\boldsymbol{v}\|^2} \boldsymbol{v} = \boldsymbol{x}-\boldsymbol{v} = \alpha \boldsymbol{e}_1
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p>이미 설명한 그람 슈미트 방법과 유사하게</p>
+<p>이제 <span class="math inline">\(\boldsymbol{Q}_1= \boldsymbol{Q},\, \boldsymbol{A}=\boldsymbol{A}_1\)</span> 이라 놓으면,</p>
+<p><span class="math display">\[
+\boldsymbol{Q}_1\boldsymbol{A}_1 = \begin{bmatrix}\alpha _{1} &amp; \ast &amp;\cdots &amp;\ast \\0 &amp; &amp; &amp;\\ \vdots &amp; &amp; \boldsymbol{A}_2 &amp; \\ 0 &amp; &amp; &amp; \end{bmatrix}
+\]</span></p>
+<p>꼴이 된다. 이제 행렬 <span class="math inline">\(m \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}_k\)</span> 가 <span class="math inline">\(k\)</span> 번째 행까지는 상삼각 행렬의 모양을 따른다고 하자. 즉 <span class="math inline">\(j\le k\)</span> 이고 <span class="math inline">\(i&gt;k\)</span> 이면 <span class="math inline">\((\boldsymbol{A}_k)_{ij}=0\)</span> 이라 하자. 이 때 <span class="math inline">\(\boldsymbol{A}_k\)</span> 의 <span class="math inline">\(k\)</span> 번째 행부터 <span class="math inline">\(m\)</span> 행, <span class="math inline">\(k\)</span> 번째 열부터 <span class="math inline">\(m\)</span> 열까지를 <span class="math inline">\(\boldsymbol{A}'_k\)</span> 라 하고,(julia 로 표현하면 <code>Ak[k:end, k:end]</code> 가 될 것이다) 이 <span class="math inline">\(\boldsymbol{A}'_k\)</span> 에 대해 앞서 <span class="math inline">\(\boldsymbol{A}\)</span> 에 했던 것과 똑같은 과정을 수행하는 하우스홀더 행렬을 <span class="math inline">\(\boldsymbol{Q}'_k\)</span> 라 하면 <span class="math inline">\(\boldsymbol{Q}'_k \boldsymbol{A}'_k\)</span> 는 <span class="math inline">\(\boldsymbol{Q}_1\boldsymbol{A}_1\)</span> 처럼 첫번째 열에서는 첫번째 행을 제외한 나며지 행의 값이 <span class="math inline">\(0\)</span> 이 된다. 만약</p>
+<p><span class="math display">\[
+\boldsymbol{Q}_k = \begin{bmatrix} \boldsymbol{I}_{k-1} &amp; 0 \\ 0 &amp; \boldsymbol{Q}_k'\end{bmatrix}
+\]</span></p>
+<p>이라 하면, <span class="math inline">\((k-1)\times (k-1)\)</span> 단위행렬 <span class="math inline">\(I_{k-1}\)</span> 과 <span class="math inline">\(\boldsymbol{A}_k\)</span> 를 <span class="math inline">\(k\)</span> 행 과 <span class="math inline">\(k\)</span> 열 부터 잘라 <span class="math inline">\(\boldsymbol{A}_{k} = \begin{bmatrix} B_{k} &amp; C_{k} \\ 0 &amp;\boldsymbol{A}'_{k}\end{bmatrix}\)</span> 로 만들자. <span class="math inline">\(B_k\)</span> 는 <span class="math inline">\((k-1) \times (k-1)\)</span> 행렬이며 <span class="math inline">\(\boldsymbol{A}'_{k}\)</span> 는 <span class="math inline">\((m-k+1)\times (n-k+1)\)</span> 행렬이다. <span class="math inline">\(\boldsymbol{A}_k\)</span> 가 <span class="math inline">\(k\)</span> 열까지 상삼각 행렬 모양이므로 <span class="math inline">\(B_k\)</span> 아래는 <span class="math inline">\(0\)</span> 행렬이다. 두 행렬의 곱은 <span class="math display">\[
+\boldsymbol{Q}_k \boldsymbol{A}_k = \begin{bmatrix} \boldsymbol{I}_{k-1} &amp; 0 \\ 0 &amp; \boldsymbol{Q}_k' \end{bmatrix} \begin{bmatrix} B_{k} &amp; C_{k} \\ 0 &amp;\boldsymbol{A}'_{k}\end{bmatrix} = \begin{bmatrix} B_k &amp; C_k \\ 0 &amp; \boldsymbol{Q}'_k \boldsymbol{A'}_k \end{bmatrix}
+\]</span></p>
+<p>이 되고 <span class="math inline">\(\boldsymbol{Q}'_k \boldsymbol{A}'_k\)</span> 의 첫번째 열은 첫번째 행을 제외하면 모두 <span class="math inline">\(0\)</span> 이므로 <span class="math inline">\(\boldsymbol{Q}_k \boldsymbol{A}_k\)</span> 는 <span class="math inline">\(k\)</span> 열까지 상삼각 행렬 꼴이 된다.</p>
+<p><span class="math inline">\(L = \min\{m,\,n\}\)</span> 이라 하면 <span class="math inline">\(\boldsymbol{Q}_L \boldsymbol{Q}_{L-1} \cdots \boldsymbol{Q}_1 \boldsymbol{A}\)</span> 는 상삼각행렬꼴이 된다. 이를 <span class="math inline">\(\boldsymbol{R}\)</span> 이라 하자. <span class="math inline">\(\boldsymbol{Q}'_k\)</span> 가 하우스홀더 행렬이므로</p>
+<p><span class="math display">\[
+\boldsymbol{Q}_k \boldsymbol{Q}_k^\ast = \begin{bmatrix} \boldsymbol{I}_{k-1} &amp; 0 \\ 0 &amp; \boldsymbol{Q}_k'\end{bmatrix} \begin{bmatrix} \boldsymbol{I}_{k-1} &amp; 0 \\ 0 &amp; (\boldsymbol{Q}_k')^\ast\end{bmatrix} = \begin{bmatrix} I_{k-1} &amp; 0 \\0 &amp; \boldsymbol{Q}_k'
+(\boldsymbol{Q}_k')^\ast\end{bmatrix} = I
+\]</span></p>
+<p>이다. 즉 <span class="math inline">\(\boldsymbol{Q}_k\)</span> 도 직교행렬이다. <span class="math inline">\(\boldsymbol{Q}_k\)</span> 가 에르미트 행렬임은 쉽게 보일 수 있다. 이제,</p>
+<p><span class="math display">\[
+\boldsymbol{Q}_L \cdots \boldsymbol{Q}_1 \boldsymbol{A} = \boldsymbol{R} \implies \boldsymbol{A} = \boldsymbol{Q}_1^\ast \cdots \boldsymbol{Q}_L^\ast \boldsymbol{R}
+\]</span></p>
+<p>임은 쉽게 보일 수 있다. 직교행렬의 곱은 직교행렬이므로 <span class="math inline">\(\boldsymbol{Q}_1^\ast \cdots \boldsymbol{Q}_L^\ast\)</span> 도 직교행렬이다. 따라서 QR 분해를 할 수 있다.</p>
+</section>
+<section id="qr-분해를-이용한-최소자승법" class="level3">
+<h3 class="anchored" data-anchor-id="qr-분해를-이용한-최소자승법">QR 분해를 이용한 최소자승법</h3>
+<section id="부분공간에-대한-정사영" class="level4">
+<h4 class="anchored" data-anchor-id="부분공간에-대한-정사영">부분공간에 대한 정사영</h4>
+<p><span class="math inline">\(W\)</span> 가 내적벡터공간 <span class="math inline">\(V\)</span> 의 부분공간이라 하자. 이 때 그람슈미트 과정을 통해 <span class="math inline">\(W\)</span> 의 정규기저벡터 <span class="math inline">\(\{\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_m\}\)</span> 을 구할 수 있다. 이 때 <span class="math inline">\(\boldsymbol{v} \in V\)</span> 의 <span class="math inline">\(W\)</span> 에 대한 정사영 <span class="math inline">\(\text{Proj}_W \boldsymbol{v}\)</span> 는 다음과 같이 정의된다.</p>
+<p><span class="math display">\[
+\text{Proj}_W \boldsymbol{v} = \sum_{i=1}^m \langle \boldsymbol{v},\,\hat{\boldsymbol{u}}_i \rangle\,\hat{\boldsymbol{u}}_i
+\]</span></p>
+<p><span class="math inline">\(\text{Proj}_W \boldsymbol{v}\)</span> 는 <span class="math inline">\(W\)</span> 에 속한 벡터이며, 벡터에 대한 정사영과 마찬가지로 임의의 <span class="math inline">\(\boldsymbol{w} \in W\)</span> 에 대해</p>
+<p><span class="math display">\[
+\langle \boldsymbol{w},\,  \boldsymbol{v}-\text{Proj}_W \boldsymbol{v}\rangle = \boldsymbol{0}
+\]</span></p>
+<p>이다. <span class="math inline">\(\boldsymbol{v} = \text{Proj}_W \boldsymbol{v} + (\boldsymbol{v} - \text{Proj}_W\boldsymbol{v} )\)</span> 이므로 벡터 <span class="math inline">\(\boldsymbol{v}\)</span> 를 <span class="math inline">\(W\)</span> 에 속하는 벡터와, <span class="math inline">\(W\)</span> 에 직교하는 벡터로 분해 할 수 있다.</p>
+<p><br></p>
+<p>내적벡터공간 <span class="math inline">\(V\)</span> 의 두 벡터 <span class="math inline">\(\boldsymbol{v}_1,\,\boldsymbol{v}_2\)</span> 의 거리는 <span class="math inline">\(\|\boldsymbol{v}_1-\boldsymbol{v}_2\| = \sqrt{\langle \boldsymbol{v}_1-\boldsymbol{v}_2,\,\boldsymbol{v}_1-\boldsymbol{v}_2 \rangle}\)</span> 로 정의된다. <span class="math inline">\(V\)</span> 와 그 부분공간 <span class="math inline">\(W\)</span> 를 생각하자. <span class="math inline">\(V\)</span> 의 벡터 <span class="math inline">\(\boldsymbol{v}\)</span> 와 <span class="math inline">\(W\)</span> 사이의 거리 <span class="math inline">\(d(\boldsymbol{v},\,W)\)</span> 는 <span class="math inline">\(W\)</span> 에 속한 벡터 가운데 <span class="math inline">\(\boldsymbol{v}\)</span> 와의 거리가 가장 작은 벡터 <span class="math inline">\(\boldsymbol{v}_0\)</span> 와의 거리로 정의된다. 즉,</p>
+<p><span class="math display">\[
+d(\boldsymbol{v},\,W) = \min_{\boldsymbol{w}\in W} \| \boldsymbol{v} - \boldsymbol{w}\|
+\]</span></p>
+<p>이다. 여기서 <span class="math inline">\(d(\boldsymbol{v},\,W) = d(\boldsymbol{v},\, \text{Proj}_W \boldsymbol{v})\)</span> 임을 보이고자 한다. <span class="math inline">\(W\)</span> 의 정규기저벡터 <span class="math inline">\(\{\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_n\}\)</span> 을 생각하자. 그리고 <span class="math inline">\(V\)</span> 의 정규기저 벡터는 앞의 <span class="math inline">\(W\)</span> 의 정규기저벡터를 확장하여 <span class="math inline">\(\{\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_n,\,\hat{\boldsymbol{f}}_1,\ldots,\,\hat{\boldsymbol{f}}_m\}\)</span> 라 하자. 그렇다면 <span class="math inline">\(\langle \hat{\boldsymbol{u}}_i,\, \hat{\boldsymbol{f}}_j \rangle = 0\)</span>, <span class="math inline">\(\langle \hat{\boldsymbol{f}}_i ,\,\hat{\boldsymbol{f}}_j \rangle = \delta_{ij}\)</span> 이다. 이제 이 정규기저벡터로 <span class="math inline">\(\boldsymbol{v}\in V\)</span> 를 표현하면,</p>
+<p><span class="math display">\[
+\boldsymbol{v} = a_1 \hat{\boldsymbol{u}}_1 + \cdots + a_n \hat{\boldsymbol{u}}_n + b_1 \hat{\boldsymbol{f}}_1 + \cdots + b_m \hat{\boldsymbol{f}}_m
+\]</span></p>
+<p>이다. 임의의 <span class="math inline">\(\boldsymbol{w} = c_1 \hat{\boldsymbol{u}}_1 + \cdots + c_n \hat{\boldsymbol{u}}_n \in W\)</span> 와 <span class="math inline">\(\boldsymbol{v}\)</span> 와의 거리의 제곱은</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left(d(\boldsymbol{v},\,\boldsymbol{w}) \right)^2&amp;= (a_1-c_1)^2 + \cdots + (a_n - c_n)^2 + b_1^2 + \cdots + b_m^2 \ge b_1^2 + \cdots +b_m ^2
+\end{aligned}
+\]</span></p>
+<p>이므로 <span class="math inline">\(a_1=c_1, \cdots , a_n = c_n\)</span> 일 때 <span class="math inline">\(d(\boldsymbol{v},\,W)\)</span> 가 최소값이 됨을 알 수 있다. 즉,</p>
+<p><span class="math display">\[
+d(\boldsymbol{v},\,W) = \|\boldsymbol{v}-\text{Proj}_W \boldsymbol{v}\|
+\]</span></p>
+<p>이다.</p>
+<p>선형 시스템에서 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족시키는 해가 없지만 <span class="math inline">\(\|\boldsymbol{Ax}-\boldsymbol{b}\|\)</span> 를 최소화 하는 <span class="math inline">\(\boldsymbol{x}\)</span> 를 구하고자 할 경우를 생각하자. <span class="math inline">\(\boldsymbol{A}\)</span> 가 <span class="math inline">\(m\times n\)</span> 행렬이고 <span class="math inline">\(\boldsymbol{x}\in \mathbb{F}^n,\,\boldsymbol{b}\in \mathbb{F}^m\)</span> 이라 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 의 <span class="math inline">\(i\)</span> 번째 행을 <span class="math inline">\(\boldsymbol{a}_i\)</span> 라 하면 <span class="math inline">\(\boldsymbol{a}_i \in \mathbb{F}^m\)</span> 이며,</p>
+<p><span class="math display">\[
+\boldsymbol{A} = \begin{bmatrix} \boldsymbol{a}_1 &amp; \boldsymbol{a}_2 &amp; \cdots &amp; \boldsymbol{a}_n\end{bmatrix}
+\]</span></p>
+<p>이다. <span class="math inline">\(\boldsymbol{x} = \begin{bmatrix}x_1 &amp; x_2 &amp; \ldots &amp; x_n\end{bmatrix}^T\)</span> 이라 하면, <span class="math inline">\(\boldsymbol{Ax}= x_1 \boldsymbol{a}_1 + \cdots x_n \boldsymbol{a}_n\)</span> 이다. 즉 <span class="math inline">\(\boldsymbol{Ax}\)</span> 는 <span class="math inline">\(\boldsymbol{a}_1,\ldots,\boldsymbol{a}_n\)</span> 에 의해 정해지는 <span class="math inline">\(\mathbb{F}^n\)</span> 의 부분공간의 한 벡터이며, <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 는 이 부분공간의 벡터 가운데 <span class="math inline">\(\boldsymbol{b}\)</span> 와 같도록 하는 계수 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 을 찾는 것이라고 이해 할 수 있다.</p>
+<ol type="1">
+<li><p><span class="math inline">\(m=n,\, \text{rank}(\boldsymbol{A})=n\)</span> 이면 <span class="math inline">\(\boldsymbol{A}\)</span> 가 가역행렬이므로 <span class="math inline">\(\boldsymbol{x}\)</span> 의 정확한 해가 반드시 존재한다. QR 분해의 경우 <span class="math inline">\(\boldsymbol{R}\)</span> 은 대각성분이 양수인 <span class="math inline">\(n \times n\)</span> 상삼각행렬이 된다.</p></li>
+<li><p><span class="math inline">\(m&gt;n\)</span> 이라면 <span class="math inline">\(\text{rank}(\boldsymbol{A}) \le n&lt; m\)</span> 이므로 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 해가 존재하지 않을 수 있다.</p></li>
+<li><p><span class="math inline">\(m&lt;n\)</span> 이라면</p></li>
+</ol>
+<p>– to be continued</p>
+<p><br></p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../src/numerical_analysis_using_julia/07_iterative_method_for_linear_system.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">7장 반복법을 이용한 선형 시스템의 해 구하기</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../src/numerical_analysis_using_julia/09_ode.html" class="pagination-link">
+        <span class="nav-page-text">8장 상미분 방정식</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
