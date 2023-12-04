@@ -1,0 +1,77 @@
+---
+title: "파일시스템과 파일입출력"
+# language: ../_language-ko_custom.yml 
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+## 파일 시스템
+
+### 스크립트를 실행할 때의 파일 정보
+
+Julia 스크립트가 실행 될 때 몇가지 파일과 경로에 대한 정보를 가지고 실행된다. 예를 들어 다음의 julia 스크립트 파일로 저장하고 실행시켜보자.
+
+```julia
+#! /usr/bin/env julia
+
+println(homedir())
+println(pwd())
+println(@__DIR__)
+println(@__FILE__)
+```
+
+Julia 스크립트는 보통 확장자로 `jl` 을 사용한다. 위의 코드를 `pathes.jl` 로 저장해보자. 맨 앞줄의 `#! /usr/bin/env julia` 는 Shebang 이라고 하며 스크립트의 실행 정보를 담고 있지만 여기서는 무시하자. Linux 나 맥 OSX 같은 유닉스 계열의 OS 라면 터미널에서 
+
+```sh
+julia pathes.jl
+```
+
+명령어로서 실행시킨다. 실행이 제대로 된다면 4줄을 출력할 것이다.
+
+- `homedir()` 은 사용자의 홈 디렉토리의 경로를 문자열로 반환하는 함수이다.
+
+- `pwd()` 는 스크립트가 어떤 작업을 할 때의 기준 디렉토리 즉 작업디렉토리를 문자열로 반환하는 함수이다. 
+
+- `@__DIR__` 은 매크로로 이 매크로를 호출한 파일의 디렉토리를 반환한다. 
+ 
+- `@__FILE__` 역시 매크로로 이 매크로를 호출한 파일의 파일명을 포함하는 전체 경로를 반환한다.
+
+
+</br>
+
+### Julia 에서 파일과 디렉토리 다루기
+
+여기서는 함수 이름만 나열하겠다. 자세한 사용법은 Julia 의 도움말을 확인하라.
+
+
+
+| 기능 | 함수 |
+|:---------|:------|
+| home directory | `homedir()` | 
+| working directory 확인 | `pwd()`| 
+| working directory 변경 | `cd()`|
+| working directory를 home directory로 변경 | `cd()` | 
+| directory내 파일 및 폴더 리스트 확인 |`readdir()`|
+| directory 만들기 |`mkpath()`|
+| 파일/폴더 이동 | `mv()`| 
+|파일/폴더 삭제 | `rm()`|
+| 폴더인지 확인 | `isdir()` |
+| 파일인지 확인 | `isfile()`|
+| 유효한 경로인지 확인 | `ispath()` |
+| 절대경로 확인 | `abspath()`|
+| 절대경로인지 확인 | `isabspath()`|
+| 경로 합성 | `joinpath()`|
+| 디렉토리 이름과 파일 이름으로 분할  | `splitdir()` |
+| 경로를 세부 단위로 분할 | `splitpath()`|
+| 파일크기 확인 | `filesize()` |
+| 파일의 세부 정보 얻기 | `stat()` |
+
+
+</br>
+
+## 저수준 파일 입출력
+
+

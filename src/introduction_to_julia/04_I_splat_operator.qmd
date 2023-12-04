@@ -4,7 +4,7 @@
 
 </br>
 
-### 컨테이너에 대한 사용
+### 컨테이너에 대한 사용법 {#sec-splat_operator_for_containers}
 
 튜플이나 `StepRange` 혹은 1차원 배열과 같이 순서가 있는 컨테이너에 대해서는 직관적으로 알 수 있습니다.
 
@@ -66,7 +66,7 @@ Out[21]: 4-element Vector{Int64}:
 
 </br>
 
-## 함수의 정의에서의 인자에 대한 사용
+## 함수를 정의할 때의 사용법 {#sec-splat_operator_in_function_definition}
 
 다음을 봅시다.
 
@@ -96,7 +96,7 @@ Out[10]: (2, 3)
 
 </br>
 
-## 함수를 실행시킬때의 인자에 대한 사용
+## 함수를 실행시킬때 인자에서의 사용법 {#sec-splat_operator_in_function_argument}
 
 함수의 정의에서는 인자를 튜플로 묶는다면 함수를 사용할 때는 컨테이너를 풉니다. 예를 들어,
 

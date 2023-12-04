@@ -16,9 +16,9 @@ website:
       - href: index.qmd
         text: Home
       - href : src/introduction_to_julia/index.qmd
-        text : "Introduction to Julia"
+        text : "Julia 프로그래밍 언어"
       - href : src/numerical_analysis_using_julia/index.qmd
-        text : "Numerical Analysis using Julia"
+        text : "Julia 언어를 이용한 수치해석"
       
       - href : src/tools/tools.qmd
         text : "Tools"
@@ -26,41 +26,49 @@ website:
 
   sidebar:
     - title : "Introduction to Julia"
+      style : "docked"
+      type : "dark"
       collapse-level : 2
       contents :
-        - text : Introduction to Julia
-          href : src/introduction_to_julia/index.qmd
-        - text : "1장 설치와 환경 구성"
-          href : src/introduction_to_julia/01_julia_language.qmd 
-        - text : "2장 변수와 기본 타입"
-          href : src/introduction_to_julia/02_variables_basic_types.qmd
-        - text : "3장 함수와 연산자"
-          href : src/introduction_to_julia/03_functions_and_operators.qmd
-        - text : "4장 컨테이너"
-          href : src/introduction_to_julia/04_containers.qmd
-        - text : "Interude : Splat 연산자"
-          href : src/introduction_to_julia/04_I_splat_operator.qmd
-        - text : "5장 흐름 제어"
-          href : src/introduction_to_julia/05_control_flows.qmd
-        - text : "6장 배열"
-          href : src/introduction_to_julia/06_arrays.qmd
-        - text : "Interude : 함수의 합성과 전달"
-          href : src/introduction_to_julia/06_I_function_composition_and_piping.qmd
-        - text : "7장 이름공간, 모듈, 패키지"
-          href : src/introduction_to_julia/07_module_package.qmd
-        - text : "Interude : 정렬"
-          href : src/introduction_to_julia/07_I_sort.qmd
-        - text : "8장 타입의 계층구조와 메서드 디스패치"
-          href : src/introduction_to_julia/08_type_hierarchy.qmd
-        - text : "Interude : 문서화"
-          href : src/introduction_to_julia/08_I_documentation.qmd
-        - text : "9장 복합 타입"
-          href : src/introduction_to_julia/09_composite_types.qmd
-        - text : "Interude : 보기 좋게 출력하기"
-          href : src/introduction_to_julia/09_I_pretty_printing.qmd
-        - text : "10장 메타프로그래밍과 매크로"
-          href : src/introduction_to_julia/10_metaprogramming_and_macro.qmd
-
+        - section : Julia 언어의 기초
+          contents :
+          - text : Introduction to Julia
+            href : src/introduction_to_julia/index.qmd
+          - text : "1장 설치와 환경 구성"
+            href : src/introduction_to_julia/01_julia_language.qmd 
+          - text : "2장 변수와 기본 타입"
+            href : src/introduction_to_julia/02_variables_basic_types.qmd
+          - text : "3장 함수와 연산자"
+            href : src/introduction_to_julia/03_functions_and_operators.qmd
+          - text : "4장 컨테이너"
+            href : src/introduction_to_julia/04_containers.qmd
+          - text : "Interude : Splat 연산자"
+            href : src/introduction_to_julia/04_I_splat_operator.qmd
+          - text : "5장 흐름 제어"
+            href : src/introduction_to_julia/05_control_flows.qmd
+          - text : "6장 배열"
+            href : src/introduction_to_julia/06_arrays.qmd
+          - text : "Interude : 함수의 합성과 전달"
+            href : src/introduction_to_julia/06_I_function_composition_and_piping.qmd
+          - text : "7장 이름공간, 모듈, 패키지"
+            href : src/introduction_to_julia/07_module_package.qmd
+          - text : "Interude : 정렬"
+            href : src/introduction_to_julia/07_I_sort.qmd
+          - text : "8장 타입의 계층구조와 메서드 디스패치"
+            href : src/introduction_to_julia/08_type_hierarchy.qmd
+          - text : "Interude : 문서화"
+            href : src/introduction_to_julia/08_I_documentation.qmd
+          - text : "9장 복합 타입"
+            href : src/introduction_to_julia/09_composite_types.qmd
+          - text : "Interude : 보기 좋게 출력하기"
+            href : src/introduction_to_julia/09_I_pretty_printing.qmd
+          - text : "10장 메타프로그래밍과 매크로"
+            href : src/introduction_to_julia/10_metaprogramming_and_macro.qmd
+        - text : "-----"
+        - section : Julia 언어의 활용
+          contents :
+          - text : 파일시스템과 파일입출력
+            href : src/applications_of_julia/fileio.qmd
     
     - title : "Numerical Analysis using Julia"
       collapse-level: 2
