@@ -12,7 +12,7 @@ crossref:
 
 Julia 에서 다루는 모든 값은 특정 타입(Type) 의 값입니다. 타입은 julia 언어에서 제공하는 `Int64` 나 `Complex{Float64}` 일 수도 있고 필요에 의해 만든 것일 수도 있습니다. Julia 에서 변수에 값을 할당할 때 타입을 명시적으로 지정할 수 있으며, 명시적으로 지정되어 있지 않을 경우 julia 에 의해 지정되기도 합니다. 다음의 코드와 설명을 보고 이해하시기 바랍니다.
 
-```julia
+```html
 In [1]: a=3;typeof(a)
 Out[1]: Int64
 
@@ -37,7 +37,7 @@ Out[5]: UInt8
 
 Julia 의 타입은 **추상적 타입(abstract type)** 과 **구체적 타입(concrete type)** 으로 분류 할 수 있습니다. 구체적 타입은 변수가 지정되어 값을 할당 할 수 있지만 추상적 타입에는 변수를 지정 할 수 없으며, 값도 할당 할 수 없습니다. 억지로 할당할 경우 적당한 구체적 타입으로 변환됩니다. 우리가 지금까지 사용한 `UInt8`, `Int64`, `Float64` 등은 구체적 타입이며 아래의 예에서 `AbstractFloat` 는 부동소수에 대한 추상적인 타입입니다. 
 
-```julia
+```html
 In [6]: aa=AbstractFloat(0.0);typeof(aa)
 Out[6]: Float64
 ```
@@ -61,7 +61,7 @@ abstract type Unsigned <: Integer end
 
 Julia 의 모든 타입은 어떤 타입의 하위 타입(subtype) 이며 단 하나의 상위 타입(supertype) 을 계승합니다. 타입의 하위타입에는 갯수 제한이 없습니다. 타입 계층의 최상단에는 `Any` 타입이 있으며, 모든 타입은 `Any` 의 하위타입 이던가 `Any` 의 하위타입의 하위타입 이던가.... `Any` 의 몇대 자손중의 하나입니다. 심지어 `Any` 의 상위타입은 `Any` 입니다. 어떤 타입의 상위 타입을 알기 위해서는 `supertype()` 함수를 사용 하며 하위 타입들을 알기 위해서는 `subtypes()` 함수를 사용합니다.
 
-```julia
+```html
 In [7]: supertype(UInt8)
 Out[7]: Unsigned
 
@@ -133,30 +133,6 @@ primitive type UInt128 <: Unsigned 128 end
 
 첫번째 `primitive type Float16 <: AbstractFloat 16 end` 는 `Float16` 타입은 `AbstractFloat` 타입의 하위타입으로 16비트, 즉 2바이트를 차지하는 타입이라는 의미입니다. 앞서 말했듯이 구체적 타입은 상위 타입이 될 수 없으므로 원시 타입은 어떤 추상 타입의 하위타입이 됩니다.
 
-
-</br>
-
-### Type Union {#sec-type_union}
-
-예를 들어 당신이 `Int64` 와 `String` 타입만을 가져야 하는 어떤 변수를 원할 때 `Union` 키워드를 이용하여 다음과 같이 새로운 타입을 만들 수 있습니다. 
-
-```julia
-In [1]: IntOrString = Union{Int,AbstractString}
-Out[1]: Union{Int64, AbstractString}
-
-In [2]: 1 :: IntOrString
-Out[2]: 1
-
-In [3]: "Hello!" :: IntOrString
-Out[3]: "Hello!"
-
-In [4]: 1.0 :: IntOrString
-ERROR: TypeError: in typeassert, expected Union{Int64, AbstractString}, got a value of type Float64
-...
-```
-
-`Union` 이후의 `{ }` 에는 여러개의 타입이 나열 될 수 있으며, 나열되는 타입은 구체적 타입일 수도 있고, 추상적인 타입일 수도 있습니다. 추상적인 타입일 경우 지정되는 변수에 가장 적당한 하위타입으로 지정됩니다.
-
 </br>
 
 ## 메서드 다중 디스패치(Multiple dispatch) {#sec-method_multiple_dispatch}
@@ -164,11 +140,11 @@ ERROR: TypeError: in typeassert, expected Union{Int64, AbstractString}, got a va
 
 ### 함수와 메서드
 
-각각의 컴퓨터 프로그래밍 언어나 프로그래밍 패러다임마다 함수와 메서드의 관계가 다릅니다. 보통 프로그래밍에서 함수란 어떤 일련의 동작들을 모아 하나의 기능으로 만든 것을 말합니다. Julia 기본 문서의 [Methods](https://docs.julialang.org/en/v1/manual/methods/#Parametric-Methods) 를 보면 Julia 에서 보는 함수와 메서드는 이와는 약간 다릅니다. Julia 에서의 함수는 일종의 기능의 추상화입니다. 예를 들어 두 수를 더하는 함수를 생각해 봅시다. 먼저 원시 타입에 대한 더하기를 생각해보면, 원시 타입이란 특정한 비트의 배열이기 때문에 각 원시 타입마다 내부적으로 더하기를 다르게 구현해야 합니다. 하지만 모두 `+` 라는 연산자에 대해 정의됩니다. 이렇게 추상적으로 정의된 함수에 대해 각 타입마다 구체적으로 구현된 코드를 julia 에서는 메서드라고 부릅니다. [함수와 메서드의 의미와 관계는 언어마다 다르기 때문에 julia 에서 사용되는 용어가 다른 용어에서는 다른 의미 일 수 있습니다.]{.aside}
+각각의 컴퓨터 프로그래밍 언어나 프로그래밍 패러다임마다 함수와 메서드의 의미와 관계가 조금씩 다릅니다. 보통 프로그래밍에서 함수란 어떤 일련의 동작들을 모아 하나의 기능으로 만든 것을 말합니다. Julia 기본 문서의 [Methods](https://docs.julialang.org/en/v1/manual/methods/#Parametric-Methods) 를 보면 Julia 에서 보는 함수와 메서드는 이와는 약간 다릅니다. Julia 에서의 함수는 일종의 기능의 추상화입니다. 예를 들어 두 수를 더하는 함수를 생각해 봅시다. 먼저 원시 타입에 대한 더하기를 생각해보면, 원시 타입이란 특정한 비트의 배열이기 때문에 각 원시 타입마다 내부적으로 더하기를 다르게 구현해야 합니다. 하지만 모두 `+` 라는 연산자에 대해 정의됩니다. 이렇게 추상적으로 정의된 함수에 대해 각 타입마다 구체적으로 구현된 코드를 julia 에서는 메서드라고 부릅니다. [함수와 메서드의 의미와 관계는 언어마다 다르기 때문에 julia 에서 사용되는 용어가 다른 용어에서는 다른 의미 일 수 있습니다.]{.aside}
 
 다음의 함수 정의를 봅시다.
 
-```julia
+```html
 In [1]: function myfunc1(a, b)
             return a*b
         end
@@ -177,7 +153,7 @@ Out[1]: myfunc1 (generic function with 1 method)
 
 함수를 정의할 때 특별히 인자에 제한조건을 두지 않았습니다. 이제 인자의 타입을 바꿔 가며 함수를 실행시켜봅시다.
 
-```julia
+```html
 In [2]: myfunc1(1, 3)
 Out[2]: 3
 
@@ -188,11 +164,11 @@ In [4]: myfunc1("a", "bc")
 Out[4]: "abc"
 ```
 
-Julia 는 함수의 정의를 기억했다가 처음 실행할 때 주어진 인자의 타입에 맞추어 컴파일하며 한 번 컴파일된 함수는 그 인자 타입으로 다음번 실행 할 때는 컴파일 없이 빠르게 실행 할 수 있습니다다. 
+Julia 는 함수의 정의를 기억했다가 처음 실행할 때 주어진 인자의 타입에 맞추어 컴파일하며 한 번 컴파일된 함수는 그 인자 타입으로 다음번 실행 할 때는 컴파일 없이 빠르게 실행 할 수 있습니다다. [이렇게 어떤 소스코드를 실행 전에 컴파일 하는 것이 아니라 실행하는 가운데 컴파일 하는것을 JIT(just-in-time) 컴파일 이라고 합니다]{.aside}
 
 `myfunc1` 함수를 선언 할 때 인자의 타입에 대해 제한을 가하지 않았다는 것은 `a`, `b` 모두 `Any` 타입으로 지정되었다는 것입니다. 만약 `a`, `b` 모두 정수일 때, 즉 `Integer` 의 하위타입일 때는 곱하기가 아니라 더하기를 수행하기를 원한다고 해 봅시다.
 
-```julia
+```html
 In [5]: function myfunc1(a::Integer, b::Integer)
         return a+b
         end
@@ -211,7 +187,7 @@ Out[8]: 2.0
 인자가 둘 다 정수일 때는 더하기가, 둘 중 하나라도 정수가 아니라면 곱하기가 수행됩니다. 만약 `a` 가 문자열이고 `b` 가 정수라면 `a` 를 `b` 의 절대값만큼 반복하도록 합시다.
 
 
-```julia
+```html
 In [9]: function myfunc1(a::String, b::Integer) 
         return a^abs(b)
         end
@@ -227,9 +203,9 @@ Out[10]: "aaaaaa"
 
 #### 시그너쳐와 `methods` 함수 {#sec-signature_of_methods}
 
-메서드의 시그너쳐(signature) 는 함수이름과 인자, 그리고 인자의 타입을 포함합니다. 하나의 함수의 다양한 메서드는 시그너쳐로 구분되며, 한 함수의 시그너쳐는 `method` 함수로 확인 할 수 있습니다. `methods(myfunc1)` 는 함수 `myfunc1` 에 대한 모든 메서드의 시그너쳐를 반환합니다. 
+메서드의 **시그너쳐(signature)** 는 함수이름과 인자, 그리고 인자의 타입을 포함합니다. 하나의 함수의 다양한 메서드는 시그너쳐로 구분되며, 한 함수의 시그너쳐는 `method` 함수로 확인 할 수 있습니다. `methods(myfunc1)` 는 함수 `myfunc1` 에 대한 모든 메서드의 시그너쳐를 반환합니다. 
 
-```julia
+```html
 In [12]: methods(myfunc1)
 Out[12]: # 3 methods for generic function "myfunc1" from Main:
  [1] myfunc1(a::Integer, b::Integer)
@@ -252,7 +228,7 @@ Out[12]: # 3 methods for generic function "myfunc1" from Main:
 
 $a^b$ 를 리턴하는 `mypow` 함수를 다음과 같이 구현했다고 해 봅시다.
 
-```julia
+```html
 In [1]: function mypow(a, b)
         return a^b
         end
@@ -280,10 +256,12 @@ Out[4]: # 3 methods for generic function "mypow" from Main:
 
 3가지의 메서드가 구현되었습니다. 여기에 `mypow(2, 3)` 는 어떤 값을 리턴할까요? 컴파일러 입장에서는 두번째와 세번째 메써드가 동등한 권리를 갖고 있기 때문에 불확실 성이 존재하며 컴파일러는 에러를 발생시킵니다. 
 
-```julia
+```html
 In [5]: mypow(2, 3)
 ERROR: MethodError: mypow(::Int64, ::Int64) is ambiguous.
 ```
+
+
 
 </br>
 
@@ -291,28 +269,28 @@ ERROR: MethodError: mypow(::Int64, ::Int64) is ambiguous.
 
 메서드를 정의할 때 구체적, 추상적인 타입을 직접 표현하는 것이 아니라 타입 매개변수를 이용하여 정의 할 수도 있습니다. Julia 공식 문서의 예를 가져와 보겠습니다. 함수 인자 두개에 대해 그 타입이 같으면 `true`, 다르면 `false` 를 반환하는 함수를 작성해 봅시다. `typeof` 함수를 이용 할 수도 있겠지만 메서드를 이용하여 깔끔하게 정의 할 수도 있습니다. 일단 두개의 타입이 같으면 `true` 를 반환하는 함수를 작성합니다.
 
-```julia
+```html
 In [1]: same_type(x::T, y::T) where {T} = true
 Out[1]: same_type (generic function with 1 method)
 ```
 
 여기서 `T` 는 타입 매개변수 입니다. 함수의 인자 표현에서 `x::T, y::T` 는 `x` 와 `y` 가 그것이 무엇이든 같은 타입이어야 한다는 의미입니다. 타입이 다르면 적용할 메서드가 없다는 에러가 발생합니다.
 
-```julia
+```html
 In [2]: same_type(1, 2.0)
 ERROR: MethodError: no method matching same_type(::Int64, ::Float64)
 ```
 
 타입이 다를 때는 `false` 를 반환하게 하려면
 
-```julia
+```html
 In [3]: same_type(x,y) = false
 Out[3]: same_type (generic function with 2 methods)
 ```
 
 와 같이만 하면 됩니다. 
 
-```julia
+```html
 In [4]: same_type(1, 2.0)
 Out[4]: false
 ```
@@ -321,11 +299,28 @@ Out[4]: false
 
 </br>
 
+함수 인자의 타입 매개변수가 여러개이더라도 아무 상관 없습니다. 또한 타입 매개변수를 통해 인자의 타입에 제한을 가할 수 있습니다.
+
+```css
+In [1]: function myadd(a::T1, b::T2) where {T1<:Real, T2<:Number}
+        return a+b
+        end
+Out[1]: myadd (generic function with 1 method)
+
+In [2]: myadd(2, 3+4im)
+Out[2]: 5 + 4im
+
+In [3]: myadd(3+4im, 2)
+ERROR: MethodError: no method matching myadd(::Complex{Int64}, ::Int64)
+```
+
+</br>
+
 #### 함수 안에서의 타입매개변수
 
 시그너쳐에 정해진 타입매개변수는 함수 안에서도 사용 될 수 있습니다. 우리는 기본타입의 경우 타입 이름이 함수로 사용 될 수 있다는 것을 앞에서 보았습니다. 예를 들어 `Float64(3)` 에서 `Float64` 는 `Int64` 타입의 `3` 을 `Float64` 타입으로 변환시키는 함수로 사용되었습니다. 다음 함수를 봅시다.
 
-```julia
+```html
 In [1]: function myconvert(a::T, b) where {T}
         return T(b)
         end
