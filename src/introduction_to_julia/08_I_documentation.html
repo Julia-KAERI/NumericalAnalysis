@@ -276,13 +276,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="interude-문서화" class="level1 unnumbered">
 <h1 class="unnumbered">Interude : 문서화</h1>
-<p>함수나 연산자에 대해 알고 싶을 때 도움말은 다음과 같이 사용 할 수 있다.</p>
+<p>함수나 연산자에 대해 알고 싶을 때 도움말은 다음과 같이 사용 할 수 있습니다.</p>
 <ul>
 <li>Julia REPL : <code>?</code> 를 쳐 들어가는 <code>help?</code> 프롬프트에 함수 이름 등을 입력하고 엔터를 누른다.</li>
 <li>Jupyter Notebook/Lab : 입력 셀에 <code>?</code> 이후 함수 이름등을 입력하고 실행시킨다.</li>
 <li>vscode notebook : 입력 셀에 함수 이름 등을 입력하고 마우스 포인터를 위로 이동시킨다.</li>
 </ul>
-<p>여기서 보이는 도움말은 별도의 문서가 있는 것이 아니라 해당 함수나 뒤에 나올 복합타입 등의 위에 세겹 따옴표 <code>"""</code> 를 사용하여 표기한다. 예를 들어 다음을 <code>doctest01.jl</code> 로 저장해 보자.</p>
+<p>여기서 보이는 도움말은 별도의 문서가 있는 것이 아니라 해당 함수나 뒤에 나올 복합타입 등의 위에 세겹 따옴표 <code>"""</code> 를 사용하여 표기합니다. 예를 들어 다음을 <code>doctest01.jl</code> 로 저장해 봅시다.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="st">    bps(a::Number) </span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -296,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">2×2 Matrix{Int64}:</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st"> 2  4</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st"> 6  8</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">bps</span>(a<span class="op">::</span><span class="dt">Number</span>) </span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">*</span><span class="fl">2</span></span>

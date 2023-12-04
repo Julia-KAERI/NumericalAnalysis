@@ -274,7 +274,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#추상적-타입과-구체적-타입" id="toc-추상적-타입과-구체적-타입" class="nav-link" data-scroll-target="#추상적-타입과-구체적-타입">추상적 타입과 구체적 타입</a></li>
   <li><a href="#원시-타입" id="toc-원시-타입" class="nav-link" data-scroll-target="#원시-타입">원시 타입</a></li>
-  <li><a href="#sec-type_union" id="toc-sec-type_union" class="nav-link" data-scroll-target="#sec-type_union">Type Union</a></li>
   </ul></li>
   <li><a href="#sec-method_multiple_dispatch" id="toc-sec-method_multiple_dispatch" class="nav-link" data-scroll-target="#sec-method_multiple_dispatch"><span class="header-section-number">2</span> 메서드 다중 디스패치(Multiple dispatch)</a>
   <ul class="collapse">
@@ -308,27 +307,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sec-type_hierarchy" class="level2 page-columns page-full" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="sec-type_hierarchy"><span class="header-section-number">1</span> 타입의 계층구조</h2>
 <p>Julia 에서 다루는 모든 값은 특정 타입(Type) 의 값입니다. 타입은 julia 언어에서 제공하는 <code>Int64</code> 나 <code>Complex{Float64}</code> 일 수도 있고 필요에 의해 만든 것일 수도 있습니다. Julia 에서 변수에 값을 할당할 때 타입을 명시적으로 지정할 수 있으며, 명시적으로 지정되어 있지 않을 경우 julia 에 의해 지정되기도 합니다. 다음의 코드와 설명을 보고 이해하시기 바랍니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> a<span class="op">=</span><span class="fl">3</span>;<span class="fu">typeof</span>(a)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="dt">Int64</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>In [1]: a=3;typeof(a)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Out[1]: Int64</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> b<span class="op">=</span><span class="fl">3.42</span>;<span class="fu">typeof</span>(b)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="dt">Float64</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>In [2]: b=3.42;typeof(b)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Out[2]: Float64</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> c<span class="op">=</span><span class="fu">Float32</span>(<span class="fl">6.44</span>);<span class="fu">typeof</span>(c)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="dt">Float32</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>In [3]: c=Float32(6.44);typeof(c)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Out[3]: Float32</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> d<span class="op">::</span><span class="dt">Float32</span>=<span class="fl">3.3</span>;<span class="fu">typeof</span>(d)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="dt">Float32</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>In [4]: d::Float32=3.3;typeof(d)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Out[4]: Float32</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> <span class="cn">e</span><span class="op">::</span><span class="dt">UInt8</span>=<span class="fl">3</span>;<span class="fu">typeof</span>(<span class="cn">e</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="dt">UInt8</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>In [5]: e::UInt8=3;typeof(e)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Out[5]: UInt8</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>특별히 형을 지정하지 않았을 경우 정수는 <code>Int64</code>, 실수는 <code>Float64</code> 타입으로 암시적으로 지정됩니다. <code>c</code> 의 경우는 <code>6.44</code> 라는 <code>Float64</code> 의 값을 <code>Float32</code> 로 변환시켜 할당하였으며, <code>d</code> 의 경우는 변수를 <code>Float32</code> 타입으로 지정한 후 대입하여 자동적으로 변환되었습니다. <code>e</code> 의 경우도 <code>UInt8</code> 타입으로 지정한 후 <code>3</code> 을 할당하여 지정된 타입으로 자동적으로 변환되었습니다.</p>
 <p><br></p>
 <section id="추상적-타입과-구체적-타입" class="level3">
 <h3 class="anchored" data-anchor-id="추상적-타입과-구체적-타입">추상적 타입과 구체적 타입</h3>
 <p>Julia 의 타입은 <strong>추상적 타입(abstract type)</strong> 과 <strong>구체적 타입(concrete type)</strong> 으로 분류 할 수 있습니다. 구체적 타입은 변수가 지정되어 값을 할당 할 수 있지만 추상적 타입에는 변수를 지정 할 수 없으며, 값도 할당 할 수 없습니다. 억지로 할당할 경우 적당한 구체적 타입으로 변환됩니다. 우리가 지금까지 사용한 <code>UInt8</code>, <code>Int64</code>, <code>Float64</code> 등은 구체적 타입이며 아래의 예에서 <code>AbstractFloat</code> 는 부동소수에 대한 추상적인 타입입니다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> aa<span class="op">=</span><span class="fu">AbstractFloat</span>(<span class="fl">0.0</span>);<span class="fu">typeof</span>(aa)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="dt">Float64</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [6]: aa=AbstractFloat(0.0);typeof(aa)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Out[6]: Float64</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>어떤 타입이 구체적인 타입인지 추상적인 타입인지는 <code>isabstracttype()</code> 함수나 <code>isconcretetype()</code> 함수로 확인 할 수 있습니다. Julia 에서 모든 타입은 <code>Any</code> 타입에서 뻗어나온 가지와 같은 계층구조를 가지고 있습니다. 예를 들어 julia 에서 제공하는 수 타입은 <a href="#fig-type_hierarchy">그림&nbsp;1</a> 와 같은 계층구조를 가집니다.</p>
 <p>Julia 에서 추상적 타입은 <code>abstract</code> 키워드를 사용하여 다음과 같이 정의합니다.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">abstract type</span> <span class="dt">Number</span> <span class="kw">end</span></span>
@@ -339,14 +338,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">abstract type</span> <span class="dt">Unsigned</span> <span class="op">&lt;:</span><span class="dt"> Integer </span><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>위의 코드는 저자가 임의로 작성한 코드가 아니라 julia 에서 실제 추상 타입을 구현한 코드를 복사한 것입니다. <code>abstract type Real &lt;: Number end</code> 에서 <code>Real &lt;: Number</code> 는 <code>Real</code> 타입이 미리 정의된 <code>Number</code> 타입의 하위 타입 이란 의미입니다. <code>Number</code> 라는 수 전체를 아우르는 상위 타입이 있으며, 실수를 나타내는 <code>Real</code> 타입, 부동소수를 나타내는 <code>AbstractFloat</code> 타입, 정수를 나타내는 <code>Integer</code> 타입, 부호 있는 정수를 나타내는 <code>Signed</code> 타입, 부호 없는 정수, 즉 <code>0</code> 을 포함한 자연수를 나타내는 <code>Unsigned</code> 타입과 같은 추상 타입이 있습니다.</p>
 <p>Julia 의 모든 타입은 어떤 타입의 하위 타입(subtype) 이며 단 하나의 상위 타입(supertype) 을 계승합니다. 타입의 하위타입에는 갯수 제한이 없습니다. 타입 계층의 최상단에는 <code>Any</code> 타입이 있으며, 모든 타입은 <code>Any</code> 의 하위타입 이던가 <code>Any</code> 의 하위타입의 하위타입 이던가…. <code>Any</code> 의 몇대 자손중의 하나입니다. 심지어 <code>Any</code> 의 상위타입은 <code>Any</code> 입니다. 어떤 타입의 상위 타입을 알기 위해서는 <code>supertype()</code> 함수를 사용 하며 하위 타입들을 알기 위해서는 <code>subtypes()</code> 함수를 사용합니다.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> <span class="fu">supertype</span>(<span class="dt">UInt8</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="dt">Unsigned</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [7]: supertype(UInt8)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Out[7]: Unsigned</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> <span class="fu">subtypes</span>(<span class="dt">Integer</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Any</span>}<span class="op">:</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a> <span class="dt">Bool</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a> <span class="dt">Signed</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a> <span class="dt">Unsigned</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>In [8]: subtypes(Integer)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Out[8]: 3-element Vector{Any}:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a> Bool</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a> Signed</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a> Unsigned</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>어떤 타입의 상위 타입은 추상적 타입만이 가능하며, 구체적 타입은 어떤 타입의 상위 타입이 될 수 없습니다. 당연히 <code>Any</code> 는 추상적 타입입니다. 그림 <a href="#fig-type_hierarchy">그림&nbsp;1</a> 은 Julia 에서 자체적으로 제공하는 수(number) 에 대한 타입의 계층 구조입니다. 추상적 타입은 좌우 변이 두겹인 사각형, 구체적 타입은 좌우가 둥근 도형으로 표현하였습니다. <code>Irrational</code> 은 <span class="math inline">\(\pi\)</span> 나 <span class="math inline">\(e\)</span> 같은 특별한 무리수를 위한 타입으로 계산 될 때 적당한 타입의 값으로 변환됩니다.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -423,80 +422,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>첫번째 <code>primitive type Float16 &lt;: AbstractFloat 16 end</code> 는 <code>Float16</code> 타입은 <code>AbstractFloat</code> 타입의 하위타입으로 16비트, 즉 2바이트를 차지하는 타입이라는 의미입니다. 앞서 말했듯이 구체적 타입은 상위 타입이 될 수 없으므로 원시 타입은 어떤 추상 타입의 하위타입이 됩니다.</p>
 <p><br></p>
 </section>
-<section id="sec-type_union" class="level3">
-<h3 class="anchored" data-anchor-id="sec-type_union">Type Union</h3>
-<p>예를 들어 당신이 <code>Int64</code> 와 <code>String</code> 타입만을 가져야 하는 어떤 변수를 원할 때 <code>Union</code> 키워드를 이용하여 다음과 같이 새로운 타입을 만들 수 있습니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> IntOrString <span class="op">=</span> <span class="dt">Union</span>{<span class="dt">Int</span>,<span class="dt">AbstractString</span>}</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="dt">Union</span>{<span class="dt">Int64</span>, <span class="dt">AbstractString</span>}</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fl">1</span> <span class="op">::</span><span class="dt"> IntOrString</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">1</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="st">"Hello!"</span> <span class="op">::</span><span class="dt"> IntOrString</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="st">"Hello!"</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="fl">1.0</span> <span class="op">::</span><span class="dt"> IntOrString</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">TypeError</span><span class="op">:</span> <span class="kw">in</span> typeassert, expected <span class="dt">Union</span>{<span class="dt">Int64</span>, <span class="dt">AbstractString</span>}, got a value of <span class="kw">type</span> <span class="dt">Float64</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>Union</code> 이후의 <code>{ }</code> 에는 여러개의 타입이 나열 될 수 있으며, 나열되는 타입은 구체적 타입일 수도 있고, 추상적인 타입일 수도 있습니다. 추상적인 타입일 경우 지정되는 변수에 가장 적당한 하위타입으로 지정됩니다.</p>
-<p><br></p>
-</section>
 </section>
 <section id="sec-method_multiple_dispatch" class="level2 page-columns page-full" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="sec-method_multiple_dispatch"><span class="header-section-number">2</span> 메서드 다중 디스패치(Multiple dispatch)</h2>
 <section id="함수와-메서드" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="함수와-메서드">함수와 메서드</h3>
-<div class="page-columns page-full"><p>각각의 컴퓨터 프로그래밍 언어나 프로그래밍 패러다임마다 함수와 메서드의 관계가 다릅니다. 보통 프로그래밍에서 함수란 어떤 일련의 동작들을 모아 하나의 기능으로 만든 것을 말합니다. Julia 기본 문서의 <a href="https://docs.julialang.org/en/v1/manual/methods/#Parametric-Methods">Methods</a> 를 보면 Julia 에서 보는 함수와 메서드는 이와는 약간 다릅니다. Julia 에서의 함수는 일종의 기능의 추상화입니다. 예를 들어 두 수를 더하는 함수를 생각해 봅시다. 먼저 원시 타입에 대한 더하기를 생각해보면, 원시 타입이란 특정한 비트의 배열이기 때문에 각 원시 타입마다 내부적으로 더하기를 다르게 구현해야 합니다. 하지만 모두 <code>+</code> 라는 연산자에 대해 정의됩니다. 이렇게 추상적으로 정의된 함수에 대해 각 타입마다 구체적으로 구현된 코드를 julia 에서는 메서드라고 부릅니다. </p><div class="no-row-height column-margin column-container"><span class="">함수와 메서드의 의미와 관계는 언어마다 다르기 때문에 julia 에서 사용되는 용어가 다른 용어에서는 다른 의미 일 수 있습니다.</span></div></div>
+<div class="page-columns page-full"><p>각각의 컴퓨터 프로그래밍 언어나 프로그래밍 패러다임마다 함수와 메서드의 의미와 관계가 조금씩 다릅니다. 보통 프로그래밍에서 함수란 어떤 일련의 동작들을 모아 하나의 기능으로 만든 것을 말합니다. Julia 기본 문서의 <a href="https://docs.julialang.org/en/v1/manual/methods/#Parametric-Methods">Methods</a> 를 보면 Julia 에서 보는 함수와 메서드는 이와는 약간 다릅니다. Julia 에서의 함수는 일종의 기능의 추상화입니다. 예를 들어 두 수를 더하는 함수를 생각해 봅시다. 먼저 원시 타입에 대한 더하기를 생각해보면, 원시 타입이란 특정한 비트의 배열이기 때문에 각 원시 타입마다 내부적으로 더하기를 다르게 구현해야 합니다. 하지만 모두 <code>+</code> 라는 연산자에 대해 정의됩니다. 이렇게 추상적으로 정의된 함수에 대해 각 타입마다 구체적으로 구현된 코드를 julia 에서는 메서드라고 부릅니다. </p><div class="no-row-height column-margin column-container"><span class="">함수와 메서드의 의미와 관계는 언어마다 다르기 때문에 julia 에서 사용되는 용어가 다른 용어에서는 다른 의미 일 수 있습니다.</span></div></div>
 <p>다음의 함수 정의를 봅시다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">myfunc1</span>(a, b)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> a<span class="op">*</span>b</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> myfunc1 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [1]: function myfunc1(a, b)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>            return a*b</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Out[1]: myfunc1 (generic function with 1 method)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>함수를 정의할 때 특별히 인자에 제한조건을 두지 않았습니다. 이제 인자의 타입을 바꿔 가며 함수를 실행시켜봅시다.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">myfunc1</span>(<span class="fl">1</span>, <span class="fl">3</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">3</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">myfunc1</span>(<span class="fl">2.2</span>, <span class="fl">3.3</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">7.26</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="fu">myfunc1</span>(<span class="st">"a"</span>, <span class="st">"bc"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="st">"abc"</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Julia 는 함수의 정의를 기억했다가 처음 실행할 때 주어진 인자의 타입에 맞추어 컴파일하며 한 번 컴파일된 함수는 그 인자 타입으로 다음번 실행 할 때는 컴파일 없이 빠르게 실행 할 수 있습니다다.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [2]: myfunc1(1, 3)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Out[2]: 3</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>In [3]: myfunc1(2.2, 3.3)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Out[3]: 7.26</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>In [4]: myfunc1("a", "bc")</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>Out[4]: "abc"</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="page-columns page-full"><p>Julia 는 함수의 정의를 기억했다가 처음 실행할 때 주어진 인자의 타입에 맞추어 컴파일하며 한 번 컴파일된 함수는 그 인자 타입으로 다음번 실행 할 때는 컴파일 없이 빠르게 실행 할 수 있습니다다. </p><div class="no-row-height column-margin column-container"><span class="">이렇게 어떤 소스코드를 실행 전에 컴파일 하는 것이 아니라 실행하는 가운데 컴파일 하는것을 JIT(just-in-time) 컴파일 이라고 합니다</span></div></div>
 <p><code>myfunc1</code> 함수를 선언 할 때 인자의 타입에 대해 제한을 가하지 않았다는 것은 <code>a</code>, <code>b</code> 모두 <code>Any</code> 타입으로 지정되었다는 것입니다. 만약 <code>a</code>, <code>b</code> 모두 정수일 때, 즉 <code>Integer</code> 의 하위타입일 때는 곱하기가 아니라 더하기를 수행하기를 원한다고 해 봅시다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">myfunc1</span>(a<span class="op">::</span><span class="dt">Integer</span>, b<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a<span class="op">+</span>b</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> myfunc1 (generic <span class="kw">function</span> with <span class="fl">2</span> methods)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="fu">myfunc1</span>(<span class="fl">1</span>, <span class="fl">2</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">3</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> <span class="fu">myfunc1</span>(<span class="fl">1.0</span>, <span class="fl">2.0</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="fl">2.0</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> <span class="fu">myfunc1</span>(<span class="fl">1.0</span>, <span class="fl">2</span>)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">2.0</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [5]: function myfunc1(a::Integer, b::Integer)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        return a+b</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Out[5]: myfunc1 (generic function with 2 methods)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>In [6]: myfunc1(1, 2)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Out[6]: 3</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>In [7]: myfunc1(1.0, 2.0)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>Out[7]: 2.0</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>In [8]: myfunc1(1.0, 2)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>Out[8]: 2.0</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>인자가 둘 다 정수일 때는 더하기가, 둘 중 하나라도 정수가 아니라면 곱하기가 수행됩니다. 만약 <code>a</code> 가 문자열이고 <code>b</code> 가 정수라면 <code>a</code> 를 <code>b</code> 의 절대값만큼 반복하도록 합시다.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">myfunc1</span>(a<span class="op">::</span><span class="dt">String</span>, b<span class="op">::</span><span class="dt">Integer</span>) </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a<span class="op">^</span><span class="fu">abs</span>(b)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> myfunc1 (generic <span class="kw">function</span> with <span class="fl">3</span> methods)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">10</span>]<span class="op">:</span> <span class="fu">myfunc1</span>(<span class="st">"aa"</span>, <span class="op">-</span><span class="fl">3</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">10</span>]<span class="op">:</span> <span class="st">"aaaaaa"</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>In [9]: function myfunc1(a::String, b::Integer) </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        return a^abs(b)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Out[9]: myfunc1 (generic function with 3 methods)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>In [10]: myfunc1("aa", -3)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Out[10]: "aaaaaa"</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이렇게 우리는 인자 타입에 대해 <code>myfunc1</code> 이라는 함수 이름으로 3개의 메서드를 생성하였습니다.</p>
 <p><br></p>
 <section id="sec-signature_of_methods" class="level4">
 <h4 class="anchored" data-anchor-id="sec-signature_of_methods">시그너쳐와 <code>methods</code> 함수</h4>
-<p>메서드의 시그너쳐(signature) 는 함수이름과 인자, 그리고 인자의 타입을 포함합니다. 하나의 함수의 다양한 메서드는 시그너쳐로 구분되며, 한 함수의 시그너쳐는 <code>method</code> 함수로 확인 할 수 있습니다. <code>methods(myfunc1)</code> 는 함수 <code>myfunc1</code> 에 대한 모든 메서드의 시그너쳐를 반환합니다.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">12</span>]<span class="op">:</span> <span class="fu">methods</span>(myfunc1)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">12</span>]<span class="op">:</span> <span class="co"># 3 methods for generic function "myfunc1" from Main:</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1</span>] <span class="fu">myfunc1</span>(a<span class="op">::</span><span class="dt">Integer</span>, b<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>     @ <span class="bu">REPL</span>[<span class="fl">5</span>]<span class="op">:</span><span class="fl">1</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a> [<span class="fl">2</span>] <span class="fu">myfunc1</span>(a<span class="op">::</span><span class="dt">String</span>, b<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>     @ <span class="bu">REPL</span>[<span class="fl">9</span>]<span class="op">:</span><span class="fl">1</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a> [<span class="fl">3</span>] <span class="fu">myfunc1</span>(a, b)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>     @ <span class="bu">REPL</span>[<span class="fl">1</span>]<span class="op">:</span><span class="fl">1</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>메서드의 <strong>시그너쳐(signature)</strong> 는 함수이름과 인자, 그리고 인자의 타입을 포함합니다. 하나의 함수의 다양한 메서드는 시그너쳐로 구분되며, 한 함수의 시그너쳐는 <code>method</code> 함수로 확인 할 수 있습니다. <code>methods(myfunc1)</code> 는 함수 <code>myfunc1</code> 에 대한 모든 메서드의 시그너쳐를 반환합니다.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [12]: methods(myfunc1)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Out[12]: # 3 methods for generic function "myfunc1" from Main:</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> [1] myfunc1(a::Integer, b::Integer)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>     @ REPL[5]:1</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a> [2] myfunc1(a::String, b::Integer)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>     @ REPL[9]:1</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a> [3] myfunc1(a, b)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>     @ REPL[1]:1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>여기서 볼 수 있듯이 <code>myfunc1</code> 함수에는 세가지의 메서드가 구현되었으며, 특정 타입에 대해 어떤 메서드가 실행될 지 파악 할 수 있습니다.</p>
 <p><br></p>
 <p>함수 뿐만 아니라 연산자도 여러개의 메서드를 가질 수 있습니다. <code>methods(+)</code> 를 통해 <code>+</code> 연산자가 아주 많이 정의되었다는 것을 확인해 보시기 바랍니다. 이렇게 같은 함수나 연산자의 이름으로 인자의 타입에 따라 기능을 정하는 것을 메서드 디스패치, 혹은 다중 디스패치라고 합니다. 여러분은 앞으로 새로운 타입을 만드는 방법을 알게 될텐데 이미 존재하는 <code>+</code>, <code>-</code> 등의 연산자나 <code>println</code>, <code>length</code> 등의 함수를 다중 디스패치를 통해 타입에 맞게 사용 할 수 있습니다.</p>
@@ -506,60 +487,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sec-method_ambiguity" class="level3">
 <h3 class="anchored" data-anchor-id="sec-method_ambiguity">모호한 메써드</h3>
 <p><span class="math inline">\(a^b\)</span> 를 리턴하는 <code>mypow</code> 함수를 다음과 같이 구현했다고 해 봅시다.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">mypow</span>(a, b)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a<span class="op">^</span>b</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> mypow (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">mypow</span>(a<span class="op">::</span><span class="dt">Number</span>, b)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a<span class="op">^</span>b</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> mypow (generic <span class="kw">function</span> with <span class="fl">2</span> methods)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">mypow</span>(a, b<span class="op">::</span><span class="dt">Number</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a<span class="op">^</span>b</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> mypow (generic <span class="kw">function</span> with <span class="fl">3</span> methods)</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="fu">methods</span>(mypow)</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="co"># 3 methods for generic function "mypow" from Main:</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a> [<span class="fl">1</span>] <span class="fu">mypow</span>(a<span class="op">::</span><span class="dt">Number</span>, b)</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>     @ <span class="bu">REPL</span>[<span class="fl">2</span>]<span class="op">:</span><span class="fl">1</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a> [<span class="fl">2</span>] <span class="fu">mypow</span>(a, b<span class="op">::</span><span class="dt">Number</span>)</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>     @ <span class="bu">REPL</span>[<span class="fl">3</span>]<span class="op">:</span><span class="fl">1</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a> [<span class="fl">3</span>] <span class="fu">mypow</span>(a, b)</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>     @ <span class="bu">REPL</span>[<span class="fl">1</span>]<span class="op">:</span><span class="fl">1</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>In [1]: function mypow(a, b)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>        return a^b</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Out[1]: mypow (generic function with 1 method)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>In [2]: function mypow(a::Number, b)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        return a^b</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>Out[2]: mypow (generic function with 2 methods)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>In [3]: function mypow(a, b::Number)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        return a^b</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>Out[3]: mypow (generic function with 3 methods)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>In [4]: methods(mypow)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>Out[4]: # 3 methods for generic function "mypow" from Main:</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a> [1] mypow(a::Number, b)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>     @ REPL[2]:1</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a> [2] mypow(a, b::Number)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>     @ REPL[3]:1</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a> [3] mypow(a, b)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>     @ REPL[1]:1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>3가지의 메서드가 구현되었습니다. 여기에 <code>mypow(2, 3)</code> 는 어떤 값을 리턴할까요? 컴파일러 입장에서는 두번째와 세번째 메써드가 동등한 권리를 갖고 있기 때문에 불확실 성이 존재하며 컴파일러는 에러를 발생시킵니다.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> <span class="fu">mypow</span>(<span class="fl">2</span>, <span class="fl">3</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">MethodError</span><span class="op">:</span> <span class="fu">mypow</span>(<span class="op">::</span><span class="dt">Int64</span>, <span class="op">::</span><span class="dt">Int64</span>) is ambiguous.</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>In [5]: mypow(2, 3)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ERROR: MethodError: mypow(::Int64, ::Int64) is ambiguous.</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 <section id="sec-parametric_methods" class="level3">
 <h3 class="anchored" data-anchor-id="sec-parametric_methods">타입 매개변수를 갖는 메서드</h3>
 <p>메서드를 정의할 때 구체적, 추상적인 타입을 직접 표현하는 것이 아니라 타입 매개변수를 이용하여 정의 할 수도 있습니다. Julia 공식 문서의 예를 가져와 보겠습니다. 함수 인자 두개에 대해 그 타입이 같으면 <code>true</code>, 다르면 <code>false</code> 를 반환하는 함수를 작성해 봅시다. <code>typeof</code> 함수를 이용 할 수도 있겠지만 메서드를 이용하여 깔끔하게 정의 할 수도 있습니다. 일단 두개의 타입이 같으면 <code>true</code> 를 반환하는 함수를 작성합니다.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">same_type</span>(x<span class="op">::</span><span class="dt">T</span>, y<span class="op">::</span><span class="dt">T</span>) <span class="kw">where</span> {T} <span class="op">=</span> <span class="cn">true</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> same_type (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>In [1]: same_type(x::T, y::T) where {T} = true</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Out[1]: same_type (generic function with 1 method)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>여기서 <code>T</code> 는 타입 매개변수 입니다. 함수의 인자 표현에서 <code>x::T, y::T</code> 는 <code>x</code> 와 <code>y</code> 가 그것이 무엇이든 같은 타입이어야 한다는 의미입니다. 타입이 다르면 적용할 메서드가 없다는 에러가 발생합니다.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">same_type</span>(<span class="fl">1</span>, <span class="fl">2.0</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">MethodError</span><span class="op">:</span> no method matching <span class="fu">same_type</span>(<span class="op">::</span><span class="dt">Int64</span>, <span class="op">::</span><span class="dt">Float64</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>In [2]: same_type(1, 2.0)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ERROR: MethodError: no method matching same_type(::Int64, ::Float64)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>타입이 다를 때는 <code>false</code> 를 반환하게 하려면</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">same_type</span>(x,y) <span class="op">=</span> <span class="cn">false</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> same_type (generic <span class="kw">function</span> with <span class="fl">2</span> methods)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [3]: same_type(x,y) = false</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Out[3]: same_type (generic function with 2 methods)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>와 같이만 하면 됩니다.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="fu">same_type</span>(<span class="fl">1</span>, <span class="fl">2.0</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="cn">false</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>In [4]: same_type(1, 2.0)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Out[4]: false</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이것이 작동하는 원리는 쉽습니다. 함수를 호출하면 메서드의 시그너쳐를 확인하여 실제 실행될 메서드를 찾는데 두 인자가 같은 타입일 경우 <code>same_type(x::T, y::T) where {T} = true</code> 메서드가 호출되며, 다른 타입일 경우 <code>same_type(x,y) = false</code> 메서드가 호출됩니다.</p>
+<p><br></p>
+<p>함수 인자의 타입 매개변수가 여러개이더라도 아무 상관 없습니다. 또한 타입 매개변수를 통해 인자의 타입에 제한을 가할 수 있습니다.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[1]</span><span class="in">: function</span> myadd(a<span class="in">::T1</span><span class="op">,</span> b<span class="in">::T2</span>) where {T1&lt;<span class="in">:Real</span><span class="op">,</span> T2&lt;<span class="in">:Number</span>}</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>        return a<span class="op">+</span>b</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Out<span class="ex">[1]</span><span class="in">: myadd</span> (generic function with 1 method)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[2]</span><span class="in">: myadd(2, 3+4im)</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>Out<span class="ex">[2]</span><span class="in">: 5 + 4im</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[3]</span><span class="in">: myadd(3+4im, 2)</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>ERROR<span class="in">: MethodError: no</span> method matching myadd(<span class="in">::Complex</span>{Int64}<span class="op">,</span> <span class="in">::Int64</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 <section id="함수-안에서의-타입매개변수" class="level4">
 <h4 class="anchored" data-anchor-id="함수-안에서의-타입매개변수">함수 안에서의 타입매개변수</h4>
 <p>시그너쳐에 정해진 타입매개변수는 함수 안에서도 사용 될 수 있습니다. 우리는 기본타입의 경우 타입 이름이 함수로 사용 될 수 있다는 것을 앞에서 보았습니다. 예를 들어 <code>Float64(3)</code> 에서 <code>Float64</code> 는 <code>Int64</code> 타입의 <code>3</code> 을 <code>Float64</code> 타입으로 변환시키는 함수로 사용되었습니다. 다음 함수를 봅시다.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">myconvert</span>(a<span class="op">::</span><span class="dt">T</span>, b) <span class="kw">where</span> {T}</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">T</span>(b)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> myconvert (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>In [1]: function myconvert(a::T, b) where {T}</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>        return T(b)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>Out[1]: myconvert (generic function with 1 method)</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">myconvert</span>(<span class="fl">2.0</span>, <span class="fl">4</span>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">4.0</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>In [2]: myconvert(2.0, 4)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>Out[2]: 4.0</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이 <code>myconvert</code> 함수는 두개의 인자를 받아 두번째 인자를 첫번째 인자의 타입으로 변환시켜 반환하는 함수입니다. 이 때 함수 시그니쳐의 타입 매개변수 <code>T</code> 가 함수의 몸체에서 사용되었습니다.</p>
 <p><br></p>
 </section>

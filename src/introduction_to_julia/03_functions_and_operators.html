@@ -395,7 +395,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p><code>÷</code> 는 <code>\div</code>+ [tab] 키 로 입력 할 수 있습니다.</p></li>
 <li><p><code>x / y</code> 에서 <code>x</code> 와 <code>y</code> 가 모두 정수일 때는 실수로 타입이 변환됩니다. 즉 <code>5/2</code> 는 <code>2.5</code> 입니다. ㅋ</p></li>
-<li><p><code>x//y</code> 는 <code>x</code>, <code>y</code> 가 정수일 때 Julia 의 <code>Rational</code> 타입의 값을 반환합니다. 앞서 말했듯이 Julia 에서 유리수는 <code>Int64</code> 와 같은 고유한 타입입니다.</p></li>
+<li><p><code>x//y</code> 는 <code>x</code>, <code>y</code> 가 정수일 때 Julia 의 <code>Rational</code> 타입의 값을 반환합니다. 앞서 말했듯이 Julia 에서 유리수는 <code>Int64</code> 나 <code>Float64</code> 와 같은 고유한 타입입니다.</p></li>
 <li><p><code>x ÷ y</code> 는 <code>x</code> 와 <code>y</code> 가 모두 정수 타입이라면 정수몫을 리턴하지만 <code>x</code> 나 <code>y</code> 가 정수가 아닌 부동수일 경우에는 정수몫을 부동소수로 반환합니다. 아래의 예를 참고하세요.</p></li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>In [7]: 173 ÷ 2</span>
@@ -412,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><br></p>
 <section id="몫과-나머지" class="level4">
 <h4 class="anchored" data-anchor-id="몫과-나머지">몫과 나머지</h4>
-<p>실수 <span class="math inline">\(a\)</span> 를 실수 <span class="math inline">\(d\)</span> 로 나눌 때 <span class="math inline">\(a=k\cdot d + r\)</span> 을 만족하는 정수 <span class="math inline">\(k\)</span>를 몫이라고 하고 <span class="math inline">\(r\)</span> 을 나머지라고 합니다. <span class="math inline">\(a,\,d\)</span> 가 양수라면 <span class="math inline">\(0\le r &lt; d\)</span> 를 만족하는 <span class="math inline">\(r\)</span> 을 찾으면 됩니다. 그런데 <span class="math inline">\(a,\,d\)</span> 둘 가운데 하나라도 음수 일 경우를 생각해 봅시다. 예를 들어 13.0 을 -3.0 으로 나누는 경우,</p>
+<p>실수 <span class="math inline">\(a\)</span> 를 실수 <span class="math inline">\(d\)</span> 로 나눌 때 <span class="math inline">\(a=k\cdot d + r\)</span> 을 만족하는 정수 <span class="math inline">\(k\)</span>를 몫이라고 하고 <span class="math inline">\(r\)</span> 을 나머지라고 합니다. <span class="math inline">\(a,\,d\)</span> 가 양수라면 <span class="math inline">\(0\le r &lt; d\)</span> 를 만족하는 <span class="math inline">\(r\)</span> 을 찾으면 됩니다. 그런데 <span class="math inline">\(a,\,d\)</span> 둘 가운데 하나라도 음수 일 경우를 생각해 봅시다. 예를 들어 <span class="math inline">\(13.0\)</span> 을 <span class="math inline">\(-3.0\)</span> 으로 나누는 경우,</p>
 <p><span class="math display">\[
 \begin{aligned}
 13.0 &amp;= (-4.0) \times (-3.0) -1.0, \\
@@ -451,15 +451,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="sec-boolian_operators" class="level3">
 <h3 class="anchored" data-anchor-id="sec-boolian_operators">불 연산</h3>
-<p>불(Bool) 타입은 <code>true</code>(참) 와 <code>false</code>(거짓) 의 두가지 값을 가지는 정수형 타입으로, <code>true</code> 는 <code>1</code> 과 같고 <code>false</code> 는 <code>0</code> 과 같습니다. 다른 정수는 불 타입으로 변환되지 않으며 변환시킬 경우 에러가 발생합니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [16]: Bool(1)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Out[16]: true</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>In [17]: Bool(0)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Out[17]: false</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>In [18]: Bool(2)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>ERROR: InexactError: Bool(2)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>불(Bool) 타입에 대한 연산은 다음과 같은 것이 있습니다.</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -491,20 +483,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sec-short_circuiting_operators" class="level3">
 <h3 class="anchored" data-anchor-id="sec-short_circuiting_operators">short-circuiting 연산</h3>
 <p><code>x &amp;&amp; y</code> 에서 <code>x</code> 가 불(Bool) 값이고 <code>y</code> 가 어떤 명령문일때, <code>x</code> 가 <code>true</code> 이면 <code>y</code> 를 실행시키고 <code>x</code> 가 <code>false</code> 이면 <code>false</code> 를 리턴합니다. <code>x || y</code> 일 때는 반대로 <code>x</code> 가 <code>true</code> 이면 <code>true</code> 를 리턴하고 <code>x</code> 가 거짓이면 <code>y</code> 를 실행시킵니다. 불 연산을 사용하여 조건에 따라 실행시키는 것을 short-circuiting 연산이라고 하며, julia 에서 상당히 많이 사용되는 테크닉 입니다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [19]: x=3</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Out[19]: 3</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>In [20]: x&gt;0 <span class="er">&amp;&amp;</span> println("true and short-circuiting and")</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>true and short-circuiting and</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>In [21]: x<span class="er">&lt;</span>0 <span class="er">&amp;&amp;</span> println("false and short-circuiting and")</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>Out[21]: false</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>In [22]: x&gt;0 || println("true and short-circuiting or")</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>Out[22]: true</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>In [23]: x<span class="er">&lt;</span>0 || println("false and short-circuiting or")</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>false and short-circuiting or</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [19]: x=3</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Out[19]: 3</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>In [20]: x&gt;0 <span class="er">&amp;&amp;</span> println("true and short-circuiting and")</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>true and short-circuiting and</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>In [21]: x<span class="er">&lt;</span>0 <span class="er">&amp;&amp;</span> println("false and short-circuiting and")</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>Out[21]: false</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>In [22]: x&gt;0 || println("true and short-circuiting or")</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>Out[22]: true</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>In [23]: x<span class="er">&lt;</span>0 || println("false and short-circuiting or")</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>false and short-circuiting or</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 <section id="비트-연산-bitwise-operation" class="level3">
@@ -561,17 +553,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><a href="https://ko.wikipedia.org/wiki/비트_연산">한국어 위키백과-비트연산</a> 과 <a href="https://en.wikipedia.org/wiki/Bitwise_operation">영어 위키백과-비트연산</a> 을 참고하시기 바랍니다</p></li>
 <li><p><code>x&gt;&gt;y</code> 의 경우는 정수 <code>x</code> 를 <span class="math inline">\(2^y\)</span> 로 나눈 몫을 계산하는데 자주 사용됩니다. 예를 들어</p></li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [24]: 15&gt;&gt;1 # 15 나누기 2^1=2 의 몫</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Out[24]: 7</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>In [25]: 427&gt;&gt;2 #427 나누기 2^2=4 의 몫</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Out[25]: 106</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [24]: 15&gt;&gt;1 # 15 나누기 2^1=2 의 몫</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Out[24]: 7</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>In [25]: 427&gt;&gt;2 #427 나누기 2^2=4 의 몫</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Out[25]: 106</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>입니다.. 비트연산에 대해 편리한 함수로 입력값을 비트 문자열로 바꾸어주는 <code>bitstring()</code> 함수가 있습니다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>In [26]: bitstring(1)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Out[26]: "0000000000000000000000000000000000000000000000000000000000000001"</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>In [27]: bitstring(3.23)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Out[27]: "0100000000001001110101110000101000111101011100001010001111010111"</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [26]: bitstring(1)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Out[26]: "0000000000000000000000000000000000000000000000000000000000000001"</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>In [27]: bitstring(3.23)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Out[27]: "0100000000001001110101110000101000111101011100001010001111010111"</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 <section id="비교-연산" class="level3">
@@ -616,14 +608,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>비교 연산을 <code>1 &lt; 2 &lt;= 3 &lt; 5 != 10 &lt; 12</code> 같이 이어서 쓸 수 있습니다. 모든 비교 항목이 <code>true</code> 일 때만 <code>true</code> 를 리턴합니다.</p></li>
 </ul>
 <p>특히 부동소수가 포함된 계산의 결과를 비교할때는 조심해야 합니다. Round-off 에러로 인해 생각하는 것과 실제가 다를 수 있습니다.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [28]: 0 == 0.0</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Out[28]: true</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>In [29]: 4 == 4.0</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>Out[29]: true</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>In [30]: 8.3-1.0 == 7.3</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>Out[30]: false</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>In [28]: 0 == 0.0</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Out[28]: true</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>In [29]: 4 == 4.0</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Out[29]: true</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>In [30]: 8.3-1.0 == 7.3</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>Out[30]: false</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 </section>
@@ -688,55 +680,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="사용자-정의-함수" class="level3">
 <h3 class="anchored" data-anchor-id="사용자-정의-함수">사용자 정의 함수</h3>
 <p>예를 들어 두 값 <code>x</code> 와 <code>y</code> 를 입력 받아 두 값의 합을 반환하는 함수는 다음과 같이 정의합니다.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">myadd</span>(x, y)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">+</span>y</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">myadd</span>(x, y)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">+</span>y</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>혹은 간단하게</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">myadd2</span>(x, y) <span class="op">=</span> x<span class="op">+</span>y</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">myadd2</span>(x, y) <span class="op">=</span> x<span class="op">+</span>y</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>와 같이 정의할 수도 있습니다. 위의 <code>myadd</code> 와 <code>myadd2</code> 는 기능상 동일합니다.</p>
 <p>함수 정의는 <code>function</code> 으로 시작하여 함수 이름이 나오고 <code>( )</code> 안에 인자를 받는 변수와 그 정보를 나열합니다. 결과를 반환해야 할 경우 <code>return</code> 후에 반환해야 할 값이나 변수를 써 주고, <code>end</code> 로 끝납니다. <code>return</code> 이 나오면, 그 이후는 평가하지 않고 종료합니다.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">myadd3</span>(x)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">+</span><span class="fl">1</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(x<span class="op">+</span><span class="fl">2</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">myadd3</span>(x)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">+</span><span class="fl">1</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(x<span class="op">+</span><span class="fl">2</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>에 대해 <code>myadd3(3)</code> 을 실행시키면 <code>3+1=4</code> 를 반환하고 종료하며 <code>return</code> 의 다음 명령인 <code>println(x+2)</code> 명령은 수행하지 않습니다.</p>
 <p>만약 함수 정의 안에 <code>return</code> 이 없다면 <code>end</code> 바로 앞의 표현식의 결과를 리턴합니다.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">aa</span>(a)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    a<span class="op">+</span><span class="fl">1</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">aa</span>(a)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    a<span class="op">+</span><span class="fl">1</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>에 대해 <code>b=aa(3)</code> 을 수행하면 <code>end</code> 바로 앞의 <code>a+1</code> 을 리턴하므로 <code>b==4</code> 입니다. 만약 아무 것도 리턴하고 싶지 않다면 명시적으로 <code>return nothing</code> 이라고 해 주는 것이 좋습니다.</p>
 <p><br></p>
 </section>
 <section id="sec-anonymous_function" class="level3">
 <h3 class="anchored" data-anchor-id="sec-anonymous_function">익명함수 (람다함수)</h3>
 <p><code>인자 -&gt; 반환하는 함수의 표현식</code> 꼴로 선언되는 이름 없는 함수를 익명함수(anonymous function) 혹은람다 함수(lambda function) 이라고 합니다. 우선은 함수를 간단하게 정의하는 데도 사용합니다.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [1]: sq = (x-&gt;x^2)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Out[1]: #11 (generic function with 1 method)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>In [2]: sq(3)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>Out[2]: 9</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>In [3]: sq("ab")</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>Out[3]: "abab"</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>In [1]: sq = (x-&gt;x^2)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Out[1]: #11 (generic function with 1 method)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>In [2]: sq(3)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>Out[2]: 9</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>In [3]: sq("ab")</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>Out[3]: "abab"</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>sq = (x-&gt;x^2)</code> 를 봅시다. 오른쪽의 <code>(x-&gt;x^2)</code> 는 입력 <code>x</code> 에 대해 <code>x^2</code> 를 반환하는 익명 함수를 의미하며 <code>sq = (x-&gt;x^2)</code> 는 이 함수 객체를 <code>sq</code> 변수에 할당했습니다. 따라서 <code>sq</code> 는 함수이며 <code>sq(3)</code> 는 <code>3^2</code> 인 <code>9</code> 를 반환하고 <code>sq("ab")</code> 는 <code>"ab"^2=="abab"</code> 를 반환합니다.</p>
 <p>익명 함수는 여려개의 인자를 가질 수도 있습니다.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>In [4]: madd = (x, y) -&gt; x+y</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Out[4]: #13 (generic function with 1 method)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>In [5]: madd(3, -2)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>Out[5]: 1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [4]: madd = (x, y) -&gt; x+y</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Out[4]: #13 (generic function with 1 method)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>In [5]: madd(3, -2)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>Out[5]: 1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>익명함수를 위와 같이 사용하는 것은 다음과 같은 경우에 비해 이점이 없습니다.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>In [10]: madd2(x,y) = x+y</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Out[10]: madd2 (generic function with 1 method)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>In [11]: madd2(3, -2)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>Out[11]: 1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>익명함수가 실제로 널리 사용되는 부분은 <a href="../../src/introduction_to_julia/04_containers2.html#sec-anonymous_function_in_map"><code>map</code> 함수에서의 익명함수의 사용</a> 에서 볼 수 있듯이 <code>map</code>, <code>reduce</code>, 등에서 유용하게 사용됩니다. 또한 <a href="../../src/introduction_to_julia/06_arrays.html#sec-array_comprehension"><code>배열 comprehension</code></a> 에서도 널리 사용됩니다.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>In [10]: madd2(x,y) = x+y</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Out[10]: madd2 (generic function with 1 method)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>In [11]: madd2(3, -2)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>Out[11]: 1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>익명함수가 실제로 널리 사용되는 부분은 <a href="../../src/introduction_to_julia/04_containers.html#sec-anonymous_function_in_map"><code>map</code> 함수에서의 익명함수의 사용</a> 에서 볼 수 있듯이 <code>map</code>, <code>reduce</code>, 등에서 유용하게 사용됩니다. 또한 <a href="../../src/introduction_to_julia/06_arrays.html#sec-array_comprehension"><code>배열 comprehension</code></a> 에서도 널리 사용됩니다.</p>
 <p><br></p>
 </section>
 <section id="sec-anonymous_function_do_end_begin_end" class="level3">
 <h3 class="anchored" data-anchor-id="sec-anonymous_function_do_end_begin_end">익명 함수 : <code>do ... end</code>, <code>begin ... end</code></h3>
-<p>람다 함수 이외에 익명함수를 정의하는 방법은 <code>do ... end</code> 블럭과 <code>begin ... end</code> 블럭이 있습니다. 이것은 <a href="../../src/introduction_to_julia/04_containers2.html#sec_usage_of_do_end_begin_end"><code>do ... end</code>, <code>begin ... end</code> 의 사용</a> 에서 좀 더 다루도록 하겠습니다.</p>
+<p>람다 함수 이외에 익명함수를 정의하는 방법은 <code>do ... end</code> 블럭과 <code>begin ... end</code> 블럭이 있습니다. 이것은 <a href="../../src/introduction_to_julia/04_containers.html#sec_usage_of_do_end_begin_end"><code>do ... end</code>, <code>begin ... end</code> 의 사용</a> 에서 좀 더 다루도록 하겠습니다.</p>
 <p><br></p>
 </section>
 <section id="선택적-인자" class="level3">
@@ -745,20 +737,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="기본값이-있는-선택적-인자" class="level4">
 <h4 class="anchored" data-anchor-id="기본값이-있는-선택적-인자">기본값이 있는 선택적 인자</h4>
 <p>함수의 특정 인자에 대한 기본값을 정할 수 있으며 함수를 실행 할 때 이 인자에 값을 입력하지 않으면 기본값이 사용됩니다. 영어로는 Optional argument 라고 합니다. 예를 들어,</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">myadd3</span>(x, y<span class="op">=</span><span class="fl">1</span>) <span class="op">=</span> x<span class="op">+</span>y</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">myadd3</span>(x, y<span class="op">=</span><span class="fl">1</span>) <span class="op">=</span> x<span class="op">+</span>y</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>와 같이 정의하면 <code>y</code> 를 입력하지 않았을 경우 즉 <code>myadd(3)</code> 으로 함수를 실행시켰을 경우 <code>y=1</code> 로 수행 됩니다. 즉 <code>myadd(3)==4</code> 입니다.</p>
 <p><br></p>
 </section>
 <section id="기본값이-없는-선택적-인자" class="level4">
 <h4 class="anchored" data-anchor-id="기본값이-없는-선택적-인자">기본값이 없는 선택적 인자</h4>
-<p>실제로 코드상에서 기본값이 없는 선택적 인자는 없습니다. 일반적으로 기본값이 없는 선택적 인자는 인자의 값이 주어졌느냐 안주어졌느냐가 중요 할 때 사용합니다. 예를 들어 위의 <code>myadd3</code> 에서 <code>myadd(2, 1)</code> 과 <code>myadd(2)</code> 는 구별 할 수 없습니다. 인자가 선택되지 않았을 때 어떤 기능을 하고싶다면 어떻게 할까요? 특별히 인자가 특정 타입을 받는 경우라면? 이때는 보통 <code>nothing</code> 을 기본 인자로 놓습니다. 이 선택적 인자에 값을 입력한다면 정수여야 한다면 타입 유니온</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">optional_arg</span>(x, y<span class="op">::</span><span class="dt">Union{Nothing, Integer} </span><span class="op">=</span> <span class="cn">nothing</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> y <span class="op">===</span> <span class="cn">nothing</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x<span class="op">^</span><span class="fl">2</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x<span class="op">+</span>y</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>실제로 코드상에서 기본값이 없는 선택적 인자는 없습니다. 일반적으로 기본값이 없는 선택적 인자는 인자의 값이 주어졌느냐 안주어졌느냐가 중요 할 때 사용합니다. 예를 들어 위의 <code>myadd3</code> 에서 <code>myadd(2, 1)</code> 과 <code>myadd(2)</code> 는 구별 할 수 없습니다. 인자가 선택되지 않았을 때 어떤 기능을 하고싶다면 어떻게 할까요? 특별히 인자가 특정 타입을 받는 경우라면? 이때는 보통 <code>nothing</code> 을 기본 인자로 놓습니다. 이 선택적 인자에 값을 입력한다면 정수여야 한다면 타입 유니온을 사용할 수 있습니다.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">optional_arg</span>(x, y<span class="op">::</span><span class="dt">Union{Nothing, Integer} </span><span class="op">=</span> <span class="cn">nothing</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> y <span class="op">===</span> <span class="cn">nothing</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x<span class="op">^</span><span class="fl">2</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x<span class="op">+</span>y</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이 경우 <code>optional_arg(3)</code> 은 <code>y=nothing</code> 으로 입력이 되기 때무문에 <span class="math inline">\(9\)</span> 를 반환하지만 <code>optional_arg(3, 4)</code> 는 <code>y=4</code> 로 입력이 되므로 <code>3+4</code> 인 <code>7</code> 이 반환됩니다.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>In [10]: function optional_arg(x, y::Union{Nothing, Integer} = nothing)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>             if y === nothing</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                 return x^2</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>             else</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                 return x+y</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>             end</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>         end</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>Out[10]: optional_arg (generic function with 2 methods)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>In [11]: optional_arg(3)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>Out[11]: 9</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>In [12]: optional_arg(3, 4)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>Out[12]: 7</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 </section>
@@ -777,9 +784,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>color = red, x=1, y=2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>함수 호출에서 키워드로 정해진 인자는 인자의 입력 순서를 무시하며, 키워드가 없는 인자끼리의 순서대로 인자가 입력된다는 것을 알 수 있습니다.</p>
 <p><br></p>
-<section id="인자의-타입-지정" class="level4">
-<h4 class="anchored" data-anchor-id="인자의-타입-지정">인자의 타입 지정</h4>
-<p>함수를 정의 할 때 인자의 타입이나 리턴값의 타입을 <code>::</code> 연산자를 통해 지정 할 수 있습니다. 예를 들어,</p>
+<section id="인자와-반환값의-타입-지정" class="level4">
+<h4 class="anchored" data-anchor-id="인자와-반환값의-타입-지정">인자와 반환값의 타입 지정</h4>
+<p>함수를 정의 할 때 인자나 반환값의 타입을 <code>::</code> 연산자를 통해 지정 할 수 있습니다. 예를 들어,</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mfunc</span>(x<span class="op">::</span><span class="dt">Int64</span>)<span class="op">::</span><span class="dt">Int64</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">+</span><span class="fl">1</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -799,25 +806,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>In [3]: myfunc2(2.0)</span>
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>Out[3]: 1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-주의
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>위의 출력에서 <code>myfunc2(1)</code> 의 경우는 긴 에러메시지가 출력되지만 생략했습니다. 앞으로도 긴 에러메시지의 경우, 특별히 중요한 에러메시지가 아니면 생략하도록 하겠습니다.</p>
-</div>
-</div>
 <p><br></p>
 </section>
 </section>
 <section id="함수의-시그너쳐와-메서드" class="level3">
 <h3 class="anchored" data-anchor-id="함수의-시그너쳐와-메서드">함수의 시그너쳐와 메서드</h3>
-<p>함수 ₩름과 인자의 갯수, 각 인자의 타입의 정보를 함수의 시그너쳐(signature)라고 합니다. Julia 에서는 하나의 함수 이름으로 인자의 타입과 갯수에 따라 각각 다른 기능을 하게 할 수 있는데 이를 메서드(method)라고 합니다. 자세한 것은 <a href="../../src/introduction_to_julia/08_type_hierarchy.html#sec-method_multiple_dispatch">메서드 다중 디스패치</a> 에서 다루도록 하겠습니다.</p>
+<p>함수 이름과 인자의 갯수, 각 인자의 타입의 정보를 함수의 <strong>시그너쳐(signature)</strong>라고 합니다. Julia 에서는 하나의 함수 이름으로 인자의 타입과 갯수에 따라 각각 다른 기능을 하게 할 수 있는데 이를 메서드(method)라고 합니다. 자세한 것은 <a href="../../src/introduction_to_julia/08_type_hierarchy.html#sec-method_multiple_dispatch">메서드 다중 디스패치</a> 에서 다루도록 하겠습니다.</p>
 
 
 </section>

@@ -270,11 +270,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sec-array" id="toc-sec-array" class="nav-link active" data-scroll-target="#sec-array"><span class="header-section-number">1</span> 배열 (Array)</a>
   <ul class="collapse">
   <li><a href="#sec-terms_on_array" id="toc-sec-terms_on_array" class="nav-link" data-scroll-target="#sec-terms_on_array">배열에 대한 용어</a></li>
-  <li><a href="#sec-array_initialization" id="toc-sec-array_initialization" class="nav-link" data-scroll-target="#sec-array_initialization">배열의 생성</a></li>
-  <li><a href="#sec-index_of_array" id="toc-sec-index_of_array" class="nav-link" data-scroll-target="#sec-index_of_array">배열의 인덱스</a></li>
-  <li><a href="#sec-copy_of_array" id="toc-sec-copy_of_array" class="nav-link" data-scroll-target="#sec-copy_of_array">배열의 복사</a></li>
   </ul></li>
-  <li><a href="#배열에-대한-함수" id="toc-배열에-대한-함수" class="nav-link" data-scroll-target="#배열에-대한-함수"><span class="header-section-number">2</span> 배열에 대한 함수</a>
+  <li><a href="#sec-array_initialization" id="toc-sec-array_initialization" class="nav-link" data-scroll-target="#sec-array_initialization"><span class="header-section-number">2</span> 배열의 생성</a>
+  <ul class="collapse">
+  <li><a href="#sec-array_comprehension" id="toc-sec-array_comprehension" class="nav-link" data-scroll-target="#sec-array_comprehension">Array comprehension 을 이용한 배열의 생성</a></li>
+  <li><a href="#sec-array_initialization_using_functions" id="toc-sec-array_initialization_using_functions" class="nav-link" data-scroll-target="#sec-array_initialization_using_functions">특정 값으로만 이루어진 배열의 생성</a></li>
+  <li><a href="#sec-array_initialization_using_existing_array" id="toc-sec-array_initialization_using_existing_array" class="nav-link" data-scroll-target="#sec-array_initialization_using_existing_array">이미 존재하는 배열과 같은 크기의 배열 생성</a></li>
+  <li><a href="#sec-array_initialization_using_concatenation" id="toc-sec-array_initialization_using_concatenation" class="nav-link" data-scroll-target="#sec-array_initialization_using_concatenation">배열을 확장하여 생성</a></li>
+  <li><a href="#주어진-배열과-같은-크기와-타입의-값이-정해지지-않은-배열을-생성-similar" id="toc-주어진-배열과-같은-크기와-타입의-값이-정해지지-않은-배열을-생성-similar" class="nav-link" data-scroll-target="#주어진-배열과-같은-크기와-타입의-값이-정해지지-않은-배열을-생성-similar">주어진 배열과 같은 크기와 타입의 값이 정해지지 않은 배열을 생성 : <code>similar</code></a></li>
+  </ul></li>
+  <li><a href="#sec-index_of_array" id="toc-sec-index_of_array" class="nav-link" data-scroll-target="#sec-index_of_array"><span class="header-section-number">3</span> 배열의 인덱스</a>
+  <ul class="collapse">
+  <li><a href="#인덱스를-이용한-배열-연산" id="toc-인덱스를-이용한-배열-연산" class="nav-link" data-scroll-target="#인덱스를-이용한-배열-연산">인덱스를 이용한 배열 연산</a></li>
+  <li><a href="#행렬의-열행-우선-방식" id="toc-행렬의-열행-우선-방식" class="nav-link" data-scroll-target="#행렬의-열행-우선-방식">행렬의 열/행 우선 방식</a></li>
+  <li><a href="#sec-cartesian_and_linear_index" id="toc-sec-cartesian_and_linear_index" class="nav-link" data-scroll-target="#sec-cartesian_and_linear_index">데카르트 인덱스와 선형 인덱스</a></li>
+  </ul></li>
+  <li><a href="#sec-copy_of_array" id="toc-sec-copy_of_array" class="nav-link" data-scroll-target="#sec-copy_of_array"><span class="header-section-number">4</span> 배열의 복사</a></li>
+  <li><a href="#배열에-대한-함수" id="toc-배열에-대한-함수" class="nav-link" data-scroll-target="#배열에-대한-함수"><span class="header-section-number">5</span> 배열에 대한 함수</a>
   <ul class="collapse">
   <li><a href="#인덱스-순회에-대한-함수들-eachindex-cartesianindex" id="toc-인덱스-순회에-대한-함수들-eachindex-cartesianindex" class="nav-link" data-scroll-target="#인덱스-순회에-대한-함수들-eachindex-cartesianindex">인덱스 순회에 대한 함수들 : <code>eachindex</code>, <code>CartesianIndex</code></a></li>
   <li><a href="#타입과-모양의-변환" id="toc-타입과-모양의-변환" class="nav-link" data-scroll-target="#타입과-모양의-변환">타입과 모양의 변환</a></li>
@@ -305,137 +317,138 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="sec-array" class="level2 page-columns page-full" data-number="1">
+<section id="sec-array" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="sec-array"><span class="header-section-number">1</span> 배열 (Array)</h2>
 <section id="sec-terms_on_array" class="level3">
 <h3 class="anchored" data-anchor-id="sec-terms_on_array">배열에 대한 용어</h3>
 <p>Julia 는 0 차원 배열부터 임의의 <strong>차원(dimension)</strong>의 배열을 지원합니다. 1차원 배열은 <code>Vector</code>, 2차원 배열은 <code>Matrix</code> 라는 별칭을 가지고 있습니다. 0 차원 배열은 성분을 하나 가지고 있는 배열입니다. 각 차원을 <strong>축(axis)</strong> 이라고 부릅니다. 배열의 <strong>형태(shape)</strong> 는 각 차원마다 몇개의 성분을 가지는지를 말합니다. 예를 들어 배열의 형태가 <code>(3, 4, 5)</code> 라면 3차원 배열이고 첫번째 차원으로는 3개, 두번째 차원으로는 4개, 세번째 차원으로는 5개의 성분을 가져야 합니다.</p>
 <p>1 차원 배열과 2차원 배열은 다음과 같이 선언됩니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> arr1 <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>]</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">4</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Float64</span>}<span class="op">:</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1.0</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2.0</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">3.0</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a> <span class="fl">4.0</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>In [1]: arr1 = [1.0, 2.0, 3.0, 4.0]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 4-element Vector{Float64}:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> 1.0</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> 2.0</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a> 3.0</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a> 4.0</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> arr2 <span class="op">=</span> [<span class="fl">4.0</span>; <span class="fl">5</span>; <span class="fl">6</span>]</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Float64</span>}<span class="op">:</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a> <span class="fl">4.0</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a> <span class="fl">5.0</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">6.0</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>In [2]: arr2 = [4.0; 5; 6]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Out[2]: 3-element Vector{Float64}:</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a> 4.0</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a> 5.0</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a> 6.0</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> arr3 <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span> <span class="fl">3</span> <span class="fl">4</span>]</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span>  <span class="fl">3</span>  <span class="fl">4</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>In [3]: arr3 = [1 2 3 4]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Out[3]: 1×4 Matrix{Int64}:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a> 1  2  3  4</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> arr4<span class="op">=</span>[<span class="fl">3</span> <span class="fl">2</span>;<span class="fl">4</span> <span class="fl">5</span>]</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">2</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span>  <span class="fl">5</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>In [4]: arr4=[3 2;4 5]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Out[4]: 2×2 Matrix{Int64}:</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a> 3  2</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a> 4  5</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>arr1</code> 과 같이 <code>[ ]</code> 안에 콤마로 분리된 경우와 <code>arr2</code> 와 같이 <code>;</code> 로 분리된 경우는 1 차원 벡터입니다. <code>Out[1]</code> 의 <code>Vector{Float64}</code> 는 성분이 <code>Float64</code> 타입인 1차원 배열이라는 의미입니다. 앞서 말했듯이 <code>Vector</code> 는 1차원 배열과 같은 의미이며 (<code>alias</code> 라고 하며 본질적으로 같고, 부르는 이름이 다르다는 의미입니다.) <code>Matrix</code> 는 2차원 배열의 alias 입니다. <code>arr3</code> 와 같이 공백으로 분리되는 경우는 2차원 배열입니다. 즉 <code>[1 2]</code> 와 <code>[1, 2]</code> 는 다릅니다. <code>arr4</code> 를 보면 알겠지만 2차원 배열은 행 순서대로 나열하되 같은 행에서는 공백으로 열을 구분하며, 행의 구분은 <code>;</code> 를 사용합니다. 배열의 각 성분에 접근할 때는 <code>arr2[3]</code> 이나 <code>arr3[1, 1]</code> 과 같이 접근합니다. 이 때 배열의 위치를 나타내는 숫자 혹은 숫자들을 인덱스라고 부릅니다. 인덱스에 대해서는 잠시후 <a href="#sec-index_of_array">배열의 인덱스</a> 에서 좀 더 자세히 다룹니다.</p>
 <p><code>;</code> 를 여러 개 겹쳐서 다차원 배열을 선언하는데 사용 할 수 있습니다.</p>
 <p><br></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> arr3d <span class="op">=</span> [<span class="fl">1</span>; <span class="fl">2</span>;; <span class="fl">3</span>; <span class="fl">4</span>;; <span class="fl">5</span>; <span class="fl">6</span>;;; <span class="fl">7</span>; <span class="fl">8</span>;; <span class="fl">9</span>; <span class="fl">10</span>;; <span class="fl">11</span>; <span class="fl">12</span>]</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">3</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Array</span>{<span class="dt">Int64</span>, <span class="fl">3</span>}<span class="op">:</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">1</span>] <span class="op">=</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">3</span>  <span class="fl">5</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">4</span>  <span class="fl">6</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [5]: arr3d = [1; 2;; 3; 4;; 5; 6;;; 7; 8;; 9; 10;; 11; 12]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Out[5]: 2×3×2 Array{Int64, 3}:</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>[:, :, 1] =</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> 1  3  5</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> 2  4  6</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> arr5 <span class="op">=</span> [<span class="fl">1</span>;;<span class="fl">2</span>;;<span class="fl">3</span>;;<span class="fl">4</span>]</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span>  <span class="fl">3</span>  <span class="fl">4</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>In [6]: arr5 = [1;;2;;3;;4]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>Out[6]: 1×4 Matrix{Int64}:</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a> 1  2  3  4</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> arr6 <span class="op">=</span> [<span class="fl">1</span>;;;<span class="fl">2</span>;;;<span class="fl">3</span>;;;<span class="fl">4</span>]</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">×</span><span class="fl">1</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Array</span>{<span class="dt">Int64</span>, <span class="fl">3</span>}<span class="op">:</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">1</span>] <span class="op">=</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>In [7]: arr6 = [1;;;2;;;3;;;4]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>Out[7]: 1×1×4 Array{Int64, 3}:</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>[:, :, 1] =</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a> 1</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">2</span>] <span class="op">=</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>[:, :, 2] =</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a> 2</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">3</span>] <span class="op">=</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>[:, :, 3] =</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a> 3</span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">4</span>] <span class="op">=</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>[:, :, 4] =</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a> 4</span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">2</span>] <span class="op">=</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a> <span class="fl">7</span>   <span class="fl">9</span>  <span class="fl">11</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a> <span class="fl">8</span>  <span class="fl">10</span>  <span class="fl">12</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>[:, :, 2] =</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a> 7   9  11</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a> 8  10  12</span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> <span class="fu">ndims</span>(arr5)</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">2</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>In [8]: ndims(arr5)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>Out[8]: 2</span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> <span class="fu">size</span>(arr6)</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> (<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">4</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>위에서 보였는데, 배열의 차원은 <code>ndims</code> 함수로 알 수 있습니다. 배열의 형태는 <code>size</code> 함수로 알 수 있습니다. <code>sizeof()</code> 함수는 배열의 크기를 바이트(bytes) 로 나타냅니다. <code>arr3d</code> 는 <code>Int64</code> 타입의 성분으로 이루어져 있으며, <code>Int64</code> 는 8바이트 이고 모두 12 개의 성분을 가지므로 96 바이트를 차지합니다. 일반적인 컨테이너와 같이 <code>length</code> 함수를 통해 배열에 속하는 모든 성분의 갯수를 알 수 있습니다.</p>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>In [9]: size(arr6)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>Out[9]: (1, 1, 4)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>위에서 보였는데, 배열의 차원은 <code>ndims()</code> 함수로 알 수 있습니다. 배열의 형태는 <code>size()</code> 함수로 알 수 있습니다. <code>sizeof()</code> 함수는 배열의 크기를 바이트(bytes) 로 나타냅니다. <code>arr3d</code> 는 <code>Int64</code> 타입의 성분으로 이루어져 있으며, <code>Int64</code> 는 8바이트 이고 모두 12 개의 성분을 가지므로 96 바이트를 차지합니다. 일반적인 컨테이너와 같이 <code>length()</code> 함수를 통해 배열에 속하는 모든 성분의 갯수를 알 수 있습니다.</p>
 <p><br></p>
 </section>
-<section id="sec-array_initialization" class="level3">
-<h3 class="anchored" data-anchor-id="sec-array_initialization">배열의 생성</h3>
+</section>
+<section id="sec-array_initialization" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="sec-array_initialization"><span class="header-section-number">2</span> 배열의 생성</h2>
 <p>앞에서와 같이 각각 배열의 성분을 입력 할 수도 있겠지만, 배열이 클 경우는 거의 불가능한 방법입니다. Julia 는 배열을 생성하고 초기화 할 수 있는 다양한 방법을 제공합니다.</p>
 <p><br></p>
-<section id="sec-array_comprehension" class="level4">
-<h4 class="anchored" data-anchor-id="sec-array_comprehension">Array comprehension 을 이용한 배열의 생성</h4>
+<section id="sec-array_comprehension" class="level3">
+<h3 class="anchored" data-anchor-id="sec-array_comprehension">Array comprehension 을 이용한 배열의 생성</h3>
 <p><code>[ ]</code> 안에 루프를 사용하여 배열을 만들 수 있습니다. 1 부터 10 까지의 정수의 제곱을 순서대로 포함하는 배열은 아래와 같이 만들 수 있다.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ac1 <span class="op">=</span> [x<span class="op">^</span><span class="fl">2</span> for x <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>]</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>다차원 배열도 다음과 같이 만들 수 있습니다.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> [x<span class="op">+</span>y for x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">3</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span>  <span class="fl">5</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [6]: [x+y for x = 1:3, y = 1:2]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Out[6]: 3×2 Matrix{Int64}:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> 2  3</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> 3  4</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a> 4  5</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>[ ]</code> 안에 조건을 넣을 수도 있습니다. 예를 들어 앞의 2차원 배열에서 <code>x+y&gt;3</code> 인 경우에는 <code>0</code> 으로 채우고 싶다면,</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> [if x<span class="op">+</span>y <span class="op">&gt;</span> <span class="fl">3</span> <span class="fl">0</span> else x<span class="op">+</span>y <span class="kw">end</span> for x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">3</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">0</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">0</span>  <span class="fl">0</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>In [7]: [if x+y &gt; 3 0 else x+y end for x = 1:3, y = 1:2]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Out[7]: 3×2 Matrix{Int64}:</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> 2  3</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> 3  0</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a> 0  0</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>와 같이 쓸 수 있습니다. 3항 연산자를 사용하여 다음과 같이 쓸 수도 있습니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> [(x<span class="op">+</span>y <span class="op">&gt;</span> <span class="fl">3</span>) ? <span class="fl">0</span> <span class="op">:</span> x<span class="op">+</span>y  for x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>]</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">3</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">0</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">0</span>  <span class="fl">0</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [8]: [(x+y &gt; 3) ? 0 : x+y  for x = 1:3, y = 1:2]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Out[8]: 3×2 Matrix{Int64}:</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> 2  3</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> 3  0</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> 0  0</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>그런데 <code>if</code> 문이 뒤에 가면 전혀 다른 결과가 발생합니다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> [x for x <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span> if x<span class="op">&gt;</span><span class="fl">4</span>]</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> <span class="fl">6</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fl">5</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fl">6</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fl">7</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fl">8</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fl">9</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a> <span class="fl">10</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [9]: [x for x in 1:10 if x&gt;4]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Out[9]: 6-element Vector{Int64}:</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  5</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  6</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  7</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  8</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  9</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a> 10</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">10</span>]<span class="op">:</span> [x<span class="op">+</span>y for x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span> if x<span class="op">+</span>y<span class="op">&gt;</span><span class="fl">3</span>]</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">10</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a> <span class="fl">5</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>In [10]: [x+y for x = 1:3, y = 1:2 if x+y&gt;3]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>Out[10]: 3-element Vector{Int64}:</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a> 4</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a> 4</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a> 5</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>In[7]</code> 과 같이 <code>for</code> 가 <code>if</code> 뒤에 있으면, 중첩된 <code>for</code> 의 갯수에 따라 다차원 배열을 만든 후 연산을 수행합니다. 반대로 <code>In[9]</code> 나 <code>In [10]</code> 과 같이 <code>if</code> 가 <code>for</code> 의 뒤에 있다면 1차원 배열에 대해 <code>if</code> 문이 일종의 <code>filter</code> 함수 역할을 수행하며 이 <code>filter</code> 에 대해 <code>true</code> 인 경우 1차원 배열에 삽입합니다.</p>
 <p><br></p>
 </section>
-<section id="sec-array_initialization_using_functions" class="level4">
-<h4 class="anchored" data-anchor-id="sec-array_initialization_using_functions">특정 값으로만 이루어진 배열의 생성</h4>
+<section id="sec-array_initialization_using_functions" class="level3">
+<h3 class="anchored" data-anchor-id="sec-array_initialization_using_functions">특정 값으로만 이루어진 배열의 생성</h3>
 <p><code>zeros()</code>, <code>ones()</code>, <code>fill()</code> 함수가 대표적으로 배열을 초기화 하는 함수입니다. <code>zeros(T, dims)</code> 는 <code>T</code> 의 타입에서의 0 값(<code>zero(T)</code>)으로 채워진 <code>dims</code> 차원의 배열을 반환합니다. <code>ones(T, dims)</code> 은 <code>one(T)</code> 로 채워진 배열의 형상이<code>dims</code> 인 배열을 반환하며 <code>fill(v, dims)</code> 는 값 <code>v</code> 로 채워진 <code>dims</code> 형상의 배열을 반환합니다. <code>T</code> 가 주어지지 않을 경우는 <code>Float64</code> 타입으로 정해지며 <code>dims</code> 는 1차원 배열의 경우는 정수, 다차원 배열의 경우는 튜플, 혹은 연속적인 정수입니다.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">zeros</span>(<span class="dt">Float32</span>, (<span class="fl">2</span>, <span class="fl">3</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Float32</span>}<span class="op">:</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.0</span>  <span class="fl">0.0</span>  <span class="fl">0.0</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.0</span>  <span class="fl">0.0</span>  <span class="fl">0.0</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [1]: zeros(Float32, (2, 3))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 2×3 Matrix{Float32}:</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> 0.0  0.0  0.0</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a> 0.0  0.0  0.0</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">ones</span>(<span class="dt">UInt8</span>, (<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>)) <span class="co"># == ones(UInt8, 2,2,2)</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Array</span>{<span class="dt">UInt8</span>, <span class="fl">3</span>}<span class="op">:</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">1</span>] <span class="op">=</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a> <span class="bn">0x01</span>  <span class="bn">0x01</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a> <span class="bn">0x01</span>  <span class="bn">0x01</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>In [2]: ones(UInt8, (2,2,2)) # == ones(UInt8, 2,2,2)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Out[2]: 2×2×2 Array{UInt8, 3}:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>[:, :, 1] =</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a> 0x01  0x01</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a> 0x01  0x01</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">2</span>] <span class="op">=</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a> <span class="bn">0x01</span>  <span class="bn">0x01</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a> <span class="bn">0x01</span>  <span class="bn">0x01</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>[:, :, 2] =</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a> 0x01  0x01</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a> 0x01  0x01</span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">fill</span>(<span class="fl">2.0</span>, <span class="fl">1</span>, <span class="fl">3</span>)  <span class="co"># == fill(2.0, (1, 3))</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Float64</span>}<span class="op">:</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a> <span class="fl">2.0</span>  <span class="fl">2.0</span>  <span class="fl">2.0</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>In [3]: fill(2.0, 1, 3)  # == fill(2.0, (1, 3))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>Out[3]: 1×3 Matrix{Float64}:</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a> 2.0  2.0  2.0</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 <p><code>undef</code> 키워드를 사용하여 타입과 크기만을 지정하고 값을 정하지 않고 초기화 할 수도 있습니다.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>A1 <span class="op">=</span> <span class="fu">Vector</span><span class="dt">{Int8}</span>(<span class="cn">undef</span>, <span class="fl">4</span>) <span class="co"># 1차원 배열 초기화</span></span>
@@ -444,324 +457,333 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>이 경우 배열의 성분은 임의의 값이 정해집니다. 이렇게 임의의 값이 채워진 배열을 초기화 하는 이유는 이렇게 배열을 만드는 것이 특정 값으로 채워서 초기화 하는 것보다 훨씬 빠르기 때문입니다. 만약 배열의 모든 성분이 이후의 계산과정에서 채워진다면 굳이 특정 값으로 초기화 시키지 않고 <code>undef</code> 를 사용하여 배열을 만들 수 있습니다.</p>
 <p><br></p>
 </section>
-<section id="sec-array_initialization_using_existing_array" class="level4">
-<h4 class="anchored" data-anchor-id="sec-array_initialization_using_existing_array">이미 존재하는 배열과 같은 크기의 배열 생성</h4>
+<section id="sec-array_initialization_using_existing_array" class="level3">
+<h3 class="anchored" data-anchor-id="sec-array_initialization_using_existing_array">이미 존재하는 배열과 같은 크기의 배열 생성</h3>
 <p>배열의 타입과 크기를 지정하지 않고 이미 존재하는 배열을 이용하여 초기화 할 수 있습니다. 예를 들어 어떤 배열 <code>A</code> 와 같은 크기와 타입을 갖지만 모든 성분이 0 인 배열을 만들 때 <code>zero(A)</code> 를 사용 할 수 있습니다. (<code>zeros(A)</code> 가 아닙니다) <code>A</code> 가 정사각 행렬일 경우 <code>one(A)</code> 는 <code>A</code> 와 같은 크기와 타입을 갖는 항등행렬을 리턴합니다.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> A<span class="op">=</span>[<span class="fl">1.0</span> <span class="op">-</span><span class="fl">2.0</span> <span class="fl">3.0</span>;<span class="fl">4.0</span> <span class="op">-</span><span class="fl">3.0</span> <span class="op">-</span><span class="fl">1.0</span>]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Float64</span>}<span class="op">:</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1.0</span>  <span class="op">-</span><span class="fl">2.0</span>   <span class="fl">3.0</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">4.0</span>  <span class="op">-</span><span class="fl">3.0</span>  <span class="op">-</span><span class="fl">1.0</span></span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [1]: A=[1.0 -2.0 3.0;4.0 -3.0 -1.0]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 2×3 Matrix{Float64}:</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> 1.0  -2.0   3.0</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> 4.0  -3.0  -1.0</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">zero</span>(A)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Float64</span>}<span class="op">:</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.0</span>  <span class="fl">0.0</span>  <span class="fl">0.0</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.0</span>  <span class="fl">0.0</span>  <span class="fl">0.0</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>In [2]: zero(A)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>Out[2]: 2×3 Matrix{Float64}:</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a> 0.0  0.0  0.0</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a> 0.0  0.0  0.0</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> B<span class="op">=</span>[<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>]</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>In [3]: B=[1 2;3 4]</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>Out[3]: 2×2 Matrix{Int64}:</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a> 1  2</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a> 3  4</span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="fu">one</span>(B)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">0</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a> <span class="fl">0</span>  <span class="fl">1</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>In [4]: one(B)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>Out[4]: 2×2 Matrix{Int64}:</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a> 1  0</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a> 0  1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
-<section id="sec-array_initialization_using_concatenation" class="level4">
-<h4 class="anchored" data-anchor-id="sec-array_initialization_using_concatenation">배열을 확장하여 생성</h4>
+<section id="sec-array_initialization_using_concatenation" class="level3">
+<h3 class="anchored" data-anchor-id="sec-array_initialization_using_concatenation">배열을 확장하여 생성</h3>
 <p>2차원 배열을 생성할 때 <code>[1 3;2 4]</code> 와 같이 열 구별은 공백을, 행 구별은 <code>;</code> 을 이용하여 생성하는 방법을 이미 알아 보았습니다. 이 방법은 스칼라 뿐만 아니라 배열을 사용 할 수도 있는데 예를 들면</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> A<span class="op">=</span>[<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>];B<span class="op">=</span>[<span class="fl">5</span> ; <span class="fl">6</span>]; C <span class="op">=</span> [<span class="fl">7</span> <span class="fl">8</span>]; D<span class="op">=</span>[<span class="fl">9</span>]</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">9</span></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>In [1]: A=[1 2;3 4];B=[5 ; 6]; C = [7 8]; D=[9]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 1-element Vector{Int64}:</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a> 9</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> A<span class="op">=</span>[<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>];B<span class="op">=</span>[<span class="fl">5</span> ; <span class="fl">6</span>]; C <span class="op">=</span> [<span class="fl">7</span> <span class="fl">8</span>]; D<span class="op">=</span>[<span class="fl">9</span>]</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a> <span class="fl">9</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>In [2]: A=[1 2;3 4];B=[5 ; 6]; C = [7 8]; D=[9]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Out[2]: 1-element Vector{Int64}:</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a> 9</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> F1<span class="op">=</span>[A B]</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span>  <span class="fl">5</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span>  <span class="fl">6</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>In [3]: F1=[A B]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>Out[3]: 2×3 Matrix{Int64}:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a> 1  2  5</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a> 3  4  6</span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> F2<span class="op">=</span>[A;C]</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a> <span class="fl">7</span>  <span class="fl">8</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>In [4]: F2=[A;C]</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>Out[4]: 3×2 Matrix{Int64}:</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a> 1  2</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a> 3  4</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a> 7  8</span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> F3<span class="op">=</span>[A B;C D]</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span>  <span class="fl">5</span></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span>  <span class="fl">6</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a> <span class="fl">7</span>  <span class="fl">8</span>  <span class="fl">9</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>In [5]: F3=[A B;C D]</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>Out[5]: 3×3 Matrix{Int64}:</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a> 1  2  5</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a> 3  4  6</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a> 7  8  9</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>와 같습니다. 즉 부분 행렬을 모아 더 큰 행렬을 만들 때 행 방향으로의 확장은 공백으로, 열 방향으로의 확장은 <code>;</code> 를 이용합니다. 이렇게 작은 배열을 모아 큰 배열을 만드는 것을 <strong>concatenation</strong> 이라고 합니다. Concatenation 을 이용할 때는 각 부분행렬의 행과 열의 갯수가 서로 잘 맞도록 해줘야 합니다. <code>[A B; C D]</code> 형태로 concatenation 을 할 때는 <code>A</code> 와 <code>B</code> 의 행의 갯수가 같아야 하며 <code>A</code> 와 <code>C</code> 의 열의 갯수가 같아야 하고 <code>B</code> 의 열의 갯수와 <code>D</code> 의 열의 갯수도 같아야 하며 <code>C</code> 와 <code>D</code> 의 행의 갯수가 같아야 합니다. 복잡하게 설명했지만 결국 크기가 다른 타일을 빈 틈 없이 맞추는 경우로 생각할 수 있겠습니다.</p>
 <p>Concatenation 을 해 주는 함수로는 <code>cat</code>, <code>vcat</code>, <code>hcat</code>, <code>hvcat</code>, <code>hvncat</code> 이 있습니다.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> A<span class="op">=</span>[<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>];B<span class="op">=</span>[<span class="fl">5</span> <span class="fl">6</span>;<span class="fl">7</span> <span class="fl">8</span>];C<span class="op">=</span>[<span class="op">-</span><span class="fl">1</span> <span class="op">-</span><span class="fl">2</span>; <span class="op">-</span><span class="fl">3</span> <span class="op">-</span><span class="fl">4</span>];</span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>In [1]: A=[1 2;3 4];B=[5 6;7 8];C=[-1 -2; -3 -4];</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">vcat</span>(A, B)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">4</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a> <span class="fl">5</span>  <span class="fl">6</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a> <span class="fl">7</span>  <span class="fl">8</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>In [2]: vcat(A, B)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>Out[2]: 4×2 Matrix{Int64}:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a> 1  2</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a> 3  4</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a> 5  6</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a> 7  8</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">hcat</span>(A, B, C)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">6</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span>  <span class="fl">5</span>  <span class="fl">6</span>  <span class="op">-</span><span class="fl">1</span>  <span class="op">-</span><span class="fl">2</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span>  <span class="fl">7</span>  <span class="fl">8</span>  <span class="op">-</span><span class="fl">3</span>  <span class="op">-</span><span class="fl">4</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>In [3]: hcat(A, B, C)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>Out[3]: 2×6 Matrix{Int64}:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a> 1  2  5  6  -1  -2</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a> 3  4  7  8  -3  -4</span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="fu">hvcat</span>((<span class="fl">2</span>, <span class="fl">3</span>), [<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>], [<span class="op">-</span><span class="fl">1</span>;<span class="op">-</span><span class="fl">2</span>], [<span class="fl">5</span>; <span class="fl">6</span>], [<span class="fl">7</span>;<span class="fl">8</span>], [<span class="fl">9</span>;<span class="fl">10</span>])</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fl">4</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span>  <span class="op">-</span><span class="fl">1</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span>  <span class="op">-</span><span class="fl">2</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a> <span class="fl">5</span>  <span class="fl">7</span>   <span class="fl">9</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a> <span class="fl">6</span>  <span class="fl">8</span>  <span class="fl">10</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>In [4]: hvcat((2, 3), [1 2;3 4], [-1;-2], [5; 6], [7;8], [9;10])</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>Out[4]: 4×3 Matrix{Int64}:</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a> 1  2  -1</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a> 3  4  -2</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a> 5  7   9</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a> 6  8  10</span>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> [[<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>] [<span class="op">-</span><span class="fl">1</span>;<span class="op">-</span><span class="fl">2</span>] ; [<span class="fl">5</span>; <span class="fl">6</span>] [<span class="fl">7</span>;<span class="fl">8</span>] [<span class="fl">9</span>;<span class="fl">10</span>]]</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">4</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span>  <span class="op">-</span><span class="fl">1</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span>  <span class="op">-</span><span class="fl">2</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a> <span class="fl">5</span>  <span class="fl">7</span>   <span class="fl">9</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a> <span class="fl">6</span>  <span class="fl">8</span>  <span class="fl">10</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>In [5]: [[1 2;3 4] [-1;-2] ; [5; 6] [7;8] [9;10]]</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>Out[5]: 4×3 Matrix{Int64}:</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a> 1  2  -1</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a> 3  4  -2</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a> 5  7   9</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a> 6  8  10</span>
 <span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="fu">hvcat</span>(<span class="fl">2</span>, [<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>], [<span class="fl">5</span>;<span class="fl">6</span>])</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span>  <span class="fl">5</span></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span>  <span class="fl">6</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>In [6]: hvcat(2, [1 2;3 4], [5;6])</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>Out[6]: 2×3 Matrix{Int64}:</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a> 1  2  5</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a> 3  4  6</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>vcat(A, B)</code> 는 <code>[A; B]</code> 와 같으며 <code>hcat(A, B)</code> 는 <code>[A B]</code> 와 같습니다. 즉 <code>vcat</code> 은 배열을 수직으로 위에서 아래로 쌓으며, <code>hcat</code> 은 왼쪽에서 오른쪽으로 쌓습니다. <code>vcat</code> 이나 <code>hcat</code> 의 인자로는 다수의 배열 혹은 숫자가 올 수 있습니다. <code>hvcat</code> 은 인자로서 처음에 정수 혹은 정수의 터플이 오며, 그 다음부터 다수의 배열이 위치합니다. <code>In [4]</code> 의 <code>hcat</code> 함수의 첫번째 인자 <code>(2, 3)</code> 는 첫번째 블록열은 2개의 행렬로, 두번째 블록열은 그 다음 세개의 행렬로 이루어진다는 것을 의미합니다. 즉 <code>[1 2;3 4], [-1;-2]</code> 가 첫번째 열을 이루고, <code>[5; 6], [7;8], [9;10]</code> 가 두번째 열을 이룹니다. 따라서 <code>In [5]</code> 와 같습니다. <code>hvcat</code> 의 첫번째 인자로 정수만 있을 때는 첫번째 블록열로만 이루어집니다.</p>
 <p><code>cat</code> 함수는 좀 많이 복잡합니다. 우리는 여기서는 1차원과 2차원 배열에 대해서만 다루겠습니다. 우선 <code>cat</code> 함수의 시그너쳐는 다음과 같습니다.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(A<span class="op">...</span>; dims)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>dims</code> 는 자연수, 혹은 자연수의 터플이 올 수 있습니다. Julia 1.8 부터는 <code>Val{x}</code> 타입도 가능하지만 여기서는 다루지 않겠습니다. 자연수가 올 때는 그 차원 방향으로 확장합니다.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">cat</span>(<span class="fl">1</span>, [<span class="fl">2</span>;<span class="fl">3</span>], dims<span class="op">=</span><span class="fl">1</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span></span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>In [1]: cat(1, [2;3], dims=1)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 3-element Vector{Int64}:</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a> 3</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">cat</span>([<span class="fl">1</span>;<span class="fl">2</span>], [<span class="fl">3</span>;<span class="fl">4</span>], dims<span class="op">=</span><span class="fl">2</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">3</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">4</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>In [2]: cat([1;2], [3;4], dims=2)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>Out[2]: 2×2 Matrix{Int64}:</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a> 1  3</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a> 2  4</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>dims</code> 에 자연수의 컨테이너가 올 때는 마치 블록 대각 행렬을 만드는 것 처럼 확장됩니다. 다음을 봅시다.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">cat</span>(<span class="fl">1</span>, [<span class="fl">2</span>;<span class="fl">3</span>], [<span class="fl">4</span> <span class="fl">5</span>; <span class="fl">6</span> <span class="fl">7</span>], dims<span class="op">=</span>(<span class="fl">1</span>, <span class="fl">2</span>))</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">5</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">0</span>  <span class="fl">2</span>  <span class="fl">0</span>  <span class="fl">0</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">0</span>  <span class="fl">3</span>  <span class="fl">0</span>  <span class="fl">0</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a> <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">4</span>  <span class="fl">5</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a> <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">6</span>  <span class="fl">7</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [3]: cat(1, [2;3], [4 5; 6 7], dims=(1, 2))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Out[3]: 5×4 Matrix{Int64}:</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a> 1  0  0  0</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a> 0  2  0  0</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a> 0  3  0  0</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a> 0  0  4  5</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a> 0  0  6  7</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>dims=(1, 2)</code> 이므로 첫번째 차원(수직) 과 두번째 차원 (수평) 으로 확장되며 주어진 배열 (스칼라는 0차원 배열로 간주됩니다) 대각으로 놓게 됩니다.</p>
 <p><br></p>
 </section>
-<section id="주어진-배열과-같은-크기와-타입의-값이-정해지지-않은-배열을-생성-similar" class="level4">
-<h4 class="anchored" data-anchor-id="주어진-배열과-같은-크기와-타입의-값이-정해지지-않은-배열을-생성-similar">주어진 배열과 같은 크기와 타입의 값이 정해지지 않은 배열을 생성 : <code>similar</code></h4>
+<section id="주어진-배열과-같은-크기와-타입의-값이-정해지지-않은-배열을-생성-similar" class="level3">
+<h3 class="anchored" data-anchor-id="주어진-배열과-같은-크기와-타입의-값이-정해지지-않은-배열을-생성-similar">주어진 배열과 같은 크기와 타입의 값이 정해지지 않은 배열을 생성 : <code>similar</code></h3>
 <p>값을 지정하지 않고 주어진 배열과 같은 타입과 크기의 배열을 생성하는 함수로 <code>similar()</code> 가 있습니다. <code>similar()</code> 를 사용하는 이유도 속도 때문이며, <code>undef</code> 키워드로 배열을 만드는 것과 같이, 이후 연산으로 그 값이 다 채워진다면 충분히 사용할 만 합니다.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> C<span class="op">=</span>[<span class="fl">1.0</span> <span class="fl">3.0</span>;<span class="fl">2.0</span> <span class="op">-</span><span class="fl">1.0</span>]</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Float64</span>}<span class="op">:</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1.0</span>   <span class="fl">3.0</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2.0</span>  <span class="op">-</span><span class="fl">1.0</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>In [8]: C=[1.0 3.0;2.0 -1.0]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Out[8]: 2×2 Matrix{Float64}:</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a> 1.0   3.0</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a> 2.0  -1.0</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> <span class="fu">similar</span>(C)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Float64</span>}<span class="op">:</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.0</span>           <span class="fl">2.39288e-314</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">2.39288e-314</span>  <span class="fl">0.0</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>In [9]: similar(C)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>Out[9]: 2×2 Matrix{Float64}:</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a> 0.0           2.39288e-314</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a> 2.39288e-314  0.0</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 </section>
-<section id="sec-index_of_array" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="sec-index_of_array">배열의 인덱스</h3>
+<section id="sec-index_of_array" class="level2 page-columns page-full" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="sec-index_of_array"><span class="header-section-number">3</span> 배열의 인덱스</h2>
 <p>프로그래밍 언어에서 배열을 다룰 때 첫번째 인덱스가 <code>0</code> 인 언어가 있으며(C/C++, Java, Python, Javascript 등), <code>1</code> 인 언어(Fortran, Matlab, R 등) 가 있습니다. Julia는 1부터 시작합니다. <code>end</code> 는 각 차원의 마지막 인덱스를 의미하는 키워드입니다. 물론 배열의 차원과 형태를 알고 있다면 인덱스를 직접 써도 됩니다.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> A <span class="op">=</span> [<span class="fl">1</span> <span class="fl">4</span> <span class="fl">7</span> <span class="fl">10</span>;<span class="fl">2</span> <span class="fl">5</span> <span class="fl">8</span> <span class="fl">11</span>;<span class="fl">3</span> <span class="fl">6</span> <span class="fl">9</span> <span class="fl">12</span>] </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">4</span>  <span class="fl">7</span>  <span class="fl">10</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">5</span>  <span class="fl">8</span>  <span class="fl">11</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">6</span>  <span class="fl">9</span>  <span class="fl">12</span></span>
+<div class="sourceCode" id="cb17"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = [1 4 7 10;2 5 8 11;3 6 9 12] </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 3×4 Matrix{Int64}:</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a> 2  5  8  11</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> A[<span class="fl">1</span>, <span class="fl">1</span>] <span class="co"># a의 1 행 1열</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">1</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>In [2]: A[1, 1] # a의 1 행 1열</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>Out[2]: 1</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> A[<span class="fl">2</span>, <span class="kw">end</span>] <span class="co"># a의 2 행 마지막 열</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">11</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>In [3]: A[2, end] # a의 2 행 마지막 열</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>Out[3]: 11</span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> A[<span class="kw">end</span>, <span class="kw">end</span>] <span class="co"># a 의 마지막 행 마지막 열</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fl">12</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>In [4]: A[end, end] # a 의 마지막 행 마지막 열</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>Out[4]: 12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
-<section id="인덱스를-이용한-배열-연산" class="level4">
-<h4 class="anchored" data-anchor-id="인덱스를-이용한-배열-연산">인덱스를 이용한 배열 연산</h4>
+<section id="인덱스를-이용한-배열-연산" class="level3">
+<h3 class="anchored" data-anchor-id="인덱스를-이용한-배열-연산">인덱스를 이용한 배열 연산</h3>
 <p>인덱스의 범위를 지정할 수도 있습니다. 전체 볌위는 <code>:</code> 로 표기하며, 벡터나 튜플, StepRange 를 사용하여 선택적으로 지정할 수도 있습니다.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> A[<span class="op">:</span>, <span class="fl">1</span>]   <span class="co"># 전체 행, 1 열</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span></span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>In [5]: A[:, 1]   # 전체 행, 1 열</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>Out[5]: 3-element Vector{Int64}:</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a> 3</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> A[<span class="fl">2</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">:</span><span class="kw">end</span>]  <span class="co"># 2행 의 1열부터 끝열까지 2열 간격으로</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a> <span class="fl">8</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>In [6]: A[2, 1:2:end]  # 2행 의 1열부터 끝열까지 2열 간격으로</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>Out[6]: 2-element Vector{Int64}:</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a> 8</span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> A[<span class="fl">3</span>, [<span class="fl">2</span>, <span class="fl">3</span>]] <span class="co"># 3행 의 2열과 3열</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a> <span class="fl">6</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a> <span class="fl">9</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>In [7]: A[3, [2, 3]] # 3행 의 2열과 3열</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>Out[7]: 2-element Vector{Int64}:</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a> 6</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a> 9</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 <p><code>B=A[:, 1]</code> 라고 하면 <code>B</code> 는 <code>A</code> 의 1 행과 같은 값을 갖는 벡터이며 <code>A</code> 의 1행이 아닙니다. 즉 <code>B=A[:, 1]</code> 을 수행하고 <code>B</code> 벡터의 성분을 바꾼다고 해도 <code>A</code> 가 변하지 않습니다. 이에 대해서는 <a href="#sec-copy_of_array">배열의 복사</a> 와 <a href="#sec-array_view"><code>view</code> 와 <code>@view</code></a> 를 참고하시기 바랍니다.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> B<span class="op">=</span>A[<span class="op">:</span>, <span class="fl">1</span>]</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span></span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>In [9]: B=A[:, 1]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>Out[9]: 3-element Vector{Int64}:</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a> 3</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">10</span>]<span class="op">:</span> B[<span class="fl">2</span>]<span class="op">=-</span><span class="fl">3</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">10</span>]<span class="op">:</span> <span class="op">-</span><span class="fl">3</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>In [10]: B[2]=-3</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>Out[10]: -3</span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">11</span>]<span class="op">:</span> A</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">11</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">4</span>  <span class="fl">7</span>  <span class="fl">10</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">5</span>  <span class="fl">8</span>  <span class="fl">11</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">6</span>  <span class="fl">9</span>  <span class="fl">12</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>In [11]: A</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>Out[11]: 3×4 Matrix{Int64}:</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a> 2  5  8  11</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">12</span>]<span class="op">:</span> B</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">12</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fl">1</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a> <span class="op">-</span><span class="fl">3</span></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="fl">3</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>In [12]: B</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>Out[12]: 3-element Vector{Int64}:</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  1</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a> -3</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  3</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
-<section id="행렬의-열행-우선-방식" class="level4">
-<h4 class="anchored" data-anchor-id="행렬의-열행-우선-방식">행렬의 열/행 우선 방식</h4>
+<section id="행렬의-열행-우선-방식" class="level3">
+<h3 class="anchored" data-anchor-id="행렬의-열행-우선-방식">행렬의 열/행 우선 방식</h3>
 <p>예를 들어 <span class="math inline">\(\boldsymbol{A} =\begin{bmatrix} 1&amp;2\\3&amp;4\end{bmatrix}\)</span> 를 메모리상에 저장할 때 1행 1열, 1행 2열,… 1행 마지막열, 2행 1열, … 순으로 저장하는 것을 행 우선 순서(row-major order) 라고 하고 1행 1열 2행 1열, 마지막행 1열, 2행 1열, 2행 2열,… 순으로 저장하는 것을 열 우선 방식(column-major order)이라고 합니다. 행 우선 방식에서는 배열 <code>A</code> 가 <code>1 2 3 4</code> 의 순으로 저장이 되며 열 우선방식에서는 <code>1 3 2 4</code> 순으로 저장이 됩니다. 행 우선 방식을 쓰는 언어로는 C/C++ 과 Python 의 numpy 가 있고 열 우선 방식을 쓰는 언어로는 Fortran, MATLAB, Julia, R 등이 있습니다. 또한 언어에서 사용하는 자료구조나 함수에 따라 달라질 수 있습니다.</p>
-<div class="callout-wanring">
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+경고
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>이것이 문제가 될 수 있는 경우는 우선순위가 다른 언어나 라이브러리간에 데이터를 교환 할 때 입니다. 예를 들어 julia 의 배열을 파일로 저장 한 후 python 의 numpy 로 읽으면 행과 열이 바뀔 수 있습니다.</p>
+</div>
 </div>
 <p><br></p>
 </section>
-<section id="sec-cartesian_and_linear_index" class="level4 page-columns page-full">
-<h4 class="anchored" data-anchor-id="sec-cartesian_and_linear_index">데카르트 인덱스와 선형 인덱스</h4>
+<section id="sec-cartesian_and_linear_index" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="sec-cartesian_and_linear_index">데카르트 인덱스와 선형 인덱스</h3>
 <div class="page-columns page-full"><p>지금까지 2차원 배열<code>A</code> 의 2행 3열 성분을 <code>A[2, 3]</code> 으로 접근했습니다. 이와 같이 배열의 차원의 갯수만큼의 자연수로 접근하는 것을 <strong>데카르트 인덱스(Cartesian index)</strong> 혹은 <strong>카르테시안 인덱스</strong> 라고 합니다. 다른 접근 방법도 있는데, 다차원 배열의 각 성분을 1부터 하나의 자연수로 접근하는 방법도 사용합니다. 이것을 <strong>선형 인덱스(linear index)</strong> 라고 합니다. 앞서 알아본 열 우선 방식에서 배열을 나열할 때의 차례입니다. 예를 들어 <code>A=[1 3;2 4]</code> 의 경우 <code>A[3]=3</code> 이며 <code>A[4]=4</code> 입니다.</p><div class="no-row-height column-margin column-container"><span class="">프랑스의 철학자이자 과학자인 르네 데카르트(René Descartes) 의 이름에서 따왔습니다. 데카르트의 라틴어명이 Renatus Cartesius 이기 때문에 영어로는 Cartesian index 라고 씁니다.</span></div></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">13</span>]<span class="op">:</span> A<span class="op">=</span>[<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>]</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">13</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span></span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>In [13]: A=[1 2;3 4]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>Out[13]: 2×2 Matrix{Int64}:</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a> 1  2</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a> 3  4</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">14</span>]<span class="op">:</span> A[<span class="fl">3</span>]</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">14</span>]<span class="op">:</span> <span class="fl">2</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>In [14]: A[3]</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>Out[14]: 2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>데카르트 인덱스로부터 선형 인덱스를, 선형 인덱스로부터 데카르트 인덱스르 얻는 방법이 존재합니다. 배열 <code>A</code> 에 대해 <code>CartesianIndices(A)[10]</code> 은 배열 <code>A</code> 의 선형 인덱스 <code>10</code> 에 대한 데카르트 인덱스를 리턴합니다. <code>A</code> 가 삼차원 배열일 경우 <code>LinearIndices(A)[1, 2, 3]</code> 은 배열 <code>A</code> 의 데카르트 인덱스<code>(1, 2, 3)</code> 에 대한 선형 인덱스를 리턴합니다. 고차원 배열에대해서도 차원의 갯수만큼의 데카르트 인덱스를 받아 선형 인덱스를 리턴합니다.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> A<span class="op">=</span><span class="fu">Array</span>(<span class="fu">reshape</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">*</span><span class="fl">3</span><span class="op">*</span><span class="fl">4</span>, (<span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>)))</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">3</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Array</span>{<span class="dt">Int64</span>, <span class="fl">3</span>}<span class="op">:</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">1</span>] <span class="op">=</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">3</span>  <span class="fl">5</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">4</span>  <span class="fl">6</span></span>
+<div class="sourceCode" id="cb21"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>In [1]: A=Array(reshape(1:2*3*4, (2, 3, 4)))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 2×3×4 Array{Int64, 3}:</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>[:, :, 1] =</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a> 1  3  5</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a> 2  4  6</span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">2</span>] <span class="op">=</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a> <span class="fl">7</span>   <span class="fl">9</span>  <span class="fl">11</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">8</span>  <span class="fl">10</span>  <span class="fl">12</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>[:, :, 2] =</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a> 7   9  11</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a> 8  10  12</span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">3</span>] <span class="op">=</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">13</span>  <span class="fl">15</span>  <span class="fl">17</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">14</span>  <span class="fl">16</span>  <span class="fl">18</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>[:, :, 3] =</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a> 13  15  17</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a> 14  16  18</span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>[<span class="op">:</span>, <span class="op">:</span>, <span class="fl">4</span>] <span class="op">=</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a> <span class="fl">19</span>  <span class="fl">21</span>  <span class="fl">23</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a> <span class="fl">20</span>  <span class="fl">22</span>  <span class="fl">24</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>[:, :, 4] =</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a> 19  21  23</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a> 20  22  24</span>
 <span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">CartesianIndices</span>(A)[<span class="fl">10</span>]</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fu">CartesianIndex</span>(<span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>In [2]: CartesianIndices(A)[10]</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>Out[2]: CartesianIndex(2, 2, 2)</span>
 <span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">LinearIndices</span>(A)[<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>]</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">15</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>In [3]: LinearIndices(A)[1, 2, 3]</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>Out[3]: 15</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 </section>
-<section id="sec-copy_of_array" class="level3">
-<h3 class="anchored" data-anchor-id="sec-copy_of_array">배열의 복사</h3>
+<section id="sec-copy_of_array" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="sec-copy_of_array"><span class="header-section-number">4</span> 배열의 복사</h2>
 <p>배열을 복사할 때는 <code>copy()</code> 혹은 <code>deepcopy()</code> 명령어를 사용합니다. 주의해야 할 것은 배열 <code>A</code> 에 대해 <code>B=A</code> 와 <code>B=copy(A)</code> 는 다르다는 것입니다. 아래 코드를 봅시다.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">13</span>]<span class="op">:</span> A<span class="op">=</span>[<span class="fl">1</span> <span class="fl">2</span>]</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">13</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>In [13]: A=[1 2]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>Out[13]: 1×2 Matrix{Int64}:</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a> 1  2</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">14</span>]<span class="op">:</span> B<span class="op">=</span>A;C<span class="op">=</span><span class="fu">copy</span>(A)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">14</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>In [14]: B=A;C=copy(A)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>Out[14]: 1×2 Matrix{Int64}:</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a> 1  2</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">15</span>]<span class="op">:</span> B[<span class="fl">1</span>, <span class="fl">1</span>]<span class="op">=</span><span class="fl">3</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">15</span>]<span class="op">:</span> <span class="fl">3</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>In [15]: B[1, 1]=3</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>Out[15]: 3</span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">16</span>]<span class="op">:</span> A</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">16</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">2</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>In [16]: A</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>Out[16]: 1×2 Matrix{Int64}:</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a> 3  2</span>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">17</span>]<span class="op">:</span> C</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">17</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">2</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>In [17]: C</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>Out[17]: 1×2 Matrix{Int64}:</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a> 1  2</span>
 <span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">18</span>]<span class="op">:</span> C[<span class="fl">1</span>, <span class="fl">2</span>]<span class="op">=-</span><span class="fl">1</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">18</span>]<span class="op">:</span> <span class="op">-</span><span class="fl">1</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>In [18]: C[1, 2]=-1</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>Out[18]: -1</span>
 <span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">19</span>]<span class="op">:</span> A</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">19</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">2</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>In [19]: A</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>Out[19]: 1×2 Matrix{Int64}:</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a> 3  2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>B=A</code> 라는 표현식은 <code>B</code> 와 <code>A</code> 변수가 같은 행렬에 대한 변수라는 뜻입니다. 따라서 <code>B</code> 라는 변수를 이용해 행렬 값을 변화시키면 <code>A</code> 변수로 접근하더더라도 변화된 행렬에 접근하게 됩니다. <code>B=copy(A)</code> 는 <code>A</code> 복사본을 만들어 <code>B</code> 라는 변수에 지정합니다. 따라서 <code>B</code> 변수를 이용해 행렬을 바꾸더라도 <code>A</code> 변수에 지정된 행렬은 변화하지 않습니다. <code>B=A[:]</code> 는 <code>B=A</code> 가 아닌 <code>copy(A)</code> 를 의미합니다.</p>
 <p>객체를 카피하는 명령어에는 <code>deepcopy</code> 가 있습니다. 다음 예를 봅시다.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> A <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, [<span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>]]</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">4</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Any</span>}<span class="op">:</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  [<span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>]</span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = [1, 2, 3, [4, 5, 6]]</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 4-element Vector{Any}:</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  [4, 5, 6]</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> B <span class="op">=</span> A[<span class="op">:</span>]; C<span class="op">=</span><span class="fu">copy</span>(A); D<span class="op">=</span><span class="fu">deepcopy</span>(A);</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>In [2]: B = A[:]; C=copy(A); D=deepcopy(A);</span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> A[<span class="fl">4</span>][<span class="fl">2</span>]<span class="op">=-</span><span class="fl">1</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="op">-</span><span class="fl">1</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>In [3]: A[4][2]=-1</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>Out[3]: -1</span>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> B</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fl">4</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Any</span>}<span class="op">:</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span></span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span></span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  [<span class="fl">4</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">6</span>]</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>In [4]: B</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>Out[4]: 4-element Vector{Any}:</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  [4, -1, 6]</span>
 <span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> C</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">4</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Any</span>}<span class="op">:</span></span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span></span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  [<span class="fl">4</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">6</span>]</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>In [5]: C</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>Out[5]: 4-element Vector{Any}:</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  [4, -1, 6]</span>
 <span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> D</span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">4</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Any</span>}<span class="op">:</span></span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span></span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span></span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>  [<span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>]</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>In [6]: D</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>Out[6]: 4-element Vector{Any}:</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>  [4, 5, 6]</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>A = [1, 2, 3, [4, 5, 6]]</code> 는 벡터이며 정수와 벡터를 성분으로 갖기 때문에 <code>Any</code> 타입에 대한 벡터가 됩니다. <code>A</code> 의 네번째 성분은 벡터이며 실제로 <code>A</code> 변수에 내부적으로 저장되는것은 벡터 <code>[4, 5, 6]</code> 에 대한 주소입니다. <code>C=copy(A)</code> 명령어는 값 1, 2, 3 과 벡터 <code>[4, 5, 6]</code> 의 복사본을 만들지 않고 단지 주소만을 복사하여 변수 <code>C</code> 에 할당합니다. <code>deepcopy</code> 함수는 벡터 <code>[4, 5, 6]</code> 에 대해서도 복사본을 만들기 때문에 <code>D=deepcopy(A)</code> 명령어로 <code>D</code> 에 할당된 배열은 <code>A</code> 와는 같은 값을 갖는 완전히 별개인 배열이 됩니다.</p>
 <p><br></p>
 </section>
-</section>
-<section id="배열에-대한-함수" class="level2 page-columns page-full" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="배열에-대한-함수"><span class="header-section-number">2</span> 배열에 대한 함수</h2>
+<section id="배열에-대한-함수" class="level2 page-columns page-full" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="배열에-대한-함수"><span class="header-section-number">5</span> 배열에 대한 함수</h2>
 <section id="인덱스-순회에-대한-함수들-eachindex-cartesianindex" class="level3">
 <h3 class="anchored" data-anchor-id="인덱스-순회에-대한-함수들-eachindex-cartesianindex">인덱스 순회에 대한 함수들 : <code>eachindex</code>, <code>CartesianIndex</code></h3>
 <p>배열의 인덱스, 혹은 성분 각각에 대해 <code>for ... end</code> 루프를 수행하는 방법은 여러가지가 있습니다. 배열의 선형 인덱스를 이용하여 순회할 때는 <code>eachindex</code> 를 씁니다.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> A <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span>; <span class="fl">3</span> <span class="fl">4</span>];</span>
+<div class="sourceCode" id="cb24"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = [1 2; 3 4];</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="fu">eachindex</span>(A)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="pp">@show</span> i, A[i]</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>(i, A[i]) <span class="op">=</span> (<span class="fl">1</span>, <span class="fl">1</span>)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>(i, A[i]) <span class="op">=</span> (<span class="fl">2</span>, <span class="fl">3</span>)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>(i, A[i]) <span class="op">=</span> (<span class="fl">3</span>, <span class="fl">2</span>)</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>(i, A[i]) <span class="op">=</span> (<span class="fl">4</span>, <span class="fl">4</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>In [2]: for i in eachindex(A)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        @show i, A[i]</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (1, 1)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (2, 3)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (3, 2)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (4, 4)</span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="fu">CartesianIndices</span>(A)</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        <span class="pp">@show</span> i, A[i]</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>(i, A[i]) <span class="op">=</span> (<span class="fu">CartesianIndex</span>(<span class="fl">1</span>, <span class="fl">1</span>), <span class="fl">1</span>)</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>(i, A[i]) <span class="op">=</span> (<span class="fu">CartesianIndex</span>(<span class="fl">2</span>, <span class="fl">1</span>), <span class="fl">3</span>)</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>(i, A[i]) <span class="op">=</span> (<span class="fu">CartesianIndex</span>(<span class="fl">1</span>, <span class="fl">2</span>), <span class="fl">2</span>)</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>(i, A[i]) <span class="op">=</span> (<span class="fu">CartesianIndex</span>(<span class="fl">2</span>, <span class="fl">2</span>), <span class="fl">4</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>In [3]: for i in CartesianIndices(A)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        @show i, A[i]</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(1, 1), 1)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(2, 1), 3)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(1, 2), 2)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(2, 2), 4)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>위에서 알 수 있듯이 <code>eachindex(A)</code> 는 배열 <code>A</code> 에 대한 선형 인덱스를 사용하여 순회하도록 하며 <code>CartesianIndices(A)</code> 는 데카르트 인덱스를 이용하여 순회합니다.</p>
 <p><br></p>
 </section>
@@ -769,89 +791,89 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="타입과-모양의-변환">타입과 모양의 변환</h3>
 <p>우리는 앞서 타입이름이 타입 변환함수로 사용될 수 있다는 것을 보았습니다. 예를 들어 <code>Float32(6)</code> 은 <code>Int64</code> 타입의 <code>6</code> 을 4바이트 부동소수 타입인 <code>Float32</code> 타입으로 변환시킵니다. 또한 우리는 <code>.</code> 연산자를 통해 컨테이너의 각각의 성분에 대해 함수를 적용시킬 수 있다는 것을 알았습니다. 따라서 <code>Float32.([1, 2, 3, 4])</code> 는 <code>Float32</code> 타입의 성분을 갖는 <code>[1.0f0, 2.0f0, 3.0f0, 4.0f0]</code> 입니다.</p>
 <p><span class="math inline">\(3\times 5\)</span> 배열을 <span class="math inline">\(5 \times 3\)</span> 배열로 바꾸거나 <span class="math inline">\(12 \times 5\)</span> 배열을 <span class="math inline">\(3\times 4 \times 5\)</span> 로 바꾸는 것과 같이 그 크기를 유지하지만 배열의 모양을 바꾸는 함수는 <code>reshape</code> 입니다. 예를 들어 보겠습니다.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> A <span class="op">=</span> <span class="fu">Array</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">6</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">6</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a> <span class="fl">5</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a> <span class="fl">6</span></span>
+<div class="sourceCode" id="cb25"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = Array(1:6)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 6-element Vector{Int64}:</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a> 4</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a> 5</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a> 6</span>
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">reshape</span>(A, (<span class="fl">2</span>, <span class="fl">3</span>))</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">3</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">3</span>  <span class="fl">5</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">4</span>  <span class="fl">6</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>In [2]: reshape(A, (2, 3))</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>Out[2]: 2×3 Matrix{Int64}:</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a> 1  3  5</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a> 2  4  6</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>In[1]</code> 에서의 <code>A</code> 는 6개의 성분을 갖는 1차원 벡터였지만 <code>reshape(A, (2, 3))</code> 를 통해 <span class="math inline">\(2 \times 3\)</span> 행렬이 되었습니다. 다시 말하지만 원래의 행렬과 변환된 행렬의 총 성분 수는 같아야 합니다. 즉 <code>length</code> 가 같아야 합니다. <code>reshape</code> 는 원래 행렬과 변환 행렬의 선형 인덱스가 같도록 변환됩니다.</p>
 <p><br></p>
 </section>
 <section id="sec-array_view" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="sec-array_view"><code>view</code> 와 <code>@view</code></h3>
 <p><code>view</code> 는 이미 존재하는 배열로부터 특정 부분을 추출하여 만든 배열에 대한 타입이며, 이런 연산을 하는 함수이기도 합니다. 배열 <code>A</code> 에 대해 <code>a=view(A, 1)</code> 은 배열 <code>A</code> 의 첫번째 성분을 가리킵니다. 가리킨다라고 표현한 것은 단지 같은 값을 가질 뿐만 아니라 <code>a</code> 를 변경시키면 <code>A</code> 도 변경되기 때문입니다.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> A<span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>];</span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>In [4]: A= [1 2;3 4];</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> a <span class="op">=</span> <span class="fu">view</span>(A, <span class="fl">1</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">0</span><span class="op">-</span>dimensional <span class="fu">view</span>(<span class="op">::</span><span class="dt">Vector{Int64}</span>, <span class="fl">1</span>) with eltype <span class="dt">Int64</span><span class="op">:</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fl">1</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>In [5]: a = view(A, 1)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>Out[5]: 0-dimensional view(::Vector{Int64}, 1) with eltype Int64:</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>1</span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> a[<span class="fl">1</span>]<span class="op">=</span><span class="fl">3</span>;</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>In [6]: a[1]=3;</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> A</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">2</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">4</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>In [7]: A</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>Out[7]: 2×2 Matrix{Int64}:</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a> 3  2</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a> 3  4</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>다차원 배열의 경우 인덱스를 쓰거나 <code>:</code> 나 배열을 이용하여 범위를 특정 할 수 있습니다.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> B<span class="op">=</span><span class="fu">reshape</span>(<span class="fu">Array</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">12</span>), (<span class="fl">3</span>, <span class="fl">4</span>))</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">4</span>  <span class="fl">7</span>  <span class="fl">10</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">5</span>  <span class="fl">8</span>  <span class="fl">11</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">6</span>  <span class="fl">9</span>  <span class="fl">12</span></span>
+<div class="sourceCode" id="cb27"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>In [8]: B=reshape(Array(1:12), (3, 4))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>Out[8]: 3×4 Matrix{Int64}:</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a> 2  5  8  11</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> b<span class="op">=</span><span class="fu">view</span>(B, [<span class="fl">1</span>, <span class="fl">3</span>], <span class="op">:</span>)  <span class="co"># 1행과 3행, 그리고 열 전체에 대한 view</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">4</span> <span class="fu">view</span>(<span class="op">::</span><span class="dt">Matrix{Int64}</span>, [<span class="fl">1</span>, <span class="fl">3</span>], <span class="op">:</span>) with eltype <span class="dt">Int64</span><span class="op">:</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">4</span>  <span class="fl">7</span>  <span class="fl">10</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">6</span>  <span class="fl">9</span>  <span class="fl">12</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>In [9]: b=view(B, [1, 3], :)  # 1행과 3행, 그리고 열 전체에 대한 view</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>Out[9]: 2×4 view(::Matrix{Int64}, [1, 3], :) with eltype Int64:</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">10</span>]<span class="op">:</span> b[<span class="fl">2</span>, <span class="fl">2</span>]<span class="op">=-</span><span class="fl">6</span> <span class="co"># view 의 변경</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">10</span>]<span class="op">:</span> <span class="op">-</span><span class="fl">6</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>In [10]: b[2, 2]=-6 # view 의 변경</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>Out[10]: -6</span>
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">11</span>]<span class="op">:</span> B</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">11</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>   <span class="fl">4</span>  <span class="fl">7</span>  <span class="fl">10</span></span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>   <span class="fl">5</span>  <span class="fl">8</span>  <span class="fl">11</span></span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="op">-</span><span class="fl">6</span>  <span class="fl">9</span>  <span class="fl">12</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>In [11]: B</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>Out[11]: 3×4 Matrix{Int64}:</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a> 1   4  7  10</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a> 2   5  8  11</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a> 3  -6  9  12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="page-columns page-full"><p>앞서 <code>B[:, 3]</code> 과 같이 이미 존재하는 배열로부터 그 부분을 성분으로 갖는 배열을 생성하는 방법을 보았습니다. <code>@view</code> 매크로는 <code>view</code> 함수를 쓰지 않고 <code>B[:, 3]</code> 과 같은 방법으로 <code>view</code> 를 생성합니다. </p><div class="no-row-height column-margin column-container"><span class="">매크로에 대해서는 <a href="../../src/introduction_to_julia/10_metaprogramming_and_macro.html">메타프로그래밍과 매크로</a> 를 참고하시기 바랍니다. 일단은 <code>@</code> 로 시작하는 명령문은 매크로 라고 하며 명령문 뒤에 주어진 인자나 함수에 대한 특별한 기능을 한다는 정도만 알아 둡시다</span></div></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">21</span>]<span class="op">:</span> B<span class="op">=</span><span class="fu">reshape</span>(<span class="fu">Array</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">12</span>), (<span class="fl">3</span>, <span class="fl">4</span>))</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">21</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="fl">4</span>  <span class="fl">7</span>  <span class="fl">10</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">5</span>  <span class="fl">8</span>  <span class="fl">11</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>  <span class="fl">6</span>  <span class="fl">9</span>  <span class="fl">12</span></span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>In [21]: B=reshape(Array(1:12), (3, 4))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>Out[21]: 3×4 Matrix{Int64}:</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a> 2  5  8  11</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">22</span>]<span class="op">:</span> B[<span class="op">:</span>, [<span class="fl">2</span>, <span class="fl">3</span>]]</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">22</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span>  <span class="fl">7</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a> <span class="fl">5</span>  <span class="fl">8</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a> <span class="fl">6</span>  <span class="fl">9</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>In [22]: B[:, [2, 3]]</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>Out[22]: 3×2 Matrix{Int64}:</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a> 4  7</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a> 5  8</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a> 6  9</span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">23</span>]<span class="op">:</span> <span class="pp">@view</span> B[<span class="op">:</span>, [<span class="fl">2</span>, <span class="fl">3</span>]]</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">23</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">2</span> <span class="fu">view</span>(<span class="op">::</span><span class="dt">Matrix{Int64}</span>, <span class="op">:</span>, [<span class="fl">2</span>, <span class="fl">3</span>]) with eltype <span class="dt">Int64</span><span class="op">:</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span>  <span class="fl">7</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a> <span class="fl">5</span>  <span class="fl">8</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a> <span class="fl">6</span>  <span class="fl">9</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>In [23]: @view B[:, [2, 3]]</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>Out[23]: 3×2 view(::Matrix{Int64}, :, [2, 3]) with eltype Int64:</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a> 4  7</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a> 5  8</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a> 6  9</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>B[:, [2, 3]]</code> 은 <code>B</code> 의 2행과 3행만을 선택하여 새로운 배열을 만들기 때문에, 일단 만든 다음에는 원래의 <code>B</code> 값과 무관하게 변경시킬 수 있습니다. <code>@view B[:, [2, 3]]</code> 는 <code>B</code> 의 부분에 대한 <code>view</code> 를 만들기 때문에 <code>C=@view B[:, [2, 3]]</code> 를 통해 <code>C</code> 에 할당한다면 <code>C</code> 를 변경하는 것은 <code>B</code> 를 변경하는 것이 됩니다.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">24</span>]<span class="op">:</span> C<span class="op">=</span><span class="pp">@view</span> B[<span class="op">:</span>, [<span class="fl">2</span>, <span class="fl">3</span>]]</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">24</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">2</span> <span class="fu">view</span>(<span class="op">::</span><span class="dt">Matrix{Int64}</span>, <span class="op">:</span>, [<span class="fl">2</span>, <span class="fl">3</span>]) with eltype <span class="dt">Int64</span><span class="op">:</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span>  <span class="fl">7</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">5</span>  <span class="fl">8</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a> <span class="fl">6</span>  <span class="fl">9</span></span>
+<div class="sourceCode" id="cb29"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>In [24]: C=@view B[:, [2, 3]]</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>Out[24]: 3×2 view(::Matrix{Int64}, :, [2, 3]) with eltype Int64:</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a> 4  7</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> 5  8</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a> 6  9</span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">25</span>]<span class="op">:</span> C[<span class="fl">1</span>, <span class="fl">1</span>]<span class="op">=-</span><span class="fl">1</span>;</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>In [25]: C[1, 1]=-1;</span>
 <span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">26</span>]<span class="op">:</span> B</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">26</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">4</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a> <span class="fl">1</span>  <span class="op">-</span><span class="fl">1</span>  <span class="fl">7</span>  <span class="fl">10</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>   <span class="fl">5</span>  <span class="fl">8</span>  <span class="fl">11</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>   <span class="fl">6</span>  <span class="fl">9</span>  <span class="fl">12</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>In [26]: B</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>Out[26]: 3×4 Matrix{Int64}:</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a> 1  -1  7  10</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a> 2   5  8  11</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a> 3   6  9  12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>view</code> 나 <code>@view</code> 가 필요한 이유는 메모리와 시간을 절약해 주기 때문입니다. 아주 큰 배열을 다룰 때 그 부분 배열에 대해 연산이 필요하다고 합시다. 배열을 새로 생성한다면 그만큼의 메모리와 배열의 생성과 복사를 위한 시간이 필요하지만 <code>view</code> 를 사용한다면 이미 존재하는 배열을 사용하기 때문에 약간의 메모리에서의 빈 공간만으로 연산을 수행 할 수 있습니다. 다만 <code>view</code> 나 <code>@view</code> 를 이용해 얻은 부분배열을 변경할 경우 원래의 배열도 변경된다는 사실을 명심해야 합니다.</p>
 <p><br></p>
 </section>
@@ -863,20 +885,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>차원 확장은 차원이 없거나 1차원인 차원으로 원래의 배열을 반복합니다. <code>[1 2] .+ [1 2; 3 4]</code> 의 경우는 <code>[1 2]</code> 를 배열로 변환시킬 때 <span class="math inline">\(1 \times 2\)</span> 배열이 되며 첫번째 차원이 하나의 성분을 가지므로 첫번째 차원에 대해 두번 반복한 <code>[1 2;1 2]</code> 와 <code>[1 2;3 4]</code> 의 연산을 수행하게 됩니다.</p></li>
 <li><p>따라서 스칼라나 영차원 배열은 모든 차원의 다차원 배열에 대해 도트 연산이 가능합니다.</p></li>
 </ul>
-<div class="sourceCode" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> [<span class="fl">1</span>;;<span class="fl">2</span>] <span class="op">.+</span> [<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>]</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">4</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a> <span class="fl">4</span>  <span class="fl">6</span></span>
+<div class="sourceCode" id="cb30"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>In [1]: [1;;2] .+ [1 2;3 4]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 2×2 Matrix{Int64}:</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a> 2  4</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a> 4  6</span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> [<span class="fl">1</span>; <span class="fl">2</span>] <span class="op">.+</span> [<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>]</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a> <span class="fl">2</span>  <span class="fl">3</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a> <span class="fl">5</span>  <span class="fl">6</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>In [2]: [1; 2] .+ [1 2;3 4]</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>Out[2]: 2×2 Matrix{Int64}:</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a> 2  3</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a> 5  6</span>
 <span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> [<span class="fl">3</span>] <span class="op">.*</span> [<span class="fl">1</span> <span class="fl">2</span>; <span class="fl">3</span> <span class="fl">4</span>]</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2</span><span class="op">×</span><span class="fl">2</span> <span class="dt">Matrix</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a> <span class="fl">3</span>   <span class="fl">6</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a> <span class="fl">9</span>  <span class="fl">12</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>In [3]: [3] .* [1 2; 3 4]</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>Out[3]: 2×2 Matrix{Int64}:</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a> 3   6</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a> 9  12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>[1;;2]</code> 는 <span class="math inline">\(1 \times 2\)</span> 배열이므로 <span class="math inline">\(2 \times 2\)</span> 배열과 연산할 때는 <code>[1 2; 1 2]</code> 로 바뀌어 연산됩니다. <code>[1 ; 2]</code> 는 <span class="math inline">\(2 \times 1\)</span> 배열이므로 <span class="math inline">\(2 \times 2\)</span> 배열과 연산할 때는 <code>[1 1; 2 2]</code> 로 바뀌어 연산됩니다.</p>
 <p>컨테이너에서의 도트 연산과 같이 <code>@.</code> 매크로도 동작합니다. <code>@.</code> 매크로를 앞에 붙이면 뒤에 나오는 함수나 연산자에 <code>.</code> 를 붙이지 않아도 julia 가 알아서 연산을 해 줍니다.</p>
 <p><br></p>
@@ -888,33 +910,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>f</code> 를 제외한 인자가 스칼라나 0차원 배열일 경우 스칼라를 반환합니다.</li>
 <li><code>f</code> 를 제외한 인자에 튜플이 포함되며, 튜플을 제외한 나머지 인자가 스칼라이면 튜플을 반환합니다.</li>
 <li><code>f</code> 를 제외한 인자가 위의 두 경우와 다르다면 배열을 반환합니다.</li>
-<li><code>f</code> 를 제외한 인자가 배열이나 스칼라라면 위의 도트 연산시의 차원 확장 규칙에 따라 차원을 확장하여 <a href="../../src/introduction_to_julia/04_containers2.html#sec-dot_operation">도트 연산</a>으로 계산합니다.</li>
+<li><code>f</code> 를 제외한 인자가 배열이나 스칼라라면 위의 도트 연산시의 차원 확장 규칙에 따라 차원을 확장하여 <a href="../../src/introduction_to_julia/04_containers.html#sec-dot_operation">도트 연산</a>으로 계산합니다.</li>
 </ul>
-<div class="sourceCode" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">broadcast</span>(<span class="op">+</span>, <span class="fl">2</span>, <span class="fl">3</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">5</span></span>
+<div class="sourceCode" id="cb31"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>In [1]: broadcast(+, 2, 3)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 5</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">ones</span>()</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">0</span><span class="op">-</span>dimensional <span class="dt">Array</span>{<span class="dt">Float64</span>, <span class="fl">0</span>}<span class="op">:</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fl">1.0</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>In [2]: ones()</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>Out[2]: 0-dimensional Array{Float64, 0}:</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>1.0</span>
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">broadcast</span>(<span class="op">+</span>, <span class="fl">1</span>, <span class="fu">ones</span>())</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2.0</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>In [3]: broadcast(+, 1, ones())</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>Out[3]: 2.0</span>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="fu">broadcast</span>(<span class="op">*</span>, <span class="fl">2</span>, (<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>))</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> (<span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>In [4]: broadcast(*, 2, (1, 2, 3))</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>Out[4]: (2, 4, 6)</span>
 <span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> <span class="fu">broadcast</span>(<span class="op">*</span>, (<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>), [<span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>])</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a> <span class="op">-</span><span class="fl">1</span></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2</span></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0</span></span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="fu">broadcast</span>(sin, <span class="fu">range</span>(<span class="fl">0</span>, <span class="cn">π</span>, length <span class="op">=</span> <span class="fl">5</span>))</span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">5</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Float64</span>}<span class="op">:</span></span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.0</span></span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.7071067811865475</span></span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a> <span class="fl">1.0</span></span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a> <span class="fl">0.7071067811865476</span></span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a> <span class="fl">1.2246467991473532e-16</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>In [5]: broadcast(*, (1, 2, 3), [-1, 1, 0])</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>Out[5]: 3-element Vector{Int64}:</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a> -1</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  2</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  0</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>In [6]: broadcast(sin, range(0, π, length = 5))</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>Out[6]: 5-element Vector{Float64}:</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a> 0.0</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a> 0.7071067811865475</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a> 1.0</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a> 0.7071067811865476</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a> 1.2246467991473532e-16</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>크기가 다른 배열의 경우 <a href="#sec-dot_operation_in_array">다차원 배열의 도트 연산</a> 과 같은 규칙으로 계산됩니다. 실제로는 도트 연산의 자체가 <code>broadcast</code> 함수를 사용하여 정의되었으므로 당연한 것입니다.</p>
 <p><br></p>
 

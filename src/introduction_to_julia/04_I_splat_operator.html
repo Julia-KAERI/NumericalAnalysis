@@ -281,37 +281,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="interude-splat-연산자" class="level1 unnumbered">
 <h1 class="unnumbered">Interude : Splat 연산자</h1>
-<p><a href="../../src/introduction_to_julia/04_containers2.html#sec-splat">… 연산자</a> 에서 튜플이나 배열의 첫번째 몇개만 취할 때 <code>...</code> 연산자를 사용 할 수 있다는 것을 알아보았습니다. 여기서는 함수의 Splat 연산자 <code>...</code> 에 대해 좀 더 자세히 알아봅시다.</p>
+<p><a href="../../src/introduction_to_julia/04_containers.html#sec-splat">… 연산자</a> 에서 튜플이나 배열의 첫번째 몇개만 취할 때 <code>...</code> 연산자를 사용 할 수 있다는 것을 알아보았습니다. 여기서는 함수의 Splat 연산자 <code>...</code> 에 대해 좀 더 자세히 알아봅시다.</p>
 <p><br></p>
 <section id="컨테이너에-대한-사용" class="level3">
 <h3 class="anchored" data-anchor-id="컨테이너에-대한-사용">컨테이너에 대한 사용</h3>
 <p>튜플이나 <code>StepRange</code> 혹은 1차원 배열과 같이 순서가 있는 컨테이너에 대해서는 직관적으로 알 수 있습니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> a1, a2, a3<span class="op">...</span> <span class="op">=</span> (<span class="fl">1</span>, <span class="st">"a"</span>, (<span class="fl">2</span>, <span class="fl">3</span>), <span class="fl">4</span>, sin)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> (<span class="fl">1</span>, <span class="st">"a"</span>, (<span class="fl">2</span>, <span class="fl">3</span>), <span class="fl">4</span>, sin)</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>In [1]: a1, a2, a3... = (1, "a", (2, 3), 4, sin)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Out[1]: (1, "a", (2, 3), 4, sin)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> a1, a2</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> (<span class="fl">1</span>, <span class="st">"a"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>In [2]: a1, a2</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Out[2]: (1, "a")</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> b1, b2, b3<span class="op">...</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>In [3]: b1, b2, b3... = 1:10</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Out[3]: 1:10</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> b1, b2</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> (<span class="fl">1</span>, <span class="fl">2</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>In [4]: b1, b2</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Out[4]: (1, 2)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> c1, c2, c3<span class="op">...</span> <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>];</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>In [5]: c1, c2, c3... = [1, 2, 3, 4, 5];</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> c1, c2</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> (<span class="fl">1</span>, <span class="fl">2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>In [6]: c1, c2</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Out[6]: (1, 2)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
 <p>집합이나 사전과 같은 순서가 없는 컨테이너에 대해서는 에러를 발생시키지는 않지만 그 기능을 보장 할 수 없습니다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">14</span>]<span class="op">:</span> d1, d2, d3<span class="op">...</span> <span class="op">=</span> <span class="fu">Set</span>([<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>]);</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [14]: d1, d2, d3... = Set([1, 2, 3, 4]);</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">15</span>]<span class="op">:</span> d1, d2</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">15</span>]<span class="op">:</span> (<span class="fl">4</span>, <span class="fl">2</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>In [15]: d1, d2</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Out[15]: (4, 2)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">16</span>]<span class="op">:</span> d1, d2, d3<span class="op">...</span> <span class="op">=</span> <span class="fu">Set</span>([<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>]);</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>In [16]: d1, d2, d3... = Set([1, 2, 3, 4, 5]);</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">17</span>]<span class="op">:</span> d1, d2</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">17</span>]<span class="op">:</span> (<span class="fl">5</span>, <span class="fl">4</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>In [17]: d1, d2</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>Out[17]: (5, 4)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
 <p>다차원 배열의 경우 <a href="../../src/introduction_to_julia/06_arrays.html#sec-cartesian_and_linear_index">선형 인덱스</a>에 따라 일차원 배열로 변환됩니다.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">18</span>]<span class="op">:</span> x1, x2, x3<span class="op">...</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>; <span class="fl">5</span> <span class="fl">6</span>];</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -332,37 +334,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="함수의-정의에서의-인자에-대한-사용" class="level2">
 <h2 class="anchored" data-anchor-id="함수의-정의에서의-인자에-대한-사용">함수의 정의에서의 인자에 대한 사용</h2>
 <p>다음을 봅시다.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">ps</span>(xs<span class="op">...</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">println</span>(<span class="fu">typeof</span>(xs))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> xs[<span class="fl">1</span>], xs[<span class="fl">2</span>]</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> ps (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [6]: function ps(xs...)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        println(typeof(xs))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        return xs[1], xs[2]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Out[6]: ps (generic function with 1 method)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> <span class="fu">ps</span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="st">"c"</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="dt">Tuple</span>{<span class="dt">Int64</span>, <span class="dt">Int64</span>, <span class="dt">Int64</span>, <span class="dt">String</span>}</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> (<span class="fl">1</span>, <span class="fl">2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>In [7]: ps(1,2,3,"c")</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>Tuple{Int64, Int64, Int64, String}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>Out[7]: (1, 2)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>함수 정의에서 인자로 <code>xs...</code> 가 사용되었습니다. 이것은 인자를 모두 <code>xs</code> 라는 변수의 튜플로 받는다는 뜻입니다. 즉 <code>In [7]</code> 에서 함수 내부적으로 인자는 <code>(1, 2, 3, "c")</code> 입니다. 일부의 인자에 대해서만 사용할 경우에는 다음과 같습니다.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">ps2</span>(x1, xs<span class="op">...</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> xs[<span class="fl">1</span>], xs[<span class="fl">2</span>]</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> ps2 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>In [9]: function ps2(x1, xs...)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        return xs[1], xs[2]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Out[9]: ps2 (generic function with 1 method)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">10</span>]<span class="op">:</span> <span class="fu">ps2</span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">10</span>]<span class="op">:</span> (<span class="fl">2</span>, <span class="fl">3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>In [10]: ps2(1,2,3,4,5,6)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Out[10]: (2, 3)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 <section id="함수를-실행시킬때의-인자에-대한-사용" class="level2">
 <h2 class="anchored" data-anchor-id="함수를-실행시킬때의-인자에-대한-사용">함수를 실행시킬때의 인자에 대한 사용</h2>
 <p>함수의 정의에서는 인자를 튜플로 묶는다면 함수를 사용할 때는 컨테이너를 풉니다. 예를 들어,</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">12</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">ps3</span>(a1, a2, a3)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>         <span class="cf">return</span> <span class="fu">a1+</span>(a2<span class="op">*</span>a3)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         <span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [12]: function ps3(a1, a2, a3)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>         return a1+(a2*a3)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         end</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>와 같은 함수를 사용해야 한다고 합시다. 그런데 다른 함수의 계산 결과로 <code>aa=(a1, a2, a3)</code> 를 얻었다고 합시다. <code>ps3(aa[1], aa[2], aa[3])</code> 와 같이 실행 시킬 수도 있지만</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">13</span>]<span class="op">:</span> aa<span class="op">=</span>(<span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">13</span>]<span class="op">:</span> (<span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>)</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [13]: aa=(2, 3, 4)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Out[13]: (2, 3, 4)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">14</span>]<span class="op">:</span> <span class="fu">ps3</span>(aa<span class="op">...</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">14</span>]<span class="op">:</span> <span class="fl">14</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>In [14]: ps3(aa...)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Out[14]: 14</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>처럼 <code>ps3</code> 함수를 실행 시킬 때 인자로 <code>a...</code> 를 쓰면 튜플이 풀려서 <code>ps3(aa[1], aa[2], aa[3])</code> 를 실행시킨 것과 같게됩니다.</p>
 
 

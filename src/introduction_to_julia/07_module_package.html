@@ -328,117 +328,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>앞서 설명했듯이 모듈은 새로운 전역적인 이름공간을 만들 수 있습니다. 그 안에서 정의된 이름들은 다른 이름공간의 이름과 충돌할 염려 없이 사용 할 수 있습니다. 다른 이름공간에서 모듈의 이름을 사용하기 위해서는 우선 모듈 내에서 <code>export</code> 명령어를 통해 밖에서 사용 할 수 있는 이름을 지정해 줘야 합니다. 예를 들어</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="kw">module</span> mymodule1</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="kw">export</span> a, mf</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        a<span class="op">=</span><span class="fl">2</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        b<span class="op">=</span><span class="fl">3</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">function</span> <span class="fu">mf</span>(x)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> x<span class="op">*</span><span class="fl">2</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="bu">Main</span>.mymodule1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [1]: module mymodule1</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        export a, mf</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        a=2</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        b=3</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        function mf(x)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            return x*2</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>Out[1]: Main.mymodule1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이 모듈은 REPL 이 실행될 때 만들어지는 <code>Main</code> 이라는 전역적인 이름공간 내에 <code>mymodule1</code> 이라는 이름이 붙은 부분적인 이름공간을 만듭니다. 부분적 이름공간의 이름에 접근할 때는 <code>.</code> 으로 구분하여 <code>Main.mymodule1.a</code> 와 같이 접근하거나 전역적 이름공간을 제외한 <code>mymodule1.a</code> 와 같이 접근합니다. 예를 들어</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> mymodule1.<span class="fu">mf</span>(<span class="fl">3</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">6</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>In [2]: mymodule1.mf(3)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Out[2]: 6</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>는 <code>mymodule1</code> 모둘의 함수 <code>mf</code> 를 의미합니다.</p>
 <section id="using" class="level3">
 <h3 class="anchored" data-anchor-id="using"><code>using</code></h3>
 <p><code>using</code> 명령어는 <code>module</code> 에서 <code>export</code> 명령어를 통해 지정한 이름들을 전역적 이름공간에서 사용 할 수 있게 해 줍니다.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule1</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [6]: using .mymodule1</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> a</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="fl">2</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>In [7]: a</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Out[7]: 2</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> <span class="fu">mf</span>(<span class="fl">3</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">6</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>In [8]: mf(3)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Out[8]: 6</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> mymodule1.b</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> <span class="fl">3</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>In [9]: mymodule1.b</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>Out[9]: 3</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">10</span>]<span class="op">:</span> b</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`b`</span> not defined</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>In [10]: b</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>ERROR: UndefVarError: `b` not defined</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>export</code> 를 통해 지정되지 않은 <code>b</code> 는 전역 이름공간에서 사용 할 수 없으며 굳이 접근하고자 하면 <code>mymodule1.b</code> 와 같이 접근해야 합니다.</p>
 <p><br></p>
 </section>
 <section id="import" class="level3">
 <h3 class="anchored" data-anchor-id="import"><code>import</code></h3>
 <p><code>using</code> 명령어는 모듈 내의 이름을 전역적인 이름공간으로 가져오는데 비해 <code>import</code> 명령어는 모듈 이름만을 전역적인 이름공간으로 가져옵니다. 즉 <code>import mymodule1</code> 을 하면 <code>mymodule1.a</code> 나 <code>mymodule1.mf</code> 를 통해 접근해야 합니다. 그렇다면 단순히 REPL 에서 사용할 때는 차이가 없게 됩니다. 이 차이를 알기 위해 다음과 같은 내용을 <code>mymodule.jl</code> 파일로 저장합니다.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> mymodule1</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">export</span> a, mf</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span><span class="fl">2</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>b<span class="op">=</span><span class="fl">3</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mf</span>(x)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">*</span><span class="fl">2</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>module mymodule1</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>export a, mf</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>a=2</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>b=3</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>function mf(x)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    return x*2</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>end</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>end</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> mymodule2</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">export</span> b, mf</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span><span class="fl">4</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>b<span class="op">=</span><span class="fl">5</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mf</span>(x)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">*</span>a<span class="op">*</span>b</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>module mymodule2</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>export b, mf</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>a=4</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>b=5</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>function mf(x)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    return x*a*b</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>end</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>두 모듈 모두 <code>mf</code> 란 함수가 존재하며 <code>export</code> 되므로 충돌의 가능성이 있습니다.. 이제 julia REPL 에서 모듈이 있는 파일을 읽고 <code>mf</code> 함수를 실행시켜 봅니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">include</span>(<span class="st">"mymodule.jl"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="bu">Main</span>.mymodule2</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [1]: include("mymodule.jl")</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Out[1]: Main.mymodule2</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>In [2]: using .mymodule1</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">mf</span>(<span class="fl">1</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>In [3]: mf(1)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>Out[3]: 2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>In [2]</code> 에서는 <code>mymodule1</code> 모듈만을 반입했으므로 <code>mf</code> 함수는 <code>mymodule1</code> 모듈의 그것입니다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule2</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>WARNING<span class="op">:</span> <span class="im">using</span> <span class="bu">mymodule2.mf </span><span class="kw">in</span> <span class="kw">module</span> <span class="bu">Main</span> conflicts with an existing identifier.</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [4]: using .mymodule2</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>WARNING: using mymodule2.mf in module Main conflicts with an existing identifier.</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> b</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">5</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>In [5]: b</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Out[5]: 5</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="fu">mf</span>(<span class="fl">3</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">6</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>In [6]: mf(3)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>Out[6]: 6</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>using .mymodule2</code> 를 하면 충돌이 발생하기 때문에 julia 인터프리터는 경고합니다. <code>b</code> 는 <code>mymodule2</code> 에서 반입된 <code>5</code> 가 사용되며 <code>mf</code> 함수는 먼저 반입된 <code>mymodule1</code> 의 그것입니다. 이렇게 이름이 충돌하는 것은 중요한 오류를 발생시킬 수 있으므로 절대로 피해야 합니다. 이런 경우에는 <code>import</code> 를 사용하는 것이 하나의 방법입니다. <code>import</code> 를 사용하면 모듈 이름에 다음에 <code>.</code> 을 붙이고</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">include</span>(<span class="st">"mymodule.jl"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="bu">Main</span>.mymodule2</span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [1]: include("mymodule.jl")</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Out[1]: Main.mymodule2</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="im">import</span> <span class="bu">.mymodule1</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>In [2]: import .mymodule1</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="im">import</span> <span class="bu">.mymodule2</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>In [3]: import .mymodule2</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> mymodule1.<span class="fu">mf</span>(<span class="fl">1</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fl">2</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>In [4]: mymodule1.mf(1)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>Out[4]: 2</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> mymodule2.<span class="fu">mf</span>(<span class="fl">2</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">40</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>In [5]: mymodule2.mf(2)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>Out[5]: 40</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 <section id="using-...-as-import-...-as" class="level3">
 <h3 class="anchored" data-anchor-id="using-...-as-import-...-as"><code>using ... as</code>, <code>import ... as</code></h3>
 <p>또 하나의 방법은 이름을 바꾸는 것입니다. <code>usimg .mymodule1: a as a1, mf as mf1</code> 이라고 하면 <code>mymodule1</code> 모듈의 <code>a</code> 를 전역적인 이름영역으로 반입하면서 그 이름을 <code>a1</code> 으로 바꾸며, <code>mf</code> 를 <code>mf1</code> 으로 이름을 바꿉니다. 이름울 바꾸지 않고 반입할 경우는 <code>as ...</code> 없이 이름만 쓰면 됩니다. 아래 코드의 <code>In [2]</code> 처럼 하면 됩니다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="fu">include</span>(<span class="st">"mymodule.jl"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="bu">Main</span>.mymodule2</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>In [1]: include("mymodule.jl")</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Out[1]: Main.mymodule2</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule1</span>: a, mf as mf1</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>In [2]: using .mymodule1: a, mf as mf1</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> a</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>In [3]: a</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Out[3]: 2</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> mf</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`mf`</span> not defined</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>In [4]: mf</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ERROR: UndefVarError: `mf` not defined</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> mf1</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> mf (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>In [5]: mf1</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>Out[5]: mf (generic function with 1 method)</span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">.mymodule2</span>:b, mf as mf2</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>In [6]: using .mymodule2:b, mf as mf2</span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">7</span>]<span class="op">:</span> b</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">7</span>]<span class="op">:</span> <span class="fl">5</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>In [7]: b</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>Out[7]: 5</span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">8</span>]<span class="op">:</span> <span class="fu">mf2</span>(a)</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">8</span>]<span class="op">:</span> <span class="fl">40</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>In [8]: mf2(a)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>Out[8]: 40</span>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">9</span>]<span class="op">:</span> <span class="fu">mf1</span>(<span class="fl">1</span>)</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">9</span>]<span class="op">:</span> <span class="fl">2</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>In [9]: mf1(1)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>Out[9]: 2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이름을 바꾸는 것은 이름의 중복을 방지하는데도 사용되지만, 긴 이름을 짧게 해서 편리하게 쓰고자 할 경우나, 짧은 이름을 명확하게 하기위해 긴 이름으로 바꿀 때도 사용할 수 있습니다.</p>
 <p><br></p>
 </section>
@@ -447,57 +447,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="3" class="anchored" data-anchor-id="변수의-범위"><span class="header-section-number">3</span> 변수의 범위</h2>
 <p>모듈을 통해 이름공간과 다른 이름공간을 현재의 이름공간으로 반입하는 법을 알아보았습니다. 이름공간 내에서 사용 할 수 있는 변수를 전역적(global) 이라고 합니다. 반대로 이름공간 내의 특정 부분에서만 사용할 수 있는 변수를 지역적(local) 이라고 합니다. 변수가 유효한 지역적인 범위를 만들어 낼 수 있는 코드 영역을 <strong>블럭</strong>이라고 합시다. 대표적으로 함수를 정의하는 <code>function ... end</code> 구문이나 흐름 제어문인 <code>for ... end</code> 구문입니다. 이들은 그 내에서만 유효한 변수를 선언 할 수 있습니다.</p>
 <p>이제 이름 공간 내에서 변수의 범위를 알아봅시다. 아래 코드를 수행하기 전에 <code>i</code> 와 <code>j</code> 라는 변수를 할당하지 않았다고 합시다.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>            j<span class="op">=</span>i<span class="op">+</span><span class="fl">1</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [1]: for i in 1:10</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>            j=i+1</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        end</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이 때 <code>i</code> 나 <code>j</code> 는 <code>for ... end</code> 블럭 밖에서는 접근 할 수 없으며, 접근하려고 하면 에러가 발생합니다.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> j</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`j`</span> not defined</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>In [2]: j</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ERROR: UndefVarError: `j` not defined</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> i</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`i`</span> not defined</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>In [3]: i</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>ERROR: UndefVarError: `i` not defined</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>그러나 아래 코드와 같이 미리 <code>j</code> 변수를 정해둔 경우에는 <code>j</code> 변수는 <code>for ... end</code> 블럭 안에서 그대로 적용됩니다.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> j<span class="op">=</span><span class="fl">0</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">0</span></span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>In [1]: j=0</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 0</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        j<span class="op">=</span>i<span class="op">+</span><span class="fl">1</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>In [2]: for i in 1:10</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        j=i+1</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        end</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> j</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">11</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>In [3]: j</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>Out[3]: 11</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 <p>이젠 함수의 경우를 봅시다.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> j<span class="op">=</span><span class="fl">4</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">4</span></span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>In [1]: j=4</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 4</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">mf1</span>(x)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> x<span class="op">+</span>j</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> k</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> mf1 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>In [2]: function mf1(x)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        k = x+j</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        return k</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>Out[2]: mf1 (generic function with 1 method)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">mf1</span>(<span class="fl">5</span>)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">9</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>In [3]: mf1(5)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>Out[3]: 9</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> k</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">UndefVarError</span><span class="op">:</span> <span class="ss">`k`</span> not defined</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>In [4]: k</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>ERROR: UndefVarError: `k` not defined</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="page-columns page-full"><p>위의 코드에서 <code>j</code> 는 전역적 범위에서 <code>4</code> 를 할당받았습니다<span class="math inline">\(^\ast\)</span>. <code>mf1</code> 이라는 함수 안의 <code>k</code> 라는 변수는 함수 내부에만 영항을 끼칠 수 있습니다. 그러나 <code>j</code> 는 전역변수이므로 함수 내의 <code>j</code> 는 함수 밖의 <code>j</code> 와 동일합니다. </p><div class="no-row-height column-margin column-container"><span class=""><span class="math inline">\(^\ast\)</span> 함수 내에서 인자로 주어지지 않은 함수 밖의 변수를 사용하는 것은 대부분의 경우 피해야 할 습관입니다. 이 경우는 무조건 인자로 전달해서 함수에서 처리해야 하지만, 변수 범위를 설명하기 위해 억지로 예를 든 것입니다.</span></div></div>
 <p><br></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">mf2</span>(x)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> x<span class="op">+</span><span class="fl">1</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>            <span class="kw">function</span> <span class="fu">mf3</span>(y)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> (k<span class="op">+</span><span class="fl">1</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>            <span class="kw">end</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="fu">mf3</span>(x<span class="op">+</span><span class="fl">1</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>In [4]: function mf2(x)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>        k = x+1</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>            function mf3(y)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                return (k+1)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>            end</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>            return mf3(x+1)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        end</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> mf2 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>Out[4]: mf2 (generic function with 1 method)</span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> <span class="fu">mf2</span>(<span class="fl">3</span>)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">5</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>In [5]: mf2(3)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>Out[5]: 5</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="page-columns page-full"><p><code>mf2</code> 함수 정의 안에서는 새로운 지역적 변수들을 정의 할 수 있으며 <code>mf3</code> 는 <code>mf2</code> 안에서 더 지역적인 변수들을 만들 수 있습니다. <code>k</code> 는 <code>mf2</code> 함수 내에서 정의되었기 때문에 <code>mf3</code> 함수 정의 내에서 사용 할 수 있습니다. 이렇게 변수의 범위는 계층적입니다. 최상위에 전역적인 이름들이 있으며, 그 하위 범위마다 지역적인 변수를 사용 할 수 있습니다. 하위의 블럭에서는 상위의 변수를 사용 할 수 있습니다. 필요하다면 지역적 블럭에서 전역적인 혹은 상위의 블럭의 변수와 같은 이름을 갖지만 별도로 동작하는 이름을 만들 수 있습니다<span class="math inline">\(^\ast\)</span>.  하지만 혼동을 일으키며, 이러한 혼동은 에러의 큰 원인이 되기 때문에 되도록이면 피해야 할 것입니다.</p><div class="no-row-height column-margin column-container"><span class=""><span class="math inline">\(^\ast\)</span> 이렇게 상위 이름공간에서 정의된 이름을 하위 이름공간에서 별도로 사용할 때, 해당하는 상위 이름공간의 이름의 효과를 일시적으로 멈추는 것을 <strong>shadowing</strong> 이라고 합니다.</span></div></div>
 <p><br></p>
 <section id="영역-타입" class="level3">
@@ -559,28 +559,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Hard scope 의 경우 : 해당 하위 이름공간에 지역적 범위의 변수 <code>v</code> 가 생성됩니다.</li>
 </ol>
-<div class="sourceCode" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> v<span class="op">=</span><span class="fl">1</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">1</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [1]: v=1</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 1</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">myfunc1</span>(x)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">println</span>(<span class="st">"in myfunc1, v+x="</span>, v<span class="op">+</span>x)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> myfunc1 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>In [2]: function myfunc1(x)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>            println("in myfunc1, v+x=", v+x)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>Out[2]: myfunc1 (generic function with 1 method)</span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">myfunc2</span>(x)</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            v<span class="op">=</span><span class="fl">3</span> <span class="co"># local variable 이 생성됩니다. shadowing !!</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">println</span>(<span class="st">"in myfunc1, v=3, v+x="</span>, v<span class="op">+</span>x)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> myfunc2 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>In [3]: function myfunc2(x)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            v=3 # local variable 이 생성됩니다. shadowing !!</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>            println("in myfunc1, v=3, v+x=", v+x)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>Out[3]: myfunc2 (generic function with 1 method)</span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> <span class="fu">myfunc1</span>(<span class="fl">3</span>)</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> myfunc1, v<span class="op">+</span>x<span class="op">=</span><span class="fl">4</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>In [4]: myfunc1(3)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>in myfunc1, v+x=4</span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> <span class="fu">myfunc2</span>(<span class="fl">3</span>)</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="kw">in</span> myfunc1, v<span class="op">=</span><span class="fl">3</span>, v<span class="op">+</span>x<span class="op">=</span><span class="fl">6</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>In [5]: myfunc2(3)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>in myfunc1, v=3, v+x=6</span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> v</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">6</span>]<span class="op">:</span> <span class="fl">1</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>In [6]: v</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>Out[6]: 1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>Soft scope 의 경우
 <ul>
@@ -588,12 +588,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Interactive mode 가 아닐경우에는 경고가 출력되며 하위 범위의 변수 <code>v</code> 가 생성됩니다.</li>
 </ul></li>
 </ol>
+<p><br></p>
 <div id="exr-variable_scope_1" class="theorem exercise">
 <p><span class="theorem-title"><strong>연습문제 1 </strong></span><code>for ... end</code> 는 soft scope 입니다. 아래의 코드를 파일로 저장하고 julia 로 실행시켜보고 어떤 경고(<code>Warning</code>) 가 출력되는지 확인해 봅시다. Julia REPL 이나 jupyter 로 실행시켜 봅시다.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>v<span class="op">=</span><span class="fl">10</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    v<span class="op">=</span>i</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>v=10</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>for i in 1:10</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    v=i</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>end</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 </section>
@@ -613,7 +614,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-4"><a href="#cb18-4"></a>    <span class="kw">local</span> v1 <span class="op">=</span> v2<span class="op">+</span><span class="fl">1</span></span>
 <span id="cb18-5"><a href="#cb18-5"></a>    x <span class="op">=</span> <span class="fu">sin</span>(v1)</span>
 <span id="cb18-6"><a href="#cb18-6"></a><span class="cf">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>를 실행시키고 난 뒤에도 <code>v1 == 0</code> 입니다. <code>local</code> 키워드는 전역적으로 어떤 변수가 선언되었</p>
+<p>를 실행시키고 난 뒤에도 <code>v1 == 0</code> 입니다. <code>local</code> 키워드는 전역적으로 어떤 변수가 선언되었더라도 지역적인 변수를 만들어서 그 변수를 사용하며, 전역적인 변수는 건드리지 않도록 합니다.</p>
 <p><br></p>
 </section>
 </section>
