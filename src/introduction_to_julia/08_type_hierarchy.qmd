@@ -297,32 +297,34 @@ Out[4]: false
 
 이것이 작동하는 원리는 쉽습니다. 함수를 호출하면 메서드의 시그너쳐를 확인하여 실제 실행될 메서드를 찾는데 두 인자가 같은 타입일 경우 `same_type(x::T, y::T) where {T} = true` 메서드가 호출되며, 다른 타입일 경우 `same_type(x,y) = false` 메서드가 호출됩니다. 
 
-
-
-
-
 </br>
 
-함수 인자의 타입 매개변수가 여러개이더라도 아무 상관 없습니다. 또한 타입 매개변수를 통해 인자의 타입에 제한을 가할 수 있습니다.
+타입 매개변수에 재한을 걸 수 있습니다. 예를 들어 다음을 봅시다.
 
 ```css
-In [1]: function myadd(a::T1, b::T2) where {T1<:Real, T2<:Number}
-        return a+b
-        end
-Out[1]: myadd (generic function with 1 method)
+In [10]: same_integer_type(x::T, y::T) where {T<:Integer} = true
+Out[10]: same_integer_type (generic function with 1 method)
 
-In [2]: myadd(2, 3+4im)
-Out[2]: 5 + 4im
+In [11]: same_integer_type(x, y) = false
+Out[11]: same_integer_type (generic function with 2 methods)
 
-In [3]: myadd(3+4im, 2)
-ERROR: MethodError: no method matching myadd(::Complex{Int64}, ::Int64)
+In [12]: same_integer_type(3, 4)
+Out[12]: true
+
+In [13]: same_integer_type(UInt8(3), 4)
+Out[13]: false
+
+In [14]: same_integer_type(3, 4.0)
+Out[14]: false
 ```
+
+두 변수 `x`, `y` 가 같은 종류의 정수 타입이 아니면 `false` 를 리턴합니다. 즉 다른 종류의 정수타입에도 `false` 를 반환합니다. 
 
 </br>
 
 #### 함수 안에서의 타입매개변수
 
-시그너쳐에 정해진 타입매개변수는 함수 안에서도 사용 될 수 있습니다. 우리는 기본타입의 경우 타입 이름이 함수로 사용 될 수 있다는 것을 앞에서 보았습니다. 예를 들어 `Float64(3)` 에서 `Float64` 는 `Int64` 타입의 `3` 을 `Float64` 타입으로 변환시키는 함수로 사용되었습니다. 다음 함수를 봅시다.
+함수에 타입 매개변수를 쓰는 또하나의 중요한 경우는 타입매개변수를 함수 안에서 사용하는 것입니다. 우리는 기본타입의 경우 타입 이름이 함수로 사용 될 수 있다는 것을 앞에서 보았습니다. 예를 들어 `Float64(3)` 에서 `Float64` 는 `Int64` 타입의 `3` 을 `Float64` 타입으로 변환시키는 함수로 사용되었습니다. 다음 함수를 봅시다.
 
 ```html
 In [1]: function myconvert(a::T, b) where {T}
@@ -338,27 +340,7 @@ Out[2]: 4.0
 
 </br>
 
-#### 여러개의 타입매개변수 사용과 타입 제한
 
-함수 시그너쳐의 타입 매개변수는 여러개 일 수 있으며, 특정 타입 혹은 특정 타입의 하위타입이 되도록 제한을 걸 수 있습니다. 예를 들어 봅시다.
-
-```julia
-In [1]: function myconvert2(a::T, b::N) where {T<:Number, N<:Integer}
-        return T(b)
-        end
-Out[1]: myconvert2 (generic function with 1 method)
-
-In [2]: myconvert2(4.0, 3)
-Out[2]: 3.0
-
-In [3]: myconvert2(4.0, 3.0)
-ERROR: MethodError: no method matching myconvert2(::Float64, ::Float64)
-```
-
-`myconvert2` 함수는 `T` 와 `N` 의 두개의 타입매개변수를 가지며 `T` 는 `Number` 의 하위타입, `N` 은 `Integer` 의 하위타입이어야 합니다. `In [3]` 와 같이 두번째 인자가 정수가 아닐 경우에는 적합한 메서드를 찾을 수 없으므로 `MethodError` 가 발생합니다.
-
-
-</br>
 
 #### 아무것도 아닌 함수
 
