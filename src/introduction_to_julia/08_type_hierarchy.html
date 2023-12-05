@@ -104,7 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed slimcontent">
+<body class="nav-sidebar docked nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -127,11 +127,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../../src/introduction_to_julia/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">Introduction to Julia</span></a>
+ <span class="menu-text">Julia 프로그래밍 언어</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="">
- <span class="menu-text">Numerical Analysis using Julia</span></a>
+ <span class="menu-text">Julia 언어를 이용한 수치해석</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../src/tools/tools.html" rel="" target="">
@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/08_type_hierarchy.html">8장 타입의 계층구조와 메서드 디스패치</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/index.html">Julia 언어의 기초</a></li><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/08_type_hierarchy.html">8장 타입의 계층구조와 메서드 디스패치</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -161,105 +161,140 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Julia 언어의 기초</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Julia</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/01_julia_language.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1장 설치와 환경 구성</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/02_variables_basic_types.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2장 변수와 기본 타입</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/03_functions_and_operators.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3장 함수와 연산자</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/04_containers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4장 컨테이너</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/04_I_splat_operator.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : Splat 연산자</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/05_control_flows.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5장 흐름 제어</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/06_arrays.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6장 배열</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/06_I_function_composition_and_piping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 함수의 합성과 전달</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/07_module_package.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7장 이름공간, 모듈, 패키지</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/07_I_sort.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 정렬</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/08_type_hierarchy.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">8장 타입의 계층구조와 메서드 디스패치</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/08_I_documentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 문서화</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/09_composite_types.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9장 복합 타입</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/09_I_pretty_printing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 보기 좋게 출력하기</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/10_metaprogramming_and_macro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10장 메타프로그래밍과 매크로</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Julia 언어의 활용</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/applications_of_julia/fileio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">파일시스템과 파일입출력</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/applications_of_julia/leastsquarefit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">비선형 최소제곱 피팅</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -531,21 +566,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Out[4]: false</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이것이 작동하는 원리는 쉽습니다. 함수를 호출하면 메서드의 시그너쳐를 확인하여 실제 실행될 메서드를 찾는데 두 인자가 같은 타입일 경우 <code>same_type(x::T, y::T) where {T} = true</code> 메서드가 호출되며, 다른 타입일 경우 <code>same_type(x,y) = false</code> 메서드가 호출됩니다.</p>
 <p><br></p>
-<p>함수 인자의 타입 매개변수가 여러개이더라도 아무 상관 없습니다. 또한 타입 매개변수를 통해 인자의 타입에 제한을 가할 수 있습니다.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[1]</span><span class="in">: function</span> myadd(a<span class="in">::T1</span><span class="op">,</span> b<span class="in">::T2</span>) where {T1&lt;<span class="in">:Real</span><span class="op">,</span> T2&lt;<span class="in">:Number</span>}</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>        return a<span class="op">+</span>b</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        end</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Out<span class="ex">[1]</span><span class="in">: myadd</span> (generic function with 1 method)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[2]</span><span class="in">: myadd(2, 3+4im)</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>Out<span class="ex">[2]</span><span class="in">: 5 + 4im</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[3]</span><span class="in">: myadd(3+4im, 2)</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>ERROR<span class="in">: MethodError: no</span> method matching myadd(<span class="in">::Complex</span>{Int64}<span class="op">,</span> <span class="in">::Int64</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>타입 매개변수에 재한을 걸 수 있습니다. 예를 들어 다음을 봅시다.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[10]</span><span class="in">: same</span>_integer_type(x<span class="in">::T</span><span class="op">,</span> y<span class="in">::T</span>) where {T&lt;<span class="in">:Integer</span>} = true</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Out<span class="ex">[10]</span><span class="in">: same</span>_integer_type (generic function with 1 method)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[11]</span><span class="in">: same</span>_integer_type(x<span class="op">,</span> y) = false</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>Out<span class="ex">[11]</span><span class="in">: same</span>_integer_type (generic function with 2 methods)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[12]</span><span class="in">: same</span>_integer_type(3<span class="op">,</span> 4)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>Out<span class="ex">[12]</span><span class="in">: true</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[13]</span><span class="in">: same</span>_integer_type(UInt8(3)<span class="op">,</span> 4)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>Out<span class="ex">[13]</span><span class="in">: false</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>In <span class="ex">[14]</span><span class="in">: same</span>_integer_type(3<span class="op">,</span> 4<span class="fu">.0</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>Out<span class="ex">[14]</span><span class="in">: false</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>두 변수 <code>x</code>, <code>y</code> 가 같은 종류의 정수 타입이 아니면 <code>false</code> 를 리턴합니다. 즉 다른 종류의 정수타입에도 <code>false</code> 를 반환합니다.</p>
 <p><br></p>
 <section id="함수-안에서의-타입매개변수" class="level4">
 <h4 class="anchored" data-anchor-id="함수-안에서의-타입매개변수">함수 안에서의 타입매개변수</h4>
-<p>시그너쳐에 정해진 타입매개변수는 함수 안에서도 사용 될 수 있습니다. 우리는 기본타입의 경우 타입 이름이 함수로 사용 될 수 있다는 것을 앞에서 보았습니다. 예를 들어 <code>Float64(3)</code> 에서 <code>Float64</code> 는 <code>Int64</code> 타입의 <code>3</code> 을 <code>Float64</code> 타입으로 변환시키는 함수로 사용되었습니다. 다음 함수를 봅시다.</p>
+<p>함수에 타입 매개변수를 쓰는 또하나의 중요한 경우는 타입매개변수를 함수 안에서 사용하는 것입니다. 우리는 기본타입의 경우 타입 이름이 함수로 사용 될 수 있다는 것을 앞에서 보았습니다. 예를 들어 <code>Float64(3)</code> 에서 <code>Float64</code> 는 <code>Int64</code> 타입의 <code>3</code> 을 <code>Float64</code> 타입으로 변환시키는 함수로 사용되었습니다. 다음 함수를 봅시다.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>In [1]: function myconvert(a::T, b) where {T}</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>        return T(b)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        end</span>
@@ -556,26 +596,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>이 <code>myconvert</code> 함수는 두개의 인자를 받아 두번째 인자를 첫번째 인자의 타입으로 변환시켜 반환하는 함수입니다. 이 때 함수 시그니쳐의 타입 매개변수 <code>T</code> 가 함수의 몸체에서 사용되었습니다.</p>
 <p><br></p>
 </section>
-<section id="여러개의-타입매개변수-사용과-타입-제한" class="level4">
-<h4 class="anchored" data-anchor-id="여러개의-타입매개변수-사용과-타입-제한">여러개의 타입매개변수 사용과 타입 제한</h4>
-<p>함수 시그너쳐의 타입 매개변수는 여러개 일 수 있으며, 특정 타입 혹은 특정 타입의 하위타입이 되도록 제한을 걸 수 있습니다. 예를 들어 봅시다.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="kw">function</span> <span class="fu">myconvert2</span>(a<span class="op">::</span><span class="dt">T</span>, b<span class="op">::</span><span class="dt">N</span>) <span class="kw">where</span> {T<span class="op">&lt;:</span><span class="dt">Number</span>, N<span class="op">&lt;:</span><span class="dt">Integer</span>}</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">T</span>(b)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> myconvert2 (generic <span class="kw">function</span> with <span class="fl">1</span> method)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">myconvert2</span>(<span class="fl">4.0</span>, <span class="fl">3</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">3.0</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">myconvert2</span>(<span class="fl">4.0</span>, <span class="fl">3.0</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">MethodError</span><span class="op">:</span> no method matching <span class="fu">myconvert2</span>(<span class="op">::</span><span class="dt">Float64</span>, <span class="op">::</span><span class="dt">Float64</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>myconvert2</code> 함수는 <code>T</code> 와 <code>N</code> 의 두개의 타입매개변수를 가지며 <code>T</code> 는 <code>Number</code> 의 하위타입, <code>N</code> 은 <code>Integer</code> 의 하위타입이어야 합니다. <code>In [3]</code> 와 같이 두번째 인자가 정수가 아닐 경우에는 적합한 메서드를 찾을 수 없으므로 <code>MethodError</code> 가 발생합니다.</p>
-<p><br></p>
-</section>
 <section id="아무것도-아닌-함수" class="level4">
 <h4 class="anchored" data-anchor-id="아무것도-아닌-함수">아무것도 아닌 함수</h4>
 <p>여러 메서드를 가지는 함수를 작성할 때 일단은 이름을 갖고 코드가 에러를 발생시키지는 않지만 실행은 안되는 함수가 필요할 때가 있습니다. 실용적으로 필요한 것이 아니라 문서화 작업 혹은 앞으로 작성할 함수라고 흔적을 남기기 위해 사용되기도 합니다.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> great_function_with_many_methods <span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> great_function_with_many_methods <span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>great_function_with_many_methods</code> 은 함수로서 이름공간 포함되지만 아무 일도 할 수 없습니다.</p>
 
 

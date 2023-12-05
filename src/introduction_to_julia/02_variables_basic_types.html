@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed slimcontent">
+<body class="nav-sidebar docked nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -124,11 +124,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../../src/introduction_to_julia/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">Introduction to Julia</span></a>
+ <span class="menu-text">Julia 프로그래밍 언어</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="">
- <span class="menu-text">Numerical Analysis using Julia</span></a>
+ <span class="menu-text">Julia 언어를 이용한 수치해석</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../src/tools/tools.html" rel="" target="">
@@ -149,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/02_variables_basic_types.html">2장 변수와 기본 타입</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/index.html">Julia 언어의 기초</a></li><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/02_variables_basic_types.html">2장 변수와 기본 타입</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -158,105 +158,140 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Julia 언어의 기초</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Julia</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/01_julia_language.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1장 설치와 환경 구성</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/02_variables_basic_types.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">2장 변수와 기본 타입</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/03_functions_and_operators.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3장 함수와 연산자</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/04_containers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4장 컨테이너</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/04_I_splat_operator.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : Splat 연산자</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/05_control_flows.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5장 흐름 제어</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/06_arrays.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6장 배열</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/06_I_function_composition_and_piping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 함수의 합성과 전달</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/07_module_package.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7장 이름공간, 모듈, 패키지</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/07_I_sort.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 정렬</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/08_type_hierarchy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8장 타입의 계층구조와 메서드 디스패치</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/08_I_documentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 문서화</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/09_composite_types.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9장 복합 타입</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/09_I_pretty_printing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 보기 좋게 출력하기</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/10_metaprogramming_and_macro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10장 메타프로그래밍과 매크로</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Julia 언어의 활용</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/applications_of_julia/fileio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">파일시스템과 파일입출력</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/applications_of_julia/leastsquarefit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">비선형 최소제곱 피팅</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>

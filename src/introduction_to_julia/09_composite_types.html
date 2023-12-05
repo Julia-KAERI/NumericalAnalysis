@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -124,11 +124,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../../src/introduction_to_julia/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">Introduction to Julia</span></a>
+ <span class="menu-text">Julia 프로그래밍 언어</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="">
- <span class="menu-text">Numerical Analysis using Julia</span></a>
+ <span class="menu-text">Julia 언어를 이용한 수치해석</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../src/tools/tools.html" rel="" target="">
@@ -149,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/09_composite_types.html">9장 복합 타입</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/index.html">Julia 언어의 기초</a></li><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/09_composite_types.html">9장 복합 타입</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -158,105 +158,140 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Julia 언어의 기초</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Julia</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/01_julia_language.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1장 설치와 환경 구성</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/02_variables_basic_types.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2장 변수와 기본 타입</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/03_functions_and_operators.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3장 함수와 연산자</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/04_containers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4장 컨테이너</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/04_I_splat_operator.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : Splat 연산자</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/05_control_flows.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5장 흐름 제어</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/06_arrays.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6장 배열</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/06_I_function_composition_and_piping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 함수의 합성과 전달</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/07_module_package.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7장 이름공간, 모듈, 패키지</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/07_I_sort.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 정렬</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/08_type_hierarchy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8장 타입의 계층구조와 메서드 디스패치</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/08_I_documentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 문서화</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/09_composite_types.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">9장 복합 타입</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/09_I_pretty_printing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 보기 좋게 출력하기</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/10_metaprogramming_and_macro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10장 메타프로그래밍과 매크로</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Julia 언어의 활용</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/applications_of_julia/fileio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">파일시스템과 파일입출력</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/applications_of_julia/leastsquarefit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">비선형 최소제곱 피팅</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -271,7 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#내부생성자와-외부생성자" id="toc-내부생성자와-외부생성자" class="nav-link" data-scroll-target="#내부생성자와-외부생성자">내부생성자와 외부생성자</a></li>
   </ul></li>
-  <li><a href="#변경할-수-있는-복합-타입-mutable-struct" id="toc-변경할-수-있는-복합-타입-mutable-struct" class="nav-link" data-scroll-target="#변경할-수-있는-복합-타입-mutable-struct"><span class="header-section-number">2</span> 변경할 수 있는 복합 타입 (mutable struct)</a>
+  <li><a href="#sec-mutable_composite_types" id="toc-sec-mutable_composite_types" class="nav-link" data-scroll-target="#sec-mutable_composite_types"><span class="header-section-number">2</span> 변경할 수 있는 복합 타입 (mutable struct)</a>
   <ul class="collapse">
   <li><a href="#mutable-and-imutabile-타입" id="toc-mutable-and-imutabile-타입" class="nav-link" data-scroll-target="#mutable-and-imutabile-타입">Mutable and imutabile 타입</a></li>
   </ul></li>
@@ -299,9 +334,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<p>복합 타입(composite type) 은 필드(field)라고 불리는 하위 변수를 갖는 타입이며, 필드는 정수나 실수 타입 뿐만 아니라 함수 타입이나 다른 복합 타입이 될 수 있습니다. 우선 우리에게 아마도 익숙할 복수수 타입부터 시작해 보도록 하겠습니다.</p>
 <section id="complex" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="complex"><span class="header-section-number">1</span> <code>Complex</code></h2>
-<p>복합 타입(composite type) 은 필드(field)라고 불리는 하위 변수를 갖는 타입입니다. Julia 에서 복소수는 실수부와 허수부를 필드로 갖는 복합타입으로 다음과 같이 정의됩니다.</p>
+<p>Julia 는 복소수를 다루기 위한 <code>Complex{T}</code> 타입을 내장하고 있습니다. <code>Complex{T}</code> 는 필드로 실수부와 허수부를 가지며 다음과 같이 정의됩니다.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> <span class="dt">Complex</span>{T<span class="op">&lt;:</span><span class="dt">Real</span>} <span class="op">&lt;:</span><span class="dt"> Number</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    re<span class="op">::</span><span class="dt">T</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cn">im</span><span class="op">::</span><span class="dt">T</span></span>
@@ -309,113 +345,106 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">Complex</span>(x<span class="op">::</span><span class="dt">Real</span>, y<span class="op">::</span><span class="dt">Real</span>) <span class="op">=</span> <span class="fu">Complex</span>(<span class="fu">promote</span>(x,y)<span class="op">...</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">Complex</span>(x<span class="op">::</span><span class="dt">Real</span>) <span class="op">=</span> <span class="fu">Complex</span>(x, <span class="fu">zero</span>(x))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>struct ... end</code> 부분은 복합 타입을 선언하는 부분입니다.</p>
 <ul>
+<li><p><code>struct ... end</code> 부분은 복합 타입을 선언하는 부분입니다.</p></li>
 <li><p><code>&lt;:Number</code> 를 통해 <code>Complex</code> 객체는 <code>Number</code> 의 하위타입으로 정의됩니다.</p></li>
-<li><p><code>{T&lt;:Real}</code> 은 <code>Complex</code> 의 필드인 <code>re</code> 와 <code>im</code> 의 타입을 제한하기 위한 것입니다. <code>T&lt;:Real</code> 는 <code>T</code> 라는 타입 변수는 <code>Real</code> 의 하위 타입을 가져야 한다는 것을 의미합니다. 필드의 타입을 제한할 필요가 없을 경우에는 <code>{T&lt;:Real}</code> 과 같은 부분을 제거해도 됩니다. 두 개 이상의 타입이 필요할 경우는 <code>{T1&lt;:Real, T2&lt;:Integer}</code> 와 같이 <code>{ }</code> 안에 <code>,</code> 로 분리하여 나열하면 됩니다.</p></li>
-<li><p><code>re::T</code> 와 <code>im::T</code> 이라는 두개의 필드(field) 를 갖는데 이름은 <code>re</code> 와 <code>im</code> 이며 둘 다 같은 <code>T</code> 타입입니다.</p></li>
+<li><p><code>{T&lt;:Real}</code> 은 <code>Complex</code> 의 필드인 <code>re</code> 와 <code>im</code> 의 타입을 제한하기 위한 것입니다. <code>T&lt;:Real</code> 이며 <code>re::T</code>, <code>im::T</code> 이므로 <code>re</code> 와 <code>im</code> 의 두필드 는 <code>Real</code> 의 하위타입을 가지며 동일한 타입을 가집니다. 타입을 제한할 필요가 없을 경우에는 <code>{T&lt;:Real}</code> 과 같은 부분을 제거해도 됩니다. 두 개 이상의 타입이 필요할 경우는 <code>{T1&lt;:Real, T2&lt;:Integer}</code> 와 같이 <code>{ }</code> 안에 <code>,</code> 로 분리하여 나열하면 됩니다.</p></li>
 <li><p>타입과 같은 이름을 가진 함수를 정의 할 수 있으며, 이 함수는 타입의 변수를 생성하는데 사용됩니다. 이렇게 어떤 타입과 같은 이름을 가지며, 그 타입의 값을 만드는데 사용되는 함수를 <strong>생성자(constructor)</strong> 라고 합니다.</p></li>
-<li><p>첫번째 생성자는 <code>x</code> 와 <code>y</code> 가 <code>Real</code> 타입의 하위 타입일 때 타입을 일치시키기 위한 생성자입니다. <code>promote(x, y)</code> 는 <code>x</code> 와 <code>y</code> 변수의 타입을 두 변수를 공통적으로 표현할 수 있는 타입으로 변환시켜 튜플로 반환합니다. 둘 이상의 값을 같은 타입이 되도록 변환하는 것을 promotion 이라고 합니다. <code>promote(2, 3.0) == (2.0, 3.0)</code> 입니다. 그런데 <code>Complex(promote(2, 3.0))</code> 은 <code>Complex(2.0, 3.0)</code> 이 아니라 <code>Complex((2.0, 3.0))</code> 으로 튜플 인자 하나만 주어지며, 따라서 에러가 발생합니다. <code>Complex(promote(2, 3.0)...)</code> 는 <code>promote(2, 3.0)</code> 의 결과로 주어지는 튜플을 풀어서 함수의 인자로 넣도록 합니다. 즉, <code>Complex(promote(2, 3.0)...)</code> 은 결과적으로 <code>Complex(2.0, 3.0)</code> 입니다.</p></li>
+<li><p>첫번째 생성자는 <code>x</code> 와 <code>y</code> 가 <code>Real</code> 타입의 하위 타입일 때 타입을 일치시키기 위한 생성자입니다. <code>promote(x, y)</code> 는 <code>x</code> 와 <code>y</code> 변수의 타입을 두 변수를 공통적으로 표현할 수 있는 타입으로 변환시켜 튜플로 반환합니다. 이렇게 다른 타입의 둘 이상의 값을 같은 타입이 되도록 변환하는 것을 julia 에서는 <strong>promotion</strong> 이라고 합니다. <code>promote(2, 3.0) == (2.0, 3.0)</code> 입니다. 그런데 <code>Complex(promote(2, 3.0))</code> 은 <code>Complex(2.0, 3.0)</code> 이 아니라 <code>Complex((2.0, 3.0))</code> 으로 튜플 인자 하나만 주어지며, 따라서 에러가 발생합니다. <code>Complex(promote(2, 3.0)...)</code> 는 <code>promote(2, 3.0)</code> 의 결과로 주어지는 튜플을 풀어서 함수의 인자로 넣도록 합니다. 즉, <code>Complex(promote(2, 3.0)...)</code> 은 결과적으로 <code>Complex(2.0, 3.0)</code> 입니다. <a href="../../src/introduction_to_julia/04_I_splat_operator.html#sec-splat_operator_in_function_argument">함수를 실행시킬때 인자에서의 사용법</a> 을 참고하시기 바랍니다.</p></li>
 <li><p>두번째 생성자는 인자가 하나만 주어졌을 때 허수부를 인자 <code>x</code> 와 같은 타입의 <code>0</code> 으로 간주하여 생성하도록 하는 생성자입니다.</p></li>
 </ul>
 <p><code>Complex{T&lt;:Real}</code> 은 다음과 같이 사용 할 수 있습니다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> com1<span class="op">=</span><span class="fu">Complex</span><span class="dt">{Float32}</span>(<span class="fl">3.3</span>, <span class="fl">2.3</span>) <span class="co">#Float32 타입의 필드를 갖는 복소수</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">1</span>]<span class="op">:</span> <span class="fl">3.3f0</span> <span class="op">+</span> <span class="fl">2.3f0im</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [1]: com1 = Complex{Float32}(3.3, 2.3) #Float32 타입의 필드를 갖는 복소수</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 3.3f0 + 2.3f0im</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> com2<span class="op">=</span><span class="fu">Complex</span>(<span class="fl">3.3</span>, <span class="fl">2.3</span>) <span class="co"># 3.3, 2.3 이 Float64 이므로 타입의 필드를 갖는 복소수</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">3.3</span> <span class="op">+</span> <span class="fl">2.3im</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>In [2]: com2 = Complex(3.3, 2.3) # 3.3, 2.3 이 Float64 이므로 타입의 필드를 갖는 복소수</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Out[2]: 3.3 + 2.3im</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> com3 <span class="op">=</span> <span class="fl">3.3</span> <span class="op">+</span> <span class="fl">2.3im</span> <span class="co"># 복소수를 선언하는 두번째 방법</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">3.3</span> <span class="op">+</span> <span class="fl">2.3im</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>In [3]: com3 = 3.3 + 2.3im # 복소수를 선언하는 두번째 방법</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>Out[3]: 3.3 + 2.3im</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> com2 <span class="op">==</span> com3 <span class="co"># 둘은 같다</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="cn">true</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="cn">true</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>In [4]: com2 == com3 # 둘은 같다</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>Out[4]: true</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>true</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<p>복합타입 변수의 필드에 접근하기 위해서는 <code>.</code> 를 사용합니다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>In [6]: c1 = Complex{Float64}(2.0, 3.0)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Out[6]: 2.0 + 3.0im</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>In [7]: c1.re</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>Out[7]: 2.0</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>In [8]: c1.im</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>Out[8]: 3.0</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>In [9]: c1.im = 4.0</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ERROR: setfield!: immutable struct of type Complex cannot be changed</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<p>복합타입의 경우는 기본적으로 immutable 입니다. 즉 필드의 값을 직접적으로 바꿀 수 없으며 <code>In [9]</code> 에서와 같이 직접적으로 변경하고자 하면 에러가 발생합니다. 복합타입의 필드의 값을 바꿀 수 있는 복합타입은 mutable 이라고 하며 뒤에 <a href="#sec-mutable_composite_types">변경할 수 있는 복합 타입</a> 에서 다루겠습니다.</p>
 <p><br></p>
 <p>위의 <code>Complex{T&lt;:Real}</code> 과 유사하지만 필드의 타입을 강제하지 않는 복합타입을 <code>mycomplex</code> 라는 이름으로 만들면 다음과 같습니다.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> mycomplex1</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    re</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cn">im</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> mycomplex1</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    re</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cn">im</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>문법적으로는 문제가 없지만 거의 쓸모 없는 코드입니다. 그러나 <code>Complex{T&lt;:Real}</code> 와 비교하여 복합 타입에 대한 이해를 도울 수 있습니다. <code>Complex{T&lt;:Real}</code> 과 다른 것은 필드의 타입을 제한하는 타입 매개변수 <code>T</code> 가 없다는 것이고, 필드인 <code>re</code> 와 <code>im</code> 이 어떤 타입이든 가질 수 있다는 것입니다. <code>mycomplex1</code> 은 복합 타입의 이름이기도 하며 이 복합타입을 생성하는 함수이기도 합니다. 함수의 인자로 멤버를 정의된 순서대로 입력하면 됩니다.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="kw">struct</span> mycomplex1</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            re</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="cn">im</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> c1<span class="op">=</span><span class="fu">mycomplex1</span>(<span class="fl">2</span>, <span class="fl">3</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fu">mycomplex1</span>(<span class="fl">2</span>, <span class="fl">3</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> c1.re</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">2</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> c1.<span class="cn">im</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fl">3</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> c2<span class="op">=</span><span class="fu">mycomplex1</span>(<span class="fl">3</span>)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> <span class="dt">MethodError</span><span class="op">:</span> no method matching <span class="fu">mycomplex1</span>(<span class="op">::</span><span class="dt">Int64</span>)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>In [1]: struct mycomplex1</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            re</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            im</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>In [2]: c1 = mycomplex1(2, 3)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Out[2]: mycomplex1(2, 3)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>In [3]: c1.re</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>Out[3]: 2</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>In [4]: c1.im</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>Out[4]: 3</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>In [5]: c2=mycomplex1(3)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>ERROR: MethodError: no method matching mycomplex1(::Int64)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>In [1]</code> 에서 처럼 별도의 생성자 없이 타입 이름으로 복합 타입의 정의에서의 멤버의 순서대로, 멤버의 타입이 지정되었다면 지정된 타입에 맞게 입력하면 타입이 생성됩니다. 이렇게 별도의 생성자를 정의하지 않아도 자동적으로 생기는 생성자를 <strong>기본 생성자</strong> 라고 합니다. 하지만 <code>In [5]</code> 에서와 같이 인자를 하나만 입력하면 필요함 멤버 수에 부족하기 때문에 에러가 발생합니다. 생성자는 이 경우에 필요합니다.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> mycomplex2</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    re</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cn">im</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">mycomplex2</span>(x)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span>(x, <span class="fu">zero</span>(x))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">mycomplex2</span>(x, y)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span>(<span class="fu">promote</span>(x, y)<span class="op">...</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> mycomplex2</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    re</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cn">im</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">mycomplex2</span>(x)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span>(x, <span class="fu">zero</span>(x))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">mycomplex2</span>(x, y)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span>(<span class="fu">promote</span>(x, y)<span class="op">...</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>여기서 생성자는 <code>Complex</code> 와는 다르게 복합 타입 선언 내부에 정의되었습니다. 이렇게 복합 타입 선언 내부에서 정의된 생성자를 <strong>내부생성자 (inner constructor)</strong> 라고 합니다. 반대로 <code>Complex</code> 처럼 생성자가 복합 타입 선언 밖에서 정의된 생성자를 <strong>외부 생성자 (outer constructor)</strong> 라고 합니다. 내부생성자에는 <code>new</code> 함수를 사용 할 수 있는데 <code>new</code> 함수는 생성자를 찾지 않고 즉각적으로 멤버에 접근하여 복합 타입을 만들게 해 줍니다. <code>new</code> 함수는 외부생성자에서는 사용 할 수 없습니다.</p>
 <p><br></p>
 <section id="내부생성자와-외부생성자" class="level3">
 <h3 class="anchored" data-anchor-id="내부생성자와-외부생성자">내부생성자와 외부생성자</h3>
 <p>코드 유지보수의 관점에서는 아무래도 외부생성자가 편리합니다. 그러나 내부생성자만이 할 수 있는 일은 기본생성자를 변경하는 것입니다. 다음의 예를 봅시다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> A</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    m<span class="op">::</span><span class="dt">Int64</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">A</span>(x, y)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span>(<span class="fu">Int64</span>(x<span class="op">+</span>y))</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> B</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    m<span class="op">::</span><span class="dt">Int64</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">B</span>(x, y)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">B</span>(<span class="fu">Int64</span>(x<span class="op">+</span>y))</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> A</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    m<span class="op">::</span><span class="dt">Int64</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">A</span>(x, y)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span>(<span class="fu">Int64</span>(x<span class="op">+</span>y))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> B</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    m<span class="op">::</span><span class="dt">Int64</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">B</span>(x, y)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">B</span>(<span class="fu">Int64</span>(x<span class="op">+</span>y))</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이 때 <code>B(3)</code> 은 기본생성자가 호출되어 <code>B.m==3</code> 인 객체가 만들어지지만 <code>A(3)</code> 은 기본생성자가 교체되었으므로 에러가 발생합니다.</p>
 <p><br></p>
 </section>
 </section>
-<section id="변경할-수-있는-복합-타입-mutable-struct" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="변경할-수-있는-복합-타입-mutable-struct"><span class="header-section-number">2</span> 변경할 수 있는 복합 타입 (mutable struct)</h2>
+<section id="sec-mutable_composite_types" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="sec-mutable_composite_types"><span class="header-section-number">2</span> 변경할 수 있는 복합 타입 (mutable struct)</h2>
 <section id="mutable-and-imutabile-타입" class="level3">
 <h3 class="anchored" data-anchor-id="mutable-and-imutabile-타입">Mutable and imutabile 타입</h3>
-<p>Julia 에서 타입은 비트 타입과 복합 타입으로 나뉩니다. 비트타입은 기본 타입으로</p>
-<p>복합타입은 기본적으로 immutable 입니다. 이 말은 한 번 생성된 복합타입의 필드를 바꿀 수 없다는 뜻입니다. <code>Complex</code> 는 이미 julia 에서 사용하고 있는 자료형이기 때문에 같은 복합타입을 다른 이름으로 만들어 봅시다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="kw">struct</span> mycomplex1{T<span class="op">&lt;:</span><span class="dt">Real</span>} <span class="op">&lt;:</span><span class="dt"> Number</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        re<span class="op">::</span><span class="dt">T</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="cn">im</span><span class="op">::</span><span class="dt">T</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> <span class="fu">mycomplex1</span>(x<span class="op">::</span><span class="dt">Real</span>, y<span class="op">::</span><span class="dt">Real</span>) <span class="op">=</span> <span class="fu">mycomplex1</span>(<span class="fu">promote</span>(x, y)<span class="op">...</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> mycomplex1</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> <span class="fu">mycomplex1</span>(x<span class="op">::</span><span class="dt">Real</span>) <span class="op">=</span> <span class="fu">mycomplex1</span>(x, <span class="fu">zero</span>(x))</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> mycomplex1</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">4</span>]<span class="op">:</span> c1<span class="op">=</span> <span class="fu">mycomplex1</span>(<span class="fl">2.0</span>, <span class="fl">4</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">4</span>]<span class="op">:</span> <span class="fu">mycomplex1</span><span class="dt">{Float64}</span>(<span class="fl">2.0</span>, <span class="fl">4.0</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> c1.re</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">2.0</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">6</span>]<span class="op">:</span> c1.re <span class="op">=</span> <span class="fl">4.0</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>ERROR<span class="op">:</span> setfield!<span class="op">:</span> immutable <span class="kw">struct</span> of <span class="kw">type</span> mycomplex1 cannot be changed</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>c1</code> 을 <code>mycomplex1</code> 타입으로 생성한 후 실수부를 <code>c1.re</code> 로 접근할 수는 있지만 그것을 바꾸면 에러가 발생합니다. 필드를 바꿀 수 있는 복합타입은 <code>struct</code> 앞에 <code>mutable</code> 키워드를 넣습니다.</p>
+<p>앞서 언급했듯이 복합타입은 기본적으로 immutable 입니다. 이 말은 한 번 생성된 복합타입의 필드를 바꿀 수 없다는 뜻입니다. 필드를 바꿀 수 있는 복합타입은 <code>struct</code> 앞에 <code>mutable</code> 키워드를 넣습니다.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="kw">mutable struct</span> mycomplex2{T<span class="op">&lt;:</span><span class="dt">Real</span>} <span class="op">&lt;:</span><span class="dt"> Number</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        re<span class="op">::</span><span class="dt">T</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="cn">im</span><span class="op">::</span><span class="dt">T</span></span>
@@ -444,18 +473,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sec-parametric_types" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="sec-parametric_types"><span class="header-section-number">3</span> 타입 매개변수를 갖는 타입 (Parametric types)</h2>
 <p>우리가 앞서 <code>Complex</code> 에 대한 정의를 보았을 때 <code>Complex{T&lt;:Real}</code> 로 정의했습니다. 이렇게 특정 타입 매개변수를 갖는 복합 타입을 정의 할 수 있으며, 타입 매개변수는 하나 이상이어도 됩니다. 예를 들어 실수를 정수와 <span class="math inline">\([0.0, 1.0)\)</span> 사이의 실수로 나누는 <code>dFloat</code> 라는 두개의 타입 매개변수를 갖는 복합 타입을 아래와 같이 정의해 봅시다. 외부 생성자를 사용했으며 다음에 알아볼 <a href="../../src/introduction_to_julia/09_I_pretty_printing.html">보기좋게 출력하는법</a>을 미리 사용했습니다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> dFloat{N<span class="op">&lt;:</span><span class="dt">Integer</span>, T<span class="op">&lt;:</span><span class="dt">Real</span>} <span class="op">&lt;:</span><span class="dt">Number</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> dFloat{N<span class="op">&lt;:</span><span class="dt">Integer</span>, T<span class="op">&lt;:</span><span class="dt">Real</span>} <span class="op">&lt;:</span><span class="dt"> Number</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    vint<span class="op">::</span><span class="dt">N</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    vfloat<span class="op">::</span><span class="dt">T</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">dFloat</span>(x<span class="op">&lt;:</span><span class="dt">Real</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    vint <span class="op">=</span> <span class="fu">floor</span>(<span class="dt">Int64</span>, x)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    vfloat <span class="op">=</span> x<span class="op">-</span>vint</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dFloat</span>(vint, vfloat)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">show</span>(io<span class="op">::</span><span class="dt">IO</span>, v<span class="op">::</span><span class="dt">dFloat</span>) <span class="op">=</span> <span class="fu">println</span>(v.vint , <span class="st">"+"</span>, v.vfloat)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">dFloat</span>(x<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span><span class="dt">{typeof(x), Float64}</span>(x, <span class="fl">0.0</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">dFloat</span>(x<span class="op">::</span><span class="dt">AbstractFloat</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        vint <span class="op">=</span> <span class="fu">floor</span>(<span class="dt">Int64</span>, x)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span><span class="dt">{Int64, typeof(x)}</span>(vint, x<span class="op">-</span>vint)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">dFloat</span>(x<span class="op">::</span><span class="dt">Integer</span>, y<span class="op">::</span><span class="dt">Real</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        vint <span class="op">=</span> <span class="fu">floor</span>(<span class="fu">typeof</span>(x), x<span class="op">+</span>y)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        vfloat <span class="op">=</span> (x <span class="op">+</span> y) <span class="op">-</span> vint</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span><span class="dt">{typeof(x), typeof(vfloat)}</span>(vint, vfloat)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">show</span>(io<span class="op">::</span><span class="dt">IO</span>, v<span class="op">::</span><span class="dt">dFloat</span>) <span class="op">=</span> <span class="fu">println</span>(v.vint , <span class="st">"+"</span>, v.vfloat)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<p>기본생성자를 변경하기 위해 내부생성자를 사용했습니다. 그 결과는 다음과 같습니다.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [1]: p = dFloat(4)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 4+0.0</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>In [2]: q = dFloat(3.3)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>Out[2]: 3+0.2999999999999998</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>In [3]: dFloat(-5.2)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>Out[3]: -6+0.7999999999999998</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>In [4]: dFloat(3, 4.2)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>Out[4]: 7+0.20000000000000018</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>In [5]: dFloat(-3, 4.2)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>Out[5]: 1+0.20000000000000018</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>In [6]: dFloat(-3, -4.2)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>Out[6]: -8+0.7999999999999998</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

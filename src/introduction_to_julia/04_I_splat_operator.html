@@ -99,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -122,11 +122,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../../src/introduction_to_julia/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">Introduction to Julia</span></a>
+ <span class="menu-text">Julia 프로그래밍 언어</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="">
- <span class="menu-text">Numerical Analysis using Julia</span></a>
+ <span class="menu-text">Julia 언어를 이용한 수치해석</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../src/tools/tools.html" rel="" target="">
@@ -147,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/04_I_splat_operator.html">Interude : Splat 연산자</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/index.html">Julia 언어의 기초</a></li><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/04_I_splat_operator.html">Interude : Splat 연산자</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -156,105 +156,140 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Julia 언어의 기초</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Julia</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/01_julia_language.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1장 설치와 환경 구성</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/02_variables_basic_types.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2장 변수와 기본 타입</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/03_functions_and_operators.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3장 함수와 연산자</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/04_containers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4장 컨테이너</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/04_I_splat_operator.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Interude : Splat 연산자</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/05_control_flows.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5장 흐름 제어</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/06_arrays.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6장 배열</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/06_I_function_composition_and_piping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 함수의 합성과 전달</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/07_module_package.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7장 이름공간, 모듈, 패키지</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/07_I_sort.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 정렬</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/08_type_hierarchy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8장 타입의 계층구조와 메서드 디스패치</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/08_I_documentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 문서화</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/09_composite_types.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9장 복합 타입</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/09_I_pretty_printing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interude : 보기 좋게 출력하기</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/10_metaprogramming_and_macro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10장 메타프로그래밍과 매크로</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Julia 언어의 활용</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/applications_of_julia/fileio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">파일시스템과 파일입출력</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/applications_of_julia/leastsquarefit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">비선형 최소제곱 피팅</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -267,9 +302,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#interude-splat-연산자" id="toc-interude-splat-연산자" class="nav-link active" data-scroll-target="#interude-splat-연산자">Interude : Splat 연산자</a>
   <ul class="collapse">
-  <li><a href="#컨테이너에-대한-사용" id="toc-컨테이너에-대한-사용" class="nav-link" data-scroll-target="#컨테이너에-대한-사용">컨테이너에 대한 사용</a></li>
-  <li><a href="#함수의-정의에서의-인자에-대한-사용" id="toc-함수의-정의에서의-인자에-대한-사용" class="nav-link" data-scroll-target="#함수의-정의에서의-인자에-대한-사용">함수의 정의에서의 인자에 대한 사용</a></li>
-  <li><a href="#함수를-실행시킬때의-인자에-대한-사용" id="toc-함수를-실행시킬때의-인자에-대한-사용" class="nav-link" data-scroll-target="#함수를-실행시킬때의-인자에-대한-사용">함수를 실행시킬때의 인자에 대한 사용</a></li>
+  <li><a href="#sec-splat_operator_for_containers" id="toc-sec-splat_operator_for_containers" class="nav-link" data-scroll-target="#sec-splat_operator_for_containers">컨테이너에 대한 사용법</a></li>
+  <li><a href="#sec-splat_operator_in_function_definition" id="toc-sec-splat_operator_in_function_definition" class="nav-link" data-scroll-target="#sec-splat_operator_in_function_definition">함수를 정의할 때의 사용법</a></li>
+  <li><a href="#sec-splat_operator_in_function_argument" id="toc-sec-splat_operator_in_function_argument" class="nav-link" data-scroll-target="#sec-splat_operator_in_function_argument">함수를 실행시킬때 인자에서의 사용법</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -283,8 +318,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 class="unnumbered">Interude : Splat 연산자</h1>
 <p><a href="../../src/introduction_to_julia/04_containers.html#sec-splat">… 연산자</a> 에서 튜플이나 배열의 첫번째 몇개만 취할 때 <code>...</code> 연산자를 사용 할 수 있다는 것을 알아보았습니다. 여기서는 함수의 Splat 연산자 <code>...</code> 에 대해 좀 더 자세히 알아봅시다.</p>
 <p><br></p>
-<section id="컨테이너에-대한-사용" class="level3">
-<h3 class="anchored" data-anchor-id="컨테이너에-대한-사용">컨테이너에 대한 사용</h3>
+<section id="sec-splat_operator_for_containers" class="level3">
+<h3 class="anchored" data-anchor-id="sec-splat_operator_for_containers">컨테이너에 대한 사용법</h3>
 <p>튜플이나 <code>StepRange</code> 혹은 1차원 배열과 같이 순서가 있는 컨테이너에 대해서는 직관적으로 알 수 있습니다.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>In [1]: a1, a2, a3... = (1, "a", (2, 3), 4, sin)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Out[1]: (1, "a", (2, 3), 4, sin)</span>
@@ -331,8 +366,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a> <span class="fl">6</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
-<section id="함수의-정의에서의-인자에-대한-사용" class="level2">
-<h2 class="anchored" data-anchor-id="함수의-정의에서의-인자에-대한-사용">함수의 정의에서의 인자에 대한 사용</h2>
+<section id="sec-splat_operator_in_function_definition" class="level2">
+<h2 class="anchored" data-anchor-id="sec-splat_operator_in_function_definition">함수를 정의할 때의 사용법</h2>
 <p>다음을 봅시다.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [6]: function ps(xs...)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        println(typeof(xs))</span>
@@ -353,8 +388,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>Out[10]: (2, 3)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
-<section id="함수를-실행시킬때의-인자에-대한-사용" class="level2">
-<h2 class="anchored" data-anchor-id="함수를-실행시킬때의-인자에-대한-사용">함수를 실행시킬때의 인자에 대한 사용</h2>
+<section id="sec-splat_operator_in_function_argument" class="level2">
+<h2 class="anchored" data-anchor-id="sec-splat_operator_in_function_argument">함수를 실행시킬때 인자에서의 사용법</h2>
 <p>함수의 정의에서는 인자를 튜플로 묶는다면 함수를 사용할 때는 컨테이너를 풉니다. 예를 들어,</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [12]: function ps3(a1, a2, a3)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>         return a1+(a2*a3)</span>
