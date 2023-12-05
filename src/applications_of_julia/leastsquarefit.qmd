@@ -1,0 +1,11 @@
+---
+title: "비선형 최소제곱 피팅"
+# language: ../_language-ko_custom.yml 
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+어떤 실험 결과가 $m$ 개의 독립 변수에 대해 $n$ 차원 벡터로 발생한다고 하자. 이에 대해 모델 함수 $\boldsymbol{F}:\mathbb{R}^m \to \mathbb{R}^n$ 

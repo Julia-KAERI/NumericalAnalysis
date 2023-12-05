@@ -69,6 +69,8 @@ website:
           contents :
           - text : 파일시스템과 파일입출력
             href : src/applications_of_julia/fileio.qmd
+          - text : 비선형 최소제곱 피팅
+            href : src/applications_of_julia/leastsquarefit.qmd
     
     - title : "Numerical Analysis using Julia"
       collapse-level: 2
