@@ -23,6 +23,10 @@ website:
       - href : src/tools/tools.qmd
         text : "Tools"
       - about.qmd
+    tools:
+      - icon: envelope
+        href: mailto:julia.kaeri@gmail.com
+
 
   sidebar:
     - title : "Introduction to Julia"
