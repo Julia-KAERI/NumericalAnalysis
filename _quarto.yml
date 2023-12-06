@@ -7,7 +7,7 @@ project:
 
 
 website:
-  title: "Physics, Math & Computing"
+  title: "Julia & Numerical Anlaysis"
   page-navigation: true
   navbar:
     background: primary
