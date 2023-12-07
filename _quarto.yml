@@ -47,7 +47,7 @@ website:
             href : src/introduction_to_julia/03_functions_and_operators.qmd
           - text : "4장 컨테이너"
             href : src/introduction_to_julia/04_containers.qmd
-          - text : "Interude : Splat 연산자"
+          - text : "Interude : `...` 연산자"
             href : src/introduction_to_julia/04_I_splat_operator.qmd
           - text : "5장 흐름 제어"
             href : src/introduction_to_julia/05_control_flows.qmd
