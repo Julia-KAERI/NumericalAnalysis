@@ -33,7 +33,7 @@ $$
 
 $\dfrac{1}{p}+ \dfrac{1}{q}$ 로부터 $p-1 = \dfrac{1}{q-1}$ 임을 안다. 따라서, $y=x^{p-1}$ 이면 $x=y^{q-1}$ 이다. 이제 $\displaystyle \int_0^a x^{p-1}\, dx + \int_0^b y^{q-1}\, dy$ 를 생각하자. 아래 그림을 생각하면, 위의 적분이 $ab$ 보다 항상 크다는 것을 알 수 있다. $\square$
 :::
-![Plots for Young's inequality](young_inequality.png){width=100%}
+![Plots for Young's inequality](appendix/young_inequality.png){width=100%}
 
 </br>
 
@@ -45,7 +45,7 @@ $p\ge 1$ 이며 $1/p+1/q =1$ 일 때 다음이 성립한다.
 $$
 \begin{aligned}
 \text{H\"older's inequality} : & \sum_{i=1}^n |u_i v_i| \le \left(\sum_{i=1}^n |u_i|^p\right)^{1/p}\left(\sum_{i=1}^n |v_i|^q\right)^{1/q}, \\
-\text{Mincowski inequality}  : & \left(\sum_{i=1}^n |u_i+v_i|^p\right)^{1/p} = \left(\sum_{i=1}^n |u_i|^p\right)^{1/p} + \left(\sum_{i=1}^n |v_i|^q\right)^{1/q}.
+\text{Mincowski inequality}  : & \left(\sum_{i=1}^n |u_i+v_i|^p\right)^{1/p} \le \left(\sum_{i=1}^n |u_i|^p\right)^{1/p} + \left(\sum_{i=1}^n |v_i|^q\right)^{1/q}.
 \end{aligned}
 $$
 
