@@ -83,6 +83,8 @@ website:
         - src/numerical_analysis_using_julia/index.qmd
         - text: "1장 수치해석과 알고리즘"
           href: src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.qmd
+        - text: "Interude : 표기법과 명제들"
+          href: src/numerical_analysis_using_julia/01x_notations_and_propositions.qmd
         - text: "2장 수치해석 입문 : 선형 시스템과 다항식"
           href: src/numerical_analysis_using_julia/02_linear_system.qmd
         - text: "3장 Julia 에서의 행렬 계산"
