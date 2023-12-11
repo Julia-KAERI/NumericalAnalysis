@@ -18,7 +18,7 @@ crossref:
 
 #### 수
 
-자연수 전체의 집합을 $\mathbb{Z}$ 라고 한다. 양의 정수의 집합을 $\mathbb{Z}_+$ 라고 하고 음의 정수의 집합을 $\mathbb{Z}_-$ 라고 한다. 유리수의 집합을 $\mathbb{Q}$ 라고 하고 실수의 집합을 $\mathbb{R}$, 복소수의 집합을 $\mathbb{C}$ 라고 한다.
+정수의 집합을 $\mathbb{Z}$ 라고 한다. 양의 정수의 집합을 $\mathbb{Z}_+$ 라고 하고 음의 정수의 집합을 $\mathbb{Z}_-$ 라고 한다. 유리수의 집합을 $\mathbb{Q}$ 라고 하고 실수의 집합을 $\mathbb{R}$, 복소수의 집합을 $\mathbb{C}$ 라고 한다. 실수의 집합과 복소수의 집합은 체(field) 라고 불리우는 사칙연산이 잘 정의되는 집합이다. 체는 $\mathbb{F}$ 로 표기한다.
 
 :::
 
@@ -34,19 +34,59 @@ crossref:
 
 </br>
 
-::: {#def-matrix}
+::: {#def-kronecker_delta}
 
-#### 벡터와 행렬
+#### 크로네커 델타 함수
 
-실수 성분을 갖는 $m \times n$ 행렬 전체의 집합을 $\mathcal{M}_{m\times n}(\mathbb{R})$ 이라고 한다. 복소수 성분을 갖는 $m \times n$ 행렬 전체의 집합을 $\mathcal{M}_{m \times n}(\mathbb{C})$ 라고 하며, 실수/복소수 여부가 일단 고정되기만 하면 상관 없는 경우 $\mathcal{M}_{m \times n}(\mathbb{F})$ 라고 한다. 행렬 $\boldsymbol{A}$ 의 $i$ 행 $j$ 열 성분은 $\boldsymbol{A}_{ij}$ 혹은 $A_{ij}$ 와 같이 표기한다.
+정수 $i, j$ 에 대해 
 
-$n\times 1$ 열벡터의 집합을 $\mathcal{M}_n (\mathbb{F})$ 라고 한다. 실수/복소수 여부가 정해져 있을 경우 $\mathbb{F}$ 는 $\mathbb{R}$ 이나 $\mathbb{C}$ 가 된다. $\boldsymbol{v}\in \mathcal{M}_n (\mathbb{F})$ 의 $j$ 행 성분은 $v_j$ 로 표기한다. $\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대해 $B_{ij} = A_{ji}$ 인 행렬 $\boldsymbol{B}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 를 $\boldsymbol{A}$ 의 **전치 행렬 (transposed matrix)** 이라고 하며 $\boldsymbol{A}^T$ 라고 쓴다. $\boldsymbol{A}$ 가 복소행렬일 때 $C_{ij} = \overline{A_{ji}}$ 인 행렬 $\boldsymbol{C}$ 를 **수반 행렬 (adjoint matrix)** 라고 하며 $\boldsymbol{A}^\ast$ 라고 쓴다. $\boldsymbol{A}=\boldsymbol{A}^T$ 이면 **대칭 행렬** 이라고 하고 $\boldsymbol{A}=\boldsymbol{A}^\ast$ 이면 **에르미트 행렬(Hermitian matrix)** 이라고 한다.
+$$
+\delta _{ij} = \left\{\begin{array}{ll} 1 \qquad &; \text{if } i = j, \\ 0 &; \text{if }i \ne j \end{array} \right.
+$$
+
+로 정의된 함수 $\delta_{ij}$ 를 크로네커 델타 함수라고 한다.
+
+:::
+
+
+</br>
+
+::: {#def-vector_space}
+#### 벡터공간과 벡터
+
+어떤 집합 $V$ 와 체 $\mathbb{F}$ 에 대해 $V$ 의 원소 사이의 덧셈과 $\mathbb{F}$ 와 $V$ 사이의 곱셈이 정의되어 있으며, 다음이 성립하면 $V$ 를 **$\mathbb{F}$ 위에서의 벡터공간** 혹은 **$\mathbb{F}$-벡터공간** 이라 한다.
+
+1. $u,\,v \in V ,\, a\in \mathbb{F} \implies u+v = v+u \in V$, $av\in V$,
+
+2. $u,\,v,\,w \in V,\, a,\, b\in \mathbb{F} \implies (u + v) + w = u+(v+w)$, $(ab)v = a(bv)$,
+
+3. $\exists 0_V\in V\, \forall v\in V,\, v + 0_V=0_V+v = v$,
+
+4. $\forall v\in V \;\exists w\in V$ s.t. $v + w = 0_V$,
+
+5. $\forall v \in V \implies 1v =v$,
+
+6.  $u,\,v \in V,\, a,\, b\in \mathbb{F} \implies a(u+v)=au + av,\, (a+b)v = av+bv$.
+
+벡터공간 $V$ 가 정의되었을 때 벡터공간의 원소를 **벡터(vector)** 라 한다. $\mathbb{R}$ 위에서의 벡터 공간을 **실벡터공간(real vector space)** 혹은 **$\mathbb{R}$-벡터공간**, $\mathbb{C}$ 위에서의 벡터 공간을 **복소벡터공간(complex vector space)** 혹은 **$\mathbb{C}$-벡터공간** 이라 한다. $0_V$ 는 영벡터라고 불린다. 
 
 :::
 
 </br>
 
-이미 사용했지만 행렬은 $\boldsymbol{A}$ 와 같이 대문자를 사용하며 굵은 글씨체의 글꼴을 사용한다. 열벡터, 즉 벡터의 행렬표현의 경우 $\boldsymbol{v}$ 와 같이 굵은 글씨체의 소문자를 사용한다. 집합의 경우는 $X, A$ 와 같이 대문자를 집합의 원소의 경우는 소문자를 사용한다. 학문적인 관례에 따르거나, 혹은 특별한 필요가 있을 경우 특별한 언급과 함께 이 원칙에 어긋날 수 있다.
+::: {#def-matrix}
+
+#### 행렬
+
+실수 성분을 갖는 $m \times n$ 행렬 전체의 집합을 $\mathcal{M}_{m\times n}(\mathbb{R})$ 이라고 한다. 복소수 성분을 갖는 $m \times n$ 행렬 전체의 집합을 $\mathcal{M}_{m \times n}(\mathbb{C})$ 라고 하며, 실수/복소수 여부가 일단 고정되기만 하면 상관 없는 경우 $\mathcal{M}_{m \times n}(\mathbb{F})$ 라고 한다. 행렬 $\boldsymbol{A}$ 의 $i$ 행 $j$ 열 성분은 $(\boldsymbol{A})_{ij}$ 혹은 $A_{ij}$ 와 같이 표기한다.
+
+$n\times 1$ 행렬의 집합을 특히 $\mathcal{M}_n (\mathbb{F})$ 라고 한다. 실수/복소수 여부가 정해져 있을 경우 $\mathbb{F}$ 는 $\mathbb{R}$ 이나 $\mathbb{C}$ 가 된다. $\boldsymbol{v}\in \mathcal{M}_n (\mathbb{F})$ 의 $j$ 행 성분은 $v_j$ 로 표기한다. $\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대해 $B_{ij} = A_{ji}$ 인 행렬 $\boldsymbol{B}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 를 $\boldsymbol{A}$ 의 **전치 행렬 (transposed matrix)** 이라고 하며 $\boldsymbol{A}^T$ 라고 쓴다. $\boldsymbol{A}=\boldsymbol{A}^T$ 일 때 $\boldsymbol{A}$ 를 **대칭 행렬(symmetric matrix)** 이라고 한다. $\boldsymbol{A}$ 가 복소행렬일 때 $C_{ij} = \overline{A_{ji}}$ 인 행렬 $\boldsymbol{C}$ 를 **수반 행렬 (adjoint matrix)** 라고 하며 $\boldsymbol{A}^\ast$ 라고 쓴다. $\boldsymbol{A}=\boldsymbol{A}^T$ 이면 **대칭 행렬** 이라고 하고 $\boldsymbol{A}=\boldsymbol{A}^\ast$ 이면 **에르미트 행렬(Hermitian matrix)** 이라고 한다.
+
+:::
+
+</br>
+
+이미 사용했지만 행렬은 $\boldsymbol{A}$ 와 같이 기울어진 굵은 글씨체 대문자로 표현한다. 열벡터, 즉 벡터의 행렬표현의 경우 $\boldsymbol{v}$ 와 같이 기울어진  굵은 글씨체의 소문자로 표현한다. 집합의 경우는 $X, A$ 와 같이 대문자를, 집합의 원소의 경우는 소문자를 사용한다. 학문적인 관례에 따르거나, 혹은 특별한 필요가 있을 경우 언급과 함께 이 원칙에 어긋날 수 있다.
 
 
 </br>
@@ -58,37 +98,46 @@ $n\times 1$ 열벡터의 집합을 $\mathcal{M}_n (\mathbb{F})$ 라고 한다. �
 
 #### 선형 결합, 선형 독립, 기저
 
-$\mathbb{F}$-벡터공간 $V$ 와 $\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m\in V$ 에 대해 
+$\mathbb{F}$-벡터공간 $V$ 와 $v_1,\ldots,\,v_m\in V$ 에 대해 
 
 $$
-\boldsymbol{v} = a_1\boldsymbol{v}_1 + \cdots + a_m \boldsymbol{v}_m ,\qquad a_1,\ldots,\,a_m\in \mathbb{F}
+v = a_1v_1 + \cdots + a_mv_m ,\qquad a_1,\ldots,\,a_m\in \mathbb{F}
 $$ {#eq-linear_combination}
 
-일 때 $\boldsymbol{v}$ 는 $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m\}$ 의 **선형 결합**이라고 한다. $\text{span}\, (\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m)$ 은 $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m\}$ 의 선형결합인 모든 벡터의 집합이다. 즉, 
+일 때 $v$ 는 $\{v_1,\ldots,\,v_m\}$ 의 **선형 결합**이라고 한다. $\text{span}\, (v_1,\ldots,\,v_m)$ 은 $\{v_1,\ldots,\,v_m\}$ 의 선형결합인 모든 벡터의 집합이다. 즉, 
 
 $$
-\text{span}\, (\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m) =\{a_1\boldsymbol{v}_1 + \cdots + a_m \boldsymbol{v}_m: a_1,\ldots,\,a_m\in \mathbb{F}\}
+\text{span}\, (v_1,\ldots,\,v_m) =\{a_1v_1 + \cdots + a_m v_m: a_1,\ldots,\,a_m\in \mathbb{F}\}
 $$ {#eq-span_of_vectors}
 
-이다. $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m\}$ 에 대해
+이다. $\{v_1,\ldots,\,v_m\}$ 에 대해
 
 $$
-a_1\boldsymbol{v}_1 + \cdots + a_m \boldsymbol{v}_m = \boldsymbol{0} \implies a_1= \cdots =a_m=0
+a_1v_1 + \cdots + a_m v_m = 0_V \implies a_1= \cdots =a_m=0
 $$
 
-일 때 $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m\}$ 이 **선형 독립** 이라고 한다. 선형 독립이 아닌 벡터의 집합을 **선형 종속** 이라고 한다.
+일 때 $\{v_1,\ldots,\,v_m\}$ 이 **선형 독립** 이라고 한다. 선형 독립이 아닌 벡터의 집합을 **선형 종속** 이라고 한다.
 
-$\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m\}$ 이 선형 독립이며 $\text{span}\, (\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m) = V$ 일 때 $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_m\}$ 를 $V$ 의 기저라고 한다. 유한개의 기저를 갖는 벡터공간을 **유한차원 벡터공간이**라고 한다. 유한차원 벡터공간이 아닌 벡터공간을 **무한차원 벡터공간**이라고 한다.
-
-
+$\{v_1,\ldots,\,v_m\}$ 이 선형 독립이며 $\text{span}\, (v_1,\ldots,\,v_m) = V$ 일 때 $\{v_1,\ldots,\,v_m\}$ 를 $V$ 의 **기저(basis)** 라고 한다. 유한개의 벡터로 이루어진 기저를 갖는 벡터공간을 **유한차원 벡터공간이**라고 한다. 유한차원 벡터공간이 아닌 벡터공간을 **무한차원 벡터공간**이라고 한다.
 
 :::
 
 </br>
 
+
+
 ::: {#prp-dimension_of_vector_space}
 
-벡터공간의 기저는 항상 찾을 수 있다. 벡터공간의 기저는 유일하지 않다. 유한차원 벡터공간의 기저에 속하는 벡터의 갯수는 정해져 있으며 이 갯수를 벡터공간의 **차원(dimension)** 이라고 한다. 벡터공간 $V$ 의 차원은 $\dim (V)$ 로 표기한다. $\dim(\mathcal{M}_n (\mathbb{F})) = n$ 이다.
+벡터공간의 기저는 항상 찾을 수 있다. 또한 벡터공간의 기저는 유일하지 않다. 그러나 유한차원 벡터공간의 기저에 포함되는 벡터의 갯수는 정해져 있으며 이 갯수를 벡터공간의 **차원(dimension)** 이라고 한다. 벡터공간 $V$ 의 차원은 $\dim (V)$ 로 표기한다. $\dim(\mathcal{M}_n (\mathbb{F})) = n$ 이다.
+
+:::
+
+</br>
+
+::: {#prp-uniqueness_of_coefficients}
+
+벡터공간 $V$ 의 기저 $\mathcal{B}_V = \{v_1,\ldots,\,v_m\}$ 에 대해 벡터 $v\in V$ 를 $\mathcal{B}_V$ 의 선형결합으로 표현하는 방법은 유일하다. 
+
 
 :::
 
@@ -104,6 +153,145 @@ $U$ 가 벡터공간 $V$ 의 부분집합이며 벡터공간일 때 $U$ 를 $V$ 
 ::: {#prp-dimension_of_subspaces}
 
 $U$ 가 유한차원 벡터공간 $V$ 의 부분부분공간이면 $U$ 도 유한차원 벡터공간이며 $\dim (U) \le \dim (V)$ 이다. $\dim (U)= \dim (V)$ 이면 $U=V$ 이다.
+
+:::
+
+</br>
+
+::: {#def-linear_map}
+
+$\mathbb{F}$-벡터공간 $U,\,V$ 에 대해 함수 $T:U \to F$ 가 다음을 만족하면 **선형 사상(linear map)** 이라고 한다.
+
+$$
+\forall u_1,\,u_2\in U,\, \forall c\in \mathbb{F}, \qquad T(u_1+cu_2) =  T(u_1)+cT(u_2).
+$$
+
+$U \mapsto V$ 선형 사상의 집합을 $\mathcal{L}(U, V)$ 라고 표기한다. 자기 자신으로의 선형사상을 **선형 연산자 (linear operator)** 라고 하고 $\mathcal{L}(U)$ 처럼 표현한다.
+:::
+
+</br>
+
+::: {#prp-linear_operators_are_vector_space}
+
+#### 선형연산자의 합과 스칼라곱
+
+$\mathbb{F}$-벡터공간 $U,\,V$ 에서의 선형사상의 집합 $\mathcal{L}(U, V)$ 에 더하기와 스칼라곱 연산을 다음과 같이 정의한다. $T,\,S\in \mathcal{L}(U, V)$ 이고 $c\in \mathbb{F}$ 일 때 $u\in U$ 에 대해
+
+$$
+\begin{aligned}
+(T+S)(u) &= T(u)+S(u), \\
+(cT)(u) & =  c(T(u)).
+\end{aligned}
+$$
+
+이렇게 정의된 연산에 대해 $\mathcal{L}(U, V)$ 는 벡터공간이다.
+
+:::
+
+</br>
+
+::: {#prp-composition_of_linear_map}
+
+$S\in \mathcal{L}(U, V)$, $T\in \mathcal{L}(V, W)$ 일 때 선형사상의 합성 $T \circ S$ 도 선형사상이다.
+
+:::
+
+</br>
+
+::: {#prp-uniqueness_of_linear_map}
+
+$T\in \mathcal{L}(U, V)$ 는 $U$ 의 어떤 기저 $\{u_1,\ldots,\,u_m\}$ 에 대해 $T(u_1)=v_1, \ldots,\,T(u_m)=v_m$ 을 만족하는 선형사상은 유일하다.  
+
+:::
+
+</br>
+
+::: {#prp-form_of_linear_map}
+
+$T\in \mathcal{L}(U, V)$ 일 때 $n=\dim (U), m = \dim (V)$ 라고 하자. $\{u_1,\ldots,\,u_n\}$ 이 $U$ 의 기저이고 $\{v_1,\ldots,\,v_m\}$ 이 $V$ 의 기저일 때 선형사상 $T$ 는 $u_i$ 에 대해 항상
+
+$$
+T (u_i) =  A_{1i}v_1 + \cdots + A_{mj}v_m  = \sum_{j=1}^m A_{ji}v_j, \qquad i=1,\ldots, n
+$$ {#eq-linear_map_for_basis}
+
+꼴이다.
+
+:::
+
+</br>
+
+::: {#def-matrix_represenation_of_vectors_and_linear_map}
+
+#### 벡터와 선형 사상의 행렬 표현
+$T\in \mathcal{L}(U, V)$ 이고 $\mathcal{B}_U = \{u_1,\ldots,\,u_m\}$ 과 $\mathcal{B}_V = \{v_1,\ldots,\,v_n\}$ 이 각각 $U$ 와 $V$ 의 기저라고 하자. $u = a_1 u_1 + a_m u_m$ 일 때 $u$ 를 $m \times 1$ 행렬로 $\begin{bmatrix} a_1 & \cdots & a_m\end{bmatrix}^T$ 와 같이 $m \times 1$ 행렬로 표현하는 것을 $u$ 의 $\mathcal{B}_U$ 기저에 대한 행렬 표현이라고 하며 $[u]_{\mathcal{B}_U}$ 로 표기한다. 역시 $v= b_1 v_1 + \cdots + b_n v_n$ 일 때 $[v]_{\mathcal{B}_V} = \begin{bmatrix}b_1 & \cdots & b_n\end{bmatrix}^T$ 이다. 
+
+$T$ 는 $\mathcal{B}_U,\,\mathcal{B}_V$ 에 대해 @eq-linear_map_for_basis 와 같이 정의되므로 행렬 형태로 쓸 수 있으며 이것을 $[T]_{\mathcal{B}_U, \mathcal{B}_V}$ 라고 표기한다. 즉 $([T]_{\mathcal{B}_U, \mathcal{B}_V})_{ij} = A_{ij}$ 이다. 
+
+:::
+
+
+</br>
+
+::: {#prp-uniqueness_of_matrix_representaiton}
+
+정해진 기저에 대해 벡터와 선형사상의 행렬표현은 유일하다.
+
+:::
+
+</br>
+
+::: {#prp-isomorphism_for_vector_space}
+
+@def-matrix_represenation_of_vectors_and_linear_map 의 정의, 표기법과 일반적인 행렬의 합과 스칼라곱, 행렬간 곱 연산에 대해
+
+$$
+T(u) =v \iff [T]_{\mathcal{B}_U, \mathcal{B}_V} [u]_{\mathcal{B}_U} = [v]_{\mathcal{B}_V}
+$$
+
+가 성립한다. $T,\,S\in \mathcal{L}(U, V)$, $u_1,\,u_2\in U$, $c\in \mathbb{F}$ 에 대해
+
+$$
+\begin{aligned}
+T(u_1+cu_2) = v &\iff [T]_{\mathcal{B}_U,\mathcal{B}_V}[u_1]_{\mathcal{B}_U} + c[T]_{\mathcal{B}_U,\mathcal{B}_V}[u_2]_{\mathcal{B}_U} = [v]_{\mathcal{B}_V}, \\
+(T+cS)(u) = v &\iff ([T]_{\mathcal{B}_U,\mathcal{B}_V}+c[S]_{\mathcal{B}_U,\mathcal{B}_V})[u]_{\mathcal{B}_U} = [v]_{\mathcal{B}_V}, \\
+\end{aligned}
+$$
+
+가 성립한다. $T\in \mathcal{L}(U, V),\, S\in \mathcal{L}(V, W)$ 이고 $\mathcal{B}_U,\, \mathcal{B}_V,\, \mathcal{B}_W$ 가 각각 $U, V, W$ 의 기저 일 때,
+
+$$
+(S \circ T)(u) = w \iff [S]_{\mathcal{B}_V, \mathcal{B}_W} [T]_{\mathcal{B}_U, \mathcal{B}_V} [u]_{\mathcal{B}_U} = [w]_{\mathcal{B}_W}
+$$
+
+가 성립한다.
+
+:::
+
+<br>
+
+
+::: {#prp-isomorphism}
+
+두 벡터공간 사이에 전단사 함수가 존재할 때 두 벡터공간이 **동형 (isomorphic)** 이라고 하며, 두 벡터공간 사이의 전단사 함수를 **동형 사상(isomorphism)** 이라고 한다. 두 벡터공간 $U,\,V$ 가 동형일 때 $U\cong V$ 로 표현한다. 
+
+($1$) 유한차원 벡터공간 $U,\,V$ 에 대해 다음이 성립한다.
+
+$$
+U \cong V \iff \dim(U) = \dim (V).
+$$
+
+($2$) $n$ 차원 $\mathbb{F}$-벡터공간과 $\mathcal{M}_n (\mathbb{F})$ 는 동형이다. 
+
+($3$) $n$ 차원 $\mathbb{F}$-벡터공간 $U$ 와 $m$ 차원 $\mathbb{F}$-벡터공간 $V$ 사이의 선형사상의 집합 $\mathcal{L}(U, V)$ 와 $\mathcal{M}_{m \times n}(\mathbb{F})$ 는 동형이다.
+
+:::
+
+</br>
+
+
+::: {#prp-fundamental_theorem_of_linear_algebra}
+
+벡터와 선형사상은 그 행렬 표현과 본질적으로 같다.
 
 :::
 
@@ -223,6 +411,13 @@ $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n \}$ 가 $\mathcal{M}_n(\mathbb{F})
 
 :::
 
+</br>
+
+::: {#def-similar_matrix}
+
+두 정사각 행렬 $\boldsymbol{A},\, \boldsymbol{B}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 에 대해 어떤 가역 행렬 $\boldsymbol{P}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 가 존재하여 $\boldsymbol{A}= \boldsymbol{PBP}^{-1}$ 일 때 두 행렬을 **닮은 행렬** 이라고 한다. 행렬 $\boldsymbol{A}$ 와 가역행렬 $\boldsymbol{P}$ 에 대해 $\boldsymbol{PAP}^{-1}$ 로 바꾸는 것을 **닮음 변환 (similar transform)** 이라고 한다.
+
+:::
 
 </br> 
 
@@ -232,15 +427,15 @@ $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n \}$ 가 $\mathcal{M}_n(\mathbb{F})
 
 $\mathbb{F}$ 벡터공간 $V$ 에서 다음을 만족하는 함수 $\langle \,, \,\rangle : V \times V \to \mathbb{F}$ 를 **내적(inner product)** 이라고 한다.
 
-&emsp; ($1$) $\langle \boldsymbol{v},\boldsymbol{v}\rangle \ge 0$, 
+&emsp; ($1$) $\langle v,v\rangle \ge 0$, 
 
-&emsp; ($2$) $\langle \boldsymbol{v},\boldsymbol{v}\rangle = 0 \iff \boldsymbol{v}=\boldsymbol{0}$,
+&emsp; ($2$) $\langle v,v \rangle = 0 \iff v=0_V$,
 
-&emsp; ($3$) $\langle \boldsymbol{u}+\boldsymbol{u}', \boldsymbol{v}\rangle = \langle \boldsymbol{u}, \boldsymbol{v}\rangle + \langle \boldsymbol{u}', \boldsymbol{v}\rangle$, $\langle \boldsymbol{u}, \boldsymbol{v} + \boldsymbol{v}'\rangle = \langle \boldsymbol{u}, \boldsymbol{v}\rangle + \langle \boldsymbol{u}, \boldsymbol{v}'\rangle$, 
+&emsp; ($3$) $\langle u + u',v\rangle = \langle u, u\rangle + \langle u', u\rangle$, $\langle u, v + v'\rangle = \langle u, v\rangle + \langle u, v'\rangle$, 
 
-&emsp; ($5$) $c\in \mathbb{F}$ 에 대해 $\langle c\boldsymbol{u},\boldsymbol{v}\rangle = c\langle \boldsymbol{u}, \boldsymbol{v}\rangle$, $\langle \boldsymbol{u}, c\boldsymbol{v}\rangle = \overline{c} \langle \boldsymbol{u}, \boldsymbol{v}\rangle$, 
+&emsp; ($5$) $c\in \mathbb{F}$ 에 대해 $\langle cu,v\rangle = c\langle u, v\rangle$, $\langle u, cv\rangle = \overline{c} \langle u, v\rangle$, 
 
-&emsp; ($6$) $\langle \boldsymbol{u}, \boldsymbol{v} \rangle = \overline{\langle \boldsymbol{v}, \boldsymbol{u}\rangle}$. 
+&emsp; ($6$) $\langle u, v\rangle = \overline{\langle v, u\rangle}$. $\mathbb{R}$-내적벡터공간인 경우 $\langle u, v\rangle =\langle v, u\rangle$
 
 내적이 부여된 벡터공간을 **내적벡터공간** 이라고 한다. 두 백터의 내적이 $0$ 일 때 두 벡터는 서로 **직교한다(perpendicular, orthogonal)** 라고 한다. 
 
@@ -249,7 +444,7 @@ $\mathbb{F}$ 벡터공간 $V$ 에서 다음을 만족하는 함수 $\langle \,, 
 내적벡터 공간에서 **거리함수(노름, norm)** $\|\, \|:V \to [0, \infty)$ 를 
 
 $$
-\|\boldsymbol{v}\|=\sqrt{\langle \boldsymbol{v}, \boldsymbol{v}\rangle}
+\|v\|=\sqrt{\langle v, v\rangle}
 $$ {#eq-norm_in_innerproduct_space}
 
 로 정의 할 수 있다.
@@ -263,11 +458,13 @@ $$ {#eq-norm_in_innerproduct_space}
 
 $\mathbb{F}$-내적벡터공간의 거리 함수에 대해 다음이 성립한다.
 
-&emsp; ($1$) $\|\boldsymbol{v}\|\ge 0$ 이며 $\|\boldsymbol{v}\|=0 \iff \boldsymbol{v}=\boldsymbol{0}$ 이며,
+&emsp; ($1$) $\|v\|\ge 0$, 
 
-&emsp; ($2$) $c \in \mathbb{F}$ 에 대해 $\|c\boldsymbol{v}\|= |c|\|\boldsymbol{v}\|$,
+&emsp; ($2$) $\|v\|=0 \iff v=0_V$,
 
-&emsp; ($3$) $\|\boldsymbol{u}+\boldsymbol{v}\| \le \|\boldsymbol{u}\| + \|\boldsymbol{v}\|$.
+&emsp; ($3$) $c \in \mathbb{F}$ 에 대해 $\|cv\|= |c|\|v\|$,
+
+&emsp; ($4$) $\|u+v\| \le \|u\| + \|v\|$.
 :::
 
 
@@ -277,27 +474,127 @@ $\mathbb{F}$-내적벡터공간의 거리 함수에 대해 다음이 성립한�
 
 $\mathbb{F}$-내적벡터공간의 내적과 거리함수에 대해 다음이 성립한다.
 
-&emsp; ($1$) 피타고라스 정리 : $\langle \boldsymbol{u},\boldsymbol{v}\rangle = 0 \iff \|\boldsymbol{u}+\boldsymbol{v}\|^2 = \|\boldsymbol{u}\|^2 + \|\boldsymbol{v}\|^2$, 
+&emsp; ($1$) 피타고라스 정리 : $\langle u,v\rangle = 0 \iff \|u+v\|^2 = \|u\|^2 + \|v\|^2$, 
 
-&emsp; ($2$) 코시-슈바르츠 부등식 : $| \langle \boldsymbol{u},\boldsymbol{v}\rangle | \le \|\boldsymbol{u}\| \|\boldsymbol{v}\|$, 
+&emsp; ($2$) 코시-슈바르츠 부등식 : $| \langle u,v\rangle | \le \|u\| \|v\|$, 
 
-&emsp; ($3$) 삼각부등식 : $\|\boldsymbol{u}+ \boldsymbol{v}\| \le \|\boldsymbol{u}\| + \|\boldsymbol{v}\|$, 
+&emsp; ($3$) 삼각부등식 : $\|u+ v\| \le \|u\| + \|v\|$, 
 
-&emsp; ($4$) 평행사변형 공식 : $\|\boldsymbol{u}+\boldsymbol{v}\|^2 + \|\boldsymbol{u}-\boldsymbol{v}\|^2 = 2\|\boldsymbol{u}\|^2 + 2\|\boldsymbol{v}\|^2$.
+&emsp; ($4$) 평행사변형 공식 : $\|u+v\|^2 + \|u-v\|^2 = 2\|u\|^2 + 2\|v\|^2$.
 
 :::
 
 </br>
 
-::: {#def-orthonormal_basis}
+::: {#def-eigenspace}
 
-
+#### 고유값, 고유벡터, 고유공간
+행렬 $\boldsymbol{A}\in \mathcal{m \times n}(\mathbb{F})$ 에 대해 $\boldsymbol{Av}=\lambda \boldsymbol{v}$ 를 만족하는 $\lambda \in \mathbb{F}$ 와 $\boldsymbol{0}$ 이 아닌 $\boldsymbol{v}\in \mathcal{M}_n (\mathbb{F})$ 가 존재할 때 $\lambda$ 를 $\boldsymbol{A}$ 의 **고유값 (eigen value)** 이라고 하고 $\boldsymbol{v}$ 를 고유값 $\lambda$ 에 대한 $\boldsymbol{A}$ 의 **고유 벡터 (eigne vector)** 라고 한다. 고유값 $\lambda$ 를 갖는 고유벡터의 집합과 $\{\boldsymbol{0}\}$ 의 합집합을 고유값 $\lambda$ 에 대해 $\boldsymbol{A}$ 의 **고유 공간 (eigenspace)** 라고 하며, $E(\lambda, \boldsymbol{A})$ 라고 표기한다.
 
 ::::
+
+</br>
+
+::: {#def-characteristic_polynomial}
+
+#### 특성다항식
+
+정사각 행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 에 대해 $p_\boldsymbol{A}(\lambda) = \det(\lambda \boldsymbol{I}_n -\boldsymbol{A})$ 는 $\lambda$ 에 대한 $n$-차 다항식으로 행렬 $\boldsymbol{A}$ 의 **특성다항식 (characteristic polynomial)** 이라 한다. 
+
+:::
 
 
 </br>
 
+::: {#prp-characteristic_polynomial_and_eigenvalue}
+
+$\lambda \in \mathbb{F}$ 가 $\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 의 고유값이기 위한 필요충분조건은 $p_{\boldsymbol{A}}(\lambda) =  0$ 인 것이다. 
+
+:::
+
+</br>
+
+::: {#prp-eigenvlaues_in_complex_field}
+
+복소수체에서 정의된 정사각 행렬 $\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{C})$ 에 대한 고유값이 항상 존재한다.
+
+:::
+
+
+</br>
+
+::: {#prp-eigenvectors_with_different_eigenvalues_are_orthogonal}
+
+$\mathbb{F}$-내적 벡터 공간에서 서로 다른 고유값을 갖는 고유벡터들의 집합은 선형독립이다.
+
+:::
+</br>
+
+::: {#def-orthonormal_basis}
+
+#### 정규직교기저와 표준기저
+
+$\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n\}$ 이 벡터공간 $V$ 의 기저이며 $\langle \boldsymbol{v}_i,\,\boldsymbol{v}_j\rangle = \delta_{ij}$ 일 때 $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n\}$ 를 $V$ 의 **정규직교기저 (orthonormal basis)** 라고 한다. 벡터공간 $\mathcal{M}_n(\mathbb{F})$ 에 대해 $\hat{\boldsymbol{e}}_i \in \mathcal{M}_n (\mathbb{F})$ 를 $(\hat{\boldsymbol{e}}_i)_j = \delta_{ij}$ 로 정의하자. 이 때 $\{\hat{\boldsymbol{e}}_1, \ldots, \hat{\boldsymbol{e}}_n\}$ 는 $\mathcal{M}_n(\mathbb{F})$ 의 정규직교기저이며 특히 **표준 기저 (standard basis)** 라고 한다.
+
+:::
+
+</br>
+
+::: {#prp-orthonormal_basis}
+
+유한차원 내적벡터공간에서는 기저로부터 항상 정규직교기저를 얻을 수 있다. 그중 한가지 방법이 그람-슈미트(Gram-Schmidt) 방법이다
+
+:::
+
+</br>
+
+::: {#prp-coefficients_of_vector_in_innerproduct_space}
+
+$\mathbb{F}$-벡터공간 $V$ 의 정규직교기저 $\mathcal{B}_V = \{v_1,\ldots,\,v_n\}$ 에 대해 $v=\sum_{i} a_i v_i$ 라면 $a_i = \langle v,\,v_i\rangle$ 이다. 즉, 
+
+$$
+v = \sum_{i} \langle v,\, v_i\rangle v_i
+$$
+
+이다. 
+
+:::
+
+</br>
+
+::: {#prp-innerproduct_in_orthonormal_basis}
+
+$\mathbb{R}$-내적공간 $V$ 의 정규직교 기저 $\mathcal{B}_V$ 에 대한 벡터 $u, v$ 의 행렬표현 $\boldsymbol{u} = [u]_{\mathcal{B}_V},\, \boldsymbol{v} = [v]_{\mathcal{B}_V}$ 에 대해 $\langle u, v\rangle = \boldsymbol{v}^T\boldsymbol{u}$ 이다. $V$ 가 $\mathbb{C}$-내적공간일 경우 $\langle u, v\rangle = \boldsymbol{v}^\ast\boldsymbol{u}$ 이다.
+
+
+:::
+
+</br>
+
+::: {#prp-inner_product_and_adjoint_matrix}
+
+$\boldsymbol{u},\,\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})$, $\boldsymbol{A} \in \mathcal{M}_{n \times n}(\mathbb{F})$ 와 $\boldsymbol{A}$ 의 수반행렬 $\boldsymbol{A}^\ast$ 에 대해 다음이 성립한다.
+
+$$
+\langle \boldsymbol{Au}, \boldsymbol{v}\rangle = \langle \boldsymbol{u}, \boldsymbol{A}^\ast \boldsymbol{v}\rangle
+$$
+
+:::
+
+</br>
+
+::: {#prp-hermitian_matrix}
+
+$\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{C})$ 가 $\boldsymbol{A}^\ast = \boldsymbol{A}$ 일 때 $\boldsymbol{A}$ 를 **에르미트 행렬 (Hermitian matrix)** 혹은 **자기 수반 행렬 (self-adjoint matrix)** 라고 한다. 에르미트 행렬은 다음을 만족한다.
+
+&emsp; ($1$) $\langle \boldsymbol{Au}, \boldsymbol{v}\rangle = \langle \boldsymbol{u}, \boldsymbol{A}\boldsymbol{v}\rangle$, 
+
+&emsp; ($2$)
+:::
+
+
+
+</br>
 
 
 ## 미적분학 정리 {#sec-summary_of_calculus}
