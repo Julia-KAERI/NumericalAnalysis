@@ -103,7 +103,7 @@ website:
           href: src/numerical_analysis_using_julia/07_iterative_method_for_linear_system.qmd
         - text: "7장 최소자승 문제"
           href: src/numerical_analysis_using_julia/08_least_square_problem.qmd
-        - text: "8장 상미분 방정식"
+        - text: "8장 상미분 방정식의 초기값 문제"
           href: src/numerical_analysis_using_julia/09_ode.qmd
         - text: "부록"
           href: src/numerical_analysis_using_julia/A01_appendix_01.qmd
