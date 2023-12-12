@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.302">
+<meta name="generator" content="quarto-1.3.290">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -176,6 +176,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 표기법과 명제들</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../src/numerical_analysis_using_julia/02_linear_system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2장 수치해석 입문 : 선형 시스템과 다항식</span></a>
   </div>
@@ -250,11 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#미리-알아야-할-것-들" id="toc-미리-알아야-할-것-들" class="nav-link active" data-scroll-target="#미리-알아야-할-것-들"><span class="header-section-number">1</span> 미리 알아야 할 것 들</a>
-  <ul class="collapse">
-  <li><a href="#sec_summary_of_calculus" id="toc-sec_summary_of_calculus" class="nav-link" data-scroll-target="#sec_summary_of_calculus">미적분학 정리</a></li>
-  </ul></li>
-  <li><a href="#일변수-함수의-미분" id="toc-일변수-함수의-미분" class="nav-link" data-scroll-target="#일변수-함수의-미분"><span class="header-section-number">2</span> 일변수 함수의 미분</a>
+  <li><a href="#일변수-함수의-미분" id="toc-일변수-함수의-미분" class="nav-link active" data-scroll-target="#일변수-함수의-미분"><span class="header-section-number">1</span> 일변수 함수의 미분</a>
   <ul class="collapse">
   <li><a href="#전방차분과-후방차분" id="toc-전방차분과-후방차분" class="nav-link" data-scroll-target="#전방차분과-후방차분">전방차분과 후방차분</a></li>
   <li><a href="#두-점을-이용한-미분" id="toc-두-점을-이용한-미분" class="nav-link" data-scroll-target="#두-점을-이용한-미분">두 점을 이용한 미분</a></li>
@@ -262,15 +264,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#roundoff-에러" id="toc-roundoff-에러" class="nav-link" data-scroll-target="#roundoff-에러">Roundoff 에러</a></li>
   <li><a href="#다섯개의-점을-이용한-미분" id="toc-다섯개의-점을-이용한-미분" class="nav-link" data-scroll-target="#다섯개의-점을-이용한-미분">다섯개의 점을 이용한 미분</a></li>
   </ul></li>
-  <li><a href="#일변수-함수의-적분-뉴턴-코츠-방법" id="toc-일변수-함수의-적분-뉴턴-코츠-방법" class="nav-link" data-scroll-target="#일변수-함수의-적분-뉴턴-코츠-방법"><span class="header-section-number">3</span> 일변수 함수의 적분 : 뉴턴-코츠 방법</a>
+  <li><a href="#일변수-함수의-적분-뉴턴-코츠-방법" id="toc-일변수-함수의-적분-뉴턴-코츠-방법" class="nav-link" data-scroll-target="#일변수-함수의-적분-뉴턴-코츠-방법"><span class="header-section-number">2</span> 일변수 함수의 적분 : 뉴턴-코츠 방법</a>
   <ul class="collapse">
   <li><a href="#뉴턴-코츠newton-cotes-방법" id="toc-뉴턴-코츠newton-cotes-방법" class="nav-link" data-scroll-target="#뉴턴-코츠newton-cotes-방법">뉴턴 코츠(Newton-Cotes) 방법</a></li>
   <li><a href="#중점을-이용한-적분" id="toc-중점을-이용한-적분" class="nav-link" data-scroll-target="#중점을-이용한-적분">중점을 이용한 적분</a></li>
-  <li><a href="#trapzoidal-method-를-이용한-적분" id="toc-trapzoidal-method-를-이용한-적분" class="nav-link" data-scroll-target="#trapzoidal-method-를-이용한-적분">Trapzoidal method 를 이용한 적분</a></li>
+  <li><a href="#사다리꼴-방법-를-이용한-적분" id="toc-사다리꼴-방법-를-이용한-적분" class="nav-link" data-scroll-target="#사다리꼴-방법-를-이용한-적분">사다리꼴 방법 를 이용한 적분</a></li>
   <li><a href="#simpson-13-적분" id="toc-simpson-13-적분" class="nav-link" data-scroll-target="#simpson-13-적분">Simpson 1/3 적분</a></li>
   <li><a href="#simpson-38-적분" id="toc-simpson-38-적분" class="nav-link" data-scroll-target="#simpson-38-적분">Simpson 3/8 적분</a></li>
   </ul></li>
-  <li><a href="#리처드슨-외삽법과-롬버그-적분" id="toc-리처드슨-외삽법과-롬버그-적분" class="nav-link" data-scroll-target="#리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">4</span> 리처드슨 외삽법과 롬버그 적분</a>
+  <li><a href="#리처드슨-외삽법과-롬버그-적분" id="toc-리처드슨-외삽법과-롬버그-적분" class="nav-link" data-scroll-target="#리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">3</span> 리처드슨 외삽법과 롬버그 적분</a>
   <ul class="collapse">
   <li><a href="#리처드슨-외삽법" id="toc-리처드슨-외삽법" class="nav-link" data-scroll-target="#리처드슨-외삽법">리처드슨 외삽법</a></li>
   <li><a href="#롬버그-적분" id="toc-롬버그-적분" class="nav-link" data-scroll-target="#롬버그-적분">롬버그 적분</a></li>
@@ -298,168 +300,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="미리-알아야-할-것-들" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="미리-알아야-할-것-들"><span class="header-section-number">1</span> 미리 알아야 할 것 들</h2>
-<p>여기서는 미적분학 혹은 일변수 해석학에서 배운 내용이 필요하다.</p>
-<p>여기서는 실수의 집합 <span class="math inline">\(\mathbb{R}\)</span> 혹은 <span class="math inline">\(\mathbb{R}\)</span> 어떤 부분집합 <span class="math inline">\(X\)</span> 를 정의역으로 하는 실함수를 대상으로 하는 여러가지 수치해석적인 방법가운데 기초적인 방법에 대해 다룬다. <span class="math inline">\(f:X \subset \mathbb{R} \to \mathbb{R}\)</span> 이라는 표기는 함수 <span class="math inline">\(f\)</span> 는 실수집합의 어떤 부분집합 <span class="math inline">\(X\)</span> 를 정의역으로 하고 그 값이 실수값인 실수함수 라는 뜻이다. 일변수 함수는 보통 <span class="math inline">\(f(x)\)</span> 꼴로 나타내 대표적으로 <span class="math inline">\(f(x)=2x+1\)</span> 과 같은 일차함수나 삼각함수, <span class="math inline">\(e^{ax}\)</span> 꼴의 지수함수가 있다.</p>
-<p><br></p>
-<section id="sec_summary_of_calculus" class="level3">
-<h3 class="anchored" data-anchor-id="sec_summary_of_calculus">미적분학 정리</h3>
-<p><br></p>
-<div id="def-limit_of_sequence" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 1 (수열의 극한) </strong></span>수열 <span class="math inline">\((a_n) = (a_1,\,a_2,\ldots)\)</span> 이 <span class="math inline">\(a\)</span> 로 수렴한다는 것은 임의의 실수 <span class="math inline">\(\epsilon&gt;0\)</span> 에 대해 어떤 자연수 <span class="math inline">\(N\)</span> 이 존재하여</p>
-<p><span class="math display">\[
-n&gt;N \implies |a_n -a |&lt;\epsilon
-\]</span></p>
-<p>을 만족하는 것이며, <span class="math inline">\((a_n)\)</span> 이 <span class="math inline">\(a\)</span> 로 수렴 할 때</p>
-<p><span class="math display">\[
-\lim_{n\to \infty} a_n = a
-\]</span></p>
-<p>라 표기한다. 수열이 수렴하지 않을 때는 발산한다라고 한다.</p>
-</div>
-<p><br></p>
-<div id="def-continuity_of_function" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 2 (함수의 극한과 연속성) </strong></span>함수 <span class="math inline">\(f:X\subset \mathbb{R} \to \mathbb{R}\)</span> 을 생각하자. 함수 <span class="math inline">\(f\)</span> 가 <span class="math inline">\(x_0 \in X\)</span> 에서 <span class="math inline">\(L\)</span> 로 수렴한다는 것은 임의의 <span class="math inline">\(\epsilon&gt;0\)</span> 에 대해 어떤 <span class="math inline">\(\delta&gt;0\)</span> 이 존재하여</p>
-<p><span class="math display">\[
-|x-x_0 |&lt; \delta \implies |f(x)-L|&lt; \epsilon
-\]</span></p>
-<p>인 것이다. 이 때,</p>
-<p><span class="math display">\[
-\lim_{x \to x_0} f(x) = L
-\]</span></p>
-<p>이라 쓴다. 만약</p>
-<p><span class="math display">\[
-\lim_{x \to x_0} f(x) = f(x_0)
-\]</span></p>
-<p>이면 <span class="math inline">\(f\)</span> 는 <span class="math inline">\(x_0\)</span> 에서 연속이라고 하며, <span class="math inline">\(f\)</span> 가 모든 <span class="math inline">\(x\in X\)</span> 에 대해 연속일 때 <span class="math inline">\(f\)</span> 를 연속함수라 한다. 어떤 구간 <span class="math inline">\(I\)</span> 에서 연속인 함수의 집합을 <span class="math inline">\(C_I\)</span> 라고 쓴다. 특별히 닫힌 구간 <span class="math inline">\([a,\,b]\)</span> 에서 정의된 함수 <span class="math inline">\(f\)</span> 에 대해 <span class="math inline">\(f\)</span> 가 <span class="math inline">\((a,\,b)\)</span> 에서 연속이며 <span class="math inline">\(\lim_{x\to a+} f(x)=f(a)\)</span> 이고 <span class="math inline">\(\lim_{x \to b-} f(x) = f(b)\)</span> 이면 <span class="math inline">\(f\)</span> 는 <span class="math inline">\([a,\,b]\)</span> 에서 연속이라고 한다.</p>
-</div>
-<p><br></p>
-<div id="thm-maximum_minimum" class="theorem">
-<p><span class="theorem-title"><strong>정리 1 (최대최소정리) </strong></span>함수 <span class="math inline">\(f\)</span> 가 닫힌 구간 <span class="math inline">\([a,\,b]\)</span> 에서 연속이라면 <span class="math inline">\(\{f(x):x\in [a,\,b]\}\)</span> 는 최소값과 최대값을 가진다.</p>
-</div>
-<p><br></p>
-<div id="def-differentiability_of_function" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 3 (함수의 미분) </strong></span>함수 <span class="math inline">\(f:X\subset \mathbb{R} \to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(x_0\)</span> 에서 미분가능하다는 것은 극한</p>
-<p><span class="math display">\[
-\lim_{h \to 0}\dfrac{f(a+h)-f(a)}{h}
-\]</span></p>
-<p>이 존재한다는 것이며 위의 극한값을 <span class="math inline">\(f'(a)\)</span> 라고 쓴다. 함수 <span class="math inline">\(f\)</span> 가 모든 <span class="math inline">\(x\in X\)</span> 에 대해 미분 가능 할 때 <span class="math inline">\(f\)</span> 를 미분가능함수라고 한다.</p>
-</div>
-<p><br></p>
-<div id="def-high_order_differentiation" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 4 (도함수) </strong></span>함수 <span class="math inline">\(f:X \subset \mathbb{R} \to \mathbb{R}\)</span> 이 미분 가능 할 때 <span class="math inline">\(f'(x)\)</span> 는 <span class="math inline">\(X\)</span> 에서 정의된 함수이며 이를 <span class="math inline">\(f\)</span> 의 도함수 혹은 1차 도함수라고 한다. <span class="math inline">\(f'(x)\)</span> 가 미분가능한 함수 일 때 <span class="math inline">\(f'(x)\)</span> 의 도함수를 <span class="math inline">\(f''(x)\)</span> 혹은 <span class="math inline">\(f^{(2)}(x)\)</span> 라고 쓰며 <span class="math inline">\(f\)</span> 의 2차 도함수라고 한다. 같은 방법으로 <span class="math inline">\(f\)</span> 함수에 대한 <span class="math inline">\(n\)</span> 차 도함수를 정의할 수 있으며 <span class="math inline">\(f^{(n)}(x)\)</span> 라고 쓴다. 여러 차수의 도함수를 나열할 경우 원래의 함수를 <span class="math inline">\(f^{(0)}\)</span>, 1 차 도함수를 <span class="math inline">\(f^{(1)}\)</span> 로 쓴다.</p>
-</div>
-<p><br></p>
-<div id="def-Cn_class_function" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 5 (<span class="math inline">\(C^n_I\)</span>) </strong></span>구간 <span class="math inline">\(I\)</span> 에서 <span class="math inline">\(n\)</span> 번 미분 가능하며, 그 <span class="math inline">\(n\)</span> 차 도함수가 연속인 함수의 집합을 <span class="math inline">\(C^n_I\)</span> 라고 한다. 구간이 실수 전체일 경우는 <span class="math inline">\(C^n\)</span> 이라고 한다. <span class="math inline">\(e^x\)</span> 함수의 경우와 같이 실수 전체 영역에서 무한번 미분 가능한 함수의 집합을 <span class="math inline">\(C^{\infty}\)</span> 라고 한다.</p>
-</div>
-<p><br></p>
-<div id="thm-roll_theorem" class="theorem">
-<p><span class="theorem-title"><strong>정리 2 (롤의 정리 (Roll’s theorem)) </strong></span><span class="math inline">\(f\in C[a,\,b]\)</span> 이고 <span class="math inline">\(f\)</span> 가 <span class="math inline">\((a,\,b)\)</span> 구간에서 미분가능하다고 하자. <span class="math inline">\(f(a)=f(b)\)</span> 이면 <span class="math inline">\(f'(c)=0\)</span> 을 만족하는 <span class="math inline">\(c\in (a,\,b)\)</span> 가 존재한다.</p>
-</div>
-<p><br></p>
-<div id="cor-generalized_roll_theorem" class="theorem corollary">
-<p><span class="theorem-title"><strong>따름정리 1 (일반화된 롤의 정리) </strong></span><span class="math inline">\(f\in C^{n-2}[a,\,b]\)</span> 이고 <span class="math inline">\(f\)</span> 가 <span class="math inline">\((a,\,b)\)</span> 구간에서 <span class="math inline">\(n-1\)</span> 번 미분 가능하며 <span class="math inline">\(n\)</span> 개의 서로 다른 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 에서 <span class="math inline">\(f(x_i)=0\)</span> 일 때, <span class="math inline">\(f^{(n-1)}(\xi) = 0\)</span> 인 <span class="math inline">\(\xi\in (a,\,b)\)</span> 가 존재한다.</p>
-</div>
-<p><br></p>
-<div id="thm-intermediate_value_theorem" class="theorem">
-<p><span class="theorem-title"><strong>정리 3 (중간값 정리 (Intermediate value theorem)) </strong></span><span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 연속인 함수 <span class="math inline">\(f:X\to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(d\)</span> 가 <span class="math inline">\(f(a)\)</span> 와 <span class="math inline">\(f(b)\)</span> 사이의 값이면, 즉 <span class="math inline">\(f(a)&lt; d &lt; f(b)\)</span> 이거나 <span class="math inline">\(f(b)&lt;d &lt;f(a)\)</span> 라면 <span class="math display">\[
-f(c) = d
-\]</span></p>
-<p>인 <span class="math inline">\(c\)</span> 가 <span class="math inline">\((a,\,b)\)</span> 안에 항상 존재한다.</p>
-</div>
-<p><br></p>
-<div id="cor-intermediate_value_for_many_points" class="theorem corollary">
-<p><span class="theorem-title"><strong>따름정리 2 (따름정리 : 여러 점의 경우) </strong></span><span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 연속인 함수 <span class="math inline">\(f:X \to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(\{x_1,\ldots,\,x_n\}\subset [a,\,b]\)</span> 일 때</p>
-<p><span class="math display">\[
-f(c) = \dfrac{f(x_1)+ \cdots + f(x_n)}{n}
-\]</span></p>
-<p>을 만족하는 <span class="math inline">\(c\in [a,\,b]\)</span> 가 항상 존재한다.</p>
-</div>
-<p><br></p>
-<div id="thm-mean_value_theorem" class="theorem">
-<p><span class="theorem-title"><strong>정리 4 (평균값 정리 (Mean value theorem)) </strong></span>함수 <span class="math inline">\(f:X \subset\mathbb{R} \to \mathbb{R}\)</span> 이 <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 에서 연속이고, <span class="math inline">\((a,\,b)\)</span> 에서 미분 가능하면 <span class="math display">\[
-\dfrac{f(b)-f(a)}{b-a}=f'(c)
-\]</span></p>
-<p>를 만족하는 <span class="math inline">\(c\in (a,\,b)\)</span> 가 존재한다.</p>
-</div>
-<p><br></p>
-<div id="thm-taylor_theorem_for_single_variable" class="theorem">
-<p><span class="theorem-title"><strong>정리 5 (일변수 함수에 대한 테일러 정리) </strong></span><span class="math inline">\(a\)</span> 를 포함하는 열린구간 <span class="math inline">\(I\)</span> 에서 정의된 함수 <span class="math inline">\(f:I \to \mathbb{R}\)</span> 가 <span class="math inline">\(n+1\)</span> 번 미분 가능한 함수일 때 임의의 <span class="math inline">\(x\in I\)</span> 에 대하여</p>
-<p><span class="math display">\[
-f(x) = \sum_{k=0}^{n} \dfrac{f^{(k)}(a)}{k!} (x-a)^k + \dfrac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}
-\]</span></p>
-<p>을 만족하는 <span class="math inline">\(\xi \in I\)</span> 가 존재한다. 이 때 <span class="math inline">\(\displaystyle \sum_{k=0}^{n} \dfrac{f^{(k)}}{k!} (x-a)^k\)</span> 를 <span class="math inline">\(n\)</span> 차 테일러 다항식이라고 하며, <span class="math inline">\(\displaystyle \dfrac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}\)</span> 를 나머지라고 한다.</p>
-</div>
-<p><br></p>
-<div id="def-Riemann_integral" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 6 </strong></span>구간 <span class="math inline">\([a,\,b]\)</span> 에서 정의된 함수 <span class="math inline">\(f\)</span> 를 생각하자. 수열 <span class="math inline">\((x_n)\)</span> 는 <span class="math inline">\(x_1=a&lt;x_2&lt;\cdots &lt;x_n=b\)</span> 를 만족하는 수열 일 때,</p>
-<p><span class="math display">\[
-\begin{aligned}
-&amp;\lim_{n \to \infty} \sum_{k=2}^n \min(\{f(x_{i-1}),\, f(x_{i})\}) (x_{i}-x_{i-1})  \\
-&amp;\qquad \qquad \qquad = \lim_{n \to \infty} \sum_{k=2}^n \max(\{f(x_{i-1}),\, f(x_{i})\}) (x_{i}-x_{i-1})
-\end{aligned}
-\]</span></p>
-<p>라면 함수 <span class="math inline">\(f\)</span> 는 <span class="math inline">\([a,\,b]\)</span> 구간에서 리만 적분 가능하다고 하며 위의 값을</p>
-<p><span class="math display">\[
-\int_{a}^b f \, dx
-\]</span> 라고 쓴다.</p>
-</div>
-<p><br></p>
-<div id="prp-continuous_function_integrable" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 1 </strong></span><span class="math inline">\([a,\,b]\)</span> 구간에서 연속인 함수는 리만 적분 가능하다.</p>
-</div>
-<p><br></p>
-<div id="thm-first_fundamental_theorem_of_calculus" class="theorem">
-<p><span class="theorem-title"><strong>정리 6 (미적분학의 제 1 기본 정리) </strong></span><span class="math inline">\(f:[a,b] \to \mathbb{R}\)</span>가 리만 적분 가능한 함수일 때, 함수 <span class="math inline">\(g : [a,\,b] \to \mathbb{R}\)</span> 을 다음과 같이 정의하자.</p>
-<p><span class="math display">\[
-g(x) = \int_a^x f(t)\, dt.
-\]</span></p>
-<p>이 때, <span class="math inline">\(g(x)\)</span> 는 <span class="math inline">\((a,\,b)\)</span> 에서 미분 가능한 함수이며 원래 주어진 함수 <span class="math inline">\(f(x)\)</span> 와는 다음의 관계를 만족힌다.</p>
-<p><span class="math display">\[
-\dfrac{d}{dx}g(x) = f(x).
-\]</span></p>
-<p>이 경우 <span class="math inline">\(g(x)\)</span> 를 <span class="math inline">\(f(x)\)</span> 의 <strong>부정 적분(indefinite integral)</strong> 이라 한다.</p>
-</div>
-<p><br></p>
-<div id="prp-relation_betwein_indefinite_integral" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 2 </strong></span><span class="math inline">\(f[a,\,b] \to \mathbb{R}\)</span> 이 리만적분 가능한 함수이며, <span class="math inline">\(a'\in [a,\,b]\)</span> 라 하자. 이 때</p>
-<p><span class="math display">\[
-g(x) = \int_a^x f(t)\, dt,\qquad h(x) = \int_{a'}^x f(t)\, dt
-\]</span></p>
-<p>라고 하면,</p>
-<p><span class="math display">\[
-g(x)-h(x) = \text{const}
-\]</span></p>
-<p>이다.</p>
-</div>
-<p><br></p>
-<div id="thm-second_fundamental_theorem_of_calculus" class="theorem">
-<p><span class="theorem-title"><strong>정리 7 (미적분학의 제 2 기본 정리) </strong></span><span class="math inline">\([a,\,b]\)</span> 구간에서 적분가능한 함수 <span class="math inline">\(f(x)\)</span> 의 부정적분이 <span class="math inline">\(F(x)\)</span> 일 때 다음이 성립한다.</p>
-<p><span class="math display">\[
-\int_a^b f(x)\, dx = F(b)-F(a).
-\]</span></p>
-</div>
-<p><br></p>
-<div id="thm-mean_value_theorem_for_integrals" class="theorem">
-<p><span class="theorem-title"><strong>정리 8 (적분에 대한 평균값 정리 (Mean value theorem for integrals)) </strong></span>함수 <span class="math inline">\(f:X \subset\mathbb{R} \to \mathbb{R}\)</span> 이 <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 에서 연속이면 <span class="math display">\[
-f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
-\]</span></p>
-<p>를 만족하는 <span class="math inline">\(c\in (a,\,b)\)</span> 가 존재한다.</p>
-</div>
-<p><br></p>
-<div id="thm-weighted_mean_value_theorem_for_integrals" class="theorem">
-<p><span class="theorem-title"><strong>정리 9 (적분에 대한 가중 평균 정리 (Weighted mean value theorems for integrals)) </strong></span>함수 <span class="math inline">\(f:X \subset\mathbb{R} \to \mathbb{R}\)</span>, <span class="math inline">\(g:Y \subset\mathbb{R} \to \mathbb{R}\)</span> 이 <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 에서 연속이면</p>
-<p><span class="math display">\[
-\int_a^b f(x)\,g(x)\, dx = f(c)\int_a^b g(x)\, dx
-\]</span></p>
-<p>을 만족하는 <span class="math inline">\(c\in (a,\,b)\)</span> 가 존재한다.</p>
-</div>
-<p><br></p>
-</section>
-</section>
-<section id="일변수-함수의-미분" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="일변수-함수의-미분"><span class="header-section-number">2</span> 일변수 함수의 미분</h2>
+<section id="일변수-함수의-미분" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="일변수-함수의-미분"><span class="header-section-number">1</span> 일변수 함수의 미분</h2>
 <p>이 장에서는 수치해석적으로 주어진 함수의 미분을 구하는 방법을 알아본다. 앞서 설명했듯이함수 <span class="math inline">\(f: X\subset \mathbb{R} \to \mathbb {R}\)</span> 이 <span class="math inline">\(x_0 \in X\)</span> 에서 미분가능하다는 것은 다음의 극한이 존재한다는 것이다.</p>
 <p><span class="math display">\[
 f'(x_0)=\lim_{h\to 0} \dfrac{f(x_0+h)- f(x_0)}{h}
@@ -508,7 +350,7 @@ f(x+h)-f(x-h) &amp;= 2f'(x) h + \dfrac{1}{6} \left(f^{(3)}(\xi_2) +f^{(3)}(\xi_1
 f(x+h) -2 f(x) + f(x-h) &amp;= f''(x) h^2 + \dfrac{1}{24}\left(f^{(4)}(\xi'_1) +f^{(4)}(\xi'_2) \right)h^4
 \end{aligned}
 \]</span></p>
-<p>이므로 우리는 이것을 이용하여 1차 뿐만 아니라 2차 도함수에 대한 근사값도 구할 수 있다. 여기서 <span class="math inline">\(f^{(3)}(\xi_2) +f^{(3)}(\xi_1)\)</span> 를 보자. <span class="math inline">\(\xi_1\in [x-h,\,x],\, \xi_2 \in [x,\,x+h]\)</span> 인데, <span class="math inline">\(f\in C^3_{[x-h,x+h]}\)</span> 이면 <a href="#cor-intermediate_value_for_many_points">따름정리&nbsp;2</a> 에 의해 <span class="math inline">\(f^{(3)}(\xi) = \frac{1}{2}\left(f^{(3)}(\xi_2) +f^{(3)}(\xi_1) \right)\)</span> 를 만족하는 <span class="math inline">\(\xi\in[x-h,\,x+h]\)</span> 가 존재하며, 같은 이유로 <span class="math inline">\(f\in C^4_{[x-h,\,x+h]}\)</span> 이면 <span class="math inline">\(f^{(4)}(\xi')=\frac{1}{2}\left(f^{(4)}(\xi'_1) +f^{(4)}(\xi'_2) \right)\)</span> 를 만족하는 <span class="math inline">\(\xi'\in [x-h,\,x+h]\)</span> 가 항상 존재한다. 따라서 다음과 같이 도함수와 2차도함수를 근사 할 수 있다.</p>
+<p>이므로 우리는 이것을 이용하여 1차 뿐만 아니라 2차 도함수에 대한 근사값도 구할 수 있다. 여기서 <span class="math inline">\(f^{(3)}(\xi_2) +f^{(3)}(\xi_1)\)</span> 를 보자. <span class="math inline">\(\xi_1\in [x-h,\,x],\, \xi_2 \in [x,\,x+h]\)</span> 인데, <span class="math inline">\(f\in C^3_{[x-h,x+h]}\)</span> 이면 <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html#prp-intermediate_value_for_many_points">따름정리 : 여러 점의 경우</a> 에 의해 <span class="math inline">\(f^{(3)}(\xi) = \frac{1}{2}\left(f^{(3)}(\xi_2) +f^{(3)}(\xi_1) \right)\)</span> 를 만족하는 <span class="math inline">\(\xi\in[x-h,\,x+h]\)</span> 가 존재하며, 같은 이유로 <span class="math inline">\(f\in C^4_{[x-h,\,x+h]}\)</span> 이면 <span class="math inline">\(f^{(4)}(\xi')=\frac{1}{2}\left(f^{(4)}(\xi'_1) +f^{(4)}(\xi'_2) \right)\)</span> 를 만족하는 <span class="math inline">\(\xi'\in [x-h,\,x+h]\)</span> 가 항상 존재한다. 따라서 다음과 같이 도함수와 2차도함수를 근사 할 수 있다.</p>
 <p><span id="eq-difference_3points"><span class="math display">\[
 \begin{aligned}
 f'(x) &amp;= \dfrac{f(x+h)-f(x-h)}{2h} - \dfrac{f^{(3)}(\xi)}{6}h^2 ,\\
@@ -518,7 +360,7 @@ f''(x) &amp;=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h
 <p>이 때 수치해석적으로 계산한 미분의 오차는 <span class="math inline">\(h^2\)</span> 에 비례한다. 따라서 <span class="math inline">\(h\)</span> 을 작게 잡을 수록 오차가 작아지며 충분히 작을 때 전방차분이나 후방차분보다 오차가 작을 것을 기대 할 수 있다. 위의 식에 의해 구한 미분의 추정값을 <strong>중앙 차분 (central difference)</strong> 라고 한다. 아래 그림은 함수 <span class="math inline">\(f\)</span> 에 대한 전방 차분, 후방 차분, 중앙 차분값을 그림으로 표현하였다. 실제 미분값은 중앙차분에 의한 값과 거의 같다.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="ch05_calculus_of_one_variable_function/difference_01.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="ch05_calculus_of_one_variable_function/difference_01.png" class="quarto-discovered-preview-image img-fluid figure-img" style="width:100.0%"></p>
 <p></p><figcaption class="figure-caption">Finite difference</figcaption><p></p>
 </figure>
 </div>
@@ -589,8 +431,8 @@ f''(x) &amp;= \dfrac{-f(x-2h) + 16f(x-h) -30 f(x) + 16 f(x+h) - f(x+2h)}{12h^2} 
 <p><br></p>
 </section>
 </section>
-<section id="일변수-함수의-적분-뉴턴-코츠-방법" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="일변수-함수의-적분-뉴턴-코츠-방법"><span class="header-section-number">3</span> 일변수 함수의 적분 : 뉴턴-코츠 방법</h2>
+<section id="일변수-함수의-적분-뉴턴-코츠-방법" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="일변수-함수의-적분-뉴턴-코츠-방법"><span class="header-section-number">2</span> 일변수 함수의 적분 : 뉴턴-코츠 방법</h2>
 <p>수치해석적으로 적분을 구하는 방법을 알아보도록 한다. 다항식이나 삼각함수, 지수함수를 포함한 몇면 함수에 대해서는 우리가 이미 프로그래밍 언어에 내장되어 있는 기본적인 함수로 존재하므로 쉽게 구할 수 있다. 예를 들어 <span class="math inline">\([0, \theta]\)</span> 영역에서의 <span class="math inline">\(\sin x\)</span> 함수의 적분은</p>
 <p><span class="math display">\[
 \int_0^\theta \sin x \, dx = -\cos \theta  +1
@@ -615,7 +457,7 @@ x_i = a + (i-1)h = a+ (i-1)\dfrac{(b-a)}{n-1},\qquad i=1,\ldots,\,n
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="ch05_calculus_of_one_variable_function/integration_method.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Trapzoidal method 와 Simplson method</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Trapzoidal method 와 Simpson method</figcaption><p></p>
 </figure>
 </div>
 <p><br></p>
@@ -640,7 +482,7 @@ f(x) = f(x^m_i)+f'(x^m_i)(x-x_m) + \dfrac{1}{2}f^{(2)}(\xi) (x-x_m)^2
 <p><span class="math display">\[
 \int_a^b f(x) \,dx= \sum_{i=1}^{n-1} f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h + \dfrac{h^3}{24} \sum_{i=1}^{n-1}f^{(2)}(\xi_i)
 \]</span></p>
-<p>이다. <span class="math inline">\(f\in C^2_{[a,\,b]}\)</span> 라면 <a href="#cor-intermediate_value_for_many_points">따름정리&nbsp;2</a> 에 의해 <span class="math inline">\(\displaystyle \sum_{i=1}^{n-1}f^{(2)}(\xi_i) = (n-1)f^{(2)}(\xi)\)</span> 를 만족하는 <span class="math inline">\(\xi\in [a,\,b]\)</span> 가 존재하므로,</p>
+<p>이다. <span class="math inline">\(f\in C^2_{[a,\,b]}\)</span> 라면 <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html#prp-intermediate_value_for_many_points">따름정리 : 여러 점의 경우</a> 에 의해 <span class="math inline">\(\displaystyle \sum_{i=1}^{n-1}f^{(2)}(\xi_i) = (n-1)f^{(2)}(\xi)\)</span> 를 만족하는 <span class="math inline">\(\xi\in [a,\,b]\)</span> 가 존재하므로,</p>
 <p><span class="math display">\[
 \int_a^b f(x) \, dx =  \sum_{i=1}^{n-1} f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h + \dfrac{(n-1)h^3}{24} f^{(2)}(\xi)
 \]</span></p>
@@ -651,9 +493,9 @@ I_M [f,\,a,\,b,\,n] = \sum_{i=1}^{n-1}f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h
 <p>이라고 할 수 있으며, <span class="math inline">\(M=\max \{ |f^{(2)}(x)| : x\in [a,\,b] \}\)</span> 일 때 중점을 이용한 적분의 오차는 <span class="math inline">\(E_M [f,\,a,\,b,\,n]=\dfrac{(n-1)h^3}{24} M=\dfrac{(b-a)M}{24}h^2\)</span> 보다 작거나 같다. 즉 <span class="math inline">\(O(E_M) =h^2\)</span> 이다.</p>
 <p><br></p>
 </section>
-<section id="trapzoidal-method-를-이용한-적분" class="level3">
-<h3 class="anchored" data-anchor-id="trapzoidal-method-를-이용한-적분">Trapzoidal method 를 이용한 적분</h3>
-<p>함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([x_i,\, x_{i+1}]\)</span> 구간에서 1차 다항식으로 근사하는 것을 <strong>Trapzoidal 방법</strong> 이라고 하며, 주어진 점으로부터 다항식을 구하는 방법은 <a href="../../src/numerical_analysis_using_julia/04_interpolation.html#sec-global_interpolation_using_polynomial">다항식을 이용한 전역적 보간법</a> 에서 설명한 세가지 방법중 한가지를 사용한다.</p>
+<section id="사다리꼴-방법-를-이용한-적분" class="level3">
+<h3 class="anchored" data-anchor-id="사다리꼴-방법-를-이용한-적분">사다리꼴 방법 를 이용한 적분</h3>
+<p>함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([x_i,\, x_{i+1}]\)</span> 구간에서 1차 다항식으로 근사하는 것을 <strong>사다리꼴 방법</strong> 이라고 하며, 주어진 점으로부터 다항식을 구하는 방법은 <a href="../../src/numerical_analysis_using_julia/04_interpolation.html#sec-global_interpolation_using_polynomial">다항식을 이용한 전역적 보간법</a> 에서 설명한 세가지 방법중 한가지를 사용한다.</p>
 <p><br></p>
 <p><span class="math inline">\([x_{i-1},\, x_i]\)</span> 구간에서 <span class="math inline">\((x_{i-1},\, f(x_{i-1}))\)</span> 과 <span class="math inline">\((x_{i},\, f(x_i))\)</span> 를 1차 다항식으로 근사하면 <a href="../../src/numerical_analysis_using_julia/04_interpolation.html#sec-error_for_polynomial_interpolation">다항식을 이용한 보간법의 오차</a> 의 <strong>정리 1</strong> 에서 보았듯이 다음을 만족하는 <span class="math inline">\(\xi\in [x_{i-1},\, x_i]\)</span> 가 존재한다. <span class="math display">\[
 \begin{aligned}
@@ -670,11 +512,11 @@ f(x) = f(x_{i-1})\dfrac{x-x_{i}}{x_{i-1}-x_i} + f(x_i)\dfrac{x-x_{i-1}}{x_{i}-x_
 <p><span class="math display">\[
 \int_{a}^b f(x)\, dx= \dfrac{h}{2}(f(x_1)+ f(x_n)) + \sum_{i=2}^{n-1} hf(x_i) - \dfrac{h^3}{12}\sum_{i=1}^{n-1} f^{(2)}(\xi_i)
 \]</span></p>
-<p>를 얻는다. Trapzoidal 방법에 의한 적분값 <span class="math inline">\(I_T\)</span> 는</p>
+<p>를 얻는다. 사다리꼴 방법에 의한 적분값 <span class="math inline">\(I_T\)</span> 는</p>
 <p><span class="math display">\[
 I_T[f, a, b, n] = \dfrac{h}{2}\left(f(x_1)+ f(x_n) + \sum_{i=2}^{n-1} f(x_i)\right)
 \]</span></p>
-<p>이다. 이제 적분의 오차를 알아보자. <span class="math inline">\(f^{(2)}(x)\)</span> 가 연속이므로 <span class="math inline">\(\displaystyle \dfrac{1}{n-1}\sum_{i=1}^{n-1} f^{(2)}(\xi_i)= f^{(2)}(\xi)\)</span> 를 만족하는 <span class="math inline">\(\xi\in [a,\,b]\)</span> 가 존재하며<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> 따라서 Trapzoidal 적분에 대한 에러 <span class="math inline">\(E_T\)</span> 는</p>
+<p>이다. 이제 적분의 오차를 알아보자. <span class="math inline">\(f^{(2)}(x)\)</span> 가 연속이므로 <span class="math inline">\(\displaystyle \dfrac{1}{n-1}\sum_{i=1}^{n-1} f^{(2)}(\xi_i)= f^{(2)}(\xi)\)</span> 를 만족하는 <span class="math inline">\(\xi\in [a,\,b]\)</span> 가 존재하며<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> 따라서 사다리꼴 방법에 의한 적분에 대한 에러 <span class="math inline">\(E_T\)</span> 는</p>
 <p><span class="math display">\[
 E_T[f, a, b, n] = \dfrac{h^3}{12}(n-1)f^{(2)}(\xi) = \dfrac{h^3}{12}\dfrac{b-a}{h}f^{(2)}(\xi) = \dfrac{(b-a)f^{(2)}(\xi)}{12}h^2 = O(h^2)
 \]</span></p>
@@ -704,7 +546,7 @@ f''(x) =  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi_i')}{36}h^5
 &amp;=\dfrac{1}{3} \left[f(x_{i-1}) + 4f(x_{i}) + f(x_{i+1})\right] -  \left( \dfrac{f^{(4)}(\xi_i')}{36} - \dfrac{f^{(4)}(\xi_i)}{60} \right)h^5
 \end{aligned}
 \]</span></p>
-<p>따라서 우리는 Simplson 1/3 적분에서의 오차가 <span class="math inline">\(O(h^5)\)</span> 임을 알 수 있다. 여기서는 <span class="math inline">\(\xi_i\)</span> 와 <span class="math inline">\(\xi_i'\)</span> 에서의 4차 도함수값이 필요했지만 실제로는</p>
+<p>따라서 우리는 Simpson 1/3 적분에서의 오차가 <span class="math inline">\(O(h^5)\)</span> 임을 알 수 있다. 여기서는 <span class="math inline">\(\xi_i\)</span> 와 <span class="math inline">\(\xi_i'\)</span> 에서의 4차 도함수값이 필요했지만 실제로는</p>
 <p><span class="math display">\[
 \begin{aligned}
 \int_{x_{i-1}}^{x_{i+1}}f(x)\,dx =\dfrac{h}{3} \left[f(x_{i-1}) + 4f(x_{i}) + f(x_{i+1})\right] -  \dfrac{f^{(4)}(\overline{\xi}_i)}{90}h^5
@@ -718,7 +560,7 @@ f''(x) =  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi_i')}{36}h^5
 &amp;\qquad \cdots \left.+ 4f(x_{2n-2})+2f(x_{2n-1}) + 4f(x_{2n})+f(x_{2n+1})\right] - \dfrac{n}{2}\dfrac{f^{(4)}(\xi)}{90}h^5
 \end{aligned}
 \]</span></p>
-<p>따라서 Simplson 1/3 적분값은 다음과 같다. <span class="math display">\[
+<p>따라서 Simpson 1/3 적분값은 다음과 같다. <span class="math display">\[
 \mathcal{I}_{1/3}[f,\,a,\,b,\, 2n+1] = \dfrac{h}{3} \left[f(x_1) + f(x_{2n+1}) + 4\left(\sum_{k=1}^n  f(x_{2k})\right) + 2\left(\sum_{k=1}^{n-1} f(x_{2k+1})\right)\right]
 \]</span></p>
 <p><br></p>
@@ -752,7 +594,7 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 <p>는 Simpson 3/8 적분값이며 그 오차는 <span class="math inline">\(- \dfrac{3n}{80}f^{(4)} (\xi) h^5\)</span> 이다.</p>
 <!-- [^2]: 일변수 함수 $f$ 가 닫힌 구간 $[a,\,b]$ 에서 연속이면 최대값과 최소값이 항상 존재한다는 것은 아주 중요한 수학적 사실이다. -->
 <p><br></p>
-<p>아래 그림은 <span class="math inline">\(\displaystyle \int_0^1 \exp(x)\, dx\)</span> 를 세가지 방법으로, 구간을 변화시켜 가며 구하여 실제값인 <span class="math inline">\((e-1)\)</span> 로 나눈 비율을 표현하였다. <span class="math inline">\(N_{points}\)</span> 가 작을 때는 계산값간의 다소간의 차이가 있으며 실제 값과도 차이가 있지만 <span class="math inline">\(N_{points}\)</span> 값이 커질수록 세 방법 모두 실제 값에 수렴해 나간다는 것을 볼 수 있다. 또 하나 유의할 것은 Simpson 3/8 방법이 Simpson 1/3 방법보다 다소 복잡함에도 불구하고 일반적으로 실제 값과의 차이는 Simplson 1/3 방법이 더 작다. 이런 이유로 단순이 Simpson 방법이라고 할 때는 Simplson 1/3 방법을 말한다.</p>
+<p>아래 그림은 <span class="math inline">\(\displaystyle \int_0^1 \exp(x)\, dx\)</span> 를 세가지 방법으로, 구간을 변화시켜 가며 구하여 실제값인 <span class="math inline">\((e-1)\)</span> 로 나눈 비율을 표현하였다. <span class="math inline">\(N_{points}\)</span> 가 작을 때는 계산값간의 다소간의 차이가 있으며 실제 값과도 차이가 있지만 <span class="math inline">\(N_{points}\)</span> 값이 커질수록 세 방법 모두 실제 값에 수렴해 나간다는 것을 볼 수 있다. 또 하나 유의할 것은 Simpson 3/8 방법이 Simpson 1/3 방법보다 다소 복잡함에도 불구하고 일반적으로 실제 값과의 차이는 Simpson 1/3 방법이 더 작다. 이런 이유로 단순이 Simpson 방법이라고 할 때는 Simpson 1/3 방법을 말한다.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="ch05_calculus_of_one_variable_function/integration_test.png" class="img-fluid figure-img"></p>
@@ -810,8 +652,8 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 <p><br></p>
 </section>
 </section>
-<section id="리처드슨-외삽법과-롬버그-적분" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">4</span> 리처드슨 외삽법과 롬버그 적분</h2>
+<section id="리처드슨-외삽법과-롬버그-적분" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">3</span> 리처드슨 외삽법과 롬버그 적분</h2>
 <section id="리처드슨-외삽법" class="level3">
 <h3 class="anchored" data-anchor-id="리처드슨-외삽법">리처드슨 외삽법</h3>
 <p>어떤 값 <span class="math inline">\(M\)</span> 을 계산하는데 매개변수 <span class="math inline">\(h\)</span> 에 대해 그 truncation 오차가 <span class="math inline">\(O(h)\)</span> 인 방법을 사용하여 <span class="math inline">\(N_1(h)\)</span> 를 얻었다고 하자. 이 때 우리는</p>

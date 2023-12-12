@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.302">
+<meta name="generator" content="quarto-1.3.290">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../src/numerical_analysis_using_julia/03_matrix_algebra.html" rel="next">
-<link href="../../src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html" rel="prev">
+<link href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -172,6 +172,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1장 수치해석과 알고리즘</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 표기법과 명제들</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -316,7 +322,7 @@ f_m (x_1,\ldots,\,x_n ) &amp;= A_{m1}x_1 + \cdots + A_{mn}x_n \\
 <p><span class="math display">\[
 f_i(\boldsymbol{x})=\boldsymbol{Ax},\qquad \boldsymbol{A} = \begin{bmatrix} A_{11} &amp; \cdots &amp; A_{1n} \\ \vdots &amp; \ddots &amp; \vdots \\ A_{m1} &amp; \cdots &amp;A_{mn} \end{bmatrix},\qquad \boldsymbol{x} = \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix}
 \]</span></p>
-<p>이 시스템이 선형시스템이라고 불리는 이유는 <span class="math inline">\(\boldsymbol{x}_1,\,\boldsymbol{x}_2 \in \mathbb{F}^{n \times 1}\)</span> 이며 <span class="math inline">\(a\)</span> 가 상수 일 때,</p>
+<p>이 시스템이 선형시스템이라고 불리는 이유는 <span class="math inline">\(\boldsymbol{x}_1,\,\boldsymbol{x}_2 \in \mathcal{M}_n(\mathbb{F})\)</span> 이며 <span class="math inline">\(a\)</span> 가 상수 일 때,</p>
 <p><span class="math display">\[
 f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\boldsymbol{x}_2) = \boldsymbol{Ax}_1 + a\boldsymbol{Ax}_2
 \]</span></p>
@@ -324,8 +330,8 @@ f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\bolds
 <p>주어진 <span class="math inline">\(m \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}\)</span> 의 커널 <span class="math inline">\(\ker (\boldsymbol{A})\)</span> 와 이미지 <span class="math inline">\(\text{im}(\boldsymbol{A})\)</span> 를 다음과 같이 정의한다.</p>
 <p><span class="math display">\[
 \begin{aligned}
-\ker (\boldsymbol{A}) &amp;:= \left\{\boldsymbol{x}\in \mathbb{F}^{n\times 1} : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\
-\text{im}(\boldsymbol{A}) &amp;:= \left\{\boldsymbol{Ax}: \boldsymbol{x} \in \mathbb{F}^{n \times 1}\right\}
+\ker (\boldsymbol{A}) &amp;:= \left\{\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F}) : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\
+\text{im}(\boldsymbol{A}) &amp;:= \left\{\boldsymbol{Ax}: \boldsymbol{x} \in \mathcal{M}_n(\mathbb{F})\right\}
 \end{aligned}
 \]</span></p>
 <p>만약 <span class="math inline">\(\boldsymbol{b}\in \text{im}(\boldsymbol{A})\)</span> 라면 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 가 존재하며 이 <span class="math inline">\(\boldsymbol{x}\)</span> 를 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해(solution) 라고 한다. <span class="math inline">\(\boldsymbol{x}_0 \in \ker (\boldsymbol{A})\)</span> 라면 <span class="math inline">\(\boldsymbol{A}(\boldsymbol{x}+\boldsymbol{x}_0) = \boldsymbol{Ax}\)</span> 이다.</p>
@@ -358,17 +364,17 @@ f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\bolds
 \]</span></p>
 <p>에서 <span class="math inline">\(\boldsymbol{U}\)</span> 는 상삼각행렬, <span class="math inline">\(\boldsymbol{L}\)</span> 은 하삼각행렬이다. 두 삼각행렬에 대해 다음이 성립한다.</p>
 <div id="prp-properties_of_triangular_matrix" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 1 </strong></span>행렬 <span class="math inline">\(\boldsymbol{A} \in \mathbb{F}^{n \times n}\)</span> 가 상삼각 행렬 혹은 하삼각 행렬일 때 다음은 동치이다.</p>
+<p><span class="theorem-title"><strong>명제 1 </strong></span>행렬 <span class="math inline">\(\boldsymbol{A} \in\mathcal{M}_{n\times n}(\mathbb{F})\)</span> 가 상삼각 행렬 혹은 하삼각 행렬일 때 다음은 동치이다.</p>
 <ol type="1">
 <li><p><span class="math inline">\(\det (\boldsymbol{A}) = \prod_{i=1}^n A_{ii} \ne 0\)</span></p></li>
 <li><p><span class="math inline">\(\boldsymbol{A}\)</span> 는 가역행렬이다.</p></li>
-<li><p><span class="math inline">\(\boldsymbol{b}\in \mathbb{F}^{n \times 1}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 가 유일하게 정해진다.</p></li>
+<li><p><span class="math inline">\(\boldsymbol{b}\in\mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 가 유일하게 정해진다.</p></li>
 </ol>
 </div>
 <p><br></p>
 <section id="하삼각-행렬에서의-선형방정식의-풀이" class="level3">
 <h3 class="anchored" data-anchor-id="하삼각-행렬에서의-선형방정식의-풀이">하삼각 행렬에서의 선형방정식의 풀이</h3>
-<p><span class="math inline">\(\boldsymbol{L}\in \mathbb{F}^{n \times n}\)</span> 과 <span class="math inline">\(\boldsymbol{b}\in \mathbb{F}^{n \times 1}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Lx}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\in \mathbb{F}^{n\times 1}\)</span> 을 구해보자.</p>
+<p><span class="math inline">\(\boldsymbol{L}\in \mathcal{M}_{n\times n}(\mathbb{F})\)</span> 과 <span class="math inline">\(\boldsymbol{b}\in \mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Lx}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})\)</span> 을 구해보자.</p>
 <p><span class="math display">\[
 \begin{bmatrix} L_{11} &amp; &amp; &amp; \\ L_{21} &amp; L_{22}  &amp; &amp; \\ \vdots &amp; &amp; \ddots &amp; \\ L_{n1} &amp; L_{n2} &amp; \cdots &amp; L_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
 \]</span></p>
@@ -392,7 +398,7 @@ x_k &amp;= \dfrac{1}{L_{kk}} \left( b_k - \sum_{i=1}^{k-1} L_{ki}x_{i}\right),\,
 </section>
 <section id="상삼각-행렬의-선형방정식의-풀이" class="level3">
 <h3 class="anchored" data-anchor-id="상삼각-행렬의-선형방정식의-풀이">상삼각 행렬의 선형방정식의 풀이</h3>
-<p>상삼각 행렬 <span class="math inline">\(\boldsymbol{U}\in \mathbb{F}^{n \times n}\)</span> 와 <span class="math inline">\(\boldsymbol{b}\in \mathbb{F}^{n \times 1}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ux}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\in \mathbb{F}^{n\times 1}\)</span> 을 구해보자.</p>
+<p>상삼각 행렬 <span class="math inline">\(\boldsymbol{U}\in \mathcal{M}_{n\times n}(\mathbb{F})\)</span> 와 <span class="math inline">\(\boldsymbol{b}\in\mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ux}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})\)</span> 을 구해보자.</p>
 <p><span class="math display">\[
 \begin{bmatrix} U_{11} &amp; U_{12} &amp;\cdots &amp; U_{11} \\  &amp; U_{22}  &amp;\cdots  &amp; U_{21} \\  &amp; &amp; \ddots &amp; \vdots\\  &amp; &amp;  &amp; U_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
 \]</span></p>
@@ -1176,8 +1182,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1장 수치해석과 알고리즘</span>
+      <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Interude : 표기법과 명제들</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

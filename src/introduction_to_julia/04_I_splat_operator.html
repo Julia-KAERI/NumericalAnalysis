@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.302">
+<meta name="generator" content="quarto-1.3.290">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -148,7 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/index.html">Julia 언어의 기초</a></li><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/04_I_splat_operator.html">Interude : Splat 연산자</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/index.html">Julia 언어의 기초</a></li><li class="breadcrumb-item"><a href="../../src/introduction_to_julia/04_I_splat_operator.html">Interude : <code>...</code> 연산자</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -202,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/introduction_to_julia/04_I_splat_operator.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Interude : Splat 연산자</span></a>
+ <span class="menu-text">Interude : <code>...</code> 연산자</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -301,7 +301,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#interude-splat-연산자" id="toc-interude-splat-연산자" class="nav-link active" data-scroll-target="#interude-splat-연산자">Interude : Splat 연산자</a>
+  <li><a href="#interude-...-연산자" id="toc-interude-...-연산자" class="nav-link active" data-scroll-target="#interude-...-연산자">Interude : <code>...</code> 연산자</a>
   <ul class="collapse">
   <li><a href="#sec-splat_operator_for_containers" id="toc-sec-splat_operator_for_containers" class="nav-link" data-scroll-target="#sec-splat_operator_for_containers">컨테이너에 대한 사용법</a></li>
   <li><a href="#sec-splat_operator_in_function_definition" id="toc-sec-splat_operator_in_function_definition" class="nav-link" data-scroll-target="#sec-splat_operator_in_function_definition">함수를 정의할 때의 사용법</a></li>
@@ -315,18 +315,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="interude-splat-연산자" class="level1 unnumbered">
-<h1 class="unnumbered">Interude : Splat 연산자</h1>
-<p><a href="../../src/introduction_to_julia/04_containers.html#sec-splat">… 연산자</a> 에서 튜플이나 배열의 첫번째 몇개만 취할 때 <code>...</code> 연산자를 사용 할 수 있다는 것을 알아보았습니다. 여기서는 함수의 Splat 연산자 <code>...</code> 에 대해 좀 더 자세히 알아봅시다.</p>
+<section id="interude-...-연산자" class="level1 unnumbered">
+<h1 class="unnumbered">Interude : <code>...</code> 연산자</h1>
+<p><a href="../../src/introduction_to_julia/04_containers.html#sec-splat">… 연산자</a> 에서 튜플이나 배열의 첫번째 몇개만 취할 때 <code>...</code> 연산자를 사용 할 수 있다는 것을 알아보았습니다. Julia 에서 <code>...</code> 연산자는 두가지 용법으로 사용됩니다.</p>
 <p><br></p>
-<section id="sec-splat_operator_for_containers" class="level3">
-<h3 class="anchored" data-anchor-id="sec-splat_operator_for_containers">컨테이너에 대한 사용법</h3>
+<section id="sec-splat_operator_for_containers" class="level2">
+<h2 class="anchored" data-anchor-id="sec-splat_operator_for_containers">컨테이너에 대한 사용법</h2>
 <p>튜플이나 <code>StepRange</code> 혹은 1차원 배열과 같이 순서가 있는 컨테이너에 대해서는 직관적으로 알 수 있습니다.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>In [1]: a1, a2, a3... = (1, "a", (2, 3), 4, sin)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Out[1]: (1, "a", (2, 3), 4, sin)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>In [2]: a1, a2</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Out[2]: (1, "a")</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Out[2]: (1, "a")  </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>In [3]: b1, b2, b3... = 1:10</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Out[3]: 1:10</span>
@@ -339,8 +339,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>In [6]: c1, c2</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Out[6]: (1, 2)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
-<p>집합이나 사전과 같은 순서가 없는 컨테이너에 대해서는 에러를 발생시키지는 않지만 그 기능을 보장 할 수 없습니다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [14]: d1, d2, d3... = Set([1, 2, 3, 4]);</span>
+<p>집합이나 사전과 같은 순서가 없는 컨테이너에 대해서는 에러를 발생시키지는 않지만 그 결과의 일관성을 보장할 수 없습니다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [14]: d1, d2, d3... = Set([1, 2, 3, 4]);</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>In [15]: d1, d2</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Out[15]: (4, 2)</span>
@@ -348,7 +348,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>In [16]: d1, d2, d3... = Set([1, 2, 3, 4, 5]);</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>In [17]: d1, d2</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>Out[17]: (5, 4)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>Out[17]: (5, 4)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>In [18]: a, b, c... = Dict("A"=&gt;1, "B"=&gt;2, "C"=&gt;3, "D"=&gt;4)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>Out[18]: Dict{String, Int64} with 4 entries:</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  "B" =&gt; 2</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  "A" =&gt; 1</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  "C" =&gt; 3</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  "D" =&gt; 4</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>In [19]: a</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>Out[19]: "B" =&gt; 2</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>In [20]: b</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>Out[20]: "A" =&gt; 1</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>In [21]: c</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>Out[21]: Base.Iterators.Rest{Dict{String, Int64}, Int64}(Dict("B" =&gt; 2, "A" =&gt; 1, "C" =&gt; 3, "D" =&gt; 4), 4)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 <p>다차원 배열의 경우 <a href="../../src/introduction_to_julia/06_arrays.html#sec-cartesian_and_linear_index">선형 인덱스</a>에 따라 일차원 배열로 변환됩니다.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">18</span>]<span class="op">:</span> x1, x2, x3<span class="op">...</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">4</span>; <span class="fl">5</span> <span class="fl">6</span>];</span>
