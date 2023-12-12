@@ -51,6 +51,28 @@ $$
 
 </br>
 
+
+
+::: {#def-matrix}
+
+#### 행렬
+
+실수 성분을 갖는 $m \times n$ 행렬 전체의 집합을 $\mathcal{M}_{m\times n}(\mathbb{R})$ 이라고 한다. 복소수 성분을 갖는 $m \times n$ 행렬 전체의 집합을 $\mathcal{M}_{m \times n}(\mathbb{C})$ 라고 하며, 실수/복소수 여부가 일단 고정되기만 하면 상관 없는 경우 $\mathcal{M}_{m \times n}(\mathbb{F})$ 라고 한다. 행렬 $\boldsymbol{A}$ 의 $i$ 행 $j$ 열 성분은 $(\boldsymbol{A})_{ij}$ 혹은 $A_{ij}$ 와 같이 표기한다.
+
+$n\times 1$ 행렬의 집합을 특히 $\mathcal{M}_n (\mathbb{F})$ 라고 한다. 실수/복소수 여부가 정해져 있을 경우 $\mathbb{F}$ 는 $\mathbb{R}$ 이나 $\mathbb{C}$ 가 된다. $\boldsymbol{v}\in \mathcal{M}_n (\mathbb{F})$ 의 $j$ 행 성분은 $v_j$ 로 표기한다. $\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대해 $B_{ij} = A_{ji}$ 인 행렬 $\boldsymbol{B}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 를 $\boldsymbol{A}$ 의 **전치 행렬 (transposed matrix)** 이라고 하며 $\boldsymbol{A}^T$ 라고 쓴다. $\boldsymbol{A}=\boldsymbol{A}^T$ 일 때 $\boldsymbol{A}$ 를 **대칭 행렬(symmetric matrix)** 이라고 한다. $\boldsymbol{A}$ 가 복소행렬일 때 $C_{ij} = \overline{A_{ji}}$ 인 행렬 $\boldsymbol{C}$ 를 **수반 행렬 (adjoint matrix)** 라고 하며 $\boldsymbol{A}^\ast$ 라고 쓴다. $\boldsymbol{A}=\boldsymbol{A}^T$ 이면 **대칭 행렬** 이라고 하고 $\boldsymbol{A}=\boldsymbol{A}^\ast$ 이면 **에르미트 행렬(Hermitian matrix)** 이라고 한다.
+
+:::
+
+</br>
+
+이미 사용했지만 행렬은 $\boldsymbol{A}$ 와 같이 기울어진 굵은 글씨체 대문자로 표현한다. 열벡터, 즉 벡터의 행렬표현의 경우 $\boldsymbol{v}$ 와 같이 기울어진  굵은 글씨체의 소문자로 표현한다. 집합의 경우는 $X, A$ 와 같이 대문자를, 집합의 원소의 경우는 소문자를 사용한다. 학문적인 관례에 따르거나, 혹은 특별한 필요가 있을 경우 언급과 함께 이 원칙에 어긋날 수 있다.
+
+
+</br>
+
+
+## 행렬대수학 정리 {#sec-summary_of_linear_algebra}
+
 ::: {#def-vector_space}
 #### 벡터공간과 벡터
 
@@ -73,26 +95,6 @@ $$
 :::
 
 </br>
-
-::: {#def-matrix}
-
-#### 행렬
-
-실수 성분을 갖는 $m \times n$ 행렬 전체의 집합을 $\mathcal{M}_{m\times n}(\mathbb{R})$ 이라고 한다. 복소수 성분을 갖는 $m \times n$ 행렬 전체의 집합을 $\mathcal{M}_{m \times n}(\mathbb{C})$ 라고 하며, 실수/복소수 여부가 일단 고정되기만 하면 상관 없는 경우 $\mathcal{M}_{m \times n}(\mathbb{F})$ 라고 한다. 행렬 $\boldsymbol{A}$ 의 $i$ 행 $j$ 열 성분은 $(\boldsymbol{A})_{ij}$ 혹은 $A_{ij}$ 와 같이 표기한다.
-
-$n\times 1$ 행렬의 집합을 특히 $\mathcal{M}_n (\mathbb{F})$ 라고 한다. 실수/복소수 여부가 정해져 있을 경우 $\mathbb{F}$ 는 $\mathbb{R}$ 이나 $\mathbb{C}$ 가 된다. $\boldsymbol{v}\in \mathcal{M}_n (\mathbb{F})$ 의 $j$ 행 성분은 $v_j$ 로 표기한다. $\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대해 $B_{ij} = A_{ji}$ 인 행렬 $\boldsymbol{B}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 를 $\boldsymbol{A}$ 의 **전치 행렬 (transposed matrix)** 이라고 하며 $\boldsymbol{A}^T$ 라고 쓴다. $\boldsymbol{A}=\boldsymbol{A}^T$ 일 때 $\boldsymbol{A}$ 를 **대칭 행렬(symmetric matrix)** 이라고 한다. $\boldsymbol{A}$ 가 복소행렬일 때 $C_{ij} = \overline{A_{ji}}$ 인 행렬 $\boldsymbol{C}$ 를 **수반 행렬 (adjoint matrix)** 라고 하며 $\boldsymbol{A}^\ast$ 라고 쓴다. $\boldsymbol{A}=\boldsymbol{A}^T$ 이면 **대칭 행렬** 이라고 하고 $\boldsymbol{A}=\boldsymbol{A}^\ast$ 이면 **에르미트 행렬(Hermitian matrix)** 이라고 한다.
-
-:::
-
-</br>
-
-이미 사용했지만 행렬은 $\boldsymbol{A}$ 와 같이 기울어진 굵은 글씨체 대문자로 표현한다. 열벡터, 즉 벡터의 행렬표현의 경우 $\boldsymbol{v}$ 와 같이 기울어진  굵은 글씨체의 소문자로 표현한다. 집합의 경우는 $X, A$ 와 같이 대문자를, 집합의 원소의 경우는 소문자를 사용한다. 학문적인 관례에 따르거나, 혹은 특별한 필요가 있을 경우 언급과 함께 이 원칙에 어긋날 수 있다.
-
-
-</br>
-
-
-## 행렬대수학 정리 {#sec-summary_of_linear_algebra}
 
 ::: {#def-linear_combinatio}
 
@@ -419,6 +421,15 @@ $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n \}$ 가 $\mathcal{M}_n(\mathbb{F})
 
 :::
 
+</br>
+
+::: {#prp-similar_transform}
+
+닮음 변환은 기저의 변환이다. $\mathcal{B} = \{u_1,\ldots,\,u_n\}$, 가 벡터공간 $U$ 의 기저라고 하고 $T\in \mathcal{L}(U)$ 에 대해 $[T]_{\mathcal{B}} = \boldsymbol{A}$ 라고 하자. $[u_i]_{\mathcal{B}}= \hat{\boldsymbol{e}}_i$ 이다. $U$ 의 다른 기저 $\mathcal{B}' = \{u_1', \ldots,\, u_n'\}$ 에 대해 $\boldsymbol{p}_i = [u'_i]_{\mathcal{B}}$ 를 $i$ 번째 열벡터로 갖는 행렬을 $\boldsymbol{P}$ 라고 하자. 이 때 $\boldsymbol{PAP}^{-1} = [T]_{\mathcal{B}'}$ 이다. 
+ 
+
+:::
+
 </br> 
 
 ::: {#def-innerproduct_space}
@@ -540,13 +551,7 @@ $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n\}$ 이 벡터공간 $V$ 의 기저
 
 </br>
 
-::: {#prp-orthonormal_basis}
 
-유한차원 내적벡터공간에서는 기저로부터 항상 정규직교기저를 얻을 수 있다. 그중 한가지 방법이 그람-슈미트(Gram-Schmidt) 방법이다
-
-:::
-
-</br>
 
 ::: {#prp-coefficients_of_vector_in_innerproduct_space}
 
@@ -557,6 +562,24 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 $$
 
 이다. 
+
+:::
+
+</br>
+
+::: {#prp-orthonormal_basis}
+
+유한차원 내적벡터공간에서는 기저로부터 항상 정규직교기저를 얻을 수 있다. 그중 한 가지 방법이 그람-슈미트(Gram-Schmidt) 방법이다
+
+:::
+
+</br>
+
+::: {#prp-schure_theorem}
+
+#### 슈어 정리 (Schur’s Theorem)
+
+유한차원 $\mathbb{C}$-내적벡터공간 $V$ 에서 정의된 연산자 $T\in \mathcal{L}(V)$ 는 어떤 정규직교기저에서 상삼각 행렬로 표현된다.
 
 :::
 
@@ -583,15 +606,85 @@ $$
 
 </br>
 
-::: {#prp-hermitian_matrix}
+::: {#def-isometry}
 
-$\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{C})$ 가 $\boldsymbol{A}^\ast = \boldsymbol{A}$ 일 때 $\boldsymbol{A}$ 를 **에르미트 행렬 (Hermitian matrix)** 혹은 **자기 수반 행렬 (self-adjoint matrix)** 라고 한다. 에르미트 행렬은 다음을 만족한다.
-
-&emsp; ($1$) $\langle \boldsymbol{Au}, \boldsymbol{v}\rangle = \langle \boldsymbol{u}, \boldsymbol{A}\boldsymbol{v}\rangle$, 
-
-&emsp; ($2$)
+$\boldsymbol{S}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 가 모든 $\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\|\boldsymbol{Sv}\| = \|\boldsymbol{v}\|$ 이면 $\boldsymbol{S}$ 를 **Isometry** 라고 한다. $\mathbb{F} =\mathbb{R}$ 일 때 **직교 행렬(orthogonal matrix)** 이라고 하며 $\mathbb{F}=\mathbb{C}$ 일 때 **유니타리 행렬(unitary matrix)** 라고 한다. 직교 행렬에 의한 닮음변환을 **직교 변환 (orthogonal transformation)** 이라고 하며, 유니타리 행렬에 의한 닮음변환을 **유니타리 변환 (unitary transformation)** 이라고 한다.
 :::
 
+</br>
+
+::: {#prp-properties_of_isometry}
+
+$\boldsymbol{S}$ 가 Isometry 일 때 다음이 성립한다.
+
+&emsp; ($1$) $\{\boldsymbol{v}_1,\ldots,\boldsymbol{v}_n\}$ 이 정규직교기저일 때 $\{\boldsymbol{Sv}_1,\ldots,\boldsymbol{Sv}_n\}$ 도 정규직교기저이다.
+
+&emsp; ($2$) $\boldsymbol{S}^{-1}= \boldsymbol{S}^\ast$ 이다. 따라서 $\boldsymbol{O}$ 가 직교행렬이면 $\boldsymbol{O}^{-1}=\boldsymbol{O}$ 이다. 
+
+&emsp; ($3$) 두 isometry 의 곱은 isometry 이다.
+
+:::
+
+
+</br>
+
+::: {#def-normal_matrix}
+
+정사각 행렬 $\boldsymbol{A} \in \mathcal{M}_{n \times n}(\mathbb{F})$ 가 $\boldsymbol{AA}^\ast = \boldsymbol{A}^\ast\boldsymbol{A}$ 일 때 이 행렬을 **정규 행렬 (normal matrix)** 라고 한다.
+
+:::
+
+
+</br>
+
+::: {#prp-properties_of_normal_matrix}
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 가 정규행렬일 때 다음이 성립한다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 가 정규행렬일 필요충분조건은 모든 $\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\|\boldsymbol{Av}\|=\|\boldsymbol{A}^\ast\boldsymbol{v}\|$ 이다. 
+
+&emsp; ($2$) $\boldsymbol{v}$ 가 공유값 $\lambda$ 를 갖는 $\boldsymbol{A}$ 의 고유벡터이면 고유값 $\overline{\lambda}$ 를 갖는 $\boldsymbol{A}^\ast$ 의 고유벡터이다.
+
+&emsp; ($3$) 서로 다른 고유값을 갖는 $\boldsymbol{A}$ 의 고유벡터는 직교한다.
+
+&emsp; ($4$) $\boldsymbol{A}$ 가 복소행렬일 때 상삼각행렬 꼴은 대각행렬이다.$^\ast$[$^\ast$ 슈어 정리 에 의해 항상 상삼각 행렬 꼴로 표현할 수 있음을 안다.]{.aside}
+
+:::
+
+
+</br>
+
+::: {#prp-properties_of_hermitian_matrix}
+
+#### 복소수체에서 정의된 행렬의 스펙트럼 정리
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{C})$ 일 때 $\boldsymbol{A}^\ast = \boldsymbol{A}$ 인 행렬을 에르미트 행렬이라고 한다. 에르미트 행렬은 정규행렬이다. 에르미트 행렬에 대해 다음이 성립한다.
+
+&emsp; ($1$) 에르미트 행렬의 고유값은 실수이다.
+
+&emsp; ($2$) 서로 다른 고유값을 갖는 에르미트 행렬의 고유벡터는 직교한다. 
+
+&emsp; ($3$) 에르미트 행렬의 고유벡터로 정규직교기저를 구성 할 수 있다.
+
+&emsp; ($4$) 에르미트 행렬은 유니타리 변환에 의해 대각행렬이 된다. 이 대각행렬의 대각성분이 고유값이다.
+
+:::
+
+</br>
+
+::: {#prp-properties_of_hermitian_matrix}
+
+#### 실수체에서 정의된 행렬의 스펙트럼 정리
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 일 때 $\boldsymbol{A}^T= \boldsymbol{A}$ 인 행렬을 대칭 행렬이라고 한다. 대칭 행렬은 정규행렬이다. 대칭 행렬에 대해 다음이 성립한다.
+
+&emsp; ($2$) 서로 다른 고유값을 갖는 에르미트 행렬의 고유벡터는 직교한다.
+
+&emsp; ($3$) 에르미트 행렬의 고유벡터로 정규직교기저를 구성 할 수 있다.
+
+&emsp; ($4$) 정규직교행렬은 직교 변환에 의해 대각행렬이다. 이 대각행렬의 대각성분이 고유값이다.
+
+:::
 
 
 </br>
@@ -601,11 +694,43 @@ $\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{C})$ 가 $\boldsymbol{A}^\ast
 
 </br>
 
+::: {#def-open_closed_interval}
+
+$a<b$ 일 때 아래와 같이 정의된 $(a, b)$ 와 $[a, b]$ 를 각각 **열린 구간 (open interval)**, **닫힌 구간 (closed interval)** 이라 한다.
+
+$$
+\begin{aligned}
+(a, b) & = \{x\in \mathbb{R} : a<x<b\}, \\
+[a, b] & = \{x \in \mathbb{R} : a \le x \le b\}. 
+\end{aligned}
+$$
+
+
+:::
+
+</br>
+
+::: {#def-bounded}
+
+실수의 집합 $X$ 에 대해 어떤 $M\in \mathbb{R}$ 이 존재하여 $x\in X \implies x \le M$ 일 때 $X$ 는 **위로 유계** 라고 한다. 어떤 $m\in \mathbb{R}$ 이 존재하여 $x\in X \implies x \ge m$ 일 때 $X$ 는 **아래로 유계** 라고 한다. $X$ 가 위로도 아래로도 유계이면 **유계** 라고 한다.
+
+:::
+
+</br>
+
+::: {#def-sequence}
+
+집합 $A$ 에 대해 양의 정수 $\mathbb{Z}_+$ 에서 $A$ 로의 함수를 **수열 (sequence)** 라고 한다. $a:\mathbb{Z}_+ \to A$ 일 때 $a(n)$ 을 관례적으로 $a_n$ 이라고 쓰며 $\langle a_n \rangle$ 은 $(a_1,\,a_2,\ldots,)$ 를 의미한다.
+
+:::
+
+</br>
+
 ::: {#def-limit_of_sequence}
 
 #### 수열의 극한 {#sec-limit_of_series}
 
-수열 $(a_n) = (a_1,\,a_2,\ldots)$ 이 $a$ 로 수렴한다는 것은 임의의 실수 $\epsilon>0$ 에 대해 어떤 자연수 $N$ 이 존재하여
+수열 $\langle a_n\rangle = (a_1,\,a_2,\ldots)$ 이 $a$ 로 수렴한다는 것은 임의의 실수 $\epsilon>0$ 에 대해 어떤 자연수 $N$ 이 존재하여
 
 $$
 n>N \implies |a_n -a |<\epsilon
@@ -650,7 +775,7 @@ $$
 
 </br>
 
-::: {#thm-maximum_minimum}
+::: {#prp-maximum_minimum}
 
 #### 최대최소정리 {#sec-theorem_minimum_maximum}
 
@@ -693,7 +818,7 @@ $$
 
 </br>
 
-::: {#thm-roll_theorem}
+::: {#prp-roll_theorem}
 #### 롤의 정리 (Roll's theorem) {#sec-roll_theorem}
 
 $f\in C[a,\,b]$ 이고 $f$ 가 $(a,\,b)$ 구간에서 미분가능하다고 하자. $f(a)=f(b)$ 이면 $f'(c)=0$ 을 만족하는 $c\in (a,\,b)$ 가 존재한다.
@@ -702,7 +827,7 @@ $f\in C[a,\,b]$ 이고 $f$ 가 $(a,\,b)$ 구간에서 미분가능하다고 하�
 
 </br>
 
-::: {#cor-generalized_roll_theorem}
+::: {#prp-generalized_roll_theorem}
 
 #### 일반화된 롤의 정리 {#sec-generalized_roll_theorem}
 
@@ -712,7 +837,7 @@ $f\in C^{n-2}[a,\,b]$ 이고 $f$ 가 $(a,\,b)$ 구간에서 $n-1$ 번 미분 가
 
 </br>
 
-::: {#thm-intermediate_value_theorem}
+::: {#prp-intermediate_value_theorem}
 
 #### 중간값 정리 (Intermediate value theorem) {#sec-intermediate_value_theorem}
 
@@ -726,7 +851,7 @@ $$
 
 </br>
 
-::: {#cor-intermediate_value_for_many_points} 
+::: {#prp-intermediate_value_for_many_points} 
 
 #### 따름정리 : 여러 점의 경우 {#sec-intermediate_value_theorem_for_many_points}
 
@@ -742,7 +867,7 @@ $$
 
 </br>
 
-::: {#thm-mean_value_theorem}
+::: {#prp-mean_value_theorem}
 #### 평균값 정리 (Mean value theorem) {#sec-mean_value_theorem}
 
 함수 $f:X \subset\mathbb{R} \to \mathbb{R}$ 이 $[a,\,b]$ 를 포함하는 구간에서 에서 연속이고, $(a,\,b)$ 에서 미분 가능하면
@@ -755,7 +880,7 @@ $$
 
 </br>
 
-::: {#thm-taylor_theorem_for_single_variable}
+::: {#prp-taylor_theorem_for_single_variable}
 #### 일변수 함수에 대한 테일러 정리 {#sec-tayler_theorem}
 
 $a$ 를 포함하는 열린구간 $I$ 에서 정의된 함수 $f:I \to \mathbb{R}$ 가 $n+1$ 번 미분 가능한 함수일 때 임의의 $x\in I$ 에 대하여
@@ -773,7 +898,7 @@ $$
 
 ::: {#def-Riemann_integral}
 
-구간 $[a,\,b]$ 에서 정의된 함수 $f$ 를 생각하자. 수열 $(x_n)$ 는 $x_1=a<x_2<\cdots <x_n=b$ 를 만족하는 수열 일 때,
+구간 $[a,\,b]$ 에서 정의된 함수 $f$ 를 생각하자. 수열 $\langle x_n\rangle $ 는 $x_1=a<x_2<\cdots <x_n=b$ 를 만족하는 수열 일 때,
 
 $$
 \begin{aligned}
@@ -801,7 +926,7 @@ $[a,\,b]$ 구간에서 연속인 함수는 리만 적분 가능하다.
 
 </br>
 
-::: {#thm-first_fundamental_theorem_of_calculus}
+::: {#prp-first_fundamental_theorem_of_calculus}
 
 #### 미적분학의 제 1 기본 정리 {#sec-1st_fundamental_theorem_of_calculus}
 
@@ -843,7 +968,7 @@ $$
 
 </br>
 
-::: {#thm-second_fundamental_theorem_of_calculus}
+::: {#prp-second_fundamental_theorem_of_calculus}
 
 #### 미적분학의 제 2 기본 정리 {#sec-2nd_fundamental_theorem_of_calculus}
 
@@ -857,7 +982,7 @@ $$
 
 </br>
 
-::: {#thm-mean_value_theorem_for_integrals}
+::: {#prp-mean_value_theorem_for_integrals}
 #### 적분에 대한 평균값 정리 (Mean value theorem for integrals) {#sec-mean_value_theorem_for_integrals}
 
 함수 $f:X \subset\mathbb{R} \to \mathbb{R}$ 이 $[a,\,b]$ 를 포함하는 구간에서 에서 연속이면
@@ -871,7 +996,7 @@ $$
 </br>
 
 
-::: {#thm-weighted_mean_value_theorem_for_integrals}
+::: {#prp-weighted_mean_value_theorem_for_integrals}
 
 #### 적분에 대한 가중 평균 정리 (Weighted mean value theorems for integrals) {#sec-weighted_mean_value_theorem_for_integrals}
 
@@ -884,5 +1009,60 @@ $$
 을 만족하는 $c\in (a,\,b)$ 가 존재한다.
 
 :::
+
+</br>
+
+## 이 책에 사용할 행렬 표기의 규칙들 {#sec-transcription_ruls}
+
+수학과 프로그래밍 전체에서 행렬이 많이 사용된다. 여기서 행렬을 표현하는 데 사용한 몇가지 규칙을 나열한다. **(J-3)** 과 같은 항목은 Julia 의 규칙이며 **(M-2)** 와 같은 항목은 수학적인 표현에 대한 규칙이다. 두 표현의 번호가 같은 경우는 수학적인 표현에 대한 Julia 구현에 대한 규칙 혹은 설명을 의미한다.
+
+**(J-0)** 특별한 언급이 없을 경우 Julia 에서 정수형과 실수형은 각각 `Int64`, `Float64` 를 사용한다. 
+
+**(J-1)** 기본적으로 코드상에서 행렬은 `A, B` 와 같은 대문자 혹은 `A1` 과 같은 대문자로 시작하는 변수명을 사용한다. Julia 에서 행렬 `A` 의 $i$ 번째 행벡터는 `A[i,:]` 로, $j$ 번째 열벡터는 `A[:,j]` 로 표현 할 수 있으므로 그대로 사용한다. 행렬 `A` 의 $i$ 행 $j$ 열 성분은 `A[i, j]` 이다. 벡터와 스칼라는 `x`, `y`, `a`, `b` 와 같은 소문자나 `x_effective`, `b2` 와 같이 소문자로 시작하는 변수명을 사용한다. `x` 가 벡터인 경우 $i$ 번째 성분은 `x[i]` 이다.
+
+
+**(J-2)** 행렬 `A` 에 대한 전치행렬은 `transpose(A)`, 수반행렬은 `A'` 나 `adjoint(A)` 로 얻을 수 있다.
+
+**(J-5)** Julia 에서는 Matlab의 `eye()` 나 numpy 의 `np.identity()` 혹은 `np.eye()` 와 같은 $n\times n$ 항등행렬을 위한 함수가 존재하지 않는다. 대신 `LinearAlgebra` 모듈의 uniform scaling operator `I` 를 임의의 크기와 임의의 원소 타입의 항등행렬로 사용할 수 있다. 타입과 크기는 다른 행렬과 계산할하는 등 필요할 때 정해진다. 
+
+```txt
+In [1]: I+[2 3;4 2]
+Out[1]: 2×2 Matrix{Int64}:
+ 3  3
+ 4  3
+
+In [2]: I-[1 2 3;3 4 5; 6 7 8]
+Out[2]: 3×3 Matrix{Int64}:
+  0  -2  -3
+ -3  -3  -5
+ -6  -7  -7
+```
+
+필요할 경우에는 항등행렬을 아래와 같이 type을 직접 선언하여 만들 수 있다.
+
+```julia
+Matrix{Int32}(I, 3, 3)      # Int32 타입의 3x3 항등행렬
+Matrix{Float64}(I, 5, 5)    # Float64 타입의 5x5 항등행렬
+Matrix{Bool}(I, 4, 4)       # Bool 타입의 4x4 항등행렬
+```
+
+$\mathbb{R}^{5 \times 1}$ 의 단위행렬 $\boldsymbol{e}_3$ 는 다음과 같이 얻을 수 있다.
+
+```julia
+e_3 = Matrix{Float64}(I, 5, 5)[:,3]
+```
+
+**(M-6)** $m\times n$ 행렬 $\boldsymbol{A}$ 와 $m \times k$ 행렬 $\boldsymbol{B}$ 에 대해(두 행렬의 행의 갯수가 같음에 주의하라)) $[\boldsymbol{A}\; \boldsymbol{B}]$ 는 $\boldsymbol{A}$ 행렬 옆에 $\boldsymbol{B}$ 행렬을 두는 $m \times (n+k)$ 행렬을 의미한다. $m\times n$ 행렬 $\boldsymbol{A}$ 와 $l \times n$ 행렬 $\boldsymbol{C}$ 에 대해 (두 행렬의 열의 갯수가 동일함에 유의하라) $[\boldsymbol{A} \,; \boldsymbol{C}]$ 는 $\boldsymbol{A}$ 행렬 아래에 $\boldsymbol{C}$ 행렬을 두는 $(m+l)\times n$ 행렬이다. 아마 $\begin{bmatrix} \boldsymbol{A} \\ \boldsymbol{C} \end{bmatrix}$ 와 동일하다고 하면 이해하기 쉬울 것이다. `;` 기호는 julia 에서 열바뀜을 나타내므로 julia 와 어느정도 유사성이 있다 하겠다. 여기에 $l\times k$ 행렬 $\boldsymbol{D}$ 에 대해 $\begin{bmatrix} \boldsymbol{A} & \boldsymbol{B} \\ \boldsymbol{C} & \boldsymbol{D} \end{bmatrix}$ 가 의미하는 것은 여러분이 쉽게 유츄 할 수 있을 것이다.
+
+**(J-6)** Julia 에서는 다음과 같이 사용 할 수 있다.
+
+```text
+julia> A = [1 3;2 4];B=[3 2; 4 3];[A B]
+2×4 Matrix{Int64}:
+ 1  3  3  2
+ 2  4  4  3
+```
+
+**(M-7)** $m\times n$ 행렬 $\boldsymbol{A}$ 와 $m \times k$ 행렬 $\boldsymbol{B}$ 혹은 $m$ 차원 벡터 $\boldsymbol{b}$ 에 대해 $[\boldsymbol{A} \mid \boldsymbol{B}]$ 혹은 $[\boldsymbol{A} \mid \boldsymbol{b}]$ 는 행렬에 대한 연산을 동시에 적용하기 위한 개념이다. 연산 $\hat{L}[\boldsymbol{A} \mid \boldsymbol{B}] = [\hat{L}\boldsymbol{A} \mid \hat{L}\boldsymbol{B}]$ 를 의미한다.
 
 </br>

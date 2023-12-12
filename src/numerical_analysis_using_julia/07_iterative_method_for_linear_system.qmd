@@ -18,7 +18,7 @@ crossref:
 
 #### 대각 지배 행렬 (Diagonally dominant matrix)
 
-행렬 $\boldsymbol{A}\in \mathbb{F}^{n\times n}$ 의 각 행의 대각성분의 절대값이 그 행의 대각성분을 제외한 성분의 절대값의 합보다 크면, 즉 각각의 $i=1,\ldots,\,n$ 행에 대해
+행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 의 각 행의 대각성분의 절대값이 그 행의 대각성분을 제외한 성분의 절대값의 합보다 크면, 즉 각각의 $i=1,\ldots,\,n$ 행에 대해
 
 $$
 |A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ij}|, \qquad i=1,\ldots,\,n
@@ -88,7 +88,7 @@ $$
 
 ::: {.proof}
 
-$\boldsymbol{A}\in \mathbb{F}^{n \times n}$ 이 행에 대해 엄격한 대각 지배 행렬일 때 induction 으로 증명한다. 우선 $n=1$ 일 경우는 자명하다. $n$ 에 대해 명제가 성립함을 가정하자. 가우스-요르단 소거법을 첫번째 행을 가준으로 하여 피보팅 없이 두번째 행부터 $n+1$ 번째 행까지 첫번째 열을 소거한 행렬을 $\boldsymbol{A}'$ 이라 하면
+$\boldsymbol{A}\in\mathcal{M}_{n \times n}(\mathbb{F})$ 이 행에 대해 엄격한 대각 지배 행렬일 때 induction 으로 증명한다. 우선 $n=1$ 일 경우는 자명하다. $n$ 에 대해 명제가 성립함을 가정하자. 가우스-요르단 소거법을 첫번째 행을 가준으로 하여 피보팅 없이 두번째 행부터 $n+1$ 번째 행까지 첫번째 열을 소거한 행렬을 $\boldsymbol{A}'$ 이라 하면
 $$
 A'_{ij} = A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j},\qquad i=2,\ldots,\,n+1 \tag{1}
 $$ 
@@ -141,7 +141,7 @@ $$
 
 #### Positive definite 행렬
 
-행렬 $\boldsymbol{A}\in \mathbb{R}^{n \times n}$ 이 대칭행렬이며 모든 $\boldsymbol{x}\in \mathbb{R}^{n}$, $\boldsymbol{x}\ne \boldsymbol{0}$ 에 대해 $\langle \boldsymbol{Ax},\boldsymbol{x}\rangle > 0$ 일 경우 $\boldsymbol{A}$ 를 **positive definite** 라 한다.
+행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 이 대칭행렬이며 모든 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{R})$, $\boldsymbol{x}\ne \boldsymbol{0}$ 에 대해 $\langle \boldsymbol{Ax},\boldsymbol{x}\rangle > 0$ 일 경우 $\boldsymbol{A}$ 를 **positive definite** 라 한다.
 
 :::
 :::
@@ -155,7 +155,7 @@ Positive definite 행렬은 복소수체에서 정의할 수도 있으나 여기
 
 #### 실수체($\mathbb{R}$) 에서 정의된 행렬의 스펙트럼 정리
 
-$\boldsymbol{A} \in \mathbb{R}^{n \times n}$ 행렬에 대해 다음 세 명제는 동치이다.
+$\boldsymbol{A} \in \mathcal{M}_{n \times n}(\mathbb{R})$ 행렬에 대해 다음 세 명제는 동치이다.
 
 &emsp; ($1$) $\boldsymbol{A}$ 는 대칭행렬이다.
 
@@ -167,14 +167,14 @@ $\boldsymbol{A} \in \mathbb{R}^{n \times n}$ 행렬에 대해 다음 세 명제�
 
 </br>
 
-즉 모든 $\boldsymbol{x}\in \mathbb{R}^n$ 은 $\boldsymbol{A}$ 의 고유벡터의 선형결합으로 표현 할 수 있다. 이제 positive definite 행렬에 대한 성질을 알아보자.
+즉 모든 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{R})$ 은 $\boldsymbol{A}$ 의 고유벡터의 선형결합으로 표현 할 수 있다. 이제 positive definite 행렬에 대한 성질을 알아보자.
 
 
 </br>
 
 ::: {#prp-positive_definite_matrix_1}
 
-$\boldsymbol{A}\in \mathbb{R}^{n \times n}$ 이 positive definite 일 경우 다음이 성립한다.
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 이 positive definite 일 경우 다음이 성립한다.
 
 &emsp; ($1$) $\boldsymbol{A}$ 의 모든 고유값은 양수이다.
 

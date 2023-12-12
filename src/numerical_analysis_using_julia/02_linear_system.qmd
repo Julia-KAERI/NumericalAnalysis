@@ -10,6 +10,8 @@ crossref:
 
 이번 장에서는 본격적인 수치해석에 들어가기에 앞서 선형 시스템을 코딩을 통해 푸는 방법, 코딩에서 이루어지는 계산의 성능 분석과 다항식에 관한 객체를 만들어본다. 수학적 내용을 코드로 만들어 보고 이를 이용하여 문제를 풀어 보면서 선형대수학과 julia 언어에 대한 지식을 습득하게 된다. 그리고 다항식에 대한 객체는 이후 계속 사용하게 될 것이다.
 
+
+
 ## 선형 시스템과 선형 방정식
 
 어떤 시스템이 $n$ 개의 독립변수 $x_1,\ldots,\,x_n$ 에 대해 아래와 같은 방정식으로 기술될 때 이 시스템을 선형 시스템이라고 한다.
@@ -29,7 +31,7 @@ $$
 
 
 
-이 시스템이 선형시스템이라고 불리는 이유는 $\boldsymbol{x}_1,\,\boldsymbol{x}_2 \in \mathbb{F}^{n \times 1}$ 이며 $a$ 가 상수 일 때, 
+이 시스템이 선형시스템이라고 불리는 이유는 $\boldsymbol{x}_1,\,\boldsymbol{x}_2 \in \mathcal{M}_n(\mathbb{F})$ 이며 $a$ 가 상수 일 때, 
 
 $$
 f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\boldsymbol{x}_2) = \boldsymbol{Ax}_1 + a\boldsymbol{Ax}_2
@@ -41,8 +43,8 @@ $$
 
 $$
 \begin{aligned}
-\ker (\boldsymbol{A}) &:= \left\{\boldsymbol{x}\in \mathbb{F}^{n\times 1} : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\
-\text{im}(\boldsymbol{A}) &:= \left\{\boldsymbol{Ax}: \boldsymbol{x} \in \mathbb{F}^{n \times 1}\right\}
+\ker (\boldsymbol{A}) &:= \left\{\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F}) : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\
+\text{im}(\boldsymbol{A}) &:= \left\{\boldsymbol{Ax}: \boldsymbol{x} \in \mathcal{M}_n(\mathbb{F})\right\}
 \end{aligned}
 $$
 
@@ -82,20 +84,20 @@ $$
 
 ::: {#prp-properties_of_triangular_matrix}
 
-행렬 $\boldsymbol{A} \in \mathbb{F}^{n \times n}$ 가 상삼각 행렬 혹은 하삼각 행렬일 때 다음은 동치이다.
+행렬 $\boldsymbol{A} \in\mathcal{M}_{n\times n}(\mathbb{F})$ 가 상삼각 행렬 혹은 하삼각 행렬일 때 다음은 동치이다.
 
 1. $\det (\boldsymbol{A}) = \prod_{i=1}^n A_{ii} \ne 0$
 
 2. $\boldsymbol{A}$ 는 가역행렬이다.
 
-3. $\boldsymbol{b}\in \mathbb{F}^{n \times 1}$ 에 대해 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}$ 가 유일하게 정해진다.
+3. $\boldsymbol{b}\in\mathcal{M}_n(\mathbb{F})$ 에 대해 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}$ 가 유일하게 정해진다.
 :::
 
 </br>
 
 ### 하삼각 행렬에서의 선형방정식의 풀이
 
-$\boldsymbol{L}\in \mathbb{F}^{n \times n}$ 과 $\boldsymbol{b}\in \mathbb{F}^{n \times 1}$ 에 대해 $\boldsymbol{Lx}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}\in \mathbb{F}^{n\times 1}$ 을 구해보자.
+$\boldsymbol{L}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 과 $\boldsymbol{b}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\boldsymbol{Lx}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})$ 을 구해보자.
 
 $$
 \begin{bmatrix} L_{11} & & & \\ L_{21} & L_{22}  & & \\ \vdots & & \ddots & \\ L_{n1} & L_{n2} & \cdots & L_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
@@ -126,7 +128,7 @@ $$
 
 ### 상삼각 행렬의 선형방정식의 풀이
 
-상삼각 행렬 $\boldsymbol{U}\in \mathbb{F}^{n \times n}$ 와 $\boldsymbol{b}\in \mathbb{F}^{n \times 1}$ 에 대해 $\boldsymbol{Ux}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}\in \mathbb{F}^{n\times 1}$ 을 구해보자.
+상삼각 행렬 $\boldsymbol{U}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 와 $\boldsymbol{b}\in\mathcal{M}_n(\mathbb{F})$ 에 대해 $\boldsymbol{Ux}=\boldsymbol{b}$ 를 만족하는 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})$ 을 구해보자.
 
 $$
 \begin{bmatrix} U_{11} & U_{12} &\cdots & U_{11} \\  & U_{22}  &\cdots  & U_{21} \\  & & \ddots & \vdots\\  & &  & U_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}

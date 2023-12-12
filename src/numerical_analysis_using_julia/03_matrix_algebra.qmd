@@ -14,11 +14,6 @@ crossref:
 
 ## 노름(norm) 과 조건수 {#sec-norm_and_condition_number}
 
-::: {.callout-note}
-벡터공간이 어떤 체(field) $\mathbb{F}$ 위에서 정의되었을 때 $\mathbb{F}$-벡터공간이라고 한다. 대표적인 체로는 실수 $\mathbb{R}$ 과 복소수 $\mathbb{C}$ 가 있다. 여기서 $\mathbb{F}$-벡터공간이라고 할 때는 $\mathbb{R}$-벡터공간 혹은 $\mathbb{C}$-벡터공간을 의미한다. $\mathbb{F}$-벡터공간, 혹은 그냥 벡터공간 이라고 할 때는 $\mathbb{F}$ 가 $\mathbb{R}$ 이든 $\mathbb{C}$ 이든 무관하다는 의미이다. 
-:::
-
-</br>
 
 ### 벡터의 노름
 
@@ -119,10 +114,10 @@ $p=\infty$ 를 포함하여 $p \ge 1$ 일 때, 유한차원 벡터공간에서�
 
 </br>
 
-보통 $p$ 는 $1$ 이상의 자연수 혹은 $\infty$ 인 경우가 많다. Julia 에서는 `LinearAlgebra` 모듈에 `norm(v, p=2)` 로 정의되는 함수로 사용할 수 있으며, $\infty$-노름은 `norm(v, Inf)` 로 사용한다. 노름이 정의된 벡터공간에서 벡터를 그 크기로 나누는 것 ($\boldsymbol{v}/\|\boldsymbol{v}\|$) 을 정규화(normalization) 라고 하며 역시 `LinearAlgebra` 모듈에 `normalize(v, p=2)` 함수로 구현되어 있다. [`norm(v, p=2)` 에서 `p=2` 는 `p` 의 기본값이 `2` 라는 의미이다. 즉, `norm(v)` 로 벡터만을 인자로 하여 함수를 호출했을 경우는 `p=2` 일 경우를 계산한다.]{.aside}
-:::
+Julia 에서는 `LinearAlgebra` 모듈의 `norm(v, p=2)` 로 정의되는 함수를 이용하여 계산 할 수 있으며 `p` 는 `1`, `2`, `Inf` 가 가능한데 각각 $L_1,\,L_2,\,L_\infty$ 노름을 의미한다. 노름이 정의된 벡터공간에서 벡터를 그 크기로 나누는 것 ($\boldsymbol{v}/\|\boldsymbol{v}\|$) 을 정규화(normalization) 라고 하며 역시 `LinearAlgebra` 모듈에 `normalize(v, p=2)` 함수로 구현되어 있다. [`norm(v, p=2)` 에서 `p=2` 는 `p` 의 기본값이 `2` 라는 의미이다. 즉, `norm(v)` 로 벡터만을 인자로 하여 함수를 호출했을 경우는 `p=2` 일 경우를 계산한다.]{.aside}
 
-```julia
+
+```txt
 In [1]: using LinearAlgebra
 
 In [2]: v=[1, 2, 3];
@@ -151,7 +146,7 @@ Out[6]: 3-element Vector{Float64}:
 ::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-matrix_norm}
 
-행렬의 노름 $\|\cdot \|: \mathbb{F}^{m\times n} \to \mathbb{R}$ 은 행렬 $\boldsymbol{A},\, \boldsymbol{B}$ 와 스칼라 $\alpha$ 에 대해 다음의 성질을 만족한다.
+행렬의 노름 $\|\cdot \|: \mathcal{M}_{m\times n}(\mathbb{F}) \to \mathbb{R}$ 은 행렬 $\boldsymbol{A},\, \boldsymbol{B}$ 와 스칼라 $\alpha$ 에 대해 다음의 성질을 만족한다.
 
 1. $\|\boldsymbol{A}\| \ge 0$, 
 
@@ -161,7 +156,7 @@ Out[6]: 3-element Vector{Float64}:
 
 4. $\|\boldsymbol{A}+\boldsymbol{B}\| \le \|\boldsymbol{A}\|+\|\boldsymbol{B}\|$.
 
-또한 $\boldsymbol{A}\in \mathbb{F}^{m \times n},\, \boldsymbol{B} \in \mathbb{F}^{n \times p}$ 에 대해 다음이 성립한다.
+또한 $\boldsymbol{A}\in \mathcal{M}_{m\times n}(\mathbb{F}),\, \boldsymbol{B} \in \mathcal{M}_{n\times p}(\mathbb{F})$ 에 대해 다음이 성립한다.
 
 5. $\|\boldsymbol{AB}\| \le \|\boldsymbol{A}\| \cdot\|\boldsymbol{B}\|$.
 
@@ -174,11 +169,11 @@ Out[6]: 3-element Vector{Float64}:
 
 </br>
 
-##### 프로베니우스 노름
+#### 프로베니우스 노름
 
 [프로베니우스 노름은 힐버트-슈미트 노름(Hilbert-Schmidt norm), 혹은 슈어 노름(Schur norm) 으로도 불린다.]{.aside}
 
-선형대수학에서 배웠다시피 $\mathbb{F}^{n \times n}$ 은 벡터공간을 이루며 각각의 $\boldsymbol{A}\in \mathbb{F}^{n \times n}$ 도 벡터므로, 벡터에 대한 노름 처럼 행렬에 대한 노름도 정의 할 수 있다. 대표적으로 프로베니우스 노름(Frobenius norm) $\|\cdot \|_F$ 은 행렬을 벡터처럼 간주했을 때의 $L_2$ 노름이다.
+선형대수학에서 배웠다시피 $\mathcal{M}_{m\times n}(\mathbb{F})$ 은 벡터공간을 이루며 각각의 $\boldsymbol{A}\in \mathcal{M}_{m\times n}(\mathbb{F})$ 도 벡터므로, 벡터에 대한 노름 처럼 행렬에 대한 노름도 정의 할 수 있다. 대표적으로 프로베니우스 노름(Frobenius norm) $\|\cdot \|_F$ 은 행렬을 벡터처럼 간주했을 때의 $L_2$ 노름이다.
 
 ::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-frobenius_norm}
@@ -215,7 +210,7 @@ $$
 
 #### 행렬의 노름
 
-$\mathbb{F}^n$ 에서의 노름이 $\|\cdot \|_\alpha$, $\mathbb{F}^m$ 에서의 노름이 $\| \cdot \|_\beta$ 로 정의되었다고 하자. $\boldsymbol{A}\in \mathbb{F}^{m \times n}$ 에 대한 연산자 노름은 다음과 같이 정의된다.
+$\mathcal{M}_n(\mathbb{F})$ 에서의 노름이 $\|\cdot \|_\alpha$, $\mathcal{M}_m(\mathbb{F})$ 에서의 노름이 $\| \cdot \|_\beta$ 로 정의되었다고 하자. $\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대한 연산자 노름은 다음과 같이 정의된다.
 
 $$
 \|\boldsymbol{A}\|_{\alpha,\,\beta} := \sup \{\|\boldsymbol{Av}\|_\beta : \|\boldsymbol{v}\|_\alpha=1\} = \sup_{\|\boldsymbol{v}\|_\alpha = 1} \|\boldsymbol{Av}\|_\beta
@@ -285,7 +280,7 @@ $$
 </br>
 
 ::: {#prp-special_matrix_norm}
-$\boldsymbol{A}\in \mathbb{F}^{m \times n}$ 일 때,
+$\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 일 때,
 $$
 \begin{aligned}
 \|\boldsymbol{A}\|_\infty &= \max_{i=1,\ldots,\,m} \sum_{j=1}^n |A_{ij}|,\\
@@ -333,7 +328,7 @@ $$
 
 Julia 에서 행렬의 $L_p$ 노름은 `opnorm(A, p=2)` 로 구현되었으며 가능한 `p` 값은 `1`, `2` 와 `Inf` 로 각각 $L_1,\, L_2,\,L_\infty$ norm을 계산한다. Frobenius 노름은 `norm(A, 2)` 로 벡터의 `norm` 처럼 계산 할 수 있다.
 
-```julia
+```txt
 In [7]: A = [1 3 2; 4.0 2.0 -3.0];
 
 In [8]: opnorm(A, 1), opnorm(A, 2), opnorm(A, Inf)
@@ -374,7 +369,7 @@ $$
 이다.
 
 
-``` julia
+```txt
 In [1]: using LinearAlgebra, SparseArrays
 
 In [2]: A = Matrix(1.0I, 3, 3)
@@ -404,7 +399,7 @@ Out[5]: 3×3 SparseMatrixCSC{Float64, Int64} with 3 stored entries:
 
 마지막의 `dropzeros()` 함수는 희소 행렬 내의 $0$ 을 제거하여 저장공간을 줄인다. `B=sparse(I, J, V)` 형식으로 생성하면, `B` 행렬의 크기는 `I` 와 `J` 벡터의 최대값으로 정해지지만, 행렬의 크기를 정할 수 있다. 예를 들어, 
 
-```julia
+```txt
 In [6]: sparse([1, 2], [1, 3], [1, -1], 4, 4)
 Out[6]: 4×4 SparseMatrixCSC{Int64, Int64} with 2 stored entries:
  1  ⋅   ⋅  ⋅
@@ -414,7 +409,7 @@ Out[6]: 4×4 SparseMatrixCSC{Int64, Int64} with 2 stored entries:
 
 와 같이 `sparse(I, J, V, m, n)` 형식으로 생성하면 이 희소행렬은 $m \times n$ 행렬이 된다. 희소벡터는 `sparsevec(I, V, m)` 형식으로 생성 할 수 있다.
 
-```julia
+```txt
 In [7]: sparsevec([1, 4], [2, -1], 5)
 Out[7]: 5-element SparseVector{Int64, Int64} with 2 stored entries:
   [1]  =  2
@@ -466,7 +461,7 @@ sI = sparse(I, 4, 4) # 4xt 단위행렬
 
 `UniformScaling` 은 단위행렬에 상수를 곱한것을 말한다. `UniformScaling(2.0)` 은 (`2.0` 이 `Float64` 타입의 부동소수이므로) `Float64` 타입의 성분을 갖는 단위행렬이다. 다만 아직까지는 차원이 정해지지 않으며 다른 행렬과 연산될 때 적절한 차원을 갖게 된다. 단위행렬을 나타내는 `I` 를 대신 사용 할 수 있으며, `UniformScaling(2.0)==2.0I` 이다.
 
-```julia
+```txt
 In [1]: using LinearAlgebra, SparseArrays
 
 In [2]: 2.0I + 3
@@ -484,7 +479,7 @@ Out[3]: 2×2 Matrix{Float64}:
 
 대각행렬을 나타내는 타입이다. $n$ 차원 벡터를 입력하면 차례로 대각성분이 되는 대각행렬을 만든다.
 
-```julia
+```txt
 In [4]: Diagonal([1, 10, 100])
 Out[4]: 3×3 Diagonal{Int64, Vector{Int64}}:
  1   ⋅    ⋅
@@ -516,7 +511,7 @@ $$
 
 쌍대각 행렬은 `Bidiagonal` 객체로 표현되며, 두가지 방법으로 구성 할 수 있다. 첫번째 방법은 생성자에(객체의 생성자이므로 객체와 같은 이름을 가진다.) 첫번째 인자로 대각성분을, 두번째 인자로 $0$ 이 아닌 대각성분의 위/아래 성분을, 세번째 인자로 상쌍대각행렬이면 `:U` 를 하쌍대각행렬이면 `:L` 을 입력하는 방법이다.
 
-```julia
+```txt
 In [6]: Bu = Bidiagonal([4, 3, 2, 5], [1, 1, 0], :U)
 Out[6]: 4×4 Bidiagonal{Int64, Vector{Int64}}:
  4  1  ⋅  ⋅
@@ -534,7 +529,7 @@ Out[7]: 4×4 Bidiagonal{Int64, Vector{Int64}}:
 
 `Bidiangoal` 타입 행렬을 구성하는 두번째 방법은 이미 존재하는 행렬로부터 대각성분을 포함한 $0$ 이 아닌 성분을 가져오는 방법이다. 다음을 보면 쉽게 이해 할 수 있을 것이다.
 
-```julia
+```txt
 In [9]: A = [1 1 1 1; 2 2 2 2; 3 3 3 3; 4 4 4 4]; Bidiagonal(A, :U)
 Out[9]: 4×4 Bidiagonal{Int64, Vector{Int64}}:
  1  1  ⋅  ⋅
@@ -562,7 +557,7 @@ $$
 
 위의 행렬 $\boldsymbol{C}$ 를 구성한다면
 
-```julia
+```txt
 In [11]: C = Tridiagonal([2, 3, 2, 3], [4, 3, 1, 5, 6], [1, 1, 2, 1])
 Out[11]: 5×5 Tridiagonal{Int64, Vector{Int64}}:
  4  1  ⋅  ⋅  ⋅
@@ -576,7 +571,7 @@ Out[11]: 5×5 Tridiagonal{Int64, Vector{Int64}}:
 
 다른 방법은 이미 존재하는 행렬로부터 구성하는 것이다.
 
-```julia
+```txt
 In [13]: D = [1 2 3 4 5]' *ones(Int64, 5)'
 Out[13]: 5×5 Matrix{Int64}:
  1  1  1  1  1
@@ -596,7 +591,7 @@ Out[13]: 5×5 Tridiagonal{Int64, Vector{Int64}}:
 
 `SymTridiagonal` 은 대칭인 삼중대각행렬을 나타내는 타입이다. 대칭행렬이므로 대각행렬의 위 띠와 아래띠가 같다. 이것은 어떻게 구성할까? 여러분이 짐작할 수 있듯이 대각성분과, 띠 성분을 벡터로 입력하면 된다.
 
-```julia
+```txt
 In [14]: SymTridiagonal([1,2, 3, 4, 5], [-1, -2, -3, -4])
 Out[14]: 5×5 SymTridiagonal{Int64, Vector{Int64}}:
   1  -1   ⋅   ⋅   ⋅
@@ -612,7 +607,7 @@ Out[14]: 5×5 SymTridiagonal{Int64, Vector{Int64}}:
 
 상삼각행렬과 하삼각행렬을 다루기 위한 타입은 각각 `UpperTriangular`, `LowerTriangular` 이다. 거기에 대각성분이 $1$ 인 행렬로 특별히 `UnitUpperTriangular`, `UnitLowerTriangular` 타입이 준비되어 있다. 이미 존재하는 행렬로부터 필요한 만큼의 행렬 원소를 취하여 행렬을 구성 할 수 있다.
 
-```julia
+```txt
 In [15]: A = [1.0 2.0 3.0; 4.0 5.0 6.0; 7.0 8.0 9.0]
 Out[15]: 3×3 Matrix{Float64}:
  1.0  2.0  3.0
@@ -657,7 +652,7 @@ $$
 
 Julia 에서는 상헤센베르그 행렬 가운데 첫번째 subdiagonal elements 아래의 성분을 `0` 으로 하는 행렬만 따로 `UpperHessenberg` 타입으로 정의한다. 임의의 정사각 행렬에 대해 `UpperHessenberg` 생성자를 취하면 다음과 같다.
 
-```julia
+```txt
 In [20]: HH = [3  4  2  3; 1  4  2  3; 1  2  3  5 ; 1  2  1  1]
 Out[20]: 4×4 Matrix{Int64}:
  3  4  2  3
@@ -687,7 +682,7 @@ $$
 
 대칭행렬에 대한 타입은 `Symmetric` 이다. 이미 존재 하는 행렬에서 하삼각부분이나 상삼각부분을 취하여 대칭행렬로 만든다.
 
-```julia
+```txt
 In [22]: A = [1 0 2 0 3; 0 4 0 5 0; 6 0 7 0 8; 0 9 0 1 0; 2 0 3 0 4]
 Out[22]: 5×5 Matrix{Int64}:
  1  0  2  0  3
@@ -717,7 +712,7 @@ Out[24]: 5×5 Symmetric{Int64, Matrix{Int64}}:
 
 에르미트 행렬에 대한 타입은 `Hermite` 이며 마찬가지로 `Hermite(A, :U)` 나 `Hermite(A, :L)` 로 에르미트행렬을 만든다. 역시 기본값은 `:U` 이다.
 
-```julia
+```txt
 In [25]: A = [1 0 2+2im 0 3-3im; 0 4 0 5 0; 6-6im 0 7 0 8+8im; 0 9 0 1 0; 2+2im 0 3-3im 0 4];
 
 In [26]: Hupper = Hermitian(A)
