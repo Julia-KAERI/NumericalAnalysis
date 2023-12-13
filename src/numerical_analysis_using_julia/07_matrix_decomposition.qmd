@@ -1,0 +1,410 @@
+---
+title: "행렬의 분해"
+language: ../_language-ko_custom.yml 
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+선형 대수학에서 행렬 분해는 행렬을 다른 행렬들의 곱으로 분해하는 것을 말한다. 다양한 행렬 분해 방법이 존재하며, 각각은 특정 유형의 문제 해결에 활용된다. 수치 해석에서는 효율적인 행렬 알고리즘을 구현하는 데 다양한 분해 방법을 사용 할 수 있다. 우리는 이미 LU 분해를 통해 선형방정식을 푸는 방법을 알아보았다. 
+
+## 수학적 기초
+
+### 대각 지배 행렬
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-diagonally_dominat_matrix}
+
+#### 대각 지배 행렬 (Diagonally dominant matrix)
+
+행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 의 각 행의 대각성분의 절대값이 그 행의 대각성분을 제외한 성분의 절대값의 합보다 크면, 즉 각각의 $i=1,\ldots,\,n$ 행에 대해
+
+$$
+|A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ij}|, \qquad i=1,\ldots,\,n
+$$
+
+이면 이 행렬 $\boldsymbol{A}$ 를 **행에 대한 대각 지배 행렬**이라 한다. 또한 각 열에대해 
+
+$$
+|A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ji}|, \qquad i=1,\ldots,\,n
+$$
+
+이면 이 행렬 $\boldsymbol{A}$ 를 **열에 대한 대각 지배 행렬**이라 한다. 행/열 에 대한 대각 지배 행렬의 조건에서 등호 조건을 제외하고 성립하면  **행/열 에 대한 엄격한 대각 지배 행렬** 이라고 한다. 
+
+:::
+:::
+
+
+</br>
+
+::: {#prp-strictly_diagonallly_dominat_matrix_is_invertible}
+
+엄격한 대각 지배 행렬은 가역행렬이다.
+
+:::
+
+
+::: {.proof}
+
+행에 대해 엄격한 대각 지배 행렬 $\boldsymbol{A}$ 이 가역행렬이면, $\boldsymbol{A}^T$ 는 열에 대해 엄격한 대각 지배 행렬이며 가역행렬이다. 따라서 행에 대해 엄격한 대각 지배 행렬이 가역행렬임을 보이면 된다. 
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 이 행에 대한 엄격한 대각 지배 행렬이라고 하자. $\boldsymbol{A}$ 가 가역행렬이 아니면 $\boldsymbol{Ax}=\boldsymbol{0}$ 을 만족하는 $\boldsymbol{x}\ne \boldsymbol{0}$ 이 존재한다. 이 $\boldsymbol{x}$ 가운데 그 절대값이 가장 큰 $|x_k|\ne 0$ 을 찾을 수 있다. $\boldsymbol{Ax}=0$ 이므로, 각각의 $i=1,\ldots,\,n$ 에 대해
+
+$$
+\sum_{j=1}^n A_{ij}x_j=0
+$$
+
+이며, 따라서 $x_k$ 의 $k$ 에 대해 
+
+$$
+A_{kk}x_k = -\sum_{j=1,\,j \ne k}^n A_{kj}x_j
+$$
+
+이다. $\boldsymbol{A}$ 가 행에 대해 엄격한 대각 지배 행렬이므로 모든 대각성분은 $0$ 이 아니다. 삼각부등식에 의해, 
+
+$$
+|A_{kk}| |x_k|  \le \sum_{j=1,\,j\ne k}^n |A_{kj}| |x_j|
+$$
+
+이 성립하며 
+$$
+|A_{kk}| \le \sum_{j= 1,\, j \ne k}^n \dfrac{|x_j|}{|x_k|} |A_{kj}| < \sum_{j= 1,\, j \ne k}^n |A_{kj}|
+$$
+
+이므로 $\boldsymbol{A}$ 가 행에 대해 엄격한 대각 지배 행렬이라는 가정에 위배된다. 따라서 $\boldsymbol{A}$ 는 가역행렬이다. $\square$
+
+
+:::
+
+</br>
+
+::: {#prp-diagonally_dominant_matrix_and_LU_factorization}
+
+행에 대해 엄격한 대각 지배 행렬은 피보팅 없이 가우스-요르단 소거법을 수행 할 수 있다.
+
+:::
+
+::: {.proof}
+
+$\boldsymbol{A}\in\mathcal{M}_{n \times n}(\mathbb{F})$ 이 행에 대해 엄격한 대각 지배 행렬일 때 induction 으로 증명한다. 우선 $n=1$ 일 경우는 자명하다. $n$ 에 대해 명제가 성립함을 가정하자. 가우스-요르단 소거법을 첫번째 행을 가준으로 하여 피보팅 없이 두번째 행부터 $n+1$ 번째 행까지 첫번째 열을 소거한 행렬을 $\boldsymbol{A}'$ 이라 하면
+$$
+A'_{ij} = A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j},\qquad i=2,\ldots,\,n+1 \tag{1}
+$$ 
+
+이다. 
+
+$$
+\begin{aligned}
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| &= \sum_{j=2,\, j \ne i} \left|A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j}\right| \le \sum_{j=2,\, j \ne i}^n |A_{ij}| + \sum_{j=2,\,j \ne i} \left|\dfrac{A_{i1}}{A_{11}}A_{1j}\right| 
+\end{aligned}\tag{2}
+$$
+
+인데, 
+
+$$
+\begin{aligned}
+\sum_{j=2,\, j \ne i}^n |A_{ij}| < |A_{ii}| - |A_{i1}|,\\
+\sum_{j=2,\, j \ne i}^n |A_{1j}| < |A_{11}| - |A_{1i}|
+\end{aligned} \tag{3}
+$$
+
+이므로, $(2)$ 과 $(3)$ 를 보면
+$$
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| < |A_{ii}|-|A_{i1}| + \dfrac{|A_{i1}|}{|A_{11}|} \left(|A_{11}| - |A_{1i}|\right) = |A_{ii}| - \dfrac{|A_{i1}|}{|A_{11}|} |A_{1i}| \tag{4}
+$$
+
+이다. $1$ 로 부터, 
+
+$$
+|A'_{ii}| = \left|A_{ii}- \dfrac{A_{i1}}{A_{11}}A_{1i}\right| \ge \left|A_{ii}\right|- \left|\dfrac{A_{i1}}{A_{11}}A_{1i}\right| \tag{5}
+$$
+
+이므로, $(4)$ 와 $(5)$ 를 결합하면, 
+
+$$
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| < |A'_{ii}|
+$$
+
+이다. 즉 2행 2열부터 $n+1$ 행 $n+1$ 열까지의 $\boldsymbol{A}'$ 의 부분행렬은 행에 대해 엄격한 지배행렬이므로 가정에 의해 피보팅 없이 가우스-조르단 소거법을 수행 할 수 있다. 따라서 임의의 크기의 정사각 행렬이 행에 대해 엄격한 대각 지배 행렬일 때, 피보팅 없이 가우스-조르단 소거법을 수행 할 수 있다. $\square$
+
+:::
+
+</br>
+
+### Positive Definite 행렬
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-positive_definite_matrices}
+
+#### Positive definite 행렬
+
+행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 이 에르미트 행렬이며 모든 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})$, $\boldsymbol{x}\ne \boldsymbol{0}$ 에 대해 $\langle \boldsymbol{Ax},\boldsymbol{x}\rangle > 0$ 일 경우, 즉 $\boldsymbol{x}^T\boldsymbol{Ax}>0$ 일 경우 $\boldsymbol{A}$ 를 **positive definite** 라 한다. 
+
+:::
+:::
+
+</br>
+
+
+Positive definite 행렬은 복소수체에서 정의할 수도 있으나 여기서는 실수체에서 정의된 행렬만 생각하기로 한다. Positive definite 행렬은 정의상 대칭행렬이므로 [Interude : 수학에 관련된 표기법과 명제들](01x_notations_and_propositions.qmd#) 의 [실수체에서 정의된 행렬의 스펙트럼 정리](01x_notations_and_propositions.qmd#prp-properties_of_hermitian_matrix) 를 만족한다. 즉 모든 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{R})$ 은 $\boldsymbol{A}$ 의 고유벡터의 선형결합으로 표현 할 수 있다. 이제 positive definite 행렬에 대한 성질을 알아보자.
+
+
+</br>
+
+::: {#prp-positive_definite_matrix_1}
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 이 positive definite 일 경우 다음이 성립한다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 의 모든 고유값은 양수이다.
+
+&emsp; ($2$) $\det (\boldsymbol{A}) >0$ 이다.
+
+&emsp; ($3$) $\boldsymbol{A}$ 는 가역행렬이다.
+
+&emsp; ($4$) $\boldsymbol{A}$ 의 대각성분은 모두 양수이다.
+
+&emsp; ($5$) $|A_{ij}| \le \max \{|A_{ii}| : i=1,\ldots,\,n\}$.
+:::
+
+::: {.proof}
+
+($1$) $\lambda$ 가 $\boldsymbol{A}$ 의 고유값이며 $\boldsymbol{v}$ 가 $\lambda$ 에 대한 고유벡터일 경우 $\lambda = \langle \boldsymbol{Av}, \boldsymbol{v}\rangle >0$ 이어야 한다.
+
+($2$) 대칭행렬 $\boldsymbol{A}$ 의 행렬식은 모든 고유값의 곱이므로 양수이다.
+
+($3$) $\boldsymbol{x}\ne 0$ 이며 $\boldsymbol{Ax}=\boldsymbol{0}$ 일 경우 $\langle \boldsymbol{Ax}, \boldsymbol{x}\rangle = 0$ 인데 이는 $\boldsymbol{A}$ 가 positive definite 가 아니라는 의미이다.
+
+($4$) $A_{ii} = \langle \boldsymbol{A}\hat{\boldsymbol{e}}_i,\, \hat{\boldsymbol{e}}_i\rangle  > 0$ 
+
+($5$) $i\ne j$ 에 대해 
+
+$$
+\begin{aligned}
+0< \langle \boldsymbol{A}(\hat{\boldsymbol{e}}_i-\hat{\boldsymbol{e}}_j), (\hat{\boldsymbol{e}}_i-\hat{\boldsymbol{e}}_j)\rangle = A_{ii}+ A_{jj} - 2 A_{ij} \\
+0< \langle \boldsymbol{A}(\hat{\boldsymbol{e}}_i+\hat{\boldsymbol{e}}_j), (\hat{\boldsymbol{e}}_i+\hat{\boldsymbol{e}}_j)\rangle = A_{ii}+ A_{jj} + 2 A_{ij} \\
+\end{aligned}
+$$
+
+이므로 
+$$
+|A_{ij}| < \dfrac{A_{ii}+A_{jj}}{2} \le \max \{|A_{ii}| : i=1,\ldots,\,n\}
+$$
+
+이다. $\square$
+
+:::
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-submatrix}
+
+#### 부분 행렬(submatrix) 와 선행 주 부분 행렬(leading principal submatrix)
+
+행렬 $\boldsymbol{A}\in \mathcal{M}_{m\times n}(\mathbb{F})$ 에 대해 임의의 중복되지 않은 행 $I=\{i_1,\ldots,\,i_p: 1\le i_k\le m\}$ 과 중복되지 않은 열 $J=\{j_1,\ldots,\,j_q: 1 \le j_l \le n \}$ 을 모아 만든 행렬을 $\boldsymbol{A}$ 의 **부분 행렬**이라고 하고 $\boldsymbol{A}[I, J]$ 라고 쓴다. $I=1,\ldots,\,k$, $J=1,\ldots,\,k$ 일 때 $\boldsymbol{A}[I, J]$ 를 **선행 주 부분 행렬** 이라고 하고 $\boldsymbol{A}_k$ 라고 쓴다. 
+
+:::
+:::
+
+</br>
+
+이제 $\boldsymbol{A}$ 가 positive definite 인 것과 $\boldsymbol{A}$ 의 모든 선행 주 부분행렬의 행렬식이 $0$ 보다 큰 것이 동치임을 보이고자 한다. 이를 위해 몇가지 미리 보여야 할 것이 있다.
+
+
+::: {#lem-positive_definite}
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 이 에르미트행렬이고 $\boldsymbol{Q} \in \mathcal{M}_{n \times n}(\mathbb{F})$ 이 가역행렬 일 때 다음은 동치이다. 
+
+&emsp; ($1$) $\boldsymbol{A}$ 가 positive definite 이고 $\boldsymbol{Q}^\ast\boldsymbol{AQ}$ 가 에르미트행렬이다.
+
+&emsp; ($2$) $\boldsymbol{Q}^\ast \boldsymbol{AQ}$ 가 positive definte 이다.
+
+:::
+
+::: {.proof}
+($1 \implies 2$) $\boldsymbol{0}$ 벡터가 아닌 $\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\boldsymbol{Qv}\ne \boldsymbol{0}$ 이다. $\boldsymbol{A}$ 가 positive definite 이므로, 
+
+$$
+0 < (\boldsymbol{Qv})^\ast \boldsymbol{A}(\boldsymbol{Qv}) = \boldsymbol{v}^\ast \left(\boldsymbol{Q}^\ast\boldsymbol{AQ}\right)\boldsymbol{v}
+$$
+
+이므로 $\boldsymbol{Q}^\ast\boldsymbol{AQ}$ 는 positive definite 이다.
+
+($2 \implies 1$) $\boldsymbol{A}$ 가 에르미트행렬이므로 $(\boldsymbol{Q}^\ast\boldsymbol{AQ})^\ast = \boldsymbol{Q}^\ast \boldsymbol{A}^\ast\boldsymbol{Q} = \boldsymbol{Q}^\ast\boldsymbol{AQ}$ 이다. 즉 $\boldsymbol{Q}^T\boldsymbol{AQ}$ 는 에르미트행렬이다. $\boldsymbol{Q}$ 가 가역이므로 임의의 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\boldsymbol{x}=\boldsymbol{Qy}$ 를 만족하는 $\boldsymbol{y}\in \mathcal{M}_n(\mathbb{F})$ 이 존재한다. 
+
+$$
+\boldsymbol{x}^\ast\boldsymbol{Ax} =  (\boldsymbol{Qy})^\ast \boldsymbol{A}\boldsymbol{Qy} = \boldsymbol{y}^\ast\boldsymbol{Q}^\ast\boldsymbol{AQ}\boldsymbol{y} > 0
+$$
+
+이므로 $\boldsymbol{A}$ 는 positive defnite 이다. $\square$ 
+
+:::
+
+</br>
+
+::: {#prp-leading_principal_submatrix}
+
+에르미트 행렬 $\boldsymbol{A}$ 가 positive definite 일 필요충분조건은 $\boldsymbol{A}$ 의 모든 선행 주 부분 행렬의 행렬식이 양수인 것이다.
+
+:::
+
+
+
+::: {.proof}
+
+Inductinon 을 통해 증명한다.[Carl P.Simon & Lawrence E. Blume 의 *Mathematics for Economists* 의 증명이다]{.aside} $1 \times 1$ 행렬의 경우는 trivial 하다. 이제 $n\times n$ 행렬에 대해 성립한다고 가정한다. $\boldsymbol{A}$ 가 $(n+1)\times (n+1)$ 행렬이라 하자. 
+
+우선 모든 $\boldsymbol{A}_i$, $i=1,\ldots,\,n$ 의 행렬식이 양수이면 $\boldsymbol{A}$ 가 positive definite 임을 보이자. 우선 $\boldsymbol{A}$ 를 $\boldsymbol{A}_n$ 에 대하여 아래와 같이 분할하여 보자. 
+
+$$
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{A}_n & \boldsymbol{a} \\ \hline \boldsymbol{a}^\ast & a\end{array}\right].
+$$
+
+여기서 $\boldsymbol{a}=\begin{bmatrix} A_{1, n+1} & \cdots & A_{n, n+1}\end{bmatrix}^T$ 이고 $a=A_{n+1, n+1}$ 이다. 또한 $\boldsymbol{A}$ 가 에르미트행렬이므로 $\boldsymbol{A}_n$ 도 에르미트행렬이며 따라서 $(\boldsymbol{A}^\ast)^{-1}=\boldsymbol{A}^{-1}$ 이다. . 그렇다면, 
+
+$$
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{I}_n & \boldsymbol{0} \\ \hline (\boldsymbol{A}_n^{-1}\boldsymbol{a})^\ast & 1\end{array}\right] \left[\begin{array}{c|c} \boldsymbol{A}_n & \boldsymbol{0}_n \\ \hline (\boldsymbol{0}_n)^\ast & d\end{array}\right] \left[\begin{array}{c|c} \boldsymbol{I}_n & \boldsymbol{A}_n^{-1}\boldsymbol{a} \\ \hline (\boldsymbol{0}_n)^\ast & 1\end{array}\right] = \boldsymbol{Q}^T\boldsymbol{BQ}
+$$
+
+이며 이 때 $d=a-\boldsymbol{a}^\ast(\boldsymbol{A}_n)^{-1}\boldsymbol{a}$ 이다. 우리는 $\det (\boldsymbol{Q}^\ast) = \det (\boldsymbol{Q})=1$ 이며 $\det (\boldsymbol{B})=d \cdot \det (\boldsymbol{A}_n)$ 임을 안다. 즉 
+
+$$
+\det (\boldsymbol{A}) =  d \cdot \det (\boldsymbol{A}_n)
+$$ 
+
+이다. $\boldsymbol{A}$ 가 positive definite 이며 $\det (\boldsymbol{A})>0$ 이므로 $d>0$ 이다. 즉 모든 선행 주 부분행렬식이 양수이면 그 행렬은 positive definite 이다.
+
+이제 $\boldsymbol{A}$ 가 positive definite 임을 가정하자. 임의의 $\boldsymbol{x}\in \mathcal{M}_{n+1}(\mathbb{R})$ 에 대해 $\boldsymbol{x} = \begin{bmatrix} \boldsymbol{x}_0 & x \end{bmatrix}^T$, $\boldsymbol{x}_0 \in \mathcal{M}_{n}(\mathbb{R})$ 이라 하면, 
+
+$$
+\boldsymbol{x}^\ast \boldsymbol{Bx} = \boldsymbol{x}^\ast \boldsymbol{A}_n \boldsymbol{x} + d\cdot x
+$$
+
+이다. $\boldsymbol{A}_n$ 이 가정에 의해 positive definite 이며, $d>0$ 이므로 $\boldsymbol{x}^\ast\boldsymbol{Bx}>0$ 이다. 따라서 @lem-positive_definite 에 의해 $\boldsymbol{B}=\boldsymbol{Q}^\ast\boldsymbol{AQ}$ 일 때 $\boldsymbol{A}$ 는 positive definite 이다. $\square$
+
+:::
+
+</br>
+
+<!-- ::: {#prp-positive_definite_}
+
+대칭행렬 $\boldsymbol{A}$ 에 대해 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 는 positive definite 하다.
+
+&emsp; ($2$) $\boldsymbol{A}$ 는 피보팅 없이 가우스-요르단 소거법을 수행 할 수 있으며, 피봇 성분은 양수이다.
+
+:::
+
+::: {.proof}
+
+
+::: -->
+
+</br>
+
+## 숄레스키 분해
+
+</br>
+
+### $\boldsymbol{LL}^\ast$ 분해
+
+::: {#thm-cholesky_decomposition}
+Positive definite 행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$은 어떤 대각성분이 양수인 하삼각행렬 $\boldsymbol{L} \in \mathcal{M}_{n \times n}(\mathbb{F})$ 에 대해 $\boldsymbol{A}= \boldsymbol{LL}^\ast$ 이다.
+
+:::
+
+::: {.proof}
+수학적 귀납법으로 증명한다. $n=1$ 일 때 경우 $\boldsymbol{A}=\begin{bmatrix}a \end{bmatrix}$ 라면 @prp-positive_definite_matrix_1 의 ($4$) 에 의해 $a>0$ 이므로 $\boldsymbol{L}=\begin{bmatrix} \sqrt{a}\end{bmatrix}$ 이다. $n$ 일때 성립함을 가정하자. $\boldsymbol{A}\in \mathcal{M}_{(n+1)\times (n+1)}(\mathbb{F})$ 에 대해 
+
+$$
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{A}_n & \boldsymbol{b} \\ \hline \boldsymbol{b}^\ast & a\end{array}\right].
+$$
+
+로 표현 할 수 있다. $\boldsymbol{A}_n = \boldsymbol{L}_n \boldsymbol{L}_n^\ast$ 라면 일 때 
+
+$$
+\boldsymbol{L} = \left[\begin{array}{c|c} \boldsymbol{L}_n & \boldsymbol{0} \\ \hline \boldsymbol{c}^\ast & d\end{array}\right].
+$$
+
+라 하자. 
+
+$$
+\boldsymbol{LL}^\ast = \left[\begin{array}{c|c} \boldsymbol{L}_n\boldsymbol{L}_n^\ast & \boldsymbol{L}_n \boldsymbol{c} \\ \hline (\boldsymbol{L}_n \boldsymbol{c})^\ast & |d|^2\end{array}\right].
+$$
+
+이므로 $\boldsymbol{b}=\boldsymbol{L}_n \boldsymbol{c}$, $d+ \boldsymbol{c}^\ast\boldsymbol{c}=|a|^2$ 을 만족하는 $\boldsymbol{c}$ 와 양수 $d$ 가 존재한다면 $\boldsymbol{A} = \boldsymbol{LL}^\ast$ 이다. 
+
+$\boldsymbol{L}_n$ 이 대각성분이 양수인 하삼각행렬이므로 가역행렬이다. 따라서 $\boldsymbol{c}=(\boldsymbol{L}_n)^{-1} \boldsymbol{b}$ 이다. 따라서 어쨋든 (그것이 양수가 아니고 복소수라고 하더라도) $d=\sqrt{|a|^2-\boldsymbol{c}^\ast \boldsymbol{c}}$ 가 존재하며, $\det(\boldsymbol{A})=|\det(\boldsymbol{L}_n)|^2 d^2 >0$ 로부터 $d^2>0$ 임을 안다. 따라서 $d>0$ 를 얻는다. $\square$
+
+:::
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-Cholesky_decomposition}
+
+#### 숄레스키 분해
+
+@thm-cholesky_decomposition 에 따라 Positive definite 행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 를 대각성분이 양수인 하삼각 행렬 $\boldsymbol{L}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 에 대해 $\boldsymbol{A}=\boldsymbol{LL}^\ast$ 로 분해하는 것을 **숄레스키 분해 (Cholesky decomposition)** 라고 한다. $\mathbb{F} =\mathbb{R}$ 인 경우 $\boldsymbol{A}=\boldsymbol{LL}^T$ 이므로 $\boldsymbol{LL}^T$ 분해라고도 한다.
+
+:::
+:::
+
+</br>
+
+### 방법
+
+$\boldsymbol{A},\,\boldsymbol{L}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 을 생각하자. $\boldsymbol{A} = \boldsymbol{LL}^\ast$ 이므로,
+
+$$
+\begin{bmatrix} A_{11} & A_{12} & A_{13} & \cdots & A_{1n} \\ 
+A_{21} & A_{22} & A_{23} & \cdots & A_{2n}\\
+\vdots & & & & \vdots \\
+A_{n1} & A_{n2} & A_{n3} & \cdots & A_{nn}\end{bmatrix} 
+= \begin{bmatrix} L_{11} & 0 & 0 & \cdots & 0 \\
+L_{21}& L_{22} & 0 & \cdots & 0 \\
+\vdots & & & & \vdots \\
+L_{n1} & L_{n2} & L_{n3} & \cdots & L_{nn} \end{bmatrix} 
+\begin{bmatrix} L_{11} & \overline{L_{21}} & \overline{L_{31}} & \cdots & \overline{L_{n1}} \\
+0 & L_{22} & \overline{L_{32}} & \cdots & \overline{L_{n2}}\\
+\vdots & & & & \vdots \\
+0 & 0 & 0 & \cdots & L_{nn}\end{bmatrix} 
+$$
+
+이다. $A_{11} = {L_{11}}^2$, $A_{j1} = L_{j1}L_{11}$ 이므로 $L_{j1}= A_{j1}/L_{11}$ 을 통해 $\boldsymbol{L}$ 의 $1$-열을 얻을 수 있다. $\boldsymbol{L}$ 의 $k$ 열까지 얻었다고 가정하자.
+
+$$
+\begin{aligned}
+A_{1,k+1} &= L_{11}\overline{L_{k+1, 1}}, \\
+A_{j<k+1, k+1} & = L_{j, 1}\overline{L_{k+1, 1}} + \cdots + L_{j, j}\overline{L_{k+1, j}}, \\
+A_{k+1, k+1} & = L_{k+1,1}\overline{L_{k+1, 1}} + \cdots + L_{k+1, k+1} \overline{L_{k+1, k+1}}, \\
+A_{j>k+1, k+1} & = L_{j, 1}\overline{L_{k+1, 1}} + \cdots + L_{j, k+1} \overline{L_{k+1, k+1}}.
+\end{aligned}
+$$
+
+이며 $L_{k+1, 1}= \overline{A_{1, k+1}}/L_{11}$ 부터 차례로 계산 할 수 있다.
+
+
+</br>
+
+::: {#prp-column_diagonal_dominat_LU}
+
+$\boldsymbol{A}$ 가 가역이며 행에 대한 대각 지배행렬이면 $LU$ 분해 가능하며 이때 하삼각행렬의 모든 성분의 절대값은 $1$ 보다 작거나 같다.
+
+:::
+
+::: {.proof}
+
+수학적 귀납법으로 증명한다. $n=1$ 일 경우는 자명하다. $n \times n$ 행렬에 대해 성립함을 가정한다. $\boldsymbol{A}\in \mathcal{M}_{(n + 1) \times (n+1) }(\mathbb{F})$ 를 다음과 같이 같이 분리하자.
+
+$$
+\boldsymbol{A} = \left[\begin{array}{c|c} a & \boldsymbol{w}^T \\\hline \\ \boldsymbol{v} & \boldsymbol{A}_n\end{array}\right]
+$$
+
+:::

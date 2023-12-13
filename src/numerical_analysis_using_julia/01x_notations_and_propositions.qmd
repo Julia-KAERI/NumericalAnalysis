@@ -1,5 +1,5 @@
 ---
-title: "수학에 관련된 표기법과 명제들"
+title: "Interude : 수학에 관련된 표기법과 명제들"
 #language: ../_language-ko_custom.yml 
 
 number-sections: true
@@ -14,6 +14,7 @@ crossref:
 
 ## 기본적인 개념과 표기법 {#sec-basic_notations}
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-notations}
 
 #### 수
@@ -21,9 +22,11 @@ crossref:
 정수의 집합을 $\mathbb{Z}$ 라고 한다. 양의 정수의 집합을 $\mathbb{Z}_+$ 라고 하고 음의 정수의 집합을 $\mathbb{Z}_-$ 라고 한다. 유리수의 집합을 $\mathbb{Q}$ 라고 하고 실수의 집합을 $\mathbb{R}$, 복소수의 집합을 $\mathbb{C}$ 라고 한다. 실수의 집합과 복소수의 집합은 체(field) 라고 불리우는 사칙연산이 잘 정의되는 집합이다. 체는 $\mathbb{F}$ 로 표기한다.
 
 :::
+:::
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-functions}
 
 #### 함수
@@ -31,9 +34,11 @@ crossref:
 집합 $X$ 에서 $Y$ 로의 함수 $f$ 는 $f:X\to Y$ 라고 표기한다. $X$ 에서 $Y$ 로의 어떤 함수를 의미할때는 $X \mapsto Y$ 라고 표기한다. 
 
 :::
+:::
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-kronecker_delta}
 
 #### 크로네커 델타 함수
@@ -45,14 +50,14 @@ $$
 $$
 
 로 정의된 함수 $\delta_{ij}$ 를 크로네커 델타 함수라고 한다.
-
+:::
 :::
 
 
 </br>
 
 
-
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-matrix}
 
 #### 행렬
@@ -62,6 +67,8 @@ $$
 $n\times 1$ 행렬의 집합을 특히 $\mathcal{M}_n (\mathbb{F})$ 라고 한다. 실수/복소수 여부가 정해져 있을 경우 $\mathbb{F}$ 는 $\mathbb{R}$ 이나 $\mathbb{C}$ 가 된다. $\boldsymbol{v}\in \mathcal{M}_n (\mathbb{F})$ 의 $j$ 행 성분은 $v_j$ 로 표기한다. $\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대해 $B_{ij} = A_{ji}$ 인 행렬 $\boldsymbol{B}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 를 $\boldsymbol{A}$ 의 **전치 행렬 (transposed matrix)** 이라고 하며 $\boldsymbol{A}^T$ 라고 쓴다. $\boldsymbol{A}=\boldsymbol{A}^T$ 일 때 $\boldsymbol{A}$ 를 **대칭 행렬(symmetric matrix)** 이라고 한다. $\boldsymbol{A}$ 가 복소행렬일 때 $C_{ij} = \overline{A_{ji}}$ 인 행렬 $\boldsymbol{C}$ 를 **수반 행렬 (adjoint matrix)** 라고 하며 $\boldsymbol{A}^\ast$ 라고 쓴다. $\boldsymbol{A}=\boldsymbol{A}^T$ 이면 **대칭 행렬** 이라고 하고 $\boldsymbol{A}=\boldsymbol{A}^\ast$ 이면 **에르미트 행렬(Hermitian matrix)** 이라고 한다.
 
 :::
+:::
+
 
 </br>
 
@@ -73,6 +80,7 @@ $n\times 1$ 행렬의 집합을 특히 $\mathcal{M}_n (\mathbb{F})$ 라고 한�
 
 ## 행렬대수학 정리 {#sec-summary_of_linear_algebra}
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-vector_space}
 #### 벡터공간과 벡터
 
@@ -93,9 +101,12 @@ $n\times 1$ 행렬의 집합을 특히 $\mathcal{M}_n (\mathbb{F})$ 라고 한�
 벡터공간 $V$ 가 정의되었을 때 벡터공간의 원소를 **벡터(vector)** 라 한다. $\mathbb{R}$ 위에서의 벡터 공간을 **실벡터공간(real vector space)** 혹은 **$\mathbb{R}$-벡터공간**, $\mathbb{C}$ 위에서의 벡터 공간을 **복소벡터공간(complex vector space)** 혹은 **$\mathbb{C}$-벡터공간** 이라 한다. $0_V$ 는 영벡터라고 불린다. 
 
 :::
+:::
+
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-linear_combinatio}
 
 #### 선형 결합, 선형 독립, 기저
@@ -123,6 +134,7 @@ $$
 $\{v_1,\ldots,\,v_m\}$ 이 선형 독립이며 $\text{span}\, (v_1,\ldots,\,v_m) = V$ 일 때 $\{v_1,\ldots,\,v_m\}$ 를 $V$ 의 **기저(basis)** 라고 한다. 유한개의 벡터로 이루어진 기저를 갖는 벡터공간을 **유한차원 벡터공간이**라고 한다. 유한차원 벡터공간이 아닌 벡터공간을 **무한차원 벡터공간**이라고 한다.
 
 :::
+:::
 
 </br>
 
@@ -145,9 +157,11 @@ $\{v_1,\ldots,\,v_m\}$ 이 선형 독립이며 $\text{span}\, (v_1,\ldots,\,v_m)
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-subspace}
 $U$ 가 벡터공간 $V$ 의 부분집합이며 벡터공간일 때 $U$ 를 $V$ 의 **부분공간**이라고 한다.
 
+:::
 :::
 
 </br> 
@@ -160,6 +174,7 @@ $U$ 가 유한차원 벡터공간 $V$ 의 부분부분공간이면 $U$ 도 유�
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-linear_map}
 
 $\mathbb{F}$-벡터공간 $U,\,V$ 에 대해 함수 $T:U \to F$ 가 다음을 만족하면 **선형 사상(linear map)** 이라고 한다.
@@ -170,6 +185,8 @@ $$
 
 $U \mapsto V$ 선형 사상의 집합을 $\mathcal{L}(U, V)$ 라고 표기한다. 자기 자신으로의 선형사상을 **선형 연산자 (linear operator)** 라고 하고 $\mathcal{L}(U)$ 처럼 표현한다.
 :::
+:::
+
 
 </br>
 
@@ -222,6 +239,7 @@ $$ {#eq-linear_map_for_basis}
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-matrix_represenation_of_vectors_and_linear_map}
 
 #### 벡터와 선형 사상의 행렬 표현
@@ -229,6 +247,7 @@ $T\in \mathcal{L}(U, V)$ 이고 $\mathcal{B}_U = \{u_1,\ldots,\,u_m\}$ 과 $\mat
 
 $T$ 는 $\mathcal{B}_U,\,\mathcal{B}_V$ 에 대해 @eq-linear_map_for_basis 와 같이 정의되므로 행렬 형태로 쓸 수 있으며 이것을 $[T]_{\mathcal{B}_U, \mathcal{B}_V}$ 라고 표기한다. 즉 $([T]_{\mathcal{B}_U, \mathcal{B}_V})_{ij} = A_{ij}$ 이다. 
 
+:::
 :::
 
 
@@ -299,6 +318,7 @@ $$
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-kernel_image_rank_nullity}
 
 $\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대해 $\ker (\boldsymbol{A})$, $\text{im}\, (\boldsymbol{A})$, $\text{rank}\, (\boldsymbol{A})$, $\text{nuliity}(\boldsymbol{A})$ 는 다음과 같이 정의된다.
@@ -311,7 +331,7 @@ $$
 \text{nullity}\, (\boldsymbol{A}) & = \dim (\ker (\boldsymbol{A})).
 \end{aligned}
 $$
-
+:::
 :::
 
 </br>
@@ -328,6 +348,7 @@ $$
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-determinant}
 #### 행렬식
 
@@ -337,6 +358,7 @@ $$
 \det(\boldsymbol{A}) = \sum_{\sigma \in S_n} \text{sgn}(\sigma)\left(\prod_{i=1}^n A_{i\sigma(i)}\right)
 $$ {#eq-determinant_of_matrix}
 
+:::
 :::
 
 </br>
@@ -359,6 +381,7 @@ $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 와 $c\in \mathbb{F}$ �
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-inverse_matrix}
 
 #### 항등행렬과 역행렬
@@ -367,7 +390,7 @@ $n \times n$ 행렬을 **정사각 행렬(square matrix)** 이라고 한다. $\b
 
 $\boldsymbol{X}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 에 대해 어떤 행렬 $\boldsymbol{Y}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 가 존재하여 $\boldsymbol{XY}=\boldsymbol{YX}=\boldsymbol{I}_n$ 일 때 $\boldsymbol{Y}$ 를 $\boldsymbol{X}$ 의 **역행렬 (inverse matrix)** 라고 하며 행렬 $\boldsymbol{A}$ 의 역행렬은 $\boldsymbol{A}^{-1}$ 로 표기한다. 역행렬이 존재하는 행렬을 **가역 행렬** 이라고 한다.
 :::
-
+::: 
 
 </br>
 
@@ -415,10 +438,12 @@ $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n \}$ 가 $\mathcal{M}_n(\mathbb{F})
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-similar_matrix}
 
 두 정사각 행렬 $\boldsymbol{A},\, \boldsymbol{B}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 에 대해 어떤 가역 행렬 $\boldsymbol{P}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 가 존재하여 $\boldsymbol{A}= \boldsymbol{PBP}^{-1}$ 일 때 두 행렬을 **닮은 행렬** 이라고 한다. 행렬 $\boldsymbol{A}$ 와 가역행렬 $\boldsymbol{P}$ 에 대해 $\boldsymbol{PAP}^{-1}$ 로 바꾸는 것을 **닮음 변환 (similar transform)** 이라고 한다.
 
+:::
 :::
 
 </br>
@@ -432,6 +457,7 @@ $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n \}$ 가 $\mathcal{M}_n(\mathbb{F})
 
 </br> 
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-innerproduct_space}
 
 #### 내적과 노름
@@ -460,6 +486,7 @@ $$ {#eq-norm_in_innerproduct_space}
 
 로 정의 할 수 있다.
 
+:::
 :::
 
 
@@ -497,12 +524,14 @@ $\mathbb{F}$-내적벡터공간의 내적과 거리함수에 대해 다음이 �
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-eigenspace}
 
 #### 고유값, 고유벡터, 고유공간
 행렬 $\boldsymbol{A}\in \mathcal{m \times n}(\mathbb{F})$ 에 대해 $\boldsymbol{Av}=\lambda \boldsymbol{v}$ 를 만족하는 $\lambda \in \mathbb{F}$ 와 $\boldsymbol{0}$ 이 아닌 $\boldsymbol{v}\in \mathcal{M}_n (\mathbb{F})$ 가 존재할 때 $\lambda$ 를 $\boldsymbol{A}$ 의 **고유값 (eigen value)** 이라고 하고 $\boldsymbol{v}$ 를 고유값 $\lambda$ 에 대한 $\boldsymbol{A}$ 의 **고유 벡터 (eigne vector)** 라고 한다. 고유값 $\lambda$ 를 갖는 고유벡터의 집합과 $\{\boldsymbol{0}\}$ 의 합집합을 고유값 $\lambda$ 에 대해 $\boldsymbol{A}$ 의 **고유 공간 (eigenspace)** 라고 하며, $E(\lambda, \boldsymbol{A})$ 라고 표기한다.
 
-::::
+:::
+:::
 
 </br>
 
@@ -539,14 +568,17 @@ $\lambda \in \mathbb{F}$ 가 $\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{
 $\mathbb{F}$-내적 벡터 공간에서 서로 다른 고유값을 갖는 고유벡터들의 집합은 선형독립이다.
 
 :::
+
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-orthonormal_basis}
 
 #### 정규직교기저와 표준기저
 
 $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n\}$ 이 벡터공간 $V$ 의 기저이며 $\langle \boldsymbol{v}_i,\,\boldsymbol{v}_j\rangle = \delta_{ij}$ 일 때 $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n\}$ 를 $V$ 의 **정규직교기저 (orthonormal basis)** 라고 한다. 벡터공간 $\mathcal{M}_n(\mathbb{F})$ 에 대해 $\hat{\boldsymbol{e}}_i \in \mathcal{M}_n (\mathbb{F})$ 를 $(\hat{\boldsymbol{e}}_i)_j = \delta_{ij}$ 로 정의하자. 이 때 $\{\hat{\boldsymbol{e}}_1, \ldots, \hat{\boldsymbol{e}}_n\}$ 는 $\mathcal{M}_n(\mathbb{F})$ 의 정규직교기저이며 특히 **표준 기저 (standard basis)** 라고 한다.
 
+:::
 :::
 
 </br>
@@ -606,9 +638,11 @@ $$
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-isometry}
 
 $\boldsymbol{S}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 가 모든 $\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\|\boldsymbol{Sv}\| = \|\boldsymbol{v}\|$ 이면 $\boldsymbol{S}$ 를 **Isometry** 라고 한다. $\mathbb{F} =\mathbb{R}$ 일 때 **직교 행렬(orthogonal matrix)** 이라고 하며 $\mathbb{F}=\mathbb{C}$ 일 때 **유니타리 행렬(unitary matrix)** 라고 한다. 직교 행렬에 의한 닮음변환을 **직교 변환 (orthogonal transformation)** 이라고 하며, 유니타리 행렬에 의한 닮음변환을 **유니타리 변환 (unitary transformation)** 이라고 한다.
+:::
 :::
 
 </br>
@@ -628,12 +662,13 @@ $\boldsymbol{S}$ 가 Isometry 일 때 다음이 성립한다.
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-normal_matrix}
 
 정사각 행렬 $\boldsymbol{A} \in \mathcal{M}_{n \times n}(\mathbb{F})$ 가 $\boldsymbol{AA}^\ast = \boldsymbol{A}^\ast\boldsymbol{A}$ 일 때 이 행렬을 **정규 행렬 (normal matrix)** 라고 한다.
 
 :::
-
+:::
 
 </br>
 
@@ -674,15 +709,15 @@ $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{C})$ 일 때 $\boldsymbol{A}
 
 ::: {#prp-properties_of_hermitian_matrix}
 
-#### 실수체에서 정의된 행렬의 스펙트럼 정리
+#### 실수체에서 정의된 행렬의 스펙트럼 정리 
 
-$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 일 때 $\boldsymbol{A}^T= \boldsymbol{A}$ 인 행렬을 대칭 행렬이라고 한다. 대칭 행렬은 정규행렬이다. 대칭 행렬에 대해 다음이 성립한다.
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 일 때 $\boldsymbol{A}^T= \boldsymbol{A}$ 인 행렬을 대칭 행렬이라고 한다. 대칭행렬은 정규행렬이다. 대칭행렬에 대해 다음이 성립한다.
 
-&emsp; ($2$) 서로 다른 고유값을 갖는 에르미트 행렬의 고유벡터는 직교한다.
+&emsp; ($1$) 서로 다른 고유값을 갖는 대칭행렬의 고유벡터는 직교한다.
 
-&emsp; ($3$) 에르미트 행렬의 고유벡터로 정규직교기저를 구성 할 수 있다.
+&emsp; ($3$) 대칭행렬의 고유벡터로 정규직교기저를 구성 할 수 있다.
 
-&emsp; ($4$) 정규직교행렬은 직교 변환에 의해 대각행렬이다. 이 대각행렬의 대각성분이 고유값이다.
+&emsp; ($4$) 직교행렬은 직교 변환에 의해 대각행렬이 된다. 이 대각행렬의 대각성분이 고유값이다.
 
 :::
 
@@ -694,6 +729,7 @@ $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 일 때 $\boldsymbol{A}
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-open_closed_interval}
 
 $a<b$ 일 때 아래와 같이 정의된 $(a, b)$ 와 $[a, b]$ 를 각각 **열린 구간 (open interval)**, **닫힌 구간 (closed interval)** 이라 한다.
@@ -705,27 +741,32 @@ $$
 \end{aligned}
 $$
 
-
+:::
 :::
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-bounded}
 
 실수의 집합 $X$ 에 대해 어떤 $M\in \mathbb{R}$ 이 존재하여 $x\in X \implies x \le M$ 일 때 $X$ 는 **위로 유계** 라고 한다. 어떤 $m\in \mathbb{R}$ 이 존재하여 $x\in X \implies x \ge m$ 일 때 $X$ 는 **아래로 유계** 라고 한다. $X$ 가 위로도 아래로도 유계이면 **유계** 라고 한다.
 
 :::
+:::
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-sequence}
 
 집합 $A$ 에 대해 양의 정수 $\mathbb{Z}_+$ 에서 $A$ 로의 함수를 **수열 (sequence)** 라고 한다. $a:\mathbb{Z}_+ \to A$ 일 때 $a(n)$ 을 관례적으로 $a_n$ 이라고 쓰며 $\langle a_n \rangle$ 은 $(a_1,\,a_2,\ldots,)$ 를 의미한다.
 
 :::
+:::
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-limit_of_sequence}
 
 #### 수열의 극한 {#sec-limit_of_series}
@@ -744,10 +785,11 @@ $$
 
 라 표기한다. 수열이 수렴하지 않을 때는 발산한다라고 한다.
 :::
-
+:::
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-continuity_of_function}
 
 #### 함수의 극한과 연속성 {#sec-limit_and_continuity_of_function}
@@ -772,6 +814,7 @@ $$
 
 이면 $f$ 는 $x_0$ 에서 연속이라고 하며, $f$ 가 모든 $x\in X$ 에 대해 연속일 때 $f$ 를 연속함수라 한다. 어떤 구간 $I$ 에서 연속인 함수의 집합을 $C_I$ 라고 쓴다. 특별히 닫힌 구간 $[a,\,b]$ 에서 정의된 함수 $f$ 에 대해 $f$ 가 $(a,\,b)$ 에서 연속이며 $\lim_{x\to a+} f(x)=f(a)$ 이고 $\lim_{x \to b-} f(x) = f(b)$ 이면 $f$ 는 $[a,\,b]$ 에서 연속이라고 한다.
 :::
+:::
 
 </br>
 
@@ -784,6 +827,7 @@ $$
 :::
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-differentiability_of_function}
 
 #### 함수의 미분 {#sec-differentiation}
@@ -796,24 +840,28 @@ $$
 
 이 존재한다는 것이며 위의 극한값을 $f'(a)$ 라고 쓴다. 함수 $f$ 가 모든 $x\in X$ 에 대해 미분 가능 할 때 $f$ 를 미분가능함수라고 한다. 
 :::
+:::
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-high_order_differentiation}
 
 #### 도함수 {#sec-derivative}
 
 함수 $f:X \subset \mathbb{R} \to \mathbb{R}$ 이 미분 가능 할 때 $f'(x)$ 는 $X$ 에서 정의된 함수이며 이를 $f$ 의 도함수 혹은 1차 도함수라고 한다. $f'(x)$ 가 미분가능한 함수 일 때 $f'(x)$ 의 도함수를 $f''(x)$ 혹은 $f^{(2)}(x)$ 라고 쓰며 $f$ 의 2차 도함수라고 한다. 같은 방법으로 $f$ 함수에 대한 $n$ 차 도함수를 정의할 수 있으며 $f^{(n)}(x)$ 라고 쓴다. 여러 차수의 도함수를 나열할 경우 원래의 함수를 $f^{(0)}$, 1 차 도함수를 $f^{(1)}$ 로 쓴다. 
 :::
-
+:::
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-Cn_class_function}
 
 #### $C^n_I$ {#sec-class_of_functions}
 
 구간 $I$ 에서 $n$ 번 미분 가능하며, 그 $n$ 차 도함수가 연속인 함수의 집합을 $C^n_I$ 라고 한다. 구간이 실수 전체일 경우는 $C^n$ 이라고 한다. $e^x$ 함수의 경우와 같이 실수 전체 영역에서 무한번 미분 가능한 함수의 집합을 $C^{\infty}$ 라고 한다.
 
+:::
 :::
 
 </br>
@@ -895,10 +943,10 @@ $$
 
 </br>
 
-
+::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-Riemann_integral}
 
-구간 $[a,\,b]$ 에서 정의된 함수 $f$ 를 생각하자. 수열 $\langle x_n\rangle $ 는 $x_1=a<x_2<\cdots <x_n=b$ 를 만족하는 수열 일 때,
+구간 $[a,\,b]$ 에서 정의된 함수 $f$ 를 생각하자. 수열 $\langle x_n\rangle$ 가 $x_1=a<x_2<\cdots <x_n=b$ 를 만족할 때,
 
 $$
 \begin{aligned}
@@ -915,7 +963,7 @@ $$
 라고 쓴다.
 
 :::
-
+:::
 
 </br>
 
@@ -1052,7 +1100,7 @@ $\mathbb{R}^{5 \times 1}$ 의 단위행렬 $\boldsymbol{e}_3$ 는 다음과 같�
 e_3 = Matrix{Float64}(I, 5, 5)[:,3]
 ```
 
-**(M-6)** $m\times n$ 행렬 $\boldsymbol{A}$ 와 $m \times k$ 행렬 $\boldsymbol{B}$ 에 대해(두 행렬의 행의 갯수가 같음에 주의하라)) $[\boldsymbol{A}\; \boldsymbol{B}]$ 는 $\boldsymbol{A}$ 행렬 옆에 $\boldsymbol{B}$ 행렬을 두는 $m \times (n+k)$ 행렬을 의미한다. $m\times n$ 행렬 $\boldsymbol{A}$ 와 $l \times n$ 행렬 $\boldsymbol{C}$ 에 대해 (두 행렬의 열의 갯수가 동일함에 유의하라) $[\boldsymbol{A} \,; \boldsymbol{C}]$ 는 $\boldsymbol{A}$ 행렬 아래에 $\boldsymbol{C}$ 행렬을 두는 $(m+l)\times n$ 행렬이다. 아마 $\begin{bmatrix} \boldsymbol{A} \\ \boldsymbol{C} \end{bmatrix}$ 와 동일하다고 하면 이해하기 쉬울 것이다. `;` 기호는 julia 에서 열바뀜을 나타내므로 julia 와 어느정도 유사성이 있다 하겠다. 여기에 $l\times k$ 행렬 $\boldsymbol{D}$ 에 대해 $\begin{bmatrix} \boldsymbol{A} & \boldsymbol{B} \\ \boldsymbol{C} & \boldsymbol{D} \end{bmatrix}$ 가 의미하는 것은 여러분이 쉽게 유츄 할 수 있을 것이다.
+**(M-6)** $m\times n$ 행렬 $\boldsymbol{A}$ 와 $m \times k$ 행렬 $\boldsymbol{B}$ 에 대해(두 행렬의 행의 갯수가 같음에 주의하라)) $[\boldsymbol{A}\; \boldsymbol{B}]$ 는 $\boldsymbol{A}$ 행렬 옆에 $\boldsymbol{B}$ 행렬을 두는 $m \times (n+k)$ 행렬을 의미한다. $m\times n$ 행렬 $\boldsymbol{A}$ 와 $l \times n$ 행렬 $\boldsymbol{C}$ 에 대해 (두 행렬의 열의 갯수가 동일함에 유의하라) $[\boldsymbol{A} \,; \boldsymbol{C}]$ 는 $\boldsymbol{A}$ 행렬 아래에 $\boldsymbol{C}$ 행렬을 두는 $(m+l)\times n$ 행렬이다. 아마 $\begin{bmatrix} \boldsymbol{A} \\ \boldsymbol{C} \end{bmatrix}$ 와 동일하다고 하면 이해하기 쉬울 것이다. `;` 기호는 julia 에서 열바뀜을 나타내므로 julia 와 어느정도 유사성이 있다 하겠다. 여기에 $l\times k$ 행렬 $\boldsymbol{D}$ 에 대해 $\begin{bmatrix} \boldsymbol{A} & \boldsymbol{B} \\ \boldsymbol{C} & \boldsymbol{D} \end{bmatrix}$ 가 의미하는 것은 여러분이 쉽게 유추 할 수 있을 것이다.
 
 **(J-6)** Julia 에서는 다음과 같이 사용 할 수 있다.
 

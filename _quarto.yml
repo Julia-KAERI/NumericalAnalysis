@@ -99,12 +99,14 @@ website:
           href: src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.qmd
         - text: "6장 일변수 방정식의 해"
           href: src/numerical_analysis_using_julia/06_finding_root.qmd
-        - text: "7장 반복법을 이용한 선형 시스템의 해 구하기"
-          href: src/numerical_analysis_using_julia/07_iterative_method_for_linear_system.qmd
-        - text: "7장 최소자승 문제"
-          href: src/numerical_analysis_using_julia/08_least_square_problem.qmd
-        - text: "8장 상미분 방정식의 초기값 문제"
-          href: src/numerical_analysis_using_julia/09_ode.qmd
+        - text: "7장 행렬의 분해"
+          href: src/numerical_analysis_using_julia/07_matrix_decomposition.qmd
+        - text: "8장 반복법을 이용한 선형 시스템의 해 구하기"
+          href: src/numerical_analysis_using_julia/08_iterative_method_for_linear_system.qmd
+        - text: "9장 최소자승 문제"
+          href: src/numerical_analysis_using_julia/09_least_square_problem.qmd
+        - text: "10장 상미분 방정식의 초기값 문제"
+          href: src/numerical_analysis_using_julia/10_ode_initial_value_problem.qmd
         - text: "부록"
           href: src/numerical_analysis_using_julia/A01_appendix_01.qmd
           
