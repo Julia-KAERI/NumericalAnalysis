@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.290">
+<meta name="generator" content="quarto-1.3.302">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -269,7 +269,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-body-container">
 <div id="def-diagonally_dominat_matrix" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 1 (대각 지배 행렬 (Diagonally dominant matrix)) </strong></span>행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 의 각 행의 대각성분의 절대값이 그 행의 대각성분을 제외한 성분의 절대값의 합보다 크면, 즉 각각의 <span class="math inline">\(i=1,\ldots,\,n\)</span> 행에 대해</p>
+<p><span class="theorem-title"><strong>정의 1 (대각 지배 행렬 (Diagonally dominant matrix)) </strong></span>행렬 <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n\times n}\)</span> 의 각 행의 대각성분의 절대값이 그 행의 대각성분을 제외한 성분의 절대값의 합보다 크면, 즉 각각의 <span class="math inline">\(i=1,\ldots,\,n\)</span> 행에 대해</p>
 <p><span class="math display">\[
 |A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ij}|, \qquad i=1,\ldots,\,n
 \]</span></p>
@@ -311,7 +311,7 @@ A_{kk}x_k = -\sum_{j=1,\,j \ne k}^n A_{kj}x_j
 <p><span class="theorem-title"><strong>명제 2 </strong></span>행에 대해 엄격한 대각 지배 행렬은 피보팅 없이 가우스-요르단 소거법을 수행 할 수 있다.</p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{A}\in\mathcal{M}_{n \times n}(\mathbb{F})\)</span> 이 행에 대해 엄격한 대각 지배 행렬일 때 induction 으로 증명한다. 우선 <span class="math inline">\(n=1\)</span> 일 경우는 자명하다. <span class="math inline">\(n\)</span> 에 대해 명제가 성립함을 가정하자. 가우스-요르단 소거법을 첫번째 행을 가준으로 하여 피보팅 없이 두번째 행부터 <span class="math inline">\(n+1\)</span> 번째 행까지 첫번째 열을 소거한 행렬을 <span class="math inline">\(\boldsymbol{A}'\)</span> 이라 하면 <span class="math display">\[
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n \times n}\)</span> 이 행에 대해 엄격한 대각 지배 행렬일 때 induction 으로 증명한다. 우선 <span class="math inline">\(n=1\)</span> 일 경우는 자명하다. <span class="math inline">\(n\)</span> 에 대해 명제가 성립함을 가정하자. 가우스-요르단 소거법을 첫번째 행을 가준으로 하여 피보팅 없이 두번째 행부터 <span class="math inline">\(n+1\)</span> 번째 행까지 첫번째 열을 소거한 행렬을 <span class="math inline">\(\boldsymbol{A}'\)</span> 이라 하면 <span class="math display">\[
 A'_{ij} = A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j},\qquad i=2,\ldots,\,n+1 \tag{1}
 \]</span></p>
 <p>이다.</p>
@@ -351,7 +351,7 @@ A'_{ij} = A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j},\qquad i=2,\ldots,\,n+1 \tag{1}
 </div>
 <div class="callout-body-container">
 <div id="def-positive_definite_matrices" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 2 (Positive definite 행렬) </strong></span>행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 이 대칭행렬이며 모든 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{R})\)</span>, <span class="math inline">\(\boldsymbol{x}\ne \boldsymbol{0}\)</span> 에 대해 <span class="math inline">\(\langle \boldsymbol{Ax},\boldsymbol{x}\rangle &gt; 0\)</span> 일 경우 <span class="math inline">\(\boldsymbol{A}\)</span> 를 <strong>positive definite</strong> 라 한다.</p>
+<p><span class="theorem-title"><strong>정의 2 (Positive definite 행렬) </strong></span>행렬 <span class="math inline">\(\boldsymbol{A}\in \mathbb{R}^{n \times n}\)</span> 이 대칭행렬이며 모든 <span class="math inline">\(\boldsymbol{x}\in \mathbb{R}^{n}\)</span>, <span class="math inline">\(\boldsymbol{x}\ne \boldsymbol{0}\)</span> 에 대해 <span class="math inline">\(\langle \boldsymbol{Ax},\boldsymbol{x}\rangle &gt; 0\)</span> 일 경우 <span class="math inline">\(\boldsymbol{A}\)</span> 를 <strong>positive definite</strong> 라 한다.</p>
 </div>
 </div>
 </div>
@@ -359,16 +359,16 @@ A'_{ij} = A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j},\qquad i=2,\ldots,\,n+1 \tag{1}
 <p><br></p>
 <p>Positive definite 행렬은 복소수체에서 정의할 수도 있으나 여기서는 실수체에서 정의된 행렬만 생각하기로 한다. 다음 명제는 대부분의 선형대수학 교재에서 다루기 때문에 증명 없이 사용하기로 하자. 우선 실수체에서 정의된 대칭행렬의 중요한 성질에 대해 알아보자.</p>
 <div id="thm-spectrum_theorem_of_real_vector_space" class="theorem">
-<p><span class="theorem-title"><strong>정리 1 (실수체(<span class="math inline">\(\mathbb{R}\)</span>) 에서 정의된 행렬의 스펙트럼 정리) </strong></span><span class="math inline">\(\boldsymbol{A} \in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 행렬에 대해 다음 세 명제는 동치이다.</p>
+<p><span class="theorem-title"><strong>정리 1 (실수체(<span class="math inline">\(\mathbb{R}\)</span>) 에서 정의된 행렬의 스펙트럼 정리) </strong></span><span class="math inline">\(\boldsymbol{A} \in \mathbb{R}^{n \times n}\)</span> 행렬에 대해 다음 세 명제는 동치이다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 는 대칭행렬이다.</p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 는 직교변환에 의해 대각행렬로 표현된다.</p>
 <p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유벡터로 정규직교기저를 구성 할 수 있다.</p>
 </div>
 <p><br></p>
-<p>즉 모든 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{R})\)</span> 은 <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유벡터의 선형결합으로 표현 할 수 있다. 이제 positive definite 행렬에 대한 성질을 알아보자.</p>
+<p>즉 모든 <span class="math inline">\(\boldsymbol{x}\in \mathbb{R}^n\)</span> 은 <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유벡터의 선형결합으로 표현 할 수 있다. 이제 positive definite 행렬에 대한 성질을 알아보자.</p>
 <p><br></p>
 <div id="prp-positive_definite_matrix_1" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 3 </strong></span><span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 이 positive definite 일 경우 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>명제 3 </strong></span><span class="math inline">\(\boldsymbol{A}\in \mathbb{R}^{n \times n}\)</span> 이 positive definite 일 경우 다음이 성립한다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 의 모든 고유값은 양수이다.</p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\det (\boldsymbol{A}) &gt;0\)</span> 이다.</p>
 <p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 는 가역행렬이다.</p>

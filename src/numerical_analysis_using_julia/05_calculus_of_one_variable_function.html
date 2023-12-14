@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.290">
+<meta name="generator" content="quarto-1.3.302">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -224,20 +224,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/numerical_analysis_using_julia/07_iterative_method_for_linear_system.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">7장 반복법을 이용한 선형 시스템의 해 구하기</span></a>
+  <a href="../../src/numerical_analysis_using_julia/07_matrix_decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7장 행렬의 분해</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/numerical_analysis_using_julia/08_least_square_problem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">7장 최소자승 문제</span></a>
+  <a href="../../src/numerical_analysis_using_julia/08_iterative_method_for_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8장 반복법을 이용한 선형 시스템의 해 구하기</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/numerical_analysis_using_julia/09_ode.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">8장 상미분 방정식</span></a>
+  <a href="../../src/numerical_analysis_using_julia/09_least_square_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9장 최소자승 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/10_ode_initial_value_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10장 상미분 방정식의 초기값 문제</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -360,7 +366,7 @@ f''(x) &amp;=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h
 <p>이 때 수치해석적으로 계산한 미분의 오차는 <span class="math inline">\(h^2\)</span> 에 비례한다. 따라서 <span class="math inline">\(h\)</span> 을 작게 잡을 수록 오차가 작아지며 충분히 작을 때 전방차분이나 후방차분보다 오차가 작을 것을 기대 할 수 있다. 위의 식에 의해 구한 미분의 추정값을 <strong>중앙 차분 (central difference)</strong> 라고 한다. 아래 그림은 함수 <span class="math inline">\(f\)</span> 에 대한 전방 차분, 후방 차분, 중앙 차분값을 그림으로 표현하였다. 실제 미분값은 중앙차분에 의한 값과 거의 같다.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="ch05_calculus_of_one_variable_function/difference_01.png" class="quarto-discovered-preview-image img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="ch05_calculus_of_one_variable_function/difference_01.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <p></p><figcaption class="figure-caption">Finite difference</figcaption><p></p>
 </figure>
 </div>

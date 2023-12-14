@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.302">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Julia &amp; Numerical Anlaysis - 행렬의 분해</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../src/numerical_analysis_using_julia/08_iterative_method_for_linear_system.html" rel="next">
+<link href="../../src/numerical_analysis_using_julia/06_finding_root.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Julia &amp; Numerical Anlaysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="검색"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/introduction_to_julia/index.html" rel="" target="">
+ <span class="menu-text">Julia 프로그래밍 언어</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Julia 언어를 이용한 수치해석</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/tools/tools.html" rel="" target="">
+ <span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+    <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/07_matrix_decomposition.html">7장 행렬의 분해</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Numerical Analysis Using Julia</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1장 수치해석과 알고리즘</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 표기법과 명제들</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/02_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2장 수치해석 입문 : 선형 시스템과 다항식</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/03_matrix_algebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3장 Julia 에서의 행렬 계산</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/03I_polynomial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 다항식의 구현</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/04_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4장 다항식을 이용한 보간법</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/04I_interpolation_struct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 국소적 보간법의 구현</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5장 일변수 함수의 미분과 적분</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/06_finding_root.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6장 일변수 방정식의 해</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/07_matrix_decomposition.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">7장 행렬의 분해</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/08_iterative_method_for_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8장 반복법을 이용한 선형 시스템의 해 구하기</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/09_least_square_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9장 최소자승 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/10_ode_initial_value_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10장 상미분 방정식의 초기값 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">부록</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#수학적-기초" id="toc-수학적-기초" class="nav-link active" data-scroll-target="#수학적-기초"><span class="header-section-number">1</span> 수학적 기초</a>
+  <ul class="collapse">
+  <li><a href="#대각-지배-행렬" id="toc-대각-지배-행렬" class="nav-link" data-scroll-target="#대각-지배-행렬">대각 지배 행렬</a></li>
+  <li><a href="#positive-definite-행렬" id="toc-positive-definite-행렬" class="nav-link" data-scroll-target="#positive-definite-행렬">Positive Definite 행렬</a></li>
+  </ul></li>
+  <li><a href="#숄레스키-분해" id="toc-숄레스키-분해" class="nav-link" data-scroll-target="#숄레스키-분해"><span class="header-section-number">2</span> 숄레스키 분해</a>
+  <ul class="collapse">
+  <li><a href="#boldsymbolllast-분해" id="toc-boldsymbolllast-분해" class="nav-link" data-scroll-target="#boldsymbolllast-분해"><span class="math inline">\(\boldsymbol{LL}^\ast\)</span> 분해</a></li>
+  <li><a href="#방법" id="toc-방법" class="nav-link" data-scroll-target="#방법">방법</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">행렬의 분해</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>선형 대수학에서 행렬 분해는 행렬을 다른 행렬들의 곱으로 분해하는 것을 말한다. 다양한 행렬 분해 방법이 존재하며, 각각은 특정 유형의 문제 해결에 활용된다. 수치 해석에서는 효율적인 행렬 알고리즘을 구현하는 데 다양한 분해 방법을 사용 할 수 있다. 우리는 이미 LU 분해를 통해 선형방정식을 푸는 방법을 알아보았다.</p>
+<section id="수학적-기초" class="level2 page-columns page-full" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="수학적-기초"><span class="header-section-number">1</span> 수학적 기초</h2>
+<section id="대각-지배-행렬" class="level3">
+<h3 class="anchored" data-anchor-id="대각-지배-행렬">대각 지배 행렬</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-diagonally_dominat_matrix" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 1 (대각 지배 행렬 (Diagonally dominant matrix)) </strong></span>행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 의 각 행의 대각성분의 절대값이 그 행의 대각성분을 제외한 성분의 절대값의 합보다 크면, 즉 각각의 <span class="math inline">\(i=1,\ldots,\,n\)</span> 행에 대해</p>
+<p><span class="math display">\[
+|A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ij}|, \qquad i=1,\ldots,\,n
+\]</span></p>
+<p>이면 이 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 를 <strong>행에 대한 대각 지배 행렬</strong>이라 한다. 또한 각 열에대해</p>
+<p><span class="math display">\[
+|A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ji}|, \qquad i=1,\ldots,\,n
+\]</span></p>
+<p>이면 이 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 를 <strong>열에 대한 대각 지배 행렬</strong>이라 한다. 행/열 에 대한 대각 지배 행렬의 조건에서 등호 조건을 제외하고 성립하면 <strong>행/열 에 대한 엄격한 대각 지배 행렬</strong> 이라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-strictly_diagonallly_dominat_matrix_is_invertible" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 1 </strong></span>엄격한 대각 지배 행렬은 가역행렬이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>행에 대해 엄격한 대각 지배 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 이 가역행렬이면, <span class="math inline">\(\boldsymbol{A}^T\)</span> 는 열에 대해 엄격한 대각 지배 행렬이며 가역행렬이다. 따라서 행에 대해 엄격한 대각 지배 행렬이 가역행렬임을 보이면 된다.</p>
+<p><span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 이 행에 대한 엄격한 대각 지배 행렬이라고 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 가 가역행렬이 아니면 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{0}\)</span> 을 만족하는 <span class="math inline">\(\boldsymbol{x}\ne \boldsymbol{0}\)</span> 이 존재한다. 이 <span class="math inline">\(\boldsymbol{x}\)</span> 가운데 그 절대값이 가장 큰 <span class="math inline">\(|x_k|\ne 0\)</span> 을 찾을 수 있다. <span class="math inline">\(\boldsymbol{Ax}=0\)</span> 이므로, 각각의 <span class="math inline">\(i=1,\ldots,\,n\)</span> 에 대해</p>
+<p><span class="math display">\[
+\sum_{j=1}^n A_{ij}x_j=0
+\]</span></p>
+<p>이며, 따라서 <span class="math inline">\(x_k\)</span> 의 <span class="math inline">\(k\)</span> 에 대해</p>
+<p><span class="math display">\[
+A_{kk}x_k = -\sum_{j=1,\,j \ne k}^n A_{kj}x_j
+\]</span></p>
+<p>이다. <span class="math inline">\(\boldsymbol{A}\)</span> 가 행에 대해 엄격한 대각 지배 행렬이므로 모든 대각성분은 <span class="math inline">\(0\)</span> 이 아니다. 삼각부등식에 의해,</p>
+<p><span class="math display">\[
+|A_{kk}| |x_k|  \le \sum_{j=1,\,j\ne k}^n |A_{kj}| |x_j|
+\]</span></p>
+<p>이 성립하며 <span class="math display">\[
+|A_{kk}| \le \sum_{j= 1,\, j \ne k}^n \dfrac{|x_j|}{|x_k|} |A_{kj}| &lt; \sum_{j= 1,\, j \ne k}^n |A_{kj}|
+\]</span></p>
+<p>이므로 <span class="math inline">\(\boldsymbol{A}\)</span> 가 행에 대해 엄격한 대각 지배 행렬이라는 가정에 위배된다. 따라서 <span class="math inline">\(\boldsymbol{A}\)</span> 는 가역행렬이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div id="prp-diagonally_dominant_matrix_and_LU_factorization" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 2 </strong></span>행에 대해 엄격한 대각 지배 행렬은 피보팅 없이 가우스-요르단 소거법을 수행 할 수 있다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{A}\in\mathcal{M}_{n \times n}(\mathbb{F})\)</span> 이 행에 대해 엄격한 대각 지배 행렬일 때 induction 으로 증명한다. 우선 <span class="math inline">\(n=1\)</span> 일 경우는 자명하다. <span class="math inline">\(n\)</span> 에 대해 명제가 성립함을 가정하자. 가우스-요르단 소거법을 첫번째 행을 가준으로 하여 피보팅 없이 두번째 행부터 <span class="math inline">\(n+1\)</span> 번째 행까지 첫번째 열을 소거한 행렬을 <span class="math inline">\(\boldsymbol{A}'\)</span> 이라 하면 <span class="math display">\[
+A'_{ij} = A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j},\qquad i=2,\ldots,\,n+1 \tag{1}
+\]</span></p>
+<p>이다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| &amp;= \sum_{j=2,\, j \ne i} \left|A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j}\right| \le \sum_{j=2,\, j \ne i}^n |A_{ij}| + \sum_{j=2,\,j \ne i} \left|\dfrac{A_{i1}}{A_{11}}A_{1j}\right|
+\end{aligned}\tag{2}
+\]</span></p>
+<p>인데,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum_{j=2,\, j \ne i}^n |A_{ij}| &lt; |A_{ii}| - |A_{i1}|,\\
+\sum_{j=2,\, j \ne i}^n |A_{1j}| &lt; |A_{11}| - |A_{1i}|
+\end{aligned} \tag{3}
+\]</span></p>
+<p>이므로, <span class="math inline">\((2)\)</span> 과 <span class="math inline">\((3)\)</span> 를 보면 <span class="math display">\[
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| &lt; |A_{ii}|-|A_{i1}| + \dfrac{|A_{i1}|}{|A_{11}|} \left(|A_{11}| - |A_{1i}|\right) = |A_{ii}| - \dfrac{|A_{i1}|}{|A_{11}|} |A_{1i}| \tag{4}
+\]</span></p>
+<p>이다. <span class="math inline">\(1\)</span> 로 부터,</p>
+<p><span class="math display">\[
+|A'_{ii}| = \left|A_{ii}- \dfrac{A_{i1}}{A_{11}}A_{1i}\right| \ge \left|A_{ii}\right|- \left|\dfrac{A_{i1}}{A_{11}}A_{1i}\right| \tag{5}
+\]</span></p>
+<p>이므로, <span class="math inline">\((4)\)</span> 와 <span class="math inline">\((5)\)</span> 를 결합하면,</p>
+<p><span class="math display">\[
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| &lt; |A'_{ii}|
+\]</span></p>
+<p>이다. 즉 2행 2열부터 <span class="math inline">\(n+1\)</span> 행 <span class="math inline">\(n+1\)</span> 열까지의 <span class="math inline">\(\boldsymbol{A}'\)</span> 의 부분행렬은 행에 대해 엄격한 지배행렬이므로 가정에 의해 피보팅 없이 가우스-조르단 소거법을 수행 할 수 있다. 따라서 임의의 크기의 정사각 행렬이 행에 대해 엄격한 대각 지배 행렬일 때, 피보팅 없이 가우스-조르단 소거법을 수행 할 수 있다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+</section>
+<section id="positive-definite-행렬" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="positive-definite-행렬">Positive Definite 행렬</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-positive_definite_matrices" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 2 (Positive definite 행렬) </strong></span>행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 이 에르미트 행렬이며 모든 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})\)</span>, <span class="math inline">\(\boldsymbol{x}\ne \boldsymbol{0}\)</span> 에 대해 <span class="math inline">\(\langle \boldsymbol{Ax},\boldsymbol{x}\rangle &gt; 0\)</span> 일 경우, 즉 <span class="math inline">\(\boldsymbol{x}^T\boldsymbol{Ax}&gt;0\)</span> 일 경우 <span class="math inline">\(\boldsymbol{A}\)</span> 를 <strong>positive definite</strong> 라 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Positive definite 행렬은 복소수체에서 정의할 수도 있으나 여기서는 실수체에서 정의된 행렬만 생각하기로 한다. Positive definite 행렬은 정의상 대칭행렬이므로 <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html#">Interude : 수학에 관련된 표기법과 명제들</a> 의 <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html#prp-properties_of_hermitian_matrix">실수체에서 정의된 행렬의 스펙트럼 정리</a> 를 만족한다. 즉 모든 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{R})\)</span> 은 <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유벡터의 선형결합으로 표현 할 수 있다. 이제 positive definite 행렬에 대한 성질을 알아보자.</p>
+<p><br></p>
+<div id="prp-positive_definite_matrix_1" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 3 </strong></span><span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 이 positive definite 일 경우 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 의 모든 고유값은 양수이다.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\det (\boldsymbol{A}) &gt;0\)</span> 이다.</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 는 가역행렬이다.</p>
+<p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 의 대각성분은 모두 양수이다.</p>
+<p>  (<span class="math inline">\(5\)</span>) <span class="math inline">\(|A_{ij}| \le \max \{|A_{ii}| : i=1,\ldots,\,n\}\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>(<span class="math inline">\(1\)</span>) <span class="math inline">\(\lambda\)</span> 가 <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유값이며 <span class="math inline">\(\boldsymbol{v}\)</span> 가 <span class="math inline">\(\lambda\)</span> 에 대한 고유벡터일 경우 <span class="math inline">\(\lambda = \langle \boldsymbol{Av}, \boldsymbol{v}\rangle &gt;0\)</span> 이어야 한다.</p>
+<p>(<span class="math inline">\(2\)</span>) 대칭행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 행렬식은 모든 고유값의 곱이므로 양수이다.</p>
+<p>(<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{x}\ne 0\)</span> 이며 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{0}\)</span> 일 경우 <span class="math inline">\(\langle \boldsymbol{Ax}, \boldsymbol{x}\rangle = 0\)</span> 인데 이는 <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 가 아니라는 의미이다.</p>
+<p>(<span class="math inline">\(4\)</span>) <span class="math inline">\(A_{ii} = \langle \boldsymbol{A}\hat{\boldsymbol{e}}_i,\, \hat{\boldsymbol{e}}_i\rangle &gt; 0\)</span></p>
+<p>(<span class="math inline">\(5\)</span>) <span class="math inline">\(i\ne j\)</span> 에 대해</p>
+<p><span class="math display">\[
+\begin{aligned}
+0&lt; \langle \boldsymbol{A}(\hat{\boldsymbol{e}}_i-\hat{\boldsymbol{e}}_j), (\hat{\boldsymbol{e}}_i-\hat{\boldsymbol{e}}_j)\rangle = A_{ii}+ A_{jj} - 2 A_{ij} \\
+0&lt; \langle \boldsymbol{A}(\hat{\boldsymbol{e}}_i+\hat{\boldsymbol{e}}_j), (\hat{\boldsymbol{e}}_i+\hat{\boldsymbol{e}}_j)\rangle = A_{ii}+ A_{jj} + 2 A_{ij} \\
+\end{aligned}
+\]</span></p>
+<p>이므로 <span class="math display">\[
+|A_{ij}| &lt; \dfrac{A_{ii}+A_{jj}}{2} \le \max \{|A_{ii}| : i=1,\ldots,\,n\}
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-submatrix" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 3 (부분 행렬(submatrix) 와 선행 주 부분 행렬(leading principal submatrix)) </strong></span>행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{m\times n}(\mathbb{F})\)</span> 에 대해 임의의 중복되지 않은 행 <span class="math inline">\(I=\{i_1,\ldots,\,i_p: 1\le i_k\le m\}\)</span> 과 중복되지 않은 열 <span class="math inline">\(J=\{j_1,\ldots,\,j_q: 1 \le j_l \le n \}\)</span> 을 모아 만든 행렬을 <span class="math inline">\(\boldsymbol{A}\)</span> 의 <strong>부분 행렬</strong>이라고 하고 <span class="math inline">\(\boldsymbol{A}[I, J]\)</span> 라고 쓴다. <span class="math inline">\(I=1,\ldots,\,k\)</span>, <span class="math inline">\(J=1,\ldots,\,k\)</span> 일 때 <span class="math inline">\(\boldsymbol{A}[I, J]\)</span> 를 <strong>선행 주 부분 행렬</strong> 이라고 하고 <span class="math inline">\(\boldsymbol{A}_k\)</span> 라고 쓴다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>이제 <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 인 것과 <span class="math inline">\(\boldsymbol{A}\)</span> 의 모든 선행 주 부분행렬의 행렬식이 <span class="math inline">\(0\)</span> 보다 큰 것이 동치임을 보이고자 한다. 이를 위해 몇가지 미리 보여야 할 것이 있다.</p>
+<div id="lem-positive_definite" class="theorem lemma">
+<p><span class="theorem-title"><strong>보조정리 1 </strong></span><span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 이 에르미트행렬이고 <span class="math inline">\(\boldsymbol{Q} \in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 이 가역행렬 일 때 다음은 동치이다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이고 <span class="math inline">\(\boldsymbol{Q}^\ast\boldsymbol{AQ}\)</span> 가 에르미트행렬이다.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{Q}^\ast \boldsymbol{AQ}\)</span> 가 positive definte 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>(<span class="math inline">\(1 \implies 2\)</span>) <span class="math inline">\(\boldsymbol{0}\)</span> 벡터가 아닌 <span class="math inline">\(\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Qv}\ne \boldsymbol{0}\)</span> 이다. <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이므로,</p>
+<p><span class="math display">\[
+0 &lt; (\boldsymbol{Qv})^\ast \boldsymbol{A}(\boldsymbol{Qv}) = \boldsymbol{v}^\ast \left(\boldsymbol{Q}^\ast\boldsymbol{AQ}\right)\boldsymbol{v}
+\]</span></p>
+<p>이므로 <span class="math inline">\(\boldsymbol{Q}^\ast\boldsymbol{AQ}\)</span> 는 positive definite 이다.</p>
+<p>(<span class="math inline">\(2 \implies 1\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 가 에르미트행렬이므로 <span class="math inline">\((\boldsymbol{Q}^\ast\boldsymbol{AQ})^\ast = \boldsymbol{Q}^\ast \boldsymbol{A}^\ast\boldsymbol{Q} = \boldsymbol{Q}^\ast\boldsymbol{AQ}\)</span> 이다. 즉 <span class="math inline">\(\boldsymbol{Q}^T\boldsymbol{AQ}\)</span> 는 에르미트행렬이다. <span class="math inline">\(\boldsymbol{Q}\)</span> 가 가역이므로 임의의 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{x}=\boldsymbol{Qy}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{y}\in \mathcal{M}_n(\mathbb{F})\)</span> 이 존재한다.</p>
+<p><span class="math display">\[
+\boldsymbol{x}^\ast\boldsymbol{Ax} =  (\boldsymbol{Qy})^\ast \boldsymbol{A}\boldsymbol{Qy} = \boldsymbol{y}^\ast\boldsymbol{Q}^\ast\boldsymbol{AQ}\boldsymbol{y} &gt; 0
+\]</span></p>
+<p>이므로 <span class="math inline">\(\boldsymbol{A}\)</span> 는 positive defnite 이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div id="prp-leading_principal_submatrix" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 4 </strong></span>에르미트 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 일 필요충분조건은 <span class="math inline">\(\boldsymbol{A}\)</span> 의 모든 선행 주 부분 행렬의 행렬식이 양수인 것이다.</p>
+</div>
+<div class="proof page-columns page-full">
+<div class="page-columns page-full"><p><span class="proof-title"><em>(증명)</em>. </span>Inductinon 을 통해 증명한다. <span class="math inline">\(1 \times 1\)</span> 행렬의 경우는 trivial 하다. 이제 <span class="math inline">\(n\times n\)</span> 행렬에 대해 성립한다고 가정한다. <span class="math inline">\(\boldsymbol{A}\)</span> 가 <span class="math inline">\((n+1)\times (n+1)\)</span> 행렬이라 하자.</p><div class="no-row-height column-margin column-container"><span class="">Carl P.Simon &amp; Lawrence E. Blume 의 <em>Mathematics for Economists</em> 의 증명이다</span></div></div>
+<p>우선 모든 <span class="math inline">\(\boldsymbol{A}_i\)</span>, <span class="math inline">\(i=1,\ldots,\,n\)</span> 의 행렬식이 양수이면 <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 임을 보이자. 우선 <span class="math inline">\(\boldsymbol{A}\)</span> 를 <span class="math inline">\(\boldsymbol{A}_n\)</span> 에 대하여 아래와 같이 분할하여 보자.</p>
+<p><span class="math display">\[
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{A}_n &amp; \boldsymbol{a} \\ \hline \boldsymbol{a}^\ast &amp; a\end{array}\right].
+\]</span></p>
+<p>여기서 <span class="math inline">\(\boldsymbol{a}=\begin{bmatrix} A_{1, n+1} &amp; \cdots &amp; A_{n, n+1}\end{bmatrix}^T\)</span> 이고 <span class="math inline">\(a=A_{n+1, n+1}\)</span> 이다. 또한 <span class="math inline">\(\boldsymbol{A}\)</span> 가 에르미트행렬이므로 <span class="math inline">\(\boldsymbol{A}_n\)</span> 도 에르미트행렬이며 따라서 <span class="math inline">\((\boldsymbol{A}^\ast)^{-1}=\boldsymbol{A}^{-1}\)</span> 이다. . 그렇다면,</p>
+<p><span class="math display">\[
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{I}_n &amp; \boldsymbol{0} \\ \hline (\boldsymbol{A}_n^{-1}\boldsymbol{a})^\ast &amp; 1\end{array}\right] \left[\begin{array}{c|c} \boldsymbol{A}_n &amp; \boldsymbol{0}_n \\ \hline (\boldsymbol{0}_n)^\ast &amp; d\end{array}\right] \left[\begin{array}{c|c} \boldsymbol{I}_n &amp; \boldsymbol{A}_n^{-1}\boldsymbol{a} \\ \hline (\boldsymbol{0}_n)^\ast &amp; 1\end{array}\right] = \boldsymbol{Q}^T\boldsymbol{BQ}
+\]</span></p>
+<p>이며 이 때 <span class="math inline">\(d=a-\boldsymbol{a}^\ast(\boldsymbol{A}_n)^{-1}\boldsymbol{a}\)</span> 이다. 우리는 <span class="math inline">\(\det (\boldsymbol{Q}^\ast) = \det (\boldsymbol{Q})=1\)</span> 이며 <span class="math inline">\(\det (\boldsymbol{B})=d \cdot \det (\boldsymbol{A}_n)\)</span> 임을 안다. 즉</p>
+<p><span class="math display">\[
+\det (\boldsymbol{A}) =  d \cdot \det (\boldsymbol{A}_n)
+\]</span></p>
+<p>이다. <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이며 <span class="math inline">\(\det (\boldsymbol{A})&gt;0\)</span> 이므로 <span class="math inline">\(d&gt;0\)</span> 이다. 즉 모든 선행 주 부분행렬식이 양수이면 그 행렬은 positive definite 이다.</p>
+<p>이제 <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 임을 가정하자. 임의의 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_{n+1}(\mathbb{R})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{x} = \begin{bmatrix} \boldsymbol{x}_0 &amp; x \end{bmatrix}^T\)</span>, <span class="math inline">\(\boldsymbol{x}_0 \in \mathcal{M}_{n}(\mathbb{R})\)</span> 이라 하면,</p>
+<p><span class="math display">\[
+\boldsymbol{x}^\ast \boldsymbol{Bx} = \boldsymbol{x}^\ast \boldsymbol{A}_n \boldsymbol{x} + d\cdot x
+\]</span></p>
+<p>이다. <span class="math inline">\(\boldsymbol{A}_n\)</span> 이 가정에 의해 positive definite 이며, <span class="math inline">\(d&gt;0\)</span> 이므로 <span class="math inline">\(\boldsymbol{x}^\ast\boldsymbol{Bx}&gt;0\)</span> 이다. 따라서 <a href="#lem-positive_definite">보조정리&nbsp;1</a> 에 의해 <span class="math inline">\(\boldsymbol{B}=\boldsymbol{Q}^\ast\boldsymbol{AQ}\)</span> 일 때 <span class="math inline">\(\boldsymbol{A}\)</span> 는 positive definite 이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<!-- ::: {#prp-positive_definite_}
+
+대칭행렬 $\boldsymbol{A}$ 에 대해 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 는 positive definite 하다.
+
+&emsp; ($2$) $\boldsymbol{A}$ 는 피보팅 없이 가우스-요르단 소거법을 수행 할 수 있으며, 피봇 성분은 양수이다.
+
+:::
+
+::: {.proof}
+
+
+::: -->
+<p><br></p>
+</section>
+</section>
+<section id="숄레스키-분해" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="숄레스키-분해"><span class="header-section-number">2</span> 숄레스키 분해</h2>
+<p><br></p>
+<section id="boldsymbolllast-분해" class="level3">
+<h3 class="anchored" data-anchor-id="boldsymbolllast-분해"><span class="math inline">\(\boldsymbol{LL}^\ast\)</span> 분해</h3>
+<div id="thm-cholesky_decomposition" class="theorem">
+<p><span class="theorem-title"><strong>정리 1 </strong></span>Positive definite 행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span>은 어떤 대각성분이 양수인 하삼각행렬 <span class="math inline">\(\boldsymbol{L} \in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}= \boldsymbol{LL}^\ast\)</span> 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>수학적 귀납법으로 증명한다. <span class="math inline">\(n=1\)</span> 일 때 경우 <span class="math inline">\(\boldsymbol{A}=\begin{bmatrix}a \end{bmatrix}\)</span> 라면 <a href="#prp-positive_definite_matrix_1">명제&nbsp;3</a> 의 (<span class="math inline">\(4\)</span>) 에 의해 <span class="math inline">\(a&gt;0\)</span> 이므로 <span class="math inline">\(\boldsymbol{L}=\begin{bmatrix} \sqrt{a}\end{bmatrix}\)</span> 이다. <span class="math inline">\(n\)</span> 일때 성립함을 가정하자. <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{(n+1)\times (n+1)}(\mathbb{F})\)</span> 에 대해</p>
+<p><span class="math display">\[
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{A}_n &amp; \boldsymbol{b} \\ \hline \boldsymbol{b}^\ast &amp; a\end{array}\right].
+\]</span></p>
+<p>로 표현 할 수 있다. <span class="math inline">\(\boldsymbol{A}_n = \boldsymbol{L}_n \boldsymbol{L}_n^\ast\)</span> 라면 일 때</p>
+<p><span class="math display">\[
+\boldsymbol{L} = \left[\begin{array}{c|c} \boldsymbol{L}_n &amp; \boldsymbol{0} \\ \hline \boldsymbol{c}^\ast &amp; d\end{array}\right].
+\]</span></p>
+<p>라 하자.</p>
+<p><span class="math display">\[
+\boldsymbol{LL}^\ast = \left[\begin{array}{c|c} \boldsymbol{L}_n\boldsymbol{L}_n^\ast &amp; \boldsymbol{L}_n \boldsymbol{c} \\ \hline (\boldsymbol{L}_n \boldsymbol{c})^\ast &amp; |d|^2\end{array}\right].
+\]</span></p>
+<p>이므로 <span class="math inline">\(\boldsymbol{b}=\boldsymbol{L}_n \boldsymbol{c}\)</span>, <span class="math inline">\(d+ \boldsymbol{c}^\ast\boldsymbol{c}=|a|^2\)</span> 을 만족하는 <span class="math inline">\(\boldsymbol{c}\)</span> 와 양수 <span class="math inline">\(d\)</span> 가 존재한다면 <span class="math inline">\(\boldsymbol{A} = \boldsymbol{LL}^\ast\)</span> 이다.</p>
+<p><span class="math inline">\(\boldsymbol{L}_n\)</span> 이 대각성분이 양수인 하삼각행렬이므로 가역행렬이다. 따라서 <span class="math inline">\(\boldsymbol{c}=(\boldsymbol{L}_n)^{-1} \boldsymbol{b}\)</span> 이다. 따라서 어쨋든 (그것이 양수가 아니고 복소수라고 하더라도) <span class="math inline">\(d=\sqrt{|a|^2-\boldsymbol{c}^\ast \boldsymbol{c}}\)</span> 가 존재하며, <span class="math inline">\(\det(\boldsymbol{A})=|\det(\boldsymbol{L}_n)|^2 d^2 &gt;0\)</span> 로부터 <span class="math inline">\(d^2&gt;0\)</span> 임을 안다. 따라서 <span class="math inline">\(d&gt;0\)</span> 를 얻는다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-Cholesky_decomposition" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 4 (숄레스키 분해) </strong></span><a href="#thm-cholesky_decomposition">정리&nbsp;1</a> 에 따라 Positive definite 행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 를 대각성분이 양수인 하삼각 행렬 <span class="math inline">\(\boldsymbol{L}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{LL}^\ast\)</span> 로 분해하는 것을 <strong>숄레스키 분해 (Cholesky decomposition)</strong> 라고 한다. <span class="math inline">\(\mathbb{F} =\mathbb{R}\)</span> 인 경우 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{LL}^T\)</span> 이므로 <span class="math inline">\(\boldsymbol{LL}^T\)</span> 분해라고도 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="방법" class="level3">
+<h3 class="anchored" data-anchor-id="방법">방법</h3>
+<p><span class="math inline">\(\boldsymbol{A},\,\boldsymbol{L}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 을 생각하자. <span class="math inline">\(\boldsymbol{A} = \boldsymbol{LL}^\ast\)</span> 이므로,</p>
+<p><span class="math display">\[
+\begin{bmatrix} A_{11} &amp; A_{12} &amp; A_{13} &amp; \cdots &amp; A_{1n} \\
+A_{21} &amp; A_{22} &amp; A_{23} &amp; \cdots &amp; A_{2n}\\
+\vdots &amp; &amp; &amp; &amp; \vdots \\
+A_{n1} &amp; A_{n2} &amp; A_{n3} &amp; \cdots &amp; A_{nn}\end{bmatrix}
+= \begin{bmatrix} L_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\
+L_{21}&amp; L_{22} &amp; 0 &amp; \cdots &amp; 0 \\
+\vdots &amp; &amp; &amp; &amp; \vdots \\
+L_{n1} &amp; L_{n2} &amp; L_{n3} &amp; \cdots &amp; L_{nn} \end{bmatrix}
+\begin{bmatrix} L_{11} &amp; \overline{L_{21}} &amp; \overline{L_{31}} &amp; \cdots &amp; \overline{L_{n1}} \\
+0 &amp; L_{22} &amp; \overline{L_{32}} &amp; \cdots &amp; \overline{L_{n2}}\\
+\vdots &amp; &amp; &amp; &amp; \vdots \\
+0 &amp; 0 &amp; 0 &amp; \cdots &amp; L_{nn}\end{bmatrix}
+\]</span></p>
+<p>이다. <span class="math inline">\(A_{11} = {L_{11}}^2\)</span>, <span class="math inline">\(A_{j1} = L_{j1}L_{11}\)</span> 이므로 <span class="math inline">\(L_{j1}= A_{j1}/L_{11}\)</span> 을 통해 <span class="math inline">\(\boldsymbol{L}\)</span> 의 <span class="math inline">\(1\)</span>-열을 얻을 수 있다. <span class="math inline">\(\boldsymbol{L}\)</span> 의 <span class="math inline">\(k\)</span> 열까지 얻었다고 가정하자.</p>
+<p><span class="math display">\[
+\begin{aligned}
+A_{1,k+1} &amp;= L_{11}\overline{L_{k+1, 1}}, \\
+A_{j&lt;k+1, k+1} &amp; = L_{j, 1}\overline{L_{k+1, 1}} + \cdots + L_{j, j}\overline{L_{k+1, j}}, \\
+A_{k+1, k+1} &amp; = L_{k+1,1}\overline{L_{k+1, 1}} + \cdots + L_{k+1, k+1} \overline{L_{k+1, k+1}}, \\
+A_{j&gt;k+1, k+1} &amp; = L_{j, 1}\overline{L_{k+1, 1}} + \cdots + L_{j, k+1} \overline{L_{k+1, k+1}}.
+\end{aligned}
+\]</span></p>
+<p>이며 <span class="math inline">\(L_{k+1, 1}= \overline{A_{1, k+1}}/L_{11}\)</span> 부터 차례로 계산 할 수 있다.</p>
+<p><br></p>
+<div id="prp-column_diagonal_dominat_LU" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 5 </strong></span><span class="math inline">\(\boldsymbol{A}\)</span> 가 가역이며 행에 대한 대각 지배행렬이면 <span class="math inline">\(LU\)</span> 분해 가능하며 이때 하삼각행렬의 모든 성분의 절대값은 <span class="math inline">\(1\)</span> 보다 작거나 같다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>수학적 귀납법으로 증명한다. <span class="math inline">\(n=1\)</span> 일 경우는 자명하다. <span class="math inline">\(n \times n\)</span> 행렬에 대해 성립함을 가정한다. <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{(n + 1) \times (n+1) }(\mathbb{F})\)</span> 를 다음과 같이 같이 분리하자.</p>
+<p><span class="math display">\[
+\boldsymbol{A} = \left[\begin{array}{c|c} a &amp; \boldsymbol{w}^T \\\hline \\ \boldsymbol{v} &amp; \boldsymbol{A}_n\end{array}\right]
+\]</span></p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../src/numerical_analysis_using_julia/06_finding_root.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">6장 일변수 방정식의 해</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../src/numerical_analysis_using_julia/08_iterative_method_for_linear_system.html" class="pagination-link">
+        <span class="nav-page-text">8장 반복법을 이용한 선형 시스템의 해 구하기</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
