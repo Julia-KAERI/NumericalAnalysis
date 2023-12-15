@@ -1,0 +1,86 @@
+---
+title: "멀티스레드"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+프로그램은 최소한 하나의 프로세스로 실행되며, 프로세스는 최소한 하나의 쓰레드로 실행된다. 프로그램이 여러개의 프로세스로 실행되는 것을 멀티 프로세싱(multi-processing) 이라고 하며, 하나의 프로세스가 여려개의 쓰레드로 실행되는 것을 멀티 쓰레딩(multi-threading) 이라고 한다.
+
+하나의 프로세스는 메모리상에 독립적으로 실행 코드와 데이터가 함께 기록된다. 쓰레드는 프로세스에 종속되며 프로세스상의 공통 자원에 접근 할 수 있다. 그러나 프로세스간에는 자원을 공유 할 수 없으며 IPC(inter-process communication) 를 통해 데이터를 주고 받을 수 있을 뿐이다. 데이터를 주고 받는 것일 뿐 이 데이터는 각각의 프로세스에서 각각의 메모리 공간에 기록될 뿐 한 프로세스에서 다른 프로세스의 자원에 접근 할 수 있는 것은 아니다. 
+
+
+
+Julia 는 실행시킬 때 지정되거나 사용자 환경변수로 지정하지 않았을 때는 단일 쓰레드로 실행된다. 현재의 Julia 에서 사용할 수 있는 스레드의 갯수는 `Threads.nthreads()` 함수로 확인 할 수 있다. 저자의 경우 환경변수로 지정했기 때문에 Julia 가 실행 될 때 마다 12 개의 스레드로 시작한다.
+
+
+```txt
+In [1]: Threads.nthreads()
+Out[1]: 12
+```
+
+Julia  REPL 을 시작할 때 `julia --thread 4` 와 같이 스레드 갯수를 지정할 수 있다. 혹은 환경변수로 지정 할 수 있다. 환경변수로 지정하는 것은 운영체제마다, 혹은 당신이 사용하는 shell 마다 다를 수 있기 때문에 여기서는 다루지 않는다. `Sys.CPU_THREADS` 변수는 최대로 사용할 수 있는 쓰레드의 갯수를 보여준다. 이 값보다 약간 작은 값을 사용하도록 하자.
+
+```txt
+In [1]: Sys.CPU_THREADS
+Out[1]: 16
+```
+
+</br>
+
+## `Theads.@threads`
+
+`for` 루프 앞에 `Theads.@threads` 루프를 쓰면 자동적으로 멀티스레딩으로 수행한다. 아래 코드는 $[0, 1)$ 구간에서의 임의의 수로 이루어진 10000 × 10000 행렬을 만든 후 각행과 열에에 대한 합을 구하는 코드를 싱글 스레드와 멀티스레드로 구현하였다.  
+
+```julia
+using BenchmarkTools
+
+N = 1000
+bb = rand(N, N)
+
+# 행에 대한 합, 싱글스레드
+r1 = zeros(N)
+@btime begin
+    for i in 1:N
+        r1[i] = sum(bb[i, : ])
+    end
+end
+
+# 행에 대한 합, 멀티스레드
+r2 =  zeros(N)
+@btime begin
+    Threads.@threads for i in 1:N
+        r2[i] = sum(bb[i, :])
+    end
+end
+
+# 열에 대한 합, 싱글스레드
+r3 =  zeros(N)
+@btime begin
+    for i in 1:N
+        r3[i] = sum(bb[:, i])
+    end
+end
+
+# 열에 대한 합, 멀티스레드
+r4 =  zeros(N)
+@btime begin
+    Threads.@threads for i in 1:N
+        r4[i] = sum(bb[:, i])
+    end
+end
+```
+
+
+
+
+
+
+
+
+
+
+
+
