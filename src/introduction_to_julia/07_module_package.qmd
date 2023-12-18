@@ -34,7 +34,7 @@ end
 
 앞서 설명했듯이 모듈은 새로운 전역적인 이름공간을 만들 수 있습니다. 그 안에서 정의된 이름들은 다른 이름공간의 이름과 충돌할 염려 없이 사용 할 수 있습니다. 다른 이름공간에서 모듈의 이름을 사용하기 위해서는 우선 모듈 내에서 `export` 명령어를 통해 밖에서 사용 할 수 있는 이름을 지정해 줘야 합니다. 예를 들어
 
-```html
+```txt
 In [1]: module mymodule1
         export a, mf
         a=2
@@ -48,12 +48,14 @@ Out[1]: Main.mymodule1
 
 이 모듈은 REPL 이 실행될 때 만들어지는 `Main` 이라는 전역적인 이름공간 내에 `mymodule1` 이라는 이름이 붙은 부분적인 이름공간을 만듭니다. 부분적 이름공간의 이름에 접근할 때는  `.` 으로 구분하여 `Main.mymodule1.a` 와 같이 접근하거나 전역적 이름공간을 제외한 `mymodule1.a` 와 같이 접근합니다. 예를 들어
 
-```html
+```txt
 In [2]: mymodule1.mf(3)
 Out[2]: 6
 ```
 
 는 `mymodule1` 모둘의 함수 `mf` 를 의미합니다. 
+
+</br>
 
 ### `using`
 
@@ -84,7 +86,7 @@ ERROR: UndefVarError: `b` not defined
 
 `using` 명령어는 모듈 내의 이름을 전역적인 이름공간으로 가져오는데 비해 `import` 명령어는 모듈 이름만을 전역적인 이름공간으로 가져옵니다. 즉 `import mymodule1` 을 하면 `mymodule1.a` 나 `mymodule1.mf` 를 통해 접근해야 합니다. 그렇다면 단순히 REPL 에서 사용할 때는 차이가 없게 됩니다. 이 차이를 알기 위해 다음과 같은 내용을 `mymodule.jl` 파일로 저장합니다.
 
-```html
+``` {.julia}
 module mymodule1
 export a, mf
 a=2
@@ -105,7 +107,7 @@ end
 
 두 모듈 모두 `mf` 란 함수가 존재하며 `export` 되므로 충돌의 가능성이 있습니다.. 이제 julia REPL 에서 모듈이 있는 파일을 읽고 `mf` 함수를 실행시켜 봅니다.
 
-```html
+```txt
 In [1]: include("mymodule.jl")
 Out[1]: Main.mymodule2
 
@@ -117,7 +119,7 @@ Out[3]: 2
 
 `In [2]` 에서는 `mymodule1` 모듈만을 반입했으므로 `mf` 함수는 `mymodule1` 모듈의 그것입니다. 
 
-```html
+```txt
 In [4]: using .mymodule2
 WARNING: using mymodule2.mf in module Main conflicts with an existing identifier.
 
@@ -128,7 +130,7 @@ In [6]: mf(3)
 Out[6]: 6
 ```
 
-`using .mymodule2` 를 하면 충돌이 발생하기 때문에 julia 인터프리터는 경고합니다. `b` 는 `mymodule2` 에서 반입된 `5` 가 사용되며 `mf` 함수는 먼저 반입된 `mymodule1` 의 그것입니다. 이렇게 이름이 충돌하는 것은 중요한 오류를 발생시킬 수 있으므로 절대로 피해야 합니다. 이런 경우에는 `import` 를 사용하는 것이 하나의 방법입니다. `import` 를 사용하면 모듈 이름에 다음에 `.` 을 붙이고 
+`using .mymodule2` 를 하면 충돌이 발생하기 때문에 julia 인터프리터는 경고합니다. `b` 는 `mymodule2` 에서 반입된 `5` 가 사용되며 `mf` 함수는 먼저 반입된 `mymodule1` 의 그것입니다. 이렇게 이름이 충돌하는 것은 중요한 오류를 발생시킬 수 있으므로 절대로 피해야 합니다. 이런 경우에는 `import` 를 사용하는 것이 하나의 방법입니다. 아래와 같이 `import` 다음에 `.` 을 앞에 붙이고 모듈 이름을 써서 반입하면 모듈 이름과 모듈 내의 이름을 `.` 으로 구분하여 사용 할 수 있습니다. 
 
 ```html
 In [1]: include("mymodule.jl")
@@ -187,48 +189,35 @@ Out[9]: 2
 
 ## 변수의 범위
 
-모듈을 통해 이름공간과 다른 이름공간을 현재의 이름공간으로 반입하는 법을 알아보았습니다. 이름공간 내에서 사용 할 수 있는 변수를 전역적(global) 이라고 합니다. 반대로 이름공간 내의 특정 부분에서만 사용할 수 있는 변수를 지역적(local) 이라고 합니다. 변수가 유효한 지역적인 범위를 만들어 낼 수 있는 코드 영역을 **블럭**이라고 합시다. 대표적으로 함수를 정의하는 `function ... end` 구문이나 흐름 제어문인 `for ... end` 구문입니다. 이들은 그 내에서만 유효한 변수를 선언 할 수 있습니다.
+모듈을 통해 이름공간과 다른 이름공간을 현재의 이름공간으로 반입하는 법을 알아보았습니다. 이름공간 내에서 사용 할 수 있는 변수를 전역적(global) 이라고 합니다. 반대로 이름공간 내의 특정 부분에서만 사용할 수 있는 변수를 지역적(local) 이라고 합니다. 변수가 유효한 지역적인 범위를 만들어 낼 수 있는 코드 영역을 **블럭 (block)**이라고 합시다. 대표적으로 함수를 정의하는 `function ... end` 구문이나 흐름 제어문인 `for ... end` 구문입니다. 이들은 그 내에서만 유효한 변수를 선언 할 수 있습니다.
 
 
 이제 이름 공간 내에서 변수의 범위를 알아봅시다. 아래 코드를 수행하기 전에 `i` 와 `j` 라는 변수를 할당하지 않았다고 합시다.
 
-```html
-In [1]: for i in 1:10
-            j=i+1
-        end
+```julia
+for i in 1:10
+    j=i+1
+end
 ```
 
-이 때 `i` 나 `j` 는 `for ... end` 블럭 밖에서는 접근 할 수 없으며, 접근하려고 하면 에러가 발생합니다.
+이 때 `i` 나 `j` 는 `for ... end` 블럭 밖에서는 접근 할 수 없으며, 접근하려고 하면 `ERROR: UndefVarError` 에러가 발생합니다.
 
-```html
-In [2]: j
-ERROR: UndefVarError: `j` not defined
-...
-
-In [3]: i
-ERROR: UndefVarError: `i` not defined
-...
-```
 
 그러나 아래 코드와 같이 미리 `j` 변수를 정해둔 경우에는 `j` 변수는 `for ... end` 블럭 안에서 그대로 적용됩니다.
 
-```html
-In [1]: j=0
-Out[1]: 0
-
-In [2]: for i in 1:10
-        j=i+1
-        end
-
-In [3]: j
-Out[3]: 11
+```julia
+j=0
+for i in 1:10
+    j=i+1
+end
+println("j=$j")
 ```
 
 </br>
 
 이젠 함수의 경우를 봅시다.
 
-```html
+```txt
 In [1]: j=4
 Out[1]: 4
 
@@ -282,8 +271,10 @@ Out[5]: 5
 | `struct` | 지역 (soft) | 전역 |
 | `for`, `while`, `try` | 전역, 지역 (soft) | 전역 |
 | `macro` | 지역 (hard) | 전역 |
-|`functions`, `do` blocks, `let` blocks, comprehensions, generators | 지역 (hard) | 전역, 지역 |
-| `begin` blocks,  `if` blocks | 전역 | 전역 |
+|`functions`, `do` 블럭, `let` 블럭, comprehensions, generators | 지역 (hard) | 전역, 지역 |
+
+
+여기에 빠진 `begin` 블럭과,  `if` 블럭은 영역 변수를 만들 수 없습니다. 즉 이 두 블럭 내에서 변수를 선언하더라도 상위 영역의 변수에 포함됩니다.
 
 상위 범위의 이름은 하위 범위에서 사용 할 수 있습니다. 문제는 상위 범위에 있는 이름과 같은 이름을 하위 범위에서 사용할 때 이며 크게 두가지로 나눌 수 있겠습니다.
 

@@ -76,6 +76,8 @@ website:
             href : src/applications_of_julia/fileio.qmd
           - text : 비선형 최소제곱 피팅
             href : src/applications_of_julia/leastsquarefit.qmd
+          - text : 다중스레드
+            href : src/applications_of_julia/multithreads.qmd
 
     - title : "Numerical Analysis using Julia"
       collapse-level: 2

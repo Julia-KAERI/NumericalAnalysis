@@ -1,0 +1,12 @@
+---
+title: "상미분 방정식의 경계값 문제"
+language: ../_language-ko_custom.yml 
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+## 경계값 문제
+
