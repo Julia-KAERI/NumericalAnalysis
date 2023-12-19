@@ -10,11 +10,41 @@ crossref:
 
 ## 상미분 방정식 (Ordinary Differential Equations) 과 초기값 문제
 
-상미분 방정식은 하나의 독립변수에 대한 미분방정식이다. $f(x)$ 에 대한 미분방정식이 $f$ 에 대해 최대 $n$ 차 미분까지 포함되었을 경우, $n$-차 상미분 방정식이라 한다. 상미분 방정식 자체로는 어떤 미지수를 가질 수 밖에 없으며, 이 미지수를 어떤 $x_0$ 에 대한 $f(x_0)$ 값과 $f^{(i)}(x_0)$, $i=1,\,2,\ldots$ 값을 통해 알아내는 것을 **초기값 문제 (initial value problem)** 이라고 한다. 
+상미분 방정식은 하나의 독립변수에 대한 미분방정식이다. $f(t)$ 에 대한 미분방정식이 $f$ 에 대해 최대 $n$ 차 미분까지 포함되었을 경우, $n$-차 상미분 방정식이라 한다. 일반적으로 $n$ 차 미분 방정식은 다음 꼴로 주어진다.
+
+$$
+f^{(n)}(t) + a_{n-1} f^{(n-1)}(t) + \cdots a_1 f(t) + a_0 = 0
+$$
+
+ 상미분 방정식 자체로는 어떤 미지수를 가질 수 밖에 없으며, 이 미지수를 초기값 $t_1$ 에 대한 $f^{(k)}(t_1)$ $k=1,\,2,\ldots$ 값을 통해 알아내는 것을 **초기값 문제 (initial value problem)** 이라고 한다. 
 
 </br>
 
 ### 오일러 방법 (Newton's method)
+
+오일러 방법은 초기값이 주어졌을 때 수치해석적으로 미분방정식의 해를 구하는 가장 간단한 방법이다. 가장 간단한 만큼 일반적으로 오차가 크지만 상미분방정식의 초기값 문제를 푸는 여러가지 기법을 익힐 수 있다. 
+
+#### 일변수 일차 미분 방정식
+
+아래와 같은 미분방정식
+
+$$
+x'(t) = \dfrac{dx}{dt} = f(t, x)
+$$
+
+과 초기조건 $x(t_1)$ 이 주어졌다고 하자. 테일러 전개에 의해
+
+$$
+\begin{aligned}
+x(t+h) &= x(t) + x'(t)h + O(h^2) \\
+&= x(t) + f(t, x)h + O(h^2)
+\end{aligned}
+$$
+
+를 이용하는 방법이다. 
+
+
+#### 다변수 일차 미분 방정식
 
 $\boldsymbol{x}:\mathbb{R}\to \mathbb{R}^n$ 이며 $x_i(t)$ 가 $\boldsymbol{x}(t)$ 의 $i$ 번째 성분일 때 미분방정식이 $\boldsymbol{f}:\mathbb{R}^{n+1}\to \mathbb{R}^n$ 에 대해
 
@@ -22,7 +52,7 @@ $$
 \boldsymbol{x}'(t)=\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, x_1,\ldots,\,x_n)
 $$
 
-로 주어지고, 초기값 $t_0,\,\boldsymbol{x}(t_0)$ 가 주어졌을 때 가장 간단하게 $\boldsymbol{x}(t)$ 를 구하는 방법이다. 테일러 전개를 이용하면,
+로 주어지고, 초기값 $t_1,\,\boldsymbol{x}(t_1)$ 가 주어졌을 때 가장 간단하게 $\boldsymbol{x}(t)$ 를 구하는 방법이다. 테일러 전개를 이용하면,
 
 $$
 x_i(t + h) = y_i(t) + x_i'(t)h+ \dfrac{x_i''(\xi)}{2}h^2
@@ -42,9 +72,28 @@ $$
 \boldsymbol{x}(t_{k+1}) = \boldsymbol{x} (t_k) + \boldsymbol{f}(t_k, x_1(x_k), \ldots, x_n(t_k))\, h
 $$
 
-를 이용하여 $\boldsymbol{x}(t_{k+1})$ 값을 구한다. 위의 식에서 $\boldsymbol{f}$ 가 $t$ 만의 함수일 때 아래와 같이 julia 로 구현 할 수 있다.
+를 이용하여 $\boldsymbol{x}(t_{k+1})$ 값을 구한다. 아래와 같이 julia 로 구현 할 수 있다.
 
 ```julia
+# 일변수에 대한 오일러 방법
+function ode_euler(
+    fp::Function,
+    t1::Real, 
+    x1::Real,
+    Npoints::Integer, 
+    h = 1.0e-6)
+    
+    tn = t1 .+ collect(0:1:(Npoints-1)) * h
+    xn = zero(tn)
+    xn[1] = x1
+    for i in 1:(Npoints-1)
+        xn[i+1] = xn[i] + fp(tn[i], xn[i])* h
+    end
+    return tn, xn
+end
+
+
+# 다변수에 대한 오일러 방법
 function ode_euler(
     fp::Vector{<:Function}, 
     t0::Real, 
@@ -67,16 +116,96 @@ $f(x,\,y)$ 가 변수 2개에 대한 함수일 때는 위의 함수를 약간 �
 우리는 $y'= e^x,\, y(0)=1$ 일 때, $y=e^x$ 임을 알고 있다. 아래 그림은 위의 `ode_euler` 함수를 이용하여 미분방정식을 푼 값과, 실제 함수값을 비교해 보았다.
 
 </br>
+[`LaTeXStrings` 는 $\LaTeX$ 의 수식을 사용 할 수 있도록 해 주는 패키지이다.]{.aside}
+```julia
+using LaTeXStrings, Plots
+tn, xn = ode_euler((t, x)->exp(t), 0.0, 1.0, 500, 1.0e-2)
+plot(tn, xn, lw = 2, frame = :box, label = "Euler method")#, dpi=300)
+plot!(tn, exp.(tn), lw=2, ls = :dash, label = L"f(t) = e^t")
+```
 
-<img src = "ch09_ode/euler_method.png"></img>
+
+![Euler 방법](ch10_ode/euler_method.png){width=600}
 
 </br>
 
-여기서는 비교작 잘 맞지만 오일러 방법은 잘 사용되지 않는다. 우선 앞서 보았듯이 테일러 전개를 이용한 근사를 사용했으므로 $y_{k+1}-y_k$ 를 추산하는데 $\dfrac{y''(x_k)}{2}h^2$ 정도의 에러가 발생 할 수 있다. 또한 $y_{k+1}$ 이 $y_k$에 의존하여 계산되므로 오차값이 축적된다.
+다변수 오일러 방법을 사용해 볼 수 있는 문제중의 하나는 로렌츠 방정식이다.
+
+$$
+\begin{aligned}
+\dfrac{dx}{dt} &  = \sigma (y-x), \\
+\dfrac{dy}{dt} & = x(\rho - z)-y, \\
+\dfrac{dz}{dt} &= xy-\beta z.
+\end{aligned}
+$$ {#eq-lorentz_equation}
+
+$\boldsymbol{x} =\begin{bmatrix} x & y & z\end{bmatrix}^T$ 로 놓고 다변수 오일러 방법을 통해 구해보자. 어떤 조건에서 위의 미분방정식의 해가 나비를 닮았기 때문에 함수 이름을 `butterfly3d` 로 하였다. $\sigma=10$, $\rho=28$, $\beta=8/3$ 일 때, 
+
+```julia
+function butterfly3d(v, σ::Real, ρ::Real, β::Real)
+    return [σ*(v[2]-v[1]), v[1]*(ρ - v[3])-v[2], v[1]*v[2]-β*v[3]]
+end
+
+tn, xn = ode_euler((t, v)->butterfly3d(v, 10, 28, 8/3), 0.0, [0.0, 1.0, 1.0], 4000, 1.0e-2)
+```
+
+를 통해 얻은 궤적을 그리면 다음과 같다.
+
+```julia
+using Plot, LaTeXStrings
+p0 = plot(xn[1,:], xn[2,:], xn[3,:], frame=:box, aspect_ratio=1.0, label=L"xyz", dpi=300)
+p1 = plot(xn[1,:], xn[2,:], frame=:box, aspect_ratio=1.0, label=L"xy", color=:red)
+p2 = plot(xn[2,:], xn[3,:], frame=:box, aspect_ratio=1.0, label=L"yz", color=:green)
+p3 = plot(xn[3,:], xn[1,:], frame=:box, aspect_ratio=1.0, label=L"zx", color=:blue)
+
+plot!(p0, p1, p2, p3, layout=4)
+```
+
+![로렌츠 방정식](ch10_ode/lorentz.png){width=600}
 
 </br>
 
-### 2차 룽게-쿠타 방법 (Runge-Kunta method)
+
+#### 다변수 이차 미분 방정식
+ $\dfrac{d^2\boldsymbol{x}}{dt^2} = \boldsymbol{f}(t, \boldsymbol{x}, \boldsymbol{x}')$ 으로 주어진 미분방정식은,
+
+$$
+\begin{aligned}
+\boldsymbol{v}(t_{n}+h) &=\boldsymbol{v}(t_n) + \boldsymbol{f}(t, \boldsymbol{x}(t_n), \boldsymbol{v}(t_n)) h,\\
+\boldsymbol{x}(t_n+h) &=\boldsymbol{x}(t_n) + \boldsymbol{v}(t_n)h 
+\end{aligned}
+$$
+
+와 같이 2개의 1차 미분방정식에 대한 오일러 방법에 의한 해로 주어진다. 가장 간단한 1차원 조화진동자 문제를 보자. 미분방정식이 
+
+$$
+x''(t) = -k\cdot x(t)
+$$ 
+
+로 주어졌을 때 $\boldsymbol{y}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로 놓으면, 
+
+$$
+\boldsymbol{y}(t+h) = \begin{bmatrix} x(t+h) \\ x'(t+h)\end{bmatrix} = \begin{bmatrix} x(t) + x'(t)h \\ x'(t) -k  x(t) h \end{bmatrix} = \boldsymbol{y}(t) + h\begin{bmatrix} 0 & 1\\ -k & 0\end{bmatrix} \boldsymbol{y}(t)
+$$
+
+이를 위해 다음과 같은 코드를 작성하였으며 그래프로 그려보면 다음과 같다.
+
+```julia
+function sho1d(y::Vector{<:Real}, k::Real, x0=0.0)
+    return [y[2], -k*(y[1]-x0)]
+
+tn, xn = ode_euler((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
+plot(tn, xn[1,: ], label = :none)
+```
+
+![오일러 방법으로 계산한 1차원 조화진동자](ch10_ode/euler_sho1d.png){width=600}
+
+
+1차원 조화진동자는 잘 알려져 있다 시피 삼각함수로 그 진폭이 커지면 안되지만 여기서는 커지는데 이것은 오일러 방법이 기본적으로 에러에 취약하기 때문이다. 이로 인해 실제 계산에서는 오일러 방법은 잘 사용되지 않는다. 
+
+</br>
+
+### 2차 룽게-쿠타 방법 (Runge-Kutta method)
 
 역시
 $$
@@ -86,7 +215,7 @@ $$
 와 초기조건 $\boldsymbol{x}_0 = \boldsymbol{f}(t_0)$ 가 주어졌다고 하자.  우리는 여기서,
 
 $$
-\dfrac{d^2y}{dx^2 } = \dfrac{d}{dx}f(x, \,y) = \dfrac{\partial f}{\partial x} + \dfrac{dy}{dx} \dfrac{\partial f}{\partial y}
+\dfrac{d^2\boldsymbol{x}}{dt^2 } = \dfrac{d}{dt}f(t, \,\boldsymbol{x}) = \dfrac{\partial f}{\partial t} + \sum_j\dfrac{dx_j}{dt} \cdot \dfrac{\partial \boldsymbol{f}}{\partial x_j}
 $$
 
 라는 것을 안다. 이것을 이용하여 2차항까지 테일러 전개를 하면,
@@ -94,7 +223,7 @@ $$
 \begin{aligned}
 x_i(t+h) & = x_i(t) + \dfrac{dx_i}{dt}h  + \dfrac{1}{2}\dfrac{d^2 x_i}{dt^2}h^2 + \cdots \\
 &= x_i(t)  + f_i(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_i}{\partial t} + \sum_j \dfrac{dx_j}{dt} \dfrac{\partial f_i}{\partial x_j}\right) h^2 + \cdots \\
-&= x_i(t)  + f(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f}{\partial t} + \sum_j f_j(t,\,\boldsymbol{x}) \dfrac{\partial f}{\partial x_j}\right) h^2 + \cdots
+&= x_i(t)  + f(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f}{\partial t} + \sum_j f_j(t,\,\boldsymbol{x}) \dfrac{\partial f_i}{\partial x_j}\right) h^2 + \cdots
 \end{aligned}
 $$
 
@@ -102,17 +231,17 @@ $$
 
 $$
 \begin{aligned}
-k_1 &= f(x_n, y_n) \,,\\
-k_2 &= f\left( x_n + \dfrac{h}{2},\, y_n + h \dfrac{k_1}{2}\right)
+\boldsymbol{k}_1 &= \boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \,,\\
+\boldsymbol{k}_2 &= \boldsymbol{f}\left( t_n + \dfrac{h}{2},\, \boldsymbol{x}(t_n) + \dfrac{h}{2} \boldsymbol{k}_1\right)
 \end{aligned}
 $$
 
-라 하자. 그렇다면,
+라 하자. 그렇다면, 야코비안 행렬 $\left(\boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n))\right)_{ij} = \dfrac{\partial f_i}{\partial x_j}(t_n, \boldsymbol{x}(t_n))$ 에 대해 
 
 $$
 \begin{aligned}
-k_2 &= f(x_n,\, y_n) + \dfrac{h}{2} \dfrac{\partial f}{\partial x}(x_n,\, y_n) + \dfrac{hk_1}{2} \dfrac{\partial f}{\partial y} (x_n,\, y_n) \\
-&= k_1 + \dfrac{h}{2} \left(\dfrac{\partial f}{\partial x}(x_n,\, y_n)  + f(x_n,\, y_n) \dfrac{\partial f}{\partial y}(x_n,\, y_n) \right)
+\boldsymbol{k}_2 &= \boldsymbol{f}(t_n,\, \boldsymbol{x}(t_n)) +  \dfrac{h}{2} \dfrac{\partial \boldsymbol{f}}{\partial t}(t_n,\, \boldsymbol{x}(t_n)) + \dfrac{h}{2} \boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \boldsymbol{k}_1 \\
+&= \boldsymbol{k}_1 + \dfrac{h}{2} \left(\dfrac{\partial \boldsymbol{f}}{\partial t}(t_n,\, \boldsymbol{x}(t_n))  + \boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \boldsymbol{k}_1 \right)
 \end{aligned}
 $$
 
@@ -120,42 +249,42 @@ $$
 
 $$
 \begin{aligned}
-\dfrac{\partial f}{\partial x}(x_n,\, y_n) + f(x_n,\,y_n) \dfrac{\partial f}{\partial y} (x_n,\, y_n) & = \dfrac{2}{h}(k_2-k_1)
+\dfrac{\partial \boldsymbol{f}}{\partial t}(t_n,\, \boldsymbol{x}(t_n))  + \boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \boldsymbol{k}_1 & = \dfrac{2}{h}(\boldsymbol{k}_2-\boldsymbol{k}_1)
 \end{aligned}
 $$
 
 이다. 이를 이용하면,
 
 $$
-y_{n+1} = y_n + k_1h + \dfrac{h^2}{2} \dfrac{2}{h} (k_2-k_1) = y_n+ \dfrac{h}{2}(k_1+k_2)
+\boldsymbol{x}(t_{n+1}) = \boldsymbol{x}(t_n) + \boldsymbol{k}_1h + \dfrac{h^2}{2} \dfrac{2}{h} (\boldsymbol{k}_2-\boldsymbol{k}_1) = \boldsymbol{x}(t_n)+ \dfrac{h}{2}(\boldsymbol{k}_1+\boldsymbol{k}_2)
 $$
 
-이다. 이것을 2차 룽게-쿠타 방법이라 한다.
+을 얻는다. 이것을 2차 룽게-쿠타 방법이라 한다.
 
 </br>
 
 ### 4차 룽게-쿠타 방법
 
-2차 룽게 쿠타 방법은 테일러 전개의 2차항까지 사용하였다. 4차 룽게 구타 방법은 테일러 전개의 4차항까지 사용한다.
+2차 룽게 쿠타 방법은 테일러 전개의 2차항까지 사용하였다. 4차 룽게-쿠타 방법은 테일러 전개의 4차항까지 사용한다.
 $$
-y(x+h)  = y(x) + y'(x) h + \dfrac{y''(x)}{2} h^2 + \dfrac{y^{(3)}(x)}{6}h^3 + \dfrac{y^{(4)}}{24}h^4 + \cdots
+\boldsymbol{x}(t+h)  = \boldsymbol{x}(x) + \boldsymbol{x}'(x) h + \dfrac{\boldsymbol{x}''(t)}{2} h^2 + \dfrac{\boldsymbol{x}^{(3)}(t)}{6}h^3 + \dfrac{\boldsymbol{x}^{(4)}(t)}{24}h^4 + \cdots
 $$
 
-아래와 같이 $k_1,\,k_2,\,k_3,\,k_4$ 를 정의하면,
+아래와 같이 $\boldsymbol{k}_1,\,\boldsymbol{k}_2,\,\boldsymbol{k}_3,\,\boldsymbol{k}_4$ 를 정의하면,
 $$
 \begin{aligned}
-k_{1} &= f(x_{n},y_{n}),\\
-k_{2}&=\ f\!\left(x_{n}+{\frac {h}{2}},y_{n}+h{\frac {k_{1}}{2}}\right),\\
-k_{3}&=\ f\!\left(x_{n}+{\frac {h}{2}},y_{n}+h{\frac {k_{2}}{2}}\right),\\
-k_{4}&=\ f\!\left(x_{n}+h,y_{n}+hk_{3}\right).
+\boldsymbol{k}_{1} &= \boldsymbol{f}(t_{n},\, \boldsymbol{x}(t_{n})),\\
+\boldsymbol{k}_{2}&=\ \boldsymbol{f}\!\left( t_{n}+{\frac {h}{2}},\, \boldsymbol{x}(t_{n})+ \frac{h}{2}\boldsymbol{k}_{1}\right),\\
+\boldsymbol{k}_{3}&=\ \boldsymbol{f}\!\left(t_{n}+{\frac {h}{2}},\,  \boldsymbol{x}(t_{n})+\frac{h}{2} \boldsymbol{k}_{2}\right),\\
+\boldsymbol{k}_{4}&=\ \boldsymbol{f}\!\left(t_{n}+h,\, \boldsymbol{x}(t_{n})+h\boldsymbol{k}_{3}\right).
 \end{aligned}
 $$
 
 4차항까지의 테일러 전개가 아래와 같다는 것을 보일 수 있다. 아주 지루한 과정이므로 여기서는 생략한다.
 $$
 \begin{aligned}
-y_{n+1}&=y_{n}+{\frac {1}{6}}\left(k_{1}+2k_{2}+2k_{3}+k_{4}\right)h,\\
-t_{n+1}&=t_{n}+h
+t_{n+1}&=t_{n}+h, \\
+\boldsymbol{x}(t_{n+1})&=\boldsymbol{x}(t_{n})+{\frac {h}{6}}\left(\boldsymbol{k}_{1}+2 \boldsymbol{k}_{2}+2\boldsymbol{k}_{3}+\boldsymbol{k}_{4}\right).
 \end{aligned}
 $$
 
@@ -240,7 +369,7 @@ plot!(xp, y_newton, label="Euler method")
 
 </br>
 
-<img src = "ch09_ode/decay.png"/>
+<img src = "ch10_ode/decay.png"/>
 
 </br>
 
@@ -330,7 +459,7 @@ t, xp2 = ode_runge_kutta4(f_ho, 0.0, [0.0 ; 1.0], 10000, 1.0e-3)
 
 그 결과를 그래프로 그리면 다음과 같다.
 
-<img src = "ch09_ode/harmonic.png" />
+<img src = "ch10_ode/harmonic.png" />
 
 </br>
 
@@ -368,13 +497,13 @@ $m=1,\, \gamma=1,\, k=1$ 과 $x(t=0)=0,\, \dot{x}(t=0)=1$ 일 때에 대해 오�
 
 </br>
 
-<img src = "ch09_ode/dho.png"/>
+<img src = "ch10_ode/dho.png"/>
 
 </br>
 
 #### 진자(Pendulum) 문제
 
-<img src="ch09_ode/simple pendulum.png" width="250"/>
+<img src="ch10_ode/simple pendulum.png" width="250"/>
 
 </br>
 
@@ -419,7 +548,7 @@ plot!(t, xp3[1, :], xlabel = "t", label = "RK4")
 
 </br>
 
-<img src = "ch09_ode/pendulum1.png"/>
+<img src = "ch10_ode/pendulum1.png"/>
 
 </br>
 
@@ -427,7 +556,7 @@ plot!(t, xp3[1, :], xlabel = "t", label = "RK4")
 
 </br>
 
-<img src = "ch09_ode/pendulum2.png"/>
+<img src = "ch10_ode/pendulum2.png"/>
 
 </br>
 
