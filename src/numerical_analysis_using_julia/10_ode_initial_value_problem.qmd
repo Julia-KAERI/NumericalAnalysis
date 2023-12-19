@@ -45,15 +45,20 @@ $$
 를 이용하여 $\boldsymbol{x}(t_{k+1})$ 값을 구한다. 위의 식에서 $\boldsymbol{f}$ 가 $t$ 만의 함수일 때 아래와 같이 julia 로 구현 할 수 있다.
 
 ```julia
-function ode_euler1(f::Function, x0::T, y0::T, Npoints::Integer, epsilon = 1.0e-6) where T<:AbstractFloat
-    eps = convert(T, epsilon)
-    xp = x0 .+ collect(0:1:(Npoints-1)) * eps
-    yp = zeros(T, length(xp))
-    yp[1] = y0
-    for i in 2:Npoints
-        yp[i] = yp[i-1]+ f(xp[i-1]) * eps
+function ode_euler(
+    fp::Vector{<:Function}, 
+    t0::Real, 
+    x0::Vector{<:Real}, 
+    Npoints::Integer, 
+    h = 1.0e-6)
+    
+    tn = t0 .+ collect(0:1:(Npoints-1)) * h
+    xn = zeros((length(x0), length(tn)))
+    xn[:,1] = x0
+    for i in 1:(Npoints-1)
+        xn[:, i+1] = xn[:, i] .+ [f(t) for (f, t) ∈ zip(fp, tn[i])] .* h
     end
-    return xp, yp
+    return tn, xn
 end
 ```
 
@@ -75,10 +80,10 @@ $f(x,\,y)$ 가 변수 2개에 대한 함수일 때는 위의 함수를 약간 �
 
 역시
 $$
-\dfrac{dy}{dx} = f(x, y)
+\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
 $$
 
-와 초기조건 $y_0 = f(x_0)$ 가 주어졌다고 하자.  우리는 여기서,
+와 초기조건 $\boldsymbol{x}_0 = \boldsymbol{f}(t_0)$ 가 주어졌다고 하자.  우리는 여기서,
 
 $$
 \dfrac{d^2y}{dx^2 } = \dfrac{d}{dx}f(x, \,y) = \dfrac{\partial f}{\partial x} + \dfrac{dy}{dx} \dfrac{\partial f}{\partial y}
@@ -87,9 +92,9 @@ $$
 라는 것을 안다. 이것을 이용하여 2차항까지 테일러 전개를 하면,
 $$
 \begin{aligned}
-y(x+h) & = y(x) + \dfrac{dy}{dx}h  + \dfrac{1}{2}\dfrac{d^2 y}{dx^2}h^2 + \cdots \\
-&= y(x)  + f(x, y)\, h + \dfrac{1}{2} \left(\dfrac{\partial f}{\partial x} + \dfrac{dy}{dx} \dfrac{\partial f}{\partial y}\right) h^2 + \cdots \\
-&= y(x)  + f(x, y)\, h + \dfrac{1}{2} \left(\dfrac{\partial f}{\partial x} + f(x,\,y) \dfrac{\partial f}{\partial y}\right) h^2 + \cdots
+x_i(t+h) & = x_i(t) + \dfrac{dx_i}{dt}h  + \dfrac{1}{2}\dfrac{d^2 x_i}{dt^2}h^2 + \cdots \\
+&= x_i(t)  + f_i(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_i}{\partial t} + \sum_j \dfrac{dx_j}{dt} \dfrac{\partial f_i}{\partial x_j}\right) h^2 + \cdots \\
+&= x_i(t)  + f(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f}{\partial t} + \sum_j f_j(t,\,\boldsymbol{x}) \dfrac{\partial f}{\partial x_j}\right) h^2 + \cdots
 \end{aligned}
 $$
 
