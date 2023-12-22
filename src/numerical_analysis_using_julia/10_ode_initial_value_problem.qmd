@@ -179,8 +179,8 @@ $$
 와 같이 2개의 1차 미분방정식에 대한 오일러 방법에 의한 해로 주어진다. 가장 간단한 1차원 조화진동자 문제를 보자. 미분방정식이 
 
 $$
-x''(t) = -k\cdot x(t)
-$$ 
+\dfrac{d^2 x(t)}{dt^2} = -k\cdot x(t)
+$$ {#eq-sho1d}
 
 로 주어졌을 때 $\boldsymbol{y}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로 놓으면, 
 
@@ -205,7 +205,7 @@ plot(tn, xn[1,: ], label = :none)
 
 </br>
 
-### 2차 룽게-쿠타 방법 (Runge-Kutta method)
+### 2차 룽게-쿠타 방법 (RK2)
 
 역시
 $$
@@ -259,13 +259,13 @@ $$
 \boldsymbol{x}(t_{n+1}) = \boldsymbol{x}(t_n) + \boldsymbol{k}_1h + \dfrac{h^2}{2} \dfrac{2}{h} (\boldsymbol{k}_2-\boldsymbol{k}_1) = \boldsymbol{x}(t_n)+ \dfrac{h}{2}(\boldsymbol{k}_1+\boldsymbol{k}_2)
 $$
 
-을 얻는다. 이것을 2차 룽게-쿠타 방법이라 한다.
+을 얻는다. 이것을 2차 룽게-쿠타 방법(RK2)이라 한다.
 
 </br>
 
-### 4차 룽게-쿠타 방법
+### 4차 룽게-쿠타 방법 (RK4)
 
-2차 룽게 쿠타 방법은 테일러 전개의 2차항까지 사용하였다. 4차 룽게-쿠타 방법은 테일러 전개의 4차항까지 사용한다.
+2차 룽게 쿠타 방법은 테일러 전개의 2차항까지 사용하였다. 4차 룽게-쿠타 방법(RK4)은 테일러 전개의 4차항까지 사용한다.
 $$
 \boldsymbol{x}(t+h)  = \boldsymbol{x}(x) + \boldsymbol{x}'(x) h + \dfrac{\boldsymbol{x}''(t)}{2} h^2 + \dfrac{\boldsymbol{x}^{(3)}(t)}{6}h^3 + \dfrac{\boldsymbol{x}^{(4)}(t)}{24}h^4 + \cdots
 $$
@@ -288,178 +288,79 @@ t_{n+1}&=t_{n}+h, \\
 \end{aligned}
 $$
 
-오일러 방법, 2차 및 4차 룽게-쿠타 방법을 이용하여 상미분 방정식을 푸는 julia 코드는 아래와 같다. 모두 이변수 함수 `f` 와 초기값 `x0`, `y0`, 위의 $h$ 에 해당하는 값 `epsilon` 과 초기 값을 포함하여 몇개의 점에 대해 얻을지에 대한 `Npoints` 를 인자로 받는다.
+RK2 및 RK4 이용하여 상미분 방정식을 푸는 julia 코드는 아래와 같다. 모두 이변수 함수 `f` 와 초기값 `x0`, `y0`, 위의 $h$ 에 해당하는 값 `epsilon` 과 초기 값을 포함하여 몇개의 점에 대해 얻을지에 대한 `Npoints` 를 인자로 받는다.
 
 ```julia
-function ode_euler(f::Function, x0::T, y0::T, Npoints::Integer, epsilon = 1.0e-6) where T<:AbstractFloat
-    eps = convert(T, epsilon)
-    xp = x0 .+ collect(0:1:(Npoints-1)) * eps
-    yp = zeros(T, length(xp))
-    yp[1] = y0
-    for i in 2:Npoints
-        yp[i] = yp[i-1]+ f(xp[i-1], yp[i-1]) * eps
-    end
-    return xp, yp
+function ode_rk2(f::Function, 
+    t1::Real, 
+    x1::Vector{<:Real}, 
+    Npoints::Integer, 
+    h = 1.0e-6) 
+    tn = t1 .+ collect(0:1:(Npoints-1)) * h
+    xn = zeros((length(x1), length(tn)))
+    xn[:,1] = x1
+    for i in 1:(Npoints-1)
+        k1 = f(tn[i], xn[:,i])
+        k2 = f(tn[i] + h/2, xn[:, i] .+ k1.*(h/2))
+        xn[:, i+1] = xn[:,i] .+ (k1 .+ k2) .*(h/2)
+    end 
+    return tn, xn
 end
 
-function ode_runge_kutta2(f::Function, x0::T, y0::T, Npoints::Integer, epsilon = 1.0e-6) where T<:AbstractFloat
-    eps = convert(T, epsilon)
-    xp = x0 .+ collect(0:1:(Npoints-1)) * eps
-    yp = zeros(T, length(xp))
-    yp[1] = y0
-    for i in 2:Npoints
-        xn, yn = xp[i-1], yp[i-1]
-        k1 = f(xn, yn)
-        k2 = f(xn + eps/2, yn + k1*eps/2)
-        yp[i] = yn + (k1+k2)*eps/2
+function ode_rk4(f::Function, 
+    t1::Real, 
+    x1::Vector{<:Real}, 
+    Npoints::Integer, 
+    h = 1.0e-6) 
+    tn = t1 .+ collect(0:1:(Npoints-1)) * h
+    xn = zeros((length(x1), length(tn)))
+    xn[:,1] = x1
+    for i in 1:(Npoints-1)
+        k1 = f(tn[i], xn[:, i])
+        k2 = f(tn[i] + h/2, xn[:, i] .+ k1.*(h/2))
+        k3 = f(tn[i] + h/2, xn[:,i] .+ k2 .*(h/2))
+        k4 = f(tn[i] + h, xn[:, i] .+ k3 .* h)
+        xn[:, i+1] = xn[:, i] .+ (k1 .+ (2.0 .* k2) .+ (2.0 .* k3) .+ k4).*(h/6)
     end
-    return xp, yp
-end
-
-function ode_runge_kutta4(f::Function, x0::T, y0::T, Npoints::Integer, epsilon = 1.0e-6) where T<:AbstractFloat
-    eps = convert(T, epsilon)
-    xp = x0 .+ collect(0:1:(Npoints-1)) * eps
-    yp = zeros(T, length(xp))
-    yp[1] = y0
-    for i in 2:Npoints
-        xn, yn = xp[i-1], yp[i-1]
-        k1 = f(xn, yn)
-        k2 = f(xn + eps/2, yn + eps*k1/2)
-        k3 = f(xn + eps/2, yn + eps* k2/2)
-        k4 = f(xn + eps, yn + eps*k3)
-        yp[i] = yn + (k1 + 2*k2 + 2*k3 + k4)*eps/6
-    end
-    return xp, yp
+    return tn, xn
 end
 ```
 
-간단한 사용법은 아래와 같다.
+오일러 방법에서 사용했던 로렌츠 방저식에 대한 사용법은 아래와 같다.
 
 ```julia
-f1(x, y) = cos(0.1*x)*x
-x0 = 0.0
-y0 = 0.0
-xp, yp1 = ode_euler2(f1, x0, y0, 10000, 1.0e-1);
-xp, yp2 = ode_runge_kutta2(f1, x0, y0, 10000, 1.0e-1);
-xp, yp3 = ode_runge_kutta4(f1, x0, y0, 10000, 1.0e-1);
+tn, xn = ode_rk2((t, x)->butterfly3d(x, 10, 28, 8/3), 0.0, [0.0, 1.0, 1.0], 50000, 1.0e-3)
+plot(xn[1,:], xn[2,:], xn[3,:], label="RK2")
 ```
+
+![RK2를 이용한 로렌츠 방정식의 궤적](ch10_ode/lorentz_rk2.png){width=600}
+
+![RK4를 이용한 로렌츠 방정식의 궤적](ch10_ode/lorentz_rk4.png){width=600}
 
 </br>
 
 ### 예제 (Examples)
 
-#### 단순 감쇠
-
-$$
-\dfrac{dy}{dt} = -a y(t),\, y(0)=y_0
-$$
-
-의 해가 $y=y_0 e^{-at}$ 라는 것을 알지만, 이것을 수치해석적으로 풀어보기로 하자. 오일러 방법으로도 좋은 결과를 얻을 수 있으므로 오일러 방법만을 수행하기로 한다.
-
-```julia
-using Plots
-a=1.0
-f(x, y) = -a*y
-xp, y_newton = ode_euler((x, y)->-a*y, 0.0, 1.0, 10000, 1.0e-3)
-plot(xp, exp.(-a.*xp), label=L"e^{-ax}")
-plot!(xp, y_newton, label="Euler method")
-```
-
-이 결과는 다음과 같다.
-
-</br>
-
-<img src = "ch10_ode/decay.png"/>
-
-</br>
-
 #### 단순 조화 진동자
 
-$$
-m \dfrac{d^2x}{dt^2}  =- kx
-$$
-를 단순조화진동자 문제라고 한다. 이와 같은 이차미분방정식은 $x_1 = x,\, x_2 = \dfrac{dx_1}{dt}$ 라 놓으면
-
-$$
-\dfrac{dx_2}{dt} = -\dfrac{k}{m}x_1,\, \dfrac{dx_1}{dt} = x_2
-$$
-
-로 놓을 수 있다. $\mathbf{x}(t) = \begin{bmatrix} x_1(t) \\ x_2(t) \end{bmatrix}$ 라 놓으면,
-
-$$
-\dfrac{d\mathbf{x}}{dt}= \begin{bmatrix} x_2 \\ - \dfrac{k}{m} x_1 \end{bmatrix}
-$$
-
-이다.
-
-이제 오일러 방법과 룽게-쿠타 방법을 벡터에 대한 미분방정식으로 확장하자. Julia 에서 제공하는 [다중 디스패치(multiple dispatch)](https://docs.julialang.org/en/v1/manual/methods/) 는 함수 이름이 같을 때 인자의 갯수와 타입에 가장 적합한 함수를 자동으로 선택하여 실행시킨다.
-
-벡터 $\mathbf{x}$ 에 대한 시간 미분이 $f(t,\, \mathbf{x})$ 라 하자. 즉,
-
-$$
-\dfrac{d\mathbf{x}}{dt} = f(t,\,\mathbf{x})
-$$
+@eq-sho1d 로 주어진 단순 조화 진동자 문제를 오일러 방법과 RK2, RK4 로 풀어보자. 오일러 방법에서와 같이 $\boldsymbol{y}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로
+로 놓고 수치해석적으로 풀 수 있다.
 
 ```julia
-function ode_euler(f::Function, t0::T, x0::Vector{T}, Npoints::Integer, epsilon = 1.0e-6) where T<:AbstractFloat
-    N = length(x0)
-    eps = convert(T, epsilon)
-    tp = t0 .+ collect(0:1:(Npoints-1)) * eps
-    xp = zeros(T,  N, Npoints)
-    xp[:,1] = x0[:]
-    for i in 2:Npoints
-        xp[:, i] = xp[:, i-1] .+ f(tp[i-1], xp[:, i-1]) .*eps 
-    end
-    return t, xp
+function sho1d(y::Vector{<:Real}, k::Real, x0=0.0)
+    return [y[2], -k*(y[1]-x0)]
 end
-
-function ode_runge_kutta2(f::Function, t0::T, x0::Vector{T}, Npoints::Integer, epsilon = 1.0e-6) where T<:AbstractFloat
-    N = length(x0)
-    eps = convert(T, epsilon)
-    tp = t0 .+ collect(0:1:(Npoints-1)) * eps
-    xp = zeros(T,  N, Npoints)
-    xp[:,1] = x0[:]
-    for i in 2:Npoints
-        tn, xn = tp[i-1], xp[:, i-1]
-        k1 = f(tn, xn)
-        k2 = f(tn + eps/2, xn .+ (eps/2) .* k1)
-        xp[:, i] = xn .+ (k1 .+ k2) .* (eps/2)
-    end
-    return tp, xp
-end
-
-function ode_runge_kutta4(f::Function, t0::T, x0::Vector{T}, Npoints::Integer, epsilon = 1.0e-6) where T<:AbstractFloat
-    N = length(x0)
-    eps = convert(T, epsilon)
-    tp = t0 .+ collect(0:1:(Npoints-1)) * eps
-    xp = zeros(T,  N, Npoints)
-    xp[:,1] = x0[:]
-    for i in 2:Npoints
-        tn, xn = t[i-1], xp[:, i-1]
-        k1 = f(tn, xn)
-        k2 = f(tn + eps/2, xn .+ (eps/2) .* k1)
-        k3 = f(tn + eps/2, xn .+ (eps/2) .* k2)
-        k4 = f(tn + eps, xn .+ eps.*k3)
-        xp[:, i] = xn .+ (k1 .+ 2*k2 .+ 2*k3 .+ k4).*(eps/6)
-    end
-    return tp, xp
-end
-```
-
-$k=1.0,\, m=1.0$ 으로 정하여 오일러 방법과 4차 룽게-쿠타 방법을 이용하여 미분방정식을 다음과 같이 수치해석적으로 풀 수 있다.
-
-```julia
-k = 1.0
-m = 1.0
-f_ho(t, x) = return [x[2], -k/m*x[1]]
-
-t, xp1 = ode_euler(f_ho, 0.0, [0.0 ; 1.0], 10000, 1.0e-3)
-t, xp2 = ode_runge_kutta4(f_ho, 0.0, [0.0 ; 1.0], 10000, 1.0e-3)
+tn1, xn1 = ode_rk2((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
+tn2, xn2 = ode_rk4((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
 ```
 
 그 결과를 그래프로 그리면 다음과 같다.
 
-<img src = "ch10_ode/harmonic.png" />
+![RK 방법으로 푼 단순조화진동자](ch10_ode/sho1d_rk.png){width=600}
+
+</br>
+
+오일러 방법이나 RK2 방법에서는 실제의 해와 많이 다르게 진폭(amplitude) 가 증가하지만 RK4 방법에서는 최소한 우리가 관찰한 영역에서는 진폭이 증가하지 않는다. 
 
 </br>
 
@@ -475,7 +376,7 @@ $$
 \dfrac{d^2x}{dt^2} + \dfrac{\gamma}{m}\dfrac{dx}{dt} + \dfrac{k}{m} x = 0
 $$
 
-$v=\dot{x}$ 라 하면 $\dot{v} = -\dfrac{\gamma}{m}\dfrac{dx}{dt} - \dfrac{k}{m} x$ 이므로,
+$v=x'(t)$ 라 하면 $v'(t) = -\dfrac{\gamma}{m}\dfrac{dx}{dt} - \dfrac{k}{m} x$ 이므로,
 
 $$
 \dfrac{d}{dt} \begin{bmatrix} x \\ v\end{bmatrix} = \begin{bmatrix} v \\ -\dfrac{\gamma}{m}v - \dfrac{k}{m} x\end{bmatrix}
@@ -483,21 +384,21 @@ $$
 
 이다.
 
-많은 고전물리학 책에 이 감쇄조화진동자가 나와 있다. 감쇄조화진동자의 해는 다음과 같다.
+많은 고전물리학이나 미분방정식 교재에 이 감쇄조화진동자가 나와 있다. 감쇄조화진동자의 해는 다음과 같다.
 
 $$
-x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega_0^2} \right)+ b \exp \left(-\sqrt{-\omega_0^2}\right)\right]\qquad \text{where }  \lambda  =\dfrac{\gamma}{2m},\, \omega_0^2 = \dfrac{k}{m}-\dfrac{b^2}{4m^2}
+x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \left(-\sqrt{-\omega^2}\right)\right]\qquad \text{where }  \lambda  =\dfrac{\gamma}{2m},\, \omega^2 = \dfrac{k}{m}-\dfrac{\gamma^2}{4m^2}
 $$
 
 이다. 여기서 $a,\,b$ 는 초기조건 $x(t=0),\, \dot{x}(t=0)$ 에 의해 정해진다.
 
-$\omega_0^2 >0$ 이면 $x(t)$ 의 $[\,\cdots]$ 부분이 $\cos$ 함수 (혹은 $\sin$ 함수) 꼴로 나타날 수 있으므로 진폭이 점점 줄어드는 진동을 한다. 이를 *underdamping* 라 한다. $\omeg_0^2 <0 $ 이면 진동 없이 감쇄만 하게 되며 이를 *overdamping* 라 한다. $\omega_0^2 = 0$ 일 경우를 *critical damping* 이라 한다.
+$\omega_0^2 >0$ 이면 $x(t)$ 의 $[\,\cdots]$ 부분이 $\cos$ 함수 (혹은 $\sin$ 함수) 꼴로 나타날 수 있으므로 진폭이 점점 줄어드는 진동을 한다. 이를 *underdamping* 라 한다. $\omega_0^2 <0$ 이면 진동 없이 감쇄만 하게 되며 이를 *overdamping* 라 한다. $\omega_0^2 = 0$ 일 경우를 *critical damping* 이라 한다.
 
 $m=1,\, \gamma=1,\, k=1$ 과 $x(t=0)=0,\, \dot{x}(t=0)=1$ 일 때에 대해 오일러 방법, 2차 및 4차 룽게 쿠타 방법과, 해석적 해를 같이 그려보자.
 
 </br>
 
-<img src = "ch10_ode/dho.png"/>
+![감쇄조화진동자](ch10_ode/dho1d_rk.png){width=600}
 
 </br>
 
@@ -521,45 +422,33 @@ $$
 
 이므로 단순조화진동자 문제이다.
 
-이제 수치적으로 풀어보자. $\phi= \dfrac{d\theta}{dt}$, $\mathbf{x} = \begin{bmatrix} \theta \\ \phi \end{bmatrix}$ 라 하면,
+이제 수치적으로 풀어보자. $\phi= \dfrac{d\theta}{dt}$, $\boldsymbol{x} = \begin{bmatrix} \theta \\ \phi \end{bmatrix}$ 라 하면,
 
 $$
 \dfrac{d}{dt}\begin{bmatrix} \theta \\ \phi \end{bmatrix} = \begin{bmatrix} \phi \\ -g/L \sin \theta  \end{bmatrix}
 $$
 
-가 된다. $g=1.0,\, L=2.0$ 으로 잡고 시간 간격을 $1\times 10^{-2}$ 간격으로 미분방정식을 3가지 방법으로 풀면
+가 된다. $g=9.8,\, L=5.0$, 시간 간격을 $1\times 10^{-2}$ 잡고 미분방정식을 3가지 방법으로 풀면
 
 ```julia
-g = 1
-L = 2.0
-Np = 10000
-epsilon = 1.0e-2
-θ0, ϕ0 = 0.0, 1.0
-
-f_pendulum(t, x) = return [x[2], -g/L*sin(x[1])]
-t, xp1 = ode_euler(f_pendulum, 0.0, [ θ0 ; ϕ0], Np, epsilon)
-t, xp2 = ode_runge_kutta2(f_pendulum, 0.0, [θ0 ; ϕ0], Np, epsilon)
-t, xp3 = ode_runge_kutta4(f_pendulum, 0.0, [θ0 ; ϕ0], Np, epsilon)
-
-plot(t, xp1[1, :], label = "Euler", frame = :box, loc=:topcenter)
-plot!(t, xp2[1, :], xlabel = "t", label = "RK2")
-plot!(t, xp3[1, :], xlabel = "t", label = "RK4")
+function pendulum(y::Vector{<:Real}, g=9.8, l=2)
+    return [y[2], -g/l*sin(y[1])]
+end
+g, l = 9.8, 5.0
+tn1, xn1 = ode_euler((t, y)->pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
+tn2, xn2 = ode_rk2((t, y)->pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
+tn3, xn3 = ode_rk4((t, y)->pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
 ```
 
 </br>
 
-<img src = "ch10_ode/pendulum1.png"/>
+![진자](ch10_ode/ode_pendulum.png)
 
 </br>
 
-와 같다. 여기서는 세 방법이 시간이 지날수록 큰 차이를 보인다. 그러나 시간간격을 앞서보다 1/10 으로 줄여서 풀어 그리면 차이가 앞서보다 많이 주는 것을 볼 수 있다.
+와 같다. 오일러 방법은 비교적 빠르게, RK2 는 비교적 느리게 발산하지만 RK4 는 시간 범위 내에서 안정적임을 알 수 있다. 
 
-</br>
-
-<img src = "ch10_ode/pendulum2.png"/>
-
-</br>
 
 ### 마치며
 
-이번 장에서는 상미분 방정식을 푸는 가장 기본적인 방법인 오일러 방법과 2차, 4차 룽게-쿠타 방법을 배웠다. 수치해석이 늘 그렇듯이 간단한 미분방정식은 잘 풀 수 있지만 다양하고 복잡한 문제에서는 더 정확한 방법을 사용해야 한다.
+이번 장에서는 상미분 방정식을 푸는 가장 기본적인 방법인 오일러 방법과 2차, 4차 룽게-쿠타 방법을 배웠다. 수치해석이 늘 그렇듯이 간단한 미분방정식은 잘 풀 수 있지만 다양하고 복잡한 문제에서는 더 정확한 방법을 사용해야 한다
