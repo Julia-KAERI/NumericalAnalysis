@@ -10,3 +10,142 @@ crossref:
 
 ## 경계값 문제
 
+상미분 방정식의 해에 대해 우리는 $[a,\,b]$ 구간에만 관심이 있으며 $\boldsymbol{x}(a)=\boldsymbol{x}_a,\, \boldsymbol{x}(b)= \boldsymbol{x}_b$ 형식의 경계조건이 주어졌을 경우 이를 경계값 문제라고 한다.
+
+</br>
+
+## Linear shooting method
+
+다음은 잘 알려져 있다. 
+
+::: {#thm-linear_shooting}
+경계값 문제가
+$$
+x'' = f(t, x, x'),\qquad x(a)=\alpha,\, x(b) = \beta
+$$
+
+로 주어졌으며, $x''$ 함수가 $D\{(t,\,x,\,x') : a\le t \le b,\, x,\, x'\in \mathbb{R}\}$ 에서 연속일 때 $\partial_x f$ 와 $\partial_{x'}f$ 도 $D$ 에서 연속이다. 또한 모든 $(t,\,x,\,x')\in D$ 에서 $\partial_x f >0$ 이며 $\partial_{x'}$ 가 유계이면 위의 미분방정식은 유일항 해를 갖는다.
+:::
+
+</br>
+
+우리가 $x'' = p(t)x' +  q(t)x + r(t)$ 형태의 미분방정식과 $x(a)=\alpha,\, x(b)=\beta$ 의 경계조건을 가진 미분방정식에 관심이 있다고 하자. 이 때 @thm-linear_shooting 으로부터 다음을 알 수 있다.
+
+::: {#cor-linear_shooting}
+
+경계값 문제가 
+
+$$
+x'' = p(t)x' +  q(t)x + r(t),\, x(a)=\alpha,\, x(b)=\beta
+$$
+
+꼴로 주여졌으며, $p(t),\,q(t),\,r(t)$ 가 $[a,\,b]$ 에서 연속이고 $[a,\,b]$ 구간에서 $q(t)>0$ 일 이면 이 미분방정식의 해는 유일하게 존재한다.
+
+:::
+
+
+이제 $x_1(t)$ 와 $x_2(t)$ 를 각각 아래의 초기값 문제에 대한 해라고 하자.
+
+$$
+\begin{aligned}
+x_1'' & = p(t)x_1' + q(t)x_1 + r(t) ,\qquad &x_1(a) = \alpha,\, x_1'(a) = 0,\\
+x_2'' & = p(t)x_2' + q(t)x_2  ,\qquad &x_2(a) = 0,\, x_2'(a) = 1,\\
+\end{aligned}
+$$
+
+여기서 $x_2(b)\ne 0$ 이어야 하는데, 만약 $x_2(b) =0$ 이라면 $x_2=0$ 밖에 해가 될수 없기 때문이다. 이제
+
+$$
+x(t) = x_1(t) + \dfrac{\beta - x_1(b)}{x_2(b)} x_2(t)
+$$
+
+로 놓으면, 
+
+$$
+\begin{aligned}
+x''(t) &= x_1''(t) + \dfrac{\beta-x_1(b)}{x_2(b)}x_2''(t) \\
+& = p(t)\left[x_1'(t) +  \dfrac{\beta-x_1(b)}{x_2(b)} x_2''(t)\right]+ q(t)\left[x_1(t) + \dfrac{\beta-x_1(b)}{x_2(b)} x'(t)\right] +r(t) \\
+&= p(t)x'(t) + q(t)x(t) + r(t)
+\end{aligned}
+$$
+
+
+이며 $x(a) = \alpha,\, x(b) = \beta$ 가 된다. 즉 $x(t)$ 가 주어진 미분방정식의 해이다.
+
+
+</br>
+
+즉 Linear shoot 방법은 하나의 경계값 문제를 두개의 초기값 문제의 해의 선형결합으로 구한다. 
+
+</br>
+
+## 유한 차분법
+
+미분방정식이 $[a,\,b]$ 구간에서 경계값 $x(a)=\alpha,\, x(b)=\beta$ 와 함께 다음과 같이 주어졌다고 하자.
+
+$$
+x'' = p(t)x' + q(t) x + r(t)
+$$ {#eq-diffeq_1}
+
+우리는 [일변수 함수의 미분과 적분](05_calculus_of_one_variable_function.qmd) 에서 차분법을 통해 미분값을 계산하였다. 
+
+$$
+\begin{aligned}
+x'(t) &= \dfrac{x(t+h)-x(t-h)}{2h} + O(h^2), \\
+x''(t)  &= \dfrac{x(t+h) - 2x(t) + x(t-h)}{h^2} + O(h^2),
+\end{aligned}
+$$
+
+를 @eq-diffeq_1 에 대입하면, 
+
+$$
+\begin{aligned}
+x(t+h) -2x(t) +x(t-h) &= p(t)\left[x(t+h) - x(t-h)\right] \dfrac{h}{2} \\
+&\qquad \qquad + q(t)x(t) h^2+ r(t)h^2 + (O(h^4)+p(t)O(h^2))
+\end{aligned}
+$$
+
+이므로
+
+$$
+-\left[1+\dfrac{h}{2}p(t)\right]x(t-h) + \left[2+h^2q(t)\right]x(t) -\left[1- \dfrac{h}{2}p(t)\right] x(t+h) = -h^2r(t)
+$$ {#eq-ode_finite_difference}
+
+이다. $[a,\,b]$ 구간을 $t_0 = a$ 에서 $t_{N+1}=b$ 의 구간으로 분할한다고 하자. 이 때 구간 간격 $h$ 는 $h=\dfrac{b-a}{N+1}$ 이다. 
+
+$N \times N$ 행렬 $\boldsymbol{A}$ 를 다음과 같이 정의하자. 아래의 식에 나타나지 않은 성분은 모두 $0$ 이다.
+
+$$
+\begin{aligned}
+\boldsymbol{A}_{1, 1:2} & = \begin{bmatrix} 2+h^2q(t_1) &  -1+\dfrac{h}{2}p(t_1)\end{bmatrix}, \\
+\boldsymbol{A}_{j, j-1:j+1} & = \begin{bmatrix} -1-\dfrac{h}{2}p(t_j) & 2+ h^2q(t_j) & -1 + \dfrac{h}{2}p(t_j) \end{bmatrix}, \\
+\boldsymbol{A}_{N, N-1:N} & = \begin{bmatrix}  -1+\dfrac{h}p(t_N) & 2+h^2 q(t_N\end{bmatrix}). \\
+\end{aligned}
+$$
+
+이 때 $\boldsymbol{A}$ 는 삼중 대각 행렬(tridiagonal matrix) 이다. 또한, 
+
+$$
+\boldsymbol{x} = \begin{bmatrix} x(t_1)\\ x(t_2) \\ \vdots \\ x(t_{N-1}) \\ x(t_N)\end{bmatrix}, \qquad \boldsymbol{b} = \begin{bmatrix} -h^2 r(t_1) + \left(1+ \dfrac{h}{2}p(t_1)\right) \alpha \\ -h^2 r(t_2) \\ \vdots \\ -h^2r(t_{N-1}) \\ -h^2r(t_N) + \left(1-\dfrac{h}{2}p(t_N)\right) \beta \end{bmatrix}
+$$
+
+로 놓으면 경계조건 $x(t_0)=\alpha,\, x(t_{N+1})=\beta$ 를 만족시키면서 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 통해 미분방정식을 풀 수 있다.
+
+
+</br>
+
+### 양자 포텐셜 우물
+
+1차원 슈뢰딩거 방정식(Schöringer equation) 에서의 무한 포텐셜 우물은 다음과 같이 주어진다. [우리는 지금까지 $x$ 를 함수 혹은 종속변수로 사용했지만 아래의 방정식에서는 독립변수이므로 지금까지 우리의 표기법에서의 $t$ 의 역할을 한다는 것에 유의하라. ]{.aside}
+
+$$
+-\dfrac{\hbar^2}{2m}\dfrac{d^2\psi(x)}{dx^2} + V(x) \psi(x) = E\psi(x), \qquad V(x) = \left\{\begin{array}{ll}0 \qquad & x\in [-a, a]  \\ +\infty & \text{othewise}. \end{array}\right.
+$$
+
+이것을 지금까지 우리가 사용했던 표기법 형태로 고치면, 
+
+$$
+\dfrac{d\psi(t)}{dt^2} = -\dfrac{2mE}{\hbar^2} \psi(t), \qquad \psi(-a)= \psi(a)=0
+$$
+
+의 1차원 2차 미분방정식의 경계값 문제가 된다.

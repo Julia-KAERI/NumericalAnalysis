@@ -109,6 +109,8 @@ website:
           href: src/numerical_analysis_using_julia/09_least_square_problem.qmd
         - text: "10장 상미분 방정식의 초기값 문제"
           href: src/numerical_analysis_using_julia/10_ode_initial_value_problem.qmd
+        - text: "11장 상미분 방정식의 경계값 문제"
+          href: src/numerical_analysis_using_julia/11_ode_boundary_value_problem.qmd
         - text: "부록"
           href: src/numerical_analysis_using_julia/A01_appendix_01.qmd
           

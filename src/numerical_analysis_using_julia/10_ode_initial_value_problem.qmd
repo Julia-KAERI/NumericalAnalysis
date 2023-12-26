@@ -8,6 +8,39 @@ crossref:
   chapters: false
 ---
 
+## 미분방정식
+
+벡터공간을 생각하자. 함수 $f(t)\in C^\infty_{\mathbb{R}}$ 에 대한 미분을 $\dfrac{d}{dt}f(t)$ 로 표현하는데 임의의 상수 $a,\,b$ 와 $\phi,\, \psi \in C_{\mathbb{R}}^\infty$ 에 대해
+
+$$
+\dfrac{d}{dt}\left[a\phi (t) + b \psi (t)\right] = a \dfrac{d}{dt}\phi(t) + b \dfrac{d}{dt}\psi(t)
+$$
+
+를 만족하기 때문에 $\dfrac{d}{dt}$ 를 **선형연산자 (linear operator)** 라고 할 수 있다. 연산자에 피연산자에 대한 미분이 포함되는 연산자를 **미분 연산자(differential operator)** 라고 하며, **선형 미분 연산자 (linear differential operator)** 는 미분연산자를 포함하는 선형 연산자를 의미한다. 미분연산자에 대한 대표적인 형식으로는
+
+$$
+\sum_{k=0}^n p_n(t) \left(\dfrac{d^k}{dt^k}\right)
+$$
+
+와 같은 꼴이 있다.
+
+</br>
+
+미분방정식이 어떤 선형 미분 연산자 $\mathcal{L}$ 에 대해 $\mathcal{L}\phi(t) = 0$ 꼴이 되면 이 미분방정식을 **동차 선형 미분 방정식(homogeneous linear differential equation)** 라고 하며, 그렇지 않으면 **비동차 선형 미분 방정식(inhomogeneous linear differential equation)** 이라고 한다.
+
+
+미분방정식에서 최고차 미분항이 $n$ 일 때 $n$ 을 이 미분방정식의 **차수 (order)** 라고 하며, 차수가 $n$ 인 미분방정식을 $n$-차 미분 방정식이라고 한다. $\dfrac{d^2}{dt^2}x(t) = a$ 는 2차 비동차 선형 미분 방정식이 된다.
+
+</br>
+
+### Superposition
+
+homogeneous 한 미분방정식의 경우 $\phi(t),\, \psi(t)$ 가 각각 미분방정식의 해라면 임의의 상수 $a,\,b$ 에 대해 $a \phi(t) + b \psi(t)$ 도 그 해가 된다. 이를 **superposition** 이라고 한다. 
+
+
+</br>
+
+
 ## 상미분 방정식 (Ordinary Differential Equations) 과 초기값 문제
 
 상미분 방정식은 하나의 독립변수에 대한 미분방정식이다. $f(t)$ 에 대한 미분방정식이 $f$ 에 대해 최대 $n$ 차 미분까지 포함되었을 경우, $n$-차 상미분 방정식이라 한다. 일반적으로 $n$ 차 미분 방정식은 다음 꼴로 주어진다.
