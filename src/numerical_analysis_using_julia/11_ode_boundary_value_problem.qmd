@@ -14,7 +14,9 @@ crossref:
 
 </br>
 
-## Linear shooting method
+## Linear shooting 
+
+Linear shooting 방법은 경계값 문제를 두개의 초기값 문제로 바꾸어 푼다. 
 
 다음은 잘 알려져 있다. 
 
@@ -24,7 +26,7 @@ $$
 x'' = f(t, x, x'),\qquad x(a)=\alpha,\, x(b) = \beta
 $$
 
-로 주어졌으며, $x''$ 함수가 $D\{(t,\,x,\,x') : a\le t \le b,\, x,\, x'\in \mathbb{R}\}$ 에서 연속일 때 $\partial_x f$ 와 $\partial_{x'}f$ 도 $D$ 에서 연속이다. 또한 모든 $(t,\,x,\,x')\in D$ 에서 $\partial_x f >0$ 이며 $\partial_{x'}$ 가 유계이면 위의 미분방정식은 유일항 해를 갖는다.
+로 주어졌으며, $x''$ 함수가 $D\{(t,\,x,\,x') : a\le t \le b,\, x,\, x'\in \mathbb{R}\}$ 에서 연속일 때 $\partial_x f$ 와 $\partial_{x'}f$ 도 $D$ 에서 연속이다. 또한 모든 $(t,\,x,\,x')\in D$ 에서 $\partial_x f >0$ 이며 $\partial_{x'}$ 가 유계이면 위의 미분방정식은 유일한 해를 갖는다.
 :::
 
 </br>
@@ -75,7 +77,6 @@ $$
 
 </br>
 
-즉 Linear shoot 방법은 하나의 경계값 문제를 두개의 초기값 문제의 해의 선형결합으로 구한다. 
 
 </br>
 
@@ -111,7 +112,25 @@ $$
 -\left[1+\dfrac{h}{2}p(t)\right]x(t-h) + \left[2+h^2q(t)\right]x(t) -\left[1- \dfrac{h}{2}p(t)\right] x(t+h) = -h^2r(t)
 $$ {#eq-ode_finite_difference}
 
-이다. $[a,\,b]$ 구간을 $t_0 = a$ 에서 $t_{N+1}=b$ 의 구간으로 분할한다고 하자. 이 때 구간 간격 $h$ 는 $h=\dfrac{b-a}{N+1}$ 이다. 
+이다. $[a,\,b]$ 구간을 $t_0 = a$ 에서 $t_{N+1}=b$ 의 구간으로 분할한다고 하자. 이 때 구간 간격 $h$ 는 $h=\dfrac{b-a}{N+1}$ 이다. $t_i$ 과 $x_i$ 을 다음과 같이 정의하자.
+
+$$
+\begin{aligned}
+t_i &= a+ \dfrac{i}{N+1}(b-a) , \\
+x_i &= x(t_i).
+\end{aligned}
+$$
+
+그렇다면 @eq-ode_finite_difference 는 다음과 같이 쓸 수 있다. 여기서 $x_0 = \alpha,\, x_{N+1}=\beta$ 이다.
+
+$$
+\begin{aligned}
+\left[2+h^2q(t_1)\right]x_1 -\left[1- \dfrac{h}{2}p(t_1)\right] x_2 & = -h^2r(t_1) + \left[1+\dfrac{h}{2}p(t_1)\right]\alpha  , \\
+-\left[1+\dfrac{h}{2}p(t_i)\right]x_{i-1} + \left[2+h^2q(t_i)\right]x_i -\left[1- \dfrac{h}{2}p(t_i)\right] x_{i+1} & = -h^2r(t_i), \\
+-\left[1+\dfrac{h}{2}p(t_N)\right]x_{N-1} + \left[2+h^2q(t_N)\right]x_N &= -h^2r(t_N) +\left[1- \dfrac{h}{2}p(t_N)\right] \beta 
+\end{aligned}
+$$
+
 
 $N \times N$ 행렬 $\boldsymbol{A}$ 를 다음과 같이 정의하자. 아래의 식에 나타나지 않은 성분은 모두 $0$ 이다.
 
@@ -119,14 +138,14 @@ $$
 \begin{aligned}
 \boldsymbol{A}_{1, 1:2} & = \begin{bmatrix} 2+h^2q(t_1) &  -1+\dfrac{h}{2}p(t_1)\end{bmatrix}, \\
 \boldsymbol{A}_{j, j-1:j+1} & = \begin{bmatrix} -1-\dfrac{h}{2}p(t_j) & 2+ h^2q(t_j) & -1 + \dfrac{h}{2}p(t_j) \end{bmatrix}, \\
-\boldsymbol{A}_{N, N-1:N} & = \begin{bmatrix}  -1+\dfrac{h}p(t_N) & 2+h^2 q(t_N\end{bmatrix}). \\
+\boldsymbol{A}_{N, N-1:N} & = \begin{bmatrix}  -1-\dfrac{h}{2}p(t_N) & 2+h^2 q(t_N)\end{bmatrix}. \\
 \end{aligned}
 $$
 
 이 때 $\boldsymbol{A}$ 는 삼중 대각 행렬(tridiagonal matrix) 이다. 또한, 
 
 $$
-\boldsymbol{x} = \begin{bmatrix} x(t_1)\\ x(t_2) \\ \vdots \\ x(t_{N-1}) \\ x(t_N)\end{bmatrix}, \qquad \boldsymbol{b} = \begin{bmatrix} -h^2 r(t_1) + \left(1+ \dfrac{h}{2}p(t_1)\right) \alpha \\ -h^2 r(t_2) \\ \vdots \\ -h^2r(t_{N-1}) \\ -h^2r(t_N) + \left(1-\dfrac{h}{2}p(t_N)\right) \beta \end{bmatrix}
+\boldsymbol{x} = \begin{bmatrix} x(t_1)\\ x(t_2) \\ \vdots \\ x(t_{N-1}) \\ x(t_N)\end{bmatrix}, \qquad \boldsymbol{b} = \begin{bmatrix} -h^2 r(t_1) + \left[1+ \dfrac{h}{2}p(t_1)\right] \alpha \\ -h^2 r(t_2) \\ \vdots \\ -h^2r(t_{N-1}) \\ -h^2r(t_N) + \left[1-\dfrac{h}{2}p(t_N)\right] \beta \end{bmatrix}
 $$
 
 로 놓으면 경계조건 $x(t_0)=\alpha,\, x(t_{N+1})=\beta$ 를 만족시키면서 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 통해 미분방정식을 풀 수 있다.
@@ -139,7 +158,7 @@ $$
 1차원 슈뢰딩거 방정식(Schöringer equation) 에서의 무한 포텐셜 우물은 다음과 같이 주어진다. [우리는 지금까지 $x$ 를 함수 혹은 종속변수로 사용했지만 아래의 방정식에서는 독립변수이므로 지금까지 우리의 표기법에서의 $t$ 의 역할을 한다는 것에 유의하라. ]{.aside}
 
 $$
--\dfrac{\hbar^2}{2m}\dfrac{d^2\psi(x)}{dx^2} + V(x) \psi(x) = E\psi(x), \qquad V(x) = \left\{\begin{array}{ll}0 \qquad & x\in [-a, a]  \\ +\infty & \text{othewise}. \end{array}\right.
+-\dfrac{\hbar^2}{2m}\dfrac{d^2\psi(x)}{dx^2} + V(x) \psi(x) = E\psi(x), \qquad V(x) = \left\{\begin{array}{ll}0 \qquad &; x\in [-a, a],  \\ +\infty &; \text{othewise}. \end{array}\right.
 $$
 
 이것을 지금까지 우리가 사용했던 표기법 형태로 고치면, 

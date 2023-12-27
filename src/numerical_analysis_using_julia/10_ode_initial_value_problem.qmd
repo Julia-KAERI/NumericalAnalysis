@@ -77,6 +77,7 @@ $$
 를 이용하는 방법이다. 
 
 
+
 #### 다변수 일차 미분 방정식
 
 $\boldsymbol{x}:\mathbb{R}\to \mathbb{R}^n$ 이며 $x_i(t)$ 가 $\boldsymbol{x}(t)$ 의 $i$ 번째 성분일 때 미분방정식이 $\boldsymbol{f}:\mathbb{R}^{n+1}\to \mathbb{R}^n$ 에 대해
@@ -149,7 +150,9 @@ $f(x,\,y)$ 가 변수 2개에 대한 함수일 때는 위의 함수를 약간 �
 우리는 $y'= e^x,\, y(0)=1$ 일 때, $y=e^x$ 임을 알고 있다. 아래 그림은 위의 `ode_euler` 함수를 이용하여 미분방정식을 푼 값과, 실제 함수값을 비교해 보았다.
 
 </br>
+
 [`LaTeXStrings` 는 $\LaTeX$ 의 수식을 사용 할 수 있도록 해 주는 패키지이다.]{.aside}
+
 ```julia
 using LaTeXStrings, Plots
 tn, xn = ode_euler((t, x)->exp(t), 0.0, 1.0, 500, 1.0e-2)
@@ -158,7 +161,7 @@ plot!(tn, exp.(tn), lw=2, ls = :dash, label = L"f(t) = e^t")
 ```
 
 
-![Euler 방법](ch10_ode/euler_method.png){width=600}
+![Euler 방법](ch10_ode_initial_value_problem//euler_method.png){width=600}
 
 </br>
 
@@ -194,28 +197,30 @@ p3 = plot(xn[3,:], xn[1,:], frame=:box, aspect_ratio=1.0, label=L"zx", color=:bl
 plot!(p0, p1, p2, p3, layout=4)
 ```
 
-![로렌츠 방정식](ch10_ode/lorentz.png){width=600}
+![로렌츠 방정식](ch10_ode_initial_value_problem//lorentz.png){width=600}
 
 </br>
 
+#### 일변수 이차 미분 방정식
 
-#### 다변수 이차 미분 방정식
- $\dfrac{d^2\boldsymbol{x}}{dt^2} = \boldsymbol{f}(t, \boldsymbol{x}, \boldsymbol{x}')$ 으로 주어진 미분방정식은,
+$\dfrac{d^2x}{dt^2} = f(t, x, x')$ 으로 주어진 미분방정식과 초기값 $x(t_1),\, x'(t_1)$ 이 주어졌다고 하자. $y(t) = x'(t)$ 라고 하면, 
 
 $$
 \begin{aligned}
-\boldsymbol{v}(t_{n}+h) &=\boldsymbol{v}(t_n) + \boldsymbol{f}(t, \boldsymbol{x}(t_n), \boldsymbol{v}(t_n)) h,\\
-\boldsymbol{x}(t_n+h) &=\boldsymbol{x}(t_n) + \boldsymbol{v}(t_n)h 
+y'(t) &= f(t, x, y), \\
+x'(t) &= y(t) 
 \end{aligned}
 $$
 
-와 같이 2개의 1차 미분방정식에 대한 오일러 방법에 의한 해로 주어진다. 가장 간단한 1차원 조화진동자 문제를 보자. 미분방정식이 
+라는 2변수에 대한 1차 미분방정식 꼴이 된다. 즉, $\boldsymbol{y} = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로 놓았을 때의 이변수 일차 미분방정식이다.
+
+가장 간단한 1차원 조화진동자 문제를 보자. 미분방정식이 
 
 $$
 \dfrac{d^2 x(t)}{dt^2} = -k\cdot x(t)
 $$ {#eq-sho1d}
 
-로 주어졌을 때 $\boldsymbol{y}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로 놓으면, 
+로 주어졌을 때 $\boldsymbol{x}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로 놓으면, 
 
 $$
 \boldsymbol{y}(t+h) = \begin{bmatrix} x(t+h) \\ x'(t+h)\end{bmatrix} = \begin{bmatrix} x(t) + x'(t)h \\ x'(t) -k  x(t) h \end{bmatrix} = \boldsymbol{y}(t) + h\begin{bmatrix} 0 & 1\\ -k & 0\end{bmatrix} \boldsymbol{y}(t)
@@ -231,10 +236,25 @@ tn, xn = ode_euler((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
 plot(tn, xn[1,: ], label = :none)
 ```
 
-![오일러 방법으로 계산한 1차원 조화진동자](ch10_ode/euler_sho1d.png){width=600}
+![오일러 방법으로 계산한 1차원 조화진동자](ch10_ode_initial_value_problem/euler_sho1d.png){width=600}
 
 
 1차원 조화진동자는 잘 알려져 있다 시피 삼각함수로 그 진폭이 커지면 안되지만 여기서는 커지는데 이것은 오일러 방법이 기본적으로 에러에 취약하기 때문이다. 이로 인해 실제 계산에서는 오일러 방법은 잘 사용되지 않는다. 
+
+</br>
+
+
+#### 다변수 이차 미분 방정식
+ $\dfrac{d^2\boldsymbol{x}}{dt^2} = \boldsymbol{f}(t, \boldsymbol{x}, \boldsymbol{x}')$ 으로 주어진 미분방정식은,
+
+$$
+\begin{aligned}
+\boldsymbol{v}(t_{n}+h) &=\boldsymbol{v}(t_n) + \boldsymbol{f}(t, \boldsymbol{x}(t_n), \boldsymbol{v}(t_n)) h,\\
+\boldsymbol{x}(t_n+h) &=\boldsymbol{x}(t_n) + \boldsymbol{v}(t_n)h 
+\end{aligned}
+$$
+
+와 같이 2개의 1차 미분방정식에 대한 오일러 방법에 의한 해로 주어진다. 
 
 </br>
 
@@ -366,9 +386,9 @@ tn, xn = ode_rk2((t, x)->butterfly3d(x, 10, 28, 8/3), 0.0, [0.0, 1.0, 1.0], 5000
 plot(xn[1,:], xn[2,:], xn[3,:], label="RK2")
 ```
 
-![RK2를 이용한 로렌츠 방정식의 궤적](ch10_ode/lorentz_rk2.png){width=600}
+![RK2를 이용한 로렌츠 방정식의 궤적](ch10_ode_initial_value_problem/lorentz_rk2.png){width=600}
 
-![RK4를 이용한 로렌츠 방정식의 궤적](ch10_ode/lorentz_rk4.png){width=600}
+![RK4를 이용한 로렌츠 방정식의 궤적](ch10_ode_initial_value_problem//lorentz_rk4.png){width=600}
 
 </br>
 
@@ -389,7 +409,7 @@ tn2, xn2 = ode_rk4((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
 
 그 결과를 그래프로 그리면 다음과 같다.
 
-![RK 방법으로 푼 단순조화진동자](ch10_ode/sho1d_rk.png){width=600}
+![RK 방법으로 푼 단순조화진동자](ch10_ode_initial_value_problem/sho1d_rk.png){width=600}
 
 </br>
 
@@ -431,13 +451,13 @@ $m=1,\, \gamma=1,\, k=1$ 과 $x(t=0)=0,\, \dot{x}(t=0)=1$ 일 때에 대해 오�
 
 </br>
 
-![감쇄조화진동자](ch10_ode/dho1d_rk.png){width=600}
+![감쇄조화진동자](ch10_ode_initial_value_problem//dho1d_rk.png){width=600}
 
 </br>
 
 #### 진자(Pendulum) 문제
 
-<img src="ch10_ode/simple pendulum.png" width="250"/>
+<img src="ch10_ode_initial_value_problem/simple pendulum.png" width="250"/>
 
 </br>
 
@@ -475,11 +495,44 @@ tn3, xn3 = ode_rk4((t, y)->pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
 
 </br>
 
-![진자](ch10_ode/ode_pendulum.png)
+![진자](ch10_ode_initial_value_problem//ode_pendulum.png)
 
 </br>
 
 와 같다. 오일러 방법은 비교적 빠르게, RK2 는 비교적 느리게 발산하지만 RK4 는 시간 범위 내에서 안정적임을 알 수 있다. 
+
+</br>
+
+#### 2체 문제
+
+중력에 의한 2체 문제를 생각해보자. $m_1$ 과 $m_2$ 의 질량을 갖는 두 점입자가 오직 만유인력에 의해서만 영향을 받아 움직일 때, 그 운동은 다음의 2차 미분방정식에 의해 기술된다.
+
+$$
+\begin{aligned}
+m_1\ddot{\boldsymbol{r}}_1  =  - \dfrac{Gm_1m_2}{\|\boldsymbol{r}_1-\boldsymbol{r}_2\|^3}(\boldsymbol{r}_1 - \boldsymbol{r}_2), \\
+m_2\ddot{\boldsymbol{r}}_2  = - \dfrac{Gm_1m_2}{\|\boldsymbol{r}_1-\boldsymbol{r}_2\|^3}(\boldsymbol{r}_2 - \boldsymbol{r}_1),
+\end{aligned}
+$$
+
+$x,\,y,\,z$-좌표계에서 $m_1$ 의 위치와 속력을 각각 $\boldsymbol{r}_1 = \begin{bmatrix} x_1 & y_1 & z_1\end{bmatrix}^T$, $\boldsymbol{v}_1 = \begin{bmatrix} v_1 & u_1 & w_1\end{bmatrix}^T$ 라고 하고 $m_2$ 의 위치와 속력을 각각 $\boldsymbol{r}_2 = \begin{bmatrix} x_2 & y_2 & z_2\end{bmatrix}^T$, $\boldsymbol{v}_2 = \begin{bmatrix} v_2 & u_2 & w_2\end{bmatrix}^T$ 라고 하자. 이것을 전체적으로 기술하는 열벡터 $\boldsymbol{s}$ 를
+
+$$
+\boldsymbol{s} = \begin{bmatrix} x_1 & y_1 & z_1 & x_2 & y_2 & z_2 & v_1 & u_1 & w_1 & v_2 & u_2 & w_2\end{bmatrix}^T
+$$
+
+라 하자. $R=\|\boldsymbol{r}_1-\boldsymbol{r}_2\|$, $k_1 = \dfrac{Gm_1}{R^3}, k_2 = \dfrac{Gm_2}{R^3}$ 이라 하면, 
+
+$$
+\dfrac{d\boldsymbol{s}}{dt} = \begin{bmatrix} & & \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{array} & \\
+& & & \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1\end{array} \\
+\begin{array}{ccc} -k_2 & 0 & 0 \\ 0 & -k_2 & 0 \\ 0 & 0 & k_2 \\ k_1 & 0 & 0 \\ 0 & k_1 & 0 \\ 0 & 0 & k_1 \end{array} & \begin{array}{ccc} k_2 & 0 & 0 \\ 0 & k_2 & 0 \\ 0 & 0 & k_2 \\ -k_1 & 0 & 0 \\ 0 & -k_1 & 0 \\ 0 & 0 & -k_1 \end{array} 
+\end{bmatrix} \cdot \boldsymbol{s}
+$$
+
+이제 두 점입자의 초기 위치와 속도가 주어지면 $\boldsymbol{s}_{i+1} = \boldsymbol{s}_i+ \dfrac{d\boldsymbol{s}}{dt} h$ 를 이용하여 이 문제를 풀 수 있다.
+
+
+
 
 
 ### 마치며
