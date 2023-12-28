@@ -725,7 +725,7 @@ $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 일 때 $\boldsymbol{A}
 </br>
 
 
-## 미적분학 정리 {#sec-summary_of_calculus}
+## 일변수 미적분학 정리 {#sec-summary_of_one_variable_calculus}
 
 </br>
 
@@ -1055,6 +1055,112 @@ $$
 $$
 
 을 만족하는 $c\in (a,\,b)$ 가 존재한다.
+
+:::
+
+</br>
+
+## 다변수 미적분학 정리 {#sec-summary_of_multy_variable_calculus}
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-n_cell}
+
+#### $n$-cell
+
+$\mathbb{R}^n$ 에서
+
+$$
+[a_1,\,b_1]\times \cdots \times [a_n,\,b_n] = \{(x_1,\ldots,\,x_n)\in \mathbb{R}^n : a_i \le x_i \le b_i,\, i=1,\ldots,n\}
+$$
+
+를 $n$-cell 이라고 한다.
+
+::: 
+:::
+
+</br>
+
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-continuity_mv}
+
+#### 다변수 함수의 연속
+
+$\mathbb{R}^n$ 에서의 열린 집합 $U$ 에서 정의된 함수 $\boldsymbol{F}:U \to \mathbb{R}^m$ 이 
+
+$$
+\lim_{\boldsymbol{h} \to \boldsymbol{0}} \|\boldsymbol{F}(\boldsymbol{p} + \boldsymbol{h}) - \boldsymbol{F}(\boldsymbol{p})\|  = 0
+$$
+
+일 때 $\boldsymbol{F}$ 는 $\boldsymbol{p}$ 에서 **연속** 이라고 한다. $\boldsymbol{F}$ 가 모든 $\boldsymbol{p}\in U$ 에서 연속일 때 $\boldsymbol{F}$ 를 $U$ 에서 연속이라고 한다.
+
+:::
+:::
+
+</br>  
+
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-differentiation_mv}
+
+#### 다변수 함수의 미분과 자코비 행렬
+
+$\mathbb{R}^n$ 에서의 열린 집합 $U$ 에서 정의된 함수 $\boldsymbol{F}:U \to \mathbb{R}^m$ 이 $\boldsymbol{p}\in U$ 에서 어떤 행렬 $M\in \mathcal{M}_{m \times n}(\mathbb{R})$ 에 대해
+
+$$
+\lim_{\boldsymbol{h} \to \boldsymbol{0}} \dfrac{\|\boldsymbol{F}(\boldsymbol{p} + \boldsymbol{h}) - \boldsymbol{F}(\boldsymbol{p}) - \boldsymbol{Mp}\|}{\|\boldsymbol{h}\|} = \boldsymbol{0}
+$$
+
+를 만족 할 때 $\boldsymbol{F}$ 는 $\boldsymbol{p}$ 에서 미분가능하다 라고 한다. 이때 $\boldsymbol{M}$ 을 $\boldsymbol{p}$ 에서의 $\boldsymbol{F}$ 의 **자코비 행렬(Jacobian matrix)** 이라고 하며 $D\boldsymbol{F}(\boldsymbol{p}),\, \boldsymbol{J}_\boldsymbol{F}(\boldsymbol{p})$ 옥은 $\boldsymbol{F}'(\boldsymbol{p})$ 라고 표기한다. $\boldsymbol{F}$ 가 모든 $\boldsymbol{p}\in U$ 에서 미분 가능일 때 $\boldsymbol{F}$ 를 $U$ 에서 미분가능하다 라고 한다.
+
+:::
+:::
+
+</br>
+
+::: {#prp-equivalence_of_differentiation_for_mv}
+
+$\mathbb{R}^n$ 에서의 열린 집합 $U$ 에서 정의된 함수 $\boldsymbol{F}:U \to \mathbb{R}^m$ 에 대해 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{F}$ 는 $\boldsymbol{p}\in U$ 에서 미분가능하다.
+
+&emsp; ($2$) 어떤 $\boldsymbol{M}\in \mathcal{M}_{m \times n}(\mathbb{R})$ 과 $\displaystyle \lim_{\boldsymbol{h}\to \boldsymbol{0}}\dfrac{\boldsymbol{R}(\boldsymbol{h})}{\|\boldsymbol{h}\|} = \boldsymbol{0}$ 인 어떤 함수 $\boldsymbol{R}:U \to \mathbb{R}^m$ 에 대해 
+$$
+\boldsymbol{F}(\boldsymbol{p}+\boldsymbol{h}) = \boldsymbol{Mp}+\boldsymbol{R}(\boldsymbol{v})
+$$ 
+&emsp; &emsp; 이다. 
+
+:::
+
+</br>
+
+::: {#thm-directional_derivative}
+
+$\boldsymbol{F} : U\subset \mathbb{R}^n \to \mathbb{R}^m$ 가 $\boldsymbol{p}\in U$ 에서 미분가능할 때 임의의 $\boldsymbol{u}\in \mathbb{R}^n-\{\boldsymbol{0}\}$ 에 대해 아래의 극한이 존재한다.
+
+$$
+\lim_{t \to \infty} \dfrac{\boldsymbol{F}(\boldsymbol{p}+t\boldsymbol{u}) - \boldsymbol{F}(\boldsymbol{p})}{t}
+$$ {#eq-directional_derivative}
+
+:::
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-partial_derivative}
+
+#### 방향미분과 편미분
+$\boldsymbol{u}$ 가 단위벡터, 즉 $\|\boldsymbol{u}\|=1$ 일 때 @eq-directional_derivative 의  극한을 $\boldsymbol{F}$ 의 $\boldsymbol{p}$ 에서의 $\boldsymbol{u}$ 방향으로의 **방향미분 (directional derivative)** 라고 하고 $D_\boldsymbol{u}\boldsymbol{F}(\boldsymbol{p})$ 라고 쓴다. $\boldsymbol{u}$ 가 어떤 표준기저 $\hat{\boldsymbol{e}}_i$ 일 때의 방향미분을 **편미분 (partial derivative)** 라고 하며 $D_{\hat{\boldsymbol{e}}_i} \boldsymbol{F}(\boldsymbol{p})$ 를 $D_i \boldsymbol{F}(\boldsymbol{p})$, $\dfrac{\partial \boldsymbol{F}}{\partial x_i}(\boldsymbol{p})$, 혹은 $\partial_i \boldsymbol{F}(\boldsymbol{p})$ 라고 표기한다. 
+
+:::
+:::
+
+</br>
+
+::: {#prp-differentiable_continuous}
+
+$\boldsymbol{F} : U \subset \mathbb{R}^n \to \mathbb{R}^m$ 이 $\boldsymbol{p}\in U$ 에서 미분가능이면 $\boldsymbol{p}$ 에서 연속이다.
 
 :::
 

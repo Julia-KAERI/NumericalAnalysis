@@ -40,18 +40,131 @@ homogeneous 한 미분방정식의 경우 $\phi(t),\, \psi(t)$ 가 각각 미분
 
 </br>
 
+## 상미분 방정식과 초기값 문제
 
-## 상미분 방정식 (Ordinary Differential Equations) 과 초기값 문제
-
-상미분 방정식은 하나의 독립변수에 대한 미분방정식이다. $f(t)$ 에 대한 미분방정식이 $f$ 에 대해 최대 $n$ 차 미분까지 포함되었을 경우, $n$-차 상미분 방정식이라 한다. 일반적으로 $n$ 차 미분 방정식은 다음 꼴로 주어진다.
+상미분 방정식(ODE, Ordinary differential equation)은 하나의 독립변수에 대한 미분방정식이다. $f(t)$ 에 대한 미분방정식이 $f$ 에 대해 최대 $n$ 차 미분까지 포함되었을 경우, $n$-차 상미분 방정식이라 한다. 일반적으로 $n$ 차 미분 방정식은 다음 꼴로 주어진다.
 
 $$
-f^{(n)}(t) + a_{n-1} f^{(n-1)}(t) + \cdots a_1 f(t) + a_0 = 0
+f^{(n)}(t) = F\left(t, f(t), f'(t), \ldots, f^{(n-1)}(t)\right)
 $$
 
- 상미분 방정식 자체로는 어떤 미지수를 가질 수 밖에 없으며, 이 미지수를 초기값 $t_1$ 에 대한 $f^{(k)}(t_1)$ $k=1,\,2,\ldots$ 값을 통해 알아내는 것을 **초기값 문제 (initial value problem)** 이라고 한다. 
+이 방정식과 초기값 $f^{(k)}(t_1),\, k=1,\,2,\ldots, (n-1)$ 을 통해 $f(t)$ 를 알아내는 것을 **초기값 문제 (initial value problem)** 이라고 한다. 
+
+가장 간단한 미분방정식이라면 
+
+$$
+f'(t) = F(t, f(t))
+$$
+
+꼴로 주어진 미분방정식이며 이것은
+
+$$
+f(t+h) = f(t) + F(t, f(t)) h + O(h^2)
+$$
+
+를 이용하여 1차 근사로 풀 수 있다. 즉 $t_n = t_0 +hn$ 라고 할 때, 
+
+$$
+f(t_{n+1}) = f(t_n) + F(t_n, f(t_n))h, \qquad n=0,\,1,\,2,\ldots
+$$
+
+로 풀 수 있다. 이것이 잠시 후 다를 오일러 방법이다. 우리는 앞서 [리차드슨 외삽법](05_calculus_of_one_variable_function.qmd#sec-richardson_extrapolation) 에서 보았던 것처럼 주변의 복수의 값을 이용하여 정밀도를 높일 수 있다. 즉 $F(t_n, f(t_n))$ 뿐만 아니라 몇몇 $\alpha_i$ 값에 대해 $F(t_n, f(t_n + \alpha_i h))$ 를 선형결합하여 
+
+$$
+\begin{aligned}
+f(t_{n+1}) &= f(t_n) + \sum_i c_i F(t_n, f(t_n + \alpha_i h))h + O(h^k), \\
+&= f(t_n) + \tilde{F}(t_n, h, f) +O(h^k)
+\end{aligned}
+$$
+
+이며, $k>2$ 이 되도록 할 수 있다. 이 $\tilde{F}(t_n, h, f)$ 를 얻는 방법이 오일러 방법, 룽게-쿠타 방법 등이 존재한다. 이제 수치해석적인 방법을 통해
+
+$$
+f(t_{n+1}) = f(t_n) + \tilde{F}(t_n, f, h)h
+$$
+
+를 얻을 있다고 하자. 다변수 미분방정식의 경우를 보자. 
+
+$$
+\boldsymbol{x}^{(n)}(t) = \boldsymbol{F}(t, \boldsymbol{x}(t),\ldots,\boldsymbol{x}^{(n-1)}(t))
+$$
+
+과 초기조건 $\boldsymbol{x}(t_0) ,\ldots,\,\boldsymbol{x}^{(n-1)}(t_0)$ 를 만족하는  $\boldsymbol{x}:[a,\,b] \to \mathbb{R}^m$ 을 구한다고 하자. $\boldsymbol{x} = \begin{bmatrix} x_1(t) & \cdots & x_m(t) \end{bmatrix}^T$ 라 할 때 
+
+$$
+\boldsymbol{x}(t_{n+1}) =  \boldsymbol{x}(t_n) +\tilde{\boldsymbol{F}}(t_n, h, \boldsymbol{x}, \ldots, \boldsymbol{x}^{(n-1)}) 
+$$
+
+을 통해 구한다. 
+
+
+
+
+
+
+
+
+
+
+
 
 </br>
+
+
+
+
+
+::: {#prp-lipschitz_condtion}
+
+#### Lipschitz 조건
+
+$t\in I= [a,\,b]$ 와 [$n$-cell](01x_notations_and_propositions.qmd#def-n_cell) $D$ 의 데카르트곱 $I \times D$ 에서 정의되며 연속인 함수 $f(t, \boldsymbol{x})$ 가 
+
+$$
+(t, \boldsymbol{x}_1),\,(t, \boldsymbol{x}_2)\in I \times D \implies \|f(t, \boldsymbol{x}_1) - f(t, \boldsymbol{x}_2) \| \le L\|\boldsymbol{x}_1 - \boldsymbol{x}_2\|
+$$
+
+를 만족할 때 이 함수 $f$ 는 $D$ 에서 **Lipschitz 조건** 을 만족한다 라고 하며 이때의 $L$ 을 **Lipschitz 상수** 라고 한다. Lipschitz 조건을 만족하는 함수는 모든 $t_0 \in [a,\,b]$ 와 $\boldsymbol{x}_0 \in D$ 에 대해 다음을 만족하는 함수 $\boldsymbol{x}:I \to D$ 가 존재한다.
+
+&emsp; ($1$) $\boldsymbol{x}$ 는 $C^1_{[a,\,b]}$ 급 함수이다.
+
+&emsp; ($2$) $모든 $t\in I$ 에서 $\boldsymbol{x}'(t) = f(t, \boldsymbol{x}(t))$ 이다. 
+
+&emsp; ($3$) $\boldsymbol{x}(t_0) = \boldsymbol{x}_0$ 이다.
+
+
+:::
+
+
+</br>
+
+::: {#prp-lipschitz_condtion}
+
+
+:::
+
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-convex}
+
+#### convex
+
+집합 $ \subset \mathbb{R}\times \mathbb{R}^{n}$ 가 모든 $\lambda \in [0,\,1]$ 와 $\boldsymbol{x}_1,\,\boldsymbol{x}_2\in D$ 에 대해 $\lambda \boldsymbol{x}_1 + (1-\lambda)\boldsymbol{x}_2\in D$ 일 때 $D$ 를 **convex** 라고 한다.
+:::
+:::
+
+</br>
+
+::: {#prp-convex}
+$f(t,\,\boldsymbol{x}):D \subset  \mathbb{R}\times \mathbb{R}^{n} \to \mathbb{R}^m$ 이 convex $D$ 에서 정의되어 있으며 어떤 $L>0$ 이 존재하여
+
+$$
+\left\|\sum_{i=1}\partial_i f(t, \boldsymbol{x}) \right\| 
+$$
+
+:::
+
+
 
 ### 오일러 방법 (Newton's method)
 
