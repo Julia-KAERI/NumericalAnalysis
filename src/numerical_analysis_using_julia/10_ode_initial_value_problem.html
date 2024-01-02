@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" rel="next">
+<link href="../../src/numerical_analysis_using_julia/11_ode_boundary_value_problem.html" rel="next">
 <link href="../../src/numerical_analysis_using_julia/09_least_square_problem.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-sidebar docked nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -248,6 +248,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/11_ode_boundary_value_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11장 상미분 방정식의 경계값 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">부록</span></a>
   </div>
@@ -262,11 +268,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#상미분-방정식-ordinary-differential-equations" id="toc-상미분-방정식-ordinary-differential-equations" class="nav-link active" data-scroll-target="#상미분-방정식-ordinary-differential-equations"><span class="header-section-number">1</span> 상미분 방정식 (Ordinary Differential Equations)</a>
+  <li><a href="#미분방정식" id="toc-미분방정식" class="nav-link active" data-scroll-target="#미분방정식"><span class="header-section-number">1</span> 미분방정식</a>
+  <ul class="collapse">
+  <li><a href="#superposition" id="toc-superposition" class="nav-link" data-scroll-target="#superposition">Superposition</a></li>
+  </ul></li>
+  <li><a href="#상미분-방정식과-초기값-문제" id="toc-상미분-방정식과-초기값-문제" class="nav-link" data-scroll-target="#상미분-방정식과-초기값-문제"><span class="header-section-number">2</span> 상미분 방정식과 초기값 문제</a>
   <ul class="collapse">
   <li><a href="#오일러-방법-newtons-method" id="toc-오일러-방법-newtons-method" class="nav-link" data-scroll-target="#오일러-방법-newtons-method">오일러 방법 (Newton’s method)</a></li>
-  <li><a href="#차-룽게-쿠타-방법-runge-kunta-method" id="toc-차-룽게-쿠타-방법-runge-kunta-method" class="nav-link" data-scroll-target="#차-룽게-쿠타-방법-runge-kunta-method">2차 룽게-쿠타 방법 (Runge-Kunta method)</a></li>
-  <li><a href="#차-룽게-쿠타-방법" id="toc-차-룽게-쿠타-방법" class="nav-link" data-scroll-target="#차-룽게-쿠타-방법">4차 룽게-쿠타 방법</a></li>
+  <li><a href="#차-룽게-쿠타-방법-rk2" id="toc-차-룽게-쿠타-방법-rk2" class="nav-link" data-scroll-target="#차-룽게-쿠타-방법-rk2">2차 룽게-쿠타 방법 (RK2)</a></li>
+  <li><a href="#차-룽게-쿠타-방법-rk4" id="toc-차-룽게-쿠타-방법-rk4" class="nav-link" data-scroll-target="#차-룽게-쿠타-방법-rk4">4차 룽게-쿠타 방법 (RK4)</a></li>
   <li><a href="#예제-examples" id="toc-예제-examples" class="nav-link" data-scroll-target="#예제-examples">예제 (Examples)</a></li>
   <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며">마치며</a></li>
   </ul></li>
@@ -274,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -293,249 +303,395 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="상미분-방정식-ordinary-differential-equations" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="상미분-방정식-ordinary-differential-equations"><span class="header-section-number">1</span> 상미분 방정식 (Ordinary Differential Equations)</h2>
-<p>상미분 방정식은 하나의 독립변수에 대한 미분방정식이다. <span class="math inline">\(f(x)\)</span> 에 대한 미분방정식이 <span class="math inline">\(f\)</span> 에 대해 최대 <span class="math inline">\(n\)</span> 차 미분까지 포함되었을 경우, <span class="math inline">\(n\)</span>-차 상미분 방정식이라 한다.</p>
+<section id="미분방정식" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="미분방정식"><span class="header-section-number">1</span> 미분방정식</h2>
+<p>벡터공간을 생각하자. 함수 <span class="math inline">\(f(t)\in C^\infty_{\mathbb{R}}\)</span> 에 대한 미분을 <span class="math inline">\(\dfrac{d}{dt}f(t)\)</span> 로 표현하는데 임의의 상수 <span class="math inline">\(a,\,b\)</span> 와 <span class="math inline">\(\phi,\, \psi \in C_{\mathbb{R}}^\infty\)</span> 에 대해</p>
+<p><span class="math display">\[
+\dfrac{d}{dt}\left[a\phi (t) + b \psi (t)\right] = a \dfrac{d}{dt}\phi(t) + b \dfrac{d}{dt}\psi(t)
+\]</span></p>
+<p>를 만족하기 때문에 <span class="math inline">\(\dfrac{d}{dt}\)</span> 를 <strong>선형연산자 (linear operator)</strong> 라고 할 수 있다. 연산자에 피연산자에 대한 미분이 포함되는 연산자를 <strong>미분 연산자(differential operator)</strong> 라고 하며, <strong>선형 미분 연산자 (linear differential operator)</strong> 는 미분연산자를 포함하는 선형 연산자를 의미한다. 미분연산자에 대한 대표적인 형식으로는</p>
+<p><span class="math display">\[
+\sum_{k=0}^n p_n(t) \left(\dfrac{d^k}{dt^k}\right)
+\]</span></p>
+<p>와 같은 꼴이 있다.</p>
 <p><br></p>
-<section id="오일러-방법-newtons-method" class="level3">
+<p>미분방정식이 어떤 선형 미분 연산자 <span class="math inline">\(\mathcal{L}\)</span> 에 대해 <span class="math inline">\(\mathcal{L}\phi(t) = 0\)</span> 꼴이 되면 이 미분방정식을 <strong>동차 선형 미분 방정식(homogeneous linear differential equation)</strong> 라고 하며, 그렇지 않으면 <strong>비동차 선형 미분 방정식(inhomogeneous linear differential equation)</strong> 이라고 한다.</p>
+<p>미분방정식에서 최고차 미분항이 <span class="math inline">\(n\)</span> 일 때 <span class="math inline">\(n\)</span> 을 이 미분방정식의 <strong>차수 (order)</strong> 라고 하며, 차수가 <span class="math inline">\(n\)</span> 인 미분방정식을 <span class="math inline">\(n\)</span>-차 미분 방정식이라고 한다. <span class="math inline">\(\dfrac{d^2}{dt^2}x(t) = a\)</span> 는 2차 비동차 선형 미분 방정식이 된다.</p>
+<p><br></p>
+<section id="superposition" class="level3">
+<h3 class="anchored" data-anchor-id="superposition">Superposition</h3>
+<p>homogeneous 한 미분방정식의 경우 <span class="math inline">\(\phi(t),\, \psi(t)\)</span> 가 각각 미분방정식의 해라면 임의의 상수 <span class="math inline">\(a,\,b\)</span> 에 대해 <span class="math inline">\(a \phi(t) + b \psi(t)\)</span> 도 그 해가 된다. 이를 <strong>superposition</strong> 이라고 한다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="상미분-방정식과-초기값-문제" class="level2 page-columns page-full" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="상미분-방정식과-초기값-문제"><span class="header-section-number">2</span> 상미분 방정식과 초기값 문제</h2>
+<p>상미분 방정식(ODE, Ordinary differential equation)은 하나의 독립변수에 대한 미분방정식이다. <span class="math inline">\(f(t)\)</span> 에 대한 미분방정식이 <span class="math inline">\(f\)</span> 에 대해 최대 <span class="math inline">\(n\)</span> 차 미분까지 포함되었을 경우, <span class="math inline">\(n\)</span>-차 상미분 방정식이라 한다. 일반적으로 <span class="math inline">\(n\)</span> 차 미분 방정식은 다음 꼴로 주어진다.</p>
+<p><span class="math display">\[
+f^{(n)}(t) = F\left(t, f(t), f'(t), \ldots, f^{(n-1)}(t)\right)
+\]</span></p>
+<p>이 방정식과 초기값 <span class="math inline">\(f^{(k)}(t_1),\, k=1,\,2,\ldots, (n-1)\)</span> 을 통해 <span class="math inline">\(f(t)\)</span> 를 알아내는 것을 <strong>초기값 문제 (initial value problem)</strong> 이라고 한다.</p>
+<p>가장 간단한 미분방정식이라면</p>
+<p><span class="math display">\[
+f'(t) = F(t, f(t))
+\]</span></p>
+<p>꼴로 주어진 미분방정식이며 이것은</p>
+<p><span class="math display">\[
+f(t+h) = f(t) + F(t, f(t)) h + O(h^2)
+\]</span></p>
+<p>를 이용하여 1차 근사로 풀 수 있다. 즉 <span class="math inline">\(t_n = t_0 +hn\)</span> 라고 할 때,</p>
+<p><span class="math display">\[
+f(t_{n+1}) = f(t_n) + F(t_n, f(t_n))h, \qquad n=0,\,1,\,2,\ldots
+\]</span></p>
+<p>로 풀 수 있다. 이것이 잠시 후 다를 오일러 방법이다. 우리는 앞서 <a href="../../src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.html#sec-richardson_extrapolation">리차드슨 외삽법</a> 에서 보았던 것처럼 주변의 복수의 값을 이용하여 정밀도를 높일 수 있다. 즉 <span class="math inline">\(F(t_n, f(t_n))\)</span> 뿐만 아니라 몇몇 <span class="math inline">\(\alpha_i\)</span> 값에 대해 <span class="math inline">\(F(t_n, f(t_n + \alpha_i h))\)</span> 를 선형결합하여</p>
+<p><span class="math display">\[
+\begin{aligned}
+f(t_{n+1}) &amp;= f(t_n) + \sum_i c_i F(t_n, f(t_n + \alpha_i h))h + O(h^k), \\
+&amp;= f(t_n) + \tilde{F}(t_n, h, f) +O(h^k)
+\end{aligned}
+\]</span></p>
+<p>이며, <span class="math inline">\(k&gt;2\)</span> 이 되도록 할 수 있다. 이 <span class="math inline">\(\tilde{F}(t_n, h, f)\)</span> 를 얻는 방법이 오일러 방법, 룽게-쿠타 방법 등이 존재한다. 이제 수치해석적인 방법을 통해</p>
+<p><span class="math display">\[
+f(t_{n+1}) = f(t_n) + \tilde{F}(t_n, f, h)h
+\]</span></p>
+<p>를 얻을 있다고 하자. 다변수 미분방정식의 경우를 보자.</p>
+<p><span class="math display">\[
+\boldsymbol{x}^{(n)}(t) = \boldsymbol{F}(t, \boldsymbol{x}(t),\ldots,\boldsymbol{x}^{(n-1)}(t))
+\]</span></p>
+<p>과 초기조건 <span class="math inline">\(\boldsymbol{x}(t_0) ,\ldots,\,\boldsymbol{x}^{(n-1)}(t_0)\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}:[a,\,b] \to \mathbb{R}^m\)</span> 을 구한다고 하자. <span class="math inline">\(\boldsymbol{x} = \begin{bmatrix} x_1(t) &amp; \cdots &amp; x_m(t) \end{bmatrix}^T\)</span> 라 할 때</p>
+<p><span class="math display">\[
+\boldsymbol{x}(t_{n+1}) =  \boldsymbol{x}(t_n) +\tilde{\boldsymbol{F}}(t_n, h, \boldsymbol{x}, \ldots, \boldsymbol{x}^{(n-1)})
+\]</span></p>
+<p>을 통해 구한다.</p>
+<p><br></p>
+<div id="prp-lipschitz_condtion" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 1 (Lipschitz 조건) </strong></span><span class="math inline">\(t\in I= [a,\,b]\)</span> 와 <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html#def-n_cell"><span class="math inline">\(n\)</span>-cell</a> <span class="math inline">\(D\)</span> 의 데카르트곱 <span class="math inline">\(I \times D\)</span> 에서 정의되며 연속인 함수 <span class="math inline">\(f(t, \boldsymbol{x})\)</span> 가</p>
+<p><span class="math display">\[
+(t, \boldsymbol{x}_1),\,(t, \boldsymbol{x}_2)\in I \times D \implies \|f(t, \boldsymbol{x}_1) - f(t, \boldsymbol{x}_2) \| \le L\|\boldsymbol{x}_1 - \boldsymbol{x}_2\|
+\]</span></p>
+<p>를 만족할 때 이 함수 <span class="math inline">\(f\)</span> 는 <span class="math inline">\(D\)</span> 에서 <strong>Lipschitz 조건</strong> 을 만족한다 라고 하며 이때의 <span class="math inline">\(L\)</span> 을 <strong>Lipschitz 상수</strong> 라고 한다. Lipschitz 조건을 만족하는 함수는 모든 <span class="math inline">\(t_0 \in [a,\,b]\)</span> 와 <span class="math inline">\(\boldsymbol{x}_0 \in D\)</span> 에 대해 다음을 만족하는 함수 <span class="math inline">\(\boldsymbol{x}:I \to D\)</span> 가 존재한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{x}\)</span> 는 <span class="math inline">\(C^1_{[a,\,b]}\)</span> 급 함수이다.</p>
+<p>  (<span class="math inline">\(2\)</span>) $모든 <span class="math inline">\(t\in I\)</span> 에서 <span class="math inline">\(\boldsymbol{x}'(t) = f(t, \boldsymbol{x}(t))\)</span> 이다.</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{x}(t_0) = \boldsymbol{x}_0\)</span> 이다.</p>
+</div>
+<p><br></p>
+<div id="prp-lipschitz_condtion" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 2 </strong></span>&nbsp;</p>
+</div>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-convex" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 1 (convex) </strong></span>집합 $ ^{n}$ 가 모든 <span class="math inline">\(\lambda \in [0,\,1]\)</span> 와 <span class="math inline">\(\boldsymbol{x}_1,\,\boldsymbol{x}_2\in D\)</span> 에 대해 <span class="math inline">\(\lambda \boldsymbol{x}_1 + (1-\lambda)\boldsymbol{x}_2\in D\)</span> 일 때 <span class="math inline">\(D\)</span> 를 <strong>convex</strong> 라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-convex" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 3 </strong></span><span class="math inline">\(f(t,\,\boldsymbol{x}):D \subset \mathbb{R}\times \mathbb{R}^{n} \to \mathbb{R}^m\)</span> 이 convex <span class="math inline">\(D\)</span> 에서 정의되어 있으며 어떤 <span class="math inline">\(L&gt;0\)</span> 이 존재하여</p>
+<p><span class="math display">\[
+\left\|\sum_{i=1}\partial_i f(t, \boldsymbol{x}) \right\|
+\]</span></p>
+</div>
+<section id="오일러-방법-newtons-method" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="오일러-방법-newtons-method">오일러 방법 (Newton’s method)</h3>
-<p><span class="math inline">\(y=f(x)\)</span> 에 대해 미분방정식이</p>
+<p>오일러 방법은 초기값이 주어졌을 때 수치해석적으로 미분방정식의 해를 구하는 가장 간단한 방법이다. 가장 간단한 만큼 일반적으로 오차가 크지만 상미분방정식의 초기값 문제를 푸는 여러가지 기법을 익힐 수 있다.</p>
+<section id="일변수-일차-미분-방정식" class="level4">
+<h4 class="anchored" data-anchor-id="일변수-일차-미분-방정식">일변수 일차 미분 방정식</h4>
+<p>아래와 같은 미분방정식</p>
 <p><span class="math display">\[
-\dfrac{dy}{dx} = f(x, y)
+x'(t) = \dfrac{dx}{dt} = f(t, x)
 \]</span></p>
-<p>로 주어지고, 초기값 <span class="math inline">\(x_0,\,y_0\)</span> 가 주어졌을 때 가장 간단하게 <span class="math inline">\(y=f(x)\)</span> 를 구하는 방법이다. 테일러 전개를 이용하면,</p>
+<p>과 초기조건 <span class="math inline">\(x(t_1)\)</span> 이 주어졌다고 하자. 테일러 전개에 의해</p>
 <p><span class="math display">\[
-y(x + h) = y(x) + y'(x)\epsilon + \dfrac{y''(\xi)}{2}h^2
+\begin{aligned}
+x(t+h) &amp;= x(t) + x'(t)h + O(h^2) \\
+&amp;= x(t) + f(t, x)h + O(h^2)
+\end{aligned}
 \]</span></p>
-<p>를 만족하는 <span class="math inline">\(\xi\in (x,\, x+h)\)</span> 이 존재한다는 것을 안다. <span class="math inline">\(|h | \ll 1\)</span> 이면,</p>
+<p>를 이용하는 방법이다.</p>
+</section>
+<section id="다변수-일차-미분-방정식" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="다변수-일차-미분-방정식">다변수 일차 미분 방정식</h4>
+<p><span class="math inline">\(\boldsymbol{x}:\mathbb{R}\to \mathbb{R}^n\)</span> 이며 <span class="math inline">\(x_i(t)\)</span> 가 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 의 <span class="math inline">\(i\)</span> 번째 성분일 때 미분방정식이 <span class="math inline">\(\boldsymbol{f}:\mathbb{R}^{n+1}\to \mathbb{R}^n\)</span> 에 대해</p>
 <p><span class="math display">\[
-y(x + h) \approx y(x) + y'(x)h
+\boldsymbol{x}'(t)=\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, x_1,\ldots,\,x_n)
+\]</span></p>
+<p>로 주어지고, 초기값 <span class="math inline">\(t_1,\,\boldsymbol{x}(t_1)\)</span> 가 주어졌을 때 가장 간단하게 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 를 구하는 방법이다. 테일러 전개를 이용하면,</p>
+<p><span class="math display">\[
+x_i(t + h) = y_i(t) + x_i'(t)h+ \dfrac{x_i''(\xi)}{2}h^2
+\]</span></p>
+<p>를 만족하는 <span class="math inline">\(\xi\in (t,\, t+h)\)</span> 이 존재한다는 것을 안다. 이 때 <span class="math inline">\(|h | \ll 1\)</span> 이면,</p>
+<p><span class="math display">\[
+x_i(t + h) \approx x_i(t) + x_i'(t)h
 \]</span></p>
 <p>임을 이용하는 것이 오일러 벙법이다.</p>
-<p><span class="math inline">\(x_{k+1}=x_k+h\)</span> 일 때,</p>
+<p><span class="math inline">\(t_{k+1}=t_k+h\)</span> 일 때,</p>
 <p><span class="math display">\[
-y_{k+1} = y(x_{k+1}) = y(x_k) + f(x_k, y_k)\, h
+\boldsymbol{x}(t_{k+1}) = \boldsymbol{x} (t_k) + \boldsymbol{f}(t_k, x_1(x_k), \ldots, x_n(t_k))\, h
 \]</span></p>
-<p>라고 하여 <span class="math inline">\(y\)</span> 값을 구한다. 위의 식에서 <span class="math inline">\(f(x,\,y)\)</span> 가 <span class="math inline">\(x\)</span> 만의 함수일 때 아래와 같이 julia 로 구현 할 수 있다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_euler1</span>(f<span class="op">::</span><span class="dt">Function</span>, x0<span class="op">::</span><span class="dt">T</span>, y0<span class="op">::</span><span class="dt">T</span>, Npoints<span class="op">::</span><span class="dt">Integer</span>, epsilon <span class="op">=</span> <span class="fl">1.0e-6</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">AbstractFloat</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    eps <span class="op">=</span> <span class="fu">convert</span>(T, epsilon)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    xp <span class="op">=</span> x0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> eps</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    yp <span class="op">=</span> <span class="fu">zeros</span>(T, <span class="fu">length</span>(xp))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    yp[<span class="fl">1</span>] <span class="op">=</span> y0</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>Npoints</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        yp[i] <span class="op">=</span> yp[i<span class="op">-</span><span class="fl">1</span>]<span class="op">+</span> <span class="fu">f</span>(xp[i<span class="op">-</span><span class="fl">1</span>]) <span class="op">*</span> eps</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xp, yp</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>를 이용하여 <span class="math inline">\(\boldsymbol{x}(t_{k+1})\)</span> 값을 구한다. 아래와 같이 julia 로 구현 할 수 있다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 일변수에 대한 오일러 방법</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_euler</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    fp<span class="op">::</span><span class="dt">Function</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    t1<span class="op">::</span><span class="dt">Real</span>, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    x1<span class="op">::</span><span class="dt">Real</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    Npoints<span class="op">::</span><span class="dt">Integer</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1.0e-6</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> t1 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> h</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    xn <span class="op">=</span> <span class="fu">zero</span>(tn)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    xn[<span class="fl">1</span>] <span class="op">=</span> x1</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        xn[i<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> xn[i] <span class="op">+</span> <span class="fu">fp</span>(tn[i], xn[i])<span class="op">*</span> h</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tn, xn</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 다변수에 대한 오일러 방법</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_euler</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    fp<span class="op">::</span><span class="dt">Vector{&lt;:Function}</span>, </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    t0<span class="op">::</span><span class="dt">Real</span>, </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    x0<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    Npoints<span class="op">::</span><span class="dt">Integer</span>, </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1.0e-6</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> t0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> h</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    xn <span class="op">=</span> <span class="fu">zeros</span>((<span class="fu">length</span>(x0), <span class="fu">length</span>(tn)))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    xn[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> x0</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        xn[<span class="op">:</span>, i<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> xn[<span class="op">:</span>, i] <span class="op">.+</span> [<span class="fu">f</span>(t) for (f, t) <span class="op">∈</span> <span class="fu">zip</span>(fp, tn[i])] <span class="op">.*</span> h</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tn, xn</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><span class="math inline">\(f(x,\,y)\)</span> 가 변수 2개에 대한 함수일 때는 위의 함수를 약간 수정하여 구현 할 수 있을 것이다.</p>
 <p>우리는 <span class="math inline">\(y'= e^x,\, y(0)=1\)</span> 일 때, <span class="math inline">\(y=e^x\)</span> 임을 알고 있다. 아래 그림은 위의 <code>ode_euler</code> 함수를 이용하여 미분방정식을 푼 값과, 실제 함수값을 비교해 보았다.</p>
 <p><br></p>
-<p><img src="ch09_ode/euler_method.png"></p>
+<div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class=""><code>LaTeXStrings</code> 는 <span class="math inline">\(\LaTeX\)</span> 의 수식을 사용 할 수 있도록 해 주는 패키지이다.</span></div></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LaTeXStrings</span>, <span class="bu">Plots</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, x)<span class="fu">-&gt;exp</span>(t), <span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">500</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn, lw <span class="op">=</span> <span class="fl">2</span>, frame <span class="op">=</span> <span class="op">:</span>box, label <span class="op">=</span> <span class="st">"Euler method"</span>)<span class="co">#, dpi=300)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(tn, <span class="fu">exp</span>.(tn), lw<span class="op">=</span><span class="fl">2</span>, ls <span class="op">=</span> <span class="op">:</span>dash, label <span class="op">=</span> L<span class="st">"f(t) = e^t"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//euler_method.png" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">Euler 방법</figcaption><p></p>
+</figure>
+</div>
 <p><br></p>
-<p>여기서는 비교작 잘 맞지만 오일러 방법은 잘 사용되지 않는다. 우선 앞서 보았듯이 테일러 전개를 이용한 근사를 사용했으므로 <span class="math inline">\(y_{k+1}-y_k\)</span> 를 추산하는데 <span class="math inline">\(\dfrac{y''(x_k)}{2}h^2\)</span> 정도의 에러가 발생 할 수 있다. 또한 <span class="math inline">\(y_{k+1}\)</span> 이 <span class="math inline">\(y_k\)</span>에 의존하여 계산되므로 오차값이 축적된다.</p>
+<p>다변수 오일러 방법을 사용해 볼 수 있는 문제중의 하나는 로렌츠 방정식이다.</p>
+<p><span id="eq-lorentz_equation"><span class="math display">\[
+\begin{aligned}
+\dfrac{dx}{dt} &amp;  = \sigma (y-x), \\
+\dfrac{dy}{dt} &amp; = x(\rho - z)-y, \\
+\dfrac{dz}{dt} &amp;= xy-\beta z.
+\end{aligned}
+\tag{1}\]</span></span></p>
+<p><span class="math inline">\(\boldsymbol{x} =\begin{bmatrix} x &amp; y &amp; z\end{bmatrix}^T\)</span> 로 놓고 다변수 오일러 방법을 통해 구해보자. 어떤 조건에서 위의 미분방정식의 해가 나비를 닮았기 때문에 함수 이름을 <code>butterfly3d</code> 로 하였다. <span class="math inline">\(\sigma=10\)</span>, <span class="math inline">\(\rho=28\)</span>, <span class="math inline">\(\beta=8/3\)</span> 일 때,</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">butterfly3d</span>(v, σ<span class="op">::</span><span class="dt">Real</span>, ρ<span class="op">::</span><span class="dt">Real</span>, β<span class="op">::</span><span class="dt">Real</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="fu">σ*</span>(v[<span class="fl">2</span>]<span class="op">-</span>v[<span class="fl">1</span>]), v[<span class="fl">1</span>]<span class="fu">*</span>(ρ <span class="op">-</span> v[<span class="fl">3</span>])<span class="op">-</span>v[<span class="fl">2</span>], v[<span class="fl">1</span>]<span class="op">*</span>v[<span class="fl">2</span>]<span class="op">-</span>β<span class="op">*</span>v[<span class="fl">3</span>]]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, v)<span class="fu">-&gt;butterfly3d</span>(v, <span class="fl">10</span>, <span class="fl">28</span>, <span class="fl">8</span><span class="op">/</span><span class="fl">3</span>), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>], <span class="fl">4000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>를 통해 얻은 궤적을 그리면 다음과 같다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plot</span>, <span class="bu">LaTeXStrings</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>p0 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">1</span>,<span class="op">:</span>], xn[<span class="fl">2</span>,<span class="op">:</span>], xn[<span class="fl">3</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"xyz"</span>, dpi<span class="op">=</span><span class="fl">300</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">1</span>,<span class="op">:</span>], xn[<span class="fl">2</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"xy"</span>, color<span class="op">=:</span>red)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">2</span>,<span class="op">:</span>], xn[<span class="fl">3</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"yz"</span>, color<span class="op">=:</span>green)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">3</span>,<span class="op">:</span>], xn[<span class="fl">1</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"zx"</span>, color<span class="op">=:</span>blue)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(p0, p1, p2, p3, layout<span class="op">=</span><span class="fl">4</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//lorentz.png" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">로렌츠 방정식</figcaption><p></p>
+</figure>
+</div>
 <p><br></p>
 </section>
-<section id="차-룽게-쿠타-방법-runge-kunta-method" class="level3">
-<h3 class="anchored" data-anchor-id="차-룽게-쿠타-방법-runge-kunta-method">2차 룽게-쿠타 방법 (Runge-Kunta method)</h3>
-<p>역시 <span class="math display">\[
-\dfrac{dy}{dx} = f(x, y)
-\]</span></p>
-<p>와 초기조건 <span class="math inline">\(y_0 = f(x_0)\)</span> 가 주어졌다고 하자. 우리는 여기서,</p>
+<section id="일변수-이차-미분-방정식" class="level4">
+<h4 class="anchored" data-anchor-id="일변수-이차-미분-방정식">일변수 이차 미분 방정식</h4>
+<p><span class="math inline">\(\dfrac{d^2x}{dt^2} = f(t, x, x')\)</span> 으로 주어진 미분방정식과 초기값 <span class="math inline">\(x(t_1),\, x'(t_1)\)</span> 이 주어졌다고 하자. <span class="math inline">\(y(t) = x'(t)\)</span> 라고 하면,</p>
 <p><span class="math display">\[
-\dfrac{d^2y}{dx^2 } = \dfrac{d}{dx}f(x, \,y) = \dfrac{\partial f}{\partial x} + \dfrac{dy}{dx} \dfrac{\partial f}{\partial y}
+\begin{aligned}
+y'(t) &amp;= f(t, x, y), \\
+x'(t) &amp;= y(t)
+\end{aligned}
+\]</span></p>
+<p>라는 2변수에 대한 1차 미분방정식 꼴이 된다. 즉, <span class="math inline">\(\boldsymbol{y} = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}\)</span> 로 놓았을 때의 이변수 일차 미분방정식이다.</p>
+<p>가장 간단한 1차원 조화진동자 문제를 보자. 미분방정식이</p>
+<p><span id="eq-sho1d"><span class="math display">\[
+\dfrac{d^2 x(t)}{dt^2} = -k\cdot x(t)
+\tag{2}\]</span></span></p>
+<p>로 주어졌을 때 <span class="math inline">\(\boldsymbol{x}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}\)</span> 로 놓으면,</p>
+<p><span class="math display">\[
+\boldsymbol{y}(t+h) = \begin{bmatrix} x(t+h) \\ x'(t+h)\end{bmatrix} = \begin{bmatrix} x(t) + x'(t)h \\ x'(t) -k  x(t) h \end{bmatrix} = \boldsymbol{y}(t) + h\begin{bmatrix} 0 &amp; 1\\ -k &amp; 0\end{bmatrix} \boldsymbol{y}(t)
+\]</span></p>
+<p>이를 위해 다음과 같은 코드를 작성하였으며 그래프로 그려보면 다음과 같다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sho1d</span>(y<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, k<span class="op">::</span><span class="dt">Real</span>, x0<span class="op">=</span><span class="fl">0.0</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="fl">2</span>], <span class="fu">-k*</span>(y[<span class="fl">1</span>]<span class="op">-</span>x0)]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn[<span class="fl">1</span>,<span class="op">:</span> ], label <span class="op">=</span> <span class="op">:</span>none)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem/euler_sho1d.png" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">오일러 방법으로 계산한 1차원 조화진동자</figcaption><p></p>
+</figure>
+</div>
+<p>1차원 조화진동자는 잘 알려져 있다 시피 삼각함수로 그 진폭이 커지면 안되지만 여기서는 커지는데 이것은 오일러 방법이 기본적으로 에러에 취약하기 때문이다. 이로 인해 실제 계산에서는 오일러 방법은 잘 사용되지 않는다.</p>
+<p><br></p>
+</section>
+<section id="다변수-이차-미분-방정식" class="level4">
+<h4 class="anchored" data-anchor-id="다변수-이차-미분-방정식">다변수 이차 미분 방정식</h4>
+<p><span class="math inline">\(\dfrac{d^2\boldsymbol{x}}{dt^2} = \boldsymbol{f}(t, \boldsymbol{x}, \boldsymbol{x}')\)</span> 으로 주어진 미분방정식은,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{v}(t_{n}+h) &amp;=\boldsymbol{v}(t_n) + \boldsymbol{f}(t, \boldsymbol{x}(t_n), \boldsymbol{v}(t_n)) h,\\
+\boldsymbol{x}(t_n+h) &amp;=\boldsymbol{x}(t_n) + \boldsymbol{v}(t_n)h
+\end{aligned}
+\]</span></p>
+<p>와 같이 2개의 1차 미분방정식에 대한 오일러 방법에 의한 해로 주어진다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="차-룽게-쿠타-방법-rk2" class="level3">
+<h3 class="anchored" data-anchor-id="차-룽게-쿠타-방법-rk2">2차 룽게-쿠타 방법 (RK2)</h3>
+<p>역시 <span class="math display">\[
+\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
+\]</span></p>
+<p>와 초기조건 <span class="math inline">\(\boldsymbol{x}_0 = \boldsymbol{f}(t_0)\)</span> 가 주어졌다고 하자. 우리는 여기서,</p>
+<p><span class="math display">\[
+\dfrac{d^2\boldsymbol{x}}{dt^2 } = \dfrac{d}{dt}f(t, \,\boldsymbol{x}) = \dfrac{\partial f}{\partial t} + \sum_j\dfrac{dx_j}{dt} \cdot \dfrac{\partial \boldsymbol{f}}{\partial x_j}
 \]</span></p>
 <p>라는 것을 안다. 이것을 이용하여 2차항까지 테일러 전개를 하면, <span class="math display">\[
 \begin{aligned}
-y(x+h) &amp; = y(x) + \dfrac{dy}{dx}h  + \dfrac{1}{2}\dfrac{d^2 y}{dx^2}h^2 + \cdots \\
-&amp;= y(x)  + f(x, y)\, h + \dfrac{1}{2} \left(\dfrac{\partial f}{\partial x} + \dfrac{dy}{dx} \dfrac{\partial f}{\partial y}\right) h^2 + \cdots \\
-&amp;= y(x)  + f(x, y)\, h + \dfrac{1}{2} \left(\dfrac{\partial f}{\partial x} + f(x,\,y) \dfrac{\partial f}{\partial y}\right) h^2 + \cdots
+x_i(t+h) &amp; = x_i(t) + \dfrac{dx_i}{dt}h  + \dfrac{1}{2}\dfrac{d^2 x_i}{dt^2}h^2 + \cdots \\
+&amp;= x_i(t)  + f_i(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_i}{\partial t} + \sum_j \dfrac{dx_j}{dt} \dfrac{\partial f_i}{\partial x_j}\right) h^2 + \cdots \\
+&amp;= x_i(t)  + f(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f}{\partial t} + \sum_j f_j(t,\,\boldsymbol{x}) \dfrac{\partial f_i}{\partial x_j}\right) h^2 + \cdots
 \end{aligned}
 \]</span></p>
 <p>이다. 이 때,</p>
 <p><span class="math display">\[
 \begin{aligned}
-k_1 &amp;= f(x_n, y_n) \,,\\
-k_2 &amp;= f\left( x_n + \dfrac{h}{2},\, y_n + h \dfrac{k_1}{2}\right)
+\boldsymbol{k}_1 &amp;= \boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \,,\\
+\boldsymbol{k}_2 &amp;= \boldsymbol{f}\left( t_n + \dfrac{h}{2},\, \boldsymbol{x}(t_n) + \dfrac{h}{2} \boldsymbol{k}_1\right)
 \end{aligned}
 \]</span></p>
-<p>라 하자. 그렇다면,</p>
+<p>라 하자. 그렇다면, 야코비안 행렬 <span class="math inline">\(\left(\boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n))\right)_{ij} = \dfrac{\partial f_i}{\partial x_j}(t_n, \boldsymbol{x}(t_n))\)</span> 에 대해</p>
 <p><span class="math display">\[
 \begin{aligned}
-k_2 &amp;= f(x_n,\, y_n) + \dfrac{h}{2} \dfrac{\partial f}{\partial x}(x_n,\, y_n) + \dfrac{hk_1}{2} \dfrac{\partial f}{\partial y} (x_n,\, y_n) \\
-&amp;= k_1 + \dfrac{h}{2} \left(\dfrac{\partial f}{\partial x}(x_n,\, y_n)  + f(x_n,\, y_n) \dfrac{\partial f}{\partial y}(x_n,\, y_n) \right)
+\boldsymbol{k}_2 &amp;= \boldsymbol{f}(t_n,\, \boldsymbol{x}(t_n)) +  \dfrac{h}{2} \dfrac{\partial \boldsymbol{f}}{\partial t}(t_n,\, \boldsymbol{x}(t_n)) + \dfrac{h}{2} \boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \boldsymbol{k}_1 \\
+&amp;= \boldsymbol{k}_1 + \dfrac{h}{2} \left(\dfrac{\partial \boldsymbol{f}}{\partial t}(t_n,\, \boldsymbol{x}(t_n))  + \boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \boldsymbol{k}_1 \right)
 \end{aligned}
 \]</span></p>
 <p>이므로,</p>
 <p><span class="math display">\[
 \begin{aligned}
-\dfrac{\partial f}{\partial x}(x_n,\, y_n) + f(x_n,\,y_n) \dfrac{\partial f}{\partial y} (x_n,\, y_n) &amp; = \dfrac{2}{h}(k_2-k_1)
+\dfrac{\partial \boldsymbol{f}}{\partial t}(t_n,\, \boldsymbol{x}(t_n))  + \boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \boldsymbol{k}_1 &amp; = \dfrac{2}{h}(\boldsymbol{k}_2-\boldsymbol{k}_1)
 \end{aligned}
 \]</span></p>
 <p>이다. 이를 이용하면,</p>
 <p><span class="math display">\[
-y_{n+1} = y_n + k_1h + \dfrac{h^2}{2} \dfrac{2}{h} (k_2-k_1) = y_n+ \dfrac{h}{2}(k_1+k_2)
+\boldsymbol{x}(t_{n+1}) = \boldsymbol{x}(t_n) + \boldsymbol{k}_1h + \dfrac{h^2}{2} \dfrac{2}{h} (\boldsymbol{k}_2-\boldsymbol{k}_1) = \boldsymbol{x}(t_n)+ \dfrac{h}{2}(\boldsymbol{k}_1+\boldsymbol{k}_2)
 \]</span></p>
-<p>이다. 이것을 2차 룽게-쿠타 방법이라 한다.</p>
+<p>을 얻는다. 이것을 2차 룽게-쿠타 방법(RK2)이라 한다.</p>
 <p><br></p>
 </section>
-<section id="차-룽게-쿠타-방법" class="level3">
-<h3 class="anchored" data-anchor-id="차-룽게-쿠타-방법">4차 룽게-쿠타 방법</h3>
-<p>2차 룽게 쿠타 방법은 테일러 전개의 2차항까지 사용하였다. 4차 룽게 구타 방법은 테일러 전개의 4차항까지 사용한다. <span class="math display">\[
-y(x+h)  = y(x) + y'(x) h + \dfrac{y''(x)}{2} h^2 + \dfrac{y^{(3)}(x)}{6}h^3 + \dfrac{y^{(4)}}{24}h^4 + \cdots
+<section id="차-룽게-쿠타-방법-rk4" class="level3">
+<h3 class="anchored" data-anchor-id="차-룽게-쿠타-방법-rk4">4차 룽게-쿠타 방법 (RK4)</h3>
+<p>2차 룽게 쿠타 방법은 테일러 전개의 2차항까지 사용하였다. 4차 룽게-쿠타 방법(RK4)은 테일러 전개의 4차항까지 사용한다. <span class="math display">\[
+\boldsymbol{x}(t+h)  = \boldsymbol{x}(x) + \boldsymbol{x}'(x) h + \dfrac{\boldsymbol{x}''(t)}{2} h^2 + \dfrac{\boldsymbol{x}^{(3)}(t)}{6}h^3 + \dfrac{\boldsymbol{x}^{(4)}(t)}{24}h^4 + \cdots
 \]</span></p>
-<p>아래와 같이 <span class="math inline">\(k_1,\,k_2,\,k_3,\,k_4\)</span> 를 정의하면, <span class="math display">\[
+<p>아래와 같이 <span class="math inline">\(\boldsymbol{k}_1,\,\boldsymbol{k}_2,\,\boldsymbol{k}_3,\,\boldsymbol{k}_4\)</span> 를 정의하면, <span class="math display">\[
 \begin{aligned}
-k_{1} &amp;= f(x_{n},y_{n}),\\
-k_{2}&amp;=\ f\!\left(x_{n}+{\frac {h}{2}},y_{n}+h{\frac {k_{1}}{2}}\right),\\
-k_{3}&amp;=\ f\!\left(x_{n}+{\frac {h}{2}},y_{n}+h{\frac {k_{2}}{2}}\right),\\
-k_{4}&amp;=\ f\!\left(x_{n}+h,y_{n}+hk_{3}\right).
+\boldsymbol{k}_{1} &amp;= \boldsymbol{f}(t_{n},\, \boldsymbol{x}(t_{n})),\\
+\boldsymbol{k}_{2}&amp;=\ \boldsymbol{f}\!\left( t_{n}+{\frac {h}{2}},\, \boldsymbol{x}(t_{n})+ \frac{h}{2}\boldsymbol{k}_{1}\right),\\
+\boldsymbol{k}_{3}&amp;=\ \boldsymbol{f}\!\left(t_{n}+{\frac {h}{2}},\,  \boldsymbol{x}(t_{n})+\frac{h}{2} \boldsymbol{k}_{2}\right),\\
+\boldsymbol{k}_{4}&amp;=\ \boldsymbol{f}\!\left(t_{n}+h,\, \boldsymbol{x}(t_{n})+h\boldsymbol{k}_{3}\right).
 \end{aligned}
 \]</span></p>
 <p>4차항까지의 테일러 전개가 아래와 같다는 것을 보일 수 있다. 아주 지루한 과정이므로 여기서는 생략한다. <span class="math display">\[
 \begin{aligned}
-y_{n+1}&amp;=y_{n}+{\frac {1}{6}}\left(k_{1}+2k_{2}+2k_{3}+k_{4}\right)h,\\
-t_{n+1}&amp;=t_{n}+h
+t_{n+1}&amp;=t_{n}+h, \\
+\boldsymbol{x}(t_{n+1})&amp;=\boldsymbol{x}(t_{n})+{\frac {h}{6}}\left(\boldsymbol{k}_{1}+2 \boldsymbol{k}_{2}+2\boldsymbol{k}_{3}+\boldsymbol{k}_{4}\right).
 \end{aligned}
 \]</span></p>
-<p>오일러 방법, 2차 및 4차 룽게-쿠타 방법을 이용하여 상미분 방정식을 푸는 julia 코드는 아래와 같다. 모두 이변수 함수 <code>f</code> 와 초기값 <code>x0</code>, <code>y0</code>, 위의 <span class="math inline">\(h\)</span> 에 해당하는 값 <code>epsilon</code> 과 초기 값을 포함하여 몇개의 점에 대해 얻을지에 대한 <code>Npoints</code> 를 인자로 받는다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_euler</span>(f<span class="op">::</span><span class="dt">Function</span>, x0<span class="op">::</span><span class="dt">T</span>, y0<span class="op">::</span><span class="dt">T</span>, Npoints<span class="op">::</span><span class="dt">Integer</span>, epsilon <span class="op">=</span> <span class="fl">1.0e-6</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">AbstractFloat</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    eps <span class="op">=</span> <span class="fu">convert</span>(T, epsilon)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    xp <span class="op">=</span> x0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> eps</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    yp <span class="op">=</span> <span class="fu">zeros</span>(T, <span class="fu">length</span>(xp))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    yp[<span class="fl">1</span>] <span class="op">=</span> y0</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>Npoints</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        yp[i] <span class="op">=</span> yp[i<span class="op">-</span><span class="fl">1</span>]<span class="op">+</span> <span class="fu">f</span>(xp[i<span class="op">-</span><span class="fl">1</span>], yp[i<span class="op">-</span><span class="fl">1</span>]) <span class="op">*</span> eps</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xp, yp</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_runge_kutta2</span>(f<span class="op">::</span><span class="dt">Function</span>, x0<span class="op">::</span><span class="dt">T</span>, y0<span class="op">::</span><span class="dt">T</span>, Npoints<span class="op">::</span><span class="dt">Integer</span>, epsilon <span class="op">=</span> <span class="fl">1.0e-6</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">AbstractFloat</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    eps <span class="op">=</span> <span class="fu">convert</span>(T, epsilon)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    xp <span class="op">=</span> x0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> eps</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    yp <span class="op">=</span> <span class="fu">zeros</span>(T, <span class="fu">length</span>(xp))</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    yp[<span class="fl">1</span>] <span class="op">=</span> y0</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>Npoints</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        xn, yn <span class="op">=</span> xp[i<span class="op">-</span><span class="fl">1</span>], yp[i<span class="op">-</span><span class="fl">1</span>]</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        k1 <span class="op">=</span> <span class="fu">f</span>(xn, yn)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        k2 <span class="op">=</span> <span class="fu">f</span>(xn <span class="op">+</span> eps<span class="op">/</span><span class="fl">2</span>, yn <span class="op">+</span> k1<span class="op">*</span>eps<span class="op">/</span><span class="fl">2</span>)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        yp[i] <span class="op">=</span> yn <span class="op">+</span> (k1<span class="op">+</span>k2)<span class="op">*</span>eps<span class="op">/</span><span class="fl">2</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xp, yp</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_runge_kutta4</span>(f<span class="op">::</span><span class="dt">Function</span>, x0<span class="op">::</span><span class="dt">T</span>, y0<span class="op">::</span><span class="dt">T</span>, Npoints<span class="op">::</span><span class="dt">Integer</span>, epsilon <span class="op">=</span> <span class="fl">1.0e-6</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">AbstractFloat</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    eps <span class="op">=</span> <span class="fu">convert</span>(T, epsilon)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    xp <span class="op">=</span> x0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> eps</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    yp <span class="op">=</span> <span class="fu">zeros</span>(T, <span class="fu">length</span>(xp))</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    yp[<span class="fl">1</span>] <span class="op">=</span> y0</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>Npoints</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        xn, yn <span class="op">=</span> xp[i<span class="op">-</span><span class="fl">1</span>], yp[i<span class="op">-</span><span class="fl">1</span>]</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        k1 <span class="op">=</span> <span class="fu">f</span>(xn, yn)</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        k2 <span class="op">=</span> <span class="fu">f</span>(xn <span class="op">+</span> eps<span class="op">/</span><span class="fl">2</span>, yn <span class="op">+</span> eps<span class="op">*</span>k1<span class="op">/</span><span class="fl">2</span>)</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        k3 <span class="op">=</span> <span class="fu">f</span>(xn <span class="op">+</span> eps<span class="op">/</span><span class="fl">2</span>, yn <span class="op">+</span> eps<span class="op">*</span> k2<span class="op">/</span><span class="fl">2</span>)</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        k4 <span class="op">=</span> <span class="fu">f</span>(xn <span class="op">+</span> eps, yn <span class="op">+</span> eps<span class="op">*</span>k3)</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        yp[i] <span class="op">=</span> yn <span class="op">+</span> (k1 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k2 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k3 <span class="op">+</span> k4)<span class="op">*</span>eps<span class="op">/</span><span class="fl">6</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xp, yp</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>간단한 사용법은 아래와 같다.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f1</span>(x, y) <span class="op">=</span> <span class="fu">cos</span>(<span class="fl">0.1</span><span class="op">*</span>x)<span class="op">*</span>x</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>xp, yp1 <span class="op">=</span> <span class="fu">ode_euler2</span>(f1, x0, y0, <span class="fl">10000</span>, <span class="fl">1.0e-1</span>);</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>xp, yp2 <span class="op">=</span> <span class="fu">ode_runge_kutta2</span>(f1, x0, y0, <span class="fl">10000</span>, <span class="fl">1.0e-1</span>);</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>xp, yp3 <span class="op">=</span> <span class="fu">ode_runge_kutta4</span>(f1, x0, y0, <span class="fl">10000</span>, <span class="fl">1.0e-1</span>);</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>RK2 및 RK4 이용하여 상미분 방정식을 푸는 julia 코드는 아래와 같다. 모두 이변수 함수 <code>f</code> 와 초기값 <code>x0</code>, <code>y0</code>, 위의 <span class="math inline">\(h\)</span> 에 해당하는 값 <code>epsilon</code> 과 초기 값을 포함하여 몇개의 점에 대해 얻을지에 대한 <code>Npoints</code> 를 인자로 받는다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_rk2</span>(f<span class="op">::</span><span class="dt">Function</span>, </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    t1<span class="op">::</span><span class="dt">Real</span>, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    x1<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    Npoints<span class="op">::</span><span class="dt">Integer</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1.0e-6</span>) </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> t1 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> h</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    xn <span class="op">=</span> <span class="fu">zeros</span>((<span class="fu">length</span>(x1), <span class="fu">length</span>(tn)))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    xn[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> x1</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        k1 <span class="op">=</span> <span class="fu">f</span>(tn[i], xn[<span class="op">:</span>,i])</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        k2 <span class="op">=</span> <span class="fu">f</span>(tn[i] <span class="op">+</span> h<span class="op">/</span><span class="fl">2</span>, xn[<span class="op">:</span>, i] <span class="op">.+</span> k1<span class="op">.*</span>(h<span class="op">/</span><span class="fl">2</span>))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        xn[<span class="op">:</span>, i<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> xn[<span class="op">:</span>,i] <span class="op">.+</span> (k1 <span class="op">.+</span> k2) <span class="op">.*</span>(h<span class="op">/</span><span class="fl">2</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tn, xn</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_rk4</span>(f<span class="op">::</span><span class="dt">Function</span>, </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    t1<span class="op">::</span><span class="dt">Real</span>, </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    x1<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    Npoints<span class="op">::</span><span class="dt">Integer</span>, </span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1.0e-6</span>) </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> t1 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> h</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    xn <span class="op">=</span> <span class="fu">zeros</span>((<span class="fu">length</span>(x1), <span class="fu">length</span>(tn)))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    xn[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> x1</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        k1 <span class="op">=</span> <span class="fu">f</span>(tn[i], xn[<span class="op">:</span>, i])</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        k2 <span class="op">=</span> <span class="fu">f</span>(tn[i] <span class="op">+</span> h<span class="op">/</span><span class="fl">2</span>, xn[<span class="op">:</span>, i] <span class="op">.+</span> k1<span class="op">.*</span>(h<span class="op">/</span><span class="fl">2</span>))</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        k3 <span class="op">=</span> <span class="fu">f</span>(tn[i] <span class="op">+</span> h<span class="op">/</span><span class="fl">2</span>, xn[<span class="op">:</span>,i] <span class="op">.+</span> k2 <span class="op">.*</span>(h<span class="op">/</span><span class="fl">2</span>))</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        k4 <span class="op">=</span> <span class="fu">f</span>(tn[i] <span class="op">+</span> h, xn[<span class="op">:</span>, i] <span class="op">.+</span> k3 <span class="op">.*</span> h)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        xn[<span class="op">:</span>, i<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> xn[<span class="op">:</span>, i] <span class="op">.+</span> (k1 <span class="op">.+</span> (<span class="fl">2.0</span> <span class="op">.*</span> k2) <span class="op">.+</span> (<span class="fl">2.0</span> <span class="op">.*</span> k3) <span class="op">.+</span> k4)<span class="op">.*</span>(h<span class="op">/</span><span class="fl">6</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tn, xn</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>오일러 방법에서 사용했던 로렌츠 방저식에 대한 사용법은 아래와 같다.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_rk2</span>((t, x)<span class="fu">-&gt;butterfly3d</span>(x, <span class="fl">10</span>, <span class="fl">28</span>, <span class="fl">8</span><span class="op">/</span><span class="fl">3</span>), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>], <span class="fl">50000</span>, <span class="fl">1.0e-3</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xn[<span class="fl">1</span>,<span class="op">:</span>], xn[<span class="fl">2</span>,<span class="op">:</span>], xn[<span class="fl">3</span>,<span class="op">:</span>], label<span class="op">=</span><span class="st">"RK2"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem/lorentz_rk2.png" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">RK2를 이용한 로렌츠 방정식의 궤적</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//lorentz_rk4.png" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">RK4를 이용한 로렌츠 방정식의 궤적</figcaption><p></p>
+</figure>
+</div>
 <p><br></p>
 </section>
 <section id="예제-examples" class="level3">
 <h3 class="anchored" data-anchor-id="예제-examples">예제 (Examples)</h3>
-<section id="단순-감쇠" class="level4">
-<h4 class="anchored" data-anchor-id="단순-감쇠">단순 감쇠</h4>
-<p><span class="math display">\[
-\dfrac{dy}{dt} = -a y(t),\, y(0)=y_0
-\]</span></p>
-<p>의 해가 <span class="math inline">\(y=y_0 e^{-at}\)</span> 라는 것을 알지만, 이것을 수치해석적으로 풀어보기로 하자. 오일러 방법으로도 좋은 결과를 얻을 수 있으므로 오일러 방법만을 수행하기로 한다.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plots</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span><span class="fl">1.0</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(x, y) <span class="op">=</span> <span class="op">-</span>a<span class="op">*</span>y</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>xp, y_newton <span class="op">=</span> <span class="fu">ode_euler</span>((x, y)<span class="op">-&gt;-</span>a<span class="op">*</span>y, <span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">10000</span>, <span class="fl">1.0e-3</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xp, <span class="fu">exp</span>.(<span class="op">-</span>a<span class="op">.*</span>xp), label<span class="op">=</span>L<span class="st">"e^{-ax}"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xp, y_newton, label<span class="op">=</span><span class="st">"Euler method"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>이 결과는 다음과 같다.</p>
-<p><br></p>
-<p><img src="ch09_ode/decay.png"></p>
-<p><br></p>
-</section>
 <section id="단순-조화-진동자" class="level4">
 <h4 class="anchored" data-anchor-id="단순-조화-진동자">단순 조화 진동자</h4>
-<p><span class="math display">\[
-m \dfrac{d^2x}{dt^2}  =- kx
-\]</span> 를 단순조화진동자 문제라고 한다. 이와 같은 이차미분방정식은 <span class="math inline">\(x_1 = x,\, x_2 = \dfrac{dx_1}{dt}\)</span> 라 놓으면</p>
-<p><span class="math display">\[
-\dfrac{dx_2}{dt} = -\dfrac{k}{m}x_1,\, \dfrac{dx_1}{dt} = x_2
-\]</span></p>
-<p>로 놓을 수 있다. <span class="math inline">\(\mathbf{x}(t) = \begin{bmatrix} x_1(t) \\ x_2(t) \end{bmatrix}\)</span> 라 놓으면,</p>
-<p><span class="math display">\[
-\dfrac{d\mathbf{x}}{dt}= \begin{bmatrix} x_2 \\ - \dfrac{k}{m} x_1 \end{bmatrix}
-\]</span></p>
-<p>이다.</p>
-<p>이제 오일러 방법과 룽게-쿠타 방법을 벡터에 대한 미분방정식으로 확장하자. Julia 에서 제공하는 <a href="https://docs.julialang.org/en/v1/manual/methods/">다중 디스패치(multiple dispatch)</a> 는 함수 이름이 같을 때 인자의 갯수와 타입에 가장 적합한 함수를 자동으로 선택하여 실행시킨다.</p>
-<p>벡터 <span class="math inline">\(\mathbf{x}\)</span> 에 대한 시간 미분이 <span class="math inline">\(f(t,\, \mathbf{x})\)</span> 라 하자. 즉,</p>
-<p><span class="math display">\[
-\dfrac{d\mathbf{x}}{dt} = f(t,\,\mathbf{x})
-\]</span></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_euler</span>(f<span class="op">::</span><span class="dt">Function</span>, t0<span class="op">::</span><span class="dt">T</span>, x0<span class="op">::</span><span class="dt">Vector{T}</span>, Npoints<span class="op">::</span><span class="dt">Integer</span>, epsilon <span class="op">=</span> <span class="fl">1.0e-6</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">AbstractFloat</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="fu">length</span>(x0)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    eps <span class="op">=</span> <span class="fu">convert</span>(T, epsilon)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    tp <span class="op">=</span> t0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> eps</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    xp <span class="op">=</span> <span class="fu">zeros</span>(T,  N, Npoints)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    xp[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> x0[<span class="op">:</span>]</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>Npoints</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        xp[<span class="op">:</span>, i] <span class="op">=</span> xp[<span class="op">:</span>, i<span class="op">-</span><span class="fl">1</span>] <span class="op">.+</span> <span class="fu">f</span>(tp[i<span class="op">-</span><span class="fl">1</span>], xp[<span class="op">:</span>, i<span class="op">-</span><span class="fl">1</span>]) <span class="op">.*</span>eps </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> t, xp</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_runge_kutta2</span>(f<span class="op">::</span><span class="dt">Function</span>, t0<span class="op">::</span><span class="dt">T</span>, x0<span class="op">::</span><span class="dt">Vector{T}</span>, Npoints<span class="op">::</span><span class="dt">Integer</span>, epsilon <span class="op">=</span> <span class="fl">1.0e-6</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">AbstractFloat</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="fu">length</span>(x0)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    eps <span class="op">=</span> <span class="fu">convert</span>(T, epsilon)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    tp <span class="op">=</span> t0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> eps</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    xp <span class="op">=</span> <span class="fu">zeros</span>(T,  N, Npoints)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    xp[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> x0[<span class="op">:</span>]</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>Npoints</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        tn, xn <span class="op">=</span> tp[i<span class="op">-</span><span class="fl">1</span>], xp[<span class="op">:</span>, i<span class="op">-</span><span class="fl">1</span>]</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        k1 <span class="op">=</span> <span class="fu">f</span>(tn, xn)</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        k2 <span class="op">=</span> <span class="fu">f</span>(tn <span class="op">+</span> eps<span class="op">/</span><span class="fl">2</span>, xn <span class="op">.+</span> (eps<span class="op">/</span><span class="fl">2</span>) <span class="op">.*</span> k1)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        xp[<span class="op">:</span>, i] <span class="op">=</span> xn <span class="op">.+</span> (k1 <span class="op">.+</span> k2) <span class="op">.*</span> (eps<span class="op">/</span><span class="fl">2</span>)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tp, xp</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_runge_kutta4</span>(f<span class="op">::</span><span class="dt">Function</span>, t0<span class="op">::</span><span class="dt">T</span>, x0<span class="op">::</span><span class="dt">Vector{T}</span>, Npoints<span class="op">::</span><span class="dt">Integer</span>, epsilon <span class="op">=</span> <span class="fl">1.0e-6</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">AbstractFloat</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="fu">length</span>(x0)</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    eps <span class="op">=</span> <span class="fu">convert</span>(T, epsilon)</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    tp <span class="op">=</span> t0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> eps</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    xp <span class="op">=</span> <span class="fu">zeros</span>(T,  N, Npoints)</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    xp[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> x0[<span class="op">:</span>]</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span>Npoints</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        tn, xn <span class="op">=</span> t[i<span class="op">-</span><span class="fl">1</span>], xp[<span class="op">:</span>, i<span class="op">-</span><span class="fl">1</span>]</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        k1 <span class="op">=</span> <span class="fu">f</span>(tn, xn)</span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        k2 <span class="op">=</span> <span class="fu">f</span>(tn <span class="op">+</span> eps<span class="op">/</span><span class="fl">2</span>, xn <span class="op">.+</span> (eps<span class="op">/</span><span class="fl">2</span>) <span class="op">.*</span> k1)</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        k3 <span class="op">=</span> <span class="fu">f</span>(tn <span class="op">+</span> eps<span class="op">/</span><span class="fl">2</span>, xn <span class="op">.+</span> (eps<span class="op">/</span><span class="fl">2</span>) <span class="op">.*</span> k2)</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        k4 <span class="op">=</span> <span class="fu">f</span>(tn <span class="op">+</span> eps, xn <span class="op">.+</span> eps<span class="op">.*</span>k3)</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        xp[<span class="op">:</span>, i] <span class="op">=</span> xn <span class="op">.+</span> (k1 <span class="op">.+</span> <span class="fl">2</span><span class="op">*</span>k2 <span class="op">.+</span> <span class="fl">2</span><span class="op">*</span>k3 <span class="op">.+</span> k4)<span class="op">.*</span>(eps<span class="op">/</span><span class="fl">6</span>)</span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tp, xp</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><span class="math inline">\(k=1.0,\, m=1.0\)</span> 으로 정하여 오일러 방법과 4차 룽게-쿠타 방법을 이용하여 미분방정식을 다음과 같이 수치해석적으로 풀 수 있다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">f_ho</span>(t, x) <span class="op">=</span> <span class="cf">return</span> [x[<span class="fl">2</span>], <span class="op">-</span>k<span class="op">/</span>m<span class="op">*</span>x[<span class="fl">1</span>]]</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>t, xp1 <span class="op">=</span> <span class="fu">ode_euler</span>(f_ho, <span class="fl">0.0</span>, [<span class="fl">0.0</span> ; <span class="fl">1.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-3</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>t, xp2 <span class="op">=</span> <span class="fu">ode_runge_kutta4</span>(f_ho, <span class="fl">0.0</span>, [<span class="fl">0.0</span> ; <span class="fl">1.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="#eq-sho1d">식&nbsp;2</a> 로 주어진 단순 조화 진동자 문제를 오일러 방법과 RK2, RK4 로 풀어보자. 오일러 방법에서와 같이 <span class="math inline">\(\boldsymbol{y}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}\)</span> 로 로 놓고 수치해석적으로 풀 수 있다.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sho1d</span>(y<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, k<span class="op">::</span><span class="dt">Real</span>, x0<span class="op">=</span><span class="fl">0.0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="fl">2</span>], <span class="fu">-k*</span>(y[<span class="fl">1</span>]<span class="op">-</span>x0)]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>tn1, xn1 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>그 결과를 그래프로 그리면 다음과 같다.</p>
-<p><img src="ch09_ode/harmonic.png"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem/sho1d_rk.png" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">RK 방법으로 푼 단순조화진동자</figcaption><p></p>
+</figure>
+</div>
+<p><br></p>
+<p>오일러 방법이나 RK2 방법에서는 실제의 해와 많이 다르게 진폭(amplitude) 가 증가하지만 RK4 방법에서는 최소한 우리가 관찰한 영역에서는 진폭이 증가하지 않는다.</p>
 <p><br></p>
 </section>
 <section id="감쇄-조화-진동자" class="level4">
@@ -547,25 +703,30 @@ m \dfrac{d^2x}{dt^2} + \gamma \dfrac{dx}{dt} + kx=0
 <p><span class="math display">\[
 \dfrac{d^2x}{dt^2} + \dfrac{\gamma}{m}\dfrac{dx}{dt} + \dfrac{k}{m} x = 0
 \]</span></p>
-<p><span class="math inline">\(v=\dot{x}\)</span> 라 하면 <span class="math inline">\(\dot{v} = -\dfrac{\gamma}{m}\dfrac{dx}{dt} - \dfrac{k}{m} x\)</span> 이므로,</p>
+<p><span class="math inline">\(v=x'(t)\)</span> 라 하면 <span class="math inline">\(v'(t) = -\dfrac{\gamma}{m}\dfrac{dx}{dt} - \dfrac{k}{m} x\)</span> 이므로,</p>
 <p><span class="math display">\[
 \dfrac{d}{dt} \begin{bmatrix} x \\ v\end{bmatrix} = \begin{bmatrix} v \\ -\dfrac{\gamma}{m}v - \dfrac{k}{m} x\end{bmatrix}
 \]</span></p>
 <p>이다.</p>
-<p>많은 고전물리학 책에 이 감쇄조화진동자가 나와 있다. 감쇄조화진동자의 해는 다음과 같다.</p>
+<p>많은 고전물리학이나 미분방정식 교재에 이 감쇄조화진동자가 나와 있다. 감쇄조화진동자의 해는 다음과 같다.</p>
 <p><span class="math display">\[
-x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega_0^2} \right)+ b \exp \left(-\sqrt{-\omega_0^2}\right)\right]\qquad \text{where }  \lambda  =\dfrac{\gamma}{2m},\, \omega_0^2 = \dfrac{k}{m}-\dfrac{b^2}{4m^2}
+x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \left(-\sqrt{-\omega^2}\right)\right]\qquad \text{where }  \lambda  =\dfrac{\gamma}{2m},\, \omega^2 = \dfrac{k}{m}-\dfrac{\gamma^2}{4m^2}
 \]</span></p>
 <p>이다. 여기서 <span class="math inline">\(a,\,b\)</span> 는 초기조건 <span class="math inline">\(x(t=0),\, \dot{x}(t=0)\)</span> 에 의해 정해진다.</p>
-<p><span class="math inline">\(\omega_0^2 &gt;0\)</span> 이면 <span class="math inline">\(x(t)\)</span> 의 <span class="math inline">\([\,\cdots]\)</span> 부분이 <span class="math inline">\(\cos\)</span> 함수 (혹은 <span class="math inline">\(\sin\)</span> 함수) 꼴로 나타날 수 있으므로 진폭이 점점 줄어드는 진동을 한다. 이를 <em>underdamping</em> 라 한다. $_0^2 &lt;0 $ 이면 진동 없이 감쇄만 하게 되며 이를 <em>overdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 = 0\)</span> 일 경우를 <em>critical damping</em> 이라 한다.</p>
+<p><span class="math inline">\(\omega_0^2 &gt;0\)</span> 이면 <span class="math inline">\(x(t)\)</span> 의 <span class="math inline">\([\,\cdots]\)</span> 부분이 <span class="math inline">\(\cos\)</span> 함수 (혹은 <span class="math inline">\(\sin\)</span> 함수) 꼴로 나타날 수 있으므로 진폭이 점점 줄어드는 진동을 한다. 이를 <em>underdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 &lt;0\)</span> 이면 진동 없이 감쇄만 하게 되며 이를 <em>overdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 = 0\)</span> 일 경우를 <em>critical damping</em> 이라 한다.</p>
 <p><span class="math inline">\(m=1,\, \gamma=1,\, k=1\)</span> 과 <span class="math inline">\(x(t=0)=0,\, \dot{x}(t=0)=1\)</span> 일 때에 대해 오일러 방법, 2차 및 4차 룽게 쿠타 방법과, 해석적 해를 같이 그려보자.</p>
 <p><br></p>
-<p><img src="ch09_ode/dho.png"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//dho1d_rk.png" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">감쇄조화진동자</figcaption><p></p>
+</figure>
+</div>
 <p><br></p>
 </section>
 <section id="진자pendulum-문제" class="level4">
 <h4 class="anchored" data-anchor-id="진자pendulum-문제">진자(Pendulum) 문제</h4>
-<p><img src="ch09_ode/simple pendulum.png" width="250"></p>
+<p><img src="ch10_ode_initial_value_problem/simple pendulum.png" width="250"></p>
 <p><br></p>
 <p>중력가속도 <span class="math inline">\(g\)</span> 의 영향을 받는 길이 <span class="math inline">\(L\)</span>인 진자의 운동은 다음의 미분방정식으로 기술된다.</p>
 <p><span class="math display">\[
@@ -576,37 +737,55 @@ x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega_0^2} \right)+ b \exp \
 \dfrac{d^2\theta}{dt^2}= -\left( \dfrac{g}{L} \right)\theta
 \]</span></p>
 <p>이므로 단순조화진동자 문제이다.</p>
-<p>이제 수치적으로 풀어보자. <span class="math inline">\(\phi= \dfrac{d\theta}{dt}\)</span>, <span class="math inline">\(\mathbf{x} = \begin{bmatrix} \theta \\ \phi \end{bmatrix}\)</span> 라 하면,</p>
+<p>이제 수치적으로 풀어보자. <span class="math inline">\(\phi= \dfrac{d\theta}{dt}\)</span>, <span class="math inline">\(\boldsymbol{x} = \begin{bmatrix} \theta \\ \phi \end{bmatrix}\)</span> 라 하면,</p>
 <p><span class="math display">\[
 \dfrac{d}{dt}\begin{bmatrix} \theta \\ \phi \end{bmatrix} = \begin{bmatrix} \phi \\ -g/L \sin \theta  \end{bmatrix}
 \]</span></p>
-<p>가 된다. <span class="math inline">\(g=1.0,\, L=2.0\)</span> 으로 잡고 시간 간격을 <span class="math inline">\(1\times 10^{-2}\)</span> 간격으로 미분방정식을 3가지 방법으로 풀면</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">1</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">2.0</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>Np <span class="op">=</span> <span class="fl">10000</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>epsilon <span class="op">=</span> <span class="fl">1.0e-2</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>θ<span class="fl">0</span>, ϕ<span class="fl">0</span> <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">1.0</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">f_pendulum</span>(t, x) <span class="op">=</span> <span class="cf">return</span> [x[<span class="fl">2</span>], <span class="op">-</span>g<span class="op">/</span><span class="fu">L*sin</span>(x[<span class="fl">1</span>])]</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>t, xp1 <span class="op">=</span> <span class="fu">ode_euler</span>(f_pendulum, <span class="fl">0.0</span>, [ θ<span class="fl">0</span> ; ϕ<span class="fl">0</span>], Np, epsilon)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>t, xp2 <span class="op">=</span> <span class="fu">ode_runge_kutta2</span>(f_pendulum, <span class="fl">0.0</span>, [θ<span class="fl">0</span> ; ϕ<span class="fl">0</span>], Np, epsilon)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>t, xp3 <span class="op">=</span> <span class="fu">ode_runge_kutta4</span>(f_pendulum, <span class="fl">0.0</span>, [θ<span class="fl">0</span> ; ϕ<span class="fl">0</span>], Np, epsilon)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(t, xp1[<span class="fl">1</span>, <span class="op">:</span>], label <span class="op">=</span> <span class="st">"Euler"</span>, frame <span class="op">=</span> <span class="op">:</span>box, loc<span class="op">=:</span>topcenter)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(t, xp2[<span class="fl">1</span>, <span class="op">:</span>], xlabel <span class="op">=</span> <span class="st">"t"</span>, label <span class="op">=</span> <span class="st">"RK2"</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(t, xp3[<span class="fl">1</span>, <span class="op">:</span>], xlabel <span class="op">=</span> <span class="st">"t"</span>, label <span class="op">=</span> <span class="st">"RK4"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>가 된다. <span class="math inline">\(g=9.8,\, L=5.0\)</span>, 시간 간격을 <span class="math inline">\(1\times 10^{-2}\)</span> 잡고 미분방정식을 3가지 방법으로 풀면</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">pendulum</span>(y<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, g<span class="op">=</span><span class="fl">9.8</span>, l<span class="op">=</span><span class="fl">2</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="fl">2</span>], <span class="op">-</span>g<span class="op">/</span><span class="fu">l*sin</span>(y[<span class="fl">1</span>])]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>g, l <span class="op">=</span> <span class="fl">9.8</span>, <span class="fl">5.0</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>tn1, xn1 <span class="op">=</span> <span class="fu">ode_euler</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>tn3, xn3 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
-<p><img src="ch09_ode/pendulum1.png"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//ode_pendulum.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">진자</figcaption><p></p>
+</figure>
+</div>
 <p><br></p>
-<p>와 같다. 여기서는 세 방법이 시간이 지날수록 큰 차이를 보인다. 그러나 시간간격을 앞서보다 1/10 으로 줄여서 풀어 그리면 차이가 앞서보다 많이 주는 것을 볼 수 있다.</p>
+<p>와 같다. 오일러 방법은 비교적 빠르게, RK2 는 비교적 느리게 발산하지만 RK4 는 시간 범위 내에서 안정적임을 알 수 있다.</p>
 <p><br></p>
-<p><img src="ch09_ode/pendulum2.png"></p>
-<p><br></p>
+</section>
+<section id="체-문제" class="level4">
+<h4 class="anchored" data-anchor-id="체-문제">2체 문제</h4>
+<p>중력에 의한 2체 문제를 생각해보자. <span class="math inline">\(m_1\)</span> 과 <span class="math inline">\(m_2\)</span> 의 질량을 갖는 두 점입자가 오직 만유인력에 의해서만 영향을 받아 움직일 때, 그 운동은 다음의 2차 미분방정식에 의해 기술된다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+m_1\ddot{\boldsymbol{r}}_1  =  - \dfrac{Gm_1m_2}{\|\boldsymbol{r}_1-\boldsymbol{r}_2\|^3}(\boldsymbol{r}_1 - \boldsymbol{r}_2), \\
+m_2\ddot{\boldsymbol{r}}_2  = - \dfrac{Gm_1m_2}{\|\boldsymbol{r}_1-\boldsymbol{r}_2\|^3}(\boldsymbol{r}_2 - \boldsymbol{r}_1),
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(x,\,y,\,z\)</span>-좌표계에서 <span class="math inline">\(m_1\)</span> 의 위치와 속력을 각각 <span class="math inline">\(\boldsymbol{r}_1 = \begin{bmatrix} x_1 &amp; y_1 &amp; z_1\end{bmatrix}^T\)</span>, <span class="math inline">\(\boldsymbol{v}_1 = \begin{bmatrix} v_1 &amp; u_1 &amp; w_1\end{bmatrix}^T\)</span> 라고 하고 <span class="math inline">\(m_2\)</span> 의 위치와 속력을 각각 <span class="math inline">\(\boldsymbol{r}_2 = \begin{bmatrix} x_2 &amp; y_2 &amp; z_2\end{bmatrix}^T\)</span>, <span class="math inline">\(\boldsymbol{v}_2 = \begin{bmatrix} v_2 &amp; u_2 &amp; w_2\end{bmatrix}^T\)</span> 라고 하자. 이것을 전체적으로 기술하는 열벡터 <span class="math inline">\(\boldsymbol{s}\)</span> 를</p>
+<p><span class="math display">\[
+\boldsymbol{s} = \begin{bmatrix} x_1 &amp; y_1 &amp; z_1 &amp; x_2 &amp; y_2 &amp; z_2 &amp; v_1 &amp; u_1 &amp; w_1 &amp; v_2 &amp; u_2 &amp; w_2\end{bmatrix}^T
+\]</span></p>
+<p>라 하자. <span class="math inline">\(R=\|\boldsymbol{r}_1-\boldsymbol{r}_2\|\)</span>, <span class="math inline">\(k_1 = \dfrac{Gm_1}{R^3}, k_2 = \dfrac{Gm_2}{R^3}\)</span> 이라 하면,</p>
+<p><span class="math display">\[
+\dfrac{d\boldsymbol{s}}{dt} = \begin{bmatrix} &amp; &amp; \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{array} &amp; \\
+&amp; &amp; &amp; \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1\end{array} \\
+\begin{array}{ccc} -k_2 &amp; 0 &amp; 0 \\ 0 &amp; -k_2 &amp; 0 \\ 0 &amp; 0 &amp; k_2 \\ k_1 &amp; 0 &amp; 0 \\ 0 &amp; k_1 &amp; 0 \\ 0 &amp; 0 &amp; k_1 \end{array} &amp; \begin{array}{ccc} k_2 &amp; 0 &amp; 0 \\ 0 &amp; k_2 &amp; 0 \\ 0 &amp; 0 &amp; k_2 \\ -k_1 &amp; 0 &amp; 0 \\ 0 &amp; -k_1 &amp; 0 \\ 0 &amp; 0 &amp; -k_1 \end{array}
+\end{bmatrix} \cdot \boldsymbol{s}
+\]</span></p>
+<p>이제 두 점입자의 초기 위치와 속도가 주어지면 <span class="math inline">\(\boldsymbol{s}_{i+1} = \boldsymbol{s}_i+ \dfrac{d\boldsymbol{s}}{dt} h\)</span> 를 이용하여 이 문제를 풀 수 있다.</p>
 </section>
 </section>
 <section id="마치며" class="level3">
 <h3 class="anchored" data-anchor-id="마치며">마치며</h3>
-<p>이번 장에서는 상미분 방정식을 푸는 가장 기본적인 방법인 오일러 방법과 2차, 4차 룽게-쿠타 방법을 배웠다. 수치해석이 늘 그렇듯이 간단한 미분방정식은 잘 풀 수 있지만 다양하고 복잡한 문제에서는 더 정확한 방법을 사용해야 한다.</p>
+<p>이번 장에서는 상미분 방정식을 푸는 가장 기본적인 방법인 오일러 방법과 2차, 4차 룽게-쿠타 방법을 배웠다. 수치해석이 늘 그렇듯이 간단한 미분방정식은 잘 풀 수 있지만 다양하고 복잡한 문제에서는 더 정확한 방법을 사용해야 한다</p>
 
 
 </section>
@@ -853,8 +1032,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" class="pagination-link">
-        <span class="nav-page-text">부록</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../src/numerical_analysis_using_julia/11_ode_boundary_value_problem.html" class="pagination-link">
+        <span class="nav-page-text">11장 상미분 방정식의 경계값 문제</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

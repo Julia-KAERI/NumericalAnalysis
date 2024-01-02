@@ -248,6 +248,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/11_ode_boundary_value_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11장 상미분 방정식의 경계값 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">부록</span></a>
   </div>
@@ -264,8 +270,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#sec-basic_notations" id="toc-sec-basic_notations" class="nav-link active" data-scroll-target="#sec-basic_notations"><span class="header-section-number">1</span> 기본적인 개념과 표기법</a></li>
   <li><a href="#sec-summary_of_linear_algebra" id="toc-sec-summary_of_linear_algebra" class="nav-link" data-scroll-target="#sec-summary_of_linear_algebra"><span class="header-section-number">2</span> 행렬대수학 정리</a></li>
-  <li><a href="#sec-summary_of_calculus" id="toc-sec-summary_of_calculus" class="nav-link" data-scroll-target="#sec-summary_of_calculus"><span class="header-section-number">3</span> 미적분학 정리</a></li>
-  <li><a href="#sec-transcription_ruls" id="toc-sec-transcription_ruls" class="nav-link" data-scroll-target="#sec-transcription_ruls"><span class="header-section-number">4</span> 이 책에 사용할 행렬 표기의 규칙들</a></li>
+  <li><a href="#sec-summary_of_one_variable_calculus" id="toc-sec-summary_of_one_variable_calculus" class="nav-link" data-scroll-target="#sec-summary_of_one_variable_calculus"><span class="header-section-number">3</span> 일변수 미적분학 정리</a></li>
+  <li><a href="#sec-summary_of_multy_variable_calculus" id="toc-sec-summary_of_multy_variable_calculus" class="nav-link" data-scroll-target="#sec-summary_of_multy_variable_calculus"><span class="header-section-number">4</span> 다변수 미적분학 정리</a></li>
+  <li><a href="#sec-transcription_ruls" id="toc-sec-transcription_ruls" class="nav-link" data-scroll-target="#sec-transcription_ruls"><span class="header-section-number">5</span> 이 책에 사용할 행렬 표기의 규칙들</a></li>
   </ul>
 </nav>
     </div>
@@ -796,8 +803,8 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <p><br></p>
 </section>
-<section id="sec-summary_of_calculus" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="sec-summary_of_calculus"><span class="header-section-number">3</span> 미적분학 정리</h2>
+<section id="sec-summary_of_one_variable_calculus" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="sec-summary_of_one_variable_calculus"><span class="header-section-number">3</span> 일변수 미적분학 정리</h2>
 <p><br></p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
@@ -1049,8 +1056,94 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <p><br></p>
 </section>
-<section id="sec-transcription_ruls" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="sec-transcription_ruls"><span class="header-section-number">4</span> 이 책에 사용할 행렬 표기의 규칙들</h2>
+<section id="sec-summary_of_multy_variable_calculus" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="sec-summary_of_multy_variable_calculus"><span class="header-section-number">4</span> 다변수 미적분학 정리</h2>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-n_cell" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 29 (<span class="math inline">\(n\)</span>-cell) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서</p>
+<p><span class="math display">\[
+[a_1,\,b_1]\times \cdots \times [a_n,\,b_n] = \{(x_1,\ldots,\,x_n)\in \mathbb{R}^n : a_i \le x_i \le b_i,\, i=1,\ldots,n\}
+\]</span></p>
+<p>를 <span class="math inline">\(n\)</span>-cell 이라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-continuity_mv" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 30 (다변수 함수의 연속) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 이</p>
+<p><span class="math display">\[
+\lim_{\boldsymbol{h} \to \boldsymbol{0}} \|\boldsymbol{F}(\boldsymbol{p} + \boldsymbol{h}) - \boldsymbol{F}(\boldsymbol{p})\|  = 0
+\]</span></p>
+<p>일 때 <span class="math inline">\(\boldsymbol{F}\)</span> 는 <span class="math inline">\(\boldsymbol{p}\)</span> 에서 <strong>연속</strong> 이라고 한다. <span class="math inline">\(\boldsymbol{F}\)</span> 가 모든 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 연속일 때 <span class="math inline">\(\boldsymbol{F}\)</span> 를 <span class="math inline">\(U\)</span> 에서 연속이라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-differentiation_mv" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 31 (다변수 함수의 미분과 자코비 행렬) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 어떤 행렬 <span class="math inline">\(M\in \mathcal{M}_{m \times n}(\mathbb{R})\)</span> 에 대해</p>
+<p><span class="math display">\[
+\lim_{\boldsymbol{h} \to \boldsymbol{0}} \dfrac{\|\boldsymbol{F}(\boldsymbol{p} + \boldsymbol{h}) - \boldsymbol{F}(\boldsymbol{p}) - \boldsymbol{Mp}\|}{\|\boldsymbol{h}\|} = \boldsymbol{0}
+\]</span></p>
+<p>를 만족 할 때 <span class="math inline">\(\boldsymbol{F}\)</span> 는 <span class="math inline">\(\boldsymbol{p}\)</span> 에서 미분가능하다 라고 한다. 이때 <span class="math inline">\(\boldsymbol{M}\)</span> 을 <span class="math inline">\(\boldsymbol{p}\)</span> 에서의 <span class="math inline">\(\boldsymbol{F}\)</span> 의 <strong>자코비 행렬(Jacobian matrix)</strong> 이라고 하며 <span class="math inline">\(D\boldsymbol{F}(\boldsymbol{p}),\, \boldsymbol{J}_\boldsymbol{F}(\boldsymbol{p})\)</span> 옥은 <span class="math inline">\(\boldsymbol{F}'(\boldsymbol{p})\)</span> 라고 표기한다. <span class="math inline">\(\boldsymbol{F}\)</span> 가 모든 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분 가능일 때 <span class="math inline">\(\boldsymbol{F}\)</span> 를 <span class="math inline">\(U\)</span> 에서 미분가능하다 라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-equivalence_of_differentiation_for_mv" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 46 </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 에 대해 다음은 동치이다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{F}\)</span> 는 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분가능하다.</p>
+<p>  (<span class="math inline">\(2\)</span>) 어떤 <span class="math inline">\(\boldsymbol{M}\in \mathcal{M}_{m \times n}(\mathbb{R})\)</span> 과 <span class="math inline">\(\displaystyle \lim_{\boldsymbol{h}\to \boldsymbol{0}}\dfrac{\boldsymbol{R}(\boldsymbol{h})}{\|\boldsymbol{h}\|} = \boldsymbol{0}\)</span> 인 어떤 함수 <span class="math inline">\(\boldsymbol{R}:U \to \mathbb{R}^m\)</span> 에 대해 <span class="math display">\[
+\boldsymbol{F}(\boldsymbol{p}+\boldsymbol{h}) = \boldsymbol{Mp}+\boldsymbol{R}(\boldsymbol{v})
+\]</span>     이다.</p>
+</div>
+<p><br></p>
+<div id="thm-directional_derivative" class="theorem">
+<p><span class="theorem-title"><strong>정리 1 </strong></span><span class="math inline">\(\boldsymbol{F} : U\subset \mathbb{R}^n \to \mathbb{R}^m\)</span> 가 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분가능할 때 임의의 <span class="math inline">\(\boldsymbol{u}\in \mathbb{R}^n-\{\boldsymbol{0}\}\)</span> 에 대해 아래의 극한이 존재한다.</p>
+<p><span id="eq-directional_derivative"><span class="math display">\[
+\lim_{t \to \infty} \dfrac{\boldsymbol{F}(\boldsymbol{p}+t\boldsymbol{u}) - \boldsymbol{F}(\boldsymbol{p})}{t}
+\tag{6}\]</span></span></p>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-partial_derivative" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 32 (방향미분과 편미분) </strong></span><span class="math inline">\(\boldsymbol{u}\)</span> 가 단위벡터, 즉 <span class="math inline">\(\|\boldsymbol{u}\|=1\)</span> 일 때 <a href="#eq-directional_derivative">식&nbsp;6</a> 의 극한을 <span class="math inline">\(\boldsymbol{F}\)</span> 의 <span class="math inline">\(\boldsymbol{p}\)</span> 에서의 <span class="math inline">\(\boldsymbol{u}\)</span> 방향으로의 <strong>방향미분 (directional derivative)</strong> 라고 하고 <span class="math inline">\(D_\boldsymbol{u}\boldsymbol{F}(\boldsymbol{p})\)</span> 라고 쓴다. <span class="math inline">\(\boldsymbol{u}\)</span> 가 어떤 표준기저 <span class="math inline">\(\hat{\boldsymbol{e}}_i\)</span> 일 때의 방향미분을 <strong>편미분 (partial derivative)</strong> 라고 하며 <span class="math inline">\(D_{\hat{\boldsymbol{e}}_i} \boldsymbol{F}(\boldsymbol{p})\)</span> 를 <span class="math inline">\(D_i \boldsymbol{F}(\boldsymbol{p})\)</span>, <span class="math inline">\(\dfrac{\partial \boldsymbol{F}}{\partial x_i}(\boldsymbol{p})\)</span>, 혹은 <span class="math inline">\(\partial_i \boldsymbol{F}(\boldsymbol{p})\)</span> 라고 표기한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-differentiable_continuous" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 47 </strong></span><span class="math inline">\(\boldsymbol{F} : U \subset \mathbb{R}^n \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분가능이면 <span class="math inline">\(\boldsymbol{p}\)</span> 에서 연속이다.</p>
+</div>
+<p><br></p>
+</section>
+<section id="sec-transcription_ruls" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="sec-transcription_ruls"><span class="header-section-number">5</span> 이 책에 사용할 행렬 표기의 규칙들</h2>
 <p>수학과 프로그래밍 전체에서 행렬이 많이 사용된다. 여기서 행렬을 표현하는 데 사용한 몇가지 규칙을 나열한다. <strong>(J-3)</strong> 과 같은 항목은 Julia 의 규칙이며 <strong>(M-2)</strong> 와 같은 항목은 수학적인 표현에 대한 규칙이다. 두 표현의 번호가 같은 경우는 수학적인 표현에 대한 Julia 구현에 대한 규칙 혹은 설명을 의미한다.</p>
 <p><strong>(J-0)</strong> 특별한 언급이 없을 경우 Julia 에서 정수형과 실수형은 각각 <code>Int64</code>, <code>Float64</code> 를 사용한다.</p>
 <p><strong>(J-1)</strong> 기본적으로 코드상에서 행렬은 <code>A, B</code> 와 같은 대문자 혹은 <code>A1</code> 과 같은 대문자로 시작하는 변수명을 사용한다. Julia 에서 행렬 <code>A</code> 의 <span class="math inline">\(i\)</span> 번째 행벡터는 <code>A[i,:]</code> 로, <span class="math inline">\(j\)</span> 번째 열벡터는 <code>A[:,j]</code> 로 표현 할 수 있으므로 그대로 사용한다. 행렬 <code>A</code> 의 <span class="math inline">\(i\)</span> 행 <span class="math inline">\(j\)</span> 열 성분은 <code>A[i, j]</code> 이다. 벡터와 스칼라는 <code>x</code>, <code>y</code>, <code>a</code>, <code>b</code> 와 같은 소문자나 <code>x_effective</code>, <code>b2</code> 와 같이 소문자로 시작하는 변수명을 사용한다. <code>x</code> 가 벡터인 경우 <span class="math inline">\(i\)</span> 번째 성분은 <code>x[i]</code> 이다.</p>

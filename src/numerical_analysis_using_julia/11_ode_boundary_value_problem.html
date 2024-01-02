@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Julia &amp; Numerical Anlaysis - 비선형 최소제곱 피팅</title>
+<title>Julia &amp; Numerical Anlaysis - 상미분 방정식의 경계값 문제</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../src/applications_of_julia/multithreads.html" rel="next">
-<link href="../../src/applications_of_julia/fileio.html" rel="prev">
+<link href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" rel="next">
+<link href="../../src/numerical_analysis_using_julia/10_ode_initial_value_problem.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -67,7 +67,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-sidebar docked nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -89,11 +89,11 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../src/introduction_to_julia/index.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../../src/introduction_to_julia/index.html" rel="" target="">
  <span class="menu-text">Julia 프로그래밍 언어</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="">
+    <a class="nav-link active" href="../../src/numerical_analysis_using_julia/index.html" rel="" target="" aria-current="page">
  <span class="menu-text">Julia 언어를 이용한 수치해석</span></a>
   </li>  
   <li class="nav-item">
@@ -116,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/applications_of_julia/fileio.html">Julia 언어의 활용</a></li><li class="breadcrumb-item"><a href="../../src/applications_of_julia/leastsquarefit.html">비선형 최소제곱 피팅</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/11_ode_boundary_value_problem.html">11장 상미분 방정식의 경계값 문제</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -128,157 +128,127 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Julia 언어의 기초</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction to Julia</span></a>
+  <a href="../../src/numerical_analysis_using_julia/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Numerical Analysis Using Julia</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/01_julia_language.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">1장 설치와 환경 구성</span></a>
+  <a href="../../src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1장 수치해석과 알고리즘</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/02_variables_basic_types.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2장 변수와 기본 타입</span></a>
+  <a href="../../src/numerical_analysis_using_julia/01x_notations_and_propositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 표기법과 명제들</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/03_functions_and_operators.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3장 함수와 연산자</span></a>
+  <a href="../../src/numerical_analysis_using_julia/02_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2장 수치해석 입문 : 선형 시스템과 다항식</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/04_containers.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4장 컨테이너</span></a>
+  <a href="../../src/numerical_analysis_using_julia/03_matrix_algebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3장 Julia 에서의 행렬 계산</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/04_I_splat_operator.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interude : <code>...</code> 연산자</span></a>
+  <a href="../../src/numerical_analysis_using_julia/03I_polynomial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 다항식의 구현</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/05_control_flows.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">5장 흐름 제어</span></a>
+  <a href="../../src/numerical_analysis_using_julia/04_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4장 다항식을 이용한 보간법</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/06_arrays.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">6장 배열</span></a>
+  <a href="../../src/numerical_analysis_using_julia/04I_interpolation_struct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interude : 국소적 보간법의 구현</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/06_I_function_composition_and_piping.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interude : 함수의 합성과 전달</span></a>
+  <a href="../../src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5장 일변수 함수의 미분과 적분</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/07_module_package.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">7장 이름공간, 모듈, 패키지</span></a>
+  <a href="../../src/numerical_analysis_using_julia/06_finding_root.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6장 일변수 방정식의 해</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/07_I_sort.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interude : 정렬</span></a>
+  <a href="../../src/numerical_analysis_using_julia/07_matrix_decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7장 행렬의 분해</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/08_type_hierarchy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">8장 타입의 계층구조와 메서드 디스패치</span></a>
+  <a href="../../src/numerical_analysis_using_julia/08_iterative_method_for_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8장 반복법을 이용한 선형 시스템의 해 구하기</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/08_I_documentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interude : 문서화</span></a>
+  <a href="../../src/numerical_analysis_using_julia/09_least_square_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9장 최소자승 문제</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/09_composite_types.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">9장 복합 타입</span></a>
+  <a href="../../src/numerical_analysis_using_julia/10_ode_initial_value_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10장 상미분 방정식의 초기값 문제</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/09_I_pretty_printing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interude : 보기 좋게 출력하기</span></a>
+  <a href="../../src/numerical_analysis_using_julia/11_ode_boundary_value_problem.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">11장 상미분 방정식의 경계값 문제</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/introduction_to_julia/10_metaprogramming_and_macro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10장 메타프로그래밍과 매크로</span></a>
+  <a href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">부록</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="px-0"><hr class="sidebar-divider hi "></li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Julia 언어의 활용</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="토글 섹션">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../src/applications_of_julia/fileio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">파일시스템과 파일입출력</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../src/applications_of_julia/leastsquarefit.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">비선형 최소제곱 피팅</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../src/applications_of_julia/multithreads.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">다중스레드</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
     </ul>
     </div>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#경계값-문제" id="toc-경계값-문제" class="nav-link active" data-scroll-target="#경계값-문제"><span class="header-section-number">1</span> 경계값 문제</a></li>
+  <li><a href="#linear-shooting" id="toc-linear-shooting" class="nav-link" data-scroll-target="#linear-shooting"><span class="header-section-number">2</span> Linear shooting</a></li>
+  <li><a href="#유한-차분법" id="toc-유한-차분법" class="nav-link" data-scroll-target="#유한-차분법"><span class="header-section-number">3</span> 유한 차분법</a>
+  <ul class="collapse">
+  <li><a href="#양자-포텐셜-우물" id="toc-양자-포텐셜-우물" class="nav-link" data-scroll-target="#양자-포텐셜-우물">양자 포텐셜 우물</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">비선형 최소제곱 피팅</h1>
+<h1 class="title">상미분 방정식의 경계값 문제</h1>
 </div>
 
 
@@ -293,9 +263,121 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>어떤 실험 결과가 <span class="math inline">\(m\)</span> 개의 독립 변수에 대해 <span class="math inline">\(n\)</span> 차원 벡터로 발생한다고 하자. 이에 대해 모델 함수 <span class="math inline">\(\boldsymbol{F}:\mathbb{R}^m \to \mathbb{R}^n\)</span></p>
+<section id="경계값-문제" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="경계값-문제"><span class="header-section-number">1</span> 경계값 문제</h2>
+<p>상미분 방정식의 해에 대해 우리는 <span class="math inline">\([a,\,b]\)</span> 구간에만 관심이 있으며 <span class="math inline">\(\boldsymbol{x}(a)=\boldsymbol{x}_a,\, \boldsymbol{x}(b)= \boldsymbol{x}_b\)</span> 형식의 경계조건이 주어졌을 경우 이를 경계값 문제라고 한다.</p>
+<p><br></p>
+</section>
+<section id="linear-shooting" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="linear-shooting"><span class="header-section-number">2</span> Linear shooting</h2>
+<p>Linear shooting 방법은 경계값 문제를 두개의 초기값 문제로 바꾸어 푼다.</p>
+<p>다음은 잘 알려져 있다.</p>
+<div id="thm-linear_shooting" class="theorem">
+<p><span class="theorem-title"><strong>정리 1 </strong></span>경계값 문제가 <span class="math display">\[
+x'' = f(t, x, x'),\qquad x(a)=\alpha,\, x(b) = \beta
+\]</span></p>
+<p>로 주어졌으며, <span class="math inline">\(x''\)</span> 함수가 <span class="math inline">\(D\{(t,\,x,\,x') : a\le t \le b,\, x,\, x'\in \mathbb{R}\}\)</span> 에서 연속일 때 <span class="math inline">\(\partial_x f\)</span> 와 <span class="math inline">\(\partial_{x'}f\)</span> 도 <span class="math inline">\(D\)</span> 에서 연속이다. 또한 모든 <span class="math inline">\((t,\,x,\,x')\in D\)</span> 에서 <span class="math inline">\(\partial_x f &gt;0\)</span> 이며 <span class="math inline">\(\partial_{x'}\)</span> 가 유계이면 위의 미분방정식은 유일한 해를 갖는다.</p>
+</div>
+<p><br></p>
+<p>우리가 <span class="math inline">\(x'' = p(t)x' + q(t)x + r(t)\)</span> 형태의 미분방정식과 <span class="math inline">\(x(a)=\alpha,\, x(b)=\beta\)</span> 의 경계조건을 가진 미분방정식에 관심이 있다고 하자. 이 때 <a href="#thm-linear_shooting">정리&nbsp;1</a> 으로부터 다음을 알 수 있다.</p>
+<div id="cor-linear_shooting" class="theorem corollary">
+<p><span class="theorem-title"><strong>따름정리 1 </strong></span>경계값 문제가</p>
+<p><span class="math display">\[
+x'' = p(t)x' +  q(t)x + r(t),\, x(a)=\alpha,\, x(b)=\beta
+\]</span></p>
+<p>꼴로 주여졌으며, <span class="math inline">\(p(t),\,q(t),\,r(t)\)</span> 가 <span class="math inline">\([a,\,b]\)</span> 에서 연속이고 <span class="math inline">\([a,\,b]\)</span> 구간에서 <span class="math inline">\(q(t)&gt;0\)</span> 일 이면 이 미분방정식의 해는 유일하게 존재한다.</p>
+</div>
+<p>이제 <span class="math inline">\(x_1(t)\)</span> 와 <span class="math inline">\(x_2(t)\)</span> 를 각각 아래의 초기값 문제에 대한 해라고 하자.</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_1'' &amp; = p(t)x_1' + q(t)x_1 + r(t) ,\qquad &amp;x_1(a) = \alpha,\, x_1'(a) = 0,\\
+x_2'' &amp; = p(t)x_2' + q(t)x_2  ,\qquad &amp;x_2(a) = 0,\, x_2'(a) = 1,\\
+\end{aligned}
+\]</span></p>
+<p>여기서 <span class="math inline">\(x_2(b)\ne 0\)</span> 이어야 하는데, 만약 <span class="math inline">\(x_2(b) =0\)</span> 이라면 <span class="math inline">\(x_2=0\)</span> 밖에 해가 될수 없기 때문이다. 이제</p>
+<p><span class="math display">\[
+x(t) = x_1(t) + \dfrac{\beta - x_1(b)}{x_2(b)} x_2(t)
+\]</span></p>
+<p>로 놓으면,</p>
+<p><span class="math display">\[
+\begin{aligned}
+x''(t) &amp;= x_1''(t) + \dfrac{\beta-x_1(b)}{x_2(b)}x_2''(t) \\
+&amp; = p(t)\left[x_1'(t) +  \dfrac{\beta-x_1(b)}{x_2(b)} x_2''(t)\right]+ q(t)\left[x_1(t) + \dfrac{\beta-x_1(b)}{x_2(b)} x'(t)\right] +r(t) \\
+&amp;= p(t)x'(t) + q(t)x(t) + r(t)
+\end{aligned}
+\]</span></p>
+<p>이며 <span class="math inline">\(x(a) = \alpha,\, x(b) = \beta\)</span> 가 된다. 즉 <span class="math inline">\(x(t)\)</span> 가 주어진 미분방정식의 해이다.</p>
+<p><br></p>
+<p><br></p>
+</section>
+<section id="유한-차분법" class="level2 page-columns page-full" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="유한-차분법"><span class="header-section-number">3</span> 유한 차분법</h2>
+<p>미분방정식이 <span class="math inline">\([a,\,b]\)</span> 구간에서 경계값 <span class="math inline">\(x(a)=\alpha,\, x(b)=\beta\)</span> 와 함께 다음과 같이 주어졌다고 하자.</p>
+<p><span id="eq-diffeq_1"><span class="math display">\[
+x'' = p(t)x' + q(t) x + r(t)
+\tag{1}\]</span></span></p>
+<p>우리는 <a href="../../src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.html">일변수 함수의 미분과 적분</a> 에서 차분법을 통해 미분값을 계산하였다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+x'(t) &amp;= \dfrac{x(t+h)-x(t-h)}{2h} + O(h^2), \\
+x''(t)  &amp;= \dfrac{x(t+h) - 2x(t) + x(t-h)}{h^2} + O(h^2),
+\end{aligned}
+\]</span></p>
+<p>를 <a href="#eq-diffeq_1">식&nbsp;1</a> 에 대입하면,</p>
+<p><span class="math display">\[
+\begin{aligned}
+x(t+h) -2x(t) +x(t-h) &amp;= p(t)\left[x(t+h) - x(t-h)\right] \dfrac{h}{2} \\
+&amp;\qquad \qquad + q(t)x(t) h^2+ r(t)h^2 + (O(h^4)+p(t)O(h^2))
+\end{aligned}
+\]</span></p>
+<p>이므로</p>
+<p><span id="eq-ode_finite_difference"><span class="math display">\[
+-\left[1+\dfrac{h}{2}p(t)\right]x(t-h) + \left[2+h^2q(t)\right]x(t) -\left[1- \dfrac{h}{2}p(t)\right] x(t+h) = -h^2r(t)
+\tag{2}\]</span></span></p>
+<p>이다. <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(t_0 = a\)</span> 에서 <span class="math inline">\(t_{N+1}=b\)</span> 의 구간으로 분할한다고 하자. 이 때 구간 간격 <span class="math inline">\(h\)</span> 는 <span class="math inline">\(h=\dfrac{b-a}{N+1}\)</span> 이다. <span class="math inline">\(t_i\)</span> 과 <span class="math inline">\(x_i\)</span> 을 다음과 같이 정의하자.</p>
+<p><span class="math display">\[
+\begin{aligned}
+t_i &amp;= a+ \dfrac{i}{N+1}(b-a) , \\
+x_i &amp;= x(t_i).
+\end{aligned}
+\]</span></p>
+<p>그렇다면 <a href="#eq-ode_finite_difference">식&nbsp;2</a> 는 다음과 같이 쓸 수 있다. 여기서 <span class="math inline">\(x_0 = \alpha,\, x_{N+1}=\beta\)</span> 이다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left[2+h^2q(t_1)\right]x_1 -\left[1- \dfrac{h}{2}p(t_1)\right] x_2 &amp; = -h^2r(t_1) + \left[1+\dfrac{h}{2}p(t_1)\right]\alpha  , \\
+-\left[1+\dfrac{h}{2}p(t_i)\right]x_{i-1} + \left[2+h^2q(t_i)\right]x_i -\left[1- \dfrac{h}{2}p(t_i)\right] x_{i+1} &amp; = -h^2r(t_i), \\
+-\left[1+\dfrac{h}{2}p(t_N)\right]x_{N-1} + \left[2+h^2q(t_N)\right]x_N &amp;= -h^2r(t_N) +\left[1- \dfrac{h}{2}p(t_N)\right] \beta
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(N \times N\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 를 다음과 같이 정의하자. 아래의 식에 나타나지 않은 성분은 모두 <span class="math inline">\(0\)</span> 이다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{A}_{1, 1:2} &amp; = \begin{bmatrix} 2+h^2q(t_1) &amp;  -1+\dfrac{h}{2}p(t_1)\end{bmatrix}, \\
+\boldsymbol{A}_{j, j-1:j+1} &amp; = \begin{bmatrix} -1-\dfrac{h}{2}p(t_j) &amp; 2+ h^2q(t_j) &amp; -1 + \dfrac{h}{2}p(t_j) \end{bmatrix}, \\
+\boldsymbol{A}_{N, N-1:N} &amp; = \begin{bmatrix}  -1-\dfrac{h}{2}p(t_N) &amp; 2+h^2 q(t_N)\end{bmatrix}. \\
+\end{aligned}
+\]</span></p>
+<p>이 때 <span class="math inline">\(\boldsymbol{A}\)</span> 는 삼중 대각 행렬(tridiagonal matrix) 이다. 또한,</p>
+<p><span class="math display">\[
+\boldsymbol{x} = \begin{bmatrix} x(t_1)\\ x(t_2) \\ \vdots \\ x(t_{N-1}) \\ x(t_N)\end{bmatrix}, \qquad \boldsymbol{b} = \begin{bmatrix} -h^2 r(t_1) + \left[1+ \dfrac{h}{2}p(t_1)\right] \alpha \\ -h^2 r(t_2) \\ \vdots \\ -h^2r(t_{N-1}) \\ -h^2r(t_N) + \left[1-\dfrac{h}{2}p(t_N)\right] \beta \end{bmatrix}
+\]</span></p>
+<p>로 놓으면 경계조건 <span class="math inline">\(x(t_0)=\alpha,\, x(t_{N+1})=\beta\)</span> 를 만족시키면서 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 통해 미분방정식을 풀 수 있다.</p>
+<p><br></p>
+<section id="양자-포텐셜-우물" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="양자-포텐셜-우물">양자 포텐셜 우물</h3>
+<div class="page-columns page-full"><p>1차원 슈뢰딩거 방정식(Schöringer equation) 에서의 무한 포텐셜 우물은 다음과 같이 주어진다. </p><div class="no-row-height column-margin column-container"><span class="">우리는 지금까지 <span class="math inline">\(x\)</span> 를 함수 혹은 종속변수로 사용했지만 아래의 방정식에서는 독립변수이므로 지금까지 우리의 표기법에서의 <span class="math inline">\(t\)</span> 의 역할을 한다는 것에 유의하라.</span></div></div>
+<p><span class="math display">\[
+-\dfrac{\hbar^2}{2m}\dfrac{d^2\psi(x)}{dx^2} + V(x) \psi(x) = E\psi(x), \qquad V(x) = \left\{\begin{array}{ll}0 \qquad &amp;; x\in [-a, a],  \\ +\infty &amp;; \text{othewise}. \end{array}\right.
+\]</span></p>
+<p>이것을 지금까지 우리가 사용했던 표기법 형태로 고치면,</p>
+<p><span class="math display">\[
+\dfrac{d\psi(t)}{dt^2} = -\dfrac{2mE}{\hbar^2} \psi(t), \qquad \psi(-a)= \psi(a)=0
+\]</span></p>
+<p>의 1차원 2차 미분방정식의 경계값 문제가 된다.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -533,13 +615,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../src/applications_of_julia/fileio.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">파일시스템과 파일입출력</span>
+      <a href="../../src/numerical_analysis_using_julia/10_ode_initial_value_problem.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">10장 상미분 방정식의 초기값 문제</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../src/applications_of_julia/multithreads.html" class="pagination-link">
-        <span class="nav-page-text">다중스레드</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" class="pagination-link">
+        <span class="nav-page-text">부록</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -248,6 +248,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/11_ode_boundary_value_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11장 상미분 방정식의 경계값 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../src/numerical_analysis_using_julia/A01_appendix_01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">부록</span></a>
   </div>
@@ -280,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#리처드슨-외삽법과-롬버그-적분" id="toc-리처드슨-외삽법과-롬버그-적분" class="nav-link" data-scroll-target="#리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">3</span> 리처드슨 외삽법과 롬버그 적분</a>
   <ul class="collapse">
-  <li><a href="#리처드슨-외삽법" id="toc-리처드슨-외삽법" class="nav-link" data-scroll-target="#리처드슨-외삽법">리처드슨 외삽법</a></li>
+  <li><a href="#sec-richardson_extrapolation" id="toc-sec-richardson_extrapolation" class="nav-link" data-scroll-target="#sec-richardson_extrapolation">리처드슨 외삽법</a></li>
   <li><a href="#롬버그-적분" id="toc-롬버그-적분" class="nav-link" data-scroll-target="#롬버그-적분">롬버그 적분</a></li>
   </ul></li>
   </ul>
@@ -660,8 +666,8 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 </section>
 <section id="리처드슨-외삽법과-롬버그-적분" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">3</span> 리처드슨 외삽법과 롬버그 적분</h2>
-<section id="리처드슨-외삽법" class="level3">
-<h3 class="anchored" data-anchor-id="리처드슨-외삽법">리처드슨 외삽법</h3>
+<section id="sec-richardson_extrapolation" class="level3">
+<h3 class="anchored" data-anchor-id="sec-richardson_extrapolation">리처드슨 외삽법</h3>
 <p>어떤 값 <span class="math inline">\(M\)</span> 을 계산하는데 매개변수 <span class="math inline">\(h\)</span> 에 대해 그 truncation 오차가 <span class="math inline">\(O(h)\)</span> 인 방법을 사용하여 <span class="math inline">\(N_1(h)\)</span> 를 얻었다고 하자. 이 때 우리는</p>
 <p><span id="eq-richardson_1"><span class="math display">\[
 M - N_1(h) = k_1 h + k_2 h^2 + O(h^3)

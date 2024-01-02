@@ -291,6 +291,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">비선형 최소제곱 피팅</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/applications_of_julia/multithreads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">다중스레드</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -318,7 +324,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sec-index_of_array" id="toc-sec-index_of_array" class="nav-link" data-scroll-target="#sec-index_of_array"><span class="header-section-number">3</span> 배열의 인덱스</a>
   <ul class="collapse">
   <li><a href="#인덱스를-이용한-배열-연산" id="toc-인덱스를-이용한-배열-연산" class="nav-link" data-scroll-target="#인덱스를-이용한-배열-연산">인덱스를 이용한 배열 연산</a></li>
-  <li><a href="#행렬의-열행-우선-방식" id="toc-행렬의-열행-우선-방식" class="nav-link" data-scroll-target="#행렬의-열행-우선-방식">행렬의 열/행 우선 방식</a></li>
+  <li><a href="#sec-majority_of_index" id="toc-sec-majority_of_index" class="nav-link" data-scroll-target="#sec-majority_of_index">행렬의 열/행 우선 방식</a></li>
   <li><a href="#sec-cartesian_and_linear_index" id="toc-sec-cartesian_and_linear_index" class="nav-link" data-scroll-target="#sec-cartesian_and_linear_index">데카르트 인덱스와 선형 인덱스</a></li>
   </ul></li>
   <li><a href="#sec-copy_of_array" id="toc-sec-copy_of_array" class="nav-link" data-scroll-target="#sec-copy_of_array"><span class="header-section-number">4</span> 배열의 복사</a></li>
@@ -678,9 +684,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  3</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
-<section id="행렬의-열행-우선-방식" class="level3">
-<h3 class="anchored" data-anchor-id="행렬의-열행-우선-방식">행렬의 열/행 우선 방식</h3>
-<p>예를 들어 <span class="math inline">\(\boldsymbol{A} =\begin{bmatrix} 1&amp;2\\3&amp;4\end{bmatrix}\)</span> 를 메모리상에 저장할 때 1행 1열, 1행 2열,… 1행 마지막열, 2행 1열, … 순으로 저장하는 것을 행 우선 순서(row-major order) 라고 하고 1행 1열 2행 1열, 마지막행 1열, 2행 1열, 2행 2열,… 순으로 저장하는 것을 열 우선 방식(column-major order)이라고 합니다. 행 우선 방식에서는 배열 <code>A</code> 가 <code>1 2 3 4</code> 의 순으로 저장이 되며 열 우선방식에서는 <code>1 3 2 4</code> 순으로 저장이 됩니다. 행 우선 방식을 쓰는 언어로는 C/C++ 과 Python 의 numpy 가 있고 열 우선 방식을 쓰는 언어로는 Fortran, MATLAB, Julia, R 등이 있습니다. 또한 언어에서 사용하는 자료구조나 함수에 따라 달라질 수 있습니다.</p>
+<section id="sec-majority_of_index" class="level3">
+<h3 class="anchored" data-anchor-id="sec-majority_of_index">행렬의 열/행 우선 방식</h3>
+<p>예를 들어 <span class="math inline">\(\boldsymbol{A} =\begin{bmatrix} 1&amp;2\\3&amp;4\end{bmatrix}\)</span> 를 메모리상에 저장할 때 1행 1열, 1행 2열,… 1행 마지막열, 2행 1열, … 순으로 저장하는 것을 행 우선 순서(row-major order) 라고 하고 1행 1열 2행 1열,…, 마지막행 1열, 2행 1열, 2행 2열,… 순으로 저장하는 것을 열 우선 방식(column-major order)이라고 합니다. 행 우선 방식에서는 배열 <code>A</code> 가 <code>1 2 3 4</code> 의 순으로 저장이 되며 열 우선방식에서는 <code>1 3 2 4</code> 순으로 저장이 됩니다. 행 우선 방식을 쓰는 언어로는 C/C++ 과 Python 의 numpy 가 있고 열 우선 방식을 쓰는 언어로는 Fortran, MATLAB, Julia, R 등이 있습니다. 또한 언어에서 사용하는 자료구조나 함수에 따라 달라질 수 있습니다.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -694,107 +700,129 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>이것이 문제가 될 수 있는 경우는 우선순위가 다른 언어나 라이브러리간에 데이터를 교환 할 때 입니다. 예를 들어 julia 의 배열을 파일로 저장 한 후 python 의 numpy 로 읽으면 행과 열이 바뀔 수 있습니다.</p>
 </div>
 </div>
+<p>행 우선 방식이 본직적으로 같은 계산의 계산 속도에 영향을 줄 수 있습니다. 아래의 코드는 <span class="math inline">\(10000 \times 10000\)</span> 배열의 합을 두가지 방법으로 구하는 코드입니다. 우선 각 행에대헤 열을 순회하며 합을 구하였고, 그 다음은 각 열에 대해 행을 순회하며 합을 구하였습니다.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> <span class="fl">10000</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>mat<span class="op">=</span> <span class="fu">rand</span>(M, M)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="cf">begin</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    r1  <span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="op">∈</span> <span class="fl">1</span><span class="op">:</span>M, j <span class="op">∈</span> <span class="fl">1</span><span class="op">:</span>M</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        r1 <span class="op">+=</span> mat[i, j]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="pp">@btime</span> <span class="cf">begin</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    r2 <span class="op">=</span>  <span class="fl">0.0</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="op">∈</span> <span class="fl">1</span><span class="op">:</span>M, i <span class="op">∈</span> <span class="fl">1</span><span class="op">:</span>M</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        r2 <span class="op">+=</span> mat[i, j]</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>그 결과는</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>  13.454 s (489818979 allocations: 8.79 GiB)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  8.744 s (489818979 allocations: 8.79 GiB)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>로 아래의 방법이 훨씬 빨랐습니다. 이것은 배열이 메모리에 있을 때 행 우선방식으로 정렬되기 때문이며, 열보다 행을 많이 변화시키는 것이 전체적으로 더 빠릅니다. 예를 들어 첫번째 합 계산의 경우, 행이 10000 번 변할 동안 열은 1억번 변하는데, 두번째 계산의 경우는 열이 10000 번 변할 동안 행이 1억번 변합니다. 이 차이가 계산 속도의 차이를 만들어 냅니다.</p>
 <p><br></p>
 </section>
 <section id="sec-cartesian_and_linear_index" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="sec-cartesian_and_linear_index">데카르트 인덱스와 선형 인덱스</h3>
 <div class="page-columns page-full"><p>지금까지 2차원 배열<code>A</code> 의 2행 3열 성분을 <code>A[2, 3]</code> 으로 접근했습니다. 이와 같이 배열의 차원의 갯수만큼의 자연수로 접근하는 것을 <strong>데카르트 인덱스(Cartesian index)</strong> 혹은 <strong>카르테시안 인덱스</strong> 라고 합니다. 다른 접근 방법도 있는데, 다차원 배열의 각 성분을 1부터 하나의 자연수로 접근하는 방법도 사용합니다. 이것을 <strong>선형 인덱스(linear index)</strong> 라고 합니다. 앞서 알아본 열 우선 방식에서 배열을 나열할 때의 차례입니다. 예를 들어 <code>A=[1 3;2 4]</code> 의 경우 <code>A[3]=3</code> 이며 <code>A[4]=4</code> 입니다.</p><div class="no-row-height column-margin column-container"><span class="">프랑스의 철학자이자 과학자인 르네 데카르트(René Descartes) 의 이름에서 따왔습니다. 데카르트의 라틴어명이 Renatus Cartesius 이기 때문에 영어로는 Cartesian index 라고 씁니다.</span></div></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>In [13]: A=[1 2;3 4]</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>Out[13]: 2×2 Matrix{Int64}:</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a> 1  2</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a> 3  4</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>In [14]: A[3]</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>Out[14]: 2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>In [13]: A=[1 2;3 4]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>Out[13]: 2×2 Matrix{Int64}:</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a> 1  2</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a> 3  4</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>In [14]: A[3]</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>Out[14]: 2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>데카르트 인덱스로부터 선형 인덱스를, 선형 인덱스로부터 데카르트 인덱스르 얻는 방법이 존재합니다. 배열 <code>A</code> 에 대해 <code>CartesianIndices(A)[10]</code> 은 배열 <code>A</code> 의 선형 인덱스 <code>10</code> 에 대한 데카르트 인덱스를 리턴합니다. <code>A</code> 가 삼차원 배열일 경우 <code>LinearIndices(A)[1, 2, 3]</code> 은 배열 <code>A</code> 의 데카르트 인덱스<code>(1, 2, 3)</code> 에 대한 선형 인덱스를 리턴합니다. 고차원 배열에대해서도 차원의 갯수만큼의 데카르트 인덱스를 받아 선형 인덱스를 리턴합니다.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>In [1]: A=Array(reshape(1:2*3*4, (2, 3, 4)))</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 2×3×4 Array{Int64, 3}:</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>[:, :, 1] =</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a> 1  3  5</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a> 2  4  6</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>[:, :, 2] =</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a> 7   9  11</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a> 8  10  12</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>[:, :, 3] =</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a> 13  15  17</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a> 14  16  18</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>[:, :, 4] =</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a> 19  21  23</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a> 20  22  24</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>In [2]: CartesianIndices(A)[10]</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>Out[2]: CartesianIndex(2, 2, 2)</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>In [3]: LinearIndices(A)[1, 2, 3]</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>Out[3]: 15</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>In [1]: A=Array(reshape(1:2*3*4, (2, 3, 4)))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 2×3×4 Array{Int64, 3}:</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>[:, :, 1] =</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a> 1  3  5</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a> 2  4  6</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>[:, :, 2] =</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a> 7   9  11</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a> 8  10  12</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>[:, :, 3] =</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a> 13  15  17</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a> 14  16  18</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>[:, :, 4] =</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a> 19  21  23</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a> 20  22  24</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>In [2]: CartesianIndices(A)[10]</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>Out[2]: CartesianIndex(2, 2, 2)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>In [3]: LinearIndices(A)[1, 2, 3]</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>Out[3]: 15</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 </section>
 <section id="sec-copy_of_array" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="sec-copy_of_array"><span class="header-section-number">4</span> 배열의 복사</h2>
 <p>배열을 복사할 때는 <code>copy()</code> 혹은 <code>deepcopy()</code> 명령어를 사용합니다. 주의해야 할 것은 배열 <code>A</code> 에 대해 <code>B=A</code> 와 <code>B=copy(A)</code> 는 다르다는 것입니다. 아래 코드를 봅시다.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>In [13]: A=[1 2]</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>Out[13]: 1×2 Matrix{Int64}:</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a> 1  2</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>In [14]: B=A;C=copy(A)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>Out[14]: 1×2 Matrix{Int64}:</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a> 1  2</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>In [15]: B[1, 1]=3</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>Out[15]: 3</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>In [16]: A</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>Out[16]: 1×2 Matrix{Int64}:</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a> 3  2</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>In [17]: C</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>Out[17]: 1×2 Matrix{Int64}:</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a> 1  2</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>In [18]: C[1, 2]=-1</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>Out[18]: -1</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>In [19]: A</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>Out[19]: 1×2 Matrix{Int64}:</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a> 3  2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>In [13]: A=[1 2]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>Out[13]: 1×2 Matrix{Int64}:</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a> 1  2</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>In [14]: B=A;C=copy(A)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>Out[14]: 1×2 Matrix{Int64}:</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a> 1  2</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>In [15]: B[1, 1]=3</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>Out[15]: 3</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>In [16]: A</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>Out[16]: 1×2 Matrix{Int64}:</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a> 3  2</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>In [17]: C</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>Out[17]: 1×2 Matrix{Int64}:</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a> 1  2</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>In [18]: C[1, 2]=-1</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>Out[18]: -1</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>In [19]: A</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>Out[19]: 1×2 Matrix{Int64}:</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a> 3  2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>B=A</code> 라는 표현식은 <code>B</code> 와 <code>A</code> 변수가 같은 행렬에 대한 변수라는 뜻입니다. 따라서 <code>B</code> 라는 변수를 이용해 행렬 값을 변화시키면 <code>A</code> 변수로 접근하더더라도 변화된 행렬에 접근하게 됩니다. <code>B=copy(A)</code> 는 <code>A</code> 복사본을 만들어 <code>B</code> 라는 변수에 지정합니다. 따라서 <code>B</code> 변수를 이용해 행렬을 바꾸더라도 <code>A</code> 변수에 지정된 행렬은 변화하지 않습니다. <code>B=A[:]</code> 는 <code>B=A</code> 가 아닌 <code>copy(A)</code> 를 의미합니다.</p>
 <p>객체를 카피하는 명령어에는 <code>deepcopy</code> 가 있습니다. 다음 예를 봅시다.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = [1, 2, 3, [4, 5, 6]]</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 4-element Vector{Any}:</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a> 1</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a> 2</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a> 3</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  [4, 5, 6]</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>In [2]: B = A[:]; C=copy(A); D=deepcopy(A);</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>In [3]: A[4][2]=-1</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>Out[3]: -1</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>In [4]: B</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>Out[4]: 4-element Vector{Any}:</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a> 1</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a> 2</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a> 3</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  [4, -1, 6]</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>In [5]: C</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>Out[5]: 4-element Vector{Any}:</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a> 1</span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a> 2</span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a> 3</span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  [4, -1, 6]</span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>In [6]: D</span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>Out[6]: 4-element Vector{Any}:</span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a> 1</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a> 2</span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a> 3</span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>  [4, 5, 6]</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = [1, 2, 3, [4, 5, 6]]</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 4-element Vector{Any}:</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  [4, 5, 6]</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>In [2]: B = A[:]; C=copy(A); D=deepcopy(A);</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>In [3]: A[4][2]=-1</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>Out[3]: -1</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>In [4]: B</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>Out[4]: 4-element Vector{Any}:</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  [4, -1, 6]</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>In [5]: C</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>Out[5]: 4-element Vector{Any}:</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  [4, -1, 6]</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>In [6]: D</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>Out[6]: 4-element Vector{Any}:</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>  [4, 5, 6]</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>A = [1, 2, 3, [4, 5, 6]]</code> 는 벡터이며 정수와 벡터를 성분으로 갖기 때문에 <code>Any</code> 타입에 대한 벡터가 됩니다. <code>A</code> 의 네번째 성분은 벡터이며 실제로 <code>A</code> 변수에 내부적으로 저장되는것은 벡터 <code>[4, 5, 6]</code> 에 대한 주소입니다. <code>C=copy(A)</code> 명령어는 값 1, 2, 3 과 벡터 <code>[4, 5, 6]</code> 의 복사본을 만들지 않고 단지 주소만을 복사하여 변수 <code>C</code> 에 할당합니다. <code>deepcopy</code> 함수는 벡터 <code>[4, 5, 6]</code> 에 대해서도 복사본을 만들기 때문에 <code>D=deepcopy(A)</code> 명령어로 <code>D</code> 에 할당된 배열은 <code>A</code> 와는 같은 값을 갖는 완전히 별개인 배열이 됩니다.</p>
 <p><br></p>
 </section>
@@ -803,23 +831,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="인덱스-순회에-대한-함수들-eachindex-cartesianindex" class="level3">
 <h3 class="anchored" data-anchor-id="인덱스-순회에-대한-함수들-eachindex-cartesianindex">인덱스 순회에 대한 함수들 : <code>eachindex</code>, <code>CartesianIndex</code></h3>
 <p>배열의 인덱스, 혹은 성분 각각에 대해 <code>for ... end</code> 루프를 수행하는 방법은 여러가지가 있습니다. 배열의 선형 인덱스를 이용하여 순회할 때는 <code>eachindex</code> 를 씁니다.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = [1 2; 3 4];</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>In [2]: for i in eachindex(A)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        @show i, A[i]</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        end</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (1, 1)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (2, 3)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (3, 2)</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (4, 4)</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>In [3]: for i in CartesianIndices(A)</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        @show i, A[i]</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        end</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(1, 1), 1)</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(2, 1), 3)</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(1, 2), 2)</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(2, 2), 4)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = [1 2; 3 4];</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>In [2]: for i in eachindex(A)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        @show i, A[i]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (1, 1)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (2, 3)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (3, 2)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (4, 4)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>In [3]: for i in CartesianIndices(A)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        @show i, A[i]</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>        end</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(1, 1), 1)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(2, 1), 3)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(1, 2), 2)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>(i, A[i]) = (CartesianIndex(2, 2), 4)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>위에서 알 수 있듯이 <code>eachindex(A)</code> 는 배열 <code>A</code> 에 대한 선형 인덱스를 사용하여 순회하도록 하며 <code>CartesianIndices(A)</code> 는 데카르트 인덱스를 이용하여 순회합니다.</p>
 <p><br></p>
 </section>
@@ -827,89 +855,89 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="타입과-모양의-변환">타입과 모양의 변환</h3>
 <p>우리는 앞서 타입이름이 타입 변환함수로 사용될 수 있다는 것을 보았습니다. 예를 들어 <code>Float32(6)</code> 은 <code>Int64</code> 타입의 <code>6</code> 을 4바이트 부동소수 타입인 <code>Float32</code> 타입으로 변환시킵니다. 또한 우리는 <code>.</code> 연산자를 통해 컨테이너의 각각의 성분에 대해 함수를 적용시킬 수 있다는 것을 알았습니다. 따라서 <code>Float32.([1, 2, 3, 4])</code> 는 <code>Float32</code> 타입의 성분을 갖는 <code>[1.0f0, 2.0f0, 3.0f0, 4.0f0]</code> 입니다.</p>
 <p><span class="math inline">\(3\times 5\)</span> 배열을 <span class="math inline">\(5 \times 3\)</span> 배열로 바꾸거나 <span class="math inline">\(12 \times 5\)</span> 배열을 <span class="math inline">\(3\times 4 \times 5\)</span> 로 바꾸는 것과 같이 그 크기를 유지하지만 배열의 모양을 바꾸는 함수는 <code>reshape</code> 입니다. 예를 들어 보겠습니다.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = Array(1:6)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 6-element Vector{Int64}:</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a> 1</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a> 2</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a> 3</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a> 4</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a> 5</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a> 6</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>In [2]: reshape(A, (2, 3))</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>Out[2]: 2×3 Matrix{Int64}:</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a> 1  3  5</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a> 2  4  6</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>In [1]: A = Array(1:6)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 6-element Vector{Int64}:</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> 1</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a> 2</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a> 3</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a> 4</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a> 5</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a> 6</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>In [2]: reshape(A, (2, 3))</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>Out[2]: 2×3 Matrix{Int64}:</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a> 1  3  5</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a> 2  4  6</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>In[1]</code> 에서의 <code>A</code> 는 6개의 성분을 갖는 1차원 벡터였지만 <code>reshape(A, (2, 3))</code> 를 통해 <span class="math inline">\(2 \times 3\)</span> 행렬이 되었습니다. 다시 말하지만 원래의 행렬과 변환된 행렬의 총 성분 수는 같아야 합니다. 즉 <code>length</code> 가 같아야 합니다. <code>reshape</code> 는 원래 행렬과 변환 행렬의 선형 인덱스가 같도록 변환됩니다.</p>
 <p><br></p>
 </section>
 <section id="sec-array_view" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="sec-array_view"><code>view</code> 와 <code>@view</code></h3>
 <p><code>view</code> 는 이미 존재하는 배열로부터 특정 부분을 추출하여 만든 배열에 대한 타입이며, 이런 연산을 하는 함수이기도 합니다. 배열 <code>A</code> 에 대해 <code>a=view(A, 1)</code> 은 배열 <code>A</code> 의 첫번째 성분을 가리킵니다. 가리킨다라고 표현한 것은 단지 같은 값을 가질 뿐만 아니라 <code>a</code> 를 변경시키면 <code>A</code> 도 변경되기 때문입니다.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>In [4]: A= [1 2;3 4];</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>In [5]: a = view(A, 1)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>Out[5]: 0-dimensional view(::Vector{Int64}, 1) with eltype Int64:</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>1</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>In [6]: a[1]=3;</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>In [7]: A</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>Out[7]: 2×2 Matrix{Int64}:</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a> 3  2</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a> 3  4</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>다차원 배열의 경우 인덱스를 쓰거나 <code>:</code> 나 배열을 이용하여 범위를 특정 할 수 있습니다.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>In [8]: B=reshape(Array(1:12), (3, 4))</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>Out[8]: 3×4 Matrix{Int64}:</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a> 2  5  8  11</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>In [9]: b=view(B, [1, 3], :)  # 1행과 3행, 그리고 열 전체에 대한 view</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>Out[9]: 2×4 view(::Matrix{Int64}, [1, 3], :) with eltype Int64:</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>In [10]: b[2, 2]=-6 # view 의 변경</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>Out[10]: -6</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>In [11]: B</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>Out[11]: 3×4 Matrix{Int64}:</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a> 1   4  7  10</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a> 2   5  8  11</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a> 3  -6  9  12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="page-columns page-full"><p>앞서 <code>B[:, 3]</code> 과 같이 이미 존재하는 배열로부터 그 부분을 성분으로 갖는 배열을 생성하는 방법을 보았습니다. <code>@view</code> 매크로는 <code>view</code> 함수를 쓰지 않고 <code>B[:, 3]</code> 과 같은 방법으로 <code>view</code> 를 생성합니다. </p><div class="no-row-height column-margin column-container"><span class="">매크로에 대해서는 <a href="../../src/introduction_to_julia/10_metaprogramming_and_macro.html">메타프로그래밍과 매크로</a> 를 참고하시기 바랍니다. 일단은 <code>@</code> 로 시작하는 명령문은 매크로 라고 하며 명령문 뒤에 주어진 인자나 함수에 대한 특별한 기능을 한다는 정도만 알아 둡시다</span></div></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>In [21]: B=reshape(Array(1:12), (3, 4))</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>Out[21]: 3×4 Matrix{Int64}:</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a> 2  5  8  11</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>In [4]: A= [1 2;3 4];</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>In [5]: a = view(A, 1)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>Out[5]: 0-dimensional view(::Vector{Int64}, 1) with eltype Int64:</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>1</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>In [22]: B[:, [2, 3]]</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>Out[22]: 3×2 Matrix{Int64}:</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a> 4  7</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a> 5  8</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a> 6  9</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>In [23]: @view B[:, [2, 3]]</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>Out[23]: 3×2 view(::Matrix{Int64}, :, [2, 3]) with eltype Int64:</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a> 4  7</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a> 5  8</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a> 6  9</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>B[:, [2, 3]]</code> 은 <code>B</code> 의 2행과 3행만을 선택하여 새로운 배열을 만들기 때문에, 일단 만든 다음에는 원래의 <code>B</code> 값과 무관하게 변경시킬 수 있습니다. <code>@view B[:, [2, 3]]</code> 는 <code>B</code> 의 부분에 대한 <code>view</code> 를 만들기 때문에 <code>C=@view B[:, [2, 3]]</code> 를 통해 <code>C</code> 에 할당한다면 <code>C</code> 를 변경하는 것은 <code>B</code> 를 변경하는 것이 됩니다.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>In [24]: C=@view B[:, [2, 3]]</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>Out[24]: 3×2 view(::Matrix{Int64}, :, [2, 3]) with eltype Int64:</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a> 4  7</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> 5  8</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a> 6  9</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>In [6]: a[1]=3;</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>In [7]: A</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>Out[7]: 2×2 Matrix{Int64}:</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a> 3  2</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a> 3  4</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>다차원 배열의 경우 인덱스를 쓰거나 <code>:</code> 나 배열을 이용하여 범위를 특정 할 수 있습니다.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>In [8]: B=reshape(Array(1:12), (3, 4))</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>Out[8]: 3×4 Matrix{Int64}:</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> 2  5  8  11</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>In [25]: C[1, 1]=-1;</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>In [26]: B</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>Out[26]: 3×4 Matrix{Int64}:</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a> 1  -1  7  10</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a> 2   5  8  11</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a> 3   6  9  12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>In [9]: b=view(B, [1, 3], :)  # 1행과 3행, 그리고 열 전체에 대한 view</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>Out[9]: 2×4 view(::Matrix{Int64}, [1, 3], :) with eltype Int64:</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>In [10]: b[2, 2]=-6 # view 의 변경</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>Out[10]: -6</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>In [11]: B</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>Out[11]: 3×4 Matrix{Int64}:</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a> 1   4  7  10</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a> 2   5  8  11</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a> 3  -6  9  12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="page-columns page-full"><p>앞서 <code>B[:, 3]</code> 과 같이 이미 존재하는 배열로부터 그 부분을 성분으로 갖는 배열을 생성하는 방법을 보았습니다. <code>@view</code> 매크로는 <code>view</code> 함수를 쓰지 않고 <code>B[:, 3]</code> 과 같은 방법으로 <code>view</code> 를 생성합니다. </p><div class="no-row-height column-margin column-container"><span class="">매크로에 대해서는 <a href="../../src/introduction_to_julia/10_metaprogramming_and_macro.html">메타프로그래밍과 매크로</a> 를 참고하시기 바랍니다. 일단은 <code>@</code> 로 시작하는 명령문은 매크로 라고 하며 명령문 뒤에 주어진 인자나 함수에 대한 특별한 기능을 한다는 정도만 알아 둡시다</span></div></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>In [21]: B=reshape(Array(1:12), (3, 4))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>Out[21]: 3×4 Matrix{Int64}:</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a> 1  4  7  10</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a> 2  5  8  11</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a> 3  6  9  12</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>In [22]: B[:, [2, 3]]</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>Out[22]: 3×2 Matrix{Int64}:</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a> 4  7</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a> 5  8</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a> 6  9</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>In [23]: @view B[:, [2, 3]]</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>Out[23]: 3×2 view(::Matrix{Int64}, :, [2, 3]) with eltype Int64:</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a> 4  7</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a> 5  8</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a> 6  9</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>B[:, [2, 3]]</code> 은 <code>B</code> 의 2행과 3행만을 선택하여 새로운 배열을 만들기 때문에, 일단 만든 다음에는 원래의 <code>B</code> 값과 무관하게 변경시킬 수 있습니다. <code>@view B[:, [2, 3]]</code> 는 <code>B</code> 의 부분에 대한 <code>view</code> 를 만들기 때문에 <code>C=@view B[:, [2, 3]]</code> 를 통해 <code>C</code> 에 할당한다면 <code>C</code> 를 변경하는 것은 <code>B</code> 를 변경하는 것이 됩니다.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>In [24]: C=@view B[:, [2, 3]]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Out[24]: 3×2 view(::Matrix{Int64}, :, [2, 3]) with eltype Int64:</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a> 4  7</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a> 5  8</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a> 6  9</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>In [25]: C[1, 1]=-1;</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>In [26]: B</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>Out[26]: 3×4 Matrix{Int64}:</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a> 1  -1  7  10</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a> 2   5  8  11</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a> 3   6  9  12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>view</code> 나 <code>@view</code> 가 필요한 이유는 메모리와 시간을 절약해 주기 때문입니다. 아주 큰 배열을 다룰 때 그 부분 배열에 대해 연산이 필요하다고 합시다. 배열을 새로 생성한다면 그만큼의 메모리와 배열의 생성과 복사를 위한 시간이 필요하지만 <code>view</code> 를 사용한다면 이미 존재하는 배열을 사용하기 때문에 약간의 메모리에서의 빈 공간만으로 연산을 수행 할 수 있습니다. 다만 <code>view</code> 나 <code>@view</code> 를 이용해 얻은 부분배열을 변경할 경우 원래의 배열도 변경된다는 사실을 명심해야 합니다.</p>
 <p><br></p>
 </section>
@@ -921,20 +949,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>차원 확장은 차원이 없거나 1차원인 차원으로 원래의 배열을 반복합니다. <code>[1 2] .+ [1 2; 3 4]</code> 의 경우는 <code>[1 2]</code> 를 배열로 변환시킬 때 <span class="math inline">\(1 \times 2\)</span> 배열이 되며 첫번째 차원이 하나의 성분을 가지므로 첫번째 차원에 대해 두번 반복한 <code>[1 2;1 2]</code> 와 <code>[1 2;3 4]</code> 의 연산을 수행하게 됩니다.</p></li>
 <li><p>따라서 스칼라나 영차원 배열은 모든 차원의 다차원 배열에 대해 도트 연산이 가능합니다.</p></li>
 </ul>
-<div class="sourceCode" id="cb30"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>In [1]: [1;;2] .+ [1 2;3 4]</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 2×2 Matrix{Int64}:</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a> 2  4</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a> 4  6</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>In [2]: [1; 2] .+ [1 2;3 4]</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>Out[2]: 2×2 Matrix{Int64}:</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a> 2  3</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a> 5  6</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>In [3]: [3] .* [1 2; 3 4]</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>Out[3]: 2×2 Matrix{Int64}:</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a> 3   6</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a> 9  12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>In [1]: [1;;2] .+ [1 2;3 4]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 2×2 Matrix{Int64}:</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a> 2  4</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a> 4  6</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>In [2]: [1; 2] .+ [1 2;3 4]</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>Out[2]: 2×2 Matrix{Int64}:</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a> 2  3</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a> 5  6</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>In [3]: [3] .* [1 2; 3 4]</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>Out[3]: 2×2 Matrix{Int64}:</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a> 3   6</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a> 9  12</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>[1;;2]</code> 는 <span class="math inline">\(1 \times 2\)</span> 배열이므로 <span class="math inline">\(2 \times 2\)</span> 배열과 연산할 때는 <code>[1 2; 1 2]</code> 로 바뀌어 연산됩니다. <code>[1 ; 2]</code> 는 <span class="math inline">\(2 \times 1\)</span> 배열이므로 <span class="math inline">\(2 \times 2\)</span> 배열과 연산할 때는 <code>[1 1; 2 2]</code> 로 바뀌어 연산됩니다.</p>
 <p>컨테이너에서의 도트 연산과 같이 <code>@.</code> 매크로도 동작합니다. <code>@.</code> 매크로를 앞에 붙이면 뒤에 나오는 함수나 연산자에 <code>.</code> 를 붙이지 않아도 julia 가 알아서 연산을 해 줍니다.</p>
 <p><br></p>
@@ -948,31 +976,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>f</code> 를 제외한 인자가 위의 두 경우와 다르다면 배열을 반환합니다.</li>
 <li><code>f</code> 를 제외한 인자가 배열이나 스칼라라면 위의 도트 연산시의 차원 확장 규칙에 따라 차원을 확장하여 <a href="../../src/introduction_to_julia/04_containers.html#sec-dot_operation">도트 연산</a>으로 계산합니다.</li>
 </ul>
-<div class="sourceCode" id="cb31"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>In [1]: broadcast(+, 2, 3)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 5</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>In [2]: ones()</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>Out[2]: 0-dimensional Array{Float64, 0}:</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>1.0</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>In [3]: broadcast(+, 1, ones())</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>Out[3]: 2.0</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>In [4]: broadcast(*, 2, (1, 2, 3))</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>Out[4]: (2, 4, 6)</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>In [5]: broadcast(*, (1, 2, 3), [-1, 1, 0])</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>Out[5]: 3-element Vector{Int64}:</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a> -1</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  2</span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  0</span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>In [6]: broadcast(sin, range(0, π, length = 5))</span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>Out[6]: 5-element Vector{Float64}:</span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a> 0.0</span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a> 0.7071067811865475</span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a> 1.0</span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a> 0.7071067811865476</span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a> 1.2246467991473532e-16</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>In [1]: broadcast(+, 2, 3)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Out[1]: 5</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>In [2]: ones()</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>Out[2]: 0-dimensional Array{Float64, 0}:</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>1.0</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>In [3]: broadcast(+, 1, ones())</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>Out[3]: 2.0</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>In [4]: broadcast(*, 2, (1, 2, 3))</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>Out[4]: (2, 4, 6)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>In [5]: broadcast(*, (1, 2, 3), [-1, 1, 0])</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>Out[5]: 3-element Vector{Int64}:</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a> -1</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  2</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  0</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>In [6]: broadcast(sin, range(0, π, length = 5))</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>Out[6]: 5-element Vector{Float64}:</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a> 0.0</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a> 0.7071067811865475</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a> 1.0</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a> 0.7071067811865476</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a> 1.2246467991473532e-16</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>크기가 다른 배열의 경우 <a href="#sec-dot_operation_in_array">다차원 배열의 도트 연산</a> 과 같은 규칙으로 계산됩니다. 실제로는 도트 연산의 자체가 <code>broadcast</code> 함수를 사용하여 정의되었으므로 당연한 것입니다.</p>
 <p><br></p>
 
