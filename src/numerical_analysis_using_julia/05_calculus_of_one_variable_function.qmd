@@ -197,7 +197,7 @@ $$
 \end{aligned}
 $$
 
-즉 우리가 여기서 구해야 할 것은 각 구간에서의 weight factor $w_i$ 이다. Newton-Cotes 방법을 이용한 대표적인 적분방법이 Trapzoidal 방법과 Simpson 방법이다. 
+즉 우리가 여기서 구해야 할 것은 각 구간에서의 weight factor $w_i$ 이다. Newton-Cotes 방법을 이용한 대표적인 적분방법은 사다리꼴 방법과 Simpson 방법이다. 
 
 </br>
 
@@ -205,7 +205,7 @@ $$
 
 </br>
 
-중점법은 구간 $[x_i,\, [x_{i+1}]]$ 의 중점 $x^m_{i}$ 을 이용하여 적분값을 $f(x^m_{i})h$ 로 추정하는 방법이다. Trepziodal 방법은 $[x_i,\,x_{i+1}]$ 의 적분을 $(x_i,\, f(x_i))$ 와 $(x_{i+1},\, f(x_{i+1}))$ 을 1차 함수로 근사하여 적분값을 계산한다. Simpson 방법은 두가지가 있는데 각각은 이어지는 세 점이나 네 점을 각각 2차함수와 3차함수로 근사하여 적분하는 방법이다. $
+중점법은 구간 $[x_i,\, x_{i+1}]$ 의 중점 $\dfrac{1}{2}(x_i + x_{i+1})$ 에서의 함수값을 이용하여 적분값을 계산하는 방법이다. 사다리꼴 방법은 $[x_i,\,x_{i+1}]$ 의 적분을 $(x_i,\, f(x_i))$ 와 $(x_{i+1},\, f(x_{i+1}))$ 을 1차 함수로 근사하여 적분값을 계산한다. Simpson 방법은 두가지가 있는데 각각은 이어지는 세 점이나 네 점을 각각 2차함수와 3차함수로 근사하여 적분하는 방법이다.
 
 
 
@@ -214,7 +214,20 @@ $$
 
 ### 중점을 이용한 적분
 
-$[x_{i},\, x_{i+1}]$ 구간에 대한 적분을 구할 때 구간 끝잠의 중점 $x^m_i = \dfrac{x_{i+1}+x_{i}}{2}$ 에서의 함수값을 사용하는 방법이다. 즉,
+중점을 이용한 적분은 구간 $[a,\,b]$ 와 함수 $f(x)$ 가 주어졌을 때 가장 간단하고 빠르게 적분을 구하는 방법이다. $[a,\,b]$ 구간을 $n-1$ 개의 구간으로 나누어, 
+
+$$
+a=x_1 < x_2 < \cdots < x_n=b
+$$
+
+이며 $i=1,\ldots,\,n-1$ 에 대해 $x_{i+1}-x_i = h$ 라고 하자. 
+
+$$
+\int_{a}^{b}f(x)\,dx = \sum_{i=1}^{n-1}\int_{x_i}^{x_{i+1}}f(x)\, dx 
+$$
+
+
+임을 안다. $[x_{i},\, x_{i+1}]$ 구간에 대한 적분을 구할 때 구간의 양 끝점에 대한 중점 $x^m_i = \dfrac{x_{i+1}+x_{i}}{2}$ 에서의 함수값을 사용하는 방법이다. 즉,
 
 $$
 \int_{x_{i}}^{x_{i+1}} f(x)\,dx\approx f\left(\dfrac{x_{i+1}+x_i}{2}\right) h = f(x^m_i) h
@@ -223,17 +236,17 @@ $$
 로 근사하는 방법이다. 테일러 정리에 의해 
 
 $$
-f(x) = f(x^m_i)+f'(x^m_i)(x-x_m) + \dfrac{1}{2}f^{(2)}(\xi) (x-x_m)^2
+f(x) = f(x^m_i)+f'(x^m_i)(x-x_m) + \dfrac{1}{2}f^{(2)}(\xi) (x-x_i^m)^2
 $$ 
 
-을 만족하는 $\xi_i\in [x_{i},\, x_{i+1}]$ 이 존재한다.
+을 만족하는 $\xi_i\in [x_{i},\, x_{i+1}]$ 이 존재한다는 것을 안다. 위 식을 적분하면 
 
 $$
 \int_{x_i}^{x_{i+1}} f(x)\, dx = f(x_i^m)h + \dfrac{1}{24}f^{(2)}(\xi_i)h^3
 $$
 
 
-이다. $[a,\,b]$ 를 $a=x_1<x_2<\cdots <x_n=b$ 의 $n$ 개의 점을 이용하여 $n-1$ 개의 구간으로 나누어 적분하면, 
+이며, 따라서 $[a,\,b]$ 구간에서의 적분은
 
 $$
 \int_a^b f(x) \,dx= \sum_{i=1}^{n-1} f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h + \dfrac{h^3}{24} \sum_{i=1}^{n-1}f^{(2)}(\xi_i)
@@ -258,14 +271,20 @@ $$
 
 ### 사다리꼴 방법 를 이용한 적분
 
-함수 $f(x)$ 를 $[x_i,\, x_{i+1}]$ 구간에서 1차 다항식으로 근사하는 것을 **사다리꼴 방법** 이라고 하며, 주어진 점으로부터 다항식을 구하는 방법은 [다항식을 이용한 전역적 보간법](04_interpolation.qmd#sec-global_interpolation_using_polynomial) 에서 설명한 세가지 방법중 한가지를 사용한다.
+사다리꼴 방법은 $[a,\,b]$ 구간에 대한 함수 $f(x)$ 가 주어졌거나 수열 $x_1,\ldots,\,x_n$ 과 $f(x_i)= y_i$ 가 주어졌을 때 사용할 수 있다. 여기서도 
+
+$$
+a=x_1<x_2<\cdots <x_n=b
+$$
+
+가 성립한다고 하자. 함수 $f(x)$ 를 $[x_i,\, x_{i+1}]$ 구간에서 1차 다항식 $\tilde{f}(x) = \dfrac{y_{i+1}-y_i}{x_{i+1}-x_i}(x-x_i)+y_i$ 으로 근사하는 것을 **사다리꼴 방법 (trapzoidal method)** 이라고 한다.
 
 </br>
 
 $[x_{i-1},\, x_i]$ 구간에서 $(x_{i-1},\, f(x_{i-1}))$ 과 $(x_{i},\, f(x_i))$ 를 1차 다항식으로 근사하면 [다항식을 이용한 보간법의 오차](04_interpolation.qmd#sec-error_for_polynomial_interpolation) 의 **정리 1** 에서 보았듯이 다음을 만족하는 $\xi\in [x_{i-1},\, x_i]$ 가 존재한다.
 $$
 \begin{aligned} 
-f(x) = f(x_{i-1})\dfrac{x-x_{i}}{x_{i-1}-x_i} + f(x_i)\dfrac{x-x_{i-1}}{x_{i}-x_{i-1}} + \dfrac{f^{(2)}(\xi_i)}{2}(x-x_{i-1})(x-x_i).\\
+f(x) = \tilde{f}(x) + \dfrac{f^{(2)}(\xi_i)}{2}(x-x_{i-1})(x-x_i).\\
 \end{aligned}
 $$
 
@@ -281,19 +300,19 @@ $$
 
 $$
 \int_{a}^b f(x)\, dx= \dfrac{h}{2}(f(x_1)+ f(x_n)) + \sum_{i=2}^{n-1} hf(x_i) - \dfrac{h^3}{12}\sum_{i=1}^{n-1} f^{(2)}(\xi_i)
-$$
+$$ 
 
 를 얻는다. 사다리꼴 방법에 의한 적분값 $I_T$ 는
 
 $$
 I_T[f, a, b, n] = \dfrac{h}{2}\left(f(x_1)+ f(x_n) + \sum_{i=2}^{n-1} f(x_i)\right)
-$$
+$$ {#eq-trapzoidal_value}
 
 이다. 이제 적분의 오차를 알아보자. $f^{(2)}(x)$ 가 연속이므로 $\displaystyle \dfrac{1}{n-1}\sum_{i=1}^{n-1} f^{(2)}(\xi_i)= f^{(2)}(\xi)$ 를 만족하는 $\xi\in [a,\,b]$ 가 존재하며[^3] 따라서 사다리꼴 방법에 의한 적분에 대한 에러 $E_T$ 는
 
 $$
 E_T[f, a, b, n] = \dfrac{h^3}{12}(n-1)f^{(2)}(\xi) = \dfrac{h^3}{12}\dfrac{b-a}{h}f^{(2)}(\xi) = \dfrac{(b-a)f^{(2)}(\xi)}{12}h^2 = O(h^2)
-$$
+$$ {#eq-trapzoidal_error}
 
 이다.
 
@@ -341,25 +360,25 @@ $$
 
 를 만족하는 $\overline{\xi}_i \in [x_{i-1},\,x_{i+1}]$ 가 존재한다(Atkinson, Kendall E. (1989). An Introduction to Numerical Analysis (2nd ed.). John Wiley & Sons. 을 참고하라)
 
-이제 $[a,\,b]$ 구간을 $a=x_1<x_2<\cdots<x_{2n}<x_{2n+1}=b$ 의 $2n$ 개의 구간으로 나누어 적분하여 합치는 것을 생각하자. Simpson 1/3 적분은 2개의 구간을 한꺼번에 적분하므로 $2n+1$ 개의 위치가 필요하다. 에러도 $2n+1$ points 에 대한 중간값 정리를 사용하면 다음을 만족하는 $\xi \in [x_1,\,x_{2n+1}]$ 이 존재한다.
+이제 $[a,\,b]$ 구간을 $a=x_1<x_2<\cdots<x_{2m}<x_{2m+1}=b$ 의 $2m$ 개의 구간으로 나누어 적분하여 합치는 것을 생각하자. Simpson 1/3 적분은 2개의 구간을 한꺼번에 적분하므로 $2m+1$ 개의 위치가 필요하다. 에러도 $2m+1$ points 에 대한 중간값 정리를 사용하면 다음을 만족하는 $\xi \in [x_1,\,x_{2m+1}]$ 이 존재한다.
 
 $$
 \begin{aligned}
 \int_{a}^b f(x)\, dx &= \dfrac{h}{3} \left[f(x_1) + 4f(x_2) + 2f(x_3) + 4f(x_4) + 2f(x_5)+\cdots \right.\\
-&\qquad \cdots \left.+ 4f(x_{2n-2})+2f(x_{2n-1}) + 4f(x_{2n})+f(x_{2n+1})\right] - \dfrac{n}{2}\dfrac{f^{(4)}(\xi)}{90}h^5
+&\qquad \cdots \left.+ 4f(x_{2m-2})+2f(x_{2m-1}) + 4f(x_{2m})+f(x_{2m+1})\right] - m\dfrac{f^{(4)}(\xi)}{90}h^5
 \end{aligned}
 $$
 
 따라서 Simpson 1/3 적분값은 다음과 같다.
 $$
-\mathcal{I}_{1/3}[f,\,a,\,b,\, 2n+1] = \dfrac{h}{3} \left[f(x_1) + f(x_{2n+1}) + 4\left(\sum_{k=1}^n  f(x_{2k})\right) + 2\left(\sum_{k=1}^{n-1} f(x_{2k+1})\right)\right]
-$$
+\mathcal{I}_{1/3}[f,\,a,\,b,\, 2n+1] = \dfrac{h}{3} \left[f(x_1) + f(x_{2m+1}) + 4\left(\sum_{k=1}^m  f(x_{2k})\right) + 2\left(\sum_{k=1}^{m-1} f(x_{2k+1})\right)\right]
+$$ {#eq-simpson_1_3_value}
 
 </br>
 
 ### Simpson 3/8 적분
 
-Simpson 1/3 적분이 전체 $n$ 개의 구간을 2개씩 묶어서 적분하여 합쳤다면 3/8 적분은 3개씩 묶어서 합친다. 라그랑쥬 다항식을 이용하면,
+Simpson 1/3 적분이 전체 $n-1$ 개의 구간을 2개씩 묶어서 적분하여 합쳤다면 3/8 적분은 3개씩 묶어서 합친다. 라그랑쥬 다항식을 이용하면,
 
 $$
 L_4(x) = f(x_{i-1})l_{i-1}(x) + f(x_i)l_i(x) + f(x_{i+1})l_{i+1}(x) + f(x_{i+2})l_{i+2}(x)
@@ -379,21 +398,21 @@ $$
 \end{aligned}
 $$
 
-를 얻는다. 이것을 $[a,\,b]$ 구간을 $a=x_1<\cdots <x_{3n+1}=b$ 이며 $x_{i+1}-x_i = h=\text{const.}$ 라면 
+를 얻는다. 이것을 $[a,\,b]$ 구간을 $a=x_1<\cdots <x_{3m+1}=b$ 이며 $x_{i+1}-x_i = h=\text{const.}$ 라면 
 
 $$
 \begin{aligned}
-\int_a^b f(x)\, dx &= \dfrac{3h}{8} \left[f(x_1) + f(x_{3n+1}) + 3\sum_{i=0}^{n-1} \left(f(x_{3i+2}) + f(x_{3i+3})\right)  + 2\sum_{i=1}^{n-1} f(x_{3i+1})\right] - \dfrac{3n}{80}f^{(4)} (\xi) h^5
+\int_a^b f(x)\, dx &= \dfrac{3h}{8} \left[f(x_1) + f(x_{3m+1}) + 3\sum_{i=0}^{m-1} \left(f(x_{3i+2}) + f(x_{3i+3})\right)  + 2\sum_{i=1}^{m-1} f(x_{3i+1})\right] - \dfrac{3m}{80}f^{(4)} (\xi) h^5
 \end{aligned}
 $$
 
 를 만족하는 $\xi \in [a,\,b]$ 가 존재한다. 여기서 
 
 $$
-\mathcal{I}_{3/8}[f,\,a,\,b,\, 3n+1]=\dfrac{3h}{8} \left[f(x_1) + f(x_{3n+1}) + 3\sum_{i=0}^{n-1} \left(f(x_{3i+2}) +f(x_{3i+3})\right) +  + 2\sum_{i=1}^{n-1} f(x_{3i+1})\right] 
-$$
+\mathcal{I}_{3/8}[f,\,a,\,b,\, 3m+1]=\dfrac{3h}{8} \left[f(x_1) + f(x_{3m+1}) + 3\sum_{i=0}^{m-1} \left(f(x_{3i+2}) +f(x_{3i+3})\right) +  + 2\sum_{i=1}^{m-1} f(x_{3i+1})\right] 
+$$ {#eq-simpson_3_8_value}
 
-는 Simpson 3/8 적분값이며 그 오차는 $- \dfrac{3n}{80}f^{(4)} (\xi) h^5$ 이다.
+는 Simpson 3/8 적분값이며 그 오차는 $- \dfrac{3m}{80}f^{(4)} (\xi) h^5$ 이다.
 
 [^1]: 더 정확히 말하자면 불연속인 점이 무한개라도 가산(countable) 이면 적분이 존재하지만, 어짜피 불연속인 점이 무한개일 경우는 여기서 다루지 않는다. 
 
@@ -419,8 +438,8 @@ function integrate_trapzoidal(
     n::Integer)
     
     a, b = minmax(a, b)
-    h = (b-a)/n
-    x = range(a, b, length = n+1)
+    h = (b-a)/(n-1)
+    x = range(a, b, length = n)
     ff = f.(x)
     result = 0.5*(ff[1]+ff[end])
     result += sum(ff[2:end-1])
@@ -432,10 +451,11 @@ function integrate_simpson_1_3(
     a::Number, 
     b::Number, 
     n::Integer)
-    @assert n %2 ==0
+    
+    @assert n %2 == 1
     a, b = minmax(a, b)
-    h = (b-a)/n
-    x = range(a, b, length = n+1)
+    h = (b-a)/(n-1)
+    x = range(a, b, length = n)
     ff = f.(x)
     result = (ff[1]+ff[end])
     result += 4*sum(ff[2:2:end-1])
@@ -444,14 +464,15 @@ function integrate_simpson_1_3(
 end
 
 function integrate_simpson_3_8(
-    f::Function,  
+    f::Function, 
     a::Number, 
     b::Number, 
     n::Integer)
-    @assert n %3 ==0
+    
+    @assert n %3 == 1
     a, b = minmax(a, b)
-    h = (b-a)/n
-    x = range(a, b, length = n+1)
+    h = (b-a)/(n-1)
+    x = range(a, b, length = n)
     println("h=$h, dx=$(x[10]-x[9])")
     ff = f.(x)
     result = (ff[1]+ff[end])
@@ -460,6 +481,7 @@ function integrate_simpson_3_8(
     result += 2*sum(ff[4:3:end-3])
     return result * h * 3 / 8
 end
+
 ```
 
 </br>
@@ -467,6 +489,9 @@ end
 ## 리처드슨 외삽법과 롬버그 적분
 
 ### 리처드슨 외삽법 {#sec-richardson_extrapolation}
+
+오차가 작은 알고리즘을 사용하는 것은 일반적으로 오차가 큰 알고리즘을 계산하는 것보다 자원을 많이 사용한다. 리차드슨 외삽법은 오차가 큰 알고리즘에 의한 계산값을 사용하여 오차가 작은 계산값을 얻는 방법으로 많은 경우 같은 오차의 알고리즘으로 직접 계산하는 것보다 자원을 덜 소모하는 경우가 많아 다양한 분야에 널리 사용된다.
+
 
 어떤 값 $M$ 을 계산하는데 매개변수 $h$ 에 대해 그 truncation 오차가 $O(h)$ 인 방법을 사용하여 $N_1(h)$ 를 얻었다고 하자. 이 때 우리는 
 
@@ -511,12 +536,12 @@ $$
 
 를 얻는다. 즉 $O(h^2)$ 인 방법을 이용하여 $O(h^3)$ 인 값을 얻었다.
 
-이것을 일반화하여 보자. $O(h^n)$ 인 방법을 사용하여 $M$ 의 값을 $N_n(h)$ 로 얻었다고 하자.
+이것을 일반화하여 보자. $O(h^m)$ 인 방법을 사용하여 $M$ 의 값을 $N_m(h)$ 로 얻었다고 하자.
 
 $$
 \begin{aligned}
-M - N_n(h) &=  k_n h^n + k_{n+1}h^{n+1} + O(h^{n+2}), \\
-M - N_n\left(\dfrac{h}{2}\right) & = k_n \left(\dfrac{h}{2}\right)^n + k_{n+1}\left(\dfrac{h}{2}\right)^{n+1} + O(h^{n+2})
+M - N_m(h) &=  k_m h^m + k_{m+1}h^{m+1} + O(h^{m+2}), \\
+M - N_m\left(\dfrac{h}{2}\right) & = k_m \left(\dfrac{h}{2}\right)^m + k_{m+1}\left(\dfrac{h}{2}\right)^{m+1} + O(h^{m+2})
 \end{aligned}
 $$
 
@@ -524,37 +549,88 @@ $$
 
 $$
 \begin{aligned}
-M &= \dfrac{1}{2^n-1}\left[ 2^n N_n \left(\dfrac{h}{2}\right)-N_n (h)\right] - \dfrac{k_{n+1}}{2(2^n-1)}h^{n+1} + O(h^{n+2}) \\
-&= N_{n+1}(h) + O(h^{n+1})
+M &= \dfrac{1}{2^m-1}\left[ 2^m N_m \left(\dfrac{h}{2}\right)-N_m (h)\right] - \dfrac{k_{m+1}}{2(2^m-1)}h^{m+1} + O(h^{m+2}) \\
+&= N_{m+1}(h) + O(h^{m+1})
 \end{aligned}
-$$
+$$ {#eq-richardson}
 
 을 얻는다. 
 
-
 </br>
 
-::: {#exm-richardson_difference}
+#### 짝수승 오차의 리차드슨 외삽법 {#sec-richardson_extrapolation_with_even_order_error}
 
-#### 리차드슨 미분
+수치해석에서 많은 경우 truncation error 가 변수의 짝수승에만 관련이 있다. 즉,
 
-우리는 이미 @eq-difference_3points 에 의해 
+$$
+M = N_1(h) + k_2h^2 + k_4 h^4 + k_6 h^6 + \cdots
+$$
+
+라고 하자. $O(h^{2m})$ 오차를 가진 $N_{2m}(h)$ 를 얻었다고 하자.
 
 $$
 \begin{aligned}
-f'(x) &= \dfrac{f(x+h)-f(x-h)}{2h} - \dfrac{f^{(3)}(\xi)}{6}h^2 ,\\
-f''(x) &=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h^2
+M - N_{2m}(h) &= k_{2m}h^{2m} + O(h^{2m+2}), \\
+M - N_{2m}\left(\dfrac{h}{2}\right) &= k_{2m} \left(\dfrac{h}{2}\right)^{2m} + O(h^{2m+2})
 \end{aligned}
-$$ 
+$$
 
-임을 안다. $N_1 (h) = \dfrac{f(x+h)-f(x-h)}{2h}$ 이며 $f'(x) = N_1(h) +O(h^2)$ 
+로부터, 
+
+$$
+\begin{aligned}
+M &= \dfrac{1}{4^{m} -1} \left[4^{m}N_{2m} \left(\dfrac{h}{2}\right) - N_{2m}(h)\right] + O(h^{2m+2}), \\
+\end{aligned}
+$$
+
+를 얻는다. 즉 
+
+$$
+N_{2m+2}(h) =  \dfrac{1}{4^{m} -1} \left[4^{m}N_{2m} \left(\dfrac{h}{2}\right) - N_{2m}(h)\right] 
+$$ {#eq-richardson_even_order}
+
+를 얻는다.
 
 
-:::
 
 </br>
 
 ### 롬버그 적분
 
-앞서 Trapzoidal 방법을 통해 $O(h^2)$ 의 오차를 갖는 함수 $f$ 의 적분값을 얻었다. 이것을 리차드슨 외삽법과 결합하면 $O(h^3)$ 의 오차를 갖는 적분값을 계산 할 수 있을 것이다. 
+::: {.callout-caution icon="false"}
 
+교과서적인 교재에서 $R_{k, j}$ 로 쓰는 표기법은 리처드슨 외삽법의 표기법을 좀 꼬아서 사용하기 때문에 개인적으로 마음에 들지 않았다. 여기서는 리처드슨 외사법의 표기법을 거의 그대로 가지고 오는 방법으로 표기하도록 하겠다. 다른 교재들과는 다르므로 혼동을 줄 수 있다.
+
+:::
+
+
+앞서 사다리꼴 방법을 통해 $O(h^2)$ 의 오차를 갖는 함수 $f$ 의 적분값을 얻었다. 이것을 [짝수승 오차의 리차드슨 외삽법](05_calculus_of_one_variable_function.qmd#sec-richardson_extrapolation_with_even_order_error)과 결합하면 $O(h^4)$ 의 오차를 갖는 적분값을 계산 할 수 있을 것이다. 
+
+@eq-trapzoidal_value 의 사다리꼴 적분 $I_T[f, a, b, n]$ 에서 $n$ 을 $2^k$ 로 잡았을 때의 적분을 $N_{k, 1}$ 이라고 하자. 즉,
+
+$$
+N_{k, 1} = I_T[f, a, b, 2^k] = \dfrac{h}{2}\left(f(x_1)+ f(x_{2^k}) + \sum_{i=2}^{2^k-1} f(x_i)\right)
+$$ {#eq-trapzoidal_value2}
+
+이라고 하자. 이 때의 오차는 $O(h^2)$ 이다. $k=1,\ldots, k_M$ 에 대해 $N_{k, 1}$ 을 구할 수 있다. $m\le k_M-1$ 에 대해 $N_{1, m}, \ldots, N_{k_M-m+1, m}$ 의 값을 구하였다고 하자. @eq-richardson_even_order 를 이용하여, $O(h^{2m+2})$ 의 오차를 갖는 $2^k-1$ 개의 구간을 갖는 적분 $N_{k, m+1}$ 은
+$$
+N_{k, m+1} = \dfrac{1}{4^{m} -1} \left[4^{m}N_{k+1, m}  - N_{k, m}\right] + O(h^{2m+2}), \qquad k = 1, \ldots k_M-m+1
+$$
+
+를 통해 얻을 수 있다. 
+
+```julia
+function rhomberg(f::Function, a::Number, b::Number, order::Integer = 4)
+    @assert order > 2
+    N = zeros(order, order) 
+    N[:, 1]= [integrate_trapzoidal(f, a, b, 2^k) for k in 1:order]
+    for m = 1:order, k = 1:order-m
+        N[k, m+1] = 1.0/(4^m-1.0) *(4^m * N[k+1, m]- N[k, m]) 
+    end
+    return N[1, end]
+end
+```
+
+함수 $f(x)$ 를 $[a,\,b]$ 구간에서 $n=2^{k_{M}}-1$ 개의 구간, 즉 $a=x_1 < \cdots < x_n=b$  의 구간에서의 사다리꼴 적분을 수행했다면 $h= \dfrac{b-a}{n-1}$ 에 대해 $O(h^2)$ 의 정확도를 갖는 적분이지만 롬버그 적분을 통해 $O(h^{2{k_M}+2})$ 의 정확도를 갖는 적분값을 구할 수 있다. 더구나. 실제로 계산하는 함수값의 갯수는 $n$ 개이며 나머지는 이미 계산된 값들에 대한 단순한 사칙연산이므로 훨씬 빠르게 계산 할 수 있다.
+
+예를 들어 우리는 $\displaystyle \int_0^1 \sqrt{x}\, dx=\frac{2}{3}$ 임을 안다. 롬버그 적분을 통해 $k_M=4$ 으로 계산한 결과는 $0.665693$ 이며 이것보보다 오차가 작은 사다리꼴 적분을 얻기 위해서는 구간을 35개의 구간으로, 즉 $x_1=0,\, x_{36}=1$ 로 나누어야 한다. 

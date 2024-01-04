@@ -576,14 +576,40 @@ $\mathbb{F}$-내적 벡터 공간에서 서로 다른 고유값을 갖는 고유
 
 #### 정규직교기저와 표준기저
 
-$\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n\}$ 이 벡터공간 $V$ 의 기저이며 $\langle \boldsymbol{v}_i,\,\boldsymbol{v}_j\rangle = \delta_{ij}$ 일 때 $\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n\}$ 를 $V$ 의 **정규직교기저 (orthonormal basis)** 라고 한다. 벡터공간 $\mathcal{M}_n(\mathbb{F})$ 에 대해 $\hat{\boldsymbol{e}}_i \in \mathcal{M}_n (\mathbb{F})$ 를 $(\hat{\boldsymbol{e}}_i)_j = \delta_{ij}$ 로 정의하자. 이 때 $\{\hat{\boldsymbol{e}}_1, \ldots, \hat{\boldsymbol{e}}_n\}$ 는 $\mathcal{M}_n(\mathbb{F})$ 의 정규직교기저이며 특히 **표준 기저 (standard basis)** 라고 한다.
+$\mathcal{B}=\{v_1,\ldots,\,v_n\}$ 이 내적벡터공간 $V$ 의 기저이며 $\langle v_i,\,v_j\rangle = \delta_{ij}$ 일 때 $\mathcal{B}$ 를 $V$ 의 **정규직교기저 (orthonormal basis)** 라고 한다. 벡터공간 $\mathcal{M}_n(\mathbb{F})$ 에 대해 $\hat{\boldsymbol{e}}_i \in \mathcal{M}_n (\mathbb{F})$ 를 $(\hat{\boldsymbol{e}}_i)_j = \delta_{ij}$ 로 정의하자. 이 때 $\{\hat{\boldsymbol{e}}_1, \ldots, \hat{\boldsymbol{e}}_n\}$ 는 $\mathcal{M}_n(\mathbb{F})$ 의 정규직교기저이며 특히 **표준 기저 (standard basis)** 라고 한다.
 
 :::
 :::
 
 </br>
 
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-euclidean_space}
 
+#### 유클리드 공간
+
+$\mathbb{R}^n$ 에 대해 $x = (x_1,\ldots,\,x_n) \in \mathbb{R}^n,\, y= (y_1,\ldots,\,y_n)\in \mathbb{R}^n$, $c\in \mathbb{R}$ 에 대해, 벡터의 합과 스칼라곱이 다음과 같이 정의되었다고 하자.
+
+$$
+x+cy = (x_1 + cy_1, \ldots,\, x_n + cy_n), 
+$$
+
+여기에 내적이
+
+$$
+\langle x,\, y \rangle = \sum_{i=1}^n x_i y_i
+$$
+
+로 정의되었을 때 이 $\mathbb{R}^n$ 을 **유클리드 공간** 이라고 한다.
+
+</br>
+
+$e_i \in \mathbb{R}^n$ 을 $i$ 번째 성분만 $1$ 이며 나머지 성분은 $0$ 인 유클리드 공간의 벡터라고 할 때 $\mathcal{B}_S = \{e_1,\ldots,\,e_n\}$ 을 유클리드 공간의 표준기저라고 하며, 이 때 $[e_i]_{\mathcal{B}_S}$ 는 $\mathcal{M}_{n}(\mathbb{R})$ 의 표준기저벡터 $\hat{\boldsymbol{e}}_i$ 이며 따라서 $\{[e_i]_{\mathcal{B}_S}: i=1,\ldots,\,n\}$ 은 $\mathcal{M}_n(\mathbb{R})$ 의 표준기저 $\{\hat{\boldsymbol{e}}_1, \ldots, \hat{\boldsymbol{e}}_n\}$ 이다. 유클리드공간의 벡터 $x=(x_1,\ldots,\,x_n)$ 에 대한 행렬표현은 $[x]_{\mathcal{B}_S}=\begin{bmatrix} x_1 & \cdots & x_n \end{bmatrix}^T$ 이다. 많은 경우 유클리드 공간을 표현할 때 $\mathbb{R}^n$ 과 유클리드 공간의 표준기저에 대한 $\mathcal{M}_n(\mathbb{R})$ 을 동시에 의미한다.
+
+:::
+:::
+
+</br>
 
 ::: {#prp-coefficients_of_vector_in_innerproduct_space}
 
