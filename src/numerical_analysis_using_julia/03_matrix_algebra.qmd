@@ -33,12 +33,14 @@ $\mathbb{F}$-벡터공간 $V$ 에서 정의된 함수 $\|\cdot\| : V \to \mathbb
 
 &emsp; ($3$) $\|\alpha \boldsymbol{v} \| = |\alpha| \|\boldsymbol{v}\|$, 
 
-&emsp; ($4$) $\|\boldsymbol{u}+\boldsymbol{v}\| \le \|\boldsymbol{u}\| + \|\boldsymbol{v}\|$
+&emsp; ($4$) $\|\boldsymbol{u}+\boldsymbol{v}\| \le \|\boldsymbol{u}\| + \|\boldsymbol{v}\|$.
 
-노름이 주어진 공간을 노름 벡터 공간 (normed vector space) 라고 하며, 가능한 노름 가운데 하나가 주어진다.
+노름은 거리함수라고도 불리며 노름이 주어진 공간을 노름 벡터 공간 (normed vector space) 라고 한다.
 :::
 :::
 
+
+우리는 앞서 [내적과 노름](01x_notations_and_propositions.qmd#def-innerproduct_space) 에서 노름을 다루었다. 내적벡터공간에서는 내적에 의해 자연스럽게 노름을 정의할 수 있지만 노름 자체는 집합에 부여되는 성질이며 내적과 관계 없이 노름을 정의할 수도 있다. 즉 어떤 집합에 위의 노름이 정의되면 노름공간이라고 한다. 
 </br>
 
 벡터의 노름에 대한 성질을 알기 위해 다음 부등식을 알 필요가 있다.
@@ -72,7 +74,7 @@ $$
 
 #### $L_p$-노름 과 $\infty$-노름
 
-$p\ge 1$ 에 대해 다음과 같이 $L_p$-노름 $\|\cdot \|_p$ 를 정의한다.
+$p>1$ 에 대해 아래와 같이 정의된 $\| \cdot \|_p : \mathcal{M}_n(\mathbb{F}) \to [0, \infty)$ 는 노름이며 이 노름을 $L_p$-노름 이라고 한다.
 
 $$
 \|\boldsymbol{v}\|_p := \left( \sum_{i=1} |v_i|^p \right)^{1/p}.
@@ -111,6 +113,50 @@ $$
 ::: {#prp-p_norm}
 $p=\infty$ 를 포함하여 $p \ge 1$ 일 때, 유한차원 벡터공간에서의 $L_p$-노름은 노름의 정의를 만족한다.
 :::
+
+
+</br>
+
+
+
+::: {.callout-note icon="false" appearance="minimal" }
+::: {#def-equivalence_of_norm}
+#### 노름의 동등함
+
+벡터공간 $V$ 에 두개의 노름 $\|\cdot \|_\alpha$ 와 $\|\cdot \|_\beta$ 가 정의되었을 때, 모든 $\boldsymbol{v}\in V$ 에 대해 어떤 상수 $c_1,\,c_2$ 가 존재하여 
+
+$$
+c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol{v}\|_\alpha
+$$
+
+라면 이 두 노름을 **동등하다(equivalent)** 라고 한다. 유한차원 벡터공간에 대해서는 모든 노름이 동등하다는 것이 알려져 있다.
+:::
+:::
+
+</br>
+
+::: {#prp-magnitude_of_Lp_norms}
+
+$\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 다음이 성립한다. 즉 $\|\cdot \|_\infty$ 와 $\|\cdot \|_2$ 는 동등하다. 
+
+$$
+\|\boldsymbol{v}\|_{\infty} \le \|\boldsymbol{v}\|_2 \le \sqrt{n}\|\boldsymbol{v}\|_\infty
+$$
+
+:::
+
+::: {.proof}
+
+$v_M = \max \{ |v_i|, i=1,\ldots,\,v_n\}$ 이라고 하자. 
+$$
+\|\boldsymbol{v}\|_\infty = v_M \le \sqrt{\sum_{i=1}^n |v_i|^2} = \|\boldsymbol{v}\|_2 \le \sqrt{\sum_{i=1}^n {v_M}^2} = \sqrt{n} v_M = \sqrt{n} \|\boldsymbol{v}\|_\infty
+$$
+
+이다. $\square$ 
+:::
+
+
+
 
 </br>
 

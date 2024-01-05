@@ -250,6 +250,16 @@ $$
 
 ## 야코비(Jacobi) 방법과 가우스-지델(Gauss-Siedel) 방법
 
+일반적으로 반복법에 의해 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 푸는 것은, 이 선형방정식을 변형하여
+
+$$
+\boldsymbol{x} = \boldsymbol{Tx}+\boldsymbol{c}
+$$
+
+의 꼴로 만드는 데서 시작한다. $k$ 번째 반복에 의해 얻은 $\boldsymbol{x}$ 를 $\boldsymbol{x}^{(k)}$ 라고 할 때 $\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)} +\boldsymbol{c}$ 를 얻으며 $\boldsymbol{x}^{(k+1)}$ 과 $\boldsymbol{x}^{(k)}$ 의 차가 어느 기준 이하일 때 답을 얻은것으로 한다. 보통은 어떤 정해진 노름과 값 $\varepsilon>0$ 에 대해 $\|\boldsymbol{x}^{(k+1)}-\boldsymbol{x}^{(k)}\|<\varepsilon$ 혹은 $\dfrac{\|\boldsymbol{x}^{(k+1)}-\boldsymbol{x}^{(k)}}{\|\boldsymbol{x}^{(k+1)}\|}\|<\varepsilon$ 일 때이며 이때의 기준값을 **tolerence** 라고 한다. 
+
+</br>
+
 ### 야코비 방법
 
 모든 대각 성분이 $0$ 이 아닌 행렬 $\boldsymbol{A}$ 를 대각행렬 $\boldsymbol{D}$ 와 하삼각행렬 $\boldsymbol{L}$, 상삼각행렬 $\boldsymbol{U}$ 의 합으로 표현한다고 하자. 이 때 $\boldsymbol{Ax}=\boldsymbol{b}$ 는 $(\boldsymbol{D} + \boldsymbol{L} +\boldsymbol{U})\boldsymbol{x}=\boldsymbol{b}$ 가 되며,
@@ -264,22 +274,45 @@ $$
 \boldsymbol{x} = -\boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x} + \boldsymbol{D}^{-1}\boldsymbol{b}
 $$
 
-이다.
+이다. 
 
-
-
-
-선형 방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 에 대해 $\boldsymbol{A}$ 의 모든 대각 성분이 $0$ 이 아니라고 하자. 초기 벡터 $\boldsymbol{x}^{(0)}$ 의 $i$ 번째 성분 $x^0_i$ 를 다음과 같이 정한다.
+임의로 제시하는 초기벡터 $\boldsymbol{x}^{(0)}$ 가 주어지면, 
 
 $$
-x_i^{(0)} = \sum_{j=1,\,j\ne1}^n \left(- \dfrac{-a_{ij}x_j}{A_{ii}}\right) + \dfrac{b_j}{a_{ii}}.
+\boldsymbol{x}^{(k+1)} =   -\boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x}^{(k)} + \boldsymbol{D}^{-1}\boldsymbol{b}
 $$
 
-$k$ 번째 i
+를 통해 반복한다. Julia 코드는 다음과 같다.
 
-$$
-x_i^{(k+1)} = \dfrac{1}{A_{ii}} \left[\sum_{j=1,\,j\ne i}^n \left( -A_{ij}\, x_j^{(k)} \right) + b_i\right]
-$$
+```{.julia code-line-numbers="true"}
+using LinearAlgebra
 
+function jacobi_iteration(
+    A::AbstractMatrix, 
+    b::Vector, 
+    0::Vector; 
+    etol::Number = 1.0e-5, 
+    Maxiter = 100_000)
+    
+    @assert size(A)[1] == size(A)[2] == size(b)[1]
+    x = similar(x0)
 
+    D = Diagonal(A)
+    L = LowerTriangular(A) .- D
+    U = UpperTriangular(A) .- D
 
+    Dinv = inv(D)
+    T = -Dinv*(L+U) 
+    c = Dinv * b
+    for i in 1:Maxiter
+        x = T*x0 + c
+        if norm(x .- x0, Inf)/norm(x, Inf)< etol
+            nitter = i
+            return x
+        else 
+            x0 = x
+        end
+    end
+    return nothing
+end
+```
