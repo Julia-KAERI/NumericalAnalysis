@@ -1,7 +1,5 @@
 using Plots, BenchmarkTools, LinearAlgebra
 
-
-
 function bisection(f::Function, a::T, b::T, xtol::T=1e-10, maxiter::Integer=10_000) where T<:Real
     Nitter = 0
     a, b = minmax(a, b)
@@ -25,7 +23,7 @@ function bisection(f::Function, a::T, b::T, xtol::T=1e-10, maxiter::Integer=10_0
     return c    
 end
 
-function newton_method(f::Function, df::Function, xi::T, MaxIter::Int64=100_000, etol::T = 1.0e-10, dfmin::T = 1.0e-6)::T where T <:AbstractFloat
+function newton_method(f::Function, df::Function, xi::T, MaxIter::Int64=100_000, etol::Real = 1.0e-10, dfmin::Real = 1.0e-6)
     Niter = 0
     for i in 1:MaxIter
         if abs(f(xi)) < etol
