@@ -533,5 +533,264 @@ $$
 
 
 
+</br>
+
+## The Conjugate gradient 방법
+
+$\boldsymbol{A}$ 가 positive definite 이며 내적이 유클리드 내적, 즉 $\langle \boldsymbol{x},\,\boldsymbol{y} \rangle = \boldsymbol{y}^T\boldsymbol{x}$ 라고 하자. $\boldsymbol{A}$ 가 positive definite 이므로 $\langle \boldsymbol{Ax},\,\boldsymbol{x} \rangle = \boldsymbol{x}^T\boldsymbol{Ax} > 0$ 이다. 이때 우리는 다음을 보일 수 있다.
+
+</br>
+
+::: {#prp-congjugate_gradient}
+
+$\boldsymbol{A}\in \mathcal{M}_n (\mathbb{R})$ 가 positive definite 이고 $\boldsymbol{x}_0 \in \mathcal{M}_n(\mathbb{R})$ 일 때 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{Ax}_0=\boldsymbol{b}$,
+
+&emsp; ($2$) $g(\boldsymbol{x})= \langle \boldsymbol{Ax},\,\boldsymbol{x}\rangle -2 \langle \boldsymbol{b}, \boldsymbol{x}\rangle$ 의 최소값은 $g(\boldsymbol{x}_0)$ 이다.
+:::
 
 
+::: {.proof}
+
+우선 $t\in \mathbb{R},\, \boldsymbol{v}\in \mathcal{M}_n(\mathbb{R})$ 에 대해, 
+
+$$
+\begin{aligned}
+g(\boldsymbol{x}+t\boldsymbol{v}) &= \langle \boldsymbol{A}(\boldsymbol{x}+t\boldsymbol{v}), \, \boldsymbol{x}+t\boldsymbol{v} \rangle - 2\langle \boldsymbol{b},\, \boldsymbol{x}+t\boldsymbol{v}\rangle  \\
+&= t^2 \langle \boldsymbol{Av}, \boldsymbol{v}\rangle - 2t \langle \boldsymbol{b}-\boldsymbol{Ax}, \, \boldsymbol{v}\rangle + g(\boldsymbol{x}) \\
+&= \langle \boldsymbol{Av},\,\boldsymbol{v} \rangle \left[t-\dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}, \, \boldsymbol{v}\rangle }{\langle \boldsymbol{Av},\, \boldsymbol{v}\rangle}\right]^2 + g(\boldsymbol{x}) - \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}, \, \boldsymbol{v}\rangle^2 }{\langle \boldsymbol{Av},\, \boldsymbol{v}\rangle}
+\end{aligned}
+$$ {#eq-conjugate_gradient}
+
+이다. $\boldsymbol{A}$ 가 positive definite 이므로 $\langle \boldsymbol{Av}, \,\boldsymbol{v}\rangle > 0$ 이다.
+
+$\boldsymbol{Ax_0}=\boldsymbol{b}$ 이면 $g(\boldsymbol{x_0}+t\boldsymbol{v}) \ge g(\boldsymbol{x_0})$ 이므로 $g(\boldsymbol{x})$ 의 최소값이다. 역으로 $g(\boldsymbol{x})$ 를 최소로 하는 $\boldsymbol{x}$ 는 $\boldsymbol{b}= \boldsymbol{Ax}_0$ 를 만족하는 $\boldsymbol{x}_0$ 임을 알 수 있다. $\square$
+
+
+:::
+
+</br>
+
+이제 $\boldsymbol{Ax}=\boldsymbol{b}$ 라는 선형 시스템을 푸는 문제는 $g(\boldsymbol{x})= \langle \boldsymbol{Ax},\,\boldsymbol{x}\rangle -2 \langle \boldsymbol{b}, \boldsymbol{x}\rangle$ 를 최소로 하는 $\boldsymbol{x}_0$ 를 구하는 문제와 동일한 문제가 된다. 주어진 $\boldsymbol{x}^{(k)}$ 를 생각하자. $g(\boldsymbol{x}^{(k)} + t_k \boldsymbol{v}^{(k)}) \le g(\boldsymbol{x}^{(k)})$ 가 되도록 $t_k$ 와 $\boldsymbol{v}^{(k)}$ 를 정할 수 있다면 우리는 점차 $g(\boldsymbol{x})$ 의 최소값에 다가갈 것이며, 결국은 $g(\boldsymbol{x})$ 를 최소로 하는 $\boldsymbol{x}_0$ 를 얻게 되고 이것은 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해를 구하는 것이 된다.
+
+</br>
+
+
+우선 $t_k$ 와 $\boldsymbol{v}^{(k)}$ 를 결정하는 방법은 두가지가 있다
+
+### Steepest descent
+
+
+우리는 다변수를 다루는 미적분학 혹은 해석학에서 $g :\mathbb{R}^n \to \mathbb{R}$ 가 $C^1$ 급 함수일 때 $g(\boldsymbol{x})$ 를 증가시키는 방향이 $\nabla g = (\partial_1 g,\ldots,\, \partial_n g)$ 임을 배웠다. $\boldsymbol{x} = \begin{bmatrix} x_1 & \cdots & x_n\end{bmatrix}^T$ 에 대해 
+
+$$
+g(\boldsymbol{x}) = \sum_{i, j=1}^n A_{ij}x_i x_j - 2 \sum_{i=1}^n b_i x_i
+$$
+
+이므로, 
+
+$$
+\partial_i g(\boldsymbol{x}) = 2(\boldsymbol{Ax})_i -2b_i
+$$
+
+이다. 즉,
+
+$$
+\nabla g(\boldsymbol{x}) = 2 \boldsymbol{Ax}-2\boldsymbol{b}
+$$
+
+이다.  우리는 $g(\boldsymbol{x})$ 를 최소로 하고자 하므로 $\boldsymbol{v}^{(k)}$ 를 $-\nabla g(\boldsymbol{x})$ 방향으로 잡아야 한다. 즉 $\boldsymbol{v}^{(k)}= \boldsymbol{b}-\boldsymbol{Ax}^{(k)}$ 으로 잡을 수 있다. 
+
+@eq-conjugate_gradient 에 의해 정해진 $\boldsymbol{x}^{(k)}$ 와 $\boldsymbol{v}^{(k)}$ 로 $g(\boldsymbol{x}^{(k)}+t\boldsymbol{v}^{(k)})$ 를 최소화 하는 $t$ 는 
+
+$$
+t_k = \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(k)}, \, \boldsymbol{v}^{(k)}\rangle }{\langle \boldsymbol{Av}^{(k)},\, \boldsymbol{v}^{(k)}\rangle}
+$$
+
+이다. 이것을 Julia 코드로 구현한 것은 아래와 같다. 위의 방법과 다른 것은 반복이 멈추는 것을 $\|\boldsymbol{b}-\boldsymbol{Ax}^{(k)}\|_\infty$ 가 `etol` 이라는 함수 인자보다 작을 때로 하였다는 것이다.
+
+
+``` {.julia code-line-numbers="true"}
+function steepest_iteration(
+    A::AbstractMatrix, 
+    b::Vector, 
+    x0::Vector;
+    etol::Number = 1.0e-5, 
+    Maxiter = 100_000)
+
+    x = similar(x0)
+    for i in 1:Maxiter
+        v = b - A*x0
+        t = dot(v,(b-A*x0))/dot(v, (A*v))
+        x = x0 + t*v
+        if norm(A*x-b, Inf)<etol
+            nitter = i
+            return x
+        else 
+            x0 = x
+        end
+    end
+    return nothing
+end
+```
+
+
+
+</br>
+
+### $\boldsymbol{A}$-직교 조건
+
+영벡터가 아닌 벡터의 집합 $\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\} \subset \mathcal{M}_{n}(\mathbb{R})$ 이 $i \ne j \implies \langle \boldsymbol{Av}^{(i)},\, \boldsymbol{v}^{(j)}\rangle = 0$ 일 때 $\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}$ 를 $\boldsymbol{A}$-직교 벡터라고 한다. 
+
+</br>
+
+::: {#prp-A_orthogonal_vectors_are_linearly_independent}
+
+Positive definite $\boldsymbol{A}$ 에 대해 $\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}$ 가 $\boldsymbol{A}$-직교 벡터일 때 이 벡터들은 선형독립이다.
+
+:::
+
+::: {.proof}
+
+$\sum_i c_i \boldsymbol{v}^{(i)} = \boldsymbol{0}$ 일 때 임의의 $\boldsymbol{v}^{(j)}$ 에 대해 
+
+$$
+0 = \left\langle \boldsymbol{A} \left( \sum_i c_i \boldsymbol{v}^{(i)} \right), \, \boldsymbol{v}^{(j)}\right\rangle = c_j
+$$ 
+
+이다. 따라서 $c_1 = \cdots = c_m=0$ 이므로 $\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}$ 는 선형독립이다.
+
+:::
+
+</br>
+
+즉 $\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{R})$ 에 대해 $\boldsymbol{A}$-직교인 $n$ 개의 벡터를 얻었다면 이 $n$ 개의 벡터는 $\mathcal{M}_n(\mathbb{R})$ 의 기저가 된다. 이제 $\boldsymbol{A}$-직교인 $\{\boldsymbol{v}^{(k)} : k=1,\ldots,\,n\}$ 를 구해야 할 것 같지만 잠시 미뤄두자. 구하는 것은 복잡하거나 어렵지 않다. 일단 $\boldsymbol{A}$-직교인 $\{\boldsymbol{v}^{(k)} : k=1,\ldots,\,n\}$ 를 안다면 우리는 최대 $n$ 번의 iteration 선형방정식의 해를 이론적으로 구할 수 있다는 것을 보일 수 있다. 여기서 이론적이라는 것은 roundoff-error 등으로 인한 오차를 생각하지 않는다는 조건이다.
+
+</br>
+
+::: {#thm-A-orthogonal_method}
+
+Positive definite $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 에 대해 $\{\boldsymbol{v}^{(1)}, \ldots,\,\boldsymbol{v}^{(n)}\}$ 이 $\boldsymbol{A}$-직교 벡터라고 하자. 임의의 $\boldsymbol{x}_1\in \mathcal{M}$ 과 $k=1,\ldots,\,n$ 에 대해 
+
+$$
+\begin{aligned}
+t_k &= \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(k)}, \, \boldsymbol{v}^{(k)}\rangle }{\langle \boldsymbol{Av}^{(k)},\, \boldsymbol{v}^{(k)}\rangle}, \\
+\boldsymbol{x}^{(k+1)} &= \boldsymbol{x}^{(k)} + t_k \boldsymbol{v}^{(k)}
+\end{aligned}
+$$
+
+
+라면, $\boldsymbol{Ax}^{(k+1)} = \boldsymbol{b}$ 이다.
+
+
+:::
+
+::: {.proof}
+
+주어진 식으로부터
+$$
+\begin{aligned}
+\boldsymbol{Ax}^{(n+1)} &= \boldsymbol{Ax}^{(n)} + t_ n \boldsymbol{Av}^{(n)} \\
+&= \boldsymbol{A}(\boldsymbol{x}^{(n-1)}  + t_{n-1}\boldsymbol{v}^{(n-1)}) + t_n \boldsymbol{Av}^{(n)}\\
+& \qquad \qquad  \vdots \\
+& = \boldsymbol{Ax}^{(1)} + t_1\boldsymbol{Av}^{(1)} + \cdots + t_n \boldsymbol{Av}^{(n)} 
+\end{aligned}
+$$ {#eq-positive_definite_1}
+
+을 얻는다. 따라서,
+
+$$
+\boldsymbol{Ax}^{(n+1)} - \boldsymbol{b} = (\boldsymbol{Ax}^{(1)} - \boldsymbol{b})+ t_1\boldsymbol{Av}^{(1)} + \cdots + t_n \boldsymbol{Av}^{(n)}
+$$
+
+이다. 여기에 $\boldsymbol{v}^{(k)}$ 와의 내적을 구하면
+
+$$
+\langle \boldsymbol{Ax}^{(n+1)} - \boldsymbol{b},\, \boldsymbol{v}^{(k)}\rangle = \langle \boldsymbol{Ax}^{(1)}- \boldsymbol{b}, \, \boldsymbol{v}^{(k)}\rangle + t_k \langle \boldsymbol{Av}^{(k)},\, \, \boldsymbol{v}^{(k)}\rangle
+$$
+
+이며 $t_k$ 의 정의로부터 
+
+$$
+t_k \langle \boldsymbol{Av}^{(k)},\, \, \boldsymbol{v}^{(k)}\rangle = \langle \boldsymbol{b}-\boldsymbol{Ax}^{(k)}, \, \boldsymbol{v}^{(k)}\rangle
+$$
+
+이므로, 
+
+$$
+\langle \boldsymbol{Ax}^{(n+1)}-\boldsymbol{b},\, \boldsymbol{v}^{(k)}\rangle = \langle \boldsymbol{A}(\boldsymbol{x}^{(1)}-\boldsymbol{x}^{(k)})-\boldsymbol{b}, \, \boldsymbol{v}^{(k)}\rangle
+$$
+
+임을 얻을 수 있다. @eq-positive_definite_1 로부터, $\boldsymbol{Ax}^{(k)}$ 는 $\boldsymbol{Ax}^{(1)}$ 과 $\boldsymbol{Av}^{(1)}, \ldots, \boldsymbol{Av}^{(k-1)}$ 의 선형결합임을 안다. 즉 위식의 우변은 $0$ 이다. 따라서
+
+$$
+\boldsymbol{Ax}^{(n+1)} = \boldsymbol{b}
+$$
+
+이다. $\square$ 
+
+:::
+
+
+</br>
+
+이제 $\boldsymbol{A}$-직교 벡터를 구하는 방법을 알아볼 차례이다. 다음을 보자.
+
+::: {#thm-A_orthogonal_vectors_1}
+
+Positive definite $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 에 대해 $\boldsymbol{r}^{(k)}=\boldsymbol{b}-\boldsymbol{Ax}^{(k)}$ 이라 하면 $j=1,\ldots,\,k-1$ 에 대해 $\langle \boldsymbol{r}^{(k)}, \boldsymbol{v}^{(j)}\rangle=0$ 이다.
+
+:::
+
+::: {.proof}
+
+Induction 으로 증명한다. $k=2$ 에 대해 $\boldsymbol{r}^{(2)} = \boldsymbol{b}-\boldsymbol{Ax}^{(2)}$ 이며 $\boldsymbol{x}^{(2)} =  \boldsymbol{x}^{(1)} +t_1 \boldsymbol{v}^{(1)}$ 이다.  $t_1 = \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(1)}, \boldsymbol{v}^{(1)}\rangle}{\langle \boldsymbol{Av}^{(1)},\boldsymbol{v}^{(1)}\rangle}$ 이므로, 
+
+$$
+\begin{aligned}
+\langle \boldsymbol{r}^{(2)},\boldsymbol{v}^{(1)}\rangle &= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(1)} - t_1\boldsymbol{Av}^{(1)},\boldsymbol{v}^{(1)}\rangle \\
+&= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(1)},\boldsymbol{v}^{(1)}\rangle - t_1 \langle \boldsymbol{Av}^{(1)},\boldsymbol{v}^{(1)}\rangle = 0
+\end{aligned}
+$$
+
+이다. 이제 $k<n$ 에 대해 성립함을 가정하자. $j=1,\ldots,\,k$ 에 대해 다음이 성립함을 보이면 된다.
+
+$$
+\begin{aligned}
+\langle \boldsymbol{r}^{(k+1)}, \boldsymbol{v}^{(j)}\rangle &= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(k+1)},\,\boldsymbol{v}^{(j)}\rangle \\
+&= \langle \boldsymbol{b} - \boldsymbol{Ax}^{(k)} - t_k\boldsymbol{Av}^{(k)},\, \boldsymbol{v}^{(j)}\rangle \\
+&= \langle \boldsymbol{r}^{(k)}, \boldsymbol{v}^{(j)}\rangle - t_k \langle \boldsymbol{Av}^{(k)}, \boldsymbol{v}^{(j)}\rangle
+\end{aligned}
+$$
+
+이다. $j=<k$ 이면 induction 의 가정에 의해 $\langle \boldsymbol{r}^{(k)}, \boldsymbol{v}^{(j)}\rangle =0$ 이며 $\boldsymbol{A}$-직교 벡터의 정의에 의해 $\langle \boldsymbol{Av}^{(k)}, \boldsymbol{v}^{(j)}\rangle=0$ 이므로 성립한다. $j=k$ 일 때는 $t_k$ 의 정의에 의해 $0$ 이 된다. $\square$
+
+:::
+
+</br>
+
+::: {#thm-A_orthogonal_vectors_2}
+
+아래와 같이 정의된 $\boldsymbol{v}^{(k)}$ $(k\ge 2)$ 는 $j=1,\,\ldots,k-1$ 에 대해 $\langle \boldsymbol{v}^{(k)},\, \boldsymbol{Av}^{(j)}\rangle = 0$ 이다.
+
+$$
+\boldsymbol{v}^{(k)}=\boldsymbol{r}^{(k)} + s_k \boldsymbol{v}^{(k-1)}, \qquad \text{where } s_k = \dfrac{\langle \boldsymbol{r}^{(k)}, \,\boldsymbol{r}^{(k)} \rangle}{\langle \boldsymbol{r}^{(k-1)}, \,\boldsymbol{r}^{(k-1)} \rangle} 
+$$
+
+:::
+
+::: {.proof}
+
+$k=2$ 일 때 
+
+$$
+\begin{aligned}
+\boldsymbol{v}^{(2)} &= \boldsymbol{b}-\boldsymbol{Ax}^{(2)} + s_1 \boldsymbol{v}^{(1)} \\
+&= \boldsymbol{b}-\boldsymbol{A}(\boldsymbol{x}^{(1)}-t_1 \boldsymbol{v}^{(1)})+ s_1 \boldsymbol{v}^{(1)}\\
+&= \boldsymbol{b} - \boldsymbol{Ax}^{(1)} + 
+\end{aligned}
+$$ 
+
+
+:::
