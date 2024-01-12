@@ -2,154 +2,154 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/about.html</loc>
-    <lastmod>2024-01-12T05:49:52.526Z</lastmod>
+    <lastmod>2024-01-12T05:52:27.318Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/index.html</loc>
-    <lastmod>2024-01-12T05:49:52.792Z</lastmod>
+    <lastmod>2024-01-12T05:52:27.585Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/applications_of_julia/fileio.html</loc>
-    <lastmod>2024-01-12T05:49:53.572Z</lastmod>
+    <lastmod>2024-01-12T05:52:28.348Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/applications_of_julia/leastsquarefit.html</loc>
-    <lastmod>2024-01-12T05:49:53.868Z</lastmod>
+    <lastmod>2024-01-12T05:52:28.626Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/applications_of_julia/multithreads.html</loc>
-    <lastmod>2024-01-12T05:49:54.467Z</lastmod>
+    <lastmod>2024-01-12T05:52:29.218Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/01_julia_language.html</loc>
-    <lastmod>2024-01-12T05:49:55.079Z</lastmod>
+    <lastmod>2024-01-12T05:52:29.777Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/02_variables_basic_types.html</loc>
-    <lastmod>2024-01-12T05:49:55.942Z</lastmod>
+    <lastmod>2024-01-12T05:52:30.647Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/03_functions_and_operators.html</loc>
-    <lastmod>2024-01-12T05:49:56.674Z</lastmod>
+    <lastmod>2024-01-12T05:52:31.370Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/04_I_splat_operator.html</loc>
-    <lastmod>2024-01-12T05:49:57.208Z</lastmod>
+    <lastmod>2024-01-12T05:52:31.907Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/04_containers.html</loc>
-    <lastmod>2024-01-12T05:49:58.231Z</lastmod>
+    <lastmod>2024-01-12T05:52:32.952Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/05_control_flows.html</loc>
-    <lastmod>2024-01-12T05:49:58.852Z</lastmod>
+    <lastmod>2024-01-12T05:52:33.575Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/06_I_function_composition_and_piping.html</loc>
-    <lastmod>2024-01-12T05:49:59.181Z</lastmod>
+    <lastmod>2024-01-12T05:52:33.898Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/06_arrays.html</loc>
-    <lastmod>2024-01-12T05:50:00.340Z</lastmod>
+    <lastmod>2024-01-12T05:52:35.025Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/07_I_sort.html</loc>
-    <lastmod>2024-01-12T05:50:00.686Z</lastmod>
+    <lastmod>2024-01-12T05:52:35.369Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/07_module_package.html</loc>
-    <lastmod>2024-01-12T05:50:01.492Z</lastmod>
+    <lastmod>2024-01-12T05:52:36.188Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/08_I_documentation.html</loc>
-    <lastmod>2024-01-12T05:50:02.070Z</lastmod>
+    <lastmod>2024-01-12T05:52:36.770Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/08_type_hierarchy.html</loc>
-    <lastmod>2024-01-12T05:50:02.647Z</lastmod>
+    <lastmod>2024-01-12T05:52:37.360Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/09_I_pretty_printing.html</loc>
-    <lastmod>2024-01-12T05:50:02.994Z</lastmod>
+    <lastmod>2024-01-12T05:52:37.709Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/09_composite_types.html</loc>
-    <lastmod>2024-01-12T05:50:03.477Z</lastmod>
+    <lastmod>2024-01-12T05:52:38.221Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/10_metaprogramming_and_macro.html</loc>
-    <lastmod>2024-01-12T05:50:04.376Z</lastmod>
+    <lastmod>2024-01-12T05:52:39.188Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/introduction_to_julia/11_polynomial.html</loc>
-    <lastmod>2024-01-12T05:50:04.968Z</lastmod>
+    <lastmod>2024-01-12T05:52:39.794Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html</loc>
-    <lastmod>2024-01-12T05:50:05.910Z</lastmod>
+    <lastmod>2024-01-12T05:52:40.795Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/01x_notations_and_propositions.html</loc>
-    <lastmod>2024-01-12T05:50:07.323Z</lastmod>
+    <lastmod>2024-01-12T05:52:42.252Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/02_linear_system.html</loc>
-    <lastmod>2024-01-12T05:50:08.570Z</lastmod>
+    <lastmod>2024-01-12T05:52:43.542Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/03I_polynomial.html</loc>
-    <lastmod>2024-01-12T05:50:09.355Z</lastmod>
+    <lastmod>2024-01-12T05:52:44.338Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/03_matrix_algebra.html</loc>
-    <lastmod>2024-01-12T05:50:10.515Z</lastmod>
+    <lastmod>2024-01-12T05:52:45.469Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/04I_interpolation_struct.html</loc>
-    <lastmod>2024-01-12T05:50:10.964Z</lastmod>
+    <lastmod>2024-01-12T05:52:45.917Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/04_interpolation.html</loc>
-    <lastmod>2024-01-12T05:50:11.771Z</lastmod>
+    <lastmod>2024-01-12T05:52:46.742Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.html</loc>
-    <lastmod>2024-01-12T05:50:12.513Z</lastmod>
+    <lastmod>2024-01-12T05:52:47.458Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/06_finding_root.html</loc>
-    <lastmod>2024-01-12T05:50:13.523Z</lastmod>
+    <lastmod>2024-01-12T05:52:48.510Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/07_matrix_decomposition.html</loc>
-    <lastmod>2024-01-12T05:50:14.060Z</lastmod>
+    <lastmod>2024-01-12T05:52:49.049Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/08_iterative_method_for_linear_system.html</loc>
-    <lastmod>2024-01-12T05:50:14.998Z</lastmod>
+    <lastmod>2024-01-12T05:52:49.996Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/09_least_square_problem.html</loc>
-    <lastmod>2024-01-12T05:50:15.420Z</lastmod>
+    <lastmod>2024-01-12T05:52:50.459Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/10_ode_initial_value_problem.html</loc>
-    <lastmod>2024-01-12T05:50:16.201Z</lastmod>
+    <lastmod>2024-01-12T05:52:51.271Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/11_ode_boundary_value_problem.html</loc>
-    <lastmod>2024-01-12T05:50:16.549Z</lastmod>
+    <lastmod>2024-01-12T05:52:51.629Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/numerical_analysis_using_julia/A01_appendix_01.html</loc>
-    <lastmod>2024-01-12T05:50:16.856Z</lastmod>
+    <lastmod>2024-01-12T05:52:51.946Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/tools/Asymptote/asymptote.html</loc>
-    <lastmod>2024-01-12T05:50:17.443Z</lastmod>
+    <lastmod>2024-01-12T05:52:52.543Z</lastmod>
   </url>
   <url>
     <loc>https://Julia-KAERI.github.io/NumericalAnalysis.doc/src/tools/tools.html</loc>
-    <lastmod>2024-01-12T05:50:17.694Z</lastmod>
+    <lastmod>2024-01-12T05:52:52.814Z</lastmod>
   </url>
 </urlset>
