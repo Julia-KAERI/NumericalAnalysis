@@ -713,7 +713,30 @@ U \cong V \iff \dim(U) = \dim (V).
 </div>
 <div class="callout-body-container">
 <div id="def-orthonormal_basis" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 17 (정규직교기저와 표준기저) </strong></span><span class="math inline">\(\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n\}\)</span> 이 벡터공간 <span class="math inline">\(V\)</span> 의 기저이며 <span class="math inline">\(\langle \boldsymbol{v}_i,\,\boldsymbol{v}_j\rangle = \delta_{ij}\)</span> 일 때 <span class="math inline">\(\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n\}\)</span> 를 <span class="math inline">\(V\)</span> 의 <strong>정규직교기저 (orthonormal basis)</strong> 라고 한다. 벡터공간 <span class="math inline">\(\mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\hat{\boldsymbol{e}}_i \in \mathcal{M}_n (\mathbb{F})\)</span> 를 <span class="math inline">\((\hat{\boldsymbol{e}}_i)_j = \delta_{ij}\)</span> 로 정의하자. 이 때 <span class="math inline">\(\{\hat{\boldsymbol{e}}_1, \ldots, \hat{\boldsymbol{e}}_n\}\)</span> 는 <span class="math inline">\(\mathcal{M}_n(\mathbb{F})\)</span> 의 정규직교기저이며 특히 <strong>표준 기저 (standard basis)</strong> 라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 17 (정규직교기저와 표준기저) </strong></span><span class="math inline">\(\mathcal{B}=\{v_1,\ldots,\,v_n\}\)</span> 이 내적벡터공간 <span class="math inline">\(V\)</span> 의 기저이며 <span class="math inline">\(\langle v_i,\,v_j\rangle = \delta_{ij}\)</span> 일 때 <span class="math inline">\(\mathcal{B}\)</span> 를 <span class="math inline">\(V\)</span> 의 <strong>정규직교기저 (orthonormal basis)</strong> 라고 한다. 벡터공간 <span class="math inline">\(\mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\hat{\boldsymbol{e}}_i \in \mathcal{M}_n (\mathbb{F})\)</span> 를 <span class="math inline">\((\hat{\boldsymbol{e}}_i)_j = \delta_{ij}\)</span> 로 정의하자. 이 때 <span class="math inline">\(\{\hat{\boldsymbol{e}}_1, \ldots, \hat{\boldsymbol{e}}_n\}\)</span> 는 <span class="math inline">\(\mathcal{M}_n(\mathbb{F})\)</span> 의 정규직교기저이며 특히 <strong>표준 기저 (standard basis)</strong> 라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-euclidean_space" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 18 (유클리드 공간) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에 대해 <span class="math inline">\(x = (x_1,\ldots,\,x_n) \in \mathbb{R}^n,\, y= (y_1,\ldots,\,y_n)\in \mathbb{R}^n\)</span>, <span class="math inline">\(c\in \mathbb{R}\)</span> 에 대해, 벡터의 합과 스칼라곱이 다음과 같이 정의되었다고 하자.</p>
+<p><span class="math display">\[
+x+cy = (x_1 + cy_1, \ldots,\, x_n + cy_n),
+\]</span></p>
+<p>여기에 내적이</p>
+<p><span class="math display">\[
+\langle x,\, y \rangle = \sum_{i=1}^n x_i y_i
+\]</span></p>
+<p>로 정의되었을 때 이 <span class="math inline">\(\mathbb{R}^n\)</span> 을 <strong>유클리드 공간</strong> 이라고 한다.</p>
+<p><br></p>
+<p><span class="math inline">\(e_i \in \mathbb{R}^n\)</span> 을 <span class="math inline">\(i\)</span> 번째 성분만 <span class="math inline">\(1\)</span> 이며 나머지 성분은 <span class="math inline">\(0\)</span> 인 유클리드 공간의 벡터라고 할 때 <span class="math inline">\(\mathcal{B}_S = \{e_1,\ldots,\,e_n\}\)</span> 을 유클리드 공간의 표준기저라고 하며, 이 때 <span class="math inline">\([e_i]_{\mathcal{B}_S}\)</span> 는 <span class="math inline">\(\mathcal{M}_{n}(\mathbb{R})\)</span> 의 표준기저벡터 <span class="math inline">\(\hat{\boldsymbol{e}}_i\)</span> 이며 따라서 <span class="math inline">\(\{[e_i]_{\mathcal{B}_S}: i=1,\ldots,\,n\}\)</span> 은 <span class="math inline">\(\mathcal{M}_n(\mathbb{R})\)</span> 의 표준기저 <span class="math inline">\(\{\hat{\boldsymbol{e}}_1, \ldots, \hat{\boldsymbol{e}}_n\}\)</span> 이다. 유클리드공간의 벡터 <span class="math inline">\(x=(x_1,\ldots,\,x_n)\)</span> 에 대한 행렬표현은 <span class="math inline">\([x]_{\mathcal{B}_S}=\begin{bmatrix} x_1 &amp; \cdots &amp; x_n \end{bmatrix}^T\)</span> 이다. 많은 경우 유클리드 공간을 표현할 때 <span class="math inline">\(\mathbb{R}^n\)</span> 과 유클리드 공간의 표준기저에 대한 <span class="math inline">\(\mathcal{M}_n(\mathbb{R})\)</span> 을 동시에 의미한다.</p>
 </div>
 </div>
 </div>
@@ -753,7 +776,7 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <div class="callout-body-container">
 <div id="def-isometry" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 18 </strong></span><span class="math inline">\(\boldsymbol{S}\in \mathcal{M}_{n\times n}(\mathbb{F})\)</span> 가 모든 <span class="math inline">\(\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\|\boldsymbol{Sv}\| = \|\boldsymbol{v}\|\)</span> 이면 <span class="math inline">\(\boldsymbol{S}\)</span> 를 <strong>Isometry</strong> 라고 한다. <span class="math inline">\(\mathbb{F} =\mathbb{R}\)</span> 일 때 <strong>직교 행렬(orthogonal matrix)</strong> 이라고 하며 <span class="math inline">\(\mathbb{F}=\mathbb{C}\)</span> 일 때 <strong>유니타리 행렬(unitary matrix)</strong> 라고 한다. 직교 행렬에 의한 닮음변환을 <strong>직교 변환 (orthogonal transformation)</strong> 이라고 하며, 유니타리 행렬에 의한 닮음변환을 <strong>유니타리 변환 (unitary transformation)</strong> 이라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 19 </strong></span><span class="math inline">\(\boldsymbol{S}\in \mathcal{M}_{n\times n}(\mathbb{F})\)</span> 가 모든 <span class="math inline">\(\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\|\boldsymbol{Sv}\| = \|\boldsymbol{v}\|\)</span> 이면 <span class="math inline">\(\boldsymbol{S}\)</span> 를 <strong>Isometry</strong> 라고 한다. <span class="math inline">\(\mathbb{F} =\mathbb{R}\)</span> 일 때 <strong>직교 행렬(orthogonal matrix)</strong> 이라고 하며 <span class="math inline">\(\mathbb{F}=\mathbb{C}\)</span> 일 때 <strong>유니타리 행렬(unitary matrix)</strong> 라고 한다. 직교 행렬에 의한 닮음변환을 <strong>직교 변환 (orthogonal transformation)</strong> 이라고 하며, 유니타리 행렬에 의한 닮음변환을 <strong>유니타리 변환 (unitary transformation)</strong> 이라고 한다.</p>
 </div>
 </div>
 </div>
@@ -773,7 +796,7 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <div class="callout-body-container">
 <div id="def-normal_matrix" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 19 </strong></span>정사각 행렬 <span class="math inline">\(\boldsymbol{A} \in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 가 <span class="math inline">\(\boldsymbol{AA}^\ast = \boldsymbol{A}^\ast\boldsymbol{A}\)</span> 일 때 이 행렬을 <strong>정규 행렬 (normal matrix)</strong> 라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 20 </strong></span>정사각 행렬 <span class="math inline">\(\boldsymbol{A} \in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 가 <span class="math inline">\(\boldsymbol{AA}^\ast = \boldsymbol{A}^\ast\boldsymbol{A}\)</span> 일 때 이 행렬을 <strong>정규 행렬 (normal matrix)</strong> 라고 한다.</p>
 </div>
 </div>
 </div>
@@ -813,7 +836,7 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <div class="callout-body-container">
 <div id="def-open_closed_interval" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 20 </strong></span><span class="math inline">\(a&lt;b\)</span> 일 때 아래와 같이 정의된 <span class="math inline">\((a, b)\)</span> 와 <span class="math inline">\([a, b]\)</span> 를 각각 <strong>열린 구간 (open interval)</strong>, <strong>닫힌 구간 (closed interval)</strong> 이라 한다.</p>
+<p><span class="theorem-title"><strong>정의 21 </strong></span><span class="math inline">\(a&lt;b\)</span> 일 때 아래와 같이 정의된 <span class="math inline">\((a, b)\)</span> 와 <span class="math inline">\([a, b]\)</span> 를 각각 <strong>열린 구간 (open interval)</strong>, <strong>닫힌 구간 (closed interval)</strong> 이라 한다.</p>
 <p><span class="math display">\[
 \begin{aligned}
 (a, b) &amp; = \{x\in \mathbb{R} : a&lt;x&lt;b\}, \\
@@ -832,7 +855,7 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <div class="callout-body-container">
 <div id="def-bounded" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 21 </strong></span>실수의 집합 <span class="math inline">\(X\)</span> 에 대해 어떤 <span class="math inline">\(M\in \mathbb{R}\)</span> 이 존재하여 <span class="math inline">\(x\in X \implies x \le M\)</span> 일 때 <span class="math inline">\(X\)</span> 는 <strong>위로 유계</strong> 라고 한다. 어떤 <span class="math inline">\(m\in \mathbb{R}\)</span> 이 존재하여 <span class="math inline">\(x\in X \implies x \ge m\)</span> 일 때 <span class="math inline">\(X\)</span> 는 <strong>아래로 유계</strong> 라고 한다. <span class="math inline">\(X\)</span> 가 위로도 아래로도 유계이면 <strong>유계</strong> 라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 22 </strong></span>실수의 집합 <span class="math inline">\(X\)</span> 에 대해 어떤 <span class="math inline">\(M\in \mathbb{R}\)</span> 이 존재하여 <span class="math inline">\(x\in X \implies x \le M\)</span> 일 때 <span class="math inline">\(X\)</span> 는 <strong>위로 유계</strong> 라고 한다. 어떤 <span class="math inline">\(m\in \mathbb{R}\)</span> 이 존재하여 <span class="math inline">\(x\in X \implies x \ge m\)</span> 일 때 <span class="math inline">\(X\)</span> 는 <strong>아래로 유계</strong> 라고 한다. <span class="math inline">\(X\)</span> 가 위로도 아래로도 유계이면 <strong>유계</strong> 라고 한다.</p>
 </div>
 </div>
 </div>
@@ -845,7 +868,7 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <div class="callout-body-container">
 <div id="def-sequence" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 22 </strong></span>집합 <span class="math inline">\(A\)</span> 에 대해 양의 정수 <span class="math inline">\(\mathbb{Z}_+\)</span> 에서 <span class="math inline">\(A\)</span> 로의 함수를 <strong>수열 (sequence)</strong> 라고 한다. <span class="math inline">\(a:\mathbb{Z}_+ \to A\)</span> 일 때 <span class="math inline">\(a(n)\)</span> 을 관례적으로 <span class="math inline">\(a_n\)</span> 이라고 쓰며 <span class="math inline">\(\langle a_n \rangle\)</span> 은 <span class="math inline">\((a_1,\,a_2,\ldots,)\)</span> 를 의미한다.</p>
+<p><span class="theorem-title"><strong>정의 23 </strong></span>집합 <span class="math inline">\(A\)</span> 에 대해 양의 정수 <span class="math inline">\(\mathbb{Z}_+\)</span> 에서 <span class="math inline">\(A\)</span> 로의 함수를 <strong>수열 (sequence)</strong> 라고 한다. <span class="math inline">\(a:\mathbb{Z}_+ \to A\)</span> 일 때 <span class="math inline">\(a(n)\)</span> 을 관례적으로 <span class="math inline">\(a_n\)</span> 이라고 쓰며 <span class="math inline">\(\langle a_n \rangle\)</span> 은 <span class="math inline">\((a_1,\,a_2,\ldots,)\)</span> 를 의미한다.</p>
 </div>
 </div>
 </div>
@@ -858,7 +881,7 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <div class="callout-body-container">
 <div id="def-limit_of_sequence" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 23 (수열의 극한) </strong></span>수열 <span class="math inline">\(\langle a_n\rangle = (a_1,\,a_2,\ldots)\)</span> 이 <span class="math inline">\(a\)</span> 로 수렴한다는 것은 임의의 실수 <span class="math inline">\(\epsilon&gt;0\)</span> 에 대해 어떤 자연수 <span class="math inline">\(N\)</span> 이 존재하여</p>
+<p><span class="theorem-title"><strong>정의 24 (수열의 극한) </strong></span>수열 <span class="math inline">\(\langle a_n\rangle = (a_1,\,a_2,\ldots)\)</span> 이 <span class="math inline">\(a\)</span> 로 수렴한다는 것은 임의의 실수 <span class="math inline">\(\epsilon&gt;0\)</span> 에 대해 어떤 자연수 <span class="math inline">\(N\)</span> 이 존재하여</p>
 <p><span class="math display">\[
 n&gt;N \implies |a_n -a |&lt;\epsilon
 \]</span></p>
@@ -879,7 +902,7 @@ n&gt;N \implies |a_n -a |&lt;\epsilon
 </div>
 <div class="callout-body-container">
 <div id="def-continuity_of_function" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 24 (함수의 극한과 연속성) </strong></span>함수 <span class="math inline">\(f:X\subset \mathbb{R} \to \mathbb{R}\)</span> 을 생각하자. 함수 <span class="math inline">\(f\)</span> 가 <span class="math inline">\(x_0 \in X\)</span> 에서 <span class="math inline">\(L\)</span> 로 수렴한다는 것은 임의의 <span class="math inline">\(\epsilon&gt;0\)</span> 에 대해 어떤 <span class="math inline">\(\delta&gt;0\)</span> 이 존재하여</p>
+<p><span class="theorem-title"><strong>정의 25 (함수의 극한과 연속성) </strong></span>함수 <span class="math inline">\(f:X\subset \mathbb{R} \to \mathbb{R}\)</span> 을 생각하자. 함수 <span class="math inline">\(f\)</span> 가 <span class="math inline">\(x_0 \in X\)</span> 에서 <span class="math inline">\(L\)</span> 로 수렴한다는 것은 임의의 <span class="math inline">\(\epsilon&gt;0\)</span> 에 대해 어떤 <span class="math inline">\(\delta&gt;0\)</span> 이 존재하여</p>
 <p><span class="math display">\[
 |x-x_0 |&lt; \delta \implies |f(x)-L|&lt; \epsilon
 \]</span></p>
@@ -908,7 +931,7 @@ n&gt;N \implies |a_n -a |&lt;\epsilon
 </div>
 <div class="callout-body-container">
 <div id="def-differentiability_of_function" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 25 (함수의 미분) </strong></span>함수 <span class="math inline">\(f:X\subset \mathbb{R} \to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(x_0\)</span> 에서 미분가능하다는 것은 극한</p>
+<p><span class="theorem-title"><strong>정의 26 (함수의 미분) </strong></span>함수 <span class="math inline">\(f:X\subset \mathbb{R} \to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(x_0\)</span> 에서 미분가능하다는 것은 극한</p>
 <p><span class="math display">\[
 \lim_{h \to 0}\dfrac{f(a+h)-f(a)}{h}
 \]</span></p>
@@ -925,7 +948,7 @@ n&gt;N \implies |a_n -a |&lt;\epsilon
 </div>
 <div class="callout-body-container">
 <div id="def-high_order_differentiation" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 26 (도함수) </strong></span>함수 <span class="math inline">\(f:X \subset \mathbb{R} \to \mathbb{R}\)</span> 이 미분 가능 할 때 <span class="math inline">\(f'(x)\)</span> 는 <span class="math inline">\(X\)</span> 에서 정의된 함수이며 이를 <span class="math inline">\(f\)</span> 의 도함수 혹은 1차 도함수라고 한다. <span class="math inline">\(f'(x)\)</span> 가 미분가능한 함수 일 때 <span class="math inline">\(f'(x)\)</span> 의 도함수를 <span class="math inline">\(f''(x)\)</span> 혹은 <span class="math inline">\(f^{(2)}(x)\)</span> 라고 쓰며 <span class="math inline">\(f\)</span> 의 2차 도함수라고 한다. 같은 방법으로 <span class="math inline">\(f\)</span> 함수에 대한 <span class="math inline">\(n\)</span> 차 도함수를 정의할 수 있으며 <span class="math inline">\(f^{(n)}(x)\)</span> 라고 쓴다. 여러 차수의 도함수를 나열할 경우 원래의 함수를 <span class="math inline">\(f^{(0)}\)</span>, 1 차 도함수를 <span class="math inline">\(f^{(1)}\)</span> 로 쓴다.</p>
+<p><span class="theorem-title"><strong>정의 27 (도함수) </strong></span>함수 <span class="math inline">\(f:X \subset \mathbb{R} \to \mathbb{R}\)</span> 이 미분 가능 할 때 <span class="math inline">\(f'(x)\)</span> 는 <span class="math inline">\(X\)</span> 에서 정의된 함수이며 이를 <span class="math inline">\(f\)</span> 의 도함수 혹은 1차 도함수라고 한다. <span class="math inline">\(f'(x)\)</span> 가 미분가능한 함수 일 때 <span class="math inline">\(f'(x)\)</span> 의 도함수를 <span class="math inline">\(f''(x)\)</span> 혹은 <span class="math inline">\(f^{(2)}(x)\)</span> 라고 쓰며 <span class="math inline">\(f\)</span> 의 2차 도함수라고 한다. 같은 방법으로 <span class="math inline">\(f\)</span> 함수에 대한 <span class="math inline">\(n\)</span> 차 도함수를 정의할 수 있으며 <span class="math inline">\(f^{(n)}(x)\)</span> 라고 쓴다. 여러 차수의 도함수를 나열할 경우 원래의 함수를 <span class="math inline">\(f^{(0)}\)</span>, 1 차 도함수를 <span class="math inline">\(f^{(1)}\)</span> 로 쓴다.</p>
 </div>
 </div>
 </div>
@@ -938,7 +961,7 @@ n&gt;N \implies |a_n -a |&lt;\epsilon
 </div>
 <div class="callout-body-container">
 <div id="def-Cn_class_function" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 27 (<span class="math inline">\(C^n_I\)</span>) </strong></span>구간 <span class="math inline">\(I\)</span> 에서 <span class="math inline">\(n\)</span> 번 미분 가능하며, 그 <span class="math inline">\(n\)</span> 차 도함수가 연속인 함수의 집합을 <span class="math inline">\(C^n_I\)</span> 라고 한다. 구간이 실수 전체일 경우는 <span class="math inline">\(C^n\)</span> 이라고 한다. <span class="math inline">\(e^x\)</span> 함수의 경우와 같이 실수 전체 영역에서 무한번 미분 가능한 함수의 집합을 <span class="math inline">\(C^{\infty}\)</span> 라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 28 (<span class="math inline">\(C^n_I\)</span>) </strong></span>구간 <span class="math inline">\(I\)</span> 에서 <span class="math inline">\(n\)</span> 번 미분 가능하며, 그 <span class="math inline">\(n\)</span> 차 도함수가 연속인 함수의 집합을 <span class="math inline">\(C^n_I\)</span> 라고 한다. 구간이 실수 전체일 경우는 <span class="math inline">\(C^n\)</span> 이라고 한다. <span class="math inline">\(e^x\)</span> 함수의 경우와 같이 실수 전체 영역에서 무한번 미분 가능한 함수의 집합을 <span class="math inline">\(C^{\infty}\)</span> 라고 한다.</p>
 </div>
 </div>
 </div>
@@ -989,7 +1012,7 @@ f(x) = \sum_{k=0}^{n} \dfrac{f^{(k)}(a)}{k!} (x-a)^k + \dfrac{f^{(n+1)}(\xi)}{(n
 </div>
 <div class="callout-body-container">
 <div id="def-Riemann_integral" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 28 </strong></span>구간 <span class="math inline">\([a,\,b]\)</span> 에서 정의된 함수 <span class="math inline">\(f\)</span> 를 생각하자. 수열 <span class="math inline">\(\langle x_n\rangle\)</span> 가 <span class="math inline">\(x_1=a&lt;x_2&lt;\cdots &lt;x_n=b\)</span> 를 만족할 때,</p>
+<p><span class="theorem-title"><strong>정의 29 </strong></span>구간 <span class="math inline">\([a,\,b]\)</span> 에서 정의된 함수 <span class="math inline">\(f\)</span> 를 생각하자. 수열 <span class="math inline">\(\langle x_n\rangle\)</span> 가 <span class="math inline">\(x_1=a&lt;x_2&lt;\cdots &lt;x_n=b\)</span> 를 만족할 때,</p>
 <p><span class="math display">\[
 \begin{aligned}
 &amp;\lim_{n \to \infty} \sum_{k=2}^n \min(\{f(x_{i-1}),\, f(x_{i})\}) (x_{i}-x_{i-1})  \\
@@ -1065,7 +1088,7 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <div class="callout-body-container">
 <div id="def-n_cell" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 29 (<span class="math inline">\(n\)</span>-cell) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서</p>
+<p><span class="theorem-title"><strong>정의 30 (<span class="math inline">\(n\)</span>-cell) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서</p>
 <p><span class="math display">\[
 [a_1,\,b_1]\times \cdots \times [a_n,\,b_n] = \{(x_1,\ldots,\,x_n)\in \mathbb{R}^n : a_i \le x_i \le b_i,\, i=1,\ldots,n\}
 \]</span></p>
@@ -1082,7 +1105,7 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <div class="callout-body-container">
 <div id="def-continuity_mv" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 30 (다변수 함수의 연속) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 이</p>
+<p><span class="theorem-title"><strong>정의 31 (다변수 함수의 연속) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 이</p>
 <p><span class="math display">\[
 \lim_{\boldsymbol{h} \to \boldsymbol{0}} \|\boldsymbol{F}(\boldsymbol{p} + \boldsymbol{h}) - \boldsymbol{F}(\boldsymbol{p})\|  = 0
 \]</span></p>
@@ -1099,7 +1122,7 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <div class="callout-body-container">
 <div id="def-differentiation_mv" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 31 (다변수 함수의 미분과 자코비 행렬) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 어떤 행렬 <span class="math inline">\(M\in \mathcal{M}_{m \times n}(\mathbb{R})\)</span> 에 대해</p>
+<p><span class="theorem-title"><strong>정의 32 (다변수 함수의 미분과 자코비 행렬) </strong></span><span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 어떤 행렬 <span class="math inline">\(M\in \mathcal{M}_{m \times n}(\mathbb{R})\)</span> 에 대해</p>
 <p><span class="math display">\[
 \lim_{\boldsymbol{h} \to \boldsymbol{0}} \dfrac{\|\boldsymbol{F}(\boldsymbol{p} + \boldsymbol{h}) - \boldsymbol{F}(\boldsymbol{p}) - \boldsymbol{Mp}\|}{\|\boldsymbol{h}\|} = \boldsymbol{0}
 \]</span></p>
@@ -1131,7 +1154,7 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <div class="callout-body-container">
 <div id="def-partial_derivative" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 32 (방향미분과 편미분) </strong></span><span class="math inline">\(\boldsymbol{u}\)</span> 가 단위벡터, 즉 <span class="math inline">\(\|\boldsymbol{u}\|=1\)</span> 일 때 <a href="#eq-directional_derivative">식&nbsp;6</a> 의 극한을 <span class="math inline">\(\boldsymbol{F}\)</span> 의 <span class="math inline">\(\boldsymbol{p}\)</span> 에서의 <span class="math inline">\(\boldsymbol{u}\)</span> 방향으로의 <strong>방향미분 (directional derivative)</strong> 라고 하고 <span class="math inline">\(D_\boldsymbol{u}\boldsymbol{F}(\boldsymbol{p})\)</span> 라고 쓴다. <span class="math inline">\(\boldsymbol{u}\)</span> 가 어떤 표준기저 <span class="math inline">\(\hat{\boldsymbol{e}}_i\)</span> 일 때의 방향미분을 <strong>편미분 (partial derivative)</strong> 라고 하며 <span class="math inline">\(D_{\hat{\boldsymbol{e}}_i} \boldsymbol{F}(\boldsymbol{p})\)</span> 를 <span class="math inline">\(D_i \boldsymbol{F}(\boldsymbol{p})\)</span>, <span class="math inline">\(\dfrac{\partial \boldsymbol{F}}{\partial x_i}(\boldsymbol{p})\)</span>, 혹은 <span class="math inline">\(\partial_i \boldsymbol{F}(\boldsymbol{p})\)</span> 라고 표기한다.</p>
+<p><span class="theorem-title"><strong>정의 33 (방향미분과 편미분) </strong></span><span class="math inline">\(\boldsymbol{u}\)</span> 가 단위벡터, 즉 <span class="math inline">\(\|\boldsymbol{u}\|=1\)</span> 일 때 <a href="#eq-directional_derivative">식&nbsp;6</a> 의 극한을 <span class="math inline">\(\boldsymbol{F}\)</span> 의 <span class="math inline">\(\boldsymbol{p}\)</span> 에서의 <span class="math inline">\(\boldsymbol{u}\)</span> 방향으로의 <strong>방향미분 (directional derivative)</strong> 라고 하고 <span class="math inline">\(D_\boldsymbol{u}\boldsymbol{F}(\boldsymbol{p})\)</span> 라고 쓴다. <span class="math inline">\(\boldsymbol{u}\)</span> 가 어떤 표준기저 <span class="math inline">\(\hat{\boldsymbol{e}}_i\)</span> 일 때의 방향미분을 <strong>편미분 (partial derivative)</strong> 라고 하며 <span class="math inline">\(D_{\hat{\boldsymbol{e}}_i} \boldsymbol{F}(\boldsymbol{p})\)</span> 를 <span class="math inline">\(D_i \boldsymbol{F}(\boldsymbol{p})\)</span>, <span class="math inline">\(\dfrac{\partial \boldsymbol{F}}{\partial x_i}(\boldsymbol{p})\)</span>, 혹은 <span class="math inline">\(\partial_i \boldsymbol{F}(\boldsymbol{p})\)</span> 라고 표기한다.</p>
 </div>
 </div>
 </div>

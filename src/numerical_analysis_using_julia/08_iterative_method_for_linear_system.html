@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -241,6 +275,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#야코비jacobi-방법과-가우스-지델gauss-siedel-방법" id="toc-야코비jacobi-방법과-가우스-지델gauss-siedel-방법" class="nav-link" data-scroll-target="#야코비jacobi-방법과-가우스-지델gauss-siedel-방법"><span class="header-section-number">2</span> 야코비(Jacobi) 방법과 가우스-지델(Gauss-Siedel) 방법</a>
   <ul class="collapse">
   <li><a href="#야코비-방법" id="toc-야코비-방법" class="nav-link" data-scroll-target="#야코비-방법">야코비 방법</a></li>
+  <li><a href="#가우스-지델-방법" id="toc-가우스-지델-방법" class="nav-link" data-scroll-target="#가우스-지델-방법">가우스-지델 방법</a></li>
+  </ul></li>
+  <li><a href="#successive-over-relaxation-sor" id="toc-successive-over-relaxation-sor" class="nav-link" data-scroll-target="#successive-over-relaxation-sor"><span class="header-section-number">3</span> Successive Over-Relaxation (SOR)</a></li>
+  <li><a href="#오차" id="toc-오차" class="nav-link" data-scroll-target="#오차"><span class="header-section-number">4</span> 오차</a></li>
+  <li><a href="#the-conjugate-gradient-방법" id="toc-the-conjugate-gradient-방법" class="nav-link" data-scroll-target="#the-conjugate-gradient-방법"><span class="header-section-number">5</span> The Conjugate gradient 방법</a>
+  <ul class="collapse">
+  <li><a href="#steepest-descent" id="toc-steepest-descent" class="nav-link" data-scroll-target="#steepest-descent">Steepest descent</a></li>
+  <li><a href="#boldsymbola-직교-조건" id="toc-boldsymbola-직교-조건" class="nav-link" data-scroll-target="#boldsymbola-직교-조건"><span class="math inline">\(\boldsymbol{A}\)</span>-직교 조건</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -296,7 +338,7 @@ ul.task-list li input[type="checkbox"] {
 <p><br></p>
 <div id="prp-spectral_radius" class="theorem proposition">
 <p><span class="theorem-title"><strong>명제 1 </strong></span><span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n \times n}\)</span> 에 대해</p>
-<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{A} \in \mathbb{F}^{n \times n}\)</span> 에 대해 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\|\boldsymbol{A}\|_2 = \left[\rho (\boldsymbol{A}^T\boldsymbol{A})\right]^{1/2}\)</span> 이며,</p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\rho(\boldsymbol{A})\)</span> 는 모든 자연스러운 노름에 대해 <span class="math inline">\(\|\boldsymbol{A}\|\)</span> 보다 작거나 같다.</p>
 </div>
 <div class="proof">
@@ -426,25 +468,368 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="야코비jacobi-방법과-가우스-지델gauss-siedel-방법" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="야코비jacobi-방법과-가우스-지델gauss-siedel-방법"><span class="header-section-number">2</span> 야코비(Jacobi) 방법과 가우스-지델(Gauss-Siedel) 방법</h2>
+<p>일반적으로 반복법에 의해 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 푸는 것은, 이 선형방정식을 변형하여</p>
+<p><span class="math display">\[
+\boldsymbol{x} = \boldsymbol{Tx}+\boldsymbol{c}
+\]</span></p>
+<p>의 꼴로 만드는 데서 시작한다. <span class="math inline">\(k\)</span> 번째 반복에 의해 얻은 <span class="math inline">\(\boldsymbol{x}\)</span> 를 <span class="math inline">\(\boldsymbol{x}^{(k)}\)</span> 라고 할 때 <span class="math inline">\(\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)} +\boldsymbol{c}\)</span> 를 얻으며 <span class="math inline">\(\boldsymbol{x}^{(k+1)}\)</span> 과 <span class="math inline">\(\boldsymbol{x}^{(k)}\)</span> 의 차가 어느 기준 이하일 때 답을 얻은것으로 한다. 보통은 어떤 정해진 노름과 값 <span class="math inline">\(\varepsilon&gt;0\)</span> 에 대해 <span class="math inline">\(\|\boldsymbol{x}^{(k+1)}-\boldsymbol{x}^{(k)}\|&lt;\varepsilon\)</span> 혹은 <span class="math inline">\(\dfrac{\|\boldsymbol{x}^{(k+1)}-\boldsymbol{x}^{(k)}\|}{\|\boldsymbol{x}^{(k+1)}\|} &lt; \varepsilon\)</span> 일 때이며 이때의 기준값을 <strong>tolerence</strong> 라고 한다. Tolerance 를 계산할때는 보통 <span class="math inline">\(L_\infty\)</span> 노름을 사용한다.</p>
+<p><br></p>
 <section id="야코비-방법" class="level3">
 <h3 class="anchored" data-anchor-id="야코비-방법">야코비 방법</h3>
-<p>모든 대각 성분이 <span class="math inline">\(0\)</span> 이 아닌 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 를 대각행렬 <span class="math inline">\(\boldsymbol{D}\)</span> 와 하삼각행렬 <span class="math inline">\(\boldsymbol{L}\)</span>, 상삼각행렬 <span class="math inline">\(\boldsymbol{U}\)</span> 의 합으로 표현한다고 하자. 이 때 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 는 <span class="math inline">\((\boldsymbol{D} + \boldsymbol{L} +\boldsymbol{U})\boldsymbol{x}=\boldsymbol{b}\)</span> 가 되며,</p>
+<p><span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{D}\)</span> 를 <span class="math inline">\(\boldsymbol{A}\)</span> 의 대각행렬, <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{U}\)</span> 를 각각 <span class="math inline">\(\boldsymbol{A}\)</span> 의 하삼각 행렬부분과 상삼각 행렬에서 대각성분을 <span class="math inline">\(0\)</span> 으로 만든 행렬에 <span class="math inline">\(-1\)</span> 을 곱한 행렬이라고 하자. 즉 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{D}-\boldsymbol{L}-\boldsymbol{U}\)</span> 이며, <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{U}\)</span> 는 대각성분이 모두 <span class="math inline">\(0\)</span> 인 하삼각행렬과 상삼각행렬이다. 이 때 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 는 <span class="math inline">\((\boldsymbol{D} - \boldsymbol{L} -\boldsymbol{U})\boldsymbol{x}=\boldsymbol{b}\)</span> 가 되며,</p>
 <p><span class="math display">\[
-\boldsymbol{Dx}=-(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x}+\boldsymbol{b}
+\boldsymbol{Dx} = (\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x}+\boldsymbol{b}
 \]</span></p>
 <p>이다. 모든 대각 성분이 <span class="math inline">\(0\)</span> 이 아닌 대각행렬 <span class="math inline">\(\boldsymbol{D}\)</span> 는 가역행렬이므로,</p>
 <p><span class="math display">\[
-\boldsymbol{x} = -\boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x} + \boldsymbol{D}^{-1}\boldsymbol{b}
+\boldsymbol{x} = \boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x} + \boldsymbol{D}^{-1}\boldsymbol{b}
 \]</span></p>
 <p>이다.</p>
-<p>선형 방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}\)</span> 의 모든 대각 성분이 <span class="math inline">\(0\)</span> 이 아니라고 하자. 초기 벡터 <span class="math inline">\(\boldsymbol{x}^{(0)}\)</span> 의 <span class="math inline">\(i\)</span> 번째 성분 <span class="math inline">\(x^0_i\)</span> 를 다음과 같이 정한다.</p>
+<p>임의로 제시하는 초기벡터 <span class="math inline">\(\boldsymbol{x}^{(0)}\)</span> 가 주어지면,</p>
 <p><span class="math display">\[
-x_i^{(0)} = \sum_{j=1,\,j\ne1}^n \left(- \dfrac{-a_{ij}x_j}{A_{ii}}\right) + \dfrac{b_j}{a_{ii}}.
+\boldsymbol{x}^{(k+1)} =   \boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x}^{(k)} + \boldsymbol{D}^{-1}\boldsymbol{b}
 \]</span></p>
-<p><span class="math inline">\(k\)</span> 번째 i</p>
+<p>를 통해 반복한다. Julia 코드는 다음과 같다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">function</span> <span class="fu">jacobi_iteration</span>(</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    A<span class="op">::</span><span class="dt">AbstractMatrix</span>, </span>
+<span id="cb1-5"><a href="#cb1-5"></a>    b<span class="op">::</span><span class="dt">Vector</span>, </span>
+<span id="cb1-6"><a href="#cb1-6"></a>    x0<span class="op">::</span><span class="dt">Vector</span>; </span>
+<span id="cb1-7"><a href="#cb1-7"></a>    etol<span class="op">::</span><span class="dt">Number </span><span class="op">=</span> <span class="fl">1.0e-5</span>,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    Maxiter <span class="op">=</span> <span class="fl">100_000</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="pp">@assert</span> <span class="fu">size</span>(A)[<span class="fl">1</span>] <span class="op">==</span> <span class="fu">size</span>(A)[<span class="fl">2</span>] <span class="op">==</span> <span class="fu">size</span>(b)[<span class="fl">1</span>]</span>
+<span id="cb1-10"><a href="#cb1-10"></a>    </span>
+<span id="cb1-11"><a href="#cb1-11"></a>    x <span class="op">=</span> <span class="fu">similar</span>(x0)</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a>    D <span class="op">=</span> <span class="fu">Diagonal</span>(A)</span>
+<span id="cb1-14"><a href="#cb1-14"></a>    L <span class="op">=</span> <span class="fu">-LowerTriangular</span>(A) <span class="op">.+</span> D</span>
+<span id="cb1-15"><a href="#cb1-15"></a>    U <span class="op">=</span> <span class="fu">-UpperTriangular</span>(A) <span class="op">.+</span> D</span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a>    Dinv <span class="op">=</span> <span class="fu">inv</span>(D)</span>
+<span id="cb1-18"><a href="#cb1-18"></a>    T <span class="op">=</span> <span class="fu">Dinv*</span>(L<span class="op">+</span>U) </span>
+<span id="cb1-19"><a href="#cb1-19"></a>    c <span class="op">=</span> Dinv <span class="op">*</span> b</span>
+<span id="cb1-20"><a href="#cb1-20"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>Maxiter</span>
+<span id="cb1-21"><a href="#cb1-21"></a>        x <span class="op">=</span> T<span class="op">*</span>x0 <span class="op">+</span> c</span>
+<span id="cb1-22"><a href="#cb1-22"></a>        <span class="cf">if</span> <span class="fu">norm</span>(x <span class="op">.-</span> x0, <span class="cn">Inf</span>)<span class="op">/</span><span class="fu">norm</span>(x, <span class="cn">Inf</span>)<span class="op">&lt;</span> etol</span>
+<span id="cb1-23"><a href="#cb1-23"></a>            nitter <span class="op">=</span> i</span>
+<span id="cb1-24"><a href="#cb1-24"></a>            <span class="cf">return</span> x</span>
+<span id="cb1-25"><a href="#cb1-25"></a>        <span class="cf">else</span> </span>
+<span id="cb1-26"><a href="#cb1-26"></a>            x0 <span class="op">=</span> x</span>
+<span id="cb1-27"><a href="#cb1-27"></a>        <span class="cf">end</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a>    <span class="cf">end</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a>    <span class="cf">return</span> <span class="cn">nothing</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<p><span class="math inline">\(\boldsymbol{A} = \left[ \,\begin{array}{rr} 10 &amp; -1 &amp; 2 &amp; 0\\ -1 &amp; 11 &amp; -1&amp; 3\\ 2 &amp; -1 &amp; 10 &amp;-1 \\ 0 &amp; 3 &amp; -1 &amp; 8 \end{array}\,\right]\)</span> 와 <span class="math inline">\(\boldsymbol{b}= \left[ \begin{array}{rr}6 \\25 \\ -11 \\ 15 \end{array}\right]\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해는 <span class="math inline">\(\boldsymbol{x} = \left[\, \begin{array}{rr} 1 \\ 2 \\ -1 \\ 2 \end{array}\,\right]\)</span> 이다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="fl">10.0</span> <span class="op">-</span><span class="fl">1.0</span> <span class="fl">2.0</span> <span class="fl">0.0</span>; <span class="op">-</span><span class="fl">1</span> <span class="fl">11</span> <span class="op">-</span><span class="fl">1</span> <span class="fl">3</span>; <span class="fl">2</span> <span class="op">-</span><span class="fl">1</span> <span class="fl">10</span> <span class="op">-</span><span class="fl">1</span>; <span class="fl">0</span> <span class="fl">3</span> <span class="op">-</span><span class="fl">1</span> <span class="fl">8</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> [<span class="fl">6</span>, <span class="fl">25</span>, <span class="op">-</span><span class="fl">11</span>, <span class="fl">15</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>x<span class="op">=</span><span class="fu">jacobi_iteration</span>(A, b, x0, etol<span class="op">=</span><span class="fl">1.0e-5</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>를 이용하면 다음과 같은 결과를 얻는다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>4-element Vector{Float64}:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  0.9999964637124269</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  2.0000051877531875</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a> -1.0000041868849727</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  1.000006667932778</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="가우스-지델-방법" class="level3">
+<h3 class="anchored" data-anchor-id="가우스-지델-방법">가우스-지델 방법</h3>
+<p><span class="math inline">\((\boldsymbol{D}-\boldsymbol{L}-\boldsymbol{U})\boldsymbol{x} = \boldsymbol{b}\)</span> 로 부터, <span class="math inline">\((\boldsymbol{D}-\boldsymbol{L})\boldsymbol{x} = \boldsymbol{U}\boldsymbol{x} + \boldsymbol{b}\)</span> 로 변형 한 후</p>
 <p><span class="math display">\[
-x_i^{(k+1)} = \dfrac{1}{A_{ii}} \left[\sum_{j=1,\,j\ne i}^n \left( -A_{ij}\, x_j^{(k)} \right) + b_i\right]
+\boldsymbol{x} =(\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{U}\boldsymbol{x} + (\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{b}
 \]</span></p>
+<p>를 얻는다. 가우스 지델 방법은</p>
+<p><span class="math display">\[
+\boldsymbol{x}^{(k+1)} = (\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{U}\boldsymbol{x}^{(k)} + (\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{b}
+\]</span></p>
+<p>를 통해 반복한다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">function</span> <span class="fu">gauss_siedel_iteration</span>(</span>
+<span id="cb4-3"><a href="#cb4-3"></a>    A<span class="op">::</span><span class="dt">AbstractMatrix</span>, </span>
+<span id="cb4-4"><a href="#cb4-4"></a>    b<span class="op">::</span><span class="dt">Vector</span>, </span>
+<span id="cb4-5"><a href="#cb4-5"></a>    x0<span class="op">::</span><span class="dt">Vector</span>; </span>
+<span id="cb4-6"><a href="#cb4-6"></a>    etol<span class="op">::</span><span class="dt">Number </span><span class="op">=</span> <span class="fl">1.0e-5</span>, </span>
+<span id="cb4-7"><a href="#cb4-7"></a>    Maxiter <span class="op">=</span> <span class="fl">100_000</span>)</span>
+<span id="cb4-8"><a href="#cb4-8"></a>    <span class="pp">@assert</span> <span class="fu">size</span>(A)[<span class="fl">1</span>] <span class="op">==</span> <span class="fu">size</span>(A)[<span class="fl">2</span>] <span class="op">==</span> <span class="fu">size</span>(b)[<span class="fl">1</span>]</span>
+<span id="cb4-9"><a href="#cb4-9"></a>    </span>
+<span id="cb4-10"><a href="#cb4-10"></a>    x <span class="op">=</span> <span class="fu">similar</span>(x0)</span>
+<span id="cb4-11"><a href="#cb4-11"></a></span>
+<span id="cb4-12"><a href="#cb4-12"></a>    D <span class="op">=</span> <span class="fu">Diagonal</span>(A)</span>
+<span id="cb4-13"><a href="#cb4-13"></a>    L <span class="op">=</span> <span class="fu">-LowerTriangular</span>(A) <span class="op">.+</span> D</span>
+<span id="cb4-14"><a href="#cb4-14"></a>    U <span class="op">=</span> <span class="fu">-UpperTriangular</span>(A) <span class="op">.+</span> D</span>
+<span id="cb4-15"><a href="#cb4-15"></a></span>
+<span id="cb4-16"><a href="#cb4-16"></a>    DLinv <span class="op">=</span> <span class="fu">inv</span>(D<span class="op">-</span>L)</span>
+<span id="cb4-17"><a href="#cb4-17"></a>    T <span class="op">=</span> DLinv<span class="op">*</span>U </span>
+<span id="cb4-18"><a href="#cb4-18"></a>    c <span class="op">=</span> DLinv <span class="op">*</span> b</span>
+<span id="cb4-19"><a href="#cb4-19"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>Maxiter</span>
+<span id="cb4-20"><a href="#cb4-20"></a>        x <span class="op">=</span> T<span class="op">*</span>x0 <span class="op">+</span> c</span>
+<span id="cb4-21"><a href="#cb4-21"></a>        <span class="cf">if</span> <span class="fu">norm</span>(x <span class="op">.-</span> x0, <span class="cn">Inf</span>)<span class="op">/</span><span class="fu">norm</span>(x, <span class="cn">Inf</span>)<span class="op">&lt;</span> etol</span>
+<span id="cb4-22"><a href="#cb4-22"></a>            nitter <span class="op">=</span> i</span>
+<span id="cb4-23"><a href="#cb4-23"></a>            <span class="cf">return</span> x</span>
+<span id="cb4-24"><a href="#cb4-24"></a>        <span class="cf">else</span> </span>
+<span id="cb4-25"><a href="#cb4-25"></a>            x0 <span class="op">=</span> x</span>
+<span id="cb4-26"><a href="#cb4-26"></a>        <span class="cf">end</span></span>
+<span id="cb4-27"><a href="#cb4-27"></a>    <span class="cf">end</span></span>
+<span id="cb4-28"><a href="#cb4-28"></a>    <span class="cf">return</span> <span class="cn">nothing</span></span>
+<span id="cb4-29"><a href="#cb4-29"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>야코비 방법과 가우스-지델 방법 모두 <span class="math inline">\(\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)} + \boldsymbol{c}\)</span> 형태의 반복법을 사용한다. 우리는 <a href="#thm-iterative_method">정리&nbsp;1</a> 로 부터 <span class="math inline">\(\rho(\boldsymbol{T})&lt;1\)</span> 일 경우에만 이 반복법에 의해 답을 얻을 수 있다는 것을 안다. 일반적으로 가우스-지델 방법이 야코비 방법보다 빠르게 원하는 정확도의 답을 얻지만 가우스-지델 방법이 이 조건을 충족하지 못하고 야코비 방법은 충족하는 경우 야코비 방법을 사용 할 수 있다. 물론 거꾸로 야코비 방법이 이 조건을 충족하지 못하고 가우스-지델 방법이 충족할 수 도 있다.</p>
+<p><br></p>
+<div id="exm-spectral_radius" class="theorem example">
+<p><span class="theorem-title"><strong>보기 1 </strong></span><span class="math inline">\(\boldsymbol{A} = \left[\, \begin{array}{rr} 2 &amp; -1 &amp; 1 \\ 2 &amp; 2 &amp; 2 \\ -1 &amp; -1 &amp; 2\end{array}\,\right]\)</span> 의 경우 <span class="math inline">\(\rho(\boldsymbol{D}^{-1}(\boldsymbol{L}+ \boldsymbol{U}))=\dfrac{\sqrt{5}}{2}&gt;1\)</span> 이므로 야코비 방법으로는 답을 얻을 수 없지만. <span class="math inline">\(\rho((\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{U}) = \dfrac{1}{2}&lt;1\)</span> 이므로 가우스-지델 방법은 사용할 수 있다. 반대로 <span class="math inline">\(\boldsymbol{A} = \left[\, \begin{array}{rr} 1 &amp; 2 &amp; -2 \\ 1 &amp; 1 &amp; 1 \\ 2 &amp; 2 &amp; 1\end{array}\,\right]\)</span> 의 경우 <span class="math inline">\(\rho(\boldsymbol{D}^{-1}(\boldsymbol{L} + \boldsymbol{U})) = 0&lt;1\)</span> 이므로 야코비 방법을 사용 할 수 있지만 <span class="math inline">\(\rho((\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{U}) = 2&gt;1\)</span> 이므로 가우스-지델 방법은 사용 할 수 없다.</p>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="successive-over-relaxation-sor" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="successive-over-relaxation-sor"><span class="header-section-number">3</span> Successive Over-Relaxation (SOR)</h2>
+<p>가우스 지델 방법에서 임의의 <span class="math inline">\(\omega\in \mathbb{R}\)</span> 에 대해</p>
+<p><span class="math display">\[
+(\boldsymbol{D}-\omega \boldsymbol{L})\boldsymbol{x} = \left[(1-\omega) \boldsymbol{D}+ \omega\boldsymbol{U}\right]\boldsymbol{x} + \omega \boldsymbol{b}
+\]</span></p>
+<p>임을 안다. <span class="math inline">\(SOR\)</span> 은 적절한 <span class="math inline">\(\omega\)</span> 를 선택하여 다음 식을 통해 반복법으로 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해를 구하는 것이다.</p>
+<p><span class="math display">\[
+\boldsymbol{x}^{(k+1)} = (\boldsymbol{D}-\omega \boldsymbol{L})^{-1}\left[(1-\omega) \boldsymbol{D}+ \omega\boldsymbol{U}\right]\boldsymbol{x}^{(k)} + \omega (\boldsymbol{D}-\omega \boldsymbol{L})^{-1} \boldsymbol{b}
+\]</span></p>
+<p>다음의 결과를 증명 없이 사용하겠다.</p>
+<p><br></p>
+<div id="thm-kahan" class="theorem">
+<p><span class="theorem-title"><strong>정리 2 (Kahan 의 정리) </strong></span>모든 대각 성분이 <span class="math inline">\(0\)</span> 이 아닌 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{T}_\omega = (\boldsymbol{D}-\omega{L})^{-1}\left[(1-\omega) \boldsymbol{D}+ \omega\boldsymbol{U}\right]\)</span> 를 생각하자. 이 때</p>
+<p><span class="math display">\[
+\rho (\boldsymbol{T}_\omega) \ge |\omega -1|
+\]</span></p>
+<p>이 성립한다.</p>
+</div>
+<p><br></p>
+<p>즉 <span class="math inline">\(0 &lt;\omega &lt;2\)</span> 는 해를 구할 수 있는 필요조건이다.</p>
+<p><br></p>
+<div id="thm-ostrowski-reich" class="theorem">
+<p><span class="theorem-title"><strong>정리 3 (Ostrowski-Reich 정리) </strong></span><span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_n(\mathbb{R})\)</span> 이 positive definite 이고 <span class="math inline">\(0&lt;\omega &lt;2\)</span> 이면 SOR 에서의 <span class="math inline">\(\boldsymbol{x}^{(k)}\)</span> 는 수렴한다.</p>
+</div>
+<p><br></p>
+<div id="thm-positive_definite_tridiagonal" class="theorem">
+<p><span class="theorem-title"><strong>정리 4 </strong></span>야코비 방법에서의 <span class="math inline">\(\boldsymbol{T}_J = \boldsymbol{D}^{-1}(\boldsymbol{L}_\boldsymbol{U})\)</span> 와 가우스 지델 방법에서의 <span class="math inline">\(\boldsymbol{T}_G = (\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{U}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이며 삼중대각행렬라면 <span class="math inline">\(\rho(\boldsymbol{T}_G) = \left[\boldsymbol{T}_J\right]^2 &lt; 1\)</span> 이며, SOR 에서의 최적의 <span class="math inline">\(\omega\)</span> 는</p>
+<p><span class="math display">\[
+\omega = \dfrac{1}{1+\sqrt{1-[\rho(\boldsymbol{T}_G)]}}
+\]</span></p>
+<p>이다. 이 경우 <span class="math inline">\(\rho(\boldsymbol{T}_\omega) = \omega -1\)</span> 이다.</p>
+</div>
+<p><br></p>
+</section>
+<section id="오차" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="오차"><span class="header-section-number">4</span> 오차</h2>
+<p>가역 행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n\times n}\mathbb{R}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 반복법으로 풀 때 우리는 어떤 오차 내의 계산값을 얻게 된다. 이 계산값을 <span class="math inline">\(\overline{\boldsymbol{x}}\)</span> 라고 할 때 <span class="math inline">\(\boldsymbol{r} = \boldsymbol{b}-\boldsymbol{A}\overline{\boldsymbol{x}}\)</span> 를 <strong>오차 벡터(residual vector)</strong> 라고 할 수 있다. 정해진 노름에 대해 <span class="math inline">\(\|\boldsymbol{r}\|\)</span> 이 작다면 <span class="math inline">\(\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|\)</span> 가 작을 것이라고 예상 할 수 있지만 항상 그런것은 아니다.</p>
+<p><br></p>
+<div id="prp-condition_number" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 3 </strong></span>가역행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대한 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n (\mathbb{R})\)</span> 과 어떤 <span class="math inline">\(\overline{\boldsymbol{x}} \in \mathcal{M}_n (\mathbb{R})\)</span>, 그리고 오차 벡터 <span class="math inline">\(\boldsymbol{r}= \boldsymbol{b}-\boldsymbol{A}\overline{\boldsymbol{x}}\)</span> 과 벡터공간에서의 자연스러운 노름 <span class="math inline">\(\|\cdot \|\)</span> 에 대해 다음이 성립한다.</p>
+<p><span class="math display">\[
+\|\boldsymbol{x}-\overline{\boldsymbol{x}}\| \le \|\boldsymbol{r}\| \cdot \left\| \boldsymbol{A}^{-1}\right\|.
+\]</span></p>
+<p>또한 <span class="math inline">\(\boldsymbol{x}\ne 0,\, \boldsymbol{b}\ne 0\)</span> 일 때 다음이 성립한다.</p>
+<p><span class="math display">\[
+\dfrac{\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|}{\|\boldsymbol{x}\|} \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{A}^{-1}\| \dfrac{\|\boldsymbol{r}\|}{\|\boldsymbol{b}\|}.
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{A}\)</span> 가 가역이며 <a href="../../src/numerical_analysis_using_julia/03_matrix_algebra.html#def-matrix_norm">행렬의 노름의 정의</a>에 의해 <span class="math display">\[
+\|\boldsymbol{x}-\overline{\boldsymbol{x}}\| = \|\boldsymbol{A}^{-1}\boldsymbol{r}\| \le \|\boldsymbol{A}^{-1}\| \cdot \|\boldsymbol{r}\|
+\]</span></p>
+<p>이다. <span class="math inline">\(\boldsymbol{b}=\boldsymbol{Ax}\)</span> 이므로 <span class="math inline">\(\|\boldsymbol{b}\| \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{x}\|\)</span> 이다. 이로부터 <span class="math inline">\(1/\|\boldsymbol{x}\|\le \|\boldsymbol{A}\| /\|\boldsymbol{b}\|\)</span> 이므로, <span class="math display">\[
+\dfrac{\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|}{\|\boldsymbol{x}\|} \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{A}^{-1}\| \dfrac{\|\boldsymbol{r}\|}{\|\boldsymbol{b}\|}.
+\]</span> 이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-conditional_number_of_invertible_matrix" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 3 (조건수) </strong></span>가역행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 와 자연스러운 노름 <span class="math inline">\(\|\cdot \|\)</span> 에 대해</p>
+<p><span class="math display">\[
+\kappa (\boldsymbol{A}) = \|\boldsymbol{A}\| \cdot \|\boldsymbol{A}^{-1}\|
+\]</span></p>
+<p>를 <span class="math inline">\(\boldsymbol{A}\)</span> 의 노름 <span class="math inline">\(\|\cdot\|\)</span> 에 대한 <strong>조건수 (conditional number)</strong> 라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p><span class="math display">\[
+1 = \|\boldsymbol{I}\|  = \|\boldsymbol{AA}^{-1}\| \le \|\boldsymbol{A} \| \cdot \|\boldsymbol{A}^{-1}\| = \kappa(\boldsymbol{A})
+\]</span></p>
+<p>이다. 만약 <span class="math inline">\(\kappa(\boldsymbol{A})\approx 1\)</span> 이면 오차벡터의 작은 차이가 <span class="math inline">\(\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|\)</span> 의 작은 차이를 의미하기 때문에 <span class="math inline">\(\boldsymbol{A}\)</span> 를 <strong>좋은 조건(well-conditioned)</strong> 이라고 한다. 반대로 <span class="math inline">\(\kappa(\boldsymbol{A}) \gg 1\)</span> 일 경우는 <strong>나쁜 조건 (ill-conditioned)</strong> 라고 한다.</p>
+<p><br></p>
+</section>
+<section id="the-conjugate-gradient-방법" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="the-conjugate-gradient-방법"><span class="header-section-number">5</span> The Conjugate gradient 방법</h2>
+<p><span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이며 내적이 유클리드 내적, 즉 <span class="math inline">\(\langle \boldsymbol{x},\,\boldsymbol{y} \rangle = \boldsymbol{y}^T\boldsymbol{x}\)</span> 라고 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이므로 <span class="math inline">\(\langle \boldsymbol{Ax},\,\boldsymbol{x} \rangle = \boldsymbol{x}^T\boldsymbol{Ax} &gt; 0\)</span> 이다. 이때 우리는 다음을 보일 수 있다.</p>
+<p><br></p>
+<div id="prp-congjugate_gradient" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 4 </strong></span><span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_n (\mathbb{R})\)</span> 가 positive definite 이고 <span class="math inline">\(\boldsymbol{x}_0 \in \mathcal{M}_n(\mathbb{R})\)</span> 일 때 다음은 동치이다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{Ax}_0=\boldsymbol{b}\)</span>,</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(g(\boldsymbol{x})= \langle \boldsymbol{Ax},\,\boldsymbol{x}\rangle -2 \langle \boldsymbol{b}, \boldsymbol{x}\rangle\)</span> 의 최소값은 <span class="math inline">\(g(\boldsymbol{x}_0)\)</span> 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>우선 <span class="math inline">\(t\in \mathbb{R},\, \boldsymbol{v}\in \mathcal{M}_n(\mathbb{R})\)</span> 에 대해,</p>
+<p><span id="eq-conjugate_gradient"><span class="math display">\[
+\begin{aligned}
+g(\boldsymbol{x}+t\boldsymbol{v}) &amp;= \langle \boldsymbol{A}(\boldsymbol{x}+t\boldsymbol{v}), \, \boldsymbol{x}+t\boldsymbol{v} \rangle - 2\langle \boldsymbol{b},\, \boldsymbol{x}+t\boldsymbol{v}\rangle  \\
+&amp;= t^2 \langle \boldsymbol{Av}, \boldsymbol{v}\rangle - 2t \langle \boldsymbol{b}-\boldsymbol{Ax}, \, \boldsymbol{v}\rangle + g(\boldsymbol{x}) \\
+&amp;= \langle \boldsymbol{Av},\,\boldsymbol{v} \rangle \left[t-\dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}, \, \boldsymbol{v}\rangle }{\langle \boldsymbol{Av},\, \boldsymbol{v}\rangle}\right]^2 + g(\boldsymbol{x}) - \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}, \, \boldsymbol{v}\rangle^2 }{\langle \boldsymbol{Av},\, \boldsymbol{v}\rangle}
+\end{aligned}
+\tag{1}\]</span></span></p>
+<p>이다. <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이므로 <span class="math inline">\(\langle \boldsymbol{Av}, \,\boldsymbol{v}\rangle &gt; 0\)</span> 이다.</p>
+<p><span class="math inline">\(\boldsymbol{Ax_0}=\boldsymbol{b}\)</span> 이면 <span class="math inline">\(g(\boldsymbol{x_0}+t\boldsymbol{v}) \ge g(\boldsymbol{x_0})\)</span> 이므로 <span class="math inline">\(g(\boldsymbol{x})\)</span> 의 최소값이다. 역으로 <span class="math inline">\(g(\boldsymbol{x})\)</span> 를 최소로 하는 <span class="math inline">\(\boldsymbol{x}\)</span> 는 <span class="math inline">\(\boldsymbol{b}= \boldsymbol{Ax}_0\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}_0\)</span> 임을 알 수 있다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p>이제 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 라는 선형 시스템을 푸는 문제는 <span class="math inline">\(g(\boldsymbol{x})= \langle \boldsymbol{Ax},\,\boldsymbol{x}\rangle -2 \langle \boldsymbol{b}, \boldsymbol{x}\rangle\)</span> 를 최소로 하는 <span class="math inline">\(\boldsymbol{x}_0\)</span> 를 구하는 문제와 동일한 문제가 된다. 주어진 <span class="math inline">\(\boldsymbol{x}^{(k)}\)</span> 를 생각하자. <span class="math inline">\(g(\boldsymbol{x}^{(k)} + t_k \boldsymbol{v}^{(k)}) \le g(\boldsymbol{x}^{(k)})\)</span> 가 되도록 <span class="math inline">\(t_k\)</span> 와 <span class="math inline">\(\boldsymbol{v}^{(k)}\)</span> 를 정할 수 있다면 우리는 점차 <span class="math inline">\(g(\boldsymbol{x})\)</span> 의 최소값에 다가갈 것이며, 결국은 <span class="math inline">\(g(\boldsymbol{x})\)</span> 를 최소로 하는 <span class="math inline">\(\boldsymbol{x}_0\)</span> 를 얻게 되고 이것은 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해를 구하는 것이 된다.</p>
+<p><br></p>
+<p>우선 <span class="math inline">\(t_k\)</span> 와 <span class="math inline">\(\boldsymbol{v}^{(k)}\)</span> 를 결정하는 방법은 두가지가 있다</p>
+<section id="steepest-descent" class="level3">
+<h3 class="anchored" data-anchor-id="steepest-descent">Steepest descent</h3>
+<p>우리는 다변수를 다루는 미적분학 혹은 해석학에서 <span class="math inline">\(g :\mathbb{R}^n \to \mathbb{R}\)</span> 가 <span class="math inline">\(C^1\)</span> 급 함수일 때 <span class="math inline">\(g(\boldsymbol{x})\)</span> 를 증가시키는 방향이 <span class="math inline">\(\nabla g = (\partial_1 g,\ldots,\, \partial_n g)\)</span> 임을 배웠다. <span class="math inline">\(\boldsymbol{x} = \begin{bmatrix} x_1 &amp; \cdots &amp; x_n\end{bmatrix}^T\)</span> 에 대해</p>
+<p><span class="math display">\[
+g(\boldsymbol{x}) = \sum_{i, j=1}^n A_{ij}x_i x_j - 2 \sum_{i=1}^n b_i x_i
+\]</span></p>
+<p>이므로,</p>
+<p><span class="math display">\[
+\partial_i g(\boldsymbol{x}) = 2(\boldsymbol{Ax})_i -2b_i
+\]</span></p>
+<p>이다. 즉,</p>
+<p><span class="math display">\[
+\nabla g(\boldsymbol{x}) = 2 \boldsymbol{Ax}-2\boldsymbol{b}
+\]</span></p>
+<p>이다. 우리는 <span class="math inline">\(g(\boldsymbol{x})\)</span> 를 최소로 하고자 하므로 <span class="math inline">\(\boldsymbol{v}^{(k)}\)</span> 를 <span class="math inline">\(-\nabla g(\boldsymbol{x})\)</span> 방향으로 잡아야 한다. 즉 <span class="math inline">\(\boldsymbol{v}^{(k)}= \boldsymbol{b}-\boldsymbol{Ax}^{(k)}\)</span> 으로 잡을 수 있다.</p>
+<p><a href="#eq-conjugate_gradient">식&nbsp;1</a> 에 의해 정해진 <span class="math inline">\(\boldsymbol{x}^{(k)}\)</span> 와 <span class="math inline">\(\boldsymbol{v}^{(k)}\)</span> 로 <span class="math inline">\(g(\boldsymbol{x}^{(k)}+t\boldsymbol{v}^{(k)})\)</span> 를 최소화 하는 <span class="math inline">\(t\)</span> 는</p>
+<p><span class="math display">\[
+t_k = \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(k)}, \, \boldsymbol{v}^{(k)}\rangle }{\langle \boldsymbol{Av}^{(k)},\, \boldsymbol{v}^{(k)}\rangle}
+\]</span></p>
+<p>이다. 이것을 Julia 코드로 구현한 것은 아래와 같다. 위의 방법과 다른 것은 반복이 멈추는 것을 <span class="math inline">\(\|\boldsymbol{b}-\boldsymbol{Ax}^{(k)}\|_\infty\)</span> 가 <code>etol</code> 이라는 함수 인자보다 작을 때로 하였다는 것이다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">function</span> <span class="fu">steepest_iteration</span>(</span>
+<span id="cb5-2"><a href="#cb5-2"></a>    A<span class="op">::</span><span class="dt">AbstractMatrix</span>, </span>
+<span id="cb5-3"><a href="#cb5-3"></a>    b<span class="op">::</span><span class="dt">Vector</span>, </span>
+<span id="cb5-4"><a href="#cb5-4"></a>    x0<span class="op">::</span><span class="dt">Vector</span>;</span>
+<span id="cb5-5"><a href="#cb5-5"></a>    etol<span class="op">::</span><span class="dt">Number </span><span class="op">=</span> <span class="fl">1.0e-5</span>, </span>
+<span id="cb5-6"><a href="#cb5-6"></a>    Maxiter <span class="op">=</span> <span class="fl">100_000</span>)</span>
+<span id="cb5-7"><a href="#cb5-7"></a></span>
+<span id="cb5-8"><a href="#cb5-8"></a>    x <span class="op">=</span> <span class="fu">similar</span>(x0)</span>
+<span id="cb5-9"><a href="#cb5-9"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>Maxiter</span>
+<span id="cb5-10"><a href="#cb5-10"></a>        v <span class="op">=</span> b <span class="op">-</span> A<span class="op">*</span>x0</span>
+<span id="cb5-11"><a href="#cb5-11"></a>        t <span class="op">=</span> <span class="fu">dot</span>(v,(b<span class="op">-</span>A<span class="op">*</span>x0))<span class="op">/</span><span class="fu">dot</span>(v, (A<span class="op">*</span>v))</span>
+<span id="cb5-12"><a href="#cb5-12"></a>        x <span class="op">=</span> x0 <span class="op">+</span> t<span class="op">*</span>v</span>
+<span id="cb5-13"><a href="#cb5-13"></a>        <span class="cf">if</span> <span class="fu">norm</span>(A<span class="op">*</span>x<span class="op">-</span>b, <span class="cn">Inf</span>)<span class="op">&lt;</span>etol</span>
+<span id="cb5-14"><a href="#cb5-14"></a>            nitter <span class="op">=</span> i</span>
+<span id="cb5-15"><a href="#cb5-15"></a>            <span class="cf">return</span> x</span>
+<span id="cb5-16"><a href="#cb5-16"></a>        <span class="cf">else</span> </span>
+<span id="cb5-17"><a href="#cb5-17"></a>            x0 <span class="op">=</span> x</span>
+<span id="cb5-18"><a href="#cb5-18"></a>        <span class="cf">end</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a>    <span class="cf">end</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a>    <span class="cf">return</span> <span class="cn">nothing</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="boldsymbola-직교-조건" class="level3">
+<h3 class="anchored" data-anchor-id="boldsymbola-직교-조건"><span class="math inline">\(\boldsymbol{A}\)</span>-직교 조건</h3>
+<p>영벡터가 아닌 벡터의 집합 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\} \subset \mathcal{M}_{n}(\mathbb{R})\)</span> 이 <span class="math inline">\(i \ne j \implies \langle \boldsymbol{Av}^{(i)},\, \boldsymbol{v}^{(j)}\rangle = 0\)</span> 일 때 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}\)</span> 를 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터라고 한다.</p>
+<p><br></p>
+<div id="prp-A_orthogonal_vectors_are_linearly_independent" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 5 </strong></span>Positive definite <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}\)</span> 가 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터일 때 이 벡터들은 선형독립이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\sum_i c_i \boldsymbol{v}^{(i)} = \boldsymbol{0}\)</span> 일 때 임의의 <span class="math inline">\(\boldsymbol{v}^{(j)}\)</span> 에 대해</p>
+<p><span class="math display">\[
+0 = \left\langle \boldsymbol{A} \left( \sum_i c_i \boldsymbol{v}^{(i)} \right), \, \boldsymbol{v}^{(j)}\right\rangle = c_j
+\]</span></p>
+<p>이다. 따라서 <span class="math inline">\(c_1 = \cdots = c_m=0\)</span> 이므로 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}\)</span> 는 선형독립이다.</p>
+</div>
+<p><br></p>
+<p>즉 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{R})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}\)</span>-직교인 <span class="math inline">\(n\)</span> 개의 벡터를 얻었다면 이 <span class="math inline">\(n\)</span> 개의 벡터는 <span class="math inline">\(\mathcal{M}_n(\mathbb{R})\)</span> 의 기저가 된다. 이제 <span class="math inline">\(\boldsymbol{A}\)</span>-직교인 <span class="math inline">\(\{\boldsymbol{v}^{(k)} : k=1,\ldots,\,n\}\)</span> 를 구해야 할 것 같지만 잠시 미뤄두자. 구하는 것은 복잡하거나 어렵지 않다. 일단 <span class="math inline">\(\boldsymbol{A}\)</span>-직교인 <span class="math inline">\(\{\boldsymbol{v}^{(k)} : k=1,\ldots,\,n\}\)</span> 를 안다면 우리는 최대 <span class="math inline">\(n\)</span> 번의 iteration 선형방정식의 해를 이론적으로 구할 수 있다는 것을 보일 수 있다. 여기서 이론적이라는 것은 roundoff-error 등으로 인한 오차를 생각하지 않는다는 조건이다.</p>
+<p><br></p>
+<div id="thm-A-orthogonal_method" class="theorem">
+<p><span class="theorem-title"><strong>정리 5 </strong></span>Positive definite <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 에 대해 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots,\,\boldsymbol{v}^{(n)}\}\)</span> 이 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터라고 하자. 임의의 <span class="math inline">\(\boldsymbol{x}_1\in \mathcal{M}\)</span> 과 <span class="math inline">\(k=1,\ldots,\,n\)</span> 에 대해</p>
+<p><span class="math display">\[
+\begin{aligned}
+t_k &amp;= \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(k)}, \, \boldsymbol{v}^{(k)}\rangle }{\langle \boldsymbol{Av}^{(k)},\, \boldsymbol{v}^{(k)}\rangle}, \\
+\boldsymbol{x}^{(k+1)} &amp;= \boldsymbol{x}^{(k)} + t_k \boldsymbol{v}^{(k)}
+\end{aligned}
+\]</span></p>
+<p>라면, <span class="math inline">\(\boldsymbol{Ax}^{(k+1)} = \boldsymbol{b}\)</span> 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>주어진 식으로부터 <span id="eq-positive_definite_1"><span class="math display">\[
+\begin{aligned}
+\boldsymbol{Ax}^{(n+1)} &amp;= \boldsymbol{Ax}^{(n)} + t_ n \boldsymbol{Av}^{(n)} \\
+&amp;= \boldsymbol{A}(\boldsymbol{x}^{(n-1)}  + t_{n-1}\boldsymbol{v}^{(n-1)}) + t_n \boldsymbol{Av}^{(n)}\\
+&amp; \qquad \qquad  \vdots \\
+&amp; = \boldsymbol{Ax}^{(1)} + t_1\boldsymbol{Av}^{(1)} + \cdots + t_n \boldsymbol{Av}^{(n)}
+\end{aligned}
+\tag{2}\]</span></span></p>
+<p>을 얻는다. 따라서,</p>
+<p><span class="math display">\[
+\boldsymbol{Ax}^{(n+1)} - \boldsymbol{b} = (\boldsymbol{Ax}^{(1)} - \boldsymbol{b})+ t_1\boldsymbol{Av}^{(1)} + \cdots + t_n \boldsymbol{Av}^{(n)}
+\]</span></p>
+<p>이다. 여기에 <span class="math inline">\(\boldsymbol{v}^{(k)}\)</span> 와의 내적을 구하면</p>
+<p><span class="math display">\[
+\langle \boldsymbol{Ax}^{(n+1)} - \boldsymbol{b},\, \boldsymbol{v}^{(k)}\rangle = \langle \boldsymbol{Ax}^{(1)}- \boldsymbol{b}, \, \boldsymbol{v}^{(k)}\rangle + t_k \langle \boldsymbol{Av}^{(k)},\, \, \boldsymbol{v}^{(k)}\rangle
+\]</span></p>
+<p>이며 <span class="math inline">\(t_k\)</span> 의 정의로부터</p>
+<p><span class="math display">\[
+t_k \langle \boldsymbol{Av}^{(k)},\, \, \boldsymbol{v}^{(k)}\rangle = \langle \boldsymbol{b}-\boldsymbol{Ax}^{(k)}, \, \boldsymbol{v}^{(k)}\rangle
+\]</span></p>
+<p>이므로,</p>
+<p><span class="math display">\[
+\langle \boldsymbol{Ax}^{(n+1)}-\boldsymbol{b},\, \boldsymbol{v}^{(k)}\rangle = \langle \boldsymbol{A}(\boldsymbol{x}^{(1)}-\boldsymbol{x}^{(k)})-\boldsymbol{b}, \, \boldsymbol{v}^{(k)}\rangle
+\]</span></p>
+<p>임을 얻을 수 있다. <a href="#eq-positive_definite_1">식&nbsp;2</a> 로부터, <span class="math inline">\(\boldsymbol{Ax}^{(k)}\)</span> 는 <span class="math inline">\(\boldsymbol{Ax}^{(1)}\)</span> 과 <span class="math inline">\(\boldsymbol{Av}^{(1)}, \ldots, \boldsymbol{Av}^{(k-1)}\)</span> 의 선형결합임을 안다. 즉 위식의 우변은 <span class="math inline">\(0\)</span> 이다. 따라서</p>
+<p><span class="math display">\[
+\boldsymbol{Ax}^{(n+1)} = \boldsymbol{b}
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p>이제 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터를 구하는 방법을 알아볼 차례이다. 다음을 보자.</p>
+<div id="thm-A_orthogonal_vectors_1" class="theorem">
+<p><span class="theorem-title"><strong>정리 6 </strong></span>Positive definite <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{r}^{(k)}=\boldsymbol{b}-\boldsymbol{Ax}^{(k)}\)</span> 이라 하면 <span class="math inline">\(j=1,\ldots,\,k-1\)</span> 에 대해 <span class="math inline">\(\langle \boldsymbol{r}^{(k)}, \boldsymbol{v}^{(j)}\rangle=0\)</span> 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>Induction 으로 증명한다. <span class="math inline">\(k=2\)</span> 에 대해 <span class="math inline">\(\boldsymbol{r}^{(2)} = \boldsymbol{b}-\boldsymbol{Ax}^{(2)}\)</span> 이며 <span class="math inline">\(\boldsymbol{x}^{(2)} = \boldsymbol{x}^{(1)} +t_1 \boldsymbol{v}^{(1)}\)</span> 이다. <span class="math inline">\(t_1 = \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(1)}, \boldsymbol{v}^{(1)}\rangle}{\langle \boldsymbol{Av}^{(1)},\boldsymbol{v}^{(1)}\rangle}\)</span> 이므로,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\langle \boldsymbol{r}^{(2)},\boldsymbol{v}^{(1)}\rangle &amp;= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(1)} - t_1\boldsymbol{Av}^{(1)},\boldsymbol{v}^{(1)}\rangle \\
+&amp;= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(1)},\boldsymbol{v}^{(1)}\rangle - t_1 \langle \boldsymbol{Av}^{(1)},\boldsymbol{v}^{(1)}\rangle = 0
+\end{aligned}
+\]</span></p>
+<p>이다. 이제 <span class="math inline">\(k&lt;n\)</span> 에 대해 성립함을 가정하자. <span class="math inline">\(j=1,\ldots,\,k\)</span> 에 대해 다음이 성립함을 보이면 된다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\langle \boldsymbol{r}^{(k+1)}, \boldsymbol{v}^{(j)}\rangle &amp;= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(k+1)},\,\boldsymbol{v}^{(j)}\rangle \\
+&amp;= \langle \boldsymbol{b} - \boldsymbol{Ax}^{(k)} - t_k\boldsymbol{Av}^{(k)},\, \boldsymbol{v}^{(j)}\rangle \\
+&amp;= \langle \boldsymbol{r}^{(k)}, \boldsymbol{v}^{(j)}\rangle - t_k \langle \boldsymbol{Av}^{(k)}, \boldsymbol{v}^{(j)}\rangle
+\end{aligned}
+\]</span></p>
+<p>이다. <span class="math inline">\(j=&lt;k\)</span> 이면 induction 의 가정에 의해 <span class="math inline">\(\langle \boldsymbol{r}^{(k)}, \boldsymbol{v}^{(j)}\rangle =0\)</span> 이며 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터의 정의에 의해 <span class="math inline">\(\langle \boldsymbol{Av}^{(k)}, \boldsymbol{v}^{(j)}\rangle=0\)</span> 이므로 성립한다. <span class="math inline">\(j=k\)</span> 일 때는 <span class="math inline">\(t_k\)</span> 의 정의에 의해 <span class="math inline">\(0\)</span> 이 된다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div id="thm-A_orthogonal_vectors_2" class="theorem">
+<p><span class="theorem-title"><strong>정리 7 </strong></span>아래와 같이 정의된 <span class="math inline">\(\boldsymbol{v}^{(k)}\)</span> <span class="math inline">\((k\ge 2)\)</span> 는 <span class="math inline">\(j=1,\,\ldots,k-1\)</span> 에 대해 <span class="math inline">\(\langle \boldsymbol{v}^{(k)},\, \boldsymbol{Av}^{(j)}\rangle = 0\)</span> 이다.</p>
+<p><span class="math display">\[
+\boldsymbol{v}^{(k)}=\boldsymbol{r}^{(k)} + s_k \boldsymbol{v}^{(k-1)}, \qquad \text{where } s_k = \dfrac{\langle \boldsymbol{r}^{(k)}, \,\boldsymbol{r}^{(k)} \rangle}{\langle \boldsymbol{r}^{(k-1)}, \,\boldsymbol{r}^{(k-1)} \rangle}
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(k=2\)</span> 일 때</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{v}^{(2)} &amp;= \boldsymbol{b}-\boldsymbol{Ax}^{(2)} + s_1 \boldsymbol{v}^{(1)} \\
+&amp;= \boldsymbol{b}-\boldsymbol{A}(\boldsymbol{x}^{(1)}-t_1 \boldsymbol{v}^{(1)})+ s_1 \boldsymbol{v}^{(1)}\\
+&amp;= \boldsymbol{b} - \boldsymbol{Ax}^{(1)} +
+\end{aligned}
+\]</span></p>
+</div>
 
 
 </section>

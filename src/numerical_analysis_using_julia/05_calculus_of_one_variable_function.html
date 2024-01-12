@@ -464,7 +464,7 @@ x_i = a + (i-1)h = a+ (i-1)\dfrac{(b-a)}{n-1},\qquad i=1,\ldots,\,n
 &amp;\approx \sum_{i=2}^{n-1} w_i f(x_i) \qquad &amp; &amp; \text{open Newton-Cotes method}
 \end{aligned}
 \]</span></p>
-<p>즉 우리가 여기서 구해야 할 것은 각 구간에서의 weight factor <span class="math inline">\(w_i\)</span> 이다. Newton-Cotes 방법을 이용한 대표적인 적분방법이 Trapzoidal 방법과 Simpson 방법이다.</p>
+<p>즉 우리가 여기서 구해야 할 것은 각 구간에서의 weight factor <span class="math inline">\(w_i\)</span> 이다. Newton-Cotes 방법을 이용한 대표적인 적분방법은 사다리꼴 방법과 Simpson 방법이다.</p>
 <p><br></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -473,24 +473,32 @@ x_i = a + (i-1)h = a+ (i-1)\dfrac{(b-a)}{n-1},\qquad i=1,\ldots,\,n
 </figure>
 </div>
 <p><br></p>
-<p>중점법은 구간 <span class="math inline">\([x_i,\, [x_{i+1}]]\)</span> 의 중점 <span class="math inline">\(x^m_{i}\)</span> 을 이용하여 적분값을 <span class="math inline">\(f(x^m_{i})h\)</span> 로 추정하는 방법이다. Trepziodal 방법은 <span class="math inline">\([x_i,\,x_{i+1}]\)</span> 의 적분을 <span class="math inline">\((x_i,\, f(x_i))\)</span> 와 <span class="math inline">\((x_{i+1},\, f(x_{i+1}))\)</span> 을 1차 함수로 근사하여 적분값을 계산한다. Simpson 방법은 두가지가 있는데 각각은 이어지는 세 점이나 네 점을 각각 2차함수와 3차함수로 근사하여 적분하는 방법이다. $</p>
+<p>중점법은 구간 <span class="math inline">\([x_i,\, x_{i+1}]\)</span> 의 중점 <span class="math inline">\(\dfrac{1}{2}(x_i + x_{i+1})\)</span> 에서의 함수값을 이용하여 적분값을 계산하는 방법이다. 사다리꼴 방법은 <span class="math inline">\([x_i,\,x_{i+1}]\)</span> 의 적분을 <span class="math inline">\((x_i,\, f(x_i))\)</span> 와 <span class="math inline">\((x_{i+1},\, f(x_{i+1}))\)</span> 을 1차 함수로 근사하여 적분값을 계산한다. Simpson 방법은 두가지가 있는데 각각은 이어지는 세 점이나 네 점을 각각 2차함수와 3차함수로 근사하여 적분하는 방법이다.</p>
 <p><br></p>
 </section>
 <section id="중점을-이용한-적분" class="level3">
 <h3 class="anchored" data-anchor-id="중점을-이용한-적분">중점을 이용한 적분</h3>
-<p><span class="math inline">\([x_{i},\, x_{i+1}]\)</span> 구간에 대한 적분을 구할 때 구간 끝잠의 중점 <span class="math inline">\(x^m_i = \dfrac{x_{i+1}+x_{i}}{2}\)</span> 에서의 함수값을 사용하는 방법이다. 즉,</p>
+<p>중점을 이용한 적분은 구간 <span class="math inline">\([a,\,b]\)</span> 와 함수 <span class="math inline">\(f(x)\)</span> 가 주어졌을 때 가장 간단하고 빠르게 적분을 구하는 방법이다. <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(n-1\)</span> 개의 구간으로 나누어,</p>
+<p><span class="math display">\[
+a=x_1 &lt; x_2 &lt; \cdots &lt; x_n=b
+\]</span></p>
+<p>이며 <span class="math inline">\(i=1,\ldots,\,n-1\)</span> 에 대해 <span class="math inline">\(x_{i+1}-x_i = h\)</span> 라고 하자.</p>
+<p><span class="math display">\[
+\int_{a}^{b}f(x)\,dx = \sum_{i=1}^{n-1}\int_{x_i}^{x_{i+1}}f(x)\, dx
+\]</span></p>
+<p>임을 안다. <span class="math inline">\([x_{i},\, x_{i+1}]\)</span> 구간에 대한 적분을 구할 때 구간의 양 끝점에 대한 중점 <span class="math inline">\(x^m_i = \dfrac{x_{i+1}+x_{i}}{2}\)</span> 에서의 함수값을 사용하는 방법이다. 즉,</p>
 <p><span class="math display">\[
 \int_{x_{i}}^{x_{i+1}} f(x)\,dx\approx f\left(\dfrac{x_{i+1}+x_i}{2}\right) h = f(x^m_i) h
 \]</span></p>
 <p>로 근사하는 방법이다. 테일러 정리에 의해</p>
 <p><span class="math display">\[
-f(x) = f(x^m_i)+f'(x^m_i)(x-x_m) + \dfrac{1}{2}f^{(2)}(\xi) (x-x_m)^2
+f(x) = f(x^m_i)+f'(x^m_i)(x-x_m) + \dfrac{1}{2}f^{(2)}(\xi) (x-x_i^m)^2
 \]</span></p>
-<p>을 만족하는 <span class="math inline">\(\xi_i\in [x_{i},\, x_{i+1}]\)</span> 이 존재한다.</p>
+<p>을 만족하는 <span class="math inline">\(\xi_i\in [x_{i},\, x_{i+1}]\)</span> 이 존재한다는 것을 안다. 위 식을 적분하면</p>
 <p><span class="math display">\[
 \int_{x_i}^{x_{i+1}} f(x)\, dx = f(x_i^m)h + \dfrac{1}{24}f^{(2)}(\xi_i)h^3
 \]</span></p>
-<p>이다. <span class="math inline">\([a,\,b]\)</span> 를 <span class="math inline">\(a=x_1&lt;x_2&lt;\cdots &lt;x_n=b\)</span> 의 <span class="math inline">\(n\)</span> 개의 점을 이용하여 <span class="math inline">\(n-1\)</span> 개의 구간으로 나누어 적분하면,</p>
+<p>이며, 따라서 <span class="math inline">\([a,\,b]\)</span> 구간에서의 적분은</p>
 <p><span class="math display">\[
 \int_a^b f(x) \,dx= \sum_{i=1}^{n-1} f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h + \dfrac{h^3}{24} \sum_{i=1}^{n-1}f^{(2)}(\xi_i)
 \]</span></p>
@@ -507,11 +515,15 @@ I_M [f,\,a,\,b,\,n] = \sum_{i=1}^{n-1}f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h
 </section>
 <section id="사다리꼴-방법-를-이용한-적분" class="level3">
 <h3 class="anchored" data-anchor-id="사다리꼴-방법-를-이용한-적분">사다리꼴 방법 를 이용한 적분</h3>
-<p>함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([x_i,\, x_{i+1}]\)</span> 구간에서 1차 다항식으로 근사하는 것을 <strong>사다리꼴 방법</strong> 이라고 하며, 주어진 점으로부터 다항식을 구하는 방법은 <a href="../../src/numerical_analysis_using_julia/04_interpolation.html#sec-global_interpolation_using_polynomial">다항식을 이용한 전역적 보간법</a> 에서 설명한 세가지 방법중 한가지를 사용한다.</p>
+<p>사다리꼴 방법은 <span class="math inline">\([a,\,b]\)</span> 구간에 대한 함수 <span class="math inline">\(f(x)\)</span> 가 주어졌거나 수열 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 과 <span class="math inline">\(f(x_i)= y_i\)</span> 가 주어졌을 때 사용할 수 있다. 여기서도</p>
+<p><span class="math display">\[
+a=x_1&lt;x_2&lt;\cdots &lt;x_n=b
+\]</span></p>
+<p>가 성립한다고 하자. 함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([x_i,\, x_{i+1}]\)</span> 구간에서 1차 다항식 <span class="math inline">\(\tilde{f}(x) = \dfrac{y_{i+1}-y_i}{x_{i+1}-x_i}(x-x_i)+y_i\)</span> 으로 근사하는 것을 <strong>사다리꼴 방법 (trapzoidal method)</strong> 이라고 한다.</p>
 <p><br></p>
 <p><span class="math inline">\([x_{i-1},\, x_i]\)</span> 구간에서 <span class="math inline">\((x_{i-1},\, f(x_{i-1}))\)</span> 과 <span class="math inline">\((x_{i},\, f(x_i))\)</span> 를 1차 다항식으로 근사하면 <a href="../../src/numerical_analysis_using_julia/04_interpolation.html#sec-error_for_polynomial_interpolation">다항식을 이용한 보간법의 오차</a> 의 <strong>정리 1</strong> 에서 보았듯이 다음을 만족하는 <span class="math inline">\(\xi\in [x_{i-1},\, x_i]\)</span> 가 존재한다. <span class="math display">\[
 \begin{aligned}
-f(x) = f(x_{i-1})\dfrac{x-x_{i}}{x_{i-1}-x_i} + f(x_i)\dfrac{x-x_{i-1}}{x_{i}-x_{i-1}} + \dfrac{f^{(2)}(\xi_i)}{2}(x-x_{i-1})(x-x_i).\\
+f(x) = \tilde{f}(x) + \dfrac{f^{(2)}(\xi_i)}{2}(x-x_{i-1})(x-x_i).\\
 \end{aligned}
 \]</span></p>
 <p>이것을 <span class="math inline">\([x_{i-1},\, x_i]\)</span> 구간에서 적분하면 다음을 얻는다.</p>
@@ -525,13 +537,13 @@ f(x) = f(x_{i-1})\dfrac{x-x_{i}}{x_{i-1}-x_i} + f(x_i)\dfrac{x-x_{i-1}}{x_{i}-x_
 \int_{a}^b f(x)\, dx= \dfrac{h}{2}(f(x_1)+ f(x_n)) + \sum_{i=2}^{n-1} hf(x_i) - \dfrac{h^3}{12}\sum_{i=1}^{n-1} f^{(2)}(\xi_i)
 \]</span></p>
 <p>를 얻는다. 사다리꼴 방법에 의한 적분값 <span class="math inline">\(I_T\)</span> 는</p>
-<p><span class="math display">\[
+<p><span id="eq-trapzoidal_value"><span class="math display">\[
 I_T[f, a, b, n] = \dfrac{h}{2}\left(f(x_1)+ f(x_n) + \sum_{i=2}^{n-1} f(x_i)\right)
-\]</span></p>
+\tag{8}\]</span></span></p>
 <p>이다. 이제 적분의 오차를 알아보자. <span class="math inline">\(f^{(2)}(x)\)</span> 가 연속이므로 <span class="math inline">\(\displaystyle \dfrac{1}{n-1}\sum_{i=1}^{n-1} f^{(2)}(\xi_i)= f^{(2)}(\xi)\)</span> 를 만족하는 <span class="math inline">\(\xi\in [a,\,b]\)</span> 가 존재하며<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> 따라서 사다리꼴 방법에 의한 적분에 대한 에러 <span class="math inline">\(E_T\)</span> 는</p>
-<p><span class="math display">\[
+<p><span id="eq-trapzoidal_error"><span class="math display">\[
 E_T[f, a, b, n] = \dfrac{h^3}{12}(n-1)f^{(2)}(\xi) = \dfrac{h^3}{12}\dfrac{b-a}{h}f^{(2)}(\xi) = \dfrac{(b-a)f^{(2)}(\xi)}{12}h^2 = O(h^2)
-\]</span></p>
+\tag{9}\]</span></span></p>
 <p>이다.</p>
 <p><br></p>
 </section>
@@ -565,21 +577,21 @@ f''(x) =  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi_i')}{36}h^5
 \end{aligned}
 \]</span></p>
 <p>를 만족하는 <span class="math inline">\(\overline{\xi}_i \in [x_{i-1},\,x_{i+1}]\)</span> 가 존재한다(Atkinson, Kendall E. (1989). An Introduction to Numerical Analysis (2nd ed.). John Wiley &amp; Sons. 을 참고하라)</p>
-<p>이제 <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(a=x_1&lt;x_2&lt;\cdots&lt;x_{2n}&lt;x_{2n+1}=b\)</span> 의 <span class="math inline">\(2n\)</span> 개의 구간으로 나누어 적분하여 합치는 것을 생각하자. Simpson 1/3 적분은 2개의 구간을 한꺼번에 적분하므로 <span class="math inline">\(2n+1\)</span> 개의 위치가 필요하다. 에러도 <span class="math inline">\(2n+1\)</span> points 에 대한 중간값 정리를 사용하면 다음을 만족하는 <span class="math inline">\(\xi \in [x_1,\,x_{2n+1}]\)</span> 이 존재한다.</p>
+<p>이제 <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(a=x_1&lt;x_2&lt;\cdots&lt;x_{2m}&lt;x_{2m+1}=b\)</span> 의 <span class="math inline">\(2m\)</span> 개의 구간으로 나누어 적분하여 합치는 것을 생각하자. Simpson 1/3 적분은 2개의 구간을 한꺼번에 적분하므로 <span class="math inline">\(2m+1\)</span> 개의 위치가 필요하다. 에러도 <span class="math inline">\(2m+1\)</span> points 에 대한 중간값 정리를 사용하면 다음을 만족하는 <span class="math inline">\(\xi \in [x_1,\,x_{2m+1}]\)</span> 이 존재한다.</p>
 <p><span class="math display">\[
 \begin{aligned}
 \int_{a}^b f(x)\, dx &amp;= \dfrac{h}{3} \left[f(x_1) + 4f(x_2) + 2f(x_3) + 4f(x_4) + 2f(x_5)+\cdots \right.\\
-&amp;\qquad \cdots \left.+ 4f(x_{2n-2})+2f(x_{2n-1}) + 4f(x_{2n})+f(x_{2n+1})\right] - \dfrac{n}{2}\dfrac{f^{(4)}(\xi)}{90}h^5
+&amp;\qquad \cdots \left.+ 4f(x_{2m-2})+2f(x_{2m-1}) + 4f(x_{2m})+f(x_{2m+1})\right] - m\dfrac{f^{(4)}(\xi)}{90}h^5
 \end{aligned}
 \]</span></p>
-<p>따라서 Simpson 1/3 적분값은 다음과 같다. <span class="math display">\[
-\mathcal{I}_{1/3}[f,\,a,\,b,\, 2n+1] = \dfrac{h}{3} \left[f(x_1) + f(x_{2n+1}) + 4\left(\sum_{k=1}^n  f(x_{2k})\right) + 2\left(\sum_{k=1}^{n-1} f(x_{2k+1})\right)\right]
-\]</span></p>
+<p>따라서 Simpson 1/3 적분값은 다음과 같다. <span id="eq-simpson_1_3_value"><span class="math display">\[
+\mathcal{I}_{1/3}[f,\,a,\,b,\, 2n+1] = \dfrac{h}{3} \left[f(x_1) + f(x_{2m+1}) + 4\left(\sum_{k=1}^m  f(x_{2k})\right) + 2\left(\sum_{k=1}^{m-1} f(x_{2k+1})\right)\right]
+\tag{10}\]</span></span></p>
 <p><br></p>
 </section>
 <section id="simpson-38-적분" class="level3">
 <h3 class="anchored" data-anchor-id="simpson-38-적분">Simpson 3/8 적분</h3>
-<p>Simpson 1/3 적분이 전체 <span class="math inline">\(n\)</span> 개의 구간을 2개씩 묶어서 적분하여 합쳤다면 3/8 적분은 3개씩 묶어서 합친다. 라그랑쥬 다항식을 이용하면,</p>
+<p>Simpson 1/3 적분이 전체 <span class="math inline">\(n-1\)</span> 개의 구간을 2개씩 묶어서 적분하여 합쳤다면 3/8 적분은 3개씩 묶어서 합친다. 라그랑쥬 다항식을 이용하면,</p>
 <p><span class="math display">\[
 L_4(x) = f(x_{i-1})l_{i-1}(x) + f(x_i)l_i(x) + f(x_{i+1})l_{i+1}(x) + f(x_{i+2})l_{i+2}(x)
 \]</span></p>
@@ -593,17 +605,17 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 \int_{x_{i-1}}^{x_{i+2}} f(x)\, dx = \dfrac{3h}{8} \left( f(x_{i-1}) + 3 f(x_{i}) + 3f(x_{i+1}) + f(x_{i+2})\right) - \dfrac{3}{80}f^{(4)}(\xi) h^5
 \end{aligned}
 \]</span></p>
-<p>를 얻는다. 이것을 <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(a=x_1&lt;\cdots &lt;x_{3n+1}=b\)</span> 이며 <span class="math inline">\(x_{i+1}-x_i = h=\text{const.}\)</span> 라면</p>
+<p>를 얻는다. 이것을 <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(a=x_1&lt;\cdots &lt;x_{3m+1}=b\)</span> 이며 <span class="math inline">\(x_{i+1}-x_i = h=\text{const.}\)</span> 라면</p>
 <p><span class="math display">\[
 \begin{aligned}
-\int_a^b f(x)\, dx &amp;= \dfrac{3h}{8} \left[f(x_1) + f(x_{3n+1}) + 3\sum_{i=0}^{n-1} \left(f(x_{3i+2}) + f(x_{3i+3})\right)  + 2\sum_{i=1}^{n-1} f(x_{3i+1})\right] - \dfrac{3n}{80}f^{(4)} (\xi) h^5
+\int_a^b f(x)\, dx &amp;= \dfrac{3h}{8} \left[f(x_1) + f(x_{3m+1}) + 3\sum_{i=0}^{m-1} \left(f(x_{3i+2}) + f(x_{3i+3})\right)  + 2\sum_{i=1}^{m-1} f(x_{3i+1})\right] - \dfrac{3m}{80}f^{(4)} (\xi) h^5
 \end{aligned}
 \]</span></p>
 <p>를 만족하는 <span class="math inline">\(\xi \in [a,\,b]\)</span> 가 존재한다. 여기서</p>
-<p><span class="math display">\[
-\mathcal{I}_{3/8}[f,\,a,\,b,\, 3n+1]=\dfrac{3h}{8} \left[f(x_1) + f(x_{3n+1}) + 3\sum_{i=0}^{n-1} \left(f(x_{3i+2}) +f(x_{3i+3})\right) +  + 2\sum_{i=1}^{n-1} f(x_{3i+1})\right]
-\]</span></p>
-<p>는 Simpson 3/8 적분값이며 그 오차는 <span class="math inline">\(- \dfrac{3n}{80}f^{(4)} (\xi) h^5\)</span> 이다.</p>
+<p><span id="eq-simpson_3_8_value"><span class="math display">\[
+\mathcal{I}_{3/8}[f,\,a,\,b,\, 3m+1]=\dfrac{3h}{8} \left[f(x_1) + f(x_{3m+1}) + 3\sum_{i=0}^{m-1} \left(f(x_{3i+2}) +f(x_{3i+3})\right) +  + 2\sum_{i=1}^{m-1} f(x_{3i+1})\right]
+\tag{11}\]</span></span></p>
+<p>는 Simpson 3/8 적분값이며 그 오차는 <span class="math inline">\(- \dfrac{3m}{80}f^{(4)} (\xi) h^5\)</span> 이다.</p>
 <!-- [^2]: 일변수 함수 $f$ 가 닫힌 구간 $[a,\,b]$ 에서 연속이면 최대값과 최소값이 항상 존재한다는 것은 아주 중요한 수학적 사실이다. -->
 <p><br></p>
 <p>아래 그림은 <span class="math inline">\(\displaystyle \int_0^1 \exp(x)\, dx\)</span> 를 세가지 방법으로, 구간을 변화시켜 가며 구하여 실제값인 <span class="math inline">\((e-1)\)</span> 로 나눈 비율을 표현하였다. <span class="math inline">\(N_{points}\)</span> 가 작을 때는 계산값간의 다소간의 차이가 있으며 실제 값과도 차이가 있지만 <span class="math inline">\(N_{points}\)</span> 값이 커질수록 세 방법 모두 실제 값에 수렴해 나간다는 것을 볼 수 있다. 또 하나 유의할 것은 Simpson 3/8 방법이 Simpson 1/3 방법보다 다소 복잡함에도 불구하고 일반적으로 실제 값과의 차이는 Simpson 1/3 방법이 더 작다. 이런 이유로 단순이 Simpson 방법이라고 할 때는 Simpson 1/3 방법을 말한다.</p>
@@ -620,8 +632,8 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 <span id="cb1-5"><a href="#cb1-5"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
 <span id="cb1-6"><a href="#cb1-6"></a>    </span>
 <span id="cb1-7"><a href="#cb1-7"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>n</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n<span class="op">+</span><span class="fl">1</span>)</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n)</span>
 <span id="cb1-10"><a href="#cb1-10"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
 <span id="cb1-11"><a href="#cb1-11"></a>    result <span class="op">=</span> <span class="fl">0.5</span><span class="fu">*</span>(ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
 <span id="cb1-12"><a href="#cb1-12"></a>    result <span class="op">+=</span> <span class="fu">sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
@@ -633,34 +645,36 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 <span id="cb1-18"><a href="#cb1-18"></a>    a<span class="op">::</span><span class="dt">Number</span>, </span>
 <span id="cb1-19"><a href="#cb1-19"></a>    b<span class="op">::</span><span class="dt">Number</span>, </span>
 <span id="cb1-20"><a href="#cb1-20"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb1-21"><a href="#cb1-21"></a>    <span class="pp">@assert</span> n <span class="op">%</span><span class="fl">2</span> <span class="op">==</span><span class="fl">0</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
-<span id="cb1-23"><a href="#cb1-23"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>n</span>
-<span id="cb1-24"><a href="#cb1-24"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n<span class="op">+</span><span class="fl">1</span>)</span>
-<span id="cb1-25"><a href="#cb1-25"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
-<span id="cb1-26"><a href="#cb1-26"></a>    result <span class="op">=</span> (ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
-<span id="cb1-27"><a href="#cb1-27"></a>    result <span class="op">+=</span> <span class="fl">4</span><span class="fu">*sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
-<span id="cb1-28"><a href="#cb1-28"></a>    result <span class="op">+=</span> <span class="fl">2</span><span class="fu">*sum</span>(ff[<span class="fl">3</span><span class="op">:</span><span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">2</span>])</span>
-<span id="cb1-29"><a href="#cb1-29"></a>    <span class="cf">return</span> result <span class="op">*</span> h<span class="op">/</span><span class="fl">3</span></span>
-<span id="cb1-30"><a href="#cb1-30"></a><span class="kw">end</span></span>
-<span id="cb1-31"><a href="#cb1-31"></a></span>
-<span id="cb1-32"><a href="#cb1-32"></a><span class="kw">function</span> <span class="fu">integrate_simpson_3_8</span>(</span>
-<span id="cb1-33"><a href="#cb1-33"></a>    f<span class="op">::</span><span class="dt">Function</span>,  </span>
-<span id="cb1-34"><a href="#cb1-34"></a>    a<span class="op">::</span><span class="dt">Number</span>, </span>
-<span id="cb1-35"><a href="#cb1-35"></a>    b<span class="op">::</span><span class="dt">Number</span>, </span>
-<span id="cb1-36"><a href="#cb1-36"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb1-37"><a href="#cb1-37"></a>    <span class="pp">@assert</span> n <span class="op">%</span><span class="fl">3</span> <span class="op">==</span><span class="fl">0</span></span>
-<span id="cb1-38"><a href="#cb1-38"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
-<span id="cb1-39"><a href="#cb1-39"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>n</span>
-<span id="cb1-40"><a href="#cb1-40"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n<span class="op">+</span><span class="fl">1</span>)</span>
-<span id="cb1-41"><a href="#cb1-41"></a>    <span class="fu">println</span>(<span class="st">"h=</span><span class="sc">$</span>h<span class="st">, dx=</span><span class="sc">$</span>(x[<span class="fl">10</span>]<span class="op">-</span>x[<span class="fl">9</span>])<span class="st">"</span>)</span>
-<span id="cb1-42"><a href="#cb1-42"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
-<span id="cb1-43"><a href="#cb1-43"></a>    result <span class="op">=</span> (ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
-<span id="cb1-44"><a href="#cb1-44"></a>    result <span class="op">+=</span> <span class="fl">3</span><span class="fu">*sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">2</span>])</span>
-<span id="cb1-45"><a href="#cb1-45"></a>    result <span class="op">+=</span> <span class="fl">3</span><span class="fu">*sum</span>(ff[<span class="fl">3</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
-<span id="cb1-46"><a href="#cb1-46"></a>    result <span class="op">+=</span> <span class="fl">2</span><span class="fu">*sum</span>(ff[<span class="fl">4</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">3</span>])</span>
-<span id="cb1-47"><a href="#cb1-47"></a>    <span class="cf">return</span> result <span class="op">*</span> h <span class="op">*</span> <span class="fl">3</span> <span class="op">/</span> <span class="fl">8</span></span>
-<span id="cb1-48"><a href="#cb1-48"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-21"><a href="#cb1-21"></a>    </span>
+<span id="cb1-22"><a href="#cb1-22"></a>    <span class="pp">@assert</span> n <span class="op">%</span><span class="fl">2</span> <span class="op">==</span> <span class="fl">1</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
+<span id="cb1-24"><a href="#cb1-24"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb1-25"><a href="#cb1-25"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n)</span>
+<span id="cb1-26"><a href="#cb1-26"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
+<span id="cb1-27"><a href="#cb1-27"></a>    result <span class="op">=</span> (ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
+<span id="cb1-28"><a href="#cb1-28"></a>    result <span class="op">+=</span> <span class="fl">4</span><span class="fu">*sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
+<span id="cb1-29"><a href="#cb1-29"></a>    result <span class="op">+=</span> <span class="fl">2</span><span class="fu">*sum</span>(ff[<span class="fl">3</span><span class="op">:</span><span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">2</span>])</span>
+<span id="cb1-30"><a href="#cb1-30"></a>    <span class="cf">return</span> result <span class="op">*</span> h<span class="op">/</span><span class="fl">3</span></span>
+<span id="cb1-31"><a href="#cb1-31"></a><span class="kw">end</span></span>
+<span id="cb1-32"><a href="#cb1-32"></a></span>
+<span id="cb1-33"><a href="#cb1-33"></a><span class="kw">function</span> <span class="fu">integrate_simpson_3_8</span>(</span>
+<span id="cb1-34"><a href="#cb1-34"></a>    f<span class="op">::</span><span class="dt">Function</span>, </span>
+<span id="cb1-35"><a href="#cb1-35"></a>    a<span class="op">::</span><span class="dt">Number</span>, </span>
+<span id="cb1-36"><a href="#cb1-36"></a>    b<span class="op">::</span><span class="dt">Number</span>, </span>
+<span id="cb1-37"><a href="#cb1-37"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb1-38"><a href="#cb1-38"></a>    </span>
+<span id="cb1-39"><a href="#cb1-39"></a>    <span class="pp">@assert</span> n <span class="op">%</span><span class="fl">3</span> <span class="op">==</span> <span class="fl">1</span></span>
+<span id="cb1-40"><a href="#cb1-40"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
+<span id="cb1-41"><a href="#cb1-41"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb1-42"><a href="#cb1-42"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n)</span>
+<span id="cb1-43"><a href="#cb1-43"></a>    <span class="fu">println</span>(<span class="st">"h=</span><span class="sc">$</span>h<span class="st">, dx=</span><span class="sc">$</span>(x[<span class="fl">10</span>]<span class="op">-</span>x[<span class="fl">9</span>])<span class="st">"</span>)</span>
+<span id="cb1-44"><a href="#cb1-44"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
+<span id="cb1-45"><a href="#cb1-45"></a>    result <span class="op">=</span> (ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
+<span id="cb1-46"><a href="#cb1-46"></a>    result <span class="op">+=</span> <span class="fl">3</span><span class="fu">*sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">2</span>])</span>
+<span id="cb1-47"><a href="#cb1-47"></a>    result <span class="op">+=</span> <span class="fl">3</span><span class="fu">*sum</span>(ff[<span class="fl">3</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
+<span id="cb1-48"><a href="#cb1-48"></a>    result <span class="op">+=</span> <span class="fl">2</span><span class="fu">*sum</span>(ff[<span class="fl">4</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">3</span>])</span>
+<span id="cb1-49"><a href="#cb1-49"></a>    <span class="cf">return</span> result <span class="op">*</span> h <span class="op">*</span> <span class="fl">3</span> <span class="op">/</span> <span class="fl">8</span></span>
+<span id="cb1-50"><a href="#cb1-50"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 </section>
@@ -668,15 +682,16 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 <h2 data-number="3" class="anchored" data-anchor-id="리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">3</span> 리처드슨 외삽법과 롬버그 적분</h2>
 <section id="sec-richardson_extrapolation" class="level3">
 <h3 class="anchored" data-anchor-id="sec-richardson_extrapolation">리처드슨 외삽법</h3>
+<p>오차가 작은 알고리즘을 사용하는 것은 일반적으로 오차가 큰 알고리즘을 계산하는 것보다 자원을 많이 사용한다. 리차드슨 외삽법은 오차가 큰 알고리즘에 의한 계산값을 사용하여 오차가 작은 계산값을 얻는 방법으로 많은 경우 같은 오차의 알고리즘으로 직접 계산하는 것보다 자원을 덜 소모하는 경우가 많아 다양한 분야에 널리 사용된다.</p>
 <p>어떤 값 <span class="math inline">\(M\)</span> 을 계산하는데 매개변수 <span class="math inline">\(h\)</span> 에 대해 그 truncation 오차가 <span class="math inline">\(O(h)\)</span> 인 방법을 사용하여 <span class="math inline">\(N_1(h)\)</span> 를 얻었다고 하자. 이 때 우리는</p>
 <p><span id="eq-richardson_1"><span class="math display">\[
 M - N_1(h) = k_1 h + k_2 h^2 + O(h^3)
-\tag{8}\]</span></span></p>
+\tag{12}\]</span></span></p>
 <p>라고 생각 할 수 있다. 이것을 약간 변형하면,</p>
 <p><span id="eq-richardson_2"><span class="math display">\[
 M-N_1\left(\dfrac{h}{2}\right) = k_1 \dfrac{h}{2} + k_2 \dfrac{h^2}{4} + O(h^3)
-\tag{9}\]</span></span></p>
-<p>이며 <span class="math inline">\(2\times\)</span>(<a href="#eq-richardson_2">식&nbsp;9</a>)<span class="math inline">\(-\)</span>(<a href="#eq-richardson_1">식&nbsp;8</a>) 를 계산하면,</p>
+\tag{13}\]</span></span></p>
+<p>이며 <span class="math inline">\(2\times\)</span>(<a href="#eq-richardson_2">식&nbsp;13</a>)<span class="math inline">\(-\)</span>(<a href="#eq-richardson_1">식&nbsp;12</a>) 를 계산하면,</p>
 <p><span class="math display">\[
 \begin{aligned}
 M&amp;=\left[2N_1\left(\dfrac{h}{2}\right) - N_1(h) \right] - k_2 \dfrac{h^2}{2} + O(h^3) = N_2(h) + O(h^2) \\
@@ -699,37 +714,84 @@ M &amp;= \dfrac{1}{3}\left[4N_2 \left(\dfrac{h}{2}\right)-N_2(h)\right] - k_3 \d
 \end{aligned}
 \]</span></p>
 <p>를 얻는다. 즉 <span class="math inline">\(O(h^2)\)</span> 인 방법을 이용하여 <span class="math inline">\(O(h^3)\)</span> 인 값을 얻었다.</p>
-<p>이것을 일반화하여 보자. <span class="math inline">\(O(h^n)\)</span> 인 방법을 사용하여 <span class="math inline">\(M\)</span> 의 값을 <span class="math inline">\(N_n(h)\)</span> 로 얻었다고 하자.</p>
+<p>이것을 일반화하여 보자. <span class="math inline">\(O(h^m)\)</span> 인 방법을 사용하여 <span class="math inline">\(M\)</span> 의 값을 <span class="math inline">\(N_m(h)\)</span> 로 얻었다고 하자.</p>
 <p><span class="math display">\[
 \begin{aligned}
-M - N_n(h) &amp;=  k_n h^n + k_{n+1}h^{n+1} + O(h^{n+2}), \\
-M - N_n\left(\dfrac{h}{2}\right) &amp; = k_n \left(\dfrac{h}{2}\right)^n + k_{n+1}\left(\dfrac{h}{2}\right)^{n+1} + O(h^{n+2})
+M - N_m(h) &amp;=  k_m h^m + k_{m+1}h^{m+1} + O(h^{m+2}), \\
+M - N_m\left(\dfrac{h}{2}\right) &amp; = k_m \left(\dfrac{h}{2}\right)^m + k_{m+1}\left(\dfrac{h}{2}\right)^{m+1} + O(h^{m+2})
 \end{aligned}
 \]</span></p>
 <p>를 이용하여,</p>
-<p><span class="math display">\[
+<p><span id="eq-richardson"><span class="math display">\[
 \begin{aligned}
-M &amp;= \dfrac{1}{2^n-1}\left[ 2^n N_n \left(\dfrac{h}{2}\right)-N_n (h)\right] - \dfrac{k_{n+1}}{2(2^n-1)}h^{n+1} + O(h^{n+2}) \\
-&amp;= N_{n+1}(h) + O(h^{n+1})
+M &amp;= \dfrac{1}{2^m-1}\left[ 2^m N_m \left(\dfrac{h}{2}\right)-N_m (h)\right] - \dfrac{k_{m+1}}{2(2^m-1)}h^{m+1} + O(h^{m+2}) \\
+&amp;= N_{m+1}(h) + O(h^{m+1})
 \end{aligned}
-\]</span></p>
+\tag{14}\]</span></span></p>
 <p>을 얻는다.</p>
 <p><br></p>
-<div id="exm-richardson_difference" class="theorem example">
-<p><span class="theorem-title"><strong>보기 1 (리차드슨 미분) </strong></span>우리는 이미 <a href="#eq-difference_3points">식&nbsp;4</a> 에 의해</p>
+<section id="sec-richardson_extrapolation_with_even_order_error" class="level4">
+<h4 class="anchored" data-anchor-id="sec-richardson_extrapolation_with_even_order_error">짝수승 오차의 리차드슨 외삽법</h4>
+<p>수치해석에서 많은 경우 truncation error 가 변수의 짝수승에만 관련이 있다. 즉,</p>
+<p><span class="math display">\[
+M = N_1(h) + k_2h^2 + k_4 h^4 + k_6 h^6 + \cdots
+\]</span></p>
+<p>라고 하자. <span class="math inline">\(O(h^{2m})\)</span> 오차를 가진 <span class="math inline">\(N_{2m}(h)\)</span> 를 얻었다고 하자.</p>
 <p><span class="math display">\[
 \begin{aligned}
-f'(x) &amp;= \dfrac{f(x+h)-f(x-h)}{2h} - \dfrac{f^{(3)}(\xi)}{6}h^2 ,\\
-f''(x) &amp;=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h^2
+M - N_{2m}(h) &amp;= k_{2m}h^{2m} + O(h^{2m+2}), \\
+M - N_{2m}\left(\dfrac{h}{2}\right) &amp;= k_{2m} \left(\dfrac{h}{2}\right)^{2m} + O(h^{2m+2})
 \end{aligned}
 \]</span></p>
-<p>임을 안다. <span class="math inline">\(N_1 (h) = \dfrac{f(x+h)-f(x-h)}{2h}\)</span> 이며 <span class="math inline">\(f'(x) = N_1(h) +O(h^2)\)</span></p>
-</div>
+<p>로부터,</p>
+<p><span class="math display">\[
+\begin{aligned}
+M &amp;= \dfrac{1}{4^{m} -1} \left[4^{m}N_{2m} \left(\dfrac{h}{2}\right) - N_{2m}(h)\right] + O(h^{2m+2}), \\
+\end{aligned}
+\]</span></p>
+<p>를 얻는다. 즉</p>
+<p><span id="eq-richardson_even_order"><span class="math display">\[
+N_{2m+2}(h) =  \dfrac{1}{4^{m} -1} \left[4^{m}N_{2m} \left(\dfrac{h}{2}\right) - N_{2m}(h)\right]
+\tag{15}\]</span></span></p>
+<p>를 얻는다.</p>
 <p><br></p>
+</section>
 </section>
 <section id="롬버그-적분" class="level3">
 <h3 class="anchored" data-anchor-id="롬버그-적분">롬버그 적분</h3>
-<p>앞서 Trapzoidal 방법을 통해 <span class="math inline">\(O(h^2)\)</span> 의 오차를 갖는 함수 <span class="math inline">\(f\)</span> 의 적분값을 얻었다. 이것을 리차드슨 외삽법과 결합하면 <span class="math inline">\(O(h^3)\)</span> 의 오차를 갖는 적분값을 계산 할 수 있을 것이다.</p>
+<div class="callout callout-style-default callout-caution no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+주의
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>교과서적인 교재에서 <span class="math inline">\(R_{k, j}\)</span> 로 쓰는 표기법은 리처드슨 외삽법의 표기법을 좀 꼬아서 사용하기 때문에 개인적으로 마음에 들지 않았다. 여기서는 리처드슨 외사법의 표기법을 거의 그대로 가지고 오는 방법으로 표기하도록 하겠다. 다른 교재들과는 다르므로 혼동을 줄 수 있다.</p>
+</div>
+</div>
+<p>앞서 사다리꼴 방법을 통해 <span class="math inline">\(O(h^2)\)</span> 의 오차를 갖는 함수 <span class="math inline">\(f\)</span> 의 적분값을 얻었다. 이것을 <a href="../../src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.html#sec-richardson_extrapolation_with_even_order_error">짝수승 오차의 리차드슨 외삽법</a>과 결합하면 <span class="math inline">\(O(h^4)\)</span> 의 오차를 갖는 적분값을 계산 할 수 있을 것이다.</p>
+<p><a href="#eq-trapzoidal_value">식&nbsp;8</a> 의 사다리꼴 적분 <span class="math inline">\(I_T[f, a, b, n]\)</span> 에서 <span class="math inline">\(n\)</span> 을 <span class="math inline">\(2^k\)</span> 로 잡았을 때의 적분을 <span class="math inline">\(N_{k, 1}\)</span> 이라고 하자. 즉,</p>
+<p><span id="eq-trapzoidal_value2"><span class="math display">\[
+N_{k, 1} = I_T[f, a, b, 2^k] = \dfrac{h}{2}\left(f(x_1)+ f(x_{2^k}) + \sum_{i=2}^{2^k-1} f(x_i)\right)
+\tag{16}\]</span></span></p>
+<p>이라고 하자. 이 때의 오차는 <span class="math inline">\(O(h^2)\)</span> 이다. <span class="math inline">\(k=1,\ldots, k_M\)</span> 에 대해 <span class="math inline">\(N_{k, 1}\)</span> 을 구할 수 있다. <span class="math inline">\(m\le k_M-1\)</span> 에 대해 <span class="math inline">\(N_{1, m}, \ldots, N_{k_M-m+1, m}\)</span> 의 값을 구하였다고 하자. <a href="#eq-richardson_even_order">식&nbsp;15</a> 를 이용하여, <span class="math inline">\(O(h^{2m+2})\)</span> 의 오차를 갖는 <span class="math inline">\(2^k-1\)</span> 개의 구간을 갖는 적분 <span class="math inline">\(N_{k, m+1}\)</span> 은 <span class="math display">\[
+N_{k, m+1} = \dfrac{1}{4^{m} -1} \left[4^{m}N_{k+1, m}  - N_{k, m}\right] + O(h^{2m+2}), \qquad k = 1, \ldots k_M-m+1
+\]</span></p>
+<p>를 통해 얻을 수 있다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">rhomberg</span>(f<span class="op">::</span><span class="dt">Function</span>, a<span class="op">::</span><span class="dt">Number</span>, b<span class="op">::</span><span class="dt">Number</span>, order<span class="op">::</span><span class="dt">Integer </span><span class="op">=</span> <span class="fl">4</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> order <span class="op">&gt;</span> <span class="fl">2</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="fu">zeros</span>(order, order) </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    N[<span class="op">:</span>, <span class="fl">1</span>]<span class="op">=</span> [<span class="fu">integrate_trapzoidal</span>(f, a, b, <span class="fl">2</span><span class="op">^</span>k) for k <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>order]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>order, k <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>order<span class="op">-</span>m</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        N[k, m<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> <span class="fl">1.0</span><span class="op">/</span>(<span class="fl">4</span><span class="op">^</span>m<span class="op">-</span><span class="fl">1.0</span>) <span class="fu">*</span>(<span class="fl">4</span><span class="op">^</span>m <span class="op">*</span> N[k<span class="op">+</span><span class="fl">1</span>, m]<span class="op">-</span> N[k, m]) </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> N[<span class="fl">1</span>, <span class="kw">end</span>]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([a,\,b]\)</span> 구간에서 <span class="math inline">\(n=2^{k_{M}}-1\)</span> 개의 구간, 즉 <span class="math inline">\(a=x_1 &lt; \cdots &lt; x_n=b\)</span> 의 구간에서의 사다리꼴 적분을 수행했다면 <span class="math inline">\(h= \dfrac{b-a}{n-1}\)</span> 에 대해 <span class="math inline">\(O(h^2)\)</span> 의 정확도를 갖는 적분이지만 롬버그 적분을 통해 <span class="math inline">\(O(h^{2{k_M}+2})\)</span> 의 정확도를 갖는 적분값을 구할 수 있다. 더구나. 실제로 계산하는 함수값의 갯수는 <span class="math inline">\(n\)</span> 개이며 나머지는 이미 계산된 값들에 대한 단순한 사칙연산이므로 훨씬 빠르게 계산 할 수 있다.</p>
+<p>예를 들어 우리는 <span class="math inline">\(\displaystyle \int_0^1 \sqrt{x}\, dx=\frac{2}{3}\)</span> 임을 안다. 롬버그 적분을 통해 <span class="math inline">\(k_M=4\)</span> 으로 계산한 결과는 <span class="math inline">\(0.665693\)</span> 이며 이것보보다 오차가 작은 사다리꼴 적분을 얻기 위해서는 구간을 35개의 구간으로, 즉 <span class="math inline">\(x_1=0,\, x_{36}=1\)</span> 로 나누어야 한다.</p>
 
 
 </section>
