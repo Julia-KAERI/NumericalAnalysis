@@ -90,7 +90,7 @@ $$
 
 이다. 즉 $\boldsymbol{x}$ 와 $\boldsymbol{Hx}$ 는 $\boldsymbol{v}$ 에 의해 정의되는 평면에 대해 대칭이다.
 
-![Householder 반사](ch07_least_square_problem/householder1.png)
+![Householder 반사](ch09_least_square_problem/householder1.png)
 
 $\boldsymbol{x}$ 를 $\boldsymbol{v}$ 와 평행한 부분과 수직한 부분으로 분리하자. 즉 $\boldsymbol{x}_{\|} = \text{Proj}_{\boldsymbol{v}}\boldsymbol{x}$, $\boldsymbol{x}_{\perp} = \boldsymbol{x}-\text{Proj}_{\boldsymbol{v}}\boldsymbol{x}$ 라 하면, $\boldsymbol{x} = \boldsymbol{x}_{\|} + \boldsymbol{x}_{\perp}$ 이며 $\boldsymbol{x}\cdot \boldsymbol{v} = \boldsymbol{x}_{\|}\cdot \boldsymbol{v}$ 이다.
 

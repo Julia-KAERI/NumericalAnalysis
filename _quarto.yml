@@ -78,6 +78,8 @@ website:
             href : src/applications_of_julia/leastsquarefit.qmd
           - text : 다중스레드
             href : src/applications_of_julia/multithreads.qmd
+          - text : 패키지 개발
+            href : src/applications_of_julia/pkg_dev.qmd
 
     - title : "Numerical Analysis using Julia"
       collapse-level: 2
