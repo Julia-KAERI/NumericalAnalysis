@@ -11,6 +11,8 @@ crossref:
 
 이산적인 데이터 $(x_1,\,y_1),\,(x_2,\,y_2),\ldots,\, (x_N,\, y_N)$ 가 주어졌으며 $x_1<x_2<\cdots <x_N$ 으로 정렬되어 있다고 하자. 이 때 주어진 데이터를 바탕으로 임의의 $x$ 값을 추측할 경우, $x_1 \le x \le x_N$ 의 $x$ 값에 대해 추측하는 것을 보간법(interpolation) 이라 하고, $x<x_1$ 이거나 $x >x_N$ 일 경우 추축하는것을 외삽법(extrapolation) 이라 한다. 여기서는 보간법에 대해 다루기로 한다. 기본적으로 여기서 다루는 보간법은 데이터를 다항식으로 근사시키는데, 이 방법은 아래의 바이어스트라스 근사 정리(Weierstrass approximation theorem)로 정당화된다.  
 
+</br>
+
 ::: {#thm-Weierstrass_approximation_theorem}
 
 #### 바이어슈트라스 근사 정리
@@ -91,7 +93,7 @@ V = [x^(j-1) for x in xp, j in 1:length(xp)]
 SimplePolynomial(V\yp)
 ```
 
-로 구할 수 있다. 이것은 `simplepolynomials.jl` 의 `valdermond_polynomial` 함수로 구현되었다.
+로 구할 수 있다. 이것은 `NAJ.jl` 의 `valdermond_polynomial` 함수로 구현되었다.
 
 ``` {.julia code-line-numbers="true"}
 function valdermond_polynomial(
