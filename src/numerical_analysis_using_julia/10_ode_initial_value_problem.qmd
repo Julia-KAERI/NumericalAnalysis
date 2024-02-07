@@ -149,7 +149,7 @@ $$
 
 #### convex
 
-집합 $ \subset \mathbb{R}\times \mathbb{R}^{n}$ 가 모든 $\lambda \in [0,\,1]$ 와 $\boldsymbol{x}_1,\,\boldsymbol{x}_2\in D$ 에 대해 $\lambda \boldsymbol{x}_1 + (1-\lambda)\boldsymbol{x}_2\in D$ 일 때 $D$ 를 **convex** 라고 한다.
+집합 $D\subset \mathbb{R}\times \mathbb{R}^{n}$ 가 모든 $\lambda \in [0,\,1]$ 와 $\boldsymbol{x}_1,\,\boldsymbol{x}_2\in D$ 에 대해 $\lambda \boldsymbol{x}_1 + (1-\lambda)\boldsymbol{x}_2\in D$ 일 때 $D$ 를 **convex** 라고 한다.
 :::
 :::
 
