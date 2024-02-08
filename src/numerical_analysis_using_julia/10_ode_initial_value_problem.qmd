@@ -48,7 +48,7 @@ $$
 f^{(n)}(t) = F\left(t, f(t), f'(t), \ldots, f^{(n-1)}(t)\right)
 $$
 
-이 방정식과 초기값 $f^{(k)}(t_1),\, k=1,\,2,\ldots, (n-1)$ 을 통해 $f(t)$ 를 알아내는 것을 **초기값 문제 (initial value problem)** 이라고 한다. 
+이 방정식과 초기값 $f(t_0),\,f^{(1)}(t_0), \ldots, f^{(n-1)}(t_0)$ 을 통해 $f(t)$ 를 알아내는 것을 **초기값 문제 (initial value problem)** 이라고 한다. 
 
 가장 간단한 미분방정식이라면 
 
@@ -56,56 +56,43 @@ $$
 f'(t) = F(t, f(t))
 $$
 
-꼴로 주어진 미분방정식이며 이것은
+꼴이며 이 미분방정식을
 
 $$
 f(t+h) = f(t) + F(t, f(t)) h + O(h^2)
 $$
 
-를 이용하여 1차 근사로 풀 수 있다. 즉 $t_n = t_0 +hn$ 라고 할 때, 
+를 이용하여 1차 근사로 풀 수 있다. 즉 $t_i = t_0 +ih$ 라고 할 때, 
 
 $$
-f(t_{n+1}) = f(t_n) + F(t_n, f(t_n))h, \qquad n=0,\,1,\,2,\ldots
+f(t_{i+1}) = f(t_i) + F(t_i, f(t_i))h, \qquad i=0,\,1,\,2,\ldots
 $$
 
-로 풀 수 있다. 이것이 잠시 후 다를 오일러 방법이다. 우리는 앞서 [리차드슨 외삽법](05_calculus_of_one_variable_function.qmd#sec-richardson_extrapolation) 에서 보았던 것처럼 주변의 복수의 값을 이용하여 정밀도를 높일 수 있다. 즉 $F(t_n, f(t_n))$ 뿐만 아니라 몇몇 $\alpha_i$ 값에 대해 $F(t_n, f(t_n + \alpha_i h))$ 를 선형결합하여 
+로 풀 수 있다. 이것이 잠시 후 다를 오일러 방법이다. 우리는 앞서 [리차드슨 외삽법](05_calculus_of_one_variable_function.qmd#sec-richardson_extrapolation) 에서 보았던 것처럼 주변의 복수의 값을 이용하여 정밀도를 높일 수 있다. 즉 $F(t_i, f(t_i))$ 뿐만 아니라 몇몇 $\alpha_j$ 값에 대해 $F(t_i, f(t_i + \alpha_j h))$ 를 선형결합하여 
 
 $$
 \begin{aligned}
-f(t_{n+1}) &= f(t_n) + \sum_i c_i F(t_n, f(t_n + \alpha_i h))h + O(h^k), \\
-&= f(t_n) + \tilde{F}(t_n, h, f) +O(h^k)
+f(t_{i+1}) &= f(t_i) + \sum_j c_j F(t_i, f(t_i + \alpha_j h))h + O(h^k), \\
+&= f(t_i) + \tilde{F}(t_i, h, f) +O(h^k)
 \end{aligned}
 $$
 
-이며, $k>2$ 이 되도록 할 수 있다. 이 $\tilde{F}(t_n, h, f)$ 를 얻는 방법이 오일러 방법, 룽게-쿠타 방법 등이 존재한다. 이제 수치해석적인 방법을 통해
+이며, $k>2$ 이 되도록 할 수 있다. 이 $\tilde{F}(t_n, h, f)$ 를 얻는 방법에는 오일러 방법, 룽게-쿠타 방법 등이 존재한다. 
 
-$$
-f(t_{n+1}) = f(t_n) + \tilde{F}(t_n, f, h)h
-$$
 
-를 얻을 있다고 하자. 다변수 미분방정식의 경우를 보자. 
+다변수 미분방정식의 경우를 보자. 
 
 $$
 \boldsymbol{x}^{(n)}(t) = \boldsymbol{F}(t, \boldsymbol{x}(t),\ldots,\boldsymbol{x}^{(n-1)}(t))
 $$
 
-과 초기조건 $\boldsymbol{x}(t_0) ,\ldots,\,\boldsymbol{x}^{(n-1)}(t_0)$ 를 만족하는  $\boldsymbol{x}:[a,\,b] \to \mathbb{R}^m$ 을 구한다고 하자. $\boldsymbol{x} = \begin{bmatrix} x_1(t) & \cdots & x_m(t) \end{bmatrix}^T$ 라 할 때 
+과 초기조건 $\boldsymbol{x}(t_0) ,\ldots,\,\boldsymbol{x}^{(n-1)}(t_0)$ 를 만족하는  $\boldsymbol{x}:[a,\,b] \to \mathbb{R}^m$ 을 구한다고 하자. $\boldsymbol{x} = \begin{bmatrix} x_1(t) & \cdots & x_m(t) \end{bmatrix}^T$ 라 할 때 1변수의 경우와 마찬가지로
 
 $$
-\boldsymbol{x}(t_{n+1}) =  \boldsymbol{x}(t_n) +\tilde{\boldsymbol{F}}(t_n, h, \boldsymbol{x}, \ldots, \boldsymbol{x}^{(n-1)}) 
+\boldsymbol{x}(t_{i+1}) =  \boldsymbol{x}(t_i) +\tilde{\boldsymbol{F}}(t_i, \boldsymbol{h}, \boldsymbol{x}, \ldots, \boldsymbol{x}^{(n-1)}) 
 $$
 
 을 통해 구한다. 
-
-
-
-
-
-
-
-
-
-
 
 
 </br>
@@ -128,7 +115,7 @@ $$
 
 &emsp; ($1$) $\boldsymbol{x}$ 는 $C^1_{[a,\,b]}$ 급 함수이다.
 
-&emsp; ($2$) $모든 $t\in I$ 에서 $\boldsymbol{x}'(t) = f(t, \boldsymbol{x}(t))$ 이다. 
+&emsp; ($2$) 모든 $t\in I$ 에서 $\boldsymbol{x}'(t) = f(t, \boldsymbol{x}(t))$ 이다. 
 
 &emsp; ($3$) $\boldsymbol{x}(t_0) = \boldsymbol{x}_0$ 이다.
 
@@ -137,12 +124,6 @@ $$
 
 
 </br>
-
-::: {#prp-lipschitz_condtion}
-
-
-:::
-
 
 ::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-convex}
@@ -159,18 +140,29 @@ $$
 $f(t,\,\boldsymbol{x}):D \subset  \mathbb{R}\times \mathbb{R}^{n} \to \mathbb{R}^m$ 이 convex $D$ 에서 정의되어 있으며 어떤 $L>0$ 이 존재하여
 
 $$
-\left\|\sum_{i=1}\partial_i f(t, \boldsymbol{x}) \right\| 
+\forall (t,\,\boldsymbol{x})\in D,\, \left\|\sum_{i=1}\partial_i f(t, \boldsymbol{x}) \right\| \le L
 $$
+
+이면 $f$ 는 변수 $\boldsymbol{x}$ 와 Lipschitz 상수 $L$ 에 대해 Lipschitz 조건을 만족한다.
 
 :::
 
 
+</br>
 
-### 오일러 방법 (Newton's method)
+::: {#thm-initial_value_problem}
+
+$D=\{(t,\, \boldsymbol{x}) : t\in [a,\,b],\, \boldsymbol{x} \in \mathbb{R}^n\}$ 에서 정의된 함수 $\boldsymbol{f}:D\to \mathbb{R}^n$ 이 $D$ 에서 Lipsschitz 조건을 만족하면 $\boldsymbol{x} = \boldsymbol{f}(t, \boldsymbol{x})$ 의 초기값 문제는 유일한 해를 갖는다.
+
+:::
+
+</br>
+
+## 오일러 방법 (Newton's method)
 
 오일러 방법은 초기값이 주어졌을 때 수치해석적으로 미분방정식의 해를 구하는 가장 간단한 방법이다. 가장 간단한 만큼 일반적으로 오차가 크지만 상미분방정식의 초기값 문제를 푸는 여러가지 기법을 익힐 수 있다. 
 
-#### 일변수 일차 미분 방정식
+### 일변수 일차 미분 방정식
 
 아래와 같은 미분방정식
 
@@ -178,7 +170,7 @@ $$
 x'(t) = \dfrac{dx}{dt} = f(t, x)
 $$
 
-과 초기조건 $x(t_1)$ 이 주어졌다고 하자. 테일러 전개에 의해
+와 초기조건 $x(t_0)$ 이 주어졌다고 하자. 테일러 전개에 의해
 
 $$
 \begin{aligned}
@@ -187,52 +179,58 @@ x(t+h) &= x(t) + x'(t)h + O(h^2) \\
 \end{aligned}
 $$
 
-를 이용하는 방법이다. 
-
-
-
-#### 다변수 일차 미분 방정식
-
-$\boldsymbol{x}:\mathbb{R}\to \mathbb{R}^n$ 이며 $x_i(t)$ 가 $\boldsymbol{x}(t)$ 의 $i$ 번째 성분일 때 미분방정식이 $\boldsymbol{f}:\mathbb{R}^{n+1}\to \mathbb{R}^n$ 에 대해
+를 이용하는 방법이다. $i=1,\,2,\ldots,$ 에 대해 $t_i = t_1 + ih$ 로 놓고
 
 $$
-\boldsymbol{x}'(t)=\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, x_1,\ldots,\,x_n)
+x(t_{i+1}) =  x(t_i) + f(t_i, x_i) h
 $$
 
-로 주어지고, 초기값 $t_1,\,\boldsymbol{x}(t_1)$ 가 주어졌을 때 가장 간단하게 $\boldsymbol{x}(t)$ 를 구하는 방법이다. 테일러 전개를 이용하면,
+로 근사한다. 이 때 $t_i,\,i=0,\,1,\ldots$ 를 **mesh point** 라고 한다.
+
+</br>
+
+### 다변수 일차 미분 방정식
+
+$\boldsymbol{x}:\mathbb{R}\to \mathbb{R}^n$ 이며 $x_j(t)$ 가 $\boldsymbol{x}(t)$ 의 $j$ 번째 성분일 때 미분방정식이 $\boldsymbol{f}:\mathbb{R}^{n+1}\to \mathbb{R}^n$ 에 대해
 
 $$
-x_i(t + h) = y_i(t) + x_i'(t)h+ \dfrac{x_i''(\xi)}{2}h^2
+\boldsymbol{x}'(t)=\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
+$$
+
+로 주어지고, 초기값 $t_0,\,\boldsymbol{x}(t_0)$ 가 주어졌을 때 가장 간단하게 $\boldsymbol{x}(t)$ 를 구하는 방법이다. 테일러 전개를 이용하면,
+
+$$
+x_j(t + h) = x_j(t) + x_j'(t)h+ \dfrac{x_j''(\xi)}{2}h^2
 $$
 
 를 만족하는 $\xi\in (t,\, t+h)$ 이 존재한다는 것을 안다. 이 때 $|h | \ll 1$ 이면,
 
 $$
-x_i(t + h) \approx x_i(t) + x_i'(t)h
+x_j(t + h) \approx x_j(t) + x_i'(t)h
 $$
 
 임을 이용하는 것이 오일러 벙법이다.
 
-$t_{k+1}=t_k+h$ 일 때,
+$t_{i+1}=t_i+h$ 일 때,
 
 $$
-\boldsymbol{x}(t_{k+1}) = \boldsymbol{x} (t_k) + \boldsymbol{f}(t_k, x_1(x_k), \ldots, x_n(t_k))\, h
+\boldsymbol{x}(t_{i+1}) = \boldsymbol{x} (t_i) + \boldsymbol{f}(t_i, x_1(x_i), \ldots, x_n(t_i))\, h
 $$
 
-를 이용하여 $\boldsymbol{x}(t_{k+1})$ 값을 구한다. 아래와 같이 julia 로 구현 할 수 있다.
+를 이용하여 $\boldsymbol{x}(t_{i+1})$ 값을 구한다. 아래와 같이 julia 로 구현 할 수 있다.
 
 ```julia
 # 일변수에 대한 오일러 방법
 function ode_euler(
     fp::Function,
-    t1::Real, 
-    x1::Real,
+    t0::Real, 
+    x0::Real,
     Npoints::Integer, 
     h = 1.0e-6)
     
-    tn = t1 .+ collect(0:1:(Npoints-1)) * h
+    tn = t0 .+ collect(0:1:(Npoints-1)) * h
     xn = zero(tn)
-    xn[1] = x1
+    xn[1] = x0
     for i in 1:(Npoints-1)
         xn[i+1] = xn[i] + fp(tn[i], xn[i])* h
     end
@@ -314,7 +312,7 @@ plot!(p0, p1, p2, p3, layout=4)
 
 </br>
 
-#### 일변수 이차 미분 방정식
+### 일변수 이차 미분 방정식
 
 $\dfrac{d^2x}{dt^2} = f(t, x, x')$ 으로 주어진 미분방정식과 초기값 $x(t_1),\, x'(t_1)$ 이 주어졌다고 하자. $y(t) = x'(t)$ 라고 하면, 
 
@@ -357,13 +355,13 @@ plot(tn, xn[1,: ], label = :none)
 </br>
 
 
-#### 다변수 이차 미분 방정식
+### 다변수 이차 미분 방정식
  $\dfrac{d^2\boldsymbol{x}}{dt^2} = \boldsymbol{f}(t, \boldsymbol{x}, \boldsymbol{x}')$ 으로 주어진 미분방정식은,
 
 $$
 \begin{aligned}
-\boldsymbol{v}(t_{n}+h) &=\boldsymbol{v}(t_n) + \boldsymbol{f}(t, \boldsymbol{x}(t_n), \boldsymbol{v}(t_n)) h,\\
-\boldsymbol{x}(t_n+h) &=\boldsymbol{x}(t_n) + \boldsymbol{v}(t_n)h 
+\boldsymbol{v}(t_{i}+h) &=\boldsymbol{v}(t_i) + \boldsymbol{f}(t, \boldsymbol{x}(t_i), \boldsymbol{v}(t_i)) h,\\
+\boldsymbol{x}(t_i+h) &=\boldsymbol{x}(t_i) + \boldsymbol{v}(t_i)h 
 \end{aligned}
 $$
 
@@ -371,25 +369,25 @@ $$
 
 </br>
 
-### 2차 룽게-쿠타 방법 (RK2)
+## 2차 룽게-쿠타 방법 (RK2)
 
 역시
 $$
 \dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
 $$
 
-와 초기조건 $\boldsymbol{x}_0 = \boldsymbol{f}(t_0)$ 가 주어졌다고 하자.  우리는 여기서,
+와 초기조건 $\boldsymbol{x}_0 = \boldsymbol{f}(t_0)$ 가 주어졌다고 하자.  $\boldsymbol{x}$ 와 $\boldsymbol{f}(t,\boldsymbol{x})$ 의 $j$ 번째 성분을 각각 $x_j,\, f_j(t,\,\boldsymbol{x})$ 라고 하면,
 
 $$
-\dfrac{d^2\boldsymbol{x}}{dt^2 } = \dfrac{d}{dt}f(t, \,\boldsymbol{x}) = \dfrac{\partial f}{\partial t} + \sum_j\dfrac{dx_j}{dt} \cdot \dfrac{\partial \boldsymbol{f}}{\partial x_j}
+\dfrac{d^2 x_j}{dt^2 } = \dfrac{d}{dt}f_j(t, \,\boldsymbol{x}) = \dfrac{\partial f_j}{\partial t} + \sum_k\dfrac{dx_k}{dt} \cdot \dfrac{\partial f_j}{\partial x_k}
 $$
 
 라는 것을 안다. 이것을 이용하여 2차항까지 테일러 전개를 하면,
 $$
 \begin{aligned}
-x_i(t+h) & = x_i(t) + \dfrac{dx_i}{dt}h  + \dfrac{1}{2}\dfrac{d^2 x_i}{dt^2}h^2 + \cdots \\
-&= x_i(t)  + f_i(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_i}{\partial t} + \sum_j \dfrac{dx_j}{dt} \dfrac{\partial f_i}{\partial x_j}\right) h^2 + \cdots \\
-&= x_i(t)  + f(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f}{\partial t} + \sum_j f_j(t,\,\boldsymbol{x}) \dfrac{\partial f_i}{\partial x_j}\right) h^2 + \cdots
+x_j(t+h) & = x_j(t) + \dfrac{dx_j}{dt}h  + \dfrac{1}{2}\dfrac{d^2 x_j}{dt^2}h^2 + \cdots \\
+&= x_j(t)  + f_j(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_j}{\partial t} + \sum_k \dfrac{dx_k}{dt} \dfrac{\partial f_j}{\partial x_k}\right) h^2 + \cdots \\
+&= x_j(t)  + f_j(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_j}{\partial t} + \sum_k f_k(t,\,\boldsymbol{x}) \dfrac{\partial f_i}{\partial x_k}\right) h^2 + \cdots
 \end{aligned}
 $$
 
@@ -397,17 +395,17 @@ $$
 
 $$
 \begin{aligned}
-\boldsymbol{k}_1 &= \boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \,,\\
-\boldsymbol{k}_2 &= \boldsymbol{f}\left( t_n + \dfrac{h}{2},\, \boldsymbol{x}(t_n) + \dfrac{h}{2} \boldsymbol{k}_1\right)
+\boldsymbol{k}_1 &= \boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \,,\\
+\boldsymbol{k}_2 &= \boldsymbol{f}\left( t_i + \dfrac{h}{2},\, \boldsymbol{x}(t_i) + \dfrac{h}{2} \boldsymbol{k}_1\right)
 \end{aligned}
 $$
 
-라 하자. 그렇다면, 야코비안 행렬 $\left(\boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n))\right)_{ij} = \dfrac{\partial f_i}{\partial x_j}(t_n, \boldsymbol{x}(t_n))$ 에 대해 
+라 하자. 그렇다면, 야코비안 행렬 $\left(\boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i))\right)_{jk} = \dfrac{\partial f_j}{\partial x_k}(t_i, \boldsymbol{x}(t_i))$ 에 대해 
 
 $$
 \begin{aligned}
-\boldsymbol{k}_2 &= \boldsymbol{f}(t_n,\, \boldsymbol{x}(t_n)) +  \dfrac{h}{2} \dfrac{\partial \boldsymbol{f}}{\partial t}(t_n,\, \boldsymbol{x}(t_n)) + \dfrac{h}{2} \boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \boldsymbol{k}_1 \\
-&= \boldsymbol{k}_1 + \dfrac{h}{2} \left(\dfrac{\partial \boldsymbol{f}}{\partial t}(t_n,\, \boldsymbol{x}(t_n))  + \boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \boldsymbol{k}_1 \right)
+\boldsymbol{k}_2 &= \boldsymbol{f}(t_i,\, \boldsymbol{x}(t_i)) +  \dfrac{h}{2} \dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_n)) + \dfrac{h}{2} \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \\
+&= \boldsymbol{k}_1 + \dfrac{h}{2} \left(\dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \right)
 \end{aligned}
 $$
 
@@ -415,21 +413,21 @@ $$
 
 $$
 \begin{aligned}
-\dfrac{\partial \boldsymbol{f}}{\partial t}(t_n,\, \boldsymbol{x}(t_n))  + \boldsymbol{J}_\boldsymbol{f}(t_n, \boldsymbol{x}(t_n)) \boldsymbol{k}_1 & = \dfrac{2}{h}(\boldsymbol{k}_2-\boldsymbol{k}_1)
+\dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 & = \dfrac{2}{h}(\boldsymbol{k}_2-\boldsymbol{k}_1)
 \end{aligned}
 $$
 
 이다. 이를 이용하면,
 
 $$
-\boldsymbol{x}(t_{n+1}) = \boldsymbol{x}(t_n) + \boldsymbol{k}_1h + \dfrac{h^2}{2} \dfrac{2}{h} (\boldsymbol{k}_2-\boldsymbol{k}_1) = \boldsymbol{x}(t_n)+ \dfrac{h}{2}(\boldsymbol{k}_1+\boldsymbol{k}_2)
+\boldsymbol{x}(t_{i+1}) = \boldsymbol{x}(t_i) + \boldsymbol{k}_1h + \dfrac{h^2}{2} \dfrac{2}{h} (\boldsymbol{k}_2-\boldsymbol{k}_1) = \boldsymbol{x}(t_i)+ \dfrac{h}{2}(\boldsymbol{k}_1+\boldsymbol{k}_2)
 $$
 
 을 얻는다. 이것을 2차 룽게-쿠타 방법(RK2)이라 한다.
 
 </br>
 
-### 4차 룽게-쿠타 방법 (RK4)
+## 4차 룽게-쿠타 방법 (RK4)
 
 2차 룽게 쿠타 방법은 테일러 전개의 2차항까지 사용하였다. 4차 룽게-쿠타 방법(RK4)은 테일러 전개의 4차항까지 사용한다.
 $$
@@ -439,18 +437,18 @@ $$
 아래와 같이 $\boldsymbol{k}_1,\,\boldsymbol{k}_2,\,\boldsymbol{k}_3,\,\boldsymbol{k}_4$ 를 정의하면,
 $$
 \begin{aligned}
-\boldsymbol{k}_{1} &= \boldsymbol{f}(t_{n},\, \boldsymbol{x}(t_{n})),\\
-\boldsymbol{k}_{2}&=\ \boldsymbol{f}\!\left( t_{n}+{\frac {h}{2}},\, \boldsymbol{x}(t_{n})+ \frac{h}{2}\boldsymbol{k}_{1}\right),\\
-\boldsymbol{k}_{3}&=\ \boldsymbol{f}\!\left(t_{n}+{\frac {h}{2}},\,  \boldsymbol{x}(t_{n})+\frac{h}{2} \boldsymbol{k}_{2}\right),\\
-\boldsymbol{k}_{4}&=\ \boldsymbol{f}\!\left(t_{n}+h,\, \boldsymbol{x}(t_{n})+h\boldsymbol{k}_{3}\right).
+\boldsymbol{k}_{1} &= \boldsymbol{f}(t_{i},\, \boldsymbol{x}(t_{i})),\\
+\boldsymbol{k}_{2}&=\ \boldsymbol{f}\!\left( t_{i}+{\frac {h}{2}},\, \boldsymbol{x}(t_{i})+ \frac{h}{2}\boldsymbol{k}_{1}\right),\\
+\boldsymbol{k}_{3}&=\ \boldsymbol{f}\!\left(t_{i}+{\frac {h}{2}},\,  \boldsymbol{x}(t_{i})+\frac{h}{2} \boldsymbol{k}_{2}\right),\\
+\boldsymbol{k}_{4}&=\ \boldsymbol{f}\!\left(t_{i}+h,\, \boldsymbol{x}(t_{i})+h\boldsymbol{k}_{3}\right).
 \end{aligned}
 $$
 
 4차항까지의 테일러 전개가 아래와 같다는 것을 보일 수 있다. 아주 지루한 과정이므로 여기서는 생략한다.
 $$
 \begin{aligned}
-t_{n+1}&=t_{n}+h, \\
-\boldsymbol{x}(t_{n+1})&=\boldsymbol{x}(t_{n})+{\frac {h}{6}}\left(\boldsymbol{k}_{1}+2 \boldsymbol{k}_{2}+2\boldsymbol{k}_{3}+\boldsymbol{k}_{4}\right).
+t_{i+1}&=t_{i}+h, \\
+\boldsymbol{x}(t_{i+1})&=\boldsymbol{x}(t_{i})+{\frac {h}{6}}\left(\boldsymbol{k}_{1}+2 \boldsymbol{k}_{2}+2\boldsymbol{k}_{3}+\boldsymbol{k}_{4}\right).
 \end{aligned}
 $$
 
@@ -505,11 +503,11 @@ plot(xn[1,:], xn[2,:], xn[3,:], label="RK2")
 
 </br>
 
-### 예제 (Examples)
+## 예제 (Examples)
 
-#### 단순 조화 진동자
+### 단순 조화 진동자
 
-@eq-sho1d 로 주어진 단순 조화 진동자 문제를 오일러 방법과 RK2, RK4 로 풀어보자. 오일러 방법에서와 같이 $\boldsymbol{y}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로
+@eq-sho1d 로 주어진 단순 조화 진동자 문제를 오일러 방법과 RK2, RK4 로 풀어보자. 오일러 방법에서와 같이 $\boldsymbol{x}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로
 로 놓고 수치해석적으로 풀 수 있다.
 
 ```julia
@@ -530,7 +528,7 @@ tn2, xn2 = ode_rk4((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
 
 </br>
 
-#### 감쇄 조화 진동자
+### 감쇄 조화 진동자
 
 $$
 m \dfrac{d^2x}{dt^2} + \gamma \dfrac{dx}{dt} + kx=0
@@ -568,7 +566,7 @@ $m=1,\, \gamma=1,\, k=1$ 과 $x(t=0)=0,\, \dot{x}(t=0)=1$ 일 때에 대해 오�
 
 </br>
 
-#### 진자(Pendulum) 문제
+### 진자(Pendulum) 문제
 
 <img src="ch10_ode_initial_value_problem/simple pendulum.png" width="250"/>
 
@@ -616,7 +614,7 @@ tn3, xn3 = ode_rk4((t, y)->pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
 
 </br>
 
-#### 2체 문제
+### 2체 문제
 
 중력에 의한 2체 문제를 생각해보자. $m_1$ 과 $m_2$ 의 질량을 갖는 두 점입자가 오직 만유인력에 의해서만 영향을 받아 움직일 때, 그 운동은 다음의 2차 미분방정식에 의해 기술된다.
 
@@ -644,6 +642,10 @@ $$
 
 이제 두 점입자의 초기 위치와 속도가 주어지면 $\boldsymbol{s}_{i+1} = \boldsymbol{s}_i+ \dfrac{d\boldsymbol{s}}{dt} h$ 를 이용하여 이 문제를 풀 수 있다.
 
+
+</br>
+
+## Runge-Kutta-Fehlberg 방법(RKF)
 
 
 
