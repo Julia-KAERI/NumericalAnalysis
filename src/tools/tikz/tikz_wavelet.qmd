@@ -1,0 +1,330 @@
+---
+title: "tikz Wavelet "
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+
+---
+
+
+
+
+```{r, engine = 'tikz'}
+#| label: fig-wavelet_sharp_function_1
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 10
+#| fig-align: center
+#| fig-cap: "Legendre 다항식"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+
+\begin{tikzpicture}[samples = 100, scale=2]
+
+\draw[-{stealth}] (-1.5, 0) -- (1.5,0) node[right] {$t$};
+\draw[-{stealth}] (0,0) -- (0,1.2) node[above] {$f(t)$};
+
+\draw[color=black, thick, domain=-1:0, variable = \t]   plot ({\t}, {(1+\t)});
+\draw[color=black, thick, domain=0:1, variable = \t]   plot ({\t}, {(1-\t)});
+\draw[] (-1, 0.05) -- (-1, -0.05 ) node[below] {$-a$};
+\draw[] (1, 0.05) -- (1, -0.05 ) node[below] {$a$};
+
+\begin{scope}[xshift=3.5cm] 
+
+\draw[-{stealth}] (-1.5, 0) -- (1.5,0) node[right] {$\omega$};
+\draw[-{stealth}] (0,0) -- (0,1.2) node[above] {$\hat{f}(\omega)$};
+
+\draw[color=black, thick, domain=-6:6, samples=100, variable = \t]   plot ({\t/5}, { (2 * sin((\t * 180 / pi) /2)/((\t)))^2 });
+\draw[] (-0.2, 0.05) -- (-0.2, -0.05 ) node[below] {$-\frac{1}{a}$};
+\draw[] (0.2, 0.05) -- (0.2, -0.05 ) node[below] {$\frac{1}{a}$};
+
+\end{scope}
+
+\end{tikzpicture}
+```
+
+```{r, engine = 'tikz'}
+#| label: fig-wavelet_sharp_function_2
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 10
+#| fig-align: center
+#| fig-cap: "Legendre 다항식"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+
+\begin{tikzpicture}[samples = 100, scale=2.5]
+
+\draw[-{stealth}] (-1.2, 0) -- (1.22,0) node[right] {$t$};
+\draw[-{stealth}] (0,0) -- (0,1.2) node[above] {$f(t)$};
+
+\draw[color=black, thick, domain=-6:0, variable = \t]   plot ({\t/5}, {exp(\t)});
+\draw[color=black, thick, domain=0:6, variable = \t]   plot ({\t/5}, {exp(-\t)});
+\draw[] (-1, 0.05) -- (-1, -0.05 ) node[below] {$-5a$};
+\draw[] (1, 0.05) -- (1, -0.05 ) node[below] {$5a$};
+\draw[] (-0.05, 1) -- (0.05, 1 ) node[right] {$1$};
+
+\begin{scope}[xshift=2.8cm] 
+
+\draw[-{stealth}] (-1.2, 0) -- (1.2,0) node[right] {$\omega$};
+\draw[-{stealth}] (0,0) -- (0,1.2) node[above] {$\hat{f}(\omega)$};
+
+\draw[color=black, thick, domain=-6:6, samples=100, variable = \t]   plot ({\t/5}, {1/(\t*\t + 1)});
+\draw[] (-0.05, 1) -- (0.05, 1 ) node[right] {$2/a$};
+\draw[] (-0.2, 0.05) -- (-0.2, -0.05 ) node[below] {$-\frac{1}{a}$};
+\draw[] (0.2, 0.05) -- (0.2, -0.05 ) node[below] {$\frac{1}{a}$};
+
+\end{scope}
+
+\end{tikzpicture}
+```
+
+```{r, engine = 'tikz'}
+#| label: fig-wavelet_haar_wavelet
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 10
+#| fig-align: center
+#| fig-cap: "Haar wavelet"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+
+\begin{tikzpicture}[samples = 100, scale=2.5]
+
+\draw[-{stealth}] (-0.5, 0) -- (1.7,0) node[right] {$t$};
+\draw[-{stealth}] (0,-1.2) -- (0,1.2) node[above] {$\psi_H(t)$};
+
+\draw[very thick] (-0.5, 0) -- (0, 0) -- (0, 1) -- (0.5, 1) -- (0.5, -1) -- (1, -1)-- (1, 0) -- (1.5, 0);
+\node[] at (0, 0) [below left] {$0$};
+\node[] at (0.5, 0) [below left] {$\frac{1}{2}$};
+\node[] at (1, 0) [below left] {$1$};
+\draw[] (0.1, 1) -- (-0.1, 1) node[left] {$1$};
+\node[] at (0, -1) [left] {$-1$};
+
+\begin{scope}[xshift=3.3cm] 
+
+\draw[-{stealth}] (-1.2, -1) -- (1.2,-1) node[right] {$\omega$};
+\draw[-{stealth}] (0,-1.0) -- (0,1.2) node[above] {$|\hat{\psi}_H(\omega)|$};
+
+\draw[color=black, very thick, domain=0.01:40, samples=100, variable = \t]   plot ({\t/40}, {(2*(sin(\t*180/pi/4))*(sin(\t*180/pi/4)) / (\t/4)-1)});
+\draw[color=black, very thick, domain=-40:-0.01, samples=100, variable = \t]   plot ({\t/40}, {(-2*(sin(\t*180/pi/4))*(sin(\t*180/pi/4)) / (\t/4)-1)});
+\draw[] (0.0, -0.96) -- (0.0, -1.04 ) node[below] {$0$};
+\draw[] (0.314, -0.96) -- (0.314, -1.04 ) node[below] {$4\pi$};
+\draw[] (0.628, -0.96) -- (0.628, -1.04 ) node[below] {$8\pi$};
+\draw[] (0.942, -0.96) -- (0.942, -1.04 ) node[below] {$12\pi$};
+
+\end{scope}
+
+\end{tikzpicture}
+```
+
+</br>
+
+```{r, engine = 'tikz'}
+#| label: fig-wavelet_convolution_of_haar_1
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 5
+#| fig-align: center
+#| fig-cap: "Haar wavelet"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+
+\begin{tikzpicture}[samples = 100, scale=3]
+
+\draw[-{stealth}] (-0.5, 0) -- (2.5,0) node[right] {$t$};
+\draw[-{stealth}] (0,-0.7) -- (0,0.7) node[above] {$(\psi_H \ast \phi)(t)$};
+
+\draw[very thick] (-0.5, 0) -- (0, 0) -- (0.5, 0.5) -- (1.5, -0.5) -- (2, 0) -- (2.4, 0);
+\node[] at (0, 0) [below left] {$0$};
+\draw [] (0.5, 0.03) -- (0.5, -0.03) node[below] {$\frac{1}{2}$};
+\draw [] (1, 0.03) -- (1, -0.03) node[below] {$1$};
+\draw [] (1.5, 0.03) -- (1.5, -0.03) node[below] {$\frac{3}{2}$};
+\draw [] (2, 0.03) -- (2, -0.03) node[below] {$2$};
+
+\end{tikzpicture}
+```
+
+```{r, engine = 'tikz'}
+#| label: fig-wavelet_daughter_wavelet_1
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 10
+#| fig-align: center
+#| fig-cap: "Haar wavelet"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+
+\begin{tikzpicture}[samples = 200, scale=3]
+
+\draw[-{stealth}] (-1, 0) -- (1,0) node[right] {$t$};
+\draw[-{stealth}] (0,-0.2) -- (0,1.2) node[above] {$\psi_{a=1, b=0}(t)$};
+\draw[color=black, very thick, domain=-1:1, samples=100, variable = \t]   plot ({\t}, {exp(-(4*\t)^2) * cos(\t*180/pi*10)});
+
+
+\begin{scope}[xshift=2.3cm] 
+
+\draw[-{stealth}] (-1, 0) -- (1,0) node[right] {$t$};
+\draw[-{stealth}] (0,-0.2) -- (0,1.2) node[above] {$\psi_{a>1, b>0} (t)$};
+
+\draw[color=black, very thick, domain=-1:1, samples=200, variable = \t]   plot ({\t}, {exp(-(8*(\t-0.2))^2) * cos(2*(\t-0.2)*180/pi*10)});
+
+\end{scope}
+
+\begin{scope}[xshift=4.6cm] 
+
+\draw[-{stealth}] (-1, 0) -- (1,0) node[right] {$t$};
+\draw[-{stealth}] (0,-0.2) -- (0,1.2) node[above] {$\psi_{a<1, b>0}(t)$};
+
+\draw[color=black, very thick, domain=-1:1, samples=200, variable = \t]   plot ({\t}, {exp(-(2*(\t-0.2))^2) * cos(0.5*(\t-0.2)*180/pi*10)});
+
+\end{scope}
+
+
+\end{tikzpicture}
+```
+
+
+</br>
+
+
+```{r, engine = 'tikz'}
+#| label: fig-wavelet_maxican_wavelet
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 10
+#| fig-align: center
+#| fig-cap: "Haar wavelet"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+
+\begin{tikzpicture}[samples = 200, scale=3]
+
+\draw[-{stealth}] (-1.1, 0) -- (1.1,0) node[right] {$t$};
+\draw[-{stealth}] (0,-0.5) -- (0,1.2) node[above] {$\psi_{1, 0}(t)$};
+\draw[color=black, very thick, domain=-6:6, samples=100, variable = \t]   plot ({\t/6}, {(1-(\t)^2)*exp(-\t*\t/2)});
+\draw (-0.289, -0.02)-- (-0.289, 0.02) node[above, scale=0.8] {$-\sqrt{3}$};
+\draw (0.289, -0.02)-- (0.289, 0.02) node[above, scale=0.8] {$\sqrt{3}$};
+
+\begin{scope}[xshift=2.3cm] 
+
+\draw[-{stealth}] (-1.1, 0) -- (1.1,0) node[right] {$\omega$};
+\draw[-{stealth}] (0,-0.5) -- (0,1.2) node[above] {$\hat{\psi}_{1, 0} (t)$};
+
+\draw[color=black, very thick, domain=-7:7, samples=200, variable = \t]   plot ({\t/7}, {\t*\t*exp(-\t*\t/2)});
+
+\draw (-0.202, 0.02)-- (-0.202, -0.02) node[below, scale=0.8] {$-\sqrt{2}$};
+\draw (0.202, 0.02)-- (0.202, -0.02) node[below, scale=0.8] {$\sqrt{2}$};
+\end{scope}
+
+
+
+\end{tikzpicture}
+```
+
+
+```{r, engine = 'tikz'}
+#| label: fig-wavelet_maxican_wavelet_2
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 10
+#| fig-align: center
+#| fig-cap: "Haar wavelet"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+
+\begin{tikzpicture}[samples = 200, scale=1.2]
+
+\draw[-{stealth}] (-6.3, 0) -- (6.3,0) node[right] {$t$};
+\draw[-{stealth}] (0,-4) -- (0,6) node[above] {$$};
+\draw[color=black, very thick, domain=-6:6, samples=300, variable = \t]   plot ({\t}, {3*(1-(\t)^2)*exp(-\t*\t/2)});
+\draw[color=red, very thick, domain=-6:6, samples=300, variable = \t]   plot ({\t}, { 3*sqrt(2)/sqrt(3) * (1-((\t+2)/1.5)^2)*exp(-(((\t+2)/1.5)^2)/2)});
+
+\draw[color=teal, very thick, domain=-6:6, samples=300, variable = \t]   plot ({\t}, { 3*sqrt(4)* (1-((\t-sqrt(2))*4)^2)*exp(-(((\t-sqrt(2))*4)^2)/2)});
+
+\node [left] at (-0.1, 3) {$\psi_{1, 0}(\omega)$};
+\node [left, red] at (-3, 1) {$\psi_{\frac{3}{2}, -2}(\omega)$};
+\node [right, teal] at (1.5, 4) {$\psi_{\frac{1}{4}, -\sqrt{2}}(\omega)$};
+
+\foreach \x in {1,...,5}
+{
+  \draw (\x, 0.1)-- (\x, -0.1) node[below, scale=0.8] {$\x$};
+  \draw (-\x, 0.1)-- (-\x, -0.1) node[below, scale=0.8] {$-\x$};
+}
+
+\end{tikzpicture}
+```
+
+
+```{r, engine = 'tikz'}
+#| label: fig-wavelet_resolution_1
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 10
+#| fig-align: center
+#| fig-cap: "Haar wavelet"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+
+\begin{tikzpicture}[samples = 200, scale=1.2]
+
+\draw[-{stealth}] (-0.5, 0) -- (8,0) node[right] {$t$};
+\draw[-{stealth}] (0,-0.5) -- (0,4) node[above] {$\omega$};
+
+\foreach \x in {0,...,2}
+{
+  \draw (2*\x +2 , 0.1)-- (2*\x +2, 0.0) node[below, scale=0.8] {$b_\x + a_\x t_m$};
+  \draw (0.1, \x +1)-- (0.0, \x +1) node[left, scale=0.8] {$\omega_m/a_\x$};
+  \draw[dashed] (2*\x+2, 0.0) -- (2*\x+2, \x+1) -- (0, \x+1);
+}
+
+\draw [thick, red] (1, 0.7) -- (3, 0.7) -- (3, 1.3) -- (1, 1.3) -- cycle;
+\node [above, red, scale=0.8] at (2, 1.3) {$2a_0 \sigma_t$};
+\node [right, red, scale=0.8] at (3, 1.0) {$\dfrac{2}{a_0}\sigma_\omega$};
+
+\draw [thick, blue] (3.5, 1.6) -- (4.5, 1.6) -- (4.5, 2.4) -- (3.5, 2.4) -- cycle;
+\node [above, blue, scale=0.8] at (4, 2.4) {$2a_1 \sigma_t$};
+\node [right, blue, scale=0.8] at (4.5, 2.0) {$\dfrac{2}{a_1}\sigma_\omega$};
+
+\draw [thick, teal] (5.8, 2) -- (5.8, 4) -- (6.2, 4) -- (6.2, 2) -- cycle;
+\node [above, teal, scale=0.8] at (6, 4) {$2a_2 \sigma_t$};
+\node [right, teal, scale=0.8] at (6.2, 3.0) {$\dfrac{2}{a_2}\sigma_\omega$};
+
+
+
+\end{tikzpicture}
+```

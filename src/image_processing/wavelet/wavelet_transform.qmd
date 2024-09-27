@@ -1,0 +1,701 @@
+---
+title: "웨이블릿 변환"
+number-sections: true
+number-depth: 3
+crossref:
+  chapters: false
+---
+
+## 정의와 기본적인 성질
+
+::: {.callout-note appearance="minimal"}
+
+::: {#def-wavelet_definition_of_wavelet}
+
+#### Wavelet
+
+$\psi\in L^2(\mathbb{R})$ 이 $\hat{\psi}=\mathfrak{F}[\psi]$ 에 대해 다음을 만족할 때 $\psi$ 를 **웨이블릿(wavelet)** 이라고 한다.
+
+$$
+C_\psi := {\Large \int}_{-\infty}^\infty \dfrac{\left| \hat{\psi}(\omega)\right|^2}{|\omega|} \, d\omega < \infty.
+$$ {#eq-wavelet_condition}
+
+:::
+:::
+
+</br>
+
+::: {#prp-wavelet_basic_properties_of_wavelet}
+
+@eq-wavelet_condition 을 *admissibility condition* 이라고 한다. 이 정의로부터 다음을 알 수 있다.
+
+&emsp; ($1$) $\displaystyle \lim_{\omega \to 0} \hat{\psi}(\omega) = 0$. 
+
+&emsp; ($2$) $\hat{\psi}$ 가 연속함수라면 $\hat{\psi}(0)=0$ 이어야 한다.
+
+&emsp; ($3$) $\displaystyle 0 = \hat{\psi}(0) = \int_{-\infty}^\infty \psi (t)\, dt$ 이다. 즉 $\psi$ 의 평균값은 $0$ 이다. 
+
+&emsp; ($4$) $\displaystyle \lim_{|\omega| \to \infty }  \hat{\psi}(\omega) = 0$ 이다.
+
+:::
+
+
+</br>
+
+::: {.callout-note appearance="minimal"}
+::: {#def-wavelet_moment}
+
+#### 웨이블릿의 $k$-차 모멘트
+
+$\psi\in L^2(\mathbb{R})$ 이 웨이블릿일 때 아래와 같이 정의된 $m_k$ 를 $k$-차 모멘트 라고 한다.
+
+$$
+m_k := \int_{-\infty}^\infty t^k \psi(t)\, dt.
+$$ {#eq-wavelet_moment}
+
+$m_0 = m_1 = \cdots = m_k=0$ 일 때 $\psi$ 는 **$k$-vanishing moment** 를 가진다고 한다.
+:::
+:::
+
+</br>
+
+::: {#prp-wavelet_vanishing_moment}
+
+@def-wavelet_moment 에서 $m_k=0$ 인 것의 필요충분조건은 다음과 같다.
+
+$$
+\left[\dfrac{d^k \hat{\psi}(\omega)}{d\omega^k}\right]_{\omega = 0} = 0.
+$$
+
+:::
+
+::: {.proof}
+
+[푸리에 변환의 수학적 성질](fourier_transform.qmd#prp-wavelet_properties_of_fourier_transform) ($7$) 로부터 
+
+$$
+\left[\dfrac{d^k \hat{\psi}(\omega)}{d\omega^k}\right]_{\omega = 0} = (-i)^k \mathfrak{F}\left[t^k \psi(t)\right](\omega = 0) = (-i)^k \int_{-\infty}^\infty t^n \psi(t)\, dt = (-i)^k m_k
+$$ 
+
+이다. $\square$
+
+:::
+
+</br>
+
+웨이블릿은 보통 1차부터 특정 $n$ 차 까지의 모멘트가 $0$ 이다. $m_k=0$ 이 되는 가장 큰 $k$ 값은 웨이블릿의 성질을 파악하는 중요한 값이다. $K = \min \{ k\in \mathbb{Z}_+: m_k \ne 0\}$ 이라고 하자. $\hat{\psi}$ 를 $\omega=0$ 근처에서 테일러 전개 하면
+
+$$
+\hat{\psi}(\omega) \approx (-i)^K \dfrac{m_K}{K!} \omega^K + O(\omega^{k+1})
+$$
+
+이다. 
+
+
+
+</br>
+
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#exm-wavelet_Haar_wavelet}
+
+#### Harr 웨이블릿
+
+Haar 웨이블릿은 헝가리의 수학자 Alfred Haar 에 의해 도입된 최초의 웨이블릿으로 아래와 같이 정의된다.
+
+$$
+\psi_H (t) = \left\{\begin{array}{ll} 1, \qquad & 0, \le t < \dfrac{1}{2} \\ -1 & \dfrac{1}{2} \le t < 1 \\ 0, & \text{otherwise}.\end{array}\right.
+$$ {#eq-wavelet_Haar_wavelet}
+
+이로부터 다음을 쉽게 알 수 있다.
+
+$$
+\int_{-\infty}^\infty \psi_H (t)\, dt = 0, \qquad \int_{-\infty}^\infty |\psi_H(t)|^2 = 1.
+$$
+
+웨이블릿의 푸리에 변환 $\mathfrak{F}[\psi_H](\omega)$ 는 다음과 같다.
+
+$$
+\begin{aligned}
+\hat{\psi}_H(\omega) &= \int_{0}^{1/2} e^{-i \omega t} \, dt - \int_{1/2}^1 e^{-i\omega t}\, dt = i e^{-i\omega/2} \dfrac{\sin^2(\omega/4)}{\omega/4}
+\end{aligned}
+$$ {#eq-wavelet_fourier_transform_of_haar_wavelet}
+
+admissibility condition 을 확인해보자.
+
+$$
+{\Large \int}_{-\infty}^\infty \dfrac{\left| \hat{\psi}_H(\omega)\right|^2}{|\omega|} \, d\omega = \int_{-\infty}^\infty 16|\omega|^{-3} \left|\sin^4 \left(\dfrac{\omega}{4}\right)\right|\, d\omega \le \int_{-\infty}^\infty \dfrac{16}{|\omega|^3}\, d\omega <\infty
+$$
+
+
+![Haar 웨이블릿과 그 푸리에 변환](images/fig-wavelet_haar_wavelet.png){#fig-wavelet_haar_wavelet}
+
+@fig-wavelet_haar_wavelet 에서 보듯이 Haar wavelet 은 시간 도메인에서 잘 국소화 되어 있지만 진동수 도메인에서는 잘 국소화 되어 있지 않다. 또한 푸리에 변환인 $\hat{\psi}_H(\omega)$ 는 $\omega$ 가 커짐에 따라 $\omega$ 에 빈비례하므로 진동수 도메인에서 컴팩트 지지 함수가 아니다. $\psi(t)$ 가 연속함수가 아니므로 $\omega \to \infty$ 극한에서 충분히 빨리 $0$ 이 되지 않는데 이것으로 인해 Haar 웨이블릿은 실제로 사용하는데 약점이 있지만 일반적인 웨이블릿의 성질을 파악하는데 가장 기초적인 웨이블릿이다.
+
+
+:::
+
+</div>
+
+</br>
+
+
+::: {#thm-wavelet_convolution_of_wavelet}
+
+$\psi$ 가 웨이블릿이고 $\phi$ 가 유계인 적분가능 함수라면 $\psi \ast \phi$ 는 웨이블릿이다.
+
+:::
+
+::: {.proof}
+
+우선 다음을 보자. $f,\,g\in L^2(\mathbb{R})$ 이라면 
+
+$$
+\infty > \int_{-\infty}^\infty |f(t)|^2\, dt 
+$$
+
+이므로 $|f|\in L^2(\mathbb{R})$ 이다. 코시-슈바르츠 부등식에 따라
+
+$$
+\left(\int_{-\infty}^\infty |f(t)g(t)|\, dt\right)^2 \le {\int_{-\infty}^\infty |f(t)|^2\, dt}{\int_{-\infty}^\infty |g(t')|^2\, dt'}
+$$
+
+이다. 다음의 식에는 이것이 사용된다. 다음을 보자.
+
+$$
+\begin{aligned}
+\int_{-\infty}^\infty \left|(\psi \ast \phi)(t)\right|^2\,  dt &= \int_{-\infty}^\infty \left|\int_{-\infty}^\infty \psi(x-t)\,\phi(x) \, dx\right|^2\, dt \\
+& \le \int_{-\infty}^\infty \left[\int_{-\infty}^\infty \left|\psi(x-t)\right|\,\left|\phi(x)\right| \, dx\right]^2\, dt \\
+&= \int_{-\infty}^\infty \left[\int_{-\infty}^\infty |\psi(x-t) |\, |\phi(x)|^{1/2} |\phi(x)|^{1/2}\, dx\right]^2\, dt \\
+&\le \int_{-\infty}^\infty \left[\int_{-\infty}^\infty |\psi(x-t) |^2\, |\phi(x)| \, dx \int_{-\infty}^\infty |\phi(y)|\, dy\right]\, dt \\
+&=\int_{-\infty}^\infty |\phi(y)|\, dy \int_{-\infty}^\infty \left[\int_{-\infty}^\infty |\psi(x-t) |^2\, |\phi(x)| \, dx \right]\, dt  \\
+&= \left(\int_{-\infty}^\infty |\phi(y)|\, dy \right)^2 \int_{-\infty}^\infty |\psi(t) |^2\, dt <\infty 
+\end{aligned}
+$$
+
+따라서 $\psi \ast \phi \in L^2(\mathbb{R})$ 이다. $\phi$ 가 유계인 적분가능함수이므로 $\left|\hat{\phi}(\omega)\right|<\le M$ 인 양수 $M$ 이 존재한다.
+
+$$
+\begin{aligned}
+{\Large \int_{-\infty}^\infty} \dfrac{\left|\mathfrak{F}[\psi \ast \phi](\omega)\right|^2}{|\omega|}\, d\omega &= {\Large \int_{-\infty}^\infty} \dfrac{\left| \hat{\psi}(\omega) \hat{\phi}(\omega) \right|^2 }{\omega} \, d\omega = {\Large \int_{-\infty}^\infty} \dfrac{\left| \hat{\psi}(\omega) \right|^2 }{\omega} \left| \hat{\phi}(\omega)\right|^2\, d\omega  \\
+&\le {\Large \int_{-\infty}^\infty} \dfrac{\left| \hat{\psi}(\omega) \right|^2 }{\omega}  \sup \left\{\left|\hat{\phi}(\omega)\right|^2 \right\}\, d\omega \le \infty
+\end{aligned}
+$$
+
+이므로 $\psi \ast \phi$ 도 웨이블릿이다. $\square$
+:::
+
+</br>
+
+@thm-wavelet_convolution_of_wavelet 은 일단 하나의 웨이블릿이 존재한다면 이로부터 무수히 많은 웨이블릿을 만들 수 있다는 것을 보장한다. 유계인 적분 가능함수 $\phi$ 만 찾고 웨이블릿 $\psi$ 에 대해 $\psi \ast \phi$ 만 해 주면 된다.
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#exm-wavelet_convolution_of_Haar_wavelet_1}
+
+$\phi (t)$ 를 다음과 같이 정의하자.
+
+$$
+\phi(t) = \left\{\begin{array}{ll} 0, \qquad & t<0, \\ 1, & 0 \le t \le 1, \\ 0 \ge 1. \end{array}\right.
+$$
+
+Haar 웨이블릿 $\psi_H$ 와 $\phi$ 의 합성곱 $\psi_H \ast \phi$ 는 아래 그림 @fig-wavelet_convolution_of_haar_1 과 같다.
+
+![$\psi_H \ast \phi (t)$ 웨이블릿](images/fig-wavelet_convolution_of_haar.png){#fig-wavelet_convolution_of_haar_1 width=400}
+
+
+:::
+
+</div>
+
+</br>
+
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#exm-wavelet_convolution_of_Haar_wavelet_2}
+
+$\phi (t) = e^{-t^2}$ 와의 합성곱은  
+
+Haar 웨이블릿 $\psi_H$ 와 $\phi$ 의 합성곱 $\psi_H \ast \phi$ 는 아래 그림 @fig-wavelet_convolution_of_haar_1 과 같다.
+
+![$\psi_H \ast \phi (t)$ 웨이블릿](images/fig-wavelet_convolution_of_haar.png){#fig-wavelet_convolution_of_haar_1 width=400}
+
+![$\mathfrak[F](\psi_H \ast \phi)(t)$](wavelet_2.png){#fig-wavelet_convolution_of_haar_2 width=400}
+:::
+
+</div>
+
+</br>
+
+## 딸 웨이블릿
+
+::: {.callout-note appearance="minimal"}
+
+::: {#def-wavelet_mother_wavelet}
+
+#### Mother wavelet 
+
+우리는 기본이 되는 웨이블릿 $\psi(t)$ 에 대해 아래와 같이 **딸 웨이블릿(daughter wavelet)** $\psi_{a,\,b}(t)$ 를 정의 할 수 있다.
+
+$$
+\psi_{a,b}(t) = \dfrac{1}{\sqrt{|a|}} \psi \left(\dfrac{t-b}{a}\right), \qquad a,\,b\in \mathbb{R},\, a\ne 0.
+$$ {#eq-def_daughter_wavelet}
+
+여기서 $a$ 를 *scaling parameter* 라고 하고 $b$ 를 *translation parameter* 라고 한다. 여기서 $\psi(t) = \psi_{1,\,0}(t)$ 를 **mother wavelet** 이라고 한다.
+
+:::
+
+:::
+
+
+::: {#prp-wavelet_fourier_transform_of_daughter_wavelet}
+
+Mother wavelet $\psi_{1, 0}(t)$ 에 대해 $\hat{\psi}_{0,1}(\omega) = \mathfrak{F}[\psi_{0, 1}](\omega)$ 일 때, 딸 웨이블릿의 푸리에 변환은 다음과 같다.
+
+$$
+\hat{\psi}_{a,\,b}(\omega)= \mathfrak{F}[\psi_{a,b}](\omega) = \dfrac{a}{\sqrt{|a|}}e^{i\omega b} \hat{\psi}_{1, 0}(a\omega).
+$$ {#eq-wavelet_fourier_transform_of_daughter_wavelet}
+:::
+
+::: {.proof}
+
+푸리에 변환을 직접 해보면 된다.
+
+:::
+
+
+</br>
+
+
+
+웨이블릿에 대해 $a,\,b$ 값이 변화하면 어떻게 되는지 아래 그림으로 대략 파악 할 수 있다.
+
+![Daughter wavlet](images/fig-wavelet_daughter_wavelet.png){#fig-daughter_wavelet width=700}
+
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#exm-wavelet_Maxican_hat_wavelet}
+
+#### 멕시코 모자 웨이블릿
+
+멕시코 모자 웨이블릿은 가우시안 함수 $e^{-t^2/2}$ 의 2차 미분에 $-1$ 을 곱한 함수로 정의된다.
+
+$$
+\psi_{1,0}(t) := -\left(\dfrac{d^2}{dt^2}e^{-t^2/2}\right) = (1-t^2)\,e^{-t^2/2}.
+$$ {#eq-wavelet_maxican_hat_wavelet}
+
+이에 대한 푸리에 변환은 다음과 같다.
+
+$$
+\hat{\psi}_{1, 0}(\omega) = \mathfrak{F}\left[-\dfrac{d^2}{dt^2}e^{-t^2/2}\right] = \omega^2 \mathfrak{F}[e^{-t^2/2}] = \sqrt{2\pi}\omega^2 e^{-\omega^2/2}
+$$ {#eq-wavelet_fourier_transformation_of_maxican_hat_wavelet}
+
+![멕시코 모자 웨이블릿 $\psi_{1, 0}$ 과 $\hat{\psi}_{1, 0}$](images/fig-wavelet_maxican_wavelet.png){#fig-wavelet_maxican_hat_wavelet_and_its_fourier_transform width=600}
+
+
+![멕시코 모자 웨이블릿 $\psi_{1, 0}(t)$, $\psi_{\frac{3}{2}, -2}(t)$, $\psi_{\frac{1}{4}, \sqrt{2}}(t)$](images/fig-wavelet_maxican_wavelet2.png){#fig-wavelet_three_maxican_hat_wavelet width=500}
+
+:::
+
+</div>
+
+</br>
+
+## 연속 웨이블릿 변환
+
+### 연속 웨이블릿 변환 {#sec-wavelet_continuous_wavelet_transform}
+
+::: {.callout-note appearance="minimal"}
+
+::: {#def-wavelet_continuous_wavelet_transform}
+
+#### 연속 웨이블릿 변환
+
+위에블릿 $\psi (t)$ 와 그 딸 웨이블릿 $\psi_{a, b}(t)$ 에 대해 
+
+$$
+\mathfrak{W}_\psi[f](a,\,b) := \langle f,\, \psi_{a,b}\rangle = \int_{-\infty}^\infty f(t)\, \overline{\psi_{a,b}(t)}\, dt
+$$ {#eq-wavelet_definition_of_wavelet_transformation}
+
+를 $f(t)$ 의 웨이블릿 $\psi_{a,b}(t)$ 에 대한 **연속 웨이블릿 변환(continuous wavelet transformation)**이라고 한다.
+
+
+:::
+
+:::
+
+
+</br>
+
+웨이블릿 변환의 커널 $\psi_{a,b}(t)$ 는 푸리에 변환의 커널 $e^{i\omega t}$ 와 같은 역할을 한다. 푸리에 변환처럼 웨이블릿 변환도 선형변환이다. 푸리에 변환은 $\omega$ 에 대한 함수로 주어지지만 웨이블릿 변환은 scaling parameter $a$ 와 translation parameter $b$ 에 대한 함수이다.
+
+</br>
+
+::: {#exr-wavelet_fourier_transform_of_daughter_wavelet}
+
+Mother 웨이블릿 $\psi(t)$ 에 대한 푸리에 변환을 $\hat{\psi}(\omega)$, 딸 웨이블릿 $\psi_{a,\,b}(t)$ 에 대한 푸리에 변환을 $\hat{\psi}_{a,\,b}(\omega)$ 라고 할 때 다음이 성립함을 보여라.
+
+$$
+\hat{\psi}_{a,\,b}(\omega) = \sqrt{|a|} e^{-ib\omega} \hat{\psi}(a\omega)
+$$ 
+
+:::
+
+::: {.solution}
+
+$$
+\hat{\psi}_{a,\,b}(\omega) = \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-i\omega t} \psi_{a,\,b}(t)\, dt = \sqrt{|a|} e^{-i\omega b} \hat{\psi}(a\omega)
+$$ {#eq-wavelet_fourier_transform_of_daughter_wavelet}
+:::
+
+</br>
+
+::: {#prp-wavelet_properties_of_transformation_1}
+Mother 웨이블릿 $\psi(t)$ 가 [$k$-vanishing moment](#def-wavelet_moment) 를 가진다면 $f$ 를 $b$ 근처에서 푸리에 전개 했을 때 $\mathfrak{W}_\psi[f](a,\,b)$ 첫번째 $k$ 개의 항이 $0$ 이다.  
+
+:::
+
+::: {.proof}
+
+웨이블릿 변환에서 $f(t)$ 의 $b$ 근방의 테일려 전개를 통해 다음을 보일 수 있다.
+
+$$
+\begin{aligned}
+\mathfrak{W}_\psi[f](a,\,b) &= \int_{-\infty}^\infty \dfrac{1}{\sqrt{|a|}} \overline{\psi\left(\dfrac{t-b}{a}\right)} \left[\sum_{j=0}^\infty \dfrac{f^{(j)}(b)}{j!} (t-b)^j\right]\, dt \\
+&= \sum_{j=0}^\infty \dfrac{f^{(j)}(b)}{(j!)\sqrt{|a|}} \int_{-\infty}^\infty \overline{\psi \left(\dfrac{t-b}{a}\right)}(t-b)^j\, dt &\qquad &; x:=\dfrac{t-b}{a} \\
+&= \sum_{j=0}^\infty \dfrac{f^{(j)}(b)}{(j!)\sqrt{|a|}} a^{j+1}\int_{-\infty}^\infty \overline{\psi(x)} x^j\, dx\\
+&=\sum_{j=0}^\infty \dfrac{f^{(j)}(b)}{(j!)\sqrt{|a|}} a^{j+1}m_k
+\end{aligned}
+$$
+
+이다. $j=0$ 부터 $j=k$ 까지의 항이 모두 $0$ 이다. $\square$
+
+:::
+
+</br>
+
+### 웨이블릿 변환과 분해능
+
+웨이블릿 $\psi(t)$ 에 대해 $\displaystyle \int |\psi(t)|^2=1$ 인 경우를 생각하자. 이 때 $|\psi(t)|^2$ 를 $t$ 에 대한 확률분포로 생각 할 수 있으며 [$\|\psi\|_2 = \left\|\hat{\psi}\right\|_2$](fourier_transform.qmd#thm-wavelet_norm_of_fourier_transfrom_in_L2) 이므로 $|\hat{\psi}(\omega)|^2$ 는 $\omega$ 에 대한 확률분포로 생각할 수 있다. (양자역학의 파동함수를 생각하라.)
+
+$t$ 와 $\omega$ 에 대한 평균값 $t_m$ 과 $\omega_m$ 은 각각
+
+$$
+t_m = \int_{_\infty}^\infty t|\psi(t)|^2\, dt,\qquad \omega_m = \dfrac{1}{2\pi} \int_{0}^\infty \omega \left|\hat{\psi}(\omega)\right|^2\, d\omega
+$$
+
+이며 각각의 표준편차 $\sigma_t,\,\sigma_\omega$ 는 다음으로 부터 구할 수 있다.
+
+$$
+{\sigma_t}^2 = \int_{-\infty}^\infty (t-t_m)^2 |\psi(t)|^2\, dt,\qquad {\sigma_\omega}^2 = \dfrac{1}{2\pi} \int_{-\infty}^\infty (\omega - \omega_m)^2 \left|\hat{\psi}(\omega)\right|^2\,d\omega
+$$
+
+따라서 연속 웨이블릿 변환 $\mathfrak{W}_\psi[f](a,\,b)$  는 time window 에서 
+
+$$
+\left[at_m + b - a\sigma_t,\, at_m + b +a\sigma_t\right]
+$$
+
+영역의 정보를 준다고 할 수 있다. 또한
+
+$$
+\mathfrak{W}_\psi[f](a,\,b) = \langle f,\,\psi_{a,b}\rangle = \langle \hat{f},\, \hat{\psi}_{a,b}\rangle = \dfrac{1}{2\pi} \int_{-\infty}^\infty \left[\sqrt{|a|} \hat{f}(\omega) \overline{\hat{\psi}_{a,b}}\right]\, e^{ib\omega}\, d\omega
+$$
+
+이므로 frequency window 에서는
+
+$$
+\left[\dfrac{\omega_m}{a} - \dfrac{\sigma_\omega}{a},\, \dfrac{\omega_m}{a} + \dfrac{\sigma_\omega}{a}\right]
+$$
+
+영역의 정보를 준다고 할 수 있다. 즉 $\mathfrak{W}_\psi[f](a,\,b)$ 는 $t-\omega$ 평면에서
+
+$$
+\left[at_m + b - a\sigma_t,\, at_m + b +a\sigma_t\right] \times \left[\dfrac{\omega_m}{a} - \dfrac{\sigma_\omega}{a},\, \dfrac{\omega_m}{a} + \dfrac{\sigma_\omega}{a}\right]
+$$
+
+영역의 정보를 준다.
+
+![웨이블렛 변환의 Time-frequency 평면](images/fig-wavelet_resolution_1-1.png){#fig-wavelet_resolution}
+
+
+
+</br>
+
+::: {#thm-wavelet_basic_properties}
+
+$\phi,\,\psi$ 가 웨이블릿이며 $f,\,g\in L^2(\mathbb{R}),\, \alpha,\, \beta\in \mathbb{C},\, c\in \mathbb{R}$ 일 때 다음이 성립한다. (see [연산자들](fourier_transform.qmd#def-wavelet_operators))
+
+&emsp; ($1$) $\mathfrak{W}_\psi [\alpha f +  \beta g](a,\,b) = \alpha\mathfrak{W}_\psi[f](a,\,b) + \beta \mathfrak{W}_\psi [g](a,\,b)$.
+
+&emsp; ($2$) $\mathfrak{W}_\psi[T_cf](a,\,b) = \mathfrak{W}_\psi [f] (a,\, b-c)$.
+
+&emsp; ($3$) $c>0$ 일 때 $\mathfrak{W}_\psi \left[D_c f\right](a,\,b) = \dfrac{1}{\sqrt{c}}\mathfrak{W}_\psi [f] \left(\dfrac{a}{c},\,\dfrac{b}{c}\right)$.
+
+&emsp; ($4$) $a\ne 0$ 일 때 $\mathfrak{W}_\psi [f] (a,\,b)= \overline{\mathfrak{W}_f[\psi] \left(\dfrac{1}{a},\,-\dfrac{b}{a}\right)}$. 
+
+&emsp; ($5$) $\mathfrak{W}_{P\psi}[Pf](a,\,b) = \mathfrak{W}_\psi[f] (a,\,-b)$.
+
+&emsp; ($6$) $\mathfrak{W}_{\alpha \psi + \beta \phi} [f](a,\,b) = \overline{\alpha} \mathfrak{W}_\psi [f](a,\,b) + \overline{\beta} \mathfrak{W}_\phi[f](a,\,b)$.
+
+&emsp; ($7$) $\mathfrak{W}_{T_c \psi}[f] (a,\,b) = \mathfrak{W}_\psi [f](a,\, b+ca)$.
+
+&emsp; ($8$) $c>0$ 에 대해 $\mathfrak{W}_{D_c \psi}[f](a,\,b) = \dfrac{1}{\sqrt{c}} \mathfrak{W}_\psi [f](ac,\,b)$. 
+:::
+
+::: {.proof}
+
+($1$) 정의에 의해 선형성은 자명하다.
+
+($2$)
+
+$$
+\begin{aligned}
+\mathfrak{W}_\psi[T_cf](a,\,b) &= \int_{-\infty}^\infty f(t-c) \dfrac{1}{\sqrt{a}}\overline{\psi \left(\dfrac{t-b}{a}\right)}\, dt= \int_{-\infty}^\infty f(x) \dfrac{1}{\sqrt{a}} \overline{\psi \left(\dfrac{x-(b-c)}{a}\right)}\,dx\\[0.5em]
+&= \mathfrak{W}_\psi [f](a,\, b-c). 
+\end{aligned}
+$$
+
+($3$)
+
+$$
+\begin{aligned}
+\mathfrak{W}_\psi \left[D_c f\right](a,\,b) &= \int_{-\infty}^\infty \dfrac{1}{\sqrt{|c|}} f\left(\dfrac{t}{c}\right) \dfrac{1}{\sqrt{a}}\overline{\psi \left(\dfrac{t-b}{a}\right)}\, dt \\
+&= \int_{-\infty}^\infty \dfrac{1}{\sqrt{c}} f(x) \dfrac{1}{\sqrt{a}} \overline{\psi \left(\dfrac{x-b/c}{a/c}\right)}\, dt \\
+&=\dfrac{1}{\sqrt{c}} \mathfrak{W}_{\psi}[f](a/c,\, b/c).
+\end{aligned}
+$$
+
+
+($4$)
+
+$$
+\begin{aligned}
+\mathfrak{W}_\psi [f] (a,\,b) &= \dfrac{1}{\sqrt{a}} \int_{-\infty}^\infty f(t) \overline{\psi\left(\dfrac{t-b}{a}\right)}\, dx \\
+&={\sqrt{a}} \int_{-\infty}^\infty f\left(\dfrac{x+b/a}{1/a}\right) \overline{\psi (x)}\, dx \\
+&={\sqrt{a}} \overline{ \int_{-\infty}^\infty \psi(x) \, \overline{f\left(\dfrac{x+b/a}{1/a}\right)}} \, dx\\
+&= \overline{\mathfrak{W}_{f}[\psi]\left(\dfrac{1}{a},\, -\dfrac{b}{a}\right)}.
+\end{aligned}
+$$
+
+
+($5$) $\displaystyle \mathfrak{W}_{P\psi}[Pf] = \dfrac{1}{\sqrt{|a|}}\int_{-\infty}^\infty f(-t) \overline{\psi \left(\dfrac{-t-b}{a}\right)}\, dt = \mathfrak{W}_\psi [f](a,\,-b).$
+
+
+($6$) 
+
+$$
+\begin{aligned}
+\mathfrak{W}_{\alpha \psi + \beta \phi} [f](a,\,b) &= \dfrac{1}{\sqrt{|a|}}\int_{-\infty}^\infty f(t) \left[\overline{\alpha \psi \left(\dfrac{t-b}{a}\right) + \beta \phi\left(\dfrac{t-b}{a}\right) }\right] \, dt \\
+&= \dfrac{\overline{\alpha}}{\sqrt{|a|}} \int_{-\infty}^\infty f(t)  \overline{\psi \left(\dfrac{t-b}{a}\right)}\, dt + \dfrac{\overline{\beta}}{\sqrt{|a|}} \int_{-\infty}^\infty f(t)  \overline{\phi \left(\dfrac{t-b}{a}\right)}\, dt \\
+&= \overline{\alpha} \mathfrak{W}_\psi [f](a,\,b) + \overline{\beta} \mathfrak{W}_\phi [f](a,\,b).
+\end{aligned}
+$$
+
+
+($7$) $\displaystyle \mathfrak{W}_{T_c \psi}[f] (a,\,b) = \dfrac{1}{\sqrt{|a|}}\int_{\infty}^\infty f(t) \overline{\psi \left(\dfrac{(t-b)}{a}-c\right)}\, dt = \mathfrak{W}_\psi [f](a,\,b+ac)$
+
+($8$) $D_c\psi =  \dfrac{1}{\sqrt{c}} \psi\left(\dfrac{t}{c}\right)$ 이므로, 
+
+$$
+\begin{aligned}
+\mathfrak{W}_{D_c \psi}[f](a,\,b) &= \dfrac{1}{\sqrt{|a|c}} \int_{-\infty}^{\infty}f(t) \overline{\psi \left(\dfrac{1}{c}\dfrac{t-b}{a}\right)}\, dt = \dfrac{1}{\sqrt{|a|c}} \int_{-\infty}^{\infty}f(t) \overline{\psi \left(\dfrac{t-b}{ac}\right)}\, dt \\
+&= \mathfrak{F}_\psi [f](ac,\,b). \qquad \square
+\end{aligned}
+$$
+:::
+
+</br>
+
+::: {#thm-wavelet_parsevals_formular_for_wavelet}
+
+#### Parseval's formula
+
+$\psi \in L^2(\mathbb{R})$ 이며 $f,\,g\in L^2(\mathbb{R})$ 일 때 다음이 성립한다.
+
+$$
+\langle f,\,g \rangle = \dfrac{1}{C_\psi} \int_{-\infty}^\infty \int_{-\infty}^\infty \,\mathfrak{W}_\psi [f](a,\,b) \overline{ \mathfrak{W}_\psi [g](a,\,b)}\,\dfrac{db\,da}{a^2}.
+$$ {#eq-wavelet_parsevals_of_wavelet_1}
+
+여기서 $C_\psi$ 는 다음과 같다.
+
+$$
+C_\psi = \displaystyle \int_{-\infty}^\infty \dfrac{\left|\hat{\psi}(\omega)\right|^2}{|\omega|} \, d\omega < \infty
+$$ {#eq-wavelet_parsevals_of_wavelet_2}
+
+:::
+
+::: {.proof}
+
+[일반화된 Parseval's relation](fourier_transform.qmd#thm-wavelet_general_Parseval_relation) 과 [연속 웨이블릿 변환](#def-wavelet_continuous_wavelet_transform) 의 정의, 그리고 @exr-wavelet_fourier_transform_of_daughter_wavelet 로부터
+
+$$
+\begin{aligned}
+\mathfrak{W}_\psi [f](a,\,b) &= \langle f,\, \psi_{a,\,b}\rangle = \langle \hat{f},\, \hat{\psi}_{a,\,b}\rangle = \int_{-\infty}^\infty \hat{f}(\omega) \, \sqrt{|a|} e^{ib\omega} \overline{\hat{\psi}(a\omega)}\, d\omega, \\
+\overline{\mathfrak{W}_\psi [g](a,\,b)} &= \int_{-\infty}^\infty \overline{\hat{g}(\mu)} \, \sqrt{|a|} e^{-ib\mu} \hat{\psi}(a\mu)\, d\mu, 
+\end{aligned}
+$$
+
+@eq-wavelet_parsevals_of_wavelet_1 의 우변은
+
+$$
+\begin{aligned}
+\int_{-\infty}^\infty &\int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \,\overline{ \mathfrak{W}_\psi [g](a,\,b)}\,\dfrac{db\,da}{a^2} \\
+&= \int_{-\infty}^\infty \int_{-\infty}^\infty \dfrac{db\,da}{a^2} \int_{-\infty}^\infty \int_{-\infty}^\infty |a|e^{ib(\omega-\mu)} \, \hat{f}(\omega)\,\overline{\hat{g}(\mu)} \overline{\hat{\psi}(a\omega)}\hat{\psi}(a\mu)\, d\mu\, d\omega \\
+\end{aligned}
+$$
+
+여기서 $\int_{-\infty}^\infty e^{ib(\omega - \mu)}\, db = \delta(\omega-\mu)$ 이므로,
+
+$$
+\begin{aligned}
+\int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \,\overline{ \mathfrak{W}_\psi [g](a,\,b)}\,\dfrac{db\,da}{a^2} &= \int_{-\infty}^\infty \dfrac{da}{|a|} \int_{-\infty}^\infty \hat{f}(\omega)\,\overline{\hat{g}(\omega)} \left|\hat{\psi}(a\omega)\right|^2\, d\omega \\
+&= \int_{-\infty}^\infty \left[\int_{-\infty}^\infty \left|\hat{\psi}(a\omega)\right|^2 \, \dfrac{da}{|a|}\right] \,\hat{f}(\omega)\,\overline{\hat{g}(\omega)}\,d\omega \\
+&= \int_{-\infty}^\infty \left[\int_{-\infty}^\infty \dfrac{\left|\hat{\psi}(x)\right|^2}{|x|}\, dx\right] \,\hat{f}(\omega)\,\overline{\hat{g}(\omega)}\,d\omega \\
+&= C_\psi  \int_{-\infty}^\infty\hat{f}(\omega)\,\overline{\hat{g}(\omega)}\,d\omega\\
+&= C_\psi \langle \hat{f},\, \hat{g}\rangle = C_\psi \langle f,\,g\rangle
+\end{aligned}
+$$
+
+이다. $\square$
+:::
+
+
+</br>
+
+::: {#thm-wavelet_inversion}
+
+$f\in \mathcal{L}^2(\mathbb{R})$ 일 때 아래의 식이 거의 모든 $\mathbb{R}$ 에서 성립한다.
+
+$$
+\dfrac{1}{C_\psi} \int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi[f](a,\,b) \, \psi_{a,\,b}(t)\,\dfrac{db\,da}{a^2} = f(t).
+$$ {#eq-wavelet_inversion}
+
+
+:::
+
+::: {.proof}
+
+@thm-wavelet_parsevals_formular_for_wavelet 로부터 시작한다. 
+$$
+\begin{aligned}
+C_\psi \langle f,\,g\rangle &=\int_{-\infty}^\infty \int_{-\infty}^\infty \,\mathfrak{W}_\psi [f](a,\,b) \overline{ \mathfrak{W}_\psi [g](a,\,b)}\,\dfrac{db\,da}{a^2} \\
+&= \int_{-\infty}^\infty \int_{-\infty}^\infty \,\mathfrak{W}_\psi [f](a,\,b) \overline{\left[\int_{-\infty}^\infty g(t)\, \overline{\psi_{a,\,b}(t)}\, dt\right]}\,\dfrac{db\,da}{a^2} \\
+&= \int_{-\infty}^\infty \int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \psi_{a,\,b}(t) \,\dfrac{db\,da}{a^2} \, \overline{g(t)}\,dt \\
+&= \left\langle  \int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \psi_{a,\,b}(t) \,\dfrac{db\,da}{a^2},\, g(t)\right\rangle
+\end{aligned}
+$$
+
+
+이다. $g$ 가 임의의 함수이므로
+
+$$
+f(t) = \dfrac{1}{C_\psi }\int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \psi_{a,\,b}(t) \,\dfrac{db\,da}{a^2}
+$$
+
+가 거의 모든 곳에서 성립한다. $\square$
+
+:::
+
+</br>
+
+## 이산 웨이블릿 변환
+
+이산 푸리에 변환과 그 역변환은 이산적인 시간 $t$ 와 진동수 $\omega$ 사이의 변환이지만 이산 웨이블릿 변환은 이산적인 $t$ 에 대해, 역시 이산적인 scale parameter $a$ 와 translation parameter $b$ 사이의 변환이다. 이산 웨이블릿 변환을 위해서는 scale paramter 와 관련있는 $0<a_0\ne 1$ 과 translation paramter 와 관련있는 $b_0>0$ 을 우선 정한다. 
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#exm-wavelet_dwt_1}
+
+mother wavelet $\psi$ 에 대해 scale parameter 가 $a_0^m$ 이며 translation parametr $nb_0 a_0^m$ 일 때의 딸 웨이블릿은
+
+$$
+\dfrac{1}{\sqrt{|a_0^{m}|}} \psi \left(\dfrac{t-nb_0a_0^m}{a_0^m}\right) = a_0^{-m/2} \psi (a_0^{-m}t - nb_0)
+$$
+
+이다.
+
+:::
+
+</div>
+
+</br>
+
+Mother 웨이블릿 $\psi$ 와 정수 $m,\,n$ 에 대한 딸 웨이블릿의 집합을 아래와 같이 정의한다.
+
+$$
+F_\psi (a,\,b) := \left\{ \psi_{m,\,n}(t) = a_0^{-m/2} \psi \left(a_0^{-m} t - nb_0\right): m,\,n \in \mathbb{Z}\right\}.
+$$ {#eq-wavelet_dwt_family}
+
+</br>
+
+가장 바람직한 것은 $F_\psi (a,\,b)$ 가 $L^2(\mathbb{R})$ 에서 complete 하고 orthogonal 한 것이지만 그것을 보장할 수는 없다. 
+
+
+::: {.callout-note appearance="minimal"}
+
+::: {#def-wavelet_frame}
+
+#### 아핀 웨이블릿과 프레임
+
+@eq-wavelet_dwt_family 의 $F_\psi (a,\,b) $ 가 complete 하다면 $\psi$ 를 **아핀 웨이블릿 (affine wavelet)** 이라고 한다. 임의의 $f\in L^2$ 에 대해 어떤 양수 $A_f,\,B_f$ 가 존재하여
+
+$$
+A_f\|f\|_2^2 \le \sum_{m,\,n\in \mathbb{Z}} |\langle f,\,\psi_{m,\,n}\rangle|^2 \le B_f\|f\|_2^2
+$$
+
+일 때 $F_\psi$ 를 **프레임(frame)** 이라고 한다.
+
+:::
+
+:::
+
+
+</br>
+
+::: {#prp-wavelet_and_frame}
+
+$\psi \in L^2(\mathbb{R})$ 가 @def-wavelet_definition_of_wavelet 의 admissiblitity 조건을 만족한다면 $F_\psi$ 는 frame 이다.
+
+:::
+
+::: {.proof}
+
+증명 생략
+
+:::
+
+</br>
+
+
+일반적으로 DWT 에서는 $a_0=2,\,b_0=1$ 을 사용한다. 그렇다면 웨이블릿 $\psi$ 에 대해
+
+$$
+F_\psi = \left\{ \psi_{m,n}:= 2^{-m/2} \psi\left( 2^{-m/2} - n \right) : m,\,n\in \mathbb{Z}\right\}
+$$
+
+를 사용한다. 
+
+
+![Dyadic sampling grid for the DWT](images/fig-wavelet_resolution_2.png){#fig-wavelet_resolution_2 width=700}
+
+</br>
+
+
+## Orthogonal wavelet
+
+
+
+
+
+
+
+
+

@@ -9,6 +9,8 @@ project:
 
 website:
   title: "Julia & Numerical Anlaysis"
+  site-url: "https://julia-kaeri.github.io/"
+  site-path: "/"
   page-navigation: true
   navbar:
     background: primary
@@ -17,12 +19,17 @@ website:
       - href: index.qmd
         text: Home
       - href : src/introduction_to_julia/index.qmd
-        text : "Julia 프로그래밍 언어"
+        text : "Julia 언어"
       - href : src/numerical_analysis_using_julia/index.qmd
-        text : "Julia 언어를 이용한 수치해석"
-      
+        text : "수치해석"
+      - href :  src/image_processing/index.qmd
+        text : "영상 처리/토모그래피"
       - href : src/tools/tools.qmd
         text : "Tools"
+      - href : src/posts/index.qmd
+        text : "Posts"
+      - href : https://julia-kaeri.github.io/ClassicalMechanics.doc/
+        text : "Classical Mechanics"
       - about.qmd
     tools:
       - icon: envelope
@@ -37,106 +44,125 @@ website:
       contents :
         - section : Julia 언어의 기초
           contents :
-          - text : Introduction to Julia
-            href : src/introduction_to_julia/index.qmd
-          - text : "1장 설치와 환경 구성"
-            href : src/introduction_to_julia/01_julia_language.qmd 
-          - text : "2장 변수와 기본 타입"
-            href : src/introduction_to_julia/02_variables_basic_types.qmd
-          - text : "3장 함수와 연산자"
-            href : src/introduction_to_julia/03_functions_and_operators.qmd
-          - text : "4장 컨테이너"
-            href : src/introduction_to_julia/04_containers.qmd
-          - text : "Interude : `...` 연산자"
-            href : src/introduction_to_julia/04_I_splat_operator.qmd
-          - text : "5장 흐름 제어"
-            href : src/introduction_to_julia/05_control_flows.qmd
-          - text : "6장 배열"
-            href : src/introduction_to_julia/06_arrays.qmd
-          - text : "Interude : 함수의 합성과 전달"
-            href : src/introduction_to_julia/06_I_function_composition_and_piping.qmd
-          - text : "7장 이름공간, 모듈, 패키지"
-            href : src/introduction_to_julia/07_module_package.qmd
-          - text : "Interude : 정렬"
-            href : src/introduction_to_julia/07_I_sort.qmd
-          - text : "8장 타입의 계층구조와 메서드 디스패치"
-            href : src/introduction_to_julia/08_type_hierarchy.qmd
-          - text : "Interude : 문서화"
-            href : src/introduction_to_julia/08_I_documentation.qmd
-          - text : "9장 복합 타입"
-            href : src/introduction_to_julia/09_composite_types.qmd
-          - text : "Interude : 보기 좋게 출력하기"
-            href : src/introduction_to_julia/09_I_pretty_printing.qmd
-          - text : "10장 메타프로그래밍과 매크로"
-            href : src/introduction_to_julia/10_metaprogramming_and_macro.qmd
+          - href : src/introduction_to_julia/index.qmd
+          - href : src/introduction_to_julia/01_julia_language.qmd 
+          - href : src/introduction_to_julia/02_variables_basic_types.qmd
+          - href : src/introduction_to_julia/03_functions_and_operators.qmd
+          - href : src/introduction_to_julia/04_containers.qmd
+          - href : src/introduction_to_julia/04I_splat_operator.qmd
+          - href : src/introduction_to_julia/05_control_flows.qmd
+          - href : src/introduction_to_julia/06_arrays.qmd
+          - href : src/introduction_to_julia/06I_function_composition_and_piping.qmd
+          - href : src/introduction_to_julia/07_module_package.qmd
+          - href : src/introduction_to_julia/07I_sort.qmd
+          - href : src/introduction_to_julia/08_type_hierarchy.qmd
+          - href : src/introduction_to_julia/08I_documentation.qmd
+          - href : src/introduction_to_julia/09_composite_types.qmd
+          - href : src/introduction_to_julia/09I_pretty_printing.qmd
+          - href : src/introduction_to_julia/10_metaprogramming_and_macro.qmd
+          - href : src/introduction_to_julia/10I_exception.qmd
+          - href : src/introduction_to_julia/11_interfaces.qmd
+        
         - text : "-----"
         - section : Julia 언어의 활용
           contents :
-          - text : 파일시스템과 파일입출력
-            href : src/applications_of_julia/fileio.qmd
-          - text : 비선형 최소제곱 피팅
-            href : src/applications_of_julia/leastsquarefit.qmd
-          - text : 다중스레드
-            href : src/applications_of_julia/multithreads.qmd
-          - text : 패키지 개발
-            href : src/applications_of_julia/pkg_dev.qmd
+          - href : src/applications_of_julia/fileio.qmd
+          - href : src/applications_of_julia/makie.qmd
+          - href : src/applications_of_julia/random.qmd
+          - href : src/applications_of_julia/leastsquarefit.qmd
+          - href : src/applications_of_julia/multithreads.qmd
+          - href : src/applications_of_julia/pkg_dev.qmd
+          - href : src/applications_of_julia/dataframes.qmd
+          - href : src/applications_of_julia/unittest.qmd
+          - href : src/applications
 
     - title : "Numerical Analysis using Julia"
       collapse-level: 2
       contents:
-        - src/numerical_analysis_using_julia/index.qmd
-        - text: "1장 수치해석과 알고리즘"
-          href: src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.qmd
-        - text: "Interude : 표기법과 명제들"
-          href: src/numerical_analysis_using_julia/01x_notations_and_propositions.qmd
-        - text: "2장 수치해석 입문 : 선형 시스템과 다항식"
-          href: src/numerical_analysis_using_julia/02_linear_system.qmd
-        - text: "3장 Julia 에서의 행렬 계산"
-          href: src/numerical_analysis_using_julia/03_matrix_algebra.qmd
-        - text: "Interude : 다항식의 구현"
-          href: src/numerical_analysis_using_julia/03I_polynomial.qmd
-        - text: "4장 다항식을 이용한 보간법"
-          href: src/numerical_analysis_using_julia/04_interpolation.qmd
-        - text: "Interude : 국소적 보간법의 구현"
-          href: src/numerical_analysis_using_julia/04I_interpolation_struct.qmd
-        - text: "5장 일변수 함수의 미분과 적분"
-          href: src/numerical_analysis_using_julia/05_calculus_of_one_variable_function.qmd
-        - text: "6장 일변수 방정식의 해"
-          href: src/numerical_analysis_using_julia/06_finding_root.qmd
-        - text: "7장 행렬의 분해"
-          href: src/numerical_analysis_using_julia/07_matrix_decomposition.qmd
-        - text: "8장 반복법을 이용한 선형 시스템의 해 구하기"
-          href: src/numerical_analysis_using_julia/08_iterative_method_for_linear_system.qmd
-        - text: "9장 최소자승 문제"
-          href: src/numerical_analysis_using_julia/09_least_square_problem.qmd
-        - text: "10장 상미분 방정식의 초기값 문제"
-          href: src/numerical_analysis_using_julia/10_ode_initial_value_problem.qmd
-        - text: "11장 상미분 방정식의 경계값 문제"
-          href: src/numerical_analysis_using_julia/11_ode_boundary_value_problem.qmd
-        - text: "부록"
-          href: src/numerical_analysis_using_julia/A01_appendix_01.qmd
-          
+      - section : Julia 언어를 이용한 수치해석 1부
+        contents : 
+        - href: src/numerical_analysis_using_julia/index.qmd
+        - href: src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.qmd
+        - href: src/numerical_analysis_using_julia/02_notations_and_propositions.qmd
+        - href: src/numerical_analysis_using_julia/03_linear_system.qmd
+        - href: src/numerical_analysis_using_julia/04_matrix_algebra.qmd
+        - href: src/numerical_analysis_using_julia/04I_polynomial.qmd
+        - href: src/numerical_analysis_using_julia/05_interpolation.qmd
+        - href: src/numerical_analysis_using_julia/05I_interpolation_struct.qmd
+        - href: src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.qmd
+        - href: src/numerical_analysis_using_julia/06I_Bezier.qmd
+        - href: src/numerical_analysis_using_julia/07_finding_root.qmd
+      - text : "-----"
+      - section : Julia 언어를 이용한 수치해석 2부
+        contents :
+        - href: src/numerical_analysis_using_julia/08_matrix_decomposition.qmd
+        - href: src/numerical_analysis_using_julia/09_iterative_method_for_linear_system.qmd
+        - href: src/numerical_analysis_using_julia/10_least_square_problem.qmd
+        - href: src/numerical_analysis_using_julia/11_ode_initial_value_problem_1.qmd
+        - href: src/numerical_analysis_using_julia/12_ode_initial_value_problem_2.qmd
+        - href: src/numerical_analysis_using_julia/13_ode_boundary_value_problem.qmd
+        - href: src/numerical_analysis_using_julia/14_approximation.qmd
+        - href: src/numerical_analysis_using_julia/15_pde_1.qmd
+      - text : "-----"
+      - section : 수학
+        contents :
+        - href: src/numerical_analysis_using_julia/A_collection_of_proofs.qmd
+        - href: src/numerical_analysis_using_julia/A_generalized_inverse.qmd
+        - href: src/numerical_analysis_using_julia/A_ode.qmd
+        - href: src/numerical_analysis_using_julia/A_pde.qmd
+    
+    
+    - title : "Image processing and Tomography"
+      collapse-level: 2
+      contents:
+        - section : 영상 처리 기초
+          contents: 
+          - href: src/image_processing/index.qmd
+          - href: src/image_processing/introduction_to_signal_processing.qmd
+          - href: src/image_processing/fourier_transform_for_image_processing.qmd
+        - section : 푸리에 변환과 웨이블릿 변환
+          contents :
+          - href: src/image_processing/wavelet/fourier_transform.qmd
+          - href: src/image_processing/wavelet/wavelet_transform.qmd
+          - href: src/image_processing/wavelet/descrete_wavelet_transform.qmd
+          - href: src/image_processing/wavelet_and_image.qmd
+          - href: src/image_processing/wavelet/wavelets_julia.qmd
+    
+        - section : 주제별 처리
+          contents:
+          - href: src/image_processing/tomography.qmd
+
     - title: "Tools"
       collapse-level: 2
       contents:
         - src/tools/tools.qmd
-        - text: "Asymptote"
-          href: src/tools/Asymptote/asymptote.qmd
-        # - text: "해석역학의 기본 개념"
-        #   href: src/classical_mechanics/Lanczos/ch01/01_01.qmd
-        # - text: "Tutorial: Authoring"
-        #   href: docs/get-started/authoring/
+        
+        - href: src/tools/Asymptote/asymptote.qmd
+        
+        - href: src/tools/tikz/tikz.qmd
+        - href: src/tools/tikz/tikz_functions.qmd
+        - href: src/tools/tikz/tikz_image.qmd
+        - href: src/tools/tikz/tikz_wavelet.qmd
+        - href: src/tools/tikz/tikz_pde.qmd
+        - href: src/tools/tikz/tikz_test.qmd
+
+bibliography: references.bib
+
 format:
   html:
     toc: true
     theme:
       light: [cosmo, theme.scss]
-    fontsize: 0.90em
+    fontsize: 0.80em
     code-copy: true
     code-block-bg: true
     code-block-background: true
     code-overflow: wrap
     css: styles.css
+    # html-math-method:
+    #   method: mathjax
+    #   url: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML"
+    # html-math-method: mathml
     grid:
       sidebar-width: 250px
       body-width: 900px

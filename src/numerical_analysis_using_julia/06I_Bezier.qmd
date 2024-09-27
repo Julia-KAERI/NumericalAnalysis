@@ -1,0 +1,167 @@
+# Interlude : 베지에 곡선(Bézier curve) {.unnumbered}
+
+두 점 $P_1,\,P_2$ 사이에 하나 이상의 제어점(control point) 를 두어 $P_1,\,P_2$ 를 잇는 매끄러운 곡선을 만드는 방법이다. 
+
+</br>
+
+## 이차 베지에 곡선
+
+시작점과 끝점 $P_1,\,P_2$, 그리고 하나의 제어점 $C$ 가 주어졌다고 하자. $t\in [0,\,1]$ 에 대해 $Q_1$ 을 $P_1$ 과 $C$ 의 $t$ 내분점, $Q_2$ 를 $C$ 과 $P_2$ 의 $t$ 내분점이라고 하자. 즉 $t\in [0,\,1]$ 에 대해 $Q_1 = (1-t)P_1 + tC$, $Q_2=(1-t)C + tP_2$ 이다. 이 때 $P_1,\,P_2,\,C$ 에 의해 정해지는 이차 베지어 곡선 $X(P_1, P_2, C, t)$ 는
+
+$$
+X_Q(P_1, P_2, C, t) = (1-t)Q_1 + tQ_2 = (1-t)^2P_1+2t(1-t)C + t^2P_2
+$$
+
+로 주어진다. 
+
+```{r, engine = 'tikz'}
+#| label: fig-bezier_1
+#| code-fold: true
+#| output: asis
+#| fig-width: 2
+#| fig-align: center
+#| fig-cap: "이차 베지에 곡선"
+\usetikzlibrary{calc}
+\tikzset{
+  quadratic/.style={
+    to path={
+      (\tikztostart) .. controls
+      ($#1!1/3!(\tikztostart)$) and ($#1!1/3!(\tikztotarget)$)
+      .. (\tikztotarget)
+    }
+  }
+}
+\begin{tikzpicture}[scale=1.0]
+\filldraw [black] (-2, 2) circle (2pt) node[anchor=south] {$P_1$};;
+\filldraw [black] (2, 2) circle (2pt) node[anchor=south] {$P_2$};
+\filldraw [blue] (0,0) circle (2pt)node[anchor=north, black] {$C$};
+\draw[blue,very thick] (-2, 2) to[quadratic={(0, 0)}] (2, 2);
+\end{tikzpicture}
+```
+
+::: {.callout-tip appearance="simple" icon="false"}
+
+위의 그림은 [`tikz`](../tools/tikz/tikz.qmd) 로 그렸다. tikz 는 제어점을 하나만 줄 때에도 아래의 사차 베지에 곡선으로 그리기 때문에 베지에 곡선을 그리는 명령어를 사용 하지 않았다.
+:::
+
+
+</br>
+
+## 사차 베지에 곡선
+
+시작점 $P_1$, 끝점 $P_2$, 제어점 $C_1$, $C_2$ 가 주어졌을 때 $t\in [0, 1]$ 에 대해 $P_1,\,C_2$ 를 양 끝점으로 하고 $C_1$ 을 제어점으로 하는 이차 베지에 곡선 $X_Q(P_1, C_2, C_1, t)$ 를 생각 할 수 있다. 또한 $C_1,\, P_2$ 를 양 끝점으로 하고 $C_2$ 를 제어점으로 하는 이차 베지에 곡선 $X_Q(P_1, C_2, C_1, t)$ 를 생각 할 수 있다. 사차 베지에 곡선 $X_C(P_1, P_2, C_1, C_2, t)$ 는 $X_Q(P_1, C_2, C_1, t)$ 와 $X_Q(P_1, C_2, C_1, t)$ 의 $t$ 내분점으로 정의된다. 즉, 
+
+$$
+X_C(P_1, P_2, C_1, C_2, t) = (1-t) X_Q(P_1, C_2, C_1, t)  + tX_Q(P_1, C_2, C_1, t)
+$$
+
+이다. 
+
+```{r, engine = 'tikz'}
+#| label: fig-bezier_2
+#| code-fold: true
+#| output: asis
+#| fig-width: 2
+#| fig-align: center
+#| fig-cap: "이차 베지에 곡선"
+\usetikzlibrary{calc}
+\tikzset{
+  quadratic/.style={
+    to path={
+      (\tikztostart) .. controls
+      ($#1!1/3!(\tikztostart)$) and ($#1!1/3!(\tikztotarget)$)
+      .. (\tikztotarget)
+    }
+  }
+}
+\begin{tikzpicture}[scale=1.0]
+\filldraw [black] (-2, 2) circle (2pt) node[anchor=south] {$P_1$};;
+\filldraw [black] (2, 2) circle (2pt) node[anchor=south] {$P_2$};
+\filldraw [blue] (0,0) circle (2pt)node[anchor=north, black] {$C$};
+\filldraw [magenta] (-1,0) circle (2pt)node[anchor=north, black] {$C_1$};
+\filldraw [magenta] (1,0) circle (2pt)node[anchor=north, black] {$C_2$};
+\draw[blue,very thick] (-2, 2) to[quadratic={(0, 0)}] (2, 2);
+\draw[magenta, very thick] (-2,2) .. controls (-1,0) and (1,0) .. (2,2);
+\end{tikzpicture}
+```
+
+
+</br>
+
+## Julia 코드
+
+이차와 사차 베지어 곡선을 다음과 같이 구현하였다. 아래의 코드는 `NAJ.jl` 에 포함되어 있다. 
+
+```julia
+struct Bezier{T} 
+    p1::Vector{T}
+    p2::Vector{T}
+    c1::Vector{T}
+    c2::Union{Vector{T}, Nothing}
+
+    function Bezier(
+        p1::AbstractVector{T1}, 
+        p2::AbstractVector{T2}, 
+        c1::AbstractVector{T3}, 
+        c2::Union{AbstractVector{T4}, Nothing}=nothing) where {T1<:Real, T2<:Real, T3<:Real, T4<:Real}
+        
+        @assert length(p1) == length(p2) == length(c1)
+        
+        if c2 === nothing
+            TT = promote_type(eltype(p1), eltype(p2), eltype(c1))
+            return new{TT}(Vector(p1), Vector(p2), Vector(c1), nothing)
+        else 
+            @assert length(p1) == length(c2)
+            TT = promote_type(eltype(p1), eltype(p2), eltype(c1), eltype(c2))
+            return new{TT}(Vector(p1), Vector(p2), Vector(c1), Vector(c2))
+        end
+        
+    end
+end
+
+function (b::Bezier)(t)
+    if b.c2 === nothing
+        return _bezier1(b.p1, b.p2, b.c1, t)
+    else 
+        return _bezier2(b.p1, b.p2, b.c1, b.c2, t)
+    end
+end
+
+function _bezier1(p1, p2, c1, t)
+    
+    return (1-t)^2 .* p1 .+ (2*(1-t)*t) .*c1 .+ (t^2) .* p2
+end
+
+function _bezier2(p1, p2, c1, c2, t)
+   x1 = _bezier1(p1, c2, c1, t)
+   x2 = _bezier1(c1, p2, c2, t)
+   return (1-t).* x1 .+ t .* x2
+end
+```
+
+
+</br>
+
+만약 `NAJ.jl` 을 설치했다면, 
+
+```julia
+using NAJ, Plots
+
+c = Bezier([-2, 2], [2, 2], [0, 0])
+d = Bezier([-2, 2], [2, 2], [-1, 0], [1, 0])
+c2 = Bezier([-2, 2], [2, 2], [0, 0], [0, 0])
+
+t =-0.0:0.02:1.0
+s = permutedims(hcat((c.(t))...))
+s2 = permutedims(hcat((d.(t))...))
+s3 = permutedims(hcat((c2.(t))...))
+
+scatter([-2, 2, 0], [2, 2, 0], aspect_ratio = :equal, dpi=300)
+plot!(s[:,1], s[:, 2], label = "Quadratic")
+plot!(s2[:,1], s2[:, 2], label = "Cubic")
+plot!(s3[:,1], s3[:, 2], label = "Quadratic2") 
+```
+
+를 통해 다음 그림을 얻을 수 있을 것이다.
+
+![Bezier Curve](bezier.png)

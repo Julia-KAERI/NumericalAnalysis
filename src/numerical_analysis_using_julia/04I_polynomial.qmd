@@ -1,0 +1,272 @@
+# Interlude : 일변수 다항식의 Julia 구현 {.unnumbered}
+
+수치해석에서는 다항식을 아주 많이 사용한다. 2023년 9월 현재 Julia 언어의 생태계에서는 [`Polynomials.jl`](https://github.com/JuliaMath/Polynomials.jl) 이 다항식을 다루는 패키지로 널리 사용되고 있지만 여기에서는 수치해석과 julia 언어에 대한 연습으로 다항식을 표현하는 복합 타입(`struct` type) 을 만들어보자. 그 이름은 일단 `SimplePolynomial` 로 하도록 하자. 이것은 앞서 소개했던 [NAJ.jl](https://github.com/Julia-KAERI/NAJ.jl.git) 에 포함되어 있다.
+
+Julia 는 객체 지향 언어가 아니기 때문에 클래스와 클래스의 상속이라는 개념이 존재하지 않으며 대부분 복합 타입이 그 역할을 대신한다. 복합 타입에 대해서는 [복합 타입](../introduction_to_julia/09_composite_types.qmd) 과 공식 매뉴얼의 [Types](https://docs.julialang.org/en/v1/manual/types/) 를 참고하라. 복합 타입의 가장 큰 장점중의 하나는 타입 변수를 함수처럼 사용 할 수 있다는 것이다. 만약 우리가 계수로 `SimplePolynomial` 복합 타입을 만들었다면, 이 복합 타입 변수를 함수처럼 사용 할 수 있다. 여기서는 다항식에 대한 복합타입을 정의한 후 이 복합타입을 함수로서 사용하도록 하겠다.
+
+다항식 함수값의 계산을 위해 julia 는 `evalpoly` 함수를 제공한다. `evalpoly(1.0, [2.0, 3.0])` 은 다항식 $p(x)=2.0+3.0x$ 에 대해 `p(1.0)` 을 계산해준다. 자세한 것은 `evalpoly` 에 대한 자체 설명을 확인하라. 일변수 다항식을 구현하는 이유는 단순히 다항식의 함수값을 계산하는 것 이외에 다항식의 덧셈, 뺄셈, 곱셈, 미분, 적분과 기타 앞으로 배울 다항식에 관련된 여러 기능이 필요해서이다. `evalpoly` 는 이것까지 제공하지는 않는다.
+
+</br>
+
+수학적인 의미에서의 다항식은 
+
+$$
+p(x) = \sum_{k=0}^n a_k x^k
+$$
+
+형태의 함수이며 $a_k$ 를 계수(coefficient) 라고 하며 $a_k\ne 0$ 인 가장 큰 $k$ 값을 다항식 $p(x)$ 의 **차수(degree)** 라고 한다. 선형대수학적인 입장에서 $n$ 차 이하인 실계수 다항식의 집합 $\mathbb{R}_n[x]$ 나 복소수 계수 다항식의 집합 $\mathbb{C}_n[x]$ 는 $n+1$ 차원 벡터공간이며 $\{1,\,x,\,x^2,\ldots,\,x^n\}$ 는  그 기저가 될 수 있다. 다항식 공간의 기저는 다항식이 정의되는 구간과 내적이 정의에 따라 다양한 기저로 정의될 수 있다. 예를 들어 $[-1,\,1]$ 구간에서 정의되며 내적이
+
+$$
+\langle f,\,g \rangle = \int_{-1}^1 f(x)\, g(x)\, dx
+$$
+
+로 주어졌을 때 르장드르 다항식 $P_k(x),\, k=0,\,1,\ldots$ 은 재귀적으로 아래와 같이 정의된다.
+
+$$
+\begin{aligned}
+P_0(x) &= 1, \\
+P_1(x) & = x, \\
+P_{k+1}(x) &= \dfrac{2k+1}{k+1}xP_k(x) - \dfrac{k}{k+1}P_{k-1}(x).
+\end{aligned}
+$$ {#eq-recursive_definition_of_legendre_polynomial}
+
+이 때 $\{P_1(x),\ldots,P_k(x)\}$ 는 $\mathbb{R}_k[x]$ 의 직교기저가 된다. 마찬가지로 아래의 `NAJ.jl` 에서 제공하는 다항식은 다음과 같다.
+
+| 기저 함수 이름 | `NAJ.jl` 에서의 타입 | 다항식 |
+|:------------:|:---------------------:|:---------------------:|
+| $x^k$ | `SimplePolynomial` | $x^k$ |
+| 르장드르 다항식 | `LegendrePolynoial` | $P_k(x)$|
+| 체비세프 다항식 | `ChevyshevPolynomial` | $T_k(x)$ |
+| 에르미트 다항식 | `HermitePolynomial` | $H_k(x)$ |
+| 라게르 다항식 | `LaguerrePolynomial` | $L_k(x)$ |
+:`NAJ.jl` 에 포함된 다항식의 기저함수 {#tbl-Polynomials_jl_basis}
+
+
+</br>
+
+## 뼈대
+
+일단 다음의 조건을 만족하도록 뼈대를 만들자.
+
+1. 계수를 입력하면 그에 맞는 다항식 복합타입 객체가 생성되도록 한다. 예를 들어 `SimplePolynomial([1, 2, 3])` 은 $1+2x+3x^3$ 에 해당하는 다항식 객체를 생성하며 `LegendrePolynomial([1, 2, 3])` 은 $1P_0(x) + 2 P_1 (x) + 3 P_2 (x)$ 의 다항식 객체를 생성한다.
+2. 계수의 타입을 타입 매개변수로 받는 복합타입으로 한다. 
+3. 복합타입을 함수처럼 사용할 수 있도록 한다.
+4. `Base.show` 함수가 이 다항식 객체를 보기 좋게 출력 할 수 있도록 한다.
+
+
+위의 다항식 객체들은 immutable 한 복합타입으로 구현되었다. 다항식 객체의 계수를 정하여 생성 할 수 있는데 `LegendrePolynomial([1, 2, 3])` 는 정수 타입의 계수를 갖는 객체가 생성되며 `LegendrePolynomial{Float64}([1, 2, 3])` 는 계수가 `Float64` 로 변형되어 저장된다. 물론 정수 타입의 계수라도 일반적인 실함수 처럼 사용 할 수 있다. 다음의 예를 보라.
+
+
+```julia
+In [2]: using NAJ
+
+In [3]: p = LegendrePolynomial([1,2,3])
+Out[3]: Legendre Polynomial{Int64}(1 P_0(x) + 2 P_1(x) + 3 P_2(x))
+
+
+In [4]: p(0.2)
+Out[4]: 0.07999999999999985
+
+
+In [5]: p.([-1.0, 0.0, 1.0])
+Out[5]: 3-element Vector{Float64}:
+  2.0
+ -0.5
+  6.0
+```
+
+</br>
+
+이 다항식은 특정 기저에 대한 다항식 표현이므로 추상 타입으로 `AbstractBasisPolynomial` 을 만들었으며 위의 다항식들은 모두 이 `AbstractBasisPolynomial` 타입의 하위타입이다. 다항식에 대한 정보를 알 수 있는 몇몇 함수를 만들었는데 이 함수들 위의 다항식 타입에 대한 공통이므로 다중 디스패치를 이용하여 `AbstractBasisPolynomial` 을 인자로 받는 함수로 작성하였다. 일반적인 베열은 `length` 함수로 원소의 갯수를 알 수 있는데, 다항식에서는 계수의 갯수-1 이 차수가 된다. `Base.length` 함수에 대한 디스패치를 작성하여 이 함수를 이용하자. 보통 다항식의 차수를 order 혹은 degree 라고 하는데 여기서는 계수의 길이에서 1을 뺀 값과 같다. 
+
+```julia
+Base.length(p::AbstractBasisPolynomial) = length(p.coeffs)
+
+order(p::AbstractBasisPolynomial) = length(p)-1
+degree(p::AbstractBasisPolynomial) = order(p)
+```
+
+</br>
+
+## `SimplePolynomial`
+
+일반적인 다항식을 구현한 `SimplePolynomial` 에 대해 알아보자.
+
+Julia 에서는 많은 타입에 `zero` 와 `one` 함수가 구현되어 있다. `zero(p)` 는 `p` 타입의 덧셈에한 항등원을 반환하며, `one(p)` 는 `p` 와 같은 타입의 곱셈에 대한 항등원을 반환한다. 다항식의 `zero` 와 `one` 을 다음과 같이 구현한다.
+
+``` {.julia code-line-numbers="true"}
+function Base.zero(a::P) where P<:SimplePolynomial
+    return SimplePolynomial([zero(eltype(a.coeffs)), ])
+end
+
+function Base.one(a::P) where P<:SimplePolynomial
+    return SimplePolynomial([one(eltype(a.coeffs)), ])
+end
+```
+
+</br>
+
+### 사칙연산
+
+이제 `SimpllePolynomial` 객체 사이에 혹은 `SimplePolynomial` 객체와 상수간의 `+`, `-`, `*`, `/` 연산과 단항연산(`-`) 을 정의하자. 단항 연산 `-` 는 `-3` 과 같이 덧셈에 대한 역원으로 변경시키는 연산을 말한다. 다항식과 연산되는 것은 다항식, 혹은 기본 수(number) 타입의 변수로 한다. 다만 나누기 `/` 의 경우 일단은 다항식/상수 만을 정의한다. 각각의 연산은 `Base.:+`, `Base.:-`, `Base.:*`, `Base.:/` 연산자를 다중 디스패치 함으로서 구현한다. 
+
+```{.julia code-line-numbers="true"}
+function Base.:-(b::P) where {P<: SimplePolynomial}
+    coeffs = -b.coeffs
+    return SimplePolynomial(coeffs)
+end
+
+function Base.:+(a::T, b::SimplePolynomial{P}) where {T <: Number, P <: Number} 
+    rT = promote_type(T, P)
+    coeffs = rT.(b.coeffs)
+    coeffs[1] += a
+    return SimplePolynomial(coeffs)
+end
+
+function Base.:+(b::SimplePolynomial{P}, a::T) where {P <: Number, T <: Number} 
+    return a+b
+end
+
+function Base.:+(a::SimplePolynomial{P1}, b::SimplePolynomial{P2}) where {P1 <: Number, P2 <: Number} 
+    rT = promote_type(P1, P2)
+    if length(b) > length(a)
+        coeffs = zeros(rT, length(b))
+        coeffs[1:length(a)] = a.coeffs[:]
+        coeffs += b.coeffs
+    else 
+        coeffs = zeros(rT, length(a))
+        coeffs[1:length(b)] = b.coeffs[:]
+        coeffs += a.coeffs
+    end
+    return SimplePolynomial(coeffs)
+end
+
+function Base.:-(a::SimplePolynomial{P1}, b::SimplePolynomial{P2}) where {P1 <: Number, P2 <: Number} 
+    return a + (-b)
+end
+
+function Base.:-(b::SimplePolynomial{P}, a::T) where {P <: Number, T <: Number} 
+    return b+(-a)
+end
+
+function Base.:-(a::T, b::SimplePolynomial{P}) where {T <: Number, P <: Number} 
+    return a+(-b)
+end
+
+function Base.:*(a::T, b::SimplePolynomial{P}) where {T <: Number, P <: Number} 
+    return SimplePolynomial(b.coeffs*a)
+end
+
+function Base.:*(b::SimplePolynomial{P}, a::T) where {P <: Number, T <: Number} 
+    return SimplePolynomial(b.coeffs*a)
+end
+
+function Base.:*(a::SimplePolynomial{P1}, b::SimplePolynomial{P2}) where {P1 <: Number, P2 <:Number} 
+    rT = promote_type(P1, P2)
+    ord1, ord2 = degree(a), degree(b)
+    ord = ord1*ord2
+    coef = zeros(rT, ord+2)
+    
+    for i in 0:ord1, j in 0:ord2
+        @inbounds coef[i+j+1] += a.coeffs[i+1]*b.coeffs[j+1]
+    end
+    return SimplePolynomial(coef)
+end
+
+function Base.:/(b::SimplePolynomial{P}, a::T) where {P <: Number, T <: Number} 
+    return SimplePolynomial(b.coeffs/a)
+end
+```
+
+</br>
+
+
+
+최고차항의 계수가 1인 다항식을 monic 이라고 한다. 이에 대해서도 구현한다. `monic` 함수는 다항식의 최고차항의 계수가 `a` 일 때 전체 계수를 `a` 로 나누어주어 최고차 항의 계수를 1 로 만든다.
+
+```julia
+function monic(p::P) where P<:SimplePolynomial
+    return p/p.coeffs[end]
+end
+```
+
+</br>
+
+### 다항식의 미분과 적분
+
+다항식 $p(x) = a_0 + a_1 x + \cdots + a_n x^n$ 일 때,
+
+$$
+\begin{aligned}
+\dfrac{d}{dx}p(x) &= a_1 + 2a_2 x + \cdots + na_n x^{n-1},\\
+\int_x p(t)\, dt &=a_0 x + \dfrac{a_1}{2}x^2 + \cdots + \dfrac{a_n}{n+1}x^{n+1} + \text{const.}
+\end{aligned}
+$$
+
+임을 안다. 이것을 이용하여 다항식을 미분하는 함수 `derivative` 와 정적분 함수 `integrate` 함수를 구현하였다. `integrate` 함수의 경우, 다항식만 입력되면 상수항이 0 인 부정적분, 다항식과 수(number) 하나가 입력되면 이 수가 상수항인 부정적분을 반환하며, 다항식과 수 두개가 입력되면 첫번째 수에서 두번째 수 까지의 정적분값을 반환하도록 하였다.
+
+```{.julia code-line-numbers="true"}
+function derivative(p::SimplePolynomial)
+    if length(p) < 2 
+        return SimplePolynomial([one(eltype(p.coeffs)), ])
+    else
+        coeffs = p.coeffs[2:end] .* (1:(length(p)-1))
+        return SimplePolynomial(coeffs)
+    end
+end
+
+function integrate(p::SimplePolynomial, a::Union{Nothing, Number}=nothing, b::Union{Nothing, Number}=nothing) 
+
+    if eltype(p.coeffs) <: Integer
+        coeffs = zeros(Float64, length(p)+1)
+    else 
+        coeffs = zeros(eltype(p.coeffs), length(p)+1)
+    end
+    
+    for i in 1:length(p.coeffs)
+        coeffs[i+1] = p.coeffs[i]/(i)
+    end
+    
+    if a === nothing && b === nothing # 상수항이 0 인 부정적분
+        coeffs[1] = zero(eltype(coeffs))
+        return SimplePolynomial(coeffs)
+    elseif a === nothing || b === nothing # 상수항이 a 혹은 b 로 주어진 부정적분
+        coeffs[1] = a
+        return SimplePolynomial(coeffs)
+    else # a 에서 b 구간 까지의 정적분
+        return evalpoly(b, coeffs) - evalpoly(a, coeffs)
+    end
+end
+```
+
+</br>
+
+### 근을 이용하여 다항식을 만들기
+
+monic 다항식 $p(x)$ 의 전체 근이 $x_1,\,x_2,\ldots,\,x_n$ 라고 하면 
+
+$$
+p(x) = c \prod_{i=1}^n (x-x_i)
+$$
+
+이다. 우리는 이미 다항식의 곱셈을 구현했으므로 이를 쉽게 구현 할 수 있다. 
+
+```julia
+function polynomial_from_roots(xp::AbstractVector{T}) where T<:Number 
+    return prod([SimplePolynomial([-x0, 1]) for x0 in xp])
+end
+```
+
+그렇다면, 
+
+```julia
+pp3 = polynomial_from_roots([1.0, 1.0, 2.0])
+```
+
+에 대해 다음의 출력이 나온다.
+
+```julia
+SimplePolynomial(1.0 x^3 - 4.0 x^2 + 5.0 x^1 - 2.0)
+```
+
+$(x-1)^2(x-2)= x^3-4x^2+5x-2$ 이므로 정확한 결과가 나왔다. 이 다항식 복합타입은 앞으로도 계속 개선되며 사용 될 것이다.

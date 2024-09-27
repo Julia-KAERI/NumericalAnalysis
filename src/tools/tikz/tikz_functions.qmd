@@ -1,0 +1,159 @@
+---
+title: "tikz function plots in Quarto"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+
+---
+
+
+
+```{r, engine = 'tikz'}
+#| label: fig-linear_approximation
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 3
+#| fig-align: center
+#| fig-cap: "tikz in Quarto 예시"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathreplacing}
+
+\begin{tikzpicture}
+\draw[very thin,color=gray] (-0.1,-0.1) grid (4.2,5.2);
+
+\draw[->] (-0.6, 0) -- (4.2,0) node[right] {$x$};
+\draw[->] (0,-0.6) -- (0,5.2) node[above] {$y$};
+
+\foreach \x in {1,...,8}
+{
+  \draw[thin] (\x / 2, 0.05) -- (\x /2, -0.05);
+  }
+
+\foreach \x in {2, 4, 6, 8}
+{
+  \node[below]  at (\x /2 , -0.05) {$\x$};
+  }
+
+\foreach \y in {1,...,9}
+{
+  \draw[thin] (0.05 , \y / 2) -- (-0.05 , \y /2);
+  }
+
+\foreach \y in {2, 4, 6, 8, 10}
+{
+  \node[left]  at (-0.05, \y / 2) {$\y$};
+  }
+
+\filldraw[black] (0.5,1.1 /2) circle (2pt);
+\filldraw[black] (2/2, 1.65 /2) circle (2pt);
+\filldraw[black] (3/2, 3.43/2) circle (2pt);
+\filldraw[black] (4/2, 4.02/2) circle (2pt);
+\filldraw[black] (5/2, 4.58/2) circle (2pt);
+\filldraw[black] (6/2, 5.78/2) circle (2pt);
+\filldraw[black] (7/2, 7.32/2) circle (2pt);
+
+\draw[thick, dashed, red] (0, 0) -- (3.8, 3.8);
+
+\end{tikzpicture}
+```
+
+</br>
+
+```{r, engine = 'tikz'}
+#| label: fig-Chevyshev_polynoimal
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 4
+#| fig-align: center
+#| fig-cap: "Chevyshev 다항식"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathreplacing}
+
+\begin{tikzpicture}[domain=-1:1, samples = 100, scale=3]
+
+\draw[-{stealth}] (-1.2, 0) -- (1.2,0) node[right] {$x$};
+\draw[-{stealth}] (0,-1.2) -- (0,1.2) node[above] {$y$};
+\node[left, scale=0.8] at (0, 1) {$1$};
+\node[left, scale=0.8] at (0, -1) {$-1$};
+\node[below, scale=0.8] at (-1, 0) {$-1$};
+\node[below, scale=0.8] at (1, 0) {$1$};
+
+\foreach \x in {-5,...,5}
+{
+  \draw[thin] (\x / 5, 0.02) -- (\x /5, -0.02);
+  }
+
+\foreach \y in {-5,...,5}
+{
+  \draw[thin] (0.02 , \y / 5) -- (-0.02 , \y /5);
+  }
+
+\draw[color=black]   plot (\x, \x) ;
+\node[above, black] at (0.7, 0.73) {$T_1(x)$};
+\draw[color=blue]   plot (\x, 2 * \x * \x - 1);
+\node[below right, blue] at (0, -1) {$T_2(x)$};
+\draw[color=red]   plot (\x, 4 * \x * \x * \x - 3* \x);
+\node[above, red] at (-0.5, 1) {$T_3(x)$};
+\draw[color=teal]   plot (\x, 8 * \x * \x * \x * \x - 8* \x * \x + 1);
+\node[right, teal] at (0.2, 0.8) {$T_4(x)$};
+\end{tikzpicture}
+```
+
+
+
+```{r, engine = 'tikz'}
+#| label: fig-Legendre_polynoimal
+#| code-fold: true
+#| echo: fenced
+#| output: asis
+#| fig-width: 4
+#| fig-align: center
+#| fig-cap: "Legendre 다항식"
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathreplacing}
+
+\begin{tikzpicture}[domain=-1:1, samples = 100, scale=3]
+
+\draw[-{stealth}] (-1.2, 0) -- (1.2,0) node[right] {$x$};
+\draw[-{stealth}] (0,-1.2) -- (0,1.2) node[above] {$y$};
+\node[left, scale=0.8] at (0, 1) {$1$};
+\node[left, scale=0.8] at (0, -1) {$-1$};
+\node[below, scale=0.8] at (-1, 0) {$-1$};
+\node[below, scale=0.8] at (1, 0) {$1$};
+
+\foreach \x in {-5,...,5}
+{
+  \draw[thin] (\x / 5, 0.02) -- (\x /5, -0.02);
+  }
+
+\foreach \y in {-5,...,5}
+{
+  \draw[thin] (0.02 , \y / 5) -- (-0.02 , \y /5);
+  }
+
+\draw[color=black]   plot (\x, 1.5 * \x * \x - 0.5 ) ;
+\node[above, black] at (-0.7, 0.73) {$P_2(x)$};
+\draw[color=blue]   plot (\x, 2.5 * \x * \x * \x - 1.5 * \x);
+\node[above, blue] at (-0.5, 0.4) {$P_3(x)$};
+\draw[color=red]   plot (\x, 35/8 * \x * \x * \x *\x - 30 / 8 * \x *\x + 3/8 );
+\node[red] at (-0.5, -0.5) {$P_4(x)$};
+\draw[color=teal]   plot (\x, 63/8 * \x * \x * \x * \x * \x - 70/8* \x * \x * \x + 15/8 * \x);
+\node[right, teal] at (0.2, 0.5) {$P_5(x)$};
+\end{tikzpicture}
+```

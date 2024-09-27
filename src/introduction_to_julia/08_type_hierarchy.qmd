@@ -1,6 +1,5 @@
 ---
 title: "타입의 계층구조와 메서드 디스패치"
-language: ../_language-ko_custom.yml 
 
 number-sections: true
 number-depth: 2
@@ -33,7 +32,7 @@ Out[5]: UInt8
 
 </br>
 
-### 추상적 타입과 구체적 타입
+### 추상적 타입과 구체적 타입 {#sec-abstract_type_and_concrete_type}
 
 Julia 의 타입은 **추상적 타입(abstract type)** 과 **구체적 타입(concrete type)** 으로 분류 할 수 있습니다. 구체적 타입은 변수가 지정되어 값을 할당 할 수 있지만 추상적 타입에는 변수를 지정 할 수 없으며, 값도 할당 할 수 없습니다. 억지로 할당할 경우 적당한 구체적 타입으로 변환됩니다. 우리가 지금까지 사용한 `UInt8`, `Int64`, `Float64` 등은 구체적 타입이며 아래의 예에서 `AbstractFloat` 는 부동소수에 대한 추상적인 타입입니다. 
 
@@ -56,10 +55,10 @@ abstract type Signed   <: Integer end
 abstract type Unsigned <: Integer end
 ```
 
-위의 코드는 저자가 임의로 작성한 코드가 아니라 julia 에서 실제 추상 타입을 구현한 코드를 복사한 것입니다. `abstract type Real <: Number end` 에서 `Real <: Number` 는 `Real` 타입이 미리 정의된 `Number` 타입의 하위 타입 이란 의미입니다. `Number` 라는 수 전체를 아우르는 상위 타입이 있으며, 실수를 나타내는 `Real` 타입, 부동소수를 나타내는 `AbstractFloat` 타입, 정수를 나타내는 `Integer` 타입, 부호 있는 정수를 나타내는 `Signed` 타입, 부호 없는 정수, 즉 `0` 을 포함한 자연수를 나타내는 `Unsigned` 타입과 같은 추상 타입이 있습니다. 
+위의 코드는 저자가 임의로 작성한 코드가 아니라 julia 에서 실제 추상 타입을 구현한 코드를 복사한 것입니다. `abstract type Real <: Number end` 에서 `Real <: Number` 는 `Real` 타입이 미리 정의된 `Number` 타입의 하위 타입 이란 의미입니다. `Any` 타입의 직접적인 하위타입은 `<: Any` 없이 추상 타입을 정의 할 수 있습니다. 이렇게 정의된 것이 `Number` 타입입니다. `Number` 라는 수 전체를 아우르는 상위 타입이 있으며, 실수를 나타내는 `Real` 타입, 부동소수를 나타내는 `AbstractFloat` 타입, 정수를 나타내는 `Integer` 타입, 부호 있는 정수를 나타내는 `Signed` 타입, 부호 없는 정수, 즉 `0` 을 포함한 자연수를 나타내는 `Unsigned` 타입과 같은 추상 타입이 있습니다. 
 
 
-Julia 의 모든 타입은 어떤 타입의 하위 타입(subtype) 이며 단 하나의 상위 타입(supertype) 을 계승합니다. 타입의 하위타입에는 갯수 제한이 없습니다. 타입 계층의 최상단에는 `Any` 타입이 있으며, 모든 타입은 `Any` 의 하위타입 이던가 `Any` 의 하위타입의 하위타입 이던가.... `Any` 의 몇대 자손중의 하나입니다. 심지어 `Any` 의 상위타입은 `Any` 입니다. 어떤 타입의 상위 타입을 알기 위해서는 `supertype()` 함수를 사용 하며 하위 타입들을 알기 위해서는 `subtypes()` 함수를 사용합니다.
+Julia 의 모든 타입은 어떤 타입의 하위 타입(subtype) 이며 단 하나의 상위 타입(supertype) 을 계승합니다. 타입의 하위타입에는 갯수 제한이 없습니다. 타입 계층의 최상단에는 `Any` 타입이 있으며, 모든 타입은 `Any` 의 하위타입 이던가 `Any` 의 하위타입의 하위타입 이던가.... `Any` 의 몇대 자손중의 하나입니다. 심지어 `Any` 의 상위타입은 `Any` 입니다. 어떤 타입의 상위 타입을 알기 위해서는 `supertype()` 함수를 사용 하며 하위 타입들을 알기 위해서는 `subtypes()` 함수를 사용합니다. 
 
 ```html
 In [7]: supertype(UInt8)

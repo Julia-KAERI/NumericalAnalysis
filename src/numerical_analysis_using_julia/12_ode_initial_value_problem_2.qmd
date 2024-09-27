@@ -1,0 +1,65 @@
+---
+title: "상미분 방정식의 초기값 문제-II"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+지금까지 상미분 방정식의 초기값 문제에 대한 기본적인 지식을 쌓았다. 이제 좀 더 정교한 미분방정식의 수치해석적 풀이법을 알아보고자 한다.
+
+
+## Runge-Kutta-Fehlberg 방법(RKF)
+
+미분방정식의 초기값 문제
+
+$$
+x'(t) = f(t, x),\qquad x(t_0) = x_0
+$$
+
+를 생각하자. 지금까지의 오일러 방법이나 RK2, RK4 에서는 정해진 간격 $h>0$ 에 대해 $t_k = t_0 + kh$ 를 이용하였다. 이 경우
+
+$$
+x_{k+1} = x_k + \phi (t_k,\,x_k) + O(h^{n+1})
+$$
+
+의 꼴로 $x(t)$ 의 경로를 얻었다. 이 때 오차는 방법에 따라 $n$ 값이 정해지는 $ch^{n+1}$ 이었다. 
+
+그러나 이제는 간격 $h$ 를 조절하고자 한다. 이렇게 수치해석에서 문제에 주어진 변수가 아닌 문제 해결에 사용되는 값(여기서는 $h$) 를 문제 해결 도중에 유연하게 변경하는 방법을 **적응형(adaptive)** 라고 한다. Runge-Kutta-Fehlberg 방법이 바로 적응형 수치해석 방법중 하나이다. 즉 지금까지는
+
+$$
+\begin{aligned}
+t_{k+1} &= t_k + h, \\
+x_{k+1} &= x_k + \phi (t_k,\, x_k)
+\end{aligned}
+$$
+
+로 문제를 풀어왔다면 이제는
+
+$$
+\begin{aligned}
+t_{k+1} & = t_k + h_k,\\
+x_{k+1} & = x_k + \phi (t_k,\, x_k,\,h_k)
+\end{aligned}
+$$
+
+로 문제를 풀게 될 것이다. $h_k$ 를 어떻게 정하는 지가 중요한 전환점이 될 것이다.
+
+
+이제 $t_k,\,x_k$ 와 정해진 $h$ 에 따라 $x_{k+1}$ 을 정하는 함수에 $\phi$ 와 $\tilde{\phi}$ 의 두가지 방법이 있다고 하자. $\phi$ 의 trunction error 는 $O(h^{n+1})$ 이며 $\tilde{\phi}$ 의 truncation error 는 $O(h^{n+2})$ 라고 하자. 각각의 방법을 구분하기 위해, 
+
+$$
+\begin{aligned}
+x_{k+1} & = x_k + \phi (t_k,\,x_k,\, h),\\
+\tilde{x}_{k+1} &= \tilde{x}_k + \tilde{\phi}(t_k,\,\tilde{x}_k,\,h)
+\end{aligned}
+$$
+
+라고 하자. 이제 수치해석적인 방법으로 계산한 $x_{k}$ 와 실제 해 $x(t_k)$ 를 구분하기로 하자. $x_{k} \approx \tilde{x}_k \approx x(t_k)$ 라고 가정 할 때 $t_{k+1}$ 에서의 실제 경로 $x(t_{k+1})$ 과의 truncation error $\tau_{k+1}(h)$ 는
+
+$$
+\tau_{k+1}= \vartau
+$$
+
+

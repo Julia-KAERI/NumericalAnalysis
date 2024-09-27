@@ -1,0 +1,260 @@
+---
+title: "최소자승 문제"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+## 하우스홀더 행렬과 QR 분해
+
+$\mathbb{C}^{n\times 1}$ 에서의 벡터 $\boldsymbol{v}$ 에 대해 다음과 같이 정의된 $\boldsymbol{H}_v$ 를 **하우스홀더 행렬 (Householder matrix)** 이라 한다.
+
+$$
+\begin{aligned}
+\boldsymbol{H}_{\boldsymbol{v}} := I_n- \dfrac{2\boldsymbol{v}\boldsymbol{v}^{\ast}}{\|\boldsymbol{v}\|^2}, \qquad \text{i. e. }\quad 
+(\boldsymbol{H}_{\boldsymbol{v}})_{ij} := \delta_{ij} - \dfrac{2 v_i \overline{v_j}}{\|\boldsymbol{v}\|^2}.
+\end{aligned}
+$$
+
+여기서 $\boldsymbol{v}\boldsymbol{v}^{\ast}$ 는 벡터의 내적이 아니라 $n\times 1$ 행렬 $\boldsymbol{v}$ 와 $1 \times n$ 행렬 $\boldsymbol{v}^{\ast}$ 가 곱해진 $n \times n$ 행렬을 의미한다. 벡터 $\boldsymbol{x}\in \mathbb{C}^n$ 에 대해 $\boldsymbol{H}_{\boldsymbol{v}} \boldsymbol{x}\in \mathbb{C}^n$ 을 **하우스홀더 변환** 이라 한다. $\boldsymbol{v}$ 가 단위벡터일 경우, 즉 $\|\boldsymbol{v}\|=1$ 라면 좀 더 간단하게 쓸 수 있다.
+
+$$
+\boldsymbol{H}_{\boldsymbol{v}} = I_n- 2\boldsymbol{v}\boldsymbol{v}^{\ast},\qquad \text{where } \|\boldsymbol{v}\|=1.
+$$
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#prp-perperties_of_householder_matrix}
+
+위와 같이 정의된 하우스홀더 행렬 $\boldsymbol{H}_{\boldsymbol{v}}$ 은 다음의 특징을 가진다.
+
+&emsp; ($1$) 에르미트 행렬이다. 즉  $\boldsymbol{H}_{\boldsymbol{v}}=  \boldsymbol{H}_{\boldsymbol{v}}^\ast$.
+
+&emsp; ($2$) 유니타리 행렬이다. 즉 $\boldsymbol{H}_{\boldsymbol{v}} (\boldsymbol{H}_{\boldsymbol{v}})^\ast = I$.
+
+:::
+
+</div></br>
+
+::: {.proof}
+($1$) $\boldsymbol{v}$ 가 단위벡터일 경우에만 보여도 된다. $\boldsymbol{H} = \boldsymbol{H}_{\boldsymbol{v}}$ 라 하면, 
+
+$$
+(\boldsymbol{H}^\ast)_{ij} = \overline{H_{ji}}= \delta_{ij}-2 \overline{v_j \overline{v_i}} = \delta_{ij}-2 v_i \overline{v_j} = (\boldsymbol{H})_{ij}
+$$
+
+이므로 $\boldsymbol{H}_{\boldsymbol{v}}$ 는 에르미트 행렬이다. 
+
+($2$) 또한,
+
+$$
+\begin{aligned}
+\left(\boldsymbol{H} (\boldsymbol{H}^\ast)\right)_{ij} &= \left((\boldsymbol{H})^2\right)_{ij} = \sum_{k}(\delta_{ik}-2 v_i \overline{v_k})(\delta_{kj} -2 v_k \overline{v_j}) \\
+&= \sum_k \delta_{ik}\delta_{kj} - 2\sum_k \delta_{ik}v_k \overline{v_j} - 2 \sum_k \delta_{kj} v_i \overline{v_k} + 4 \sum_{k} v_i \overline{v_j} v_k \overline{v_k} \\
+&= \delta_{ij} - 2 v_i \overline{v_{j}} - 2 v_i \overline{v_j} + 4 v_i \overline{v_j} = \delta_{ij}
+\end{aligned}
+$$
+
+이다. $\square$
+
+:::
+
+</br>
+
+따라서 $\mathbb{R}^n$ 에서 생각 할 경우 하우스홀더 행렬은 대칭행렬이며, 직교행렬(orthogonal matrix) 이다.
+
+</br>
+
+### 하우스홀더 변환과 하우스홀더 반사
+
+하우스 홀더 변환이 리플렉션(reflection, 반사) 라고 불린다. 수학적으로 $\mathbb{R}^n$ 공간에서 벡터 $\boldsymbol{v}$ 만으로 $\boldsymbol{v}$ 와 수직이며 원점을 지나는 평면이 유일하게 정의될 수 있다. 임의의 벡터 $\boldsymbol{x} \in \mathbb{F}^n$ 에 대해,
+
+$$
+\begin{aligned}
+(\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x})_k &=  x_k - \dfrac{2}{\|\boldsymbol{v}\|^2}  \sum_{j=1}^n v_k \overline{v_j} x_j\\
+\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x} &= \boldsymbol{x} - 2 \dfrac{\langle \boldsymbol{x},\,  \boldsymbol{v} \rangle \boldsymbol{v}}{\|\boldsymbol{v}\|^2}
+\end{aligned}
+$$
+
+이며,
+
+$$
+\begin{aligned}
+\dfrac{1}{2 }(\boldsymbol{x}+\boldsymbol{Hx}) &= \boldsymbol{x} - \langle \boldsymbol{v,\,  x}\rangle \boldsymbol{v} = \boldsymbol{x} - \text{Proj}_{\boldsymbol{v}} \boldsymbol{x} \\
+\boldsymbol{x}-\boldsymbol{Hx} &= 2\langle \boldsymbol{v ,\, x} \rangle  \boldsymbol{v} = 2\, \text{Proj}_{\boldsymbol{v}}\boldsymbol{x}
+\end{aligned}
+$$
+
+이다. 즉 $\boldsymbol{x}$ 와 $\boldsymbol{Hx}$ 는 $\boldsymbol{v}$ 에 의해 정의되는 평면에 대해 대칭이다.
+
+![Householder 반사](ch09_least_square_problem/householder1.png)
+
+$\boldsymbol{x}$ 를 $\boldsymbol{v}$ 와 평행한 부분과 수직한 부분으로 분리하자. 즉 $\boldsymbol{x}_{\|} = \text{Proj}_{\boldsymbol{v}}\boldsymbol{x}$, $\boldsymbol{x}_{\perp} = \boldsymbol{x}-\text{Proj}_{\boldsymbol{v}}\boldsymbol{x}$ 라 하면, $\boldsymbol{x} = \boldsymbol{x}_{\|} + \boldsymbol{x}_{\perp}$ 이며 $\boldsymbol{x}\cdot \boldsymbol{v} = \boldsymbol{x}_{\|}\cdot \boldsymbol{v}$ 이다.
+
+$$
+\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x} = \boldsymbol{x} - 2 \boldsymbol{x}_{\|} = \boldsymbol{x}_{\perp} - \boldsymbol{x}_{\|}
+$$
+
+이다.
+
+</br>
+
+### 하우스홀더 변환과 QR 분해
+
+::: {#prp-householder_transform} 
+
+$\mathbb{F}^m$ 에서의 벡터 $\boldsymbol{x}$ 과 표준 기저 $\{\boldsymbol{e}_1,\ldots,\,\boldsymbol{e}_m\}$ 를 생각하자. $\alpha$ 를 $\boldsymbol{x}$ 의 첫번째 성분 $x_1 = re^{i\theta}$ 에 대해 다음과 같이 정의한다.
+
+$$
+\alpha = \left\{ \begin{array}{ll} \|\boldsymbol{x}\|_2  & \text{where } \mathbb{F}=\mathbb{R}, \\ e^{i\theta}\|\boldsymbol{x}\|_2 \qquad & \text{where } \mathbb{F} =\mathbb{C}. \end{array} \right.
+$$
+
+$\boldsymbol{x}$ 에 대해 $\boldsymbol{v}$ 를 다음과 같이 정하자.
+
+$$
+\boldsymbol{v} = \boldsymbol{x} - \alpha \boldsymbol{e}_1, \\
+$$
+
+이 때 $\boldsymbol{x}$ 의 $\boldsymbol{v}$ 에 대한 하우스홀더 변환 $\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x}$ 는 다음과 같다.
+
+$$
+\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x} = \boldsymbol{x}-\boldsymbol{v} = \alpha \boldsymbol{e}_1.
+$$
+:::
+
+::: {.proof}
+$\alpha \overline{x}_1 = \overline{\alpha}x_1 = |x_1| \|\boldsymbol{x}\|_2$ 이며 $|\alpha|^2 = \|\boldsymbol{x}\|_2^2$ 이다. $a=\alpha\overline{x}_1=\overline{\alpha}x_1$ 이라 놓고 다음을 계산해 보자. 
+$$
+\begin{aligned}
+\langle \boldsymbol{x},\,\boldsymbol{v}\rangle & = \langle \, \boldsymbol{x} , \boldsymbol{x}-\alpha \boldsymbol{e}_1\rangle = \|\boldsymbol{x}\|_2^2-\overline{\alpha} x_1  = \|\boldsymbol{x}\|_2^2 - a\\
+\langle \boldsymbol{v},\,\boldsymbol{v}\rangle &= \langle \boldsymbol{x} -\alpha \boldsymbol{e}_1,\, \boldsymbol{x} -\alpha\boldsymbol{e}_1 \rangle  = \|\boldsymbol{x}\|^2 - \overline{\alpha} x_1 -\alpha \overline{x_1} + |\alpha|^2 = 2(\|\boldsymbol{x}\|_2^2 -a) \\
+&= 2 \langle \boldsymbol{x},\, \boldsymbol{v} \rangle
+\end{aligned}
+$$
+
+이므로, (잠시 $\|\boldsymbol{x}\|_2$ 를 $\|\boldsymbol{x}\|$ 라 하자.)
+
+$$
+\boldsymbol{H}_\boldsymbol{v} \boldsymbol{x} = \boldsymbol{x} - 2\dfrac{\langle \boldsymbol{x},\, \boldsymbol{v}\rangle}{\|\boldsymbol{v}\|^2} \boldsymbol{v} = \boldsymbol{x}-\boldsymbol{v} = \alpha \boldsymbol{e}_1
+$$
+
+이다. $\square$
+
+:::
+
+</br>
+
+이미 설명한 그람 슈미트 방법과 유사하게
+
+
+
+
+
+이제 $\boldsymbol{Q}_1= \boldsymbol{Q},\, \boldsymbol{A}=\boldsymbol{A}_1$ 이라 놓으면, 
+
+$$
+\boldsymbol{Q}_1\boldsymbol{A}_1 = \begin{bmatrix}\alpha _{1} & \ast &\cdots &\ast \\0 & & &\\ \vdots & & \boldsymbol{A}_2 & \\ 0 & & & \end{bmatrix}
+$$
+
+꼴이 된다. 이제 행렬 $m \times n$ 행렬 $\boldsymbol{A}_k$ 가 $k$ 번째 행까지는 상삼각 행렬의 모양을 따른다고 하자. 즉 $j\le k$ 이고 $i>k$ 이면 $(\boldsymbol{A}_k)_{ij}=0$ 이라 하자. 이 때 $\boldsymbol{A}_k$ 의 $k$ 번째 행부터 $m$ 행, $k$ 번째 열부터 $m$ 열까지를 $\boldsymbol{A}'_k$ 라 하고,(julia 로 표현하면 `Ak[k:end, k:end]` 가 될 것이다) 이 $\boldsymbol{A}'_k$ 에 대해 앞서 $\boldsymbol{A}$ 에 했던 것과 똑같은 과정을 수행하는 하우스홀더 행렬을 $\boldsymbol{Q}'_k$ 라 하면 $\boldsymbol{Q}'_k \boldsymbol{A}'_k$ 는 $\boldsymbol{Q}_1\boldsymbol{A}_1$ 처럼 첫번째 열에서는 첫번째 행을 제외한 나며지 행의 값이 $0$ 이 된다. 
+만약
+
+$$
+\boldsymbol{Q}_k = \begin{bmatrix} \boldsymbol{I}_{k-1} & 0 \\ 0 & \boldsymbol{Q}_k'\end{bmatrix}
+$$
+
+이라 하면, $(k-1)\times (k-1)$ 단위행렬 $I_{k-1}$ 과 $\boldsymbol{A}_k$ 를 $k$ 행 과 $k$ 열 부터 잘라 $\boldsymbol{A}_{k} = \begin{bmatrix} B_{k} & C_{k} \\ 0 &\boldsymbol{A}'_{k}\end{bmatrix}$  로 만들자. $B_k$ 는 $(k-1) \times (k-1)$ 행렬이며 $\boldsymbol{A}'_{k}$ 는 $(m-k+1)\times (n-k+1)$ 행렬이다. $\boldsymbol{A}_k$ 가 $k$ 열까지 상삼각 행렬 모양이므로 $B_k$ 아래는 $0$ 행렬이다. 두 행렬의 곱은
+$$
+\boldsymbol{Q}_k \boldsymbol{A}_k = \begin{bmatrix} \boldsymbol{I}_{k-1} & 0 \\ 0 & \boldsymbol{Q}_k' \end{bmatrix} \begin{bmatrix} B_{k} & C_{k} \\ 0 &\boldsymbol{A}'_{k}\end{bmatrix} = \begin{bmatrix} B_k & C_k \\ 0 & \boldsymbol{Q}'_k \boldsymbol{A'}_k \end{bmatrix}
+$$
+
+이 되고 $\boldsymbol{Q}'_k \boldsymbol{A}'_k$ 의 첫번째 열은 첫번째 행을 제외하면 모두 $0$ 이므로 $\boldsymbol{Q}_k \boldsymbol{A}_k$ 는 $k$ 열까지 상삼각 행렬 꼴이 된다.
+
+$L = \min\{m,\,n\}$ 이라 하면 $\boldsymbol{Q}_L \boldsymbol{Q}_{L-1} \cdots \boldsymbol{Q}_1 \boldsymbol{A}$ 는 상삼각행렬꼴이 된다. 이를 $\boldsymbol{R}$ 이라 하자. $\boldsymbol{Q}'_k$ 가 하우스홀더 행렬이므로
+
+$$
+\boldsymbol{Q}_k \boldsymbol{Q}_k^\ast = \begin{bmatrix} \boldsymbol{I}_{k-1} & 0 \\ 0 & \boldsymbol{Q}_k'\end{bmatrix} \begin{bmatrix} \boldsymbol{I}_{k-1} & 0 \\ 0 & (\boldsymbol{Q}_k')^\ast\end{bmatrix} = \begin{bmatrix} I_{k-1} & 0 \\0 & \boldsymbol{Q}_k' 
+(\boldsymbol{Q}_k')^\ast\end{bmatrix} = I
+$$
+
+이다. 즉 $\boldsymbol{Q}_k$ 도 직교행렬이다. $\boldsymbol{Q}_k$ 가 에르미트 행렬임은 쉽게 보일 수 있다. 이제,
+
+$$
+\boldsymbol{Q}_L \cdots \boldsymbol{Q}_1 \boldsymbol{A} = \boldsymbol{R} \implies \boldsymbol{A} = \boldsymbol{Q}_1^\ast \cdots \boldsymbol{Q}_L^\ast \boldsymbol{R}
+$$
+
+임은 쉽게 보일 수 있다. 직교행렬의 곱은 직교행렬이므로 $\boldsymbol{Q}_1^\ast \cdots \boldsymbol{Q}_L^\ast$ 도 직교행렬이다. 따라서 QR 분해를 할 수 있다. 
+
+
+
+### QR 분해를 이용한 최소자승법
+
+#### 부분공간에 대한 정사영
+
+$W$ 가 내적벡터공간 $V$ 의 부분공간이라 하자. 이 때 그람슈미트 과정을 통해 $W$ 의 정규기저벡터 $\{\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_m\}$ 을 구할 수 있다. 이 때 $\boldsymbol{v} \in V$ 의 $W$ 에 대한 정사영 $\text{Proj}_W \boldsymbol{v}$ 는 다음과 같이 정의된다.
+
+$$
+\text{Proj}_W \boldsymbol{v} = \sum_{i=1}^m \langle \boldsymbol{v},\,\hat{\boldsymbol{u}}_i \rangle\,\hat{\boldsymbol{u}}_i
+$$
+
+$\text{Proj}_W \boldsymbol{v}$ 는 $W$ 에 속한 벡터이며, 벡터에 대한 정사영과 마찬가지로 임의의 $\boldsymbol{w} \in W$ 에 대해
+
+$$
+\langle \boldsymbol{w},\,  \boldsymbol{v}-\text{Proj}_W \boldsymbol{v}\rangle = \boldsymbol{0}
+$$
+
+이다. $\boldsymbol{v} = \text{Proj}_W \boldsymbol{v} + (\boldsymbol{v} - \text{Proj}_W\boldsymbol{v} )$ 이므로 벡터 $\boldsymbol{v}$ 를 $W$ 에 속하는 벡터와, $W$ 에 직교하는 벡터로 분해 할 수 있다.
+
+</br>
+
+내적벡터공간 $V$ 의 두 벡터 $\boldsymbol{v}_1,\,\boldsymbol{v}_2$ 의 거리는 $\|\boldsymbol{v}_1-\boldsymbol{v}_2\| = \sqrt{\langle \boldsymbol{v}_1-\boldsymbol{v}_2,\,\boldsymbol{v}_1-\boldsymbol{v}_2 \rangle}$ 로 정의된다. $V$ 와 그 부분공간 $W$ 를 생각하자. $V$ 의 벡터 $\boldsymbol{v}$ 와 $W$ 사이의 거리 $d(\boldsymbol{v},\,W)$ 는 $W$ 에 속한 벡터 가운데 $\boldsymbol{v}$ 와의 거리가 가장 작은 벡터 $\boldsymbol{v}_0$ 와의 거리로 정의된다. 즉,
+
+$$
+d(\boldsymbol{v},\,W) = \min_{\boldsymbol{w}\in W} \| \boldsymbol{v} - \boldsymbol{w}\|
+$$
+
+이다. 여기서 $d(\boldsymbol{v},\,W) = d(\boldsymbol{v},\, \text{Proj}_W \boldsymbol{v})$ 임을 보이고자 한다. $W$ 의 정규기저벡터 $\{\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_n\}$ 을 생각하자. 그리고 $V$ 의 정규기저 벡터는 앞의 $W$ 의 정규기저벡터를 확장하여 $\{\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_n,\,\hat{\boldsymbol{f}}_1,\ldots,\,\hat{\boldsymbol{f}}_m\}$ 라 하자. 그렇다면 $\langle \hat{\boldsymbol{u}}_i,\, \hat{\boldsymbol{f}}_j \rangle = 0$, $\langle \hat{\boldsymbol{f}}_i ,\,\hat{\boldsymbol{f}}_j \rangle = \delta_{ij}$ 이다. 이제 이 정규기저벡터로 $\boldsymbol{v}\in V$ 를 표현하면,
+
+$$
+\boldsymbol{v} = a_1 \hat{\boldsymbol{u}}_1 + \cdots + a_n \hat{\boldsymbol{u}}_n + b_1 \hat{\boldsymbol{f}}_1 + \cdots + b_m \hat{\boldsymbol{f}}_m
+$$
+
+이다. 임의의 $\boldsymbol{w} = c_1 \hat{\boldsymbol{u}}_1 + \cdots + c_n \hat{\boldsymbol{u}}_n \in W$ 와 $\boldsymbol{v}$ 와의 거리의 제곱은
+
+$$
+\begin{aligned}
+\left(d(\boldsymbol{v},\,\boldsymbol{w}) \right)^2&= (a_1-c_1)^2 + \cdots + (a_n - c_n)^2 + b_1^2 + \cdots + b_m^2 \ge b_1^2 + \cdots +b_m ^2
+\end{aligned}
+$$
+
+이므로 $a_1=c_1, \cdots , a_n = c_n$ 일 때 $d(\boldsymbol{v},\,W)$ 가 최소값이 됨을 알 수 있다. 즉,
+
+$$
+d(\boldsymbol{v},\,W) = \|\boldsymbol{v}-\text{Proj}_W \boldsymbol{v}\|
+$$
+
+이다.
+
+
+
+선형 시스템에서 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 만족시키는 해가 없지만 $\|\boldsymbol{Ax}-\boldsymbol{b}\|$ 를 최소화 하는 $\boldsymbol{x}$ 를 구하고자 할 경우를 생각하자. $\boldsymbol{A}$ 가 $m\times n$ 행렬이고 $\boldsymbol{x}\in \mathbb{F}^n,\,\boldsymbol{b}\in \mathbb{F}^m$ 이라 하자. $\boldsymbol{A}$ 의 $i$ 번째 행을 $\boldsymbol{a}_i$ 라 하면 $\boldsymbol{a}_i \in \mathbb{F}^m$ 이며,
+
+$$
+\boldsymbol{A} = \begin{bmatrix} \boldsymbol{a}_1 & \boldsymbol{a}_2 & \cdots & \boldsymbol{a}_n\end{bmatrix}
+$$
+
+이다. $\boldsymbol{x} = \begin{bmatrix}x_1 & x_2 & \ldots & x_n\end{bmatrix}^T$ 이라 하면, $\boldsymbol{Ax}= x_1 \boldsymbol{a}_1 + \cdots x_n \boldsymbol{a}_n$ 이다. 즉 $\boldsymbol{Ax}$ 는 $\boldsymbol{a}_1,\ldots,\boldsymbol{a}_n$ 에 의해 정해지는 $\mathbb{F}^n$ 의 부분공간의 한 벡터이며, $\boldsymbol{Ax}=\boldsymbol{b}$ 는 이 부분공간의 벡터 가운데 $\boldsymbol{b}$ 와 같도록 하는 계수 $x_1,\ldots,\,x_n$ 을 찾는 것이라고 이해 할 수 있다.
+
+1. $m=n,\, \text{rank}(\boldsymbol{A})=n$ 이면 $\boldsymbol{A}$ 가 가역행렬이므로 $\boldsymbol{x}$ 의 정확한 해가 반드시 존재한다. QR 분해의 경우 $\boldsymbol{R}$ 은 대각성분이 양수인 $n \times n$ 상삼각행렬이 된다.
+
+2. $m>n$ 이라면 $\text{rank}(\boldsymbol{A}) \le n< m$ 이므로 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 만족하는 해가 존재하지 않을 수 있다.
+
+3. $m<n$ 이라면  
+
+-- to be continued
+
+</br>

@@ -1,0 +1,339 @@
+---
+title: "디지털 신호처리의 기초"
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+
+## 신호
+
+### 신호와 신호처리
+
+**신호 (signal)** 는 시공간적으로, 혹은 어떤 독립변수에 의해 변하는 물리량을 의미한다. 즉 측정할 수 있는 양을 말하며 신호를 목적에 맞게 가공하는 과정을 **신호처리 (signal processing)** 라고 한다. 하나의 소스에서 발생되는 신호를 스칼라 신호라고 하고, 시간에 따라 두 개 이상의 소스에서 발생하는 신호를 벡터 신호라고 한다. 스칼라 신호는 하나의 독립 변수로 표현할 수 있으므로 1차원 신호라고 하고, 벡터 신호는 두 개 이상의 독립 변수로 표현되므로 다차원 신호라고 한다. 예를 들어 영상(image)신호는 2차원 신호이며, 동영상(video) 신호는 3차원 신호이다.
+
+
+</br>
+
+### 샘플링과 양자화
+
+신호 $s: A \subset \mathbb{R} \to \mathbb{R}$ 를 생각하자. $A$ 가 연속일 때 $A$ 에 포함되는 수열 $\langle t_k \rangle \subset A$ 을 뽑아 내어 신호를 $\{s_k = s(t_k)\}$ 로 재구성 하는 것을 **샘플링 (sampling)** 이라고 한다. 유한개의 $B \subset \{s(t):t\in A\}$ 에 대한 함수 $\phi : s(A) \to B$ 에 대해 $\overline{s}(t) = (\phi \circ s)(t)$ 로 $s(t)$ 를 표현하는 것을 **양자화 (quantization)** 이라고 한다. 
+
+보통 샘플링은 독립 변수에 대해 주기적으로 데이터를 얻는다. 즉 $s(t)$ 에 대해 주기 $T$ 간격으로 샘플링 할 경우 $t_k = kT$ 라 놓고 $s_k = s(t_k) = s(kT)$ 를 얻게 된다. 이 때 $1/T$ 를 *sampling rate* 라고 한다. 
+
+</br>
+
+### Sampling theorem
+
+아날로그 신호가 band-limited 인 경우, 즉 아날로그 신호의 최대 주파수가 $\nu_M$ 일 경우 샘플링 주파수 $\nu_S$ 가 $\nu_M$ 의 2배보다 크다면 원본 아날로그 신호를 복원 할 수 있다. 이 때 $2\nu_M$ 을 *Nyquist frequency* 혹은 *Nyqueist rate* 라고 한다.
+
+
+
+
+
+
+</br>
+
+### 기본적인 신호 {#sec-signal_basic_signals}
+
+| 신호 이름 | 신호의 정의 |
+|:----------:|:-------------|
+| Heaviside 계단 함수 (step function) | $\text{step}(x) = \left\{ \begin{array}{l} 1 \qquad & x \ge 0 \\ 0 & \text{otherwise}\end{array}\right.$ |
+| 직사각 함수 (rectangular function) |  $\text{rect}(x) = \left\{ \begin{array}{l} 1 \qquad & |x| \le 1/2 \\ 0 & \text{otherwise}\end{array}\right.$ |
+| 삼각 함수 (trianle function) | $\text{tri}(x) = \left\{ \begin{array}{l} 1 -|x| & x \le 1/2 \\ 0 & \text{otherwise}\end{array}\right.$ |
+| $\text{sinc}$ 함수 | $\text{sinc}(x) = \dfrac{\sin (\pi x)}{\pi x}$ |
+| 가우스 함수 | $\text{gauss}(x) = \dfrac{1}{\sqrt{\pi}} e^{-x^2}$ | 
+| 디렉 델타 함수 | $\delta (x)$, @def-dirac_delta_function 참고 |
+: 기본적인 신호함수들 {#tbl-signal_basic_signals}
+
+</br>
+
+<center>
+
+![기본적인 신호들](imgs/fig-signal_functions-1.png){width=90%}
+
+</center>
+
+</br>
+
+### 디렉 델타 함수
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-dirac_delta_function}
+
+#### 디렉 델타 함수
+
+Dirac 델타 함수 (델타 함수) $\delta (t)$ 는 다음의 두가지 성질을 갖는 함수로 정의된다.
+
+&emsp; ($1$) $\delta(t) = \left\{ \begin{array}{ll} \infty \qquad &\text{if } t= 0 \\ 0 & \text{otherwise.} \end{array}\right.$
+
+&emsp; ($2$) $\mathbb{R}$ 에서 정의된 함수 $f(t)$ 에 대해 $\displaystyle \int_{-\infty}^\infty  \delta(t)\, f(t) \, dt = f(0)$.
+
+:::
+:::
+
+
+
+
+</br>
+
+
+
+::: {#prp-img_properties_of_delta_function}
+
+#### 델타 함수의 성질
+
+델타 함수는 다음과 같은 성질을 가진다.
+
+
+&emsp; ($1$) $\delta(-x) = \delta (x)$.
+
+&emsp; ($2$) $\displaystyle \int_{-\infty}^\infty f(x)\,\delta(x-x_0)\, dx = f(x_0)$.
+
+&emsp; ($3$) $a\ne 0$ 에 대해 $\delta (ax) = \dfrac{1}{|a|} \delta (x)$.
+
+&emsp; ($4$) $\displaystyle \int_{-\infty}^\infty f(x) \,\delta'(x)\, dx = - f'(0)$
+
+&emsp; ($5$) $g(x)$ 가 미분가능하며 $g(x) = 0$ 가 유한개의 근 $x_1,\ldots,\,x_n$ 을 갖고, $g'(x_i)\ne 0$ 일 때 
+
+$$
+\displaystyle \delta (g(x))= \sum_{i=1}^n \dfrac{\delta(x-x_i)}{|g'(x_i)|}.
+$$
+
+&emsp; ($6$) $\delta(x) = \displaystyle \dfrac{1}{2\pi} \int_{-\infty}^\infty e^{ikx}\, dk$. 
+:::
+
+::: {.proof}
+
+($1$) $\displaystyle \int_{-\infty}^\infty f(x)\, \delta(-x)\, dx = \int_{-\infty}^\infty f(-x) \, \delta (x) \, dx = f(0)$. 
+
+($2$) $t=x-x_0$ 로 치환하여 적분한다.
+
+($3$) $t=ax$ 로 치환하여 적분한다. $a<0$ 인 경우 
+
+$$
+\int_{-\infty}^\infty f(x)\, \delta(ax) \, dx = \dfrac{1}{|a|}\int_{-\infty}^\infty f(x/a) \delta (x)\, dx = \dfrac{1}{|a|} f(0) = \int_{-\infty}^\infty f(x) \left(\dfrac{1}{|a|} \delta(x) \right)dx
+$$
+
+이다.
+
+
+($4$) 부분적분을 이용한다.
+
+$$
+\int_{-\infty}^\infty f(x) \, \delta (x)\,dx = f(x) \delta(x){\huge \mid}_{-\infty}^\infty - \int_{-\infty}^\infty f'(x)\, \delta (x)\,dx = -f'(0).
+$$
+
+($5$) $g'(x_i) \ne 0$ 이므로 각각의 $x_i$ 주위에 $g(x)$ 가 전단사가 되는 $(x_i-\epsilon_i,\, x_i+\epsilon_i)$ 구간이 존재한다. 이 구간에서의 $g(x)$ 의 역함수를 $h_i(x)$ 라고 하자. $g(x_i-\epsilon_i),\, g(x_i+\epsilon_i)$ 가운데 작은수와 큰 수를 각각 $t_1,\,t_2$ 라고 하면, 
+
+$$
+\begin{aligned}
+\int f(x) \, \delta(g(x))\,dx &= \sum_{i=1}^n \int_{x_i - \epsilon_i}^{x_i + \epsilon_i} f(x)\, \delta(g(x))\, dx \\
+&= \sum_{i=1}^n \int_{t_1}^{t_2} f(h_i(t))\, \delta(t) \dfrac{dt}{|g'(h_i(t))|} \\
+&= \sum_{i=1} \dfrac{f(x_i)}{|g'(x_i)|} \\
+&= \int_{-\infty}^\infty f(x) \left(\sum_{i=1}\dfrac{\delta(x-x_i)}{|g'(x_i)|}\right)\, dx
+\end{aligned}
+$$
+
+이다. 
+
+($6$) $d(x) = \int_{-\infty}^\infty e^{ikx}\, dk$ 로 놓고 다음과 같이 적분을 할 수 있다.
+
+$$
+\begin{aligned}
+d(x) = \int_{-\infty}^\infty e^{ikx}dk &= \int_{-\infty}^0 e^{ikx}\, dk + \int_0^{\infty} e^{ikx}\, dk \\
+&= \int_0^\infty e^{ikx}\, dk + \int_0^\infty e^{-ikx}\,dk \\
+&= \lim_{\epsilon \to 0^+} \int_{0}^\infty (e^{ikx}+e^{-ikx})\, e^{-\epsilon k}\, dk \\
+&= \lim_{\epsilon \to 0^+} \dfrac{2\epsilon}{\epsilon^2+x^2}
+\end{aligned}
+$$
+
+이 경우 $d(0) = +\infty$ 이며 $d(x\ne 0) = 0$ 이다. 우리는 
+
+$$
+\displaystyle \int_{-\infty}^\infty \dfrac{\epsilon}{x^2+\epsilon^2}\, dx = \tan^{-1} (x/\epsilon) {\huge \mid}_{-\infty}^\infty = \pi 
+$$ 
+
+임을 안다. 즉 $\epsilon$ 값과 무관하게 $\int_{-\infty}^\infty d(x)\, dx = 2\pi$ 이다. 따라서 
+$$
+\int_{-\infty}^\infty f(x)\, d(x) \, dx = \lim_{\epsilon \to 0^+} \int_{-\infty}^\infty \dfrac{2\epsilon f(x)}{\epsilon^2+x^2}\, dx = 2\pi f(0)
+$$
+
+이므로 $d(x) = 2\pi \delta(x)$ 이다. $\square$
+
+:::
+
+</br>
+
+### 샘플링과 델타 함수
+
+우리가 자연적으로 들어오는 연속 시그널 $s(t)$ 에 대해 $T$ 간격으로 샘플링을 한다고 하자. 이 때 $t=0$ 으로 부터 $Tk$ 에서 샘플링된 신호 $\tilde{s}_k$ 는
+
+$$
+\tilde{s}_k = \int_{-\infty}^\infty s(t) \,\delta(t-kT ) \,dt
+$$ {#eq-img_sampling}
+
+로 부터 얻을 수 있다. 
+
+그렇다면 $s(t)$ 에 대한 샘플링을
+
+$$
+\tilde{s}(t) = \sum_k \int_{-\infty}^\infty s(t) \delta (t-kT) \, dt = \int_{-\infty}^\infty s(t) \left[ \sum_{k} \delta (t-kT)\right]\, dt
+$$ {#eq-img_impluse_train}
+
+로 부터 얻을 수 있다. 이 때 델타함수가 주기적으로 반복되는 $S_T(t) = \sum_{k} \delta (t-kT)$ 를 **샘플링 함수(sampling function)** 혹은 **주기적 임펄스 함수 (periodic impulse function)** 이라고 한다.
+
+</br>
+
+### 이산 데이터
+
+우리가 컴퓨터에서 다루는 대부분의 데이터는 이산데이터이다. 연속함수의 샘플링과 양자화로 얻어진 이산데이터일 수도 있고, 자체로서 이산적인 값을 갖는 데이터 일 수도 있다. 이산데이터는 수학에서 수열을 다룰 때 처럼 1차원의 경우 $s_k$ 나 혹은 $s[k]$ 로 표현하며, 2차원의 경우 $s_{i, j}$ 나 $s[i, j]$ 로 표현한다.
+
+
+</br>
+
+## Convolution 과 Correlation {#sec-image_convolution_correlation}
+
+@eq-img_sampling 과 같은 형태의 함수는 매우 중요하다. 즉 두 함수 $f,\,g$ 에 대해 $\int f(t) g(x-t) \, dt$ 는 $x$ 에 대한 함수이며 **convolution** 이라 하고 $f \ast g$ 로 표현한다. 이와 유사한 것이 $\int f(t) g(x+t)\, dt$ 로 정의되는 **cross-correlation**  혹은 줄여서 **correlation** 이며 $f\otimes g$ 로 표현한다. 
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-convolution_and_correlation}
+
+#### convolution 과 cross-correlation
+
+연속 함수 $f,\,g$ 에 대해 **convolution** $f \ast g$ 와 **cross-correlation** $f \otimes g$ 는 다음과 같이 정의된다.
+
+&emsp; ($1$) 1 차원
+$$
+\begin{aligned}
+(f \ast g) (x) &= \int_{-\infty}^\infty f(t)\, g(x-t)\, dt, \\
+(f \otimes g) (x) & = \int_{-\infty}^\infty f(t)\, g(x+t)\, dt
+\end{aligned}
+$$
+
+&emsp; ($2$) 2차원
+
+$$
+\begin{aligned}
+(f \ast g) (x, y) &= \int_{-\infty}^\infty f(x,  y)\, g(t-x, s-y)\, dtds, \\
+(f \otimes g) (x, y) & = \int_{-\infty}^\infty f(x, y)\, g(t+x, s+y)\, dtds
+\end{aligned}
+$$
+
+
+
+이산 데이터 $f,\,g$ 에 대해서는 다음과 같이 정의된다.
+
+&emsp; ($1$) 1 차원
+$$
+\begin{aligned}
+(f \ast g)[i] &= \sum_n f[n]\, g[i-n], \\
+(f \otimes g)[i] &= \sum_n f[n]\, g[i+n], \\
+\end{aligned}
+$$
+
+&emsp; ($2$) 2차원
+$$
+\begin{aligned}
+(f \ast g)[i, j] &= \sum_{m, n} f[m, n]\, g[i-m, j-n], \\
+(f \otimes g)[i, j] &= \sum_{m,n} f[m, n]\, g[i+m, j+n], \\
+\end{aligned}
+$$
+:::
+:::
+
+</br>
+
+### 기본적인 성질
+
+::: {#prp-basic_properties_of_convolution}
+
+$f,\,g,\,h$ 에 대해 다음이 성립한다.
+
+&emsp; ($1$) $f\ast g = g \ast f$.
+
+&emsp; ($2$) $f \ast (g \ast h) = (f \ast g) \ast h$.
+
+&emsp; ($3$) $f \ast (g+h) = f\ast g + f \ast h$. 
+
+:::
+
+::: {.proof}
+
+($1$) 연속함수인 경우 정의에서 $s=x-t$ 로 치환해서 증명 할 수 있다.
+
+($2$) ($1$) 에 의해 $f\ast (g\ast h) = (g \ast h)\ast f$ 이다. 그리고 
+
+$$
+\int f(t-a)g(x-t)\, dx = \int f(t')\,g(x-a-t')\,dt = (f\ast g)(x-a) \tag{A}
+$$ 
+
+를 이용한다. 
+$$
+\begin{aligned}
+f \ast (g \ast h) &= \int \left[\int h(t) g(x-t)\, dt \right] f(s-x)\, ds \\
+&= \int h(t) \left[\int g(x-t) f(s-x)\, ds\right] \, dt &; (\textrm{A}) \\
+&= \int h(t) ((g \ast f)(x-t)) \, dt = (g \ast f)\ast h
+\end{aligned}
+$$
+
+($3$) 쉽게 보일 수 있다.
+:::
+
+
+즉 convolution 에 대해서는 교환법칙, 결합법칙, 분배법칙이 성립한다. 그러나 cross-correlation 에 대해서는 분배법칙만 성립한다. 
+
+
+우리가 직접 다루는 데이터는 크기가 한정된 이산적인 데이터이다. $f$ 가 1 부터 $M$ 까지의 index 를 가지며 $g$ 가 1 부터 $N$ 까지의 인덱스를 갖는 1차원 배열이라고 하자. $
+
+
+
+
+
+</br>
+
+## 시스템
+
+어떤 신호 $s:A \to X$ 를 받아들여 이 신호에 대한 다른 신호 $g: A \to X$ 를 만들어내는 것을 **시스템 (System)** 이라고 한다. 즉 $g(x) = \mathcal{L}[s(x)]$ 일 때 $\mathcal{L}$ 이 시스템을 기술하는 변환이다.
+
+</br>
+
+### 시스템의 종류
+
+#### 선형 시스템
+
+시스템 $\mathcal{L}$ 이 신호 $s_1,\,s_2$ 와 신호 $s_1,\,s_2$ 에 대해
+
+$$
+\mathcal{L}[a_1 s_1 (x) + a_2 s_2(x)] = a_1 \mathcal{L}[s_1(x)] + a_2 \mathcal{L}[s_2(x)]
+$$
+
+를 만족 할 때 이 시스템을 **선형 시스템(linear system)** 이라고 한다.
+
+</br>
+
+#### Translation invariant system
+
+임의의 $x_0$ 에 대해 
+
+$$
+\mathcal{L}[s(x-x_0)] = g(x-x_0)
+$$
+
+일 때 이 시스템을 **translation invariant system** 이라고 한다. $x$ 가 시간 변수이면 시간-불변 시스템, 공간 변수이면 공간 불변 시스템이라고 한다.
+
+</br>
+
+#### LTI 시스템
+
+선형이며 Translation invariant 인 시스템을 **LTI (Linear translation invariant) 시스템** 이라고 한다.
+
+
+</br>
+
+
+
+
+
+

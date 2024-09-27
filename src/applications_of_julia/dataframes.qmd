@@ -1,0 +1,106 @@
+---
+title: "DataFrames.jl"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+[`DataFrames.jl`](https://dataframes.juliadata.org/stable/) 은 2차원 데이터 테이블을 다루는 `DataFrame` 타입을 지원한다. `DataFrame` 타입은 파이썬의 `pandas` 의 `DataFrame` 이나 `R` 의 `DataFrame` 과 같이 테이블 형태의 데이터를 표현하는 데이터 구조이다. 엑셀 sheet 의 각 열과 행을 프로그래밍으로 다루기 위한 데이터 구조라고 생각할 수 있다.
+
+## 설치
+
+다른 julia 패키지와 마찬가지로 REPL 이나 jupyter 에서
+
+```julia
+using Pkg
+Pkg.add("DataFrames")
+```
+
+를 통해 설치 할 수 있다. 물론 REPL 에서 `]` 를 통해 패키지 모드로 진입한 후
+
+```txt
+(@v1.10) pkg> add DataFrames
+```
+
+로 설치할 수도 있다.
+
+</br>
+
+## `DataFrame`
+
+### 시작하기
+
+`DataFrame` 타입 인스턴스는 다음과 같이 만들 수 있다.
+
+```txt
+In [1]: using DataFrames
+
+In [2]: df=DataFrame(a=1:3, b=["A", "B", "C"])
+Out[2]: 3×2 DataFrame
+ Row │ a      b
+     │ Int64  String
+─────┼───────────────
+   1 │     1  A
+   2 │     2  B
+   3 │     3  C
+```
+
+출력은 REPL 의 모습이며 jupyter 에서는 약간 다르다. `DataFrames` 는 모듈 이름이며 타입 이름은 마지막 `s` 가 빠진 `DataFrame` 이다. `df` 은 `"a"` 와 `"b"` 의 두 칼럼으로 구성되었으며 각 칼럼은 같은 수의 성분을 갖는 1차원 배열이다. `names()` 함수를 통해 칼렴 이름(여기서는 "a", "b") 를 얻을 수 있다. 칼럼에 대해 접근할 때는 `df.a`, `df."a"`, `df[!, :a]`,  `df[!, "a"]` 와 같이 접근 할 수 있다. 칼럼의 이름은 `names(df)` 와 `propertynames(df)` 함수로 얻을 수 있다. `names()`는 칼럼의 이름을 문자열로 반환하며, `propertynames()` 는 `Symbol` 로 반환한다.
+
+```txt
+In [3]: df.a[1]
+Out[3]: 1
+
+In [4]: df."a"[2]
+Out[4]: 2
+
+In [5]: df[!, :b][1]
+Out[5]: "A"
+
+In [6]: df[:, "b"][2]
+Out[6]: "B"
+
+In [7]: names(df)
+Out[7]: 2-element Vector{String}:
+ "a"
+ "b"
+
+In [8]: propertynames(df)
+Out[8]: 2-element Vector{Symbol}:
+ :a
+ :b
+
+In [9]: size(df)
+Out[9]: (3, 2)
+
+In [10]: size(df, 1)
+Out[10]: 3
+```
+
+`In [9]` 와 `In [10]` 은 `df` 의 크기를 알아내는 함수 `size()` 를 사용하였다. `DataFrame` 객체만을 전달할 경우 열수와 칼럼수를 반환하며, 두번째 인자로 칼럼 인덱스를 전달할 경우 그 칼럼의 데이터 갯수를 반환한다.
+
+</br>
+
+### 비어있는 `DataFrame` 으로부터 시작하기
+
+비어있는 데이터 프레임으로부터 아래와 같이 시작 할 수 있다.
+
+```julia
+df = DataFrame()
+df.t = 0:0.1:10
+df.N = exp.(-df.t./0.3) .+ 0.3
+df.err = sqrt.(df.N)
+```
+
+`names(df)` 로 확인해보면 `t, N, err` 라는 세개의 칼럼을 확인 할 수 있다. `DataFrame` 은 mutable 이므로 각각의 칼럼을 수정 할 수 있다.
+
+```julia
+df.N = exp.(-df.t./0.56) .+ 0.13
+```
+
+</br>
+
+### 칼럼 별로 다루기
+

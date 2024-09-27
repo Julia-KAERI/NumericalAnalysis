@@ -1,6 +1,5 @@
 ---
 title: "이름공간, 모듈, 패키지"
-language: ../_language-ko_custom.yml 
 
 number-sections: true
 number-depth: 2

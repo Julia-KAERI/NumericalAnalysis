@@ -1,0 +1,887 @@
+---
+title: "행렬의 분해"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+선형 대수학에서 행렬 분해는 행렬을 다른 행렬들의 곱으로 분해하는 것을 말한다. 다양한 행렬 분해 방법이 존재하며, 각각은 특정 유형의 문제 해결에 활용된다. 수치 해석에서는 효율적인 행렬 알고리즘을 구현하는 데 다양한 분해 방법을 사용 할 수 있다. 우리는 이미 LU 분해를 하는 방법과 그 유용성을 알아 보았다. 여기서는 다양한 행렬의 분해에 대해 알아보고자 한다. 
+
+</br>
+
+## 수학적 기초
+
+### 대각 지배 행렬
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-diagonally_dominat_matrix}
+
+#### 대각 지배 행렬 
+
+행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 의 각 행의 대각성분의 절대값이 그 행의 대각성분을 제외한 성분의 절대값의 합보다 크면, 즉 각각의 $i=1,\ldots,\,n$ 행에 대해
+
+$$
+|A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ij}|, \qquad i=1,\ldots,\,n
+$$
+
+이면 이 행렬 $\boldsymbol{A}$ 를 **행에 대한 대각 지배 행렬 (row-wise diagonally dominant matrix)**이라 한다. 또한 각 열에대해 
+
+$$
+|A_{ii}| \ge \sum_{j=1,\, j\ne i}^n |A_{ji}|, \qquad i=1,\ldots,\,n
+$$
+
+이면 이 행렬 $\boldsymbol{A}$ 를 **열에 대한 대각 지배 행렬 (column-wise diagonally dominant matrix)**이라 한다. 행/열 에 대한 대각 지배 행렬의 조건에서 등호 조건을 제외하고 성립하면  **행/열 에 대한 엄격한 대각 지배 행렬 (strictly row-wise/column-wise diagonally dominant matrix)** 이라고 한다. 
+
+:::
+:::
+
+</br>
+
+즉 각 행(열)에 대해 대각성분의 절대값이 나머지 그 행(열)의 성분의 절대값의 합보다 크거나 같으면 행(열)에 대한 대각지배행렬이다.
+
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#prp-strictly_diagonallly_dominat_matrix_is_invertible}
+
+엄격한 대각 지배 행렬은 가역행렬이다.
+
+:::
+
+</div>
+</br>
+
+::: {.proof}
+
+행에 대해 엄격한 대각 지배 행렬 $\boldsymbol{A}$ 이 가역행렬이면, $\boldsymbol{A}^T$ 는 열에 대해 엄격한 대각 지배 행렬이며 가역행렬이다. 따라서 행에 대해 엄격한 대각 지배 행렬이 가역행렬임을 보이면 된다. 
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 이 행에 대한 엄격한 대각 지배 행렬이라고 하자. 어떤 $\boldsymbol{x}(\ne \boldsymbol{0}) \in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\boldsymbol{Ax}=\boldsymbol{0}$ 이면 $\boldsymbol{A}$ 는 가역행렬이 아니다. 따라서 $\boldsymbol{Ax}=\boldsymbol{0}$ 인 $\boldsymbol{0}$ 벡터가 아닌 $\boldsymbol{x}$ 가 존재한다고 가정하고 모순을 보이면 된다. $\boldsymbol{x}$ 의 성분 가운데 그 절대값이 가장 큰 $|x_k|\ne 0$ 을 찾을 수 있다. $\boldsymbol{Ax}=\boldsymbol{0}$ 이므로, 각각의 $i=1,\ldots,\,n$ 에 대해
+
+$$
+\sum_{j=1}^n A_{ij}x_j=0
+$$
+
+이며, 따라서 $x_k$ 의 $k$ 에 대해 
+
+$$
+A_{kk}x_k = -\sum_{j=1,\,j \ne k}^n A_{kj}x_j
+$$
+
+이다. $\boldsymbol{A}$ 가 행에 대해 엄격한 대각 지배 행렬이므로 모든 대각성분은 $0$ 이 아니다. 삼각부등식에 의해, 
+
+$$
+|A_{kk}| |x_k|  \le \sum_{j=1,\,j\ne k}^n |A_{kj}| |x_j|
+$$
+
+이 성립하며 
+$$
+|A_{kk}| \le \sum_{j= 1,\, j \ne k}^n \dfrac{|x_j|}{|x_k|} |A_{kj}| < \sum_{j= 1,\, j \ne k}^n |A_{kj}|
+$$
+
+이므로 $\boldsymbol{A}$ 가 행에 대해 엄격한 대각 지배 행렬이라는 가정에 위배된다. 따라서 $\boldsymbol{A}$ 는 가역행렬이다. $\square$
+
+
+:::
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#prp-diagonally_dominant_matrix_and_LU_factorization}
+
+행에 대해 엄격한 대각 지배 행렬은 피보팅 없이 가우스-요르단 소거법을 수행 할 수 있다.
+
+:::
+
+</div> </br>
+
+::: {.proof}
+
+$\boldsymbol{A}\in\mathcal{M}_{n \times n}(\mathbb{F})$ 가 행에 대해 엄격한 대각 지배 행렬일 때 induction 으로 증명한다. 우선 $n=1$ 일 경우는 자명하다. $n$ 에 대해 명제가 성립함을 가정하자. 가우스-요르단 소거법을 첫번째 행을 가준으로 하여 피보팅 없이 두번째 행부터 $n+1$ 번째 행까지 첫번째 열을 소거한 행렬을 $\boldsymbol{A}'$ 이라 하면
+$$
+A'_{ij} = A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j},\qquad i=2,\ldots,\,n+1 \tag{1}
+$$ 
+
+이다. 
+
+$$
+\begin{aligned}
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| &= \sum_{j=2,\, j \ne i} \left|A_{ij}- \dfrac{A_{i1}}{A_{11}}A_{1j}\right| \le \sum_{j=2,\, j \ne i}^n |A_{ij}| + \sum_{j=2,\,j \ne i} \left|\dfrac{A_{i1}}{A_{11}}A_{1j}\right| 
+\end{aligned}\tag{2}
+$$
+
+이다. 행에 대한 엄격한 지배행렬이라는 조건으로 부터 다음을 얻는다.
+
+$$
+\begin{aligned}
+\sum_{j=2,\, j \ne i}^n |A_{ij}| < |A_{ii}| - |A_{i1}|,\\
+\sum_{j=2,\, j \ne i}^n |A_{1j}| < |A_{11}| - |A_{1i}|
+\end{aligned} \tag{3}
+$$
+
+위 식을 이용하여 $(3)$ 를 보면
+$$
+\sum_{j=2,\, j\ne i}^n |A'_{ij}| < |A_{ii}|-|A_{i1}| + \dfrac{|A_{i1}|}{|A_{11}|} \left(|A_{11}| - |A_{1i}|\right) = |A_{ii}| - \dfrac{|A_{i1}|}{|A_{11}|} |A_{1i}| \tag{4}
+$$
+
+이다. $(1)$ 로 부터, 
+
+$$
+|A'_{ii}| = \left|A_{ii}- \dfrac{A_{i1}}{A_{11}}A_{1i}\right| \ge \left|A_{ii}\right|- \left|\dfrac{A_{i1}}{A_{11}}A_{1i}\right| \tag{5}
+$$
+
+이므로, $(4)$ 와 $(5)$ 를 결합하면, 
+
+$$
+ |A'_{ii}| > \sum_{j=2,\, j\ne i}^n |A'_{ij}| 
+$$
+
+이다. 즉 2행 2열부터 $n+1$ 행 $n+1$ 열까지의 $\boldsymbol{A}'$ 의 부분행렬은 행에 대해 엄격한 지배행렬이므로 가정에 의해 피보팅 없이 가우스-조르단 소거법을 수행 할 수 있다. 따라서 임의의 크기의 정사각 행렬이 행에 대해 엄격한 대각 지배 행렬일 때, 피보팅 없이 가우스-조르단 소거법을 수행 할 수 있다. $\square$
+
+:::
+
+</br>
+
+### Positive Definite 행렬
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-positive_definite_matrices}
+
+#### Positive definite 행렬
+
+행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 이 에르미트 행렬이며 모든 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})$, $\boldsymbol{x}\ne \boldsymbol{0}$ 에 대해 $\langle \boldsymbol{Ax},\boldsymbol{x}\rangle > 0$ 일 경우, 즉 $\boldsymbol{x}^T\boldsymbol{Ax}>0$ 일 경우 $\boldsymbol{A}$ 를 **positive definite** 라 한다. 
+
+:::
+:::
+
+</br>
+
+
+Positive definite 행렬은 복소수체에서 정의할 수도 있으나 여기서는 실수체에서 정의된 행렬만 생각하기로 한다. Positive definite 행렬은 정의상 대칭행렬이므로 [Interude : 수학에 관련된 표기법과 명제들](02_notations_and_propositions.qmd#) 의 [실수체에서 정의된 행렬의 스펙트럼 정리](02_notations_and_propositions.qmd#prp-properties_of_hermitian_matrix) 를 만족한다. 즉 모든 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{R})$ 은 $\boldsymbol{A}$ 의 고유벡터의 선형결합으로 표현 할 수 있다. 이제 positive definite 행렬에 대한 성질을 알아보자.
+
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#prp-positive_definite_matrix_1}
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 이 positive definite 일 경우 다음이 성립한다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 의 모든 고유값은 양수이다.
+
+&emsp; ($2$) $\det (\boldsymbol{A}) >0$ 이다.
+
+&emsp; ($3$) $\boldsymbol{A}$ 는 가역행렬이다.
+
+&emsp; ($4$) $\boldsymbol{A}$ 의 대각성분은 모두 양수이다.
+
+&emsp; ($5$) $|A_{ij}| \le \max \{|A_{ii}| : i=1,\ldots,\,n\}$.
+
+&emsp; ($6$) 모든 $i\ne j$ 에 대해 $(A_{ij})^2 < A_{ii} A_{jj}$ 이다.
+:::
+
+</div></br>
+
+::: {.proof}
+
+($1$) $\lambda$ 가 $\boldsymbol{A}$ 의 고유값이며 $\boldsymbol{v}$ 가 $\lambda$ 에 대한 고유벡터일 경우 $\lambda = \langle \boldsymbol{Av}, \boldsymbol{v}\rangle >0$ 이어야 한다.
+
+($2$) 대칭행렬 $\boldsymbol{A}$ 의 행렬식은 모든 고유값의 곱이므로 양수이다.
+
+($3$) $\boldsymbol{x}\ne 0$ 이며 $\boldsymbol{Ax}=\boldsymbol{0}$ 일 경우 $\langle \boldsymbol{Ax}, \boldsymbol{x}\rangle = 0$ 인데 이는 $\boldsymbol{A}$ 가 positive definite 가 아니라는 의미이다.
+
+($4$) $A_{ii} = \langle \boldsymbol{A}\hat{\boldsymbol{e}}_i,\, \hat{\boldsymbol{e}}_i\rangle  > 0$ 
+
+($5$) $i\ne j$ 에 대해 
+
+$$
+\begin{aligned}
+0< \langle \boldsymbol{A}(\hat{\boldsymbol{e}}_i-\hat{\boldsymbol{e}}_j), (\hat{\boldsymbol{e}}_i-\hat{\boldsymbol{e}}_j)\rangle = A_{ii}+ A_{jj} - 2 A_{ij} \\
+0< \langle \boldsymbol{A}(\hat{\boldsymbol{e}}_i+\hat{\boldsymbol{e}}_j), (\hat{\boldsymbol{e}}_i+\hat{\boldsymbol{e}}_j)\rangle = A_{ii}+ A_{jj} + 2 A_{ij} \\
+\end{aligned}
+$$
+
+이므로 
+$$
+|A_{ij}| < \dfrac{A_{ii}+A_{jj}}{2} \le \max \{|A_{ii}| : i=1,\ldots,\,n\}
+$$
+
+이다. 
+
+($6$) 임의의 실수 $t$ 에 대해 $\boldsymbol{x} = \hat{\boldsymbol{e}}_i + t \hat{\boldsymbol{e}}_j$ 라고 하자. $\langle \boldsymbol{Ax},\,\boldsymbol{x}\rangle = t^2A_{ii} + 2tA_{ij} + A_{jj} > 0$ 이므로 $(A_{ij})^2-A_{ii}A_{ij}<0$ 이어야 한다. $\square$
+
+:::
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-submatrix}
+
+#### 부분 행렬과 선행 주 부분 행렬
+
+행렬 $\boldsymbol{A}\in \mathcal{M}_{m\times n}(\mathbb{F})$ 에 대해 임의의 중복되지 않은 행 $I=\{i_1,\ldots,\,i_p: 1\le i_k\le m\}$ 과 중복되지 않은 열 $J=\{j_1,\ldots,\,j_q: 1 \le j_l \le n \}$ 을 모아 만든 행렬을 $\boldsymbol{A}$ 의 **부분 행렬 (submatrix)**이라고 하고 $\boldsymbol{A}[I, J]$ 라고 쓴다. $I=J=\{1,\,2,\ldots,\,k\}$일 때 $\boldsymbol{A}[I, J]$ 를 **선행 주 부분 행렬 (leading principal submatrix)** 이라고 한다. 
+
+:::
+:::
+
+</br>
+
+이제 정사각 행렬 $\boldsymbol{A}$ 가 positive definite 인 것과 $\boldsymbol{A}$ 의 모든 선행 주 부분행렬의 행렬식이 $0$ 보다 큰 것이 동치임을 보이고자 한다. 이를 위해 몇가지 미리 보여야 할 것이 있다.
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#lem-positive_definite}
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 이 에르미트행렬이고 $\boldsymbol{Q} \in \mathcal{M}_{n \times n}(\mathbb{F})$ 이 가역행렬 일 때 다음은 동치이다. 
+
+&emsp; ($1$) $\boldsymbol{A}$ 가 positive definite 이고 $\boldsymbol{Q}^\ast\boldsymbol{AQ}$ 가 에르미트행렬이다.
+
+&emsp; ($2$) $\boldsymbol{Q}^\ast \boldsymbol{AQ}$ 가 positive definte 이다.
+
+:::
+
+</div></br>
+
+::: {.proof}
+($1 \implies 2$) $\boldsymbol{0}$ 벡터가 아닌 $\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\boldsymbol{Qv}\ne \boldsymbol{0}$ 이다. $\boldsymbol{A}$ 가 positive definite 이므로, 
+
+$$
+0 < (\boldsymbol{Qv})^\ast \boldsymbol{A}(\boldsymbol{Qv}) = \boldsymbol{v}^\ast \left(\boldsymbol{Q}^\ast\boldsymbol{AQ}\right)\boldsymbol{v}
+$$
+
+이므로 $\boldsymbol{Q}^\ast\boldsymbol{AQ}$ 는 positive definite 이다.
+
+($2 \implies 1$) $\boldsymbol{A}$ 가 에르미트행렬이므로 $(\boldsymbol{Q}^\ast\boldsymbol{AQ})^\ast = \boldsymbol{Q}^\ast \boldsymbol{A}^\ast\boldsymbol{Q} = \boldsymbol{Q}^\ast\boldsymbol{AQ}$ 이다. 즉 $\boldsymbol{Q}^\ast\boldsymbol{AQ}$ 는 에르미트행렬이다. $\boldsymbol{Q}$ 가 가역이므로 임의의 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\boldsymbol{x}=\boldsymbol{Qy}$ 를 만족하는 $\boldsymbol{y}\in \mathcal{M}_n(\mathbb{F})$ 이 존재한다. 
+
+$$
+\boldsymbol{x}^\ast\boldsymbol{Ax} =  (\boldsymbol{Qy})^\ast \boldsymbol{A}\boldsymbol{Qy} = \boldsymbol{y}^\ast\boldsymbol{Q}^\ast\boldsymbol{AQ}\boldsymbol{y} > 0
+$$
+
+이므로 $\boldsymbol{A}$ 는 positive defnite 이다. $\square$ 
+
+:::
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#prp-leading_principal_submatrix}
+
+#### 실베스터 판정법 (Sylvester's criterion) 
+
+
+에르미트 행렬 $\boldsymbol{A}$ 에 대해 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 의 모든 선행 주 부분 행렬의 행렬식이 양수이다.
+
+&emsp; ($2$) $\boldsymbol{A}$ 는 positive definite 이다. 
+
+:::
+
+</div></br>
+[@prp-leading_principal_submatrix 가 실베스터 판정법이라고 불리우는 것은 임의의 에르미트 행렬이 positive definite 인지 아닌지를 확인하는 방법이기 때문이다.]{.aside}
+
+::: {.proof}
+
+$\boldsymbol{A}$ 의 $k$ 행 $k$ 열 까지의 선 주 부분행렬을 $\boldsymbol{A}_k$ 라고 쓰자. 
+
+($1\implies 2$) Inductinon 을 통해 증명한다.[Carl P.Simon & Lawrence E. Blume 의 *Mathematics for Economists* 에 나오는 증명이다.]{.aside} $1 \times 1$ 행렬의 경우는 trivial 하다. 이제 $n\times n$ 행렬에 대해 성립한다고 가정한다. $\boldsymbol{A}$ 가 $(n+1)\times (n+1)$ 행렬이라 하자. 
+
+우선 모든 $\boldsymbol{A}_i$, $i=1,\ldots,\,n$ 의 행렬식이 양수이면 $\boldsymbol{A}$ 가 positive definite 임을 보이자. 우선 $\boldsymbol{A}$ 를 $\boldsymbol{A}_n$ 에 대하여 아래와 같이 분할하여 보자. 
+
+$$
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{A}_n & \boldsymbol{a} \\ \hline \boldsymbol{a}^\ast & a\end{array}\right].
+$$
+
+여기서 $\boldsymbol{a}=\begin{bmatrix} A_{1, n+1} & \cdots & A_{n, n+1}\end{bmatrix}^T$ 이고 $a=A_{n+1, n+1}$ 이다. 또한 $\boldsymbol{A}$ 가 에르미트행렬이므로 $\boldsymbol{A}_n$ 도 에르미트행렬이며 따라서 $(\boldsymbol{A}^\ast)^{-1}=\boldsymbol{A}^{-1}$ 이다. . 그렇다면, 
+
+$$
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{I}_n & \boldsymbol{0} \\ \hline (\boldsymbol{A}_n^{-1}\boldsymbol{a})^\ast & 1\end{array}\right] \left[\begin{array}{c|c} \boldsymbol{A}_n & \boldsymbol{0}_n \\ \hline (\boldsymbol{0}_n)^\ast & d\end{array}\right] \left[\begin{array}{c|c} \boldsymbol{I}_n & \boldsymbol{A}_n^{-1}\boldsymbol{a} \\ \hline (\boldsymbol{0}_n)^\ast & 1\end{array}\right] = \boldsymbol{Q}^\ast\boldsymbol{BQ}
+$$
+
+이며 이 때 $d=a-\boldsymbol{a}^\ast(\boldsymbol{A}_n)^{-1}\boldsymbol{a}$ 이다. 우리는 $\det (\boldsymbol{Q}^\ast) = \det (\boldsymbol{Q})=1$ 이며 $\det (\boldsymbol{B})=d \cdot \det (\boldsymbol{A}_n)$ 임을 안다. 즉 
+
+$$
+\det (\boldsymbol{A}) =  d \cdot \det (\boldsymbol{A}_n)
+$$ 
+
+이다. $\boldsymbol{A}$ 가 positive definite 이며 $\det (\boldsymbol{A})>0$ 이므로 $d>0$ 이다. 즉 모든 선행 주 부분행렬식이 양수이면 그 행렬은 positive definite 이다.
+
+($2 \implies 1$) $\boldsymbol{A}$ 가 positive definite 임을 가정하자. 임의의 $\boldsymbol{x}\in \mathcal{M}_{n+1}(\mathbb{R})$ 에 대해 $\boldsymbol{x} = \begin{bmatrix} \boldsymbol{x}_0 & x \end{bmatrix}^T$, $\boldsymbol{x}_0 \in \mathcal{M}_{n}(\mathbb{R})$ 이라 하면, 
+
+$$
+\boldsymbol{x}^\ast \boldsymbol{Bx} = \boldsymbol{x}^\ast \boldsymbol{A}_n \boldsymbol{x} + d\cdot x^2
+$$
+
+이다. $\boldsymbol{A}_n$ 이 가정에 의해 positive definite 이며, $d>0$ 이므로 $\boldsymbol{x}^\ast\boldsymbol{Bx}>0$ 이다. 따라서 @lem-positive_definite 에 의해 $\boldsymbol{B}=\boldsymbol{Q}^\ast\boldsymbol{AQ}$ 일 때 $\boldsymbol{A}$ 는 positive definite 이다. $\square$
+
+:::
+
+
+</br>
+
+
+
+</br>
+
+## 숄레스키 분해
+
+### $\boldsymbol{LL}^\ast$ 분해
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#thm-cholesky_decomposition}
+Positive definite 행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$은 어떤 모든 대각성분이 양수인 하삼각행렬 $\boldsymbol{L} \in \mathcal{M}_{n \times n}(\mathbb{F})$ 에 대해 $\boldsymbol{A}= \boldsymbol{LL}^\ast$ 이다.
+
+:::
+
+</div></br>
+
+::: {.proof}
+수학적 귀납법으로 증명한다. $n=1$ 일 때 경우 $\boldsymbol{A}=\begin{bmatrix}a \end{bmatrix}$ 라면 @prp-positive_definite_matrix_1 의 ($4$) 에 의해 $a>0$ 이므로 $\boldsymbol{L}=\begin{bmatrix} \sqrt{a}\end{bmatrix}$ 이다. $n$ 일때 성립함을 가정하자. $\boldsymbol{A}\in \mathcal{M}_{(n+1)\times (n+1)}(\mathbb{F})$ 에 대해 
+
+$$
+\boldsymbol{A} = \left[\begin{array}{c|c} \boldsymbol{A}_n & \boldsymbol{b} \\ \hline \boldsymbol{b}^\ast & a\end{array}\right].
+$$
+
+로 표현 할 수 있다. $\boldsymbol{A}_n = \boldsymbol{L}_n \boldsymbol{L}_n^\ast$ 라면 일 때 
+
+$$
+\boldsymbol{L} = \left[\begin{array}{c|c} \boldsymbol{L}_n & \boldsymbol{0} \\ \hline \boldsymbol{c}^\ast & d\end{array}\right].
+$$
+
+라 하자. 
+
+$$
+\boldsymbol{LL}^\ast = \left[\begin{array}{c|c} \boldsymbol{L}_n\boldsymbol{L}_n^\ast & \boldsymbol{L}_n \boldsymbol{c} \\ \hline (\boldsymbol{L}_n \boldsymbol{c})^\ast & |d|^2\end{array}\right].
+$$
+
+이므로 $\boldsymbol{b}=\boldsymbol{L}_n \boldsymbol{c}$, $d+ \boldsymbol{c}^\ast\boldsymbol{c}=|a|^2$ 을 만족하는 $\boldsymbol{c}$ 와 양수 $d$ 가 존재한다면 $\boldsymbol{A} = \boldsymbol{LL}^\ast$ 이다. 
+
+$\boldsymbol{L}_n$ 이 대각성분이 양수인 하삼각행렬이므로 가역행렬이다. 따라서 $\boldsymbol{c}=(\boldsymbol{L}_n)^{-1} \boldsymbol{b}$ 이다. 따라서 어쨋든 (그것이 양수가 아니고 복소수라고 하더라도) $d=\sqrt{|a|^2-\boldsymbol{c}^\ast \boldsymbol{c}}$ 가 존재하며, $\det(\boldsymbol{A})=|\det(\boldsymbol{L}_n)|^2 d^2 >0$ 로부터 $d^2>0$ 임을 안다. 따라서 $d>0$ 를 얻는다. $\square$
+
+:::
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-Cholesky_decomposition}
+
+#### 숄레스키 분해
+
+@thm-cholesky_decomposition 에 따라 Positive definite 행렬 $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 를 모든 대각성분이 양수인 하삼각 행렬 $\boldsymbol{L}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 에 대해 $\boldsymbol{A}=\boldsymbol{LL}^\ast$ 로 분해하는 것을 **숄레스키 분해 (Cholesky decomposition)** 라고 한다. $\mathbb{F} =\mathbb{R}$ 인 경우 $\boldsymbol{A}=\boldsymbol{LL}^T$ 이므로 $\boldsymbol{LL}^T$ 분해라고도 한다.
+
+:::
+:::
+
+</br>
+
+### 구현
+
+$\boldsymbol{A},\,\boldsymbol{L}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 을 생각하자. $\boldsymbol{A} = \boldsymbol{LL}^\ast$ 이므로,
+
+$$
+\begin{bmatrix} A_{11} & A_{12} & A_{13} & \cdots & A_{1n} \\ 
+A_{21} & A_{22} & A_{23} & \cdots & A_{2n}\\
+\vdots & & & & \vdots \\
+A_{n1} & A_{n2} & A_{n3} & \cdots & A_{nn}\end{bmatrix} 
+= \begin{bmatrix} L_{11} & 0 & 0 & \cdots & 0 \\
+L_{21}& L_{22} & 0 & \cdots & 0 \\
+\vdots & & & & \vdots \\
+L_{n1} & L_{n2} & L_{n3} & \cdots & L_{nn} \end{bmatrix} 
+\begin{bmatrix} L_{11} & \overline{L_{21}} & \overline{L_{31}} & \cdots & \overline{L_{n1}} \\
+0 & L_{22} & \overline{L_{32}} & \cdots & \overline{L_{n2}}\\
+\vdots & & & & \vdots \\
+0 & 0 & 0 & \cdots & \overline{L_{nn}}\end{bmatrix} 
+$$
+
+이다. 또한 $\boldsymbol{L}$ 이 하삼각행렬이므로 다음이 성립한다.
+$$
+A_{ij} = \boldsymbol{L}_{i:} (\boldsymbol{L}^\ast)_{:j} = \sum_{k=1}^n L_{ik} \overline{L_{jk}} = \sum_{k=1}^{\min (i, j)} L_{ik} \overline{L_{jk}}
+$$
+
+$A_{11}=|L_{11}|^2$, $A_{i1} =  L_{i1}\overline{L_{11}}=L_{i1}L_{11}$ 이므로 $L_{11}= \sqrt{A_{11}},\, L_{i1} = A_{i1}/L_{11}$ 으로 부터 $\boldsymbol{L}$ 의 1열을 얻을 수 있다. 이제 $\boldsymbol{L}$ 의 $j-1$ 열까지 얻었다고 가정하자.
+
+$$
+\begin{aligned}
+A_{1, j} & = L_{11}\overline{L_{j1}},\\
+A_{i, j} & = \sum_{k=1}^{\min (i, j)} L_{ik}\overline{L_{jk}},
+\end{aligned}
+$$
+
+이다. $i\le j$ 인 경우, 
+
+$$
+A_{i, j} = L_{i1}\overline{L_{j1}} + \cdots + L_{ii}\overline{L_{ji}}
+$$
+
+이므로 다음을 얻는다.
+
+$$
+\begin{aligned}
+\text{if }j \ne i & &L_{ji} &= \dfrac{1}{(\overline{L_{ii}})}\overline{A_{ij} - \sum_{k=1}^{i-1} L_{ik}\overline{L_{jk}}}, \\
+& &L_{jj} &= \sqrt{A_{ij}- \sum_{k=1}^{j-1} L_{jk}\overline{L_{jk}}}
+\end{aligned}
+$$
+
+즉 $i\le j$ 일 경우 $L_{ji}$ 는  $\boldsymbol{L}$ 의 $1$ 열부터 $j-1$ 열까지와 $j$ 열의 $1$ 행부터, $j-1$ 행까지의 값을 이용하여 얻을 수 있다. Julia 로 구현한 것은 아래와 같다. 하지만 `LinearAlgebra` 모듈에 `cholesky` 함수로 존재하며(그래서 함수 이름을 굳이 `mcholesky` 로 붙였다), 앞으로 필요하다면 그것을 쓸 것이다.
+
+</br>
+
+```julia
+function mcholesky(A::Matrix{T}) where T<:Number
+    M = size(A)[1]
+    L = zero(A)
+    L[1, 1] = sqrt(A[1, 1])
+    for i in 2:M
+        L[i, 1] = A[i, 1]/L[1, 1]
+    end
+    for j in 2:M, i in 1:j
+        if j == i 
+            L[i, i] = sqrt(A[i, i] - dot(L[i, 1:i-1], L[i, 1:i-1]) )
+        else 
+            L[j, i] = (A[i, j] - dot(L[j, 1:i-1], L[i, 1:i-1]))/L[i, i]
+        end
+    end
+    return L
+end
+```
+
+
+</br>
+
+### $\boldsymbol{LDL}^\ast$ 분해
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#prp-decomposition_of_lower_triangular_matrix}
+대각성분이 모두 $0$ 이 아닌 하삼각 행렬 $\boldsymbol{L}$ 은 어떤 대각행렬 $\boldsymbol{\Delta}$ 와 대각성분이 $1$ 인 하삼각 행렬 $\boldsymbol{\Lambda}$ 에 대해 $\boldsymbol{L}=\boldsymbol{\Lambda}\boldsymbol{\Delta}$ 로 분해된다.
+:::
+
+</div></br>
+
+::: {.proof}
+
+$\boldsymbol{\Delta}$ 를 $\boldsymbol{L}$ 의 대각성분만으로 이루어진 대각행렬이라고 하고 $\boldsymbol{\Lambda}$ 를 $\Lambda_{ij} = L_{ij}/\Delta_{ii}$ 라고 하면, 
+
+$$
+(\boldsymbol{\Lambda \Delta})_{ij} = \sum_{k=1}^i \Lambda_{ik}\Delta_{kj} = L_{ij}
+$$
+
+이므로 $\boldsymbol{L}=\boldsymbol{\Lambda \Delta}$ 이다. $\square$
+
+:::
+
+</br>
+
+우리는 positive definite 행렬이 하삼각 행렬과 그 하삼각행렬의 에르미트 conjugarte 의 곱으로 표현된다는 것을 안다(@thm-cholesky_decomposition). 여기에 @prp-decomposition_of_lower_triangular_matrix 를 같이 생각하면 positive definite 행렬은 어떤 대각행렬이 $1$ 인 하삼각행렬 $\boldsymbol{L}$ 과 대각 행렬 $\boldsymbol{D}_0$ 에 대해
+
+$$
+\boldsymbol{A} = (\boldsymbol{LD}_0) (\boldsymbol{LD}_0)^\ast = \boldsymbol{L}(\boldsymbol{D}_0\boldsymbol{D}_0^\ast) \boldsymbol{L}^\ast
+$$
+
+이다. $\boldsymbol{D}_0$ 는 모든 성분이 양수인 대각행렬이므로 $\boldsymbol{D}=(\boldsymbol{D}_0\boldsymbol{D}_0^\ast)$ 도 그러하다. 따라서 우리는 다음의 결론을 얻을 수 있다.
+
+
+::: {#prp-LDLt_dcomposition}
+
+positive definite 행렬 $\boldsymbol{A}$ 는 어떤 대각성분이 모두 $1$ 인 하삼각 행렬 $\boldsymbol{L}$ 과 대각성분이 모두 양수인 대각행렬 $\boldsymbol{D}$ 에 대해 $\boldsymbol{A} = \boldsymbol{LDL}^\ast$ 로 분해된다.
+:::
+
+
+</br>
+
+### 크라우트 분해 {#sec-crout_decompositioni}
+
+숄레스키 분해와는 유사한 분해로 크라우트 분해가 있다. [삼중대각행렬](04_matrix_algebra.qmd#sec-pseudodiagonal_matrix) 을 하쌍대각행렬 $\boldsymbol{L}$ 과 대각성분이 모두 $1$ 인 상쌍대각행렬 $\boldsymbol{U}$ 의 곱으로 분해하는 것을 **크라우트 분해 (Crount decomposition)** 라고 한다. 
+
+
+</br>
+
+
+## QR 분해
+
+### 하우스홀더 행렬
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-householder_matrix}
+
+#### 하우스홀더 행렬과 하우스홀더 변환
+
+벡터공간 $\mathcal{M}_n(\mathbb{C})$ 에서의 벡터 $\boldsymbol{v}$ 에 대해 다음과 같이 정의된 $\boldsymbol{H}_v$ 를 **하우스홀더 행렬 (Householder matrix)** 이라 한다.
+
+$$
+\begin{aligned}
+\boldsymbol{H}_{\boldsymbol{v}} := I_n- \dfrac{2\boldsymbol{v}\boldsymbol{v}^{\ast}}{\|\boldsymbol{v}\|^2}, \qquad \text{i. e. }\quad 
+(\boldsymbol{H}_{\boldsymbol{v}})_{ij} := \delta_{ij} - \dfrac{2 v_i \overline{v_j}}{\|\boldsymbol{v}\|^2}.
+\end{aligned}
+$$ {#eq-householder_transformation_1}
+여기서 $\boldsymbol{v}\boldsymbol{v}^{\ast}$ 는 벡터의 내적이 아니라 $n\times 1$ 행렬 $\boldsymbol{v}$ 와 $1 \times n$ 행렬 $\boldsymbol{v}^{\ast}$ 가 곱해진 $n \times n$ 행렬을 의미한다. 벡터 $\boldsymbol{x}\in \mathbb{C}^n$ 에 대해 $\boldsymbol{H}_{\boldsymbol{v}} \boldsymbol{x}\in \mathbb{C}^n$ 을 **하우스홀더 변환** 이라 한다. $\boldsymbol{v}$ 가 단위벡터일 경우, 즉 $\|\boldsymbol{v}\|=1$ 라면 좀 더 간단하게 쓸 수 있다.
+
+$$
+\boldsymbol{H}_{\boldsymbol{v}} = I_n- 2\boldsymbol{v}\boldsymbol{v}^{\ast},\qquad \text{where } \|\boldsymbol{v}\|=1.
+$$ {#eq-householder_transformation_2}
+
+:::
+:::
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#prp-perperties_of_householder_matrix}
+
+하우스홀더 행렬 $\boldsymbol{H}_{\boldsymbol{v}} \in \mathcal{M}_{n \times n}(\mathbb{C})$ 은 다음의 특징을 가진다.
+
+&emsp; ($1$) 에르미트 행렬이다. 즉  $\boldsymbol{H}_{\boldsymbol{v}}=  \boldsymbol{H}_{\boldsymbol{v}}^\ast$.
+
+&emsp; ($2$) 유니타리 행렬이다. 즉 $\boldsymbol{H}_{\boldsymbol{v}} (\boldsymbol{H}_{\boldsymbol{v}})^\ast = I$.
+:::
+
+</div></br>
+
+::: {.proof}
+($1$) $\boldsymbol{v}$ 가 단위벡터일 경우에만 보여도 된다. $\boldsymbol{H} = \boldsymbol{H}_{\boldsymbol{v}}$ 라 하면, 
+
+$$
+(\boldsymbol{H}^\ast)_{ij} = \overline{H_{ji}}= \delta_{ij}-2 \overline{v_j \overline{v_i}} = \delta_{ij}-2 v_i \overline{v_j} = (\boldsymbol{H})_{ij}
+$$
+
+이므로 $\boldsymbol{H}_{\boldsymbol{v}}$ 는 에르미트 행렬이다. 
+
+($2$) 또한,
+
+$$
+\begin{aligned}
+\left(\boldsymbol{H} (\boldsymbol{H}^\ast)\right)_{ij} &= \left((\boldsymbol{H})^2\right)_{ij} = \sum_{k}(\delta_{ik}-2 v_i \overline{v_k})(\delta_{kj} -2 v_k \overline{v_j}) \\
+&= \sum_k \delta_{ik}\delta_{kj} - 2\sum_k \delta_{ik}v_k \overline{v_j} - 2 \sum_k \delta_{kj} v_i \overline{v_k} + 4 \sum_{k} v_i \overline{v_j} v_k \overline{v_k} \\
+&= \delta_{ij} - 2 v_i \overline{v_{j}} - 2 v_i \overline{v_j} + 4 v_i \overline{v_j} = \delta_{ij}
+\end{aligned}
+$$
+
+이다. $\square$
+
+:::
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#cor-perperties_of_householder_matrix}
+
+실수성분의 하우스홀더 행렬 $\boldsymbol{H}_{\boldsymbol{v}} \in \mathcal{M}_{n \times n}(\mathbb{R})$ 은 대칭행렬이며 직교행렬이다.
+
+:::
+
+</div></br>
+
+</br>
+
+### 하우스홀더 변환과 하우스홀더 반사
+
+하우스 홀더 행렬은 유니타리 행렬이므로 하우스홀더 변환은 가역변환이다. $\mathbb{R}^n$ 공간에서 벡터 $\boldsymbol{v}$ 만으로 $\boldsymbol{v}$ 와 수직이며 원점을 지나는 평면이 유일하게 정의될 수 있다. 임의의 벡터 $\boldsymbol{x} \in \mathbb{F}^n$ 에 대해,
+
+$$
+\begin{aligned}
+(\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x})_k &=  x_k - \dfrac{2}{\|\boldsymbol{v}\|^2}  \sum_{j=1}^n v_k \overline{v_j} x_j\\
+\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x} &= \boldsymbol{x} - 2 \dfrac{\langle \boldsymbol{x},\,  \boldsymbol{v} \rangle \boldsymbol{v}}{\|\boldsymbol{v}\|^2}
+\end{aligned}
+$$
+
+이며, $\boldsymbol{x}$ 의 $\boldsymbol{v}$ 벡터에 대한 projection $\text{Proj}_\boldsymbol{v}\boldsymbol{x}= \langle \boldsymbol{v},\, \boldsymbol{x}\rangle \boldsymbol{v}$ 이므로,
+
+$$
+\begin{aligned}
+\dfrac{1}{2 }(\boldsymbol{x}+\boldsymbol{H_vx}) &= \boldsymbol{x} - \langle \boldsymbol{v,\,  x}\rangle \boldsymbol{v} = \boldsymbol{x} - \text{Proj}_{\boldsymbol{v}} \boldsymbol{x} \\
+\boldsymbol{x}-\boldsymbol{H_vx} &= 2\langle \boldsymbol{v ,\, x} \rangle  \boldsymbol{v} = 2\, \text{Proj}_{\boldsymbol{v}}\boldsymbol{x}
+\end{aligned}
+$$
+
+이다. 즉 $\boldsymbol{x}$ 와 $\boldsymbol{Hx}$ 는 $\boldsymbol{v}$ 에 의해 정의되는 평면에 대해 대칭이다. 이런 이유로 하우스홀더 변환을 하우스홀더 반사(Householder reflection) 라고도 한다.
+
+![Householder 반사](fig-householder.png){#fig-householder_reflection width=300}
+
+
+$\boldsymbol{x}$ 를 $\boldsymbol{v}$ 와 평행한 부분과 수직한 부분으로 분리하자. 즉 $\boldsymbol{x}_{\|} = \text{Proj}_{\boldsymbol{v}}\boldsymbol{x}$, $\boldsymbol{x}_{\perp} = \boldsymbol{x}-\text{Proj}_{\boldsymbol{v}}\boldsymbol{x}$ 라 하면, $\boldsymbol{x} = \boldsymbol{x}_{\|} + \boldsymbol{x}_{\perp}$ 이며 $\boldsymbol{x}\cdot \boldsymbol{v} = \boldsymbol{x}_{\|}\cdot \boldsymbol{v}$ 이다.
+
+$$
+\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x} = \boldsymbol{x} - 2 \boldsymbol{x}_{\|} = \boldsymbol{x}_{\perp} - \boldsymbol{x}_{\|}
+$$
+
+이다.
+
+
+
+
+
+</br>
+
+### 실벡터 공간에서의 하우스홀더 변환과 QR 분해
+
+$\boldsymbol{x}_1,\ldots,\,\boldsymbol{x}_n\in \mathcal{M}_n(\mathbb{R})$ 에 대해 $\boldsymbol{X}=\begin{bmatrix} \boldsymbol{x}_1 & \cdots &\boldsymbol{x}_n\end{bmatrix}$ 라고 하자. $\mathcal{M}_n(\mathbb{R})$ 에서의 벡터 $\boldsymbol{x}$ 과 표준 기저 $\{\hat{\boldsymbol{e}}_1,\ldots,\,\hat{\boldsymbol{e}}_n\}$ 를 생각하자. 이 때 $\boldsymbol{v}_1$ 을 다음과 같이 정한다.
+
+$$
+\boldsymbol{v}_1 : = \boldsymbol{x}_1-\|\boldsymbol{x}_1\|_2\hat{\boldsymbol{e}}_1
+$$
+
+그리고 $\boldsymbol{Q}_1 = \boldsymbol{H}_{\boldsymbol{v}_1}$ 이라고 하자. $\boldsymbol{Q}_1\boldsymbol{x_1} = \|\boldsymbol{x}_1\|_2 \hat{\boldsymbol{e}}_1$ 이므로, 
+
+$$
+\boldsymbol{Q}_1\boldsymbol{X} = \begin{bmatrix} \|\boldsymbol{x}_1\|_2 & x'_{12} & \cdots & x'_{1n} \\ 0 & x'_{22} & \cdots & x'_{2n}  \\  \vdots  & \vdots & \cdots & \vdots  \\ 0 & x'_{n2} & \cdots & x'_{nn}  \end{bmatrix}
+$$
+
+가 된다. 하우스홀더 행렬의 정의에 의해 $\boldsymbol{v}_1$ 을 $0$ 이 아닌 상수로 나누어 주어도 하우스홀더행렬에는 변화가 없는데 보통 하우스홀더 행렬의 맨 앞 성분을 $1$ 로 만드는 것이 좋다고 한다(@golub2013matrix, pp.235). 여기서 문제가 되는게 만약 $\boldsymbol{x}_1$ 이 첫번째 성분을 제외한 성분이 모두 $0$ 이고 첫번째 성분이 양수라면  $\boldsymbol{v}_1 = \boldsymbol{0}$ 이 되며 이 경우 정규화 할수 없기 때문에 문제가 된다. 즉 코드에 $\boldsymbol{v}/\|\boldsymbol{v}\|_2$ 가 들어가는데 $\|\boldsymbol{v}\|_2=0$ 이므로 $0$ 으로 나누어지는 에러가 발생한다. 이 때는 하우스 홀더 행렬을 $\boldsymbol{I}$, $\boldsymbol{v}_1 = \hat{\boldsymbol{e}}_1$ 으로 놓고 계산하면 원하는 결과를 얻을 수 있다. 
+
+
+이제 $\boldsymbol{x}'_2 = [x'_{22}, \ldots, x'_{n2}]^T$ ($\boldsymbol{Q}_1\boldsymbol{x}_1$ 의 두번째 행의 두번째 열부터 마지막 열까지로 이루어진 벡터) 를 이용하여 앞의 $\boldsymbol{Q}_1$ 과 같은 과정에서 $\boldsymbol{v}_2\in \mathcal{M}_{n-1}(\mathbb{R})$ 을 정하고 $\boldsymbol{Q}^0_2 = \boldsymbol{H}_{\boldsymbol{v}_2}\in \mathcal{M}_{(n-1) \times (n-1)}(\mathbb{R})$ 을 구성하였다면 당연히 $\boldsymbol{Q}^0_2 \boldsymbol{x}'_2$ 는 첫번째 행을 제외한 나머지 행은 $0$ 일 것이다.
+
+$$
+\boldsymbol{Q}_2 = \begin{bmatrix} 1 & \boldsymbol{0}^T \\ \boldsymbol{0} & \boldsymbol{Q}'_2\end{bmatrix}
+$$
+
+라고 정하자. 그렇다면, 
+
+$$
+\boldsymbol{Q}_2\boldsymbol{Q}_1 \boldsymbol{X} = \begin{bmatrix} \|\boldsymbol{x}\|_1 & x'_{12} & x'_{13} & \cdots & x'_{1n} \\ 0 & x''_{22} & x''_{23} & \cdots & 0  \\   0 & 0 & x_{33}'' & \cdots & x''_{22} \\ \vdots  & \vdots & \vdots & \cdots & \vdots  \\ 0 & 0 & x'_{n3}  & \cdots & x'_{nn}  \end{bmatrix}
+$$
+
+
+이제 $\boldsymbol{x}_3' = \begin{bmatrix} x''_{33} & \cdots & x''_{n3}\end{bmatrix}^T \in \mathcal{M}_{n-2}$ 부터 계속 같은 과정을 반복한다면, 
+
+$$
+\boldsymbol{Q}_n \cdots \boldsymbol{Q}_1 \boldsymbol {X} = \boldsymbol{R}
+$$
+
+이 된다. $\boldsymbol{Q}_1,\ldots,\,\boldsymbol{Q}_n$ 은 직교행렬이므로 $\boldsymbol{Q} = (\boldsymbol{Q}_1 \cdots \boldsymbol{Q}_n)^T$ 도 직교행렬이고 따라서
+
+$$
+\boldsymbol{X} = \boldsymbol{Q} \boldsymbol{R}
+$$
+
+이 성립한다. 
+
+
+```julia
+function house(x::Vector{T}) where T<:Real
+    m = length(x)
+    σ = norm(x[2:end])^2
+    v= [1 ; x[2:end]]
+    if σ ≈ zero(σ) && x[1] ≥ 0
+        β = 0
+    elseif σ ≈ 0
+        β = -2
+    else 
+        μ = sqrt(x[1]^2+σ)
+        if x[1] ≤ 0
+            v[1] = x[1] - μ
+        else 
+            v[1] = -σ/(x[1]+μ)
+        end
+        β = 2*v[1]^2 / (σ + v[1]^2)
+        v=v./(v[1])
+    end
+    return β, v
+end
+
+function householder(x::Vector{T}) where T<:Real
+    β, v = house(x)
+    return I - β*v*v'
+end
+
+function qrdecom(mat::Matrix{T}) where T<:Real
+    
+    m, n = size(mat)[1:2]
+    @assert m == n
+    
+    if T<:Integer 
+        A = Float64.(mat[:, :])
+    else 
+        A = mat[:, :]
+    end
+
+    elt = eltype(A)
+    Q = Matrix{elt}(I, n, n)
+    for i in 1:(n)
+        Hm = householder(A[i:end, i])
+        if i == 1 
+            Q=Hm
+            A = Q*A
+        else
+            X= [Matrix{elt}(I, i-1, i-1) zeros(elt, i-1, n-i+1); zeros(elt, i-1, n-i+1)'  Hm] 
+            Q = X* Q
+            A = X*A
+        end
+        
+    end
+    return Q', A
+end
+```
+
+
+</br>
+
+<!-- ### 하우스홀더 변환과 QR 분해
+
+
+$\mathcal{M}_n (\mathbb{F})$ 에서의 벡터 $\boldsymbol{x}$ 과 표준 기저 $\{\hat{\boldsymbol{e}}_1,\ldots,\,\hat{\boldsymbol{e}}_n\}$ 를 생각하자. $\alpha$ 를 $\boldsymbol{x}$ 의 첫번째 성분 $x_1 = re^{i\theta}$ 에 대해 다음과 같이 정의한다.
+
+$$
+\alpha = \left\{ \begin{array}{ll} \|\boldsymbol{x}\|_2  & \text{where } \mathbb{F}=\mathbb{R}, \\ e^{i\theta}\|\boldsymbol{x}\|_2 \qquad & \text{where } \mathbb{F} =\mathbb{C}. \end{array} \right.
+$$
+
+$\boldsymbol{x}$ 에 대해 $\boldsymbol{v}$ 를 다음과 같이 정하자. 
+
+$$
+\boldsymbol{v} = \boldsymbol{x} - \alpha \hat{\boldsymbol{e}}_1, \\
+$$
+
+이렇게 정해진 $\boldsymbol{v}$ 를 **하우스홀더 벡터(householder vector)** 라고 한다. 이 때 $\boldsymbol{x}$ 의 $\boldsymbol{v}$ 에 대한 하우스홀더 변환 $\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x}$ 는 다음과 같다. (증명은 연습문제에)
+
+$$
+\boldsymbol{H}_{\boldsymbol{v}}\boldsymbol{x} = \boldsymbol{x}-\boldsymbol{v} = \alpha \hat{\boldsymbol{e}}_1.
+$$ {#eq-householder_vector}
+
+</br>
+
+@eq-householder_transformation_1 에서 보듯이 $\boldsymbol{v}$ 에 스칼라곱을 해도 하우스홀더 변환은 변하지 않는다. 실제로 계산을 위해서는 주어진 $\boldsymbol{v}$ 에 대해 $\overline{\boldsymbol{v}}=\dfrac{1}{v_1}\boldsymbol{v}$ 를 사용하여 변환을 하게되며 $\overline{v}_1=1$ 이 된다. 
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#thm-qr_decomposition_1}
+
+$\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 일 때 어떤 isometry $\boldsymbol{Q}\in \mathcal{M}_{m \times m}(\mathbb{F})$ 와 상삼각 행렬 $\boldsymbol{R}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대해 $\boldsymbol{A}=\boldsymbol{QR}$ 이다.
+
+:::
+
+</div></br>
+
+::: {.proof}
+
+하우스홀더 행렬은 isometry 이며 에르미트 행렬임을 생각하자. $n$ 에 대한 induction 으로 증명한다. 
+
+$n=1$ 일 경우 $\boldsymbol{x}=\boldsymbol{A}$ 라고 하면  $\boldsymbol{Q} = \boldsymbol{H}[\boldsymbol{x}]$ 에 대해 $\boldsymbol{QA}=\boldsymbol{R}$ 은 2 행부터의 값이 $0$ 인 $m \times 1$ 행렬이다. $\boldsymbol{A}=\boldsymbol{Q}^\ast \boldsymbol{R} = \boldsymbol{QR}$ 이므로 $n=1$ 일 때 성립한다. 
+
+이제 $n$ 보다 작거나 같은 자연수에 대해 성립함을 가정하자. $\boldsymbol{A}_1\in \mathcal{M}_{m\times n}(\mathbb{F})$ 와 $\boldsymbol{a}\in \mathcal{M}_{m\times 1}(\mathbb{F})$ 에 대해 $\boldsymbol{A}= \begin{bmatrix} \boldsymbol{A}_1 & \boldsymbol{a} \end{bmatrix}\in \mathcal{M}_{m \times (n+1)}(\mathbb{F})$ 이다. Induction 의 가정에 의해 $\boldsymbol{A}_1 = \boldsymbol{Q}_1\boldsymbol{R}_1$ 을 만족하는 isometry $\boldsymbol{Q}_1\in \mathcal{M}_{m \times m}(\mathbb{F})$ 와 상삼각 행렬 $\boldsymbol{R}_1 \in \mathcal{M}_{m \times n}(\mathbb{F})$ 이 존재한다. $m > n$ 일 경우 $n$ 보다 큰 $\boldsymbol{R}_1$ 의 행벡터는 모두 영벡터이다.
+
+
+$\boldsymbol{a}$ 에 대해 $\boldsymbol{w} = \boldsymbol{Q}_1^\ast\boldsymbol{a}$ 라고 하자. $\boldsymbol{Q}_1\in \mathcal{M}_{m \times m}(\mathbb{F})$ 이다. $\boldsymbol{w}$ 는 첫행을 제외한 나머지 행이 $0$ 인 열벡터이다. 이제 $\boldsymbol{w}$ 의 $1$ 행부터 $n$ 행까지를 $\boldsymbol{w}_1$, $n+1$ 행부터 $m$ 행 까지를 $\boldsymbol{w}_2$ 라고 하자. $\boldsymbol{w}_2$ 에 대해 $\boldsymbol{w}_2 = \boldsymbol{Q}_2 \boldsymbol{r}_2$ 를 만족하는 $\boldsymbol{Q}_2 \in \mathcal{M}_{(m - n)\times (m - n)}(\mathbb{F})$, $\boldsymbol{r}_2\in \mathcal{M}_{(m-n)}(\mathbb{F})$ 가 존재한다. 
+
+이제  $\boldsymbol{A}_1=\boldsymbol{Q}_1\boldsymbol{R}_1$ 이며 $\boldsymbol{Q}_1$ 은 $n \times n$ isomegtry 이고 $\boldsymbol{R}_1$ 은 $m \times n$ 상삼각행렬이라고 하자. 
+
+$$
+\boldsymbol{Q} = \boldsymbol{Q}_1 \begin{bmatrix} \boldsymbol{I}_{n} & \boldsymbol{0} \\ \boldsymbol{0} & \boldsymbol{Q}_2\end{bmatrix}
+$$
+
+이라 하면, 
+
+$$
+\boldsymbol{Q} \left[\begin{array}{c|c} \boldsymbol{R}_1 & \begin{array}{c}  \boldsymbol{w}_1 \\ \boldsymbol{r}_2 \end{array} \end{array}\right]=\boldsymbol{Q}_1 \left[\begin{array}{c|c} \boldsymbol{R}_1 & \begin{array}{c}  \boldsymbol{w}_1 \\ \boldsymbol{Qr}_2 \end{array} \end{array}\right] = \boldsymbol{A}
+$$
+
+이다. 
+
+
+
+
+:::
+
+
+</br>
+
+이미 설명한 그람 슈미트 방법과 유사하게
+
+
+이제 $\boldsymbol{Q}_1= \boldsymbol{Q},\, \boldsymbol{A}=\boldsymbol{A}_1$ 이라 놓으면, 
+
+$$
+\boldsymbol{Q}_1\boldsymbol{A}_1 = \begin{bmatrix}\alpha _{1} & \ast &\cdots &\ast \\0 & & &\\ \vdots & & \boldsymbol{A}_2 & \\ 0 & & & \end{bmatrix}
+$$
+
+꼴이 된다. 이제 행렬 $m \times n$ 행렬 $\boldsymbol{A}_k$ 가 $k$ 번째 행까지는 상삼각 행렬의 모양을 따른다고 하자. 즉 $j\le k$ 이고 $i>k$ 이면 $(\boldsymbol{A}_k)_{ij}=0$ 이라 하자. 이 때 $\boldsymbol{A}_k$ 의 $k$ 번째 행부터 $m$ 행, $k$ 번째 열부터 $m$ 열까지를 $\boldsymbol{A}'_k$ 라 하고,(julia 로 표현하면 `Ak[k:end, k:end]` 가 될 것이다) 이 $\boldsymbol{A}'_k$ 에 대해 앞서 $\boldsymbol{A}$ 에 했던 것과 똑같은 과정을 수행하는 하우스홀더 행렬을 $\boldsymbol{Q}'_k$ 라 하면 $\boldsymbol{Q}'_k \boldsymbol{A}'_k$ 는 $\boldsymbol{Q}_1\boldsymbol{A}_1$ 처럼 첫번째 열에서는 첫번째 행을 제외한 나며지 행의 값이 $0$ 이 된다. 
+만약
+
+$$
+\boldsymbol{Q}_k = \begin{bmatrix} \boldsymbol{I}_{k-1} & 0 \\ 0 & \boldsymbol{Q}_k'\end{bmatrix}
+$$
+
+이라 하면, $(k-1)\times (k-1)$ 단위행렬 $I_{k-1}$ 과 $\boldsymbol{A}_k$ 를 $k$ 행 과 $k$ 열 부터 잘라 $\boldsymbol{A}_{k} = \begin{bmatrix} B_{k} & C_{k} \\ 0 &\boldsymbol{A}'_{k}\end{bmatrix}$  로 만들자. $B_k$ 는 $(k-1) \times (k-1)$ 행렬이며 $\boldsymbol{A}'_{k}$ 는 $(m-k+1)\times (n-k+1)$ 행렬이다. $\boldsymbol{A}_k$ 가 $k$ 열까지 상삼각 행렬 모양이므로 $B_k$ 아래는 $0$ 행렬이다. 두 행렬의 곱은
+$$
+\boldsymbol{Q}_k \boldsymbol{A}_k = \begin{bmatrix} \boldsymbol{I}_{k-1} & 0 \\ 0 & \boldsymbol{Q}_k' \end{bmatrix} \begin{bmatrix} B_{k} & C_{k} \\ 0 &\boldsymbol{A}'_{k}\end{bmatrix} = \begin{bmatrix} B_k & C_k \\ 0 & \boldsymbol{Q}'_k \boldsymbol{A'}_k \end{bmatrix}
+$$
+
+이 되고 $\boldsymbol{Q}'_k \boldsymbol{A}'_k$ 의 첫번째 열은 첫번째 행을 제외하면 모두 $0$ 이므로 $\boldsymbol{Q}_k \boldsymbol{A}_k$ 는 $k$ 열까지 상삼각 행렬 꼴이 된다.
+
+$L = \min\{m,\,n\}$ 이라 하면 $\boldsymbol{Q}_L \boldsymbol{Q}_{L-1} \cdots \boldsymbol{Q}_1 \boldsymbol{A}$ 는 상삼각행렬꼴이 된다. 이를 $\boldsymbol{R}$ 이라 하자. $\boldsymbol{Q}'_k$ 가 하우스홀더 행렬이므로
+
+$$
+\boldsymbol{Q}_k \boldsymbol{Q}_k^\ast = \begin{bmatrix} \boldsymbol{I}_{k-1} & 0 \\ 0 & \boldsymbol{Q}_k'\end{bmatrix} \begin{bmatrix} \boldsymbol{I}_{k-1} & 0 \\ 0 & (\boldsymbol{Q}_k')^\ast\end{bmatrix} = \begin{bmatrix} I_{k-1} & 0 \\0 & \boldsymbol{Q}_k' 
+(\boldsymbol{Q}_k')^\ast\end{bmatrix} = I
+$$
+
+이다. 즉 $\boldsymbol{Q}_k$ 도 직교행렬이다. $\boldsymbol{Q}_k$ 가 에르미트 행렬임은 쉽게 보일 수 있다. 이제,
+
+$$
+\boldsymbol{Q}_L \cdots \boldsymbol{Q}_1 \boldsymbol{A} = \boldsymbol{R} \implies \boldsymbol{A} = \boldsymbol{Q}_1^\ast \cdots \boldsymbol{Q}_L^\ast \boldsymbol{R}
+$$
+
+임은 쉽게 보일 수 있다. 직교행렬의 곱은 직교행렬이므로 $\boldsymbol{Q}_1^\ast \cdots \boldsymbol{Q}_L^\ast$ 도 직교행렬이다. 따라서 QR 분해를 할 수 있다. 
+
+
+</br>
+
+## 연습문제
+
+::: {#exr-householder-1}
+
+위의 @eq-householder_vector 을 증명하라.
+
+::: 
+
+::: {.solution}
+
+$\alpha \overline{x}_1 = \overline{\alpha}x_1 = |x_1| \|\boldsymbol{x}\|_2$ 이며 $|\alpha|^2 = \|\boldsymbol{x}\|_2^2$ 이다. $a=\alpha\overline{x}_1=\overline{\alpha}x_1$ 이라 놓고 다음을 계산해 보자. 
+$$
+\begin{aligned}
+\langle \boldsymbol{x},\,\boldsymbol{v}\rangle & = \langle \, \boldsymbol{x} , \boldsymbol{x}-\alpha \hat{\boldsymbol{e}}_1\rangle = \|\boldsymbol{x}\|_2^2-\overline{\alpha} x_1  = \|\boldsymbol{x}\|_2^2 - a\\
+\langle \boldsymbol{v},\,\boldsymbol{v}\rangle &= \langle \boldsymbol{x} -\alpha \boldsymbol{e}_1,\, \boldsymbol{x} -\alpha \hat{\boldsymbol{e}}_1 \rangle  = \|\boldsymbol{x}\|^2 - \overline{\alpha} x_1 -\alpha \overline{x_1} + |\alpha|^2 = 2(\|\boldsymbol{x}\|_2^2 -a) \\
+&= 2 \langle \boldsymbol{x},\, \boldsymbol{v} \rangle
+\end{aligned}
+$$
+
+이므로, (잠시 $\|\boldsymbol{x}\|_2$ 를 $\|\boldsymbol{x}\|$ 라 하자.)
+
+$$
+\boldsymbol{H}_\boldsymbol{v} \boldsymbol{x} = \boldsymbol{x} - 2\dfrac{\langle \boldsymbol{x},\, \boldsymbol{v}\rangle}{\|\boldsymbol{v}\|^2} \boldsymbol{v} = \boldsymbol{x}-\boldsymbol{v} = \alpha \hat{\boldsymbol{e}}_1
+$$
+
+이다. 
+
+::: -->
+
+### 복소벡터공간에서의 QR 분해
+
+</br>
+
+## `LinearAlgebra.jl`
+
+Julia 공식 메뉴얼의 [Matrix Factorization](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/#man-linalg-factorizations) 에는 `LinearAlgebra.jl` 에서 지원하는 행렬 분해에 대해 소개하고 있다.
+
+| 분해 종류 | 함수 |
+|:------:|:-----:|
+| 숄레스키 분해 | `cholesky()` |
+| $LDL^T$ 분해 | `ldlt()` |
+| LU 분해 | `lu()`|
+| QR 분해 | `qr()` |
+| 특이값 분해(SVD) | `svd()`|
+
+그 외에도 행렬의 분해와 관련된 사항을 자세하게 적어 놓았으니 행렬의 분해에 관련된 일을 해야한다면 공식 문서를 숙독해야 한다.

@@ -1,0 +1,413 @@
+---
+title: "상미분 방정식의 경계값 문제"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+## 경계값 문제
+
+상미분 방정식의 해에 대해 우리는 $[a,\,b]$ 구간에만 관심이 있으며 $\boldsymbol{x}(a)=\boldsymbol{x}_a,\, \boldsymbol{x}(b)= \boldsymbol{x}_b$ 형식의 경계조건이 주어졌을 경우 이를 경계값 문제라고 한다.
+
+</br>
+
+## Shooting method (사격법)
+
+사격법은 경계값 문제를 초기값 문제로 바꾸어 푸는 방법이다. 사격법이라고 불리우는 이유는 이 방법이 원래 대포 탄환의 궤적을 계산하기 위해 개발되었기 때문이다. 일반적으로 이계 미분방정식의 경계값 문제를 푸는 데 사용된다.
+
+</br>
+
+### 선형 사격법 {#sec-linear_shooting_method}
+
+Linear shooting 방법은 경계값 문제를 두개의 초기값 문제로 바꾸어 푼다. 
+
+다음은 잘 알려져 있다. 
+
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#thm-linear_shooting}
+
+$[a,\,b]$ 구간에서 정의된 미분방정식과 그 경계값이 다음과 같이 주어졌다고 하자.
+$$
+x'' = f(t, x, x'),\qquad x(a)=\alpha,\, x(b) = \beta
+$$
+
+이 때 $D\{(t,\,x,\,x') : a\le t \le b,\, x,\, x'\in \mathbb{R}\}$ 에 대해 다음의 조건이 주어졌다고 하자.
+
+&emsp; ($1$) $x''$ 가 $D$ 에서 연속이다.
+
+&emsp; ($2$) $\partial_x f$ 와 $\partial_{x'}f$ 도 $D$ 에서 연속이다
+
+&emsp; ($3$) $\forall (t,\,x,\,x')\in D,\, \partial_x f(t,\,x,\,x') >0$ 이다.
+
+&emsp; ($4$) $\partial_{x'}f$ 가 유계이다.
+
+이 때 미분방정식은 유일한 해를 가진다.
+
+:::
+
+</div>
+
+</br>
+
+우리가 $x'' = p(t)x' +  q(t)x + r(t)$ 형태의 미분방정식과 $x(a)=\alpha,\, x(b)=\beta$ 의 경계조건을 가진 미분방정식에 관심이 있다고 하자. 이 때 @thm-linear_shooting 으로부터 다음을 알 수 있다.
+
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#cor-linear_shooting}
+
+@thm-linear_shooting 의 조건을 만족하는 경계값 문제가 다음과 같이 주어졌다고 하자.
+
+$$
+x'' = f(t,\,x,\,x') = p(t)x' +  q(t)x + r(t),\qquad x(a)=\alpha,\, x(b)=\beta.
+$$
+
+또한 다음 조건을 만족한다고 하자.
+
+&emsp; ($1$) $p(t),\,q(t),\,r(t)$ 가 $[a,\,b]$ 에서 연속이다.
+
+&emsp; ($2$) $[a,\,b]$ 구간에서 $q(t)>0$ 이다.
+
+이 때 이 미분방정식의 해는 유일하게 존재한다. 
+
+:::
+
+</div>
+
+</br>
+
+이제 $x_1(t)$ 와 $x_2(t)$ 가 각각 @cor-linear_shooting 의 조건 ($1$), ($2$) 를 만족하는 아래의 초기값 문제에 대한 해라고 하자. 
+
+$$
+\begin{aligned}
+x_1'' & = p(t)x_1' + q(t)x_1 + r(t) ,\qquad &x_1(a) = \alpha,\, x_1'(a) = 0,\\
+x_2'' & = p(t)x_2' + q(t)x_2  ,\qquad &x_2(a) = 0,\, x_2'(a) = 1,\\
+\end{aligned}
+$$ {#eq-ode-boundary_1}
+
+[11장 정리 1](11_ode_initial_value_problem_1.qmd#thm-lipschitz_condtion) 로부터 우리는 위의 두 방정식이 유일해를 가진다는 것을 안다. 여기서 $x_2(b)\ne 0$ 이어야 하는데, 만약 $x_2(b) =0$ 이라면 $x_2=0$ 밖에 해가 될수 없기 때문이다(@exr-ode_linear_shooting_1 를 보라). 이제
+
+$$
+x(t) := x_1(t) + \dfrac{\beta - x_1(b)}{x_2(b)} x_2(t)
+$$
+
+로 놓으면, 
+
+$$
+\begin{aligned}
+x''(t) &= x_1''(t) + \dfrac{\beta-x_1(b)}{x_2(b)}x_2''(t) \\
+& = p(t)\left[x_1'(t) +  \dfrac{\beta-x_1(b)}{x_2(b)} x_2''(t)\right]+ q(t)\left[x_1(t) + \dfrac{\beta-x_1(b)}{x_2(b)} x'(t)\right] +r(t) \\
+&= p(t)x'(t) + q(t)x(t) + r(t)
+\end{aligned}
+$$
+
+이며 $x(a) = \alpha,\, x(b) = \beta$ 가 된다. 즉 우리는 경계값 문제를 두개의 초기값 문제로 바꾼 것이다. 
+
+
+이제 이것을 구현해보자. 초기값 문제는 RK4 를 이용하여 풀기로 한다. $\boldsymbol{x}_1(t)$ 를
+
+$$
+\boldsymbol{x}_1(t) = \begin{bmatrix} x_1(t) \\ x_1'(t) \\ 1\end{bmatrix} 
+$$
+
+라고 하면 미분방정식은 다음 식을 만족한다. 
+
+$$
+\dfrac{d\boldsymbol{x}_1(t)}{dt} = \begin{bmatrix} 0 & 1 & 0 \\ q(t) & p (t) & r(t) \\ 0 & 0 & 0\end{bmatrix}\boldsymbol{x}_1(t)
+$$
+
+$x_2(t)$ 에 대해서는 
+
+$$
+\boldsymbol{x}_2(t) = \begin{bmatrix} x_2(t) \\ x_2'(t) \end{bmatrix}
+$$
+
+에 대해
+
+$$
+\dfrac{d\boldsymbol{x}_2(t)}{dt} = \begin{bmatrix} 0 & 1 \\ q(t) & p(t) \end{bmatrix} \boldsymbol{x}_2(t) 
+$$
+
+의 미분방정식을 만족한다. 이제 선형 사격법은 아래와 같이 구현 될 수 있다.
+
+```julia
+using NAJ
+function linear_shooting(
+    p::Function, 
+    q::Function, 
+    r::Function, 
+    boundary,             # t_i, t_f
+    condition,            # x(t_i), x(t_f)
+    Npoints = 100)        
+    
+    @assert length(boundary) == length(condition) == 2
+    
+    de1(t, x) = [0 1 0 ; q(t) p(t) r(t);  0 0 0] * x
+    de2(t, x) = [0 1; q(t) p(t)] * x
+
+    t = range(boundary[1], boundary[2], length = Npoints)
+
+    α, β = condition[1:2]
+
+    tn, x1 = ode_rk4(de1, boundary[1], [α, 0, 1], Npoints, step(t))
+    tn, x2 = ode_rk4(de2, boundary[1], [0, 1], Npoints, step(t))
+    
+    r = @. x1[1, :] + (β-x1[1, end])/(x2[1, end]) * x2[1, :]
+
+    return tn, r
+end
+
+```
+
+
+
+
+
+
+</br>
+
+
+### 연습문제
+
+:::{#exr-ode_linear_shooting_1}
+
+@cor-linear_shooting 의 조건을 만족는 초기값 문제가 @eq-ode-boundary_1 로 주어졌을 때 $x_2(b) \ne 0$ 을 보여라.
+
+:::
+
+::: {.solution}
+
+
+
+:::
+
+</br>
+
+::: {#exr-ode_linear_shooting_2}
+
+중심이 일치하는 반지름이 각각 $R_1,\,R_2 (R_1<R_2)$ 인 spherical shell 의 정전기 포텐셜 $\varphi(r)$ 은 $R_1 \le r\le R_2$ 영역에서 아래의 미분방정식을 만족한다.
+
+$$
+\dfrac{d^2\varphi(r)}{d^2 r} + \dfrac{2}{r} \dfrac{d\varphi}{dr} = 0.
+$$
+
+$\varphi(R_1)= V_1$, $\varphi(R_2)=0$ 일 때 선형사격법으로 $\varphi(r)$ 을 구하고 이것이 아래와 일치함을 보여라.
+
+$$
+\varphi(r) = \dfrac{V_1R_1}{r} \left(\dfrac{R_2-r}{R_2-R_1}\right)
+$$
+
+:::
+
+::: {.solution}
+
+$R_1 = 2,\, R_2=10,\, V_1=10$ 라고 하자. 를
+
+```julia
+using NAJ
+using LaTeXStrings
+
+t, φ = linear_shooting(r->-2/r, r->0, r-> 0, [2, 10], [10, 0])
+fig, ax= plot(t, φ)
+t1 = 2.0:0.1:10
+u = @. 10*2/t1 *(10-t1)/(8)
+lines!(ax, t1, u, color = :red)
+ax.xlabel = L"r"
+ax.ylabel = L"\varphi"
+fig
+```
+
+![결과](ch11_ode_boundary_value_problem/potential_problem.png)
+
+
+:::
+
+
+
+</br>
+
+### 비선형 사격법
+
+일반적인 $x'' = f(t,\,x,\,x')$ 형태의 미분방정식은 선형 사격법에서 와 같이 경계값 문제를 초기값 문제로 환원시킬 수 없다. $[a,\,b]$ 구간에 관심이 있으며 $\alpha = x(a)$ 와 $\beta = x(b)$ 가 주어졌다고 하자. 이 경우 새로운 변수 $s=x'(a)$ 를 도입하며, $s$ 값을 조절해 가며 해를 찾는다. 처음의 $s$ 값은 임의로 정한다. 
+
+$$
+x'' = f'(t,\,x,\,x'),\qquad x(a)=\alpha,\, x'(a)=s
+$$
+
+의 해를 $x(t,\,s)$ 라고 하자. $x(b,\,s)-\beta$ 의 차이가 클 경우 $y(s) = x(b,\,s)-\beta = 0$ 의 해를 구하여 
+
+$$
+x'' = f'(t,\,x,\,x'),\qquad x(a)=\alpha,\, x'(a)=s_{k+1}
+$$
+
+의 해 $x_{k+1}$ 을 풀 수 있다. 이것을 원하는 만큼 반복하는 것이 비선형 사격법의 전략이다.
+
+
+
+
+</br>
+
+## 유한 차분법
+
+### 선형 미분 방정식에 대한 유한 차분법
+
+미분방정식이 $[a,\,b]$ 구간에서 경계값 $x(a)=\alpha,\, x(b)=\beta$ 와 함께 다음과 같이 주어졌다고 하자.
+
+$$
+x'' = p(t)x' + q(t) x + r(t)
+$$ {#eq-diffeq_1}
+
+우리는 [일변수 함수의 미분과 적분](06_calculus_of_one_variable_function.qmd) 에서 차분법을 통해 미분값을 계산하였다. 
+
+$$
+\begin{aligned}
+x'(t) &= \dfrac{x(t+h)-x(t-h)}{2h} + O(h^2), \\
+x''(t)  &= \dfrac{x(t+h) - 2x(t) + x(t-h)}{h^2} + O(h^2),
+\end{aligned}
+$$
+
+를 @eq-diffeq_1 에 대입하면, 
+
+$$
+\begin{aligned}
+x(t+h) -2x(t) +x(t-h) &= p(t)\left[x(t+h) - x(t-h)\right] \dfrac{h}{2} \\
+&\qquad \qquad + q(t)x(t) h^2+ r(t)h^2 + (O(h^4)+p(t)O(h^2))
+\end{aligned}
+$$
+
+이므로
+
+$$
+-\left[1+\dfrac{h}{2}p(t)\right]x(t-h) + \left[2+h^2q(t)\right]x(t) -\left[1- \dfrac{h}{2}p(t)\right] x(t+h) = -h^2r(t)
+$$ {#eq-ode_finite_difference}
+
+이다. $[a,\,b]$ 구간을 $t_0 = a$ 에서 $t_{N+1}=b$ 의 구간으로 분할한다고 하자. 이 때 구간 간격 $h$ 는 $h=\dfrac{b-a}{N+1}$ 이다. $t_i$ 과 $x_i$ 을 다음과 같이 정의하자.
+
+$$
+\begin{aligned}
+t_i &= a+ \dfrac{i}{N+1}(b-a) , \\
+x_i &= x(t_i).
+\end{aligned}
+$$
+
+그렇다면 @eq-ode_finite_difference 는 다음과 같이 쓸 수 있다. 여기서 $x_0 = \alpha,\, x_{N+1}=\beta$ 이다.
+
+$$
+\begin{aligned}
+\left[2+h^2q(t_1)\right]x_1 -\left[1- \dfrac{h}{2}p(t_1)\right] x_2 & = -h^2r(t_1) + \left[1+\dfrac{h}{2}p(t_1)\right]\alpha  , \\
+-\left[1+\dfrac{h}{2}p(t_i)\right]x_{i-1} + \left[2+h^2q(t_i)\right]x_i -\left[1- \dfrac{h}{2}p(t_i)\right] x_{i+1} & = -h^2r(t_i), \\
+-\left[1+\dfrac{h}{2}p(t_N)\right]x_{N-1} + \left[2+h^2q(t_N)\right]x_N &= -h^2r(t_N) +\left[1- \dfrac{h}{2}p(t_N)\right] \beta 
+\end{aligned}
+$$
+
+
+$N \times N$ 행렬 $\boldsymbol{A}$ 를 다음과 같이 정의하자. 아래의 식에 나타나지 않은 성분은 모두 $0$ 이다.
+
+$$
+\begin{aligned}
+\boldsymbol{A}_{1, 1:2} & = \begin{bmatrix} 2+h^2q(t_1) &  -1+\dfrac{h}{2}p(t_1)\end{bmatrix}, \\
+\boldsymbol{A}_{j, j-1:j+1} & = \begin{bmatrix} -1-\dfrac{h}{2}p(t_j) & 2+ h^2q(t_j) & -1 + \dfrac{h}{2}p(t_j) \end{bmatrix}, \\
+\boldsymbol{A}_{N, N-1:N} & = \begin{bmatrix}  -1-\dfrac{h}{2}p(t_N) & 2+h^2 q(t_N)\end{bmatrix}. \\
+\end{aligned}
+$$
+
+이 때 $\boldsymbol{A}$ 는 삼중 대각 행렬(tridiagonal matrix) 이다. 또한, 
+
+$$
+\boldsymbol{x} = \begin{bmatrix} x(t_1)\\ x(t_2) \\ \vdots \\ x(t_{N-1}) \\ x(t_N)\end{bmatrix}, \qquad \boldsymbol{b} = \begin{bmatrix} -h^2 r(t_1) + \left[1+ \dfrac{h}{2}p(t_1)\right] \alpha \\ -h^2 r(t_2) \\ \vdots \\ -h^2r(t_{N-1}) \\ -h^2r(t_N) + \left[1-\dfrac{h}{2}p(t_N)\right] \beta \end{bmatrix}
+$$
+
+로 놓으면 경계조건 $x(t_0)=\alpha,\, x(t_{N+1})=\beta$ 를 만족시키면서 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 통해 미분방정식을 풀 수 있다.
+
+```julia
+function ode_finite_difference_linear(p::Function, q::Function, r::Function, boundary, condition, Npoints=100)
+    @assert Npoints > 3
+    t0 = range(boundary[1], boundary[2], length = Npoints)
+    t = t0[2:end-1]
+    h = step(t)
+
+    u = @. -1 + (h/2) * p(t[1:end-1])
+    d = @. -1 - (h/2) * p(t[2:end])
+    dd = @. 2 + (h^2)*q(t)
+    A = Tridiagonal(d, dd, u)
+
+    b = @. -h^2 * r(t)
+    b[1] = b[1] + (1+h/2*p(t[1]))*condition[1]
+    b[end] = b[end] + (1-h/2*p(t[end])) * condition[2]
+
+    return t0, Array([condition[1] (A\b)' condition[2]][1, :])
+
+end
+```
+
+
+</br>
+
+### 비선형 미분방정식에 대한 유한차분법
+
+미분방정식이 $[a,\,b]$ 구간에서 경계값 $x(a)=\alpha,\, x(b) = \beta$ 와 함께 다음과 같이 주어졌다고 하자.
+
+$$
+x''(t) = f(t,\, x(t),\, x'(t)).
+$$ 
+
+$D=\{(t,\,x,\,x') \in \mathbb{R}^3 : a\le t \le b,\, x,\, x'\in \mathbb{R}\}$ 에 대해 $f(t,\,x,\,x')$ 이 다음을 만족한다고 하자.
+
+&emsp; ($1$) $f$ 와 $\partial_x f,\, \partial_{x'}f$ 는 $D$ 에서 연속이다.
+
+&emsp; ($2$) 어떤 $\epsilon>0$ 이 존재하여 모든 $D$ 의 점에서 $\partial_y f > \epsilon$ 이다.
+
+&emsp; ($3$) $\partial_y f$ 와 $\partial_{y'}f$ 는 유계이다.
+
+이 조건에서라면 @thm-linear_shooting 에 따라 유일한 해가 존재한다. 
+
+이제 선형 미분방정식에 대한 유한차분법에서와 같이 $[a,\,b]$ 구간을 $t_0=a,\, t_{N+1}=b$ 가 되도록 등간격으로 $N+1$ 개의 부분 구간으로 나눈다고 하자. 이 때 
+
+$$
+t_i = a+\dfrac{i}{N+1}(b-a)
+$$
+
+라고 할 수 있으며
+
+$$
+x''(t_i) = f(t_i,\, x(t_i),\, x'(t_i))
+$$
+
+로 놓자. 이 식은 차분에 대한 식으로 다음과 같이 표현 할 수 있다. 그렇다면 위의 미분방정식은 아래와 같은 연립방정식이 된다. $x_i = x(t_i)$ 라고 놓자.gi
+
+$$
+\dfrac{x(t_{i+1})-2x(t_i) + x(t_{i-1})}{h^2} = f\left(t_i,\, x(t_i),\, \dfrac{x(t_{i+1})- x(t_{i-1})}{2h}\right)
+$$
+
+$$
+\begin{aligned}
+2x_{1} - t_2 + h^2 f(t_1,\, x_1,\, \dfrac{x_2-\alpha}{2h}) - \alpha &= 0, \\
+- x_1 + 2x_2 - x_3 + h^2 f(t_2,\,x_2,\, \dfrac{x_3-x_1}{2h})  &= 0, \\
+&\vdots \\
+- x_{N-2} + 2x_{N-1} - x_N + h^2 f(t_{N-1},\, x_{N-1},\, \dfrac{x_{N}-x_{N-2}}{2h}) &= 0, \\
+-x_{N-1} + 2x_N + h^2 f(t_N,\,x_N,\, \dfrac{\beta-x_{N-1}}{2h}) -\beta &= 0.
+\end{aligned}
+$$
+
+
+</br>
+
+### 양자 포텐셜 우물
+
+1차원 슈뢰딩거 방정식(Schöringer equation) 에서의 무한 포텐셜 우물은 다음과 같이 주어진다. [우리는 지금까지 $x$ 를 함수 혹은 종속변수로 사용했지만 아래의 방정식에서는 독립변수이므로 지금까지 우리의 표기법에서의 $t$ 의 역할을 한다는 것에 유의하라. ]{.aside}
+
+$$
+-\dfrac{\hbar^2}{2m}\dfrac{d^2\psi(x)}{dx^2} + V(x) \psi(x) = E\psi(x), \qquad V(x) = \left\{\begin{array}{ll}0 \qquad &; x\in [-a, a],  \\ +\infty &; \text{othewise}. \end{array}\right.
+$$
+
+이것을 지금까지 우리가 사용했던 표기법 형태로 고치면, 
+
+$$
+\dfrac{d\psi(t)}{dt^2} = -\dfrac{2mE}{\hbar^2} \psi(t), \qquad \psi(-a)= \psi(a)=0
+$$
+
+의 1차원 2차 미분방정식의 경계값 문제가 된다.

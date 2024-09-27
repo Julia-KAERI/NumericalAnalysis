@@ -1,7 +1,7 @@
-v=10
-
+ss = 0
 for i in 1:10
-    v=i
+    
+    ss+= i
 end
 
-println(v)
+println(ss)

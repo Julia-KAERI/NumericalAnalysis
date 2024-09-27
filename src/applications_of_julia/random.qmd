@@ -1,0 +1,202 @@
+---
+title: "난수 발생"
+
+number-sections: true
+number-depth: 3
+crossref:
+  chapters: false
+---
+
+</br>
+
+`Random` 모듈에 대해서는 자세한 사항은 공식 매뉴얼 [Random Numbers](https://docs.julialang.org/en/v1/stdlib/Random/) 를 참고하라.
+
+</br>
+
+
+## `rand` 함수
+
+`rand` 함수는 추가 모듈 호출 없이 사용 할 수 있으며 기본적인 난수 기능을 제공한다.
+
+### 기본적인 사용
+
+기본적인 난수 발생 함수이다. `rand()` 는 $[0,\,1)$ 범위, 즉 $0\le x < 1$ 범위의 의 난수를 하나 발생시킨다. `rand(3,3)` 은 $[0,\,1)$ 범위의 난수를 $3\times 3$ 배열꼴로 발생시킨다. 
+
+```txt
+In [1]: rand()
+Out[1]: 0.8828172727992498
+
+In [2]: rand(3,3)
+Out[2]: 3×3 Matrix{Float64}:
+ 0.184347   0.367585  0.487483
+ 0.0646924  0.306758  0.0969628
+ 0.395878   0.802534  0.682208
+```
+
+</br>
+
+### 컬렉션을 이용한 난수 생성
+
+`rand()` 함수의 첫번째 인자로 컬렉션을 주고, 두번째 인자로 배열의 차원을 주면 컬렉션에서 배열의 차원에 맞게 임의로 뽑은 배열을 반환한다.
+
+```txt
+In [4]: rand(1:10, (2, 2))
+Out[4]: 2×2 Matrix{Int64}:
+ 3  5
+ 2  1
+
+In [5]: rand("abcdefgh", (3, 1))
+Out[5]: 3×1 Matrix{Char}:
+ 'f': ASCII/Unicode U+0066 (category Ll: Letter, lowercase)
+ 'd': ASCII/Unicode U+0064 (category Ll: Letter, lowercase)
+ 'f': ASCII/Unicode U+0066 (category Ll: Letter, lowercase)
+```
+
+</br>
+
+### 부동소수, 복소수형 난수 발생
+
+`rand()` 함수의 첫번째 인자로 부동소수형 타입(`Float32`, `Float64` 등) 두번째 인자로 배열의 크기를 입력 하면 지정된 부동소수 타입에 맞도록 $[0,\,1)$ 범위의 난수를 반환한다.
+
+```txt
+In [7]: rand(Float32, (2, 3))
+Out[7]: 2×3 Matrix{Float32}:
+ 0.15381   0.329045  0.566583
+ 0.543246  0.985837  0.49038
+```
+
+부동소수 타입 대신에 복소수 타입(`ComplexF32, `ComplexF64` 등) 을 입력하면 실수부와 허수부가 각각 $[0,\,1)$ 범위인 난수 배열을 반환한다.
+
+```txt
+In [11]: rand(ComplexF64, (3, 3))
+Out[11]: 3×3 Matrix{ComplexF64}:
+ 0.714389+0.362708im  0.181131+0.355622im  0.246163+0.414729im
+ 0.970722+0.402822im   0.71223+0.460335im  0.833319+0.389379im
+ 0.100495+0.14951im   0.333517+0.47611im   0.981335+0.175562im
+ ```
+
+</br>
+
+### 정수형 난수 발생
+
+타입에 정수형 타입(`UInt64`, `Int32` 등) 을 입력하면 정수 범위 내에서의 주어진 배열 크기에 맞는 난수를 반환한다.
+
+```txt
+In [12]: rand(Int32, (4, 4))
+Out[12]: 4×4 Matrix{Int32}:
+ 1196699858  -1854481187    772846765  -1708392714
+ 1188189451   -465314003   -575000325   1969484502
+  754045126  -1342873240   -776187378  -2017122961
+ -134558519    576240888  -1734804352   -613011413
+```
+
+어떤 범위에 대한 난수를 발생시키고 싶으면 컬렉션을 지정하면 된다. 예를 들어 -100 에서 100 사이의 난수를 발생시키고 싶다면 다음과 같이 하면 된다.
+
+```txt
+In [16]: rand(-100:1:100, (3, 3))
+Out[16]: 3×3 Matrix{Int64}:
+  5  -88   28
+ 52   28  -52
+ 26  -68  -87
+```
+
+</br>
+
+## `Random` 모듈
+
+다양한 난수 발생가와 난수 기능을 사용하기 위해서는 `Random` 모듈을 사용한다. Julia 기본 패키지이므로 추가로 설치할 필요 없이 `using Random` 과 같이 사용하면 된다.
+
+</br>
+
+### 의사 난수 발생기(Pseudo random number generator)
+
+실제 자연 현상으로부터 난수를 발생시키는 난수 발생기(Hardware random number generator, HRNG) 와 달리 컴퓨터 알고리즘으로 난수를 발생시키는 것을 의사 난수 발생기(Pseudo random number generator, PRNG) 라고 하며, julia 언어는 기본값으로  [Xoshiro256++](https://prng.di.unimi.it/) 난수 발생기를 사용한다. 둘을 핲텨 난수발생기(RNG) 라고 하며 앞에서의 난수발생은 바로 이 RNG 를 사용한 것이다. 참고로 Xoshiro 는 XOR, Shift, Rotation 에서 순서대로 두문자를 따온 것이라고 한다.
+
+Julia 언어의 `Random` 모듈은 4가지 의사난수발생기를 지원한다 : `TaskLocalRNG`, `Xoshiro`, `RandomDevice`, `MersenneTwister` 자세한 사항은 공식 매뉴얼을 참고하라.
+
+</br>
+
+
+### seed
+
+Seed 는 의사난수발생기를 초기화 하는데 사용되는 숫자이다. 모든 RNG 가 seed 를 필요로 하는 것은 아니다. 예를 들어 `RandomDevice` RNG 의 경우는 seed 를 필요로 하지 않는다. 서로 다른 시드로 생성된 RNG 는 다른 난수발생기로 간주된다. Seed 가 필요한 난수발생기에 Seed 가 주어지지 않았다면 내부적으로 생성된 seed 를 사용한다. 
+
+Seed 를 사용하면 동일한 난수를 발생시킬 수 있다. 예를 들어 `Xoshiro` 난수발생기에 seed 를 `11` 로 입력하면 
+
+```txt
+In [1]: using Random
+
+In [2]: rand(Xoshiro(11), 2,2)
+Out[2]: 2×2 Matrix{Float64}:
+ 0.58051   0.862848
+ 0.714139  0.702579
+
+In [3]: rand(Xoshiro(11), 2,2)
+Out[3]: 2×2 Matrix{Float64}:
+ 0.58051   0.862848
+ 0.714139  0.702579
+```
+
+이 된다. 그러나 일단 난수발생기를 생싱시키면 그 난수발생기는 지속적으로 다른 난수를 발생한다. 다음을 보라. `Out[4]` 와 `Out[5]` 는 다르다.
+
+```txt
+In [3]: rng = Xoshiro(11)
+Out[3]: Xoshiro(0x0991231718e930cb, 0x28e1460087a5d0ff, 0x4d62c780da1946f0, 0x764f51fefd621192, 0x434e1895e0078176)
+
+In [4]: rand(rng, 2,2)
+Out[4]: 2×2 Matrix{Float64}:
+ 0.58051   0.862848
+ 0.714139  0.702579
+
+In [5]: rand(rng, 2, 2)
+Out[5]: 2×2 Matrix{Float64}:
+ 0.861659   0.919821
+ 0.0130147  0.901326
+```
+
+</br>
+
+다른 julia 나 `Random` 버젼에서도 `rand(Xoshiro(11), 2,2)` 의 값이 유지되는 것을 기대하면 안된다. 즉 위에 나온 난수는 현재 저자가 사용하는 버젼에서의 랜덤값이며, 다른 버젼에서 작동한다면 그 버젼 내의 일관성은 유지되더라도 서로 다른 버젼간의 일관성을 보장할 수 없다. 즉 특정 난수 생성기와 seed 값에 의존하는 코드를 짜면 안된다.
+
+
+</br>
+
+## `Distributions.jl`
+
+지금까지의 난수는 모든 값에 대해 동일한 확률을 갖는 난수였다. 즉 `rand()` 함수로 발생되는 난수는 모든 $[0,\,1)$ 범위내의 모든 작은 $dx$ 에 대해 $[a, a+dx)$ 구간의 값이 나올 확률과 $[b, b+dx)$ 구간의 값이 나올 확률이 동일하다. 특정 분포를 따르는 난수가 필요할 경우 대표적으로 [Distributions.jl](https://juliastats.org/Distributions.jl/stable/) 패키지를 사용 할 수 있다. 이것은 기본 패키지가 아니므로 추가 설치가 필요하다. 설치는 `]add Distributions`.
+
+</br>
+
+### 정규 분포
+
+`Normal(μ, σ)` 은 평균 μ, 표준편차 σ 인 정규분포를 생성하며, `rand` 함수를 통해 난수를 생성한다. 
+
+```julia
+using CairoMakie, Random, Distributions
+
+norm1 = Normal(3, 5)
+x = rand(norm1, 1000000)
+```
+
+`x` 는 평균이 3, 표준편차가 5 인 정규분포를 따르는 난수 백만개를 가진 벡터이다. 난수에 대한 평균과 표준편차를 확인 할 수 있다.
+
+
+```julia
+println("mean = $(mean(x)), std = $(std(x))")
+```
+
+
+실제 분포를 보자.
+```julia
+hist(x, bins=100)
+```
+
+![정규 분포](norm.png){#fig-norm_distribution width=400}
+
+
+
+
+
+
+
+

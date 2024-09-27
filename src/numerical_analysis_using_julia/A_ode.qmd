@@ -1,0 +1,736 @@
+---
+title: "상미분 방정식"
+
+number-sections: true
+number-depth: 3
+crossref:
+  chapters: false
+---
+
+
+## 기본 개념
+
+- 하나의 독립변수에 대한 미분방정식을 **상미분 방정식 (ordinary differential equation, ODE)** 이라고 하며, 여러 독립변수에 대한 미분방정식을 **편미분 방정식 (partial differential equation, PDE)** 라고 한다.
+  
+- 미분 연산을 포함하는 연산자를 **미분 연산자 (differential operator)** 라고 하고 여기서는 $\mathcal{L}$ 로 쓴다. 미분 연산자$\mathcal{L}$ 가 미분 가능한 함수 $f,\,g$ 와 상수 $a$ 에 대해 
+$$
+\mathcal{L}(af(x) + g(x)) = a \mathcal{L}(f(x)) + \mathcal{L}(g(x))
+$$ 
+를 만족하면 $\mathcal{L}$ 을 **선형 연산자(linear operator)** 라고 한다.  
+
+- 미분방정식은 미분연산자 $\mathcal{L}$ 과 함수 $F(x)$ 에 대해 다음의 꼴로 주어진다.
+$$
+\mathcal{L}(f(x)) = F(x)
+$$ {#eq-diff_eq_basic}
+
+- 연산자 $\mathcal{L}$ 에 포함하는 최대계의  미분이 $n$ 계 미분일 때 @eq-diff_eq_basic 을 $n$ 계 미분 방정식 이라고 한다.
+- homogenouse 는 두가지 의미가 있으며 아래에 설명한다.
+
+
+</br>
+
+### Homogeneous {#sec-ode-homogeneous}
+
+#### 일반적인 함수의 경우
+
+$n$ 개의 독립변수를 가진 함수 $f(x_1,\ldots,\,x_n)$ 가 어떤 $k$ 에 대해 $f(ax_1,\ldots,\,ax_k) = a^k f(x_1,\ldots,\,x_k)$ 를 만족할 때 이 함수를 **계수가 $k$ 인 동차 함수(homogeneous function of order $k$)** 라고 한다. 
+
+
+#### 미분방정식의 경우
+
+미분 방정식에서 구하고자 하는 함수 $f$ 와 $f$ 의 모든 도함수의 곱의 계수(degree) 가 모든 방정식의 항에서 같을 때 이를 **제차미분방정식** 혹은 **동차 미분 방정식** 이라고 하며 영어로는 **homogeneous differential equation** 라고 한다. 미분연산자 $\mathcal{L}$ 를 구하고자 하는 함수 ($y$) 와 도함수들 ($y',\, y'',\ldots$) 에 대한 함수로 봤을 때, 즉 $\mathcal{L} = \mathcal{L}(y,\,y',\,y'',\ldots)$ 일 때 $\mathcal{L}$ 이 동차함수이면 제차미분방정식이라고 한다.예를 들면 $(y')^2 + yy' =0$ 은 제차미분방정식이지만 $y' + y + c=0$ 은 $1$ 차항 $y',\,y$ 와 $0$ 차항 $c$ 때문에 제차미분방정식이 아니다. 또한 $y'' + yy' = 0$ 도 역시 제차미분방정식이 아니다. 여기서는 형용사처럼 쓸 경우 homogeneous 하다 라고 쓰겠다.
+
+
+
+</br>
+
+### LHODE (Linear homogeneous oridinary differential equation)
+
+선형미분방정식이 미분연산자 $\mathcal{L}$ 과 함수 $F$ 에 대해 다음과 같이 주어졌다고 하자.
+
+$$
+\mathcal{L}(f(x)) = F(x).
+$$
+
+$\mathcal{L}$ 이 선형일 경우 $F(x)=0$ 이면 이 미분방정식은 homogeneous 하다. 그리고 많은 경우 선형이고 homogeneous 한 미분방정식을 얻는 것이 매우 중요하다. 그 이유중 하나는 위의 미분방정식의 해 $\psi$ 를 얻었고, homogeneous 한 방정식의 해 $\phi$ 를 얻었다면 $\phi + \psi$ 도 항상 위의 방정식의 해이기 때문이다. 이제 linear homogeneous ordinary differential equation 을 **LHODE** 라고 줄여 쓰기로 하자. 그리고 linear homogeneous ordinary differential operator 를 **LHODO** 라고 줄여 쓰기로 하자.
+
+
+</br>
+
+
+### Superposition principle
+
+
+LHODE $\mathcal{L}(f(x))=0$ 의 해는 보통 여러개이며 그것의 선형결합 역시 해이다. 즉 $\mathcal{L}\psi = 0$, $\mathcal{L}\phi  = 0$ 이면 임의의 $a,\,b$ 에 대해 $\mathcal{L}(a\psi + b \phi) = 0$ 이다. 이것을 **superposition principle** 이라고 한다.  
+
+</br>
+
+## 계수가 상수인 ODE 의 경우
+
+미분방정식이 다음과 같은 꼴로 주어졌다고 하자.
+
+$$
+\dfrac{d^ny}{dx^n} + a_{n-1} \dfrac{d^{n-1}y}{dx^{n-1}} + \cdots + a_1 \dfrac{dy}{dx} + a_0 y = F(x).
+$$ {#eq-constant_coefficients_ode}
+
+위 미분방정식은 $n$-계 선형 미분방정식이다. 이 경우 $y=e^{mx}$ 를 놓으면 일반해, 즉 $F(x)=0$ 일 경우의 해를 구할 수 있다. 
+
+$$
+(m^n + a_{n-1}m^{n-1} + \cdots + a_n m + a_0)e^{mx}=0
+$$
+
+이며 이를 만족 하는 $m$ 은 복소수에서 $n$ 개 존재한다. 
+
+</br>
+
+::: {#exm-ode_sho1}
+
+#### 단순조화진동자 
+LHODE $y'' + \omega^2 y = 0$ 을 보자. $y=e^{\lambda x}$ 라고 놓으면, $\lambda^2+\omega^2 = 0$ 이어야 하므로 $\lambda = \pm \omega i$ 이다. 임의의 $a,\,b \in \mathbb{C}$ 에 대해 $a e^{i\omega x} + be^{-i\omega x}$ 는 미분방정식의 해이다.
+:::
+
+
+</br>
+
+## 2계 선형 ODE
+
+### Singularity {#sec-ode_sigularity}
+
+가장 간단한 다음 꼴의 2계 ODE 를 보자.
+
+$$
+y''  + p(x) y' + q(x) y  = 0
+$$ {#eq-simple_2nd_ode}
+
+이 식은 모든 항에서 $y$ 와 그 도함수가 1차이므로 homogeneous 하다. $p(x)$ 와 $q(x)$ 가 유한한 값을 가질 때 이 $x$ 를 **ordinary point** 라고 하며 그렇지 않을 때는 **singular point** 라고 한다. singular point 가운데 $\lim_{x\to x_0} |(x-x_0)p(x)|<\infty$, $\lim_{x\to x_0} |(x-x_0)q(x)|<\infty$ 이면 **regular singularity** 라고 하며 그렇지 않을 때 **irregular singularity** 혹은 **essential singularity** 라고 한다. 
+
+
+$x\to \infty$ 나 $x \to -\infty$ 의 경우에는 $z=1/x$ 로 치환하여 미분방정식을 $z$ 에 대한 미분방정식으로 바꾼다. $w(z) = y(z^{-1})$ 이라면, 
+
+$$
+\begin{aligned}
+y'(x) &= \dfrac{dy}{dz} \dfrac{dz}{dx} = - \dfrac{1}{x}^2 \dfrac{dw}{dz} = -z^2w', \\
+y'' (x) &= \dfrac{dy'}{dz}\dfrac{dz}{dx} = z^4 w'' + 2z^3 w'
+\end{aligned}
+$$
+
+
+이므로 @eq-simple_2nd_ode 는 다음과 같이 변형된다.
+
+$$
+4zw'' + \left[ 2z^3 - z^2 p(1/z) \right] w' + q(z^{-1}) w = 0.
+$$ {#eq-modified_simplie_2nd_ode}
+
+
+</br>
+
+| 이름 | 방정식 | regular singularity | irregular singularity|
+|:-----:|:----------------------------|:------------:|:------------:|
+| Hypergeometric | $x(x-1) y'' + [(1+a+b)x + c]\,y' +aby=0$ | $0, 1 \infty$ | |
+| Legendre | $(1-x^2) y'' -2xy' + l(l+1)y=0$ | $-1, 1, \infty$ | |
+| Chebyshev | $(1-x^2) y'' -xy' + n^2y = 0$ | $-1, 1, \infty$ | |
+| Confluent hypoergeometryc | $xy'' + (c-x)y' -ay = 0$ | $0$ | $\infty$ |
+| Bessel | $x^2y'' + xy' + (x^2-n^2)y = 0$ | $0$ |$\infty$ |
+| Laguerre | $xy'' + (1-x)y' + a y = 0$ | $0$ | $\infty$ |
+| SHO | $y'' + \omega^2 y' = 0$ | | $\infty$ |
+| Hermite | $y'' -2xy' + 2\alpha y = 0$ | | $\infty$ |
+
+: 중요한 2계 선형 ODE 와 singularity {#tbl-2nd_ode_singularity}
+
+
+대표적으로 르장드르 함수 $(1-x^2) y'' -2xy' + l(l+1)y=0$ 를 보자. 르장드르 함수는
+
+$$
+y'' - \dfrac{2xy}{1-x^2} y' + \dfrac{l(l+1)}{1-x^2} y = 0
+$$
+ 
+으로 $x=\pm 1$ 에서 regular singularity 를 가진다. 
+
+</br>
+
+### 급수해 (Frobenius 방법)
+
+@eq-simple_2nd_ode 꼴로 주어진 2계 LHODE 를 생각하자. 이 경우 $y$ 를 $x$ 의 급수로 놓고 해를 구하는 것을 Frobenius 방법이라고 한다. 즉,
+
+$$
+y(x) = \sum_{i=0}^\infty a_i x^{s+i} ,\qquad a_0 \ne 0
+$$ {#eq-ode_expansion_about_zero}
+
+로 놓고 미분방정식에 대입하여 계수 $a_i$ 와 $s$ 를 구한다. 이 때 $a_0 \ne 0$ 임에 유의하라. 
+
+</br>
+
+::: {#exm-ode_frobenius_sho}
+
+#### 단순조화진동자의 경우
+
+예를 들어 $y'' + \omega^2 y = 0$ 의 경우, 
+
+$$
+\begin{aligned}
+&\sum_{i=0}^\infty a_i (s+i)(s+i-1)x^{s+i-2} + \omega^2 \sum_{i=0}^\infty a_j x^{s+i} = 0 \\
+\implies & a_0 s(s-1)x^{s-2} + a_1 (s+1)s x^{s-1} + \sum_{i=0}^\infty \left[a_{i+2}(s+i+2)(s+i+1) +\omega^2 a_j\right]x^{s+i} = 0
+\end{aligned}
+$$
+
+이로부터 우리는 세가지 조건을 얻는다.
+
+&emsp; ($1$) $a_0 s(s-1) =0$, 
+
+&emsp; ($2$) $a_1s(s+1) = 0$, 
+
+&emsp; ($3$) $a_{i+2}(s+i+2)(s+i+1) + \omega^2 a_j = 0$
+
+$a_0\ne 0$ 이므로 ($1$) 의 조건에 의해 $s(s-1)=0$ 이어야 한다. 이 방정식은 $s$ 를 결정하는 중요한 방정식으로 **indicial equation** 이라고 한다. ($2$) 의 조건에서 $s=-1$ 일 경우 $a_0 = 0$ 이어야 하므로 조건에 위배된다. 따라서 남은 조건은 $s=0$ 이고 $a_1$ 을 자유로 두거나, $s=1$ 이며 $a_1=0$ 으로 두는 것 밖에 없다. 그리고 ($3$) 조건에 의해, 
+
+$$
+a_{i+2} = \dfrac{-\omega^2}{(i+1)(i+2)}a_i \implies  a_{2k} = (-1)^n \dfrac{\omega^{2k}}{(2k)!} a_0,\, a_{2k+1} = (-1)^n \dfrac{\omega^{2k}}{(2k+1)!} a_1
+$$
+
+를 만족해야 한다. $s=0$ 일 경우, 
+
+$$
+y(x){\large\mid}_{s=0}= a_0 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k)!} x^{2k} \right] + a_1 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k+1)!} x^{2k+1} \right] = a_0 \cos (\omega x) + \dfrac{a_1}{\omega} \sin (\omega x)
+$$
+
+이다. $s=1$ 인 경우는 같은 방법으로
+
+$$
+y(x) {\large \mid}_{s=1} =  \dfrac{a_0}{\omega}\sin (\omega x)
+$$
+
+임을 알 수 있다. 
+:::
+
+</br>
+
+### $x_0$ 주위로의 멱급수 전개
+
+@eq-ode_expansion_about_zero 는 $x_0=0$ 근처의 전개이다. 이것을 임의의 $x_0$ 근처에서 다음과 같이 전개하여 미분방정식의 해를 구하는 것도 가능하다.
+
+$$
+y(x) = \sum_{i=0}^\infty a_i (x-x_0)^{s+i} ,\qquad a_0 \ne 0
+$$
+
+$x_0$ 를 [regular singularity](A_ode.qmd#sec-ode_singularity) 로 잡으면 많은 경우 미분방정식의 해를 찾는 데 유용하지만 [irregular siglularity](A_ode.qmd#sec-ode_singularity) 의 경우는 Frobenius 방법으로 해를 구할 수 없다.
+
+</br>
+
+### Fuchs' theorem
+
+::: {#thm-fuchs}
+
+#### Fuch 의 정리
+
+아래와 같은 꼴의 미분방정식을 생각하자.
+
+$$
+\displaystyle y''+p(x)y'+q(x)y=F(x)
+$$
+
+이 방정식은 $p(x),\, q(x),\, F(x)$ 가 $x=a$ 에서 해석적$^1$ 이거나 $a$ 가 regular singular point 라면 프로베니우스 방법에 의한 해를 가진다. 즉 이 미분방정식의 $x=a$ 근처의 해는 어떤 양수 $s$ 에 대해 
+[$^1$ 어떤 함수가 $a$ 근처에서 수렴하는 멱급수로 표현 할 수 있을 때 이 함수를 $a$ 에서 해석적 함수라고 하며 전체 구간에서 해석적일 때 해석적 함수라고 한다.]{.aside}
+$$
+y_1=\sum _{n=0}^{\infty }a_{n}(x-a)^{n+s},\quad a_{0}\ne 0
+$$
+
+이거나 $y_1$ 함수에 $\ln (x-a)$ 를 곱한것과 다른 $y_1$ 꼴의 함수를 더한 아래의 형태이다.
+
+$$
+y=y_1\ln(x-a)+\sum _{n=0}^{\infty }b_{n}(x-a)^{n+r},\quad b_{0}\neq 0.
+$$
+
+:::
+
+
+</br>
+
+## 알고 있는 해로부터 해를 더 구하는 법
+
+</br>
+
+### 함수의 벡터공간
+
+구간 $I$ 에서 $n-1$ 번 미분 가능한함수의 집합은 벡터공간 $X$ 을 이루며 따라서 함수에 대한 선형 독립을 정의 할 수 있다. 또한 $X$ 에 적절한 내적을 정하여 내적벡터공간으로 구성하면 함수 사이의 직교성(orthogonality) 도 생각 할 수 있다.
+
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-ode_wronskian}
+
+#### Wronskian
+
+어떤 구간 $I$ 에서 정의된 $n-1$ 번 미분 가능한 함수 $\varphi_1,\ldots,\,\varphi_n$ 에 대해 다음 과 같이 정의된 행렬식을 **Wronskian** 이라고 한다.
+
+$$
+W[\varphi_1,\ldots,\,\varphi_n] = W[\{\varphi_i\}]:= \det \left(\begin{bmatrix} \varphi_1 & \varphi_2 & \cdots &\varphi_n \\ \varphi'_1 & \varphi'_2 & \cdots & \varphi'_n \\ \vdots  & & &\vdots \\ \varphi^{(n-1)}_1 & \varphi^{(n-1)}_2 & \cdots & \varphi^{(n-1)}_n\end{bmatrix}\right)
+$$
+
+:::
+:::
+
+
+::: {#prp-wronskian_1}
+
+@def-ode_wronskian 의 Wronskian 에 대해 다음이 성립한다.
+
+&emsp; ($1$) $W[\{\varphi_i\}]\ne 0$ 이면 $\{\varphi_i\}$ 는 선형독립이다.
+
+&emsp; ($2$) $W[\{\varphi_i\}] = 0$ 이면 $\{\varphi_i\}$ 는 선형종속이다.
+
+:::
+
+::: {.proof} 
+
+$\{\varphi_i\}$ 에 대해 
+
+$$
+a_1 \varphi_1  + \cdots + a_n \varphi_n = 0
+$$
+
+이라고 하자. 그렇다면 $k=1,\ldots,\, n-1$ 에 대해
+
+$$
+a_1\varphi_1^{(k)} + \cdots + a_n \varphi_n^{(k)} = 0
+$$
+
+을 만족하며 따라서 $\begin{bmatrix} a_1 & \cdots & a_n \end{bmatrix}^T$ 는 다음의 선형방정식의 해이다. 
+
+$$
+\begin{bmatrix} \varphi_1 & \varphi_2 & \cdots &\varphi_n \\ \varphi'_1 & \varphi'_2 & \cdots & \varphi'_n \\ \vdots  & & &\vdots \\ \varphi^{(n-1)}_1 & \varphi^{(n-1)}_2 & \cdots & \varphi^{(n-1)}_n\end{bmatrix} \begin{bmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \\ \vdots \\ 0 \end{bmatrix}
+$$
+
+즉 $W[\{\varphi_i\}] = 0$ 이면 nontrivial $a_1,\ldots,\,a_n$ 이 존재하며 따라서 $\{\varphi_i\}$ 는 선형 종속이다. $W[\{\varphi_i\}] \ne 0$ 이면 $a_1=\cdots = a_n = 0$ 이므로 $\{\varphi_i\}$ 는 선형 독립이다. $\square$
+
+:::
+
+</br>
+
+::: {#exm-ode_dependency_sho}
+
+@exm-ode_frobenius_sho 에서 우리는 $y'' + \omega^2 y = 0$ 의 해  $\sin \omega x,\,\cos\omega x$ 를 구했다. 여기서
+
+$$
+W[\sin \omega x,\, \cos\omega x] = \det \left(\begin{bmatrix} \cos \omega x & \sin \omega x \\ - \sin \omega x & \cos \omega x\end{bmatrix}\right) = 1
+$$
+
+이므로 두 해는 선형독립임을 안다.
+
+:::
+
+
+</br>
+
+::: {#thm-number_of_solution_of_second_order_linear_ode}
+
+2계 LHODE 는 최대 두개의 독립적인 해를 가진다.
+
+:::
+
+::: {.proof}
+
+2계 LHODE 
+
+$$
+y'' + p(x) y' + q(x) y = 0 
+$$ {#eq-thm_nsos_1}
+
+를 생각하자. $y_1,\,y_2,\,y_3$ 가 이 방정식의 해라고 하자. 그리고 $W_{ij} = W[y_i, y_j]$ 라고 하면  $W_{ij}=  y_i y'_j - y'_i y_j$ 이다. 그렇다면 
+
+$$
+W'_{ij} = \dfrac{dW_{ij}}{dx} = y'_i y'_j + y_i y''_j - y''_iy_j - y'_i y'_j = y_i y''_j - y''_i y_j
+$$ {#eq-thm_nsos_2}
+
+이다. @eq-thm_nsos_1 로 부터, 
+
+$$
+\dfrac{y''_i}{y_i} + p(x) \dfrac{y'_i}{y_i} = -q(x) = \dfrac{y''_j}{y_j} + p(x) \dfrac{y_j'}{y_j} 
+$$
+
+이며 여기에 $y_i y_j$ 를 곱하면
+
+$$
+W'_{ij} = -p(x) W_{ij}
+$$ {#eq-ode_differential_of_wronskian}
+
+를 얻는다. 이제 
+
+$$
+\begin{aligned}
+W(y_1, y_2, y_3) &= \det\left(\begin{bmatrix} y_1 & y_2 & y_3 \\ y'_1 & y'_2 & y'_3 \\ y''_1 & y''_2 & y''_3 \end{bmatrix}\right) = - y'_1 W_{23}' - y'_2 W'_{31} - y'_3 W'_{12} \\
+&= -p(x) (y_1W_23 + y_2 W_31 + y_3 W_12) = \det\left(\begin{bmatrix} y_1 & y_2 & y_3 \\ y'_1 & y'_2 & y'_3 \\ y'_1 & y'_2 & y'_3 \end{bmatrix}\right) = 0
+\end{aligned}
+$$
+
+이다. 따라서 2계 LHODE 의 선형 독립인 해는 많아야 2개이다. $\square$
+
+:::
+
+</br>
+
+이제 @eq-thm_nsos_1 의 꼴의 미분방정식의 한 해를 알고 있다고 하자. Frobenius 방법으로든, 직관으로 파악했든 하나의 해를 알았다면 이제 두번째 해, 즉 첫번째 해에 대해 선형독립인 나머지 해를 찾을 수 있음을 보이고자 한다. 두 해의 Wronskian $W[y_1,\,y_2] = W$ 은 $x$ 에 대한 함수이다. @eq-ode_differential_of_wronskian  로부터, 
+
+$$
+\dfrac{d}{dx}W(x) = -p(x) W(x) \implies W(x) = W(a) e^{-\int_{a}^x p(t)\,dt}
+$$
+
+를 얻는다. 또한
+
+$$
+W(x) = y_1y_2' - y_1'y_2 = y_1^2 \dfrac{d}{dx}\left(\dfrac{y_2}{y_1}\right)
+$$
+
+이므로, 
+
+$$
+\begin{aligned}
+y_2(x) &= y_1(x) \int_b^x \dfrac{W(x')}{[y_1(x')]^2} \, dx' - \dfrac{y_2(b)}{y_1(b)}y_1(x) \\
+&= y_1(x) W(a) \int_b^x \dfrac{\exp \left(-\int_a^{x'} p(t)\, dt\right)}{[y_1(x')]}\, dx'- \dfrac{y_2(b)}{y_1(b)}y_1(x) 
+\end{aligned}
+$$
+
+이다. 여기서 $a,\,b$ 는 임의의 상수이다. 그런데 우리는 $y_1$ 과 선형독립인 $y_2$ 를 찾는 것이므로 뒤의 $y_2(b)y_1(x)/y_2(b)$ 는 없어도 무관하다. 따라서,
+
+$$
+y_2(x) = y_1(x) W(a) \int_b^x \dfrac{\exp \left(-\int_a^{x'} p(t)\, dt\right)}{[y_1(x')]}\, dx'
+$$
+
+만 생각해도 된다.
+
+<br>
+
+::: {#exm-ode-anothor_solution_of_2nd_lhode}
+
+#### 단순조화진동자(SHO) 의 경우
+
+우리는 $y'' + \omega^2 y=0$ 의 한 해가 $\cos \omega x$ 임을 안다. $p(x) = 0$ 이므로 $W(x) = W_0 = \text{const.}$ 이다. 따라서, 
+
+$$
+y_2 (x) = \cos(\omega x) W_0 \int_{0}^x \dfrac{1}{\cos ^2 \omega x'}\, dx' = \dfrac{W_0}{\omega} \cos (\omega x) \tan (\omega x) = \dfrac{W_0}{\omega} \sin (\omega x)
+$$
+
+:::
+
+
+</br>
+
+## Sturm-Liouville theory
+
+2계 LHODE 연산자 $\mathcal{L}$ 에 대해
+
+$$
+\mathcal{L}\psi (x) = \lambda \psi (x)
+$$
+
+는 미분방정식을 고유값 문제로 바꾸게 된다. 이 경우 $\mathcal{L}$ 은
+
+$$
+\mathcal{L}\psi (x) = \left[p_0 (x) \dfrac{d}{dx^2} + p_1(x) \dfrac{d}{dx} + p_2(x)\right]\psi(x)
+$$ {#eq-ode_2nd_lhode}
+
+꼴로 주어진다. 
+특정한 물리적 상황에 대한 미분방정식은, 그 해가 가저야 할 조건이 주어지며 많은 경우 그 해, 혹은 그 해의 도함수가 가져야할 경계조건으로 주어진다. 어떤 이계 미분 방정식이 $x=a,\,b$ 에서 $f(a)=f(b) =0$ 이거나 $f'(a) = f'(b)=0$ 이어야 한다면, 이 조건을 만족하는 미분가능한 함수의 집합 $X$ 는 힐베르트 공간을 이룬다. 즉 우리는 미분방정식을 벡터공간의 입장에서 다룰 수 있다. 만약 적절한 내적(inner product) 가 주어진 상황에서 $\mathcal{L}$ 연산자가 hermitian 이라면 고유값은 항상 실수이며, 전체 벡터공간을 고유벡터의 선형결합으로 표현 할 수 있다. 
+
+</br>
+
+### Hermitian operator
+
+
+@eq-ode_2nd_lhode 형태로 주어진 연산자 $\mathcal{L}$ 에서 $p'_0 (x) = p_1(x)$ 일 경우를 생각하자. 그렇다면, 
+
+
+$$
+\mathcal{L} \psi (x) = \left[\dfrac{d}{dx} \left(p_0(x) \dfrac{d}{dx}\right) + p_2(x)\right]\psi (x) = [p_0(x) \psi'(x)]' + p_2(x) ] \psi(x)
+$$
+
+이다. 여기서 내적이 $\langle u(x),\, v(x) \rangle = \displaystyle \int_{a}^b v^\ast(x) u(x)\, dx$ 로 정의되었다면, 
+
+$$
+\begin{aligned}
+\langle \mathcal{L}u(x),\, v(x)\rangle &= \int_{a}^b \left(v^\ast ( p_0 u')' + v^\ast p_2 u\right) \, dx \\
+&= {\large \left[ \right.}v^\ast p_0 u' {\large \left.\right]}_a^b +\int_a^b \left( -(v^\ast)' p_0 u' + v^\ast p_2 u\right) \, dx \\
+&= {\large \left[ \right.}v^\ast p_0 u'  - (v^\ast)'p_0 u {\large \left.\right]}_a^b + \int_a^b \left[ (p_0 {v^\ast}')' u + v^\ast p_2 u\right]\, dx\\
+&= {\large \left[ \right.}v^\ast p_0 u'  - (v^\ast)'p_0 u {\large \left.\right]}_a^b + \int_a^b (\mathcal{L}v)^\ast u\, dx \\
+&= {\large \left[ \right.}v^\ast p_0 u'  - (v^\ast)'p_0 u {\large \left.\right]}_a^b + \langle u(x),\, \mathcal{L}v(x)\, \rangle
+\end{aligned}
+$$
+
+
+이다. 만약 ${\large \left[ \right.}v^\ast p_0 u'  - (v^\ast)'p_0 u {\large \left.\right]}_a^b = 0$ 인 경계조건을 가지고 있다면, 
+
+$$
+\langle \mathcal{L}u(x),\, v(x)\rangle = \langle u(x),\, \mathcal{L}v(x)\, \rangle
+$$
+
+이며 이것은 벡터공간에서의 에르미트 연산자의 조건이다. 즉 일반적인 내적 벡터공간에서의 에르미트 연산자와는 달리 미분방정식에서의 에르미트 조건은 경계조건을 포함한다. 보통 $u(a)=u(b) = v(a)=v(b) = 0$ 이거나 $u'(a) =u'(b) = v'(a) = v'(b) = 0$ 인 조건을 가지게 되며 전자를 **디리클레 경계조건 (Dirichlet boundary condition)** 이라고 하고 후자를 **노이만 경계 조건 (Neumann boundary condition)** 이라고 한다. 
+
+이제 디리클레 경계조건, 혹은 노이만 경계 조건을 만족하는 $C^2$ 함수의 집합을 $X$ 라고 하면 $X$ 는 벡터공간며 여기에 내적 $\langle u,\,v\rangle = \displaystyle \int_a^b v^\ast(x)u(x)\,dx$ 이 정의되어 있다면 $X$ 는 내적 벡터 공간이 된다. $\mathcal{L}$ 연산자는 에르미트 연산자이므로 $\mathcal{L}$ 의 고유함수로 $X$ 의 기저를 구성 할 수 있다. $\varphi_i,\, \varphi_j$ 가 각각 $\lambda_i,\, \lambda_j$ 를 고유값으로 갖는 고유함수이며 $\lambda_i\neq \lambda_j$ 라면 당연히 $\langle \varphi_i,\,\varphi_j \rangle = 0$ 이다.
+
+
+</br>
+
+### 미분방정식을 Hermitian 으로 변경하기
+
+위에서 설명했듯이 미분연산자가 hermitian 이라면 매우 좋은 성질을 갖게 된다. 만약 자체로는 hermtian 이 아니지만 약간 변형하여 hermitian 으로 만들 수 있다면? @eq-ode_2nd_lhode 형태의 미분방정식이 hermitian 이 될 조건은 아래의 두가지 이다.
+
+&emsp; (1) $p_0'(x) = p_1(x)$,
+
+&emsp; (2) 경계조건 ${\large \left[ \right.}v^\ast p_0 u'  - (v^\ast)'p_0 u {\large \left.\right]}_a^b =  0$ .
+
+
+만약 어떤 함수 $w(x)$ 를 곱하여, 
+
+$$
+\mathcal{L}'\psi(x) = w(x) \mathcal{L} \psi(x) = \left[w(x) p_0 (x) \dfrac{d}{dx^2} + w(x) p_1(x) \dfrac{d}{dx} + w(x) p_2(x)\right]\psi(x)
+$$
+
+의 $\mathcal{L}'$ 이 hermitian 이 되려면 $(wp_0)' =wp_1$ 이 되어야 한다. $(wp_0)' = (wp_0)\dfrac{p_1}{p_0}$ 이므로, 
+
+$$
+w(x)p_0(x) = w(a)p_0(a) \exp \left(\int_a^x \dfrac{p_1(t)}{p_0(t)}\, dt\right)
+$$ {#eq-ode_weighting}
+
+이며, 
+
+$$
+w(x) = \dfrac{1}{p_0(x)} \exp \left(\int_a^x \dfrac{p_1(t)}{p_0(t)}\, dt\right)
+$$
+
+로 놓을 수 있다. $w(a)p_0(a)$ 는 상수로 미분방정식에 영항을 끼치지 않아서 $1$ 로 놓았다. 실제로는 계산하기 편하도록 어떤 0 이 아닌 상수를 곱하여도 상관 없다. 이제 
+$$
+\overline{p}_0 = \exp \left(\int^x \dfrac{p_1(t)}{p_0(t)}\, dt\right),\qquad \overline{p}_1 = \dfrac{p_1(x)}{p_0(x)}\exp \left(\int^x \dfrac{p_1(t)}{p_0(t)}\, dt\right)
+$$
+에 대해 
+
+$$
+\mathcal{L}'\psi (x) = \left[\overline{p}_0 (x) \dfrac{d^2}{dx^2} + \overline{p}_1(x) \dfrac{d}{dx} + w(x)p_2(x)\right]\psi(x)
+$$
+
+의 미분방정식을 얻었다. 
+
+이제 에르미트 조건을 알아보자.
+
+$$
+\begin{aligned}
+\int_a^b v^\ast (x) \mathcal{L}'u(x)\, dx &= \int_a^b v^\ast (x) w(x)\mathcal{L}u(x)\, dx \\
+&=  {\large \left[ \right.} v^\ast \overline{p}_0 u' - (v^\ast)' \overline{p}_0 u {\large \left. \right]}_a^b + \int_a^b (\mathcal{L}'v(x))^\ast u(x)\, dx \\
+&=  {\large \left[ \right.} v^\ast \overline{p}_0 u' - (v^\ast)' \overline{p}_0 u {\large \left. \right]}_a^b + \int_a^b w(x)(\mathcal{L}v(x))^\ast u(x)\, dx
+\end{aligned}
+$$ {#eq-odd_hermitian_cond_1}
+
+이제 내적을
+
+$$
+\langle u(x),\, v(x)\rangle = \int_a^b v^\ast (x) u(x) w(x)\, dx
+$$ {#eq-odd_innerproduct_with_weight}
+
+로 정의하자. 이 때 $w(x)$ 를 **무게 함수(weight function)** 이라고 한다. 그렇다면 @eq-odd_hermitian_cond_1 은
+
+$$
+\langle \mathcal{L}u(x),\, v(x)\rangle =  {\large \left[ \right.} v^\ast \overline{p}_0 u' - (v^\ast)' \overline{p}_0 u {\large \left. \right]}_a^b  + \langle u,\, \mathcal{L}v(x)\rangle
+$$
+
+
+이 된다. 즉 내적의 정의가 변하며 연산자 $\mathcal{L}$ 이 hermitian 이 된다.
+
+</br>
+
+
+::: {#exm-ode_legendre_function}
+
+#### 르장드르 함수 (Legendre function)
+
+르장드르 미분연산자
+
+$$
+\mathcal{L} = (1-x^2) \dfrac{d^2}{dx^2} -2x\dfrac{d}{dx}
+$$
+
+에 대해 $\mathcal{L}P_l(x) = -l(l+1)P_l(x)$ 를 푸는 것이 @tbl-2nd_ode_singularity 의 르장드르 미분방정식의 해이다. 자연수 $l$ 에 대한 미분방정식의 해는 $l$ 차 다항식임이 알려저 있다. $\dfrac{d}{dx}(1-x^2)=-2x$ 이므로 무게함수는 $w(x)=1$ 이다.
+
+:::
+
+</br>
+
+::: {#exm-ode_chevyshev_function}
+
+#### 체비쇼프 함수 (Legendre function)
+
+체비쇼프 미분연산자
+
+$$
+\mathcal{L} = (1-x^2) \dfrac{d^2}{dx^2} -x\dfrac{d}{dx}
+$$
+
+에 대해 $\mathcal{L}T_n(x) = -n^2T_n(x)$ 를 푸는 것이 @tbl-2nd_ode_singularity 의 르장드르 미분방정식의 해이다. 자연수 $n$ 에 대한 미분방정식의 해는 $n$ 차 다항식임이 알려저 있다. $\dfrac{d}{dx}(1-x^2)=-2x$ 이므로 무게함수는
+
+$$
+w(x) = \dfrac{1}{1-x^2} \exp \left(\int_{a}^x \dfrac{t}{1-t^2}\, dt \right)= \dfrac{1}{\sqrt{1-x^2}}
+$$
+
+이다. 적분시 $a$ 에 대한 항은 상수곱이 되므로 무시했다.
+
+:::
+
+</br>
+
+::: {#exm-ode_laruerre_function}
+
+#### 라게르 함수(Laguerre function)
+
+아래의 미분방정식 연산자 $\mathcal{L}$ 에 대한 고유값 문제 $\mathcal{L}\psi =\lambda \psi$ 를 풀고자 한다. 
+
+$$
+\mathcal{L} = x \dfrac{d^2}{dx^2} + (1-x)\dfrac{d}{dx}.
+$$ {#eq-ode-laguerre_operator}
+
+이 때 $\psi$ 는 $0\le x <\infty$ 에서 nonsingular 하며, $\psi (x\to \infty) = 0$ 이라고 하자. $p'_0\ne p_1$ 이므로 weighting function $w(x)$ 를 @eq-ode_weighting 으로 계산하면, 
+
+$$
+w(x) = \dfrac{1}{x} \exp \left(\int^x \dfrac{1-t}{t}\,dt\right) = \dfrac{1}{x} e^{\ln x - x} = e^{-x}
+$$
+
+이 미분방정식이 hermitian 이 되려면 경계조건
+
+$$
+0 = {\large \left[ \right.} v^\ast \overline{p}_0 u' - (v^\ast)' \overline{p}_0 u {\large \left. \right]}_a^b =  {\large \left[ \right.} xe^{-x} (v^\ast  u' - (v^\ast)'  u) {\large \left. \right]}_a^b
+$$
+
+을 만족해야 한다. 
+
+:::
+
+</br>
+
+## 직교하는 다항식
+
+### 로드리게스 공식
+
+Sturm-Liouville 형태의 미분방정식
+
+$$
+p(x) y'' + q(x)y' + \lambda y = 0
+$$ {#eq-sturm_liourille_ode}
+
+를 생각하자. 많은 경우 $p(x),\, q(x)$ 는 각각 2차, 1차 다항식 형태이다.
+
+$$
+p(x) = \alpha x^2 + \beta x + \gamma,\qquad q(x) = \mu x + \nu
+$$
+
+이 미분방정식의 $n$ 차 다항식 해를 $y_n = \sum_{k=0}^n c_k x^k$ 라고 이 해에 대한 $\lambda$ 를 $\lambda_n$ 이라고 하자. $c_n\neq 0$ 이다. 그렇다면 @eq-sturm_liourille_ode 는 최고차항에서
+
+$$
+\lambda_n = -n(n-1)\alpha - n\mu
+$$ {#eq-eigenvalue_of_n_order_polynomial}
+
+을 만족해야 한다. 무게함수 $w(x)$ 를 생각하면 
+
+$$
+\dfrac{d}{dx}[w(x)p(x)y'] + \lambda w(x)y = 0 
+$$
+
+을 만족해야 한다. 이것을 이용하여 아래의 @thm-rodrigues_fomula 를 증명 할 수 있다. Arfken 의 수리물리학에서 Rodriguess formular 를 찾아보면 지루한 증명을 찾아 볼 수 있으나 여기서는 생략하기로 한다.
+
+</br>
+
+::: {#thm-rodrigues_fomula}
+
+아래와 같이 정의된 $y_n(x)$ 는 $\lambda$ 가 @eq-eigenvalue_of_n_order_polynomial 의 $\lambda_n$ 인 @eq-sturm_liourille_ode 의 해이다.
+$$
+y_n(x) = \dfrac{1}{w(x)} \left(\dfrac{d}{dx}\right)^n \left[w(x)p(x)^n\right].
+$$ {#eq-rodrigues_formula}
+
+:::
+
+<!-- ::: {.proof}
+
+
+무게함수 $w(x)$ 는 $(wp)' = wq$ 를 만족하게 하는 함수임을 안다. 
+
+$$
+\begin{aligned}
+p[wp^n]' &= p(w'p^n) + np^nw p' = (w'p)p^n + nwp^n p'\\
+&= (wq-wp')p^n + nwp^np' \\
+&= wp^n((n-1)p' + q)
+\end{aligned}
+$$ {#eq-thm_rodriguess_formlar_1}
+
+이제 위 식을 $n+1$ 번 미분한 후 $w$ 로 나누어 보자. $p$ 는 2차식이며 $q$ 는 1차식임에 유의하라. 
+
+$$
+\begin{aligned}
+\dfrac{1}{w}\left(\dfrac{d}{dx}\right)^{n+1}p[wp^n]' &= \dfrac{p}{w} \left(\dfrac{d}{dx}\right)^{n+2}[wp^n] + \dfrac{(n+1)p'}{w}\left(\dfrac{d}{dx}\right)^{n+1}[wp^n] \\
+&\qquad \qquad + \dfrac{n(n+1)p''}{w}\left(\dfrac{d}{dx}\right)^{n-1}[wp^n]
+\end{aligned}
+$$
+
+
+
+
+$$
+\begin{aligned}
+\dfrac{p}{w} \left(\dfrac{d}{dx}\right)^{n+2} [wp^n] + \dfrac{(n+1)p'}{w} \left(\dfrac{d}{dx}\right)^{n+1} + \dfrac{n(n+1)p''}{2w}\left(\dfrac{d}{dx}\right)^n [wp]^n
+\end{aligned}
+$$
+
+
+-- to be filled  --
+:::
+
+ -->
+
+</br>
+
+### Schlaefli 적분
+
+@eq-rodrigues_formula 을 만족한다면 코시 적분 공식를 사용하여 
+
+$$
+y_n (x) = \dfrac{1}{2}\dfrac{n!}{2\pi i} \oint_C \dfrac{w(z)[p(z)]^n}{(z-x)^{n+1}} \, dz
+$$ {#eq-schlaefli_integral}
+
+를 얻을 수 있다. 이를 **Schlaefli 적분** 이라고 한다.
+
+</br>
+
+### 생성 함수
+
+::: {.callout-note appearance="minimal"}
+
+::: {#def-generating_function}
+우리가 원하는 함수의 집합 $\{f_n(x)\}$ 가 $x$ 와 보조변수 $t$ 에 대해 정의된 어떤 함수 $g(x,\,t)$ 에 대해
+
+$$
+g(x,\,t) = \sum_{n} c_n f_n(x) t^n
+$$
+
+의 형태가 될 때 $g(x,\,t)$ 를 **생성 함수(generating function)** 이라고 한다. 
+
+:::
+:::
+
+$n = 0,\,1,\ldots$ 일 때는 $t$ 에 대한 테일러 전개로 간주 할 수 있으며 $n$ 이 음의 정수를 포함한다면 로랑 전개(Laurant series) 로 간주 할 수 있다. 복소함수의 유수 정리(residue theorem) 을 사용한다면
+
+$$
+c_n f_n(x) = \dfrac{1}{2\pi i} \oint \dfrac{g(x,\,t)}{t^{n+1}}\, dt
+$$
+
+를 통해 얻을 수 있다. 여기서 적분 경로(contour) 는 $0$ 을 포함하며 $0$ 이외의 다른 특이점이 없어야 한다. 
+
+생성함수는 @eq-schlaefli_integral 을 이용하면 다음과 같이 얻을 수 있다.
+
+$$
+g(x,\,t) = \dfrac{1}{w(x)} \sum_{n=0}^\infty t^n \dfrac{n!}{2\pi i} \oint_C \dfrac{w(z)[p(z)]^n}{(z-x)^{n+1}} \, dz
+$$ {#eq-generating_function_using_Schlaefli_formula}
+
+
+</br>
+
+| 이름 | 방정식 | 생성 함수
+|:-----:|:----------------------------|:----------------------------|
+| Legendre | $\displaystyle (1-x^2) y'' -2xy' + n(n+1)y=0$ | $\displaystyle (1-2xt+t^2)^{-1/2} = \sum_{n=0}^\infty P_n(x)t^n$ |
+| Chebyshev type $I$ | $(1-x^2) y'' -xy' + n^2y = 0$ | $\displaystyle \dfrac{1-t^2}{1-2xt+t^2} = T_0 (x) + 2\sum_{n=1}^\infty T_n(x)t^n$ |
+| Laguerre | $xy'' + (1-x)y' + n y = 0$ | $\displaystyle \dfrac{e^{-xt/(1-t)}}{1-t} = \sum_{n=0}^\infty L_n (x) t^n$ |
+| Hermite | $y'' -2xy' + 2n y = 0$ | $\displaystyle e^{-t^2+2xt} = \sum_{n=0}^\infty \dfrac{1}{n!} H_n(x)t^n$ |
+
+: 중요한 2계 선형 ODE 의 생성 함수 {#tbl-2nd_ode_generating_function}

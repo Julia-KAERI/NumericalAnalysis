@@ -1,0 +1,197 @@
+---
+title: "편미분 방정식"
+
+number-sections: true
+number-depth: 3
+crossref:
+  chapters: false
+---
+
+[편미분 방정식의 이론적 배경](A_pde.qmd) 를 참고하라. 여기서는 주로 1계와 2계 편미분 방정식에 대해 다룬다. 여기서 다루게 되는 2계 편미분 방정식은 아래와 같이 분류 될 수 있다.
+
+</br>
+
+::: {.callout-note icon="false"}
+#### 편미분 방정식의 분류
+
+* 타원형(Elliptic) : $\nabla^2 u - b = 0$.,
+
+* 포물선형 (Parabolic) : $\partial_t u - \alpha \nabla^2 u - b= 0$, 
+
+* 쌍곡선형 (Hyperbolic) : $\partial^2_t u - c^2 \nabla^2 u = 0$. 
+:::
+
+</br>
+
+
+
+## 포물선형 편미분 방정식 {#sec-pde_1d_parabolic}
+
+함수 $u(t,\,x)$ 가 $t>0,\, a<x<b$ 에서 다음의 타원형 편미분 방정식을 만족한다고 하자.
+
+$$
+\dfrac{\partial u}{\partial t} = D \dfrac{\partial^2 u}{\partial x^2},\qquad D > 0\text{ : constant.}
+$$ {#eq-pde_parabolic_diffusion}
+
+이 미분방정식은 열전달(heat transfer) 혹은 확산(diffusion) 현상에 많이 사용된다. 초기 조건
+
+$$
+u(0, x) = f(x)
+$$
+
+이 주어졌으며, 경계조건은
+
+$$
+u(0, a) = \alpha,\, u(0,b) = \beta
+$$
+
+
+라고 하자. 즉 이 문제는 초기조건이 경계조건을 만족하는 상태에서 주어진 가운데, $u(t,\, x)$ 가 경계조건을 만족시키면서 어떻게 변화해 가는지를 보는 미분방정식이다.
+
+$[a,\,b]$ 를 $N+1$ 개의 구간으로 나누어 $x_0=a,\, x_{N+1}=b$ 가 되도록 한다. $t$ 는 $\Delta t$ 에 대한 배수로 생각한다. 
+
+$$
+t_j = j(\Delta t),\qquad x_k = a+ \dfrac{k(b-a)}{N+1} = a+hk,\qquad h = \dfrac{b-a}{N+1}.
+$$
+
+테일러 전개로 부터 다음을 만족하는 $\tau_j \in (t_{j},\, t_{j+1})$ 이 존재한다는 것을 안다. 
+
+$$
+\dfrac{\partial u}{\partial t}(t_j, x_k) = \dfrac{u(t_{j+1},\, x_k) - u(t_j,\, x_k)}{\Delta t} - \dfrac{\Delta t}{2}\dfrac{\partial^2 u}{\partial t^2}(\tau_j,\, x_k)
+$$
+
+또한 역시 테일러 전개로부터 다음을 만족하는 $\xi_k \in (x_{k-1},\, x_{k+1})$ 이 존재한다는 것을 안다.
+
+$$
+\dfrac{\partial^2 u}{\partial x^2} (t_j,x_k) = \dfrac{u(t_j, x_{k+1}) - 2u(t_j, x_k) + u(t_j, x_{k-1})}{h^2} - \dfrac{h^2}{12}\dfrac{\partial^2 u}{\partial x^2}(t_j, \xi_k)
+$$
+
+이제 $u_{jk} = u(t_j,\,x_k)$ 하면, @eq-pde_parabolic_diffusion 는 다음과 같이 변한다.
+
+$$
+\dfrac{u_{j+1,\,k} - u_{j, k}}{\Delta t} - D\dfrac{u_{j,\,k+1} -2u_{j, k} + u_{j,k-1}}{h^2} = 0 + O(\Delta t,\, h^2).
+$$ {#eq-pde_parabolic_diffusion_2}
+
+여기서 $O(\Delta t,\, h^2)$ 은 truncaiton error 이다. 이제 이 truncation error 를 제외하고 변형하면
+
+$$
+u_{j+1, k} = \left(1-2D\dfrac{\Delta t}{h^2}\right)u_{j, k} + D\dfrac{\Delta t}{h^2} (u_{j,k+1} + u_{j, k-1})
+$$ {#eq-pde_parabolic_diffusion_3}
+
+을 얻는다. $\lambda = D(\Delta t)/h^2$ 로 놓으면, 
+
+$$
+u_{j+1, k} = \left(1-2\lambda \right)u_{j, k} + \lambda (u_{j,k+1} + u_{j, k-1})
+$$
+
+이다. $u_{0, k} = f(x_k)$ 이므로,
+
+$$
+\begin{aligned}
+u_{10} &= u_{00} = \alpha, \\
+u_{1, k} &= (1-2\lambda) u_{0, k} + \lambda (u_{0, 2} + u_{0, 0}) \qquad k=2,\ldots,\, N, \\
+u_{N+1,0} &= u_{N+1, 0} = \beta
+\end{aligned}
+$$ {#eq-pde_initial}
+
+이다. $\boldsymbol{u}^{(k)} = \begin{bmatrix} u_{k0} & \cdots & u_{k,N+1}\end{bmatrix}^T$ 라 놓고, 행렬 $\boldsymbol{A}$ 를 다음과 같이 정의한다.
+
+$$
+\boldsymbol{A} = \begin{bmatrix} 1 & 0 & 0 & 0 &\cdots & \cdots & 0 \\ 
+\lambda & (1-2\lambda) & \lambda & 0 & \cdots &  \cdots & 0 \\
+0 & \lambda & (1-2\lambda) & \lambda & 0  &\cdots & 0 \\
+& & \vdots & & & \vdots \\
+0&\cdots &\cdots &\cdots &\lambda & (1-2\lambda) & \lambda \\
+0&\cdots &\cdots &\cdots & \cdots & 0 & 1 \\
+\end{bmatrix}
+$$
+
+그렇다면 {#eq-pde_parabolic_diffusion_2}
+
+$$
+\boldsymbol{u}^{(k+1)} = \boldsymbol{Au}^{(k)}
+$$
+
+이 성립한다. $u_{1,k},\ldots,\, u_{j,k}$ $(k=0,\ldots,\, N+1)$ 을 알 때 @eq-pde_parabolic_diffusion_3 를 이용하여 $u_{j+1,k}\;(k=0,\ldots,\,N+1)$ 을 알 수 있다. 
+
+
+
+
+
+
+
+
+</br>
+
+
+
+
+## 타원형 편미분 방정식
+
+우선 아래와 같은 $R=[a,\,b]\times [c,\,d]$ 에서 정의된 2차원 타원형 편미분 방정식인 푸아송 방정식을 생각하자
+
+$$
+\nabla^2 u(x,\,y) = u_{xx} + u_{yy} = f(x,\,y)
+$$ {#eq-pde_poisson}
+
+여기에 디리클레 경계조건 $g(x,\,y)$ 가 부여되어 $R$ 의 경계 $S$ 에서 $u(x,\,y) = g(x,\,y)$ 라고 하자. 아래 그림과 같이 $N \times M$ 그리드를 생각한다.
+
+![그리드](ch15_pde/fig-pde_grid.png){#fig-pde_grid}
+
+
+$x_0=a,\, x_N=b,\, y_0=c,\, y_M = d$ 이며 $h_x = \dfrac{b-a}{N},\, h_y = \dfrac{d-c}{M}$ 에 대해 $x_j = a+jh_x$, $y_k = c+kh_y$ 이다. 테일러 시리즈로부터,
+
+$$
+\begin{aligned}
+\dfrac{\partial^2 u(x_j,y_k)}{\partial x^2} &=  \dfrac{u_(x_{j+1}, y_k) - 2u(x_j, y_k) + u(x_{j-1}, y_k)}{h_x^2} - \dfrac{h_x^2}{12}\dfrac{\partial^4 u(\xi_j,\, y_k)}{\partial^4 x}, \\
+\dfrac{\partial^2 u(x_j,y_k)}{\partial y^2} &=  \dfrac{u_(x_{j}, y_{k+1}) - 2u(x_j, y_{k}) + u(x_{j}, y_{k-1})}{h_y^2} - \dfrac{h_y^2}{12}\dfrac{\partial^4 u(x_j,\, \eta_k)}{\partial^4 y},
+\end{aligned}
+$$ {#eq-pde_elliptic_second_partial_derivative}
+
+를 만족하는 $\xi_j \in (x_{j-1}, x_{j+1})$ 과 $\eta_k \in (y_{k-1},y_{k+1})$ 이 존재함을 안다. 이를 이용하면 푸아송 방정식은
+
+$$
+\begin{aligned}
+&\dfrac{u(x_{j+1}, y_k) - 2u(x_j, y_k) + u(x_{j-1}, y_k)}{h_x^2} + \dfrac{u_(x_{j}, y_{k+1}) - 2u(x_j, y_{k}) + u(x_{j}, y_{k-1})}{h_y^2} \\
+&= f(x_j,\,y_k) + \dfrac{h_x^2}{12}\dfrac{\partial^4 u(\xi_j,\, y_k)}{\partial^4 x}+\dfrac{h_y^2}{12}\dfrac{\partial^4 u(x_j,\, \eta_k)}{\partial^4 y}
+\end{aligned}
+$$ {#eq-pde_elliptic_poisson_2}
+
+이다. 이 식은 $j=1,\ldots,\,N-1$,\, $k=1,\ldots,\, M-1$ 에 대해 성립한다. 또한 경계조건은
+
+$$
+\begin{aligned}
+u(x_0,\, y_k) &= g(x_0,\, y_i),\qquad &u(x_N,\, y_k) &= g(x_N,\, y_k),\qquad && k=1,\ldots,\, M, \\
+u(x_j,\, y_0) &= g(x_j,\, y_0),\qquad &u(x_j,\, y_M) &= g(x_j,\, y_M),\qquad &&j = 1,\ldots,\, N
+\end{aligned}
+$$ {#eq-pde_elliptic_boundary}
+이 된다.
+
+</br>
+
+### 유한차분법
+
+이제 유한차분법을 생각하자 $u(x_j,\, y_k)$ 를 $u_{jk}$ 로 쓰기로 한다. 그렇다면, @eq-pde_elliptic_poisson_2  는 오차텀을 제외하면
+
+$$
+\dfrac{u_{j+1,k} - 2u_{jk} +u_{j-1, k}}{h_x^2} + \dfrac{u_{j,k+1} -2u_{jk} + u_{j,k-1}}{h_y^2} = f(x_j, y_k)  
+$$
+
+이며 이를 정리하면, 
+
+$$
+2\left[\left(\dfrac{h_x}{h_y}\right)^2+1\right] u_{jk} - (u_{j+1,k} +u_{j-1,k}) - \left(\dfrac{h_x}{h_y}\right)^2 (u_{j,k+1} + u_{j, k-1}) = -h_x^2 f(x_j,\, y_k)
+$$
+
+가 된다. 또한 경계조건 @eq-pde_elliptic_boundary 는
+
+$$
+\begin{aligned}
+u_{0k} &= g(x_0,\, y_i),\qquad & u_{N, k} &= g(x_N,\, y_k),\qquad && k=1,\ldots,\, M, \\
+u_{j0} &= g(x_j,\, y_0),\qquad & u_{j,M} &= g(x_j,\, y_M),\qquad &&j = 1,\ldots,\, N
+\end{aligned}
+$$ {#eq-pde_elliptic_boundary_2}
+
+이다. 
+
+

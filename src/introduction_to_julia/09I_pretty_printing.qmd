@@ -1,0 +1,73 @@
+# Interlude : 객체를 보기좋게 출력하기 {.unnumbered}
+
+복소수를 나타내는 `Complex` 타입은 복합 타입이며 복소수에 대한 출력은 다음과 같습니다.
+
+```julia
+In [1]: c1 = Complex(2.0, 3.0)
+Out[1]: 2.0 + 3.0im
+```
+
+당신이 만약 당신만의 복소수 타입을 복합타입으로 만들었다고 합시다.
+
+```julia
+In [2]: struct mycomplex
+        re
+        im
+        end
+
+In [3]: c2 = mycomplex(2.0, 3.0)
+Out[3]: mycomplex(2.0, 3.0)
+```
+
+보통 복합 타입의 출력은 위와 같이 타입 이름 뒤에 괄호로 그 필드의 값을 정의된 순서대로 나열합니다. 만약 어떤 타입에 많은 필드가 있지만 실제로 사용하면서 확인해야 할 필드는 소수라면, 굳이 여러개의 필드를 보여주지 않아도 됩니다. 혹은 `Complex` 타입에서 순허수 $\sqrt{-1}$ 를 `im` 으로 표기하는 것이 당신의 미적 감각에 거슬릴 수도 있습니다. 이 때 `Base.show` 함수를 `mycomplex` 타입에 대한 메서드로 만든다면 그 출력을 바꿀 수 있습니다. 
+
+```julia
+In [12]: Base.show(io::IO, cc::mycomplex) = print(io, cc.re , " + i",  cc.im)
+
+In [13]: c2
+Out[13]: 2.0+ i 3.0
+
+In [14]: [mycomplex(2.0, 3.0); mycomplex(3.0, 4.0)]
+Out[14]: 2-element Vector{mycomplex}:
+ 2.0 + i3.0
+ 3.0 + i4.0
+```
+
+그런데 허수부가 음수일 경우에는 별로 보기 안좋습니다.
+
+```julia
+In [20]: mycomplex(2.0, -1.0)
+Out[20]: 2.0 + i-1.0
+```
+
+이것은 표준적인 복소수 표기법에 어긋나죠. 우리가 원하는 것은 `2.0 - i1.0` 입니다.
+
+```julia
+In [23]: function Base.show(io::IO, cc::mycomplex)
+         if cc.im >= 0.0
+             print(io, cc.re, " + i", cc.im)
+         else
+             print(io, cc.re, " - i", abs(cc.im))
+         end
+         end
+
+In [24]: mycomplex(2.0, -1.0)
+Out[24]: 2.0 - i1.0
+```
+
+이젠 좀 괜찮아 진 것 같습니다. 물론 `mycomplex` 타입은 기본적인 사칙연산도 정의가 안되어 있기 때문에 쓸모 없긴 합니다. `repr` 함수는 `Base.show` 함수로 출력하는 문자열을 리턴합니다. 예를 들어
+
+```julia
+In [25]: c=mycomplex(1.0, -1.0)
+Out[25]: 1.0 - i1.0
+
+In [26]: c
+Out[26]: 1.0 - i1.0
+
+In [27]: repr(c)
+Out[27]: "1.0 - i1.0"
+```
+
+입니다. 
+
+

@@ -1,0 +1,30 @@
+---
+title: "이산 웨이블릿 변환"
+number-sections: true
+number-depth: 3
+crossref:
+  chapters: false
+---
+
+## 정의와 기본적인 성질
+
+::: {.callout-note appearance="minimal"}
+
+
+::: {#def-wavelet_biorthonomal_basis}
+
+
+
+
+
+:::
+
+:::
+
+
+
+
+
+
+
+

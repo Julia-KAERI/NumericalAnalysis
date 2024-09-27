@@ -1,0 +1,7 @@
+---
+title: "Wavelets.jl"
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---

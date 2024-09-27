@@ -1,0 +1,355 @@
+---
+title: "토모그래피"
+number-sections: true
+number-depth: 3
+crossref:
+  chapters: false
+---
+
+## 라돈 변환
+다음의 그림을 보자. 이미지가 $0$ 에서 $1$ 사이의 값을 가지며 검은색이 $0$, 흰색이 $1$ 이라고 하자. 이 그림은 실제로 회색조 $1024 \times 1024$ 크기의 이미지이다. 이 이미지는 `f` 라는 배열의 변수로 저장되었다고 하자. $f(x, y)$ 라는 함수 나 `f[i, j]` 라는 형식의 배열로 이해해도 상관 없다. 
+
+<center>
+
+![object](imgs/tomography/object.png){#fig-object width=200 }
+
+</center>
+
+이 이미지를 $\theta$ 만큼 회전 시킨 이미지를 $\mathfrak{R}_\theta [f]$ 라고 하자.  아래 그림은 $\mathfrak{R}_{\pi/4}[f]$ 이다. 회전방향은 시계방향이다. 
+
+
+
+<center>
+
+![rotated object](imgs/tomography/rotated_objects.png){#fig-rotate3d_object width=200 }
+
+</center>
+
+
+</br>
+
+### Sinogram
+
+아래와 같이 정의된 $S(x,\,\theta)$ 를 $f$ 에 대한 **sinogram** 이라고 한다. 
+
+
+$$
+S(x, \theta) =  \int \mathfrak{R}_\theta [f](x, y) \, dy
+$$
+
+즉 sinogram 은 2 차원 이미지, 혹은 함수를 회전시켜가며 한 방향(여기서는 $y$ 방향) 에 대한 선적분을 구하였을때 나오는 다른 방향과 회전각도에 대한 2차원 함수를 의미한다. 위의 그림에 대한 Sinogram 은 다음과 같다.
+
+<center>
+
+![sinogram](imgs/tomography/object_sinogram.png){#fig-sinogram width=600 }
+
+</center>
+
+
+이 때 고정된 $\theta$ 에 대한 $S(x, \theta)$ 를 **projection** 이라고 하고 $p_\theta (t)$ 라고 표기한다. 즉 $p_\theta(t) =  S(t, \theta)$ 이다. 이미지로부터 sinogram 을 얻는 것을 **라돈 변환 (Randon transformation)** 이라고 한다. Radon 은 오스트리아의 수학자 [Johann Karl August Radon](https://en.wikipedia.org/wiki/Johann_Radon) 을 의미한다.
+
+</br>
+
+### Reconstruction 과 역 라돈 변환
+
+Reconstruction 은 sinogram 으로부터 원래의 이미지를 구성하는 것을 말한다. Fourier slice theorem (projection slice theorem 혹은 central slice theorem) 은 수학적으로 simogram 으로부터 원래의 이미지를 구성할 수 있다는 것을 보장한다. 이미지로부터 sinogram 을 얻는 것을 라돈 변환이라고 하듯이 sinogram 으로부터 이미지를 얻는 것을 역 라돈 변환 (inverse Radon transformation) 이라고 한다.
+
+</br>
+
+## 토모그래피
+
+토모그래피의 기본적인 개념은 아래 그림과 같다. 중성자나 X 선과 같이 물질을 투과하는 성질이 강한 입자를 물질에 쐬어 주면 대부분의 입자가 물질을 투과하여 검출기에 검출된다. 하지만 모든 입자가 투과하지는 못하며 물질의 성질에 따라 일부 입자가 산란되거나 흡수되며 검출기에서는 산란되거나 흡수되지 않고 투과되는 빔의 강도를 검출기 위치별로 측정한다. 검출기는 1차원일수도 있고 2차원 일 수도 있다.
+
+
+<center>
+
+![Tomography](imgs/tomography/tomography.png){#fig-basic_concept_of_tomography width=600 }
+
+</center>
+
+비에 따라 (1) 검출기와 선원이 고정된 상태에서 측정 대상이 회전중심을 기준으로 회전할 수도 있고, (2) 측정 대상이 고정된 상태에서 검출기와 선원(radiation source) 이 회전할 수도 있다. 우리는 앞서 라돈 변환을 설명할 때 (1) 의 경우에 대대 설명했지만, 수학적인 설명은 (2) 의 경우를 기준으로 설명하겠다. (이 분야의 대표적인 교과서들이 (2) 를 기준으로 설명하였으므로...) 물리적으로는 (1) 과 (2) 는 서로 회전 방향이 반대라면 동일하다.  즉 (1) 의 경우 시계방향으로 $\theta$ 만큼의 회전은 (2) 의 경우에서 반시계방향으로 $\theta$ 만큼의 회전과 완전히 동일하다.
+
+
+물질의 위치에 따른 선형 감쇄 계수가 $\mu (x,\,y)$ 로 주어졌다고 하자. 감쇄 계수는 $I_0$ 의 강도로 입사된 빔이 $ds$ 만큼의 경로를 진행했을 때 감소되는 빔의 강도이다. 즉, 
+
+$$
+\mu = -\dfrac{1}{I}\dfrac{dI}{ds}
+$$
+
+이다. 선원에서 $I_0$ 의 빔의 강도를 가진 빔이 $S$ 의 경로를 따라 갔을 때의 빔의 강도는
+
+$$
+I = I_0 \exp \left[-\int_S \mu (x, y)\, ds\right] 
+$$ {#eq-beam_intensity}
+
+가 된다. 중성자나 X-선의 경우 공기중의 선형 감쇠 계수는 매우 작기 때문에 우리가 관심이 있는 영역에서의 경로적분만을 생각하면 된다. 또한 빔이 $x$ 값이 고정된 직선 경로를 따른다면, 
+
+$$
+I(x) = I_0 \exp \left[-\int_{y_i}^{y_f} \mu (x, y)\, dy\right] 
+$$ {#eq-beam_intensity_2}
+
+이다. 만약 물질이 없는 경로에서의 측정값이 있다면 $I(x) = I_0$ 가 될 것이다.
+
+
+우리가 검출기에서 측정한 값이 $\overline{I}(x)$ 이며 물질이 없는 경로에서의 측정값 $\overline{I_0}$ 을 가지고 있다면, 
+
+$$
+-\ln \left(\dfrac{\overline{I}(x)}{\overline{I_0}}\right) = \int_{y_i}^{y_f} \mu (x, y)\, dy 
+$$ {#eq-beam_intensity_formula}
+
+가 될 것이다. 
+
+</br>
+
+## Projection
+
+토모그래피에 있어 물질은 $\mu (x, y)$ 를 의미한다. $\mu$ 는 선원, 물질의 종류 및 밀도에 따라 달라지는 값이며, 토모그래피는 projection들 을 모아 $\mu(x, y)$ (3차원 토모그래피의 경우는 $\mu(x, y, z)$) 를 재구성(reconstruction) 하는 방법이다.
+
+이제 선원과 검출기를 반시계방향으로 $\theta$ 만큼 돌려서 찍었다고 하자. 이 데이터를 $I_\theta (x)$ 라고 한다. 이것은 앞서 라돈 변환에서의 projection $p_\theta(t)$ 와 같다.
+
+<center>
+
+![Projection](imgs/tomography/projection.png){#fig-projection width=600}
+
+</center>
+
+
+</br>
+이제 라돈 변환을 잠시 다른 모양의 동등한 식으로 바꿔 보자.
+
+$$
+p_\theta(t) = \int_{-\infty}^{\infty} \mu(x,\,y)\, \delta (x\cos \theta + y \sin \theta -t )\, dx\,dy 
+$$ {#eq-projection_1}
+
+</br>
+
+## Fourier Slice Theorem
+
+### 푸리에 변환과 역변환 
+
+이차원 함수 $f(x, y)$ 을 2차원 푸리에변환 한 함수 $\mathfrak{F}[f](u, v) = F(u, v)$ 는 다음과 같다.
+
+$$
+F(u, v) = \mathfrak{F}[f](u, v) = \iint f(x, y) \, e^{-2\pi i ( ux+yv)}\, dx\, dy
+$$
+
+우리는 $F(u, v)$ 에 대한 푸리에 역변환으로부터 $f(x, y) = \mathfrak{F}^{-1}[F](x, y)$ 를 얻을 수 있다는 것을 알고 있다. 즉, 
+
+$$
+f(x, y) = \mathfrak{F}^{-1}[F](x, y) = \iint F(u, v) \, e^{2\pi i (ux +yv)}\, du\, dv
+$$
+
+임을 안다. 즉 $f(x, y)$ 를 안다는 것과 $F(u, v)$ 를 안다는 것은 정확히 같은 것이다. 
+
+</br>
+
+### Projection 과 푸리에변환
+
+Projection $p_\theta (s)$ 에 대한 1차원 푸리에 변환을 $S_\theta(\omega)$ 라 하면, 
+
+$$
+S_\theta(\rho) = \int p_\theta(t) \,e^{-2\pi i\rho t}\, dt
+$$ {#eq-fourier_transform_of_projection}
+
+이다. 
+
+아래의 그림처럼 $\theta$ 만큼 회전시킨 $t-s$ 좌표계를 생각하자. 그렇다면, $(x, y)$ 와 $(t, x)$ 의 관계는 아래와 같다.
+
+$$
+\begin{bmatrix} t \\ s \end{bmatrix} =  \begin{bmatrix} \cos \theta & \sin \theta \\ - \sin \theta & \cos \theta\end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}
+$$
+
+<center>
+
+![New coordinate system](imgs/tomography/fourier_slice_theorem_1.png){#fig-new_coordinate_system width=500 }
+
+</center>
+
+라돈 변환을 생각하면, 
+
+$$
+p_\theta (t) = \int f(t, s)\, ds
+$$
+
+이며 @eq-fourier_transform_of_projection 로 부터
+
+$$
+\begin{aligned}
+S_\theta (\rho) &= \int p_\theta (t) e^{-2\pi i \rho t}\, dt \\
+&=\int \left[\int f(t, s) \, ds\right] \, e^{-2\pi i \rho t}\, dt \\
+&= \iint f(x, y) e^{-2 \pi i \rho ( x \cos\theta + y\sin \theta) } \, dx\, dy
+\end{aligned} 
+$$ {#eq-fourier_transform_of_slice_2}
+
+임을 안다. 여기서 $u = \rho \cos \theta,\, v = \rho \sin \theta$ 라고 하면, 
+
+$$
+S_\theta (\rho) = \iint f(x,  y) e^{-2\pi i (ux + vy)}\, dx\, dy = \mathfrak{F}[f](u, v) = F(\rho \cos \theta, \rho \sin \theta)
+$$ {#eq-fourier_transform_of_slice_3}
+
+이다. 이것이 바로 **Fourier Slice Theorem** 이다. Fourier slice theorem 은 sinogram 으로부터 $f(x, y)$ 를 구할 수 있음을, 즉 역 라돈 변환이 가능함을 보장한다.
+
+<center>
+
+![New coordinate system](imgs/tomography/Fourier_Slice_Theorem_2.png){#fig-fourier_slice_theorem width=600 }
+
+</center>
+
+</br>
+
+## Filtered back projeciton
+
+::: {.callout-note icon="false"}
+
+#### 지금까지의 정리
+
+- $f(x, y)$ 가 함수라고 하자. 그렇다면 우리는 임의의 projeciton $p_\theta(t)$ 를 얻을 수 있으며, 이를 통해 $\mathfrak{F}[f](u, v)$ 를 구할 수 있다.   
+
+- 우리가 토모그래피를 통해 측정하는 것은 $\theta = \theta_1,\, \theta_2,\,\theta_3, \ldots$ 에 대한 $p_\theta (t)$ 이다. 그리고 푸리에 변환을 통해 $S_\theta (\omega)$ 를 얻을 수 있다.
+
+- $S_\theta (\omega) = F(\omega \cos\theta, \omega \sin \theta)$ 와 같다.   
+
+:::
+
+
+</br>
+
+### Filtered projection
+
+$$
+\begin{aligned}
+f(x, y) &= \iint F(u, v) e^{2\pi i (ux + yv)}\, du\, dv \\
+&= \int_0^{2\pi}\int_0^{\infty} F(\rho \cos \theta, \rho \sin \theta)\, e^{2\pi i (\rho x \cos \theta + \rho y \sin \theta)} \, \rho\,   d\rho \, d\theta 
+\end{aligned}
+$$ {#eq-filtered_projeciton_1}
+
+이며 $\theta$ 에 대한 적분을 $[0, \pi)$, $[\pi, 2\pi)$ 구간으로 나누어 생각해 보자. 
+
+- Projection $p_\theta (t)$ 를 생각해보자. $\theta + \pi$ 만큼 회전시킨 projection 은 $\theta$ 에 대한 projection 과 같은 선상의 적분이며 단지 $t$ 값이 $-t$ 로 바뀔 뿐이다. 따라서 $p_{\theta + \pi} (t) = p_\theta(-t)$ 이다.
+
+- 식 ($6$) 으로부터, $S_{\theta + \pi}(\rho) = S_\theta (-\rho)$ 임을 안다. 따라서 다음이 성립한다.
+$$
+F(\rho \cos (\theta + \pi), \rho \sin (\theta + \pi)) = F(-\rho \cos \theta, -\rho \sin\theta) 
+$$ {#eq-filtered_projection_2}
+
+
+</br>
+
+그렇다면, $[\pi, 2\pi)$ 구간에서 $\phi = \theta - \pi$ 로 놓으면, 그리고 중간에 $\rho \to -\rho$ 변환을 사용하면,
+
+$$
+\begin{aligned}
+\int_\pi^{2\pi}\int_0^\infty &F(\rho \cos \theta, \rho \sin \theta)\,  e^{2\pi i (\rho x \cos \theta + \rho y \sin \theta)} \, \rho\,   d\rho \, d\theta\\
+&=\int_0^\pi \int_0^\infty F(-\rho\cos \phi, -\rho \sin \phi) e^{-2\pi i(\rho x \cos \phi +\rho y \sin\phi)} \, \rho\, d\rho \, d\phi \\
+& = \int_0^\pi \int_{-\infty}^0 F(\rho \cos \phi,  \rho \sin \phi) e^{2\pi i (\rho x \cos \theta + \rho y \sin \theta)} (-\rho)\, d\rho \,d\phi 
+\end{aligned}
+$$ {#eq-filtered_projection_3}
+
+이다. @eq-fourier_transform_of_slice_3 과 @eq-filtered_projection_3 로부터, 그리고 Fourier slice theorem 으로부터, 
+
+$$
+\begin{aligned}
+f(x, y) &=\int_0^{ \pi} \int_{-\infty}^\infty F(\rho \cos\theta, \rho \sin \theta) e^{2\pi i \rho(x \cos \theta + y \sin \theta)}|\rho| \, d\rho \, d\theta \\
+&= \int_0^\pi \left[ \int_{0}^\infty S_\theta (\rho) |\rho| e^{2\pi i \rho (x\cos \theta + y \sin \theta)}\, d\rho \right] \, d\theta
+\end{aligned} 
+$$ {#eq-filtered_back_projection}
+
+를 얻는다. 우리는 $t=x \cos \theta + y \sin \theta$ 가 $\theta$ 만큼 회전시켰을때의 projection 이 독립변수임을(혹은 좌표값임을) 알고 있다. 따라서 
+
+$$
+Q_\theta (t) = \int_{0}^\infty S_\theta(\rho) |\rho| e^{2\pi i \rho t} \, d\rho 
+$$ {#eq-fourier_transform_of_slice_4}
+
+라고 정의하자. 그렇다면
+
+$$
+f(x, y) = \int_0 ^\pi  Q_\theta (t = x \cos \theta + y \sin \theta) \,d\theta 
+$$  {#eq-fourier_transform_of_slice_5}
+
+가 된다. 이 때의 $Q_\theta (t)$ 를 **filtered projection** 이라고 하며 filtered projection 을 통해 $f(x, y)$ 를 얻는 과정을 **filtered back projection** 이라고 한다. 즉 filtered back projection 은 다음의 과정을 통해 원본 이미지를 reconstructin 한다.
+
+$$
+p_\theta (t) \longrightarrow S_\theta (\rho) \longrightarrow Q_\theta(t) \longrightarrow f(x, y)
+$$
+
+우리가 image 를 reconstruction 할 때는 영역을 선택한다. 이를 reconstruction region 이라고 하자. 이 영역에 대해 $f(x,\,y)$ 를 구해야 한다. 다음 그림을 보자
+
+<center>
+
+![Filtered projection](imgs/tomography/filtered_projection.png){#fig-filtered_projection width=600 }
+
+</center>
+
+
+우리는 $\theta = \theta_1,\,\theta_2,\ldots$ 에 대한 slices $p_\theta (t)$ 를 얻었으며 이를 통해 각 slices 에 대한 $Q_\theta (t)$ 를 얻을 수 있다. $Q_\theta(t)$ 를 얻었다면 식 ($11$) 로 부터 $f(x,\,y)$ 를 얻을 수 있는데, 실제로 reconstruction 을 할 때는 적분을 합으로 바꾸게 된다. 즉,
+
+$$
+f(x, y) = C \cdot \left(\sum_\theta Q_\theta (t=x \cos \theta + y \sin \theta)\right)
+$$
+
+이다.
+
+</br>
+
+### Low frequency window
+
+@eq-fourier_transform_of_slice_4 의 $|\rho|$ 는 high-pass filter 역할을 하며(이를 *Lamp 필터* 혹은 *Ram-Lack 필터* 라고 한다) 이로인해 high frequency 영역에서의 노이즈에 매우 취약하게 된다. 이로인해 $Q_\theta (t)$ 를 계산할 때 window function 이라고 불리우는 high pass filter 를 곱하여 푸리에 변환을 수행한다. 각 필터의 모양은 아래 @fig-fbp_window 와 같다.
+
+![Window functions](imgs/tomography/fbp_window.png){#fig-fbp_window width=600}
+
+</br>
+
+## 대수적인 Reconstruction
+
+![대수적인 reconstruction](imgs/tomography/fig-algebraic_1.png){#fig-rec_algebraic_1 width=450}
+
+
+토모그래피를 수행하는 전체 영역이 $N_1 \times N_2$ 의 그리드라고 하자. 우리는 이 때 그리드 내의 선형 감쇄 계수 $\mu(x,\,y)$ 는 동일하다고 가정한다. 그리드마다 인덱스를 부여하여 $\mu_j$ $(j=1,\,2,\ldots,\,N_1 \times N_2)$ 라고 하자. 중성자나 X 선원에서 발생하는 방사선이 물질을 투과하여 그 결과로 감소하여 검출기 픽셀 $i$ 번째 pixel 에 검출되었다고 하자. @eq-beam_intensity_formula 에 따라 $i$ 번째 pixel 에 검출된 카운트 수는
+
+$$
+-\ln \left(\dfrac{I_i}{I_0}\right) = \sum_{j} w_{ij} \mu_j
+$$
+
+가 된다. $d_i = -\ln \left(\dfrac{I_i}{I_0}\right)$ 라고 하면, $d_i = \sum_{j} w_{ij} \mu_j$ 이다. 토모그래피에서 slice 를 $\theta = \theta_1,\ldots,\,\theta_m$ 만큼 얻었다고 하자. 이제 인덱스 $i$ 를 검출기 뿐만 아니라 slice 에 대한 인덱스로 하자. 즉 검출기 픽셀이 $N_d$ 일 때 $d_1,\ldots,\,d_{N_d}$ 는 $\theta_1$ slice 에 대한 검출기 픽셀 값을 처리한($-\ln (I_i/I_0)$) 값이고 $d_{N_d+1},\ldots,\, d_{N_d\times 2}$ 는 $\theta_2$ 에 대한 값이라고 하자. 그렇다면 
+
+$$
+\boldsymbol{d} = \begin{bmatrix} d_1 & d_2 & \cdots & d_{N_d\times m}\end{bmatrix}^T
+$$ 
+
+를 정의 할 수 있다. 또한 $w_{ij}$ 의 index $i$ 도 검출기 픽셀과 slice 회전에 대한 인덱스에 대해 $\mu_j$ 가 $d_j$ 에 기여하는 정도 라고 볼 수 있다. 그렇다면 우리는 아래와 같은 선형방정식을 얻는다.
+
+$$
+\boldsymbol{\Omega \mu} = \boldsymbol{d}.
+$$ {#eq-algebraic_equation}
+
+즉 reconstruction 문제가 선형방정식 문제가 된다. 이 때 $\omega$ 는 [검출기 픽셀 갯수 $\times$ slice 수] 만큼의 행과 [Recustruct 되는 이미지의 그리드 수] 만큼의 열을 갖는 행렬이다. 보통 이미지의 그리드 수는 검출기 픽셀 수의 제곱이며 검출기 픽셀 수는 수백 ~ 수천이며 , slice 수 역시 수백 ~ 수천 정도 이므로, $\boldsymbol{\Omega}$ 는 수만 $\times$ 수만 에서 수백만 $\times$ 수백만 정도의 크기를 갖는 매우 큰 행렬이다. 물론 대부분의 성분이 $0$ 인 희소행력(spase matrix) 이다. 
+
+@eq-algebraic_equation 을 보자. 이것이 유일한 해를 갖는 경우는 $\boldsymbol{A}$ 가 정사각 행렬이며 $\det (\boldsymbol{A}) \neq 0$ 일 때 뿐이다. 그러나 일반적인 경우에 $\boldsymbol{A}$ 는 정사각 행렬이 아니다. 이 경우 일반화된 역행렬 방법이 사용된다.
+
+
+
+</br>
+
+
+
+
+### ART (Algebraic reconstruction technique)
+
+$$
+\boldsymbol{x}^{(k+1)} = \boldsymbol{x}^{(k)} + \lambda_m \dfrac{1}{\boldsymbol{A}_{1:}^T \boldsymbol{A}_{1:}} (\boldsymbol{b}_i - \boldsymbol{A}_{i:}\boldsymbol{x}^{(k)}) \boldsymbol{A}_{i:}
+$$
+
+ㅋ
+</br>
+
+### SART (Simultaneous ART)
+
+$$
+\boldsymbol{x}^{(k+1)} = \boldsymbol{x}^{(k)} + \lambda_m \boldsymbol{V}^{-1} \boldsymbol{A}^T \boldsymbol{W} (\boldsymbol{b}-\boldsymbol{Ax}^{(k)}) 
+$$
+
+이 때 $\boldsymbol{V}$ 와 $\boldsymbol{W}$ 는 대각행렬로 각각의 대각성분은 다음과 같다.
+
+$$
+\boldsymbol{V}_{jj} = \sum_{i=1}^M |\boldsymbol{A}_{ij}|, \qquad \boldsymbol{W}_{ii} = \dfrac{1}{\sum_{j=1}^N |\boldsymbol{A}_{ij}|}
+$$

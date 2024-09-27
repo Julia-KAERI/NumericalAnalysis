@@ -1,0 +1,58 @@
+---
+title: "일반화된 역행렬과 의사 역행렬"
+
+number-sections: true
+number-depth: 3
+crossref:
+  chapters: false
+---
+
+## 일반화된 역행렬
+
+::: {.callout-note appearance="minimal" icon="false"}
+
+::: {#def-generalized_inverse}
+
+#### 일반화된 역행렬
+
+행렬 $\boldsymbol{A} \in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대해 $\boldsymbol{AGA}=\boldsymbol{A}$ 를 만족하는 행렬 $\boldsymbol{G} \in \mathcal{M}_{n \times m}(\mathbb{F})$ 를 $\boldsymbol{A}$ 에 대한 **일반화된 역행렬(generalized inverse matrix)** 라고 한다. $\boldsymbol{A}$ 의 일반화된 역행렬을 $\boldsymbol{A}^{-}$ 로 표기한다. 
+
+:::
+:::
+
+</br>
+
+::: {#prp-generalized_inverse_of_invertible_matrix}
+
+$\boldsymbol{A}$ 가 가역행렬이면 $\boldsymbol{G}=\boldsymbol{A}^{-1}$ 이다.
+
+:::
+
+::: {.proof}
+
+$\boldsymbol{A}$ 가 가역행렬이면 $m=n$ 이다.
+$$
+\boldsymbol{AGA} = \boldsymbol{A} \implies \boldsymbol{AGAA}^{-1} = \boldsymbol{AA}^{-1} \implies \boldsymbol{AG}= \boldsymbol{I}_n \qquad \square
+$$
+
+:::
+</br>
+
+::: {#prp-generalized_inverse_of_invertible_matrix}
+
+$\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 와 $\boldsymbol{G}\in \mathcal{M}_{n \times n}$  에 대해 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{G}$ 는 $\boldsymbol{A}$ 의 일반화된 역행렬이다.
+
+&emsp; ($2$) $\boldsymbol{AG}=\boldsymbol{I}_m$ 이고 $\operatorname{rank}(\boldsymbol{AG})= \operatorname{rank}(\boldsymbol{A})$ 이거나 $\boldsymbol{GA}= \boldsymbol{I}_n$ 이고 $\operatorname{rank}(\boldsymbol{GA})= \operatorname{rank}(\boldsymbol{G})$ 이다.
+
+&emsp; ($3$) $\boldsymbol{Ay}=\boldsymbol{x}$ 의 해는 $\boldsymbol{x}=\boldsymbol{Gy}$ 이다.
+
+:::
+
+
+
+::: {.proof}
+
+($1\implies 2$)  
+:::

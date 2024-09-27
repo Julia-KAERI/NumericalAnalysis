@@ -1,5 +1,10 @@
 ---
-title: "Physics, Math & Computing"
+title: "Julia 언어와 수치해석"
 ---
 
-이 웹사이트는 현재 제가 공부한것들을 정리하는 곳입니다. 많은 오류가 있을 수 있으며, 지속적으로 수정될 것입니다. 어떤 것도 보장하지 않습니다. 
+
+이 사이트는 주로 Julia 언어를 이용한 수치해석을 다룹니다. [Julia 프로그래밍 언어](src/introduction_to_julia/index.qmd) 에서는 Julia 언어 자체에 대해 설명합니다. [Julia 언어를 이용한 수치해석](src/numerical_analysis_using_julia/index.qmd) 에서는 Julia 언어를 이용한 수치해석에 대해 다룹니다. 
+
+
+
+

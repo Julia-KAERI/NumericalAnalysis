@@ -1,0 +1,890 @@
+---
+title: "상미분 방정식의 초기값 문제-I"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+## 미분방정식
+
+::: {.callout-warning appearance="minimal"}
+
+[상미분 방정식](A_ode.qmd) 을 미리 참고하라.
+
+:::
+
+### 상미분방정식과 편미분 방정식
+
+일변수 함수에 대한 미분 연산을 포함하는 방정식을 **상미분방정식 (ordinary differential equation)** 이라고 하며 다변수 함수에 대한 미분연산, 즉 편미분 연산을 표함하는 연산을 **편미분 방정식(partial differential equation)** 이라고 한다. 여기서는 상미분방정식에 대해 다루며 편미분 방정식에 대해서는 이후 다루기로 한다. 
+
+
+</br>
+
+### 상미분 방정식의 기본 표기법
+
+
+$[a,\,b]$ 구간에서 $n$ 번 미분 가능하며 그 도함수도 연속인 함수의 집합 $C^n_{[a,\,b]}$ 를 생각하자. 또한 $C^n_{[a,\,b]}$ 에서 정의된 다음과 같은 연산자를 생각하자.
+
+$$
+\mathcal{L}[\phi(t)] = \left[p_n(t) \dfrac{d^n}{dt^n} + p_{n-1}(t)\dfrac{d^{n-1}}{dt^{n-1}} \cdots + p_1(t)\dfrac{d}{dt} + p_0(t)\right] \phi(t).
+$$
+
+임의의 상수 $a,\,b$ 와 $\phi,\, \psi \in C_{\mathbb{R}}^\infty$ 에 대해
+
+$$
+\mathcal{L}\left[a\phi (t) + b \psi (t)\right] = a \mathcal{L}\phi(t) + b \mathcal{L}\psi(t)
+$$
+
+를 만족하기 때문에 $\mathcal{L}$ 를 **선형연산자 (linear operator)** 라고 할 수 있다. 연산자에 피연산자에 대한 미분이 포함되는 연산자를 **미분 연산자(differential operator)** 라고 하며, **선형 미분 연산자 (linear differential operator)** 는 미분연산자를 포함하는 선형 연산자를 의미한다. 
+
+
+</br>
+
+미분방정식이 어떤 선형 미분 연산자 $\mathcal{L}$ 에 대해 $\mathcal{L}\phi(t) = 0$ 꼴이 되면 이 미분방정식을 **동차 선형 미분 방정식(homogeneous linear differential equation)** 라고 하며, 그렇지 않으면 **비동차 선형 미분 방정식(inhomogeneous linear differential equation)** 이라고 한다.
+
+
+미분방정식에서 최고차 미분항이 $n$ 일 때 $n$ 을 이 미분방정식의 **차수 (order)** 라고 하며, 차수가 $n$ 인 미분방정식을 $n$-차 미분 방정식이라고 한다. $\dfrac{d^2}{dt^2}x(t) = a$ 는 2차 비동차 선형 미분 방정식이 된다.
+
+</br>
+
+### Superposition
+
+동차 선형 미분방정식의 경우 $\phi(t),\, \psi(t)$ 가 각각 미분방정식의 해라면 임의의 상수 $a,\,b$ 에 대해 $a \phi(t) + b \psi(t)$ 도 그 해가 된다. 이를 **superposition** 이라고 한다. 
+
+
+</br>
+
+## 상미분 방정식과 초기값 문제
+
+$x(t)$ 에 대한 미분방정식이 $x$ 에 대해 최대 $n$ 계 미분까지 포함되었을 경우, $n$-계 상미분 방정식이라 한다. 일반적으로 $n$ 계 미분 방정식은 다음 꼴로 주어진다.
+
+$$
+x^{(n)}(t) = f\left(t, x(t), x'(t), \ldots, x^{(n-1)}(t)\right)
+$$
+
+이 방정식과 초기값 $x(t_0),\,x^{(1)}(t_0), \ldots, x^{(n-1)}(t_0)$ 을 통해 $f(t)$ 를 알아내는 것을 **초기값 문제 (initial value problem)** 이라고 한다. 
+
+</br>
+
+### 1계 미분방정식의 경우 
+
+::: {.callout-warning appearance="minimal"}
+
+#### 표기법
+
+미분방정식 $x'(t) = f(t,\,x)$ 가 주어졌을 때 이 미분방정식의 해 $x(t)$ 의 $t=t_i$ 에서의 값을 $x(t_i)$ 로 표기한다. 그러나 근사적인 방법으로 풀었을 때 $t_i$ 의 값은 $x_{i}$ 와 같은 형식으로 표기한다.
+
+:::
+
+</br>
+
+가장 간단한 1계 미분방정식이라면 
+
+$$
+x'(t) = f(t, x(t))
+$$
+
+꼴이며 이 미분방정식을
+
+$$
+x(t+h) = x(t) + f(t, x(t)) h + O(h^2)
+$$
+
+를 이용하여 1차 근사로 풀 수 있다. 즉 $t_i = t_0 +ih$ 라고 할 때, 
+
+$$
+x_{i+1} = x_i + f(t_i, x_i)h, \qquad i=0,\,1,\,2,\ldots
+$$
+
+로 풀 수 있다. 이것이 잠시 후 다룰 오일러 방법이다. 우리는 앞서 [리차드슨 외삽법](06_calculus_of_one_variable_function.qmd#sec-richardson_extrapolation) 에서 보았던 것처럼 주변의 복수의 값을 이용하여 정밀도를 높일 수 있다. 즉 $f(t_i, x(t_i))$ 뿐만 아니라 몇몇 $\alpha_j$ 값에 대해 $f(t_i, x(t_i + \alpha_j h))$ 를 선형결합하여 
+
+$$
+\begin{aligned}
+x(t_{i+1}) &= x(t_i) + \sum_j c_j f(t_i, x(t_i + \alpha_j h))h + O(h^k), \\
+&= x(t_i) + \tilde{f}(t_i, h, f,\, \{\alpha_i\}) +O(h^k)
+\end{aligned}
+$$
+
+을 $k>2$ 에 대해 만족하도록 할 수 있다. 이 $\tilde{f}(t_n, h, f,\, \{\alpha_i\})$ 를 얻는 방법에는 오일러 방법, 룽게-쿠타 방법 등 여러가지가 존재한다. 
+
+</br>
+
+### 1계 상미분 방정식 시스템의 경우
+
+상미분 방정식의 시스템도 존재 할 수 있다. 예를 들어, $n$ 개의 다음과 같은 1계 미분방정식이 존재 할 수 있다.
+
+$$
+x_i(t)  = f_i (t,\,x_1(t),\,x_2(t),\ldots,\,x_n(t)),\qquad i=1,\ldots,n
+$$
+
+이 경우 우리는 $\boldsymbol{x}(t) = \begin{bmatrix}x_1(t) & \cdots & x_n(t)\end{bmatrix}^T$ 로 놓고 다음과 같이 표기 할 수 있다.
+
+$$
+\boldsymbol{x}'(t) = \begin{bmatrix} f_1 (t,\,\boldsymbol{x}) \\ \vdots \\ f_n (t,\, \boldsymbol{x}_n)\end{bmatrix} = \boldsymbol{f}(t,\,\boldsymbol{x})
+$$
+
+초기조건 $\boldsymbol{x}(t_0) = \boldsymbol{x}_0$ 를 만족하는  $\boldsymbol{x}:[a,\,b] \to \mathbb{R}^m$ 을 구한다고 하자. $\boldsymbol{x} = \begin{bmatrix} x_1(t) & \cdots & x_m(t) \end{bmatrix}^T$ 라 할 때 1변수의 경우와 마찬가지로
+
+$$
+\boldsymbol{x}(t_{i+1}) =  \boldsymbol{x}(t_i) +\tilde{\boldsymbol{f}}(t_i, h, \boldsymbol{x}, \ldots, \boldsymbol{x}^{(n-1)}) 
+$$
+
+을 통해 구한다. 
+
+</br>
+
+### 다계 상미분 방정식 시스템의 경우
+
+상미분 방정식의 시스템을 이용하여 1계 상미분 방정식 뿐만 아니라 1계 이상의 상미분 방정식에 대해서도 사용 할 수 있다. 예를 들어 $n$ 계 미분방정식
+
+$$
+x^{(n)}(t) = f(t,\,x,\,x',\ldots,\, x^{n-1})
+$$
+
+이 주어졌을 경우, $y_1(t) = x(t),\, y_2 (t) = x'(t) ,\ldots, y_n (t) = x^{(n-1)}(t)$  로 놓고 $\boldsymbol{y}(t) = \begin{bmatrix} y_1(t) & \cdots & y_n(t)\end{bmatrix}^T$ 라 하면 위의 미분 방정식은
+
+$$
+\boldsymbol{y'}(t) = \begin{bmatrix} y'_1(t) \\ \vdots \\ y'_{n-1}(t) \\ y'_n(t)\end{bmatrix} = \begin{bmatrix} y_2(t) \\ \vdots \\ y_{n}(t)  \\ f(t,\, y_1,\ldots,\, y_{n}(t))\end{bmatrix} = \boldsymbol{f}(t,\, \boldsymbol{y})
+$$
+
+가 된다. 다계 상미분 방정식 시스템의 경우도 같은 형태를 가진다는 것을 쉽게 예상 이해 할 수 있을 것이다. 
+
+
+</br>
+
+## 상미분 방정식의 해에 대한 수학적 기반 {#sec-mathematical_foundation_of_ode}
+
+이제 일계 선형미분방정식이 해를 가질 수 있는 수학적 조건에 대해 알아보기로 하자. 
+
+</br>
+
+::: {.callout-note appearance="minimal"}
+::: {#def-Lipschitz_condition}
+
+#### Lipschitz 조건
+
+$D = \{ t,\,\boldsymbol{x} : a \le t \le b,\, \boldsymbol{x}\in \mathbb{R}^n\}$ 에서 연속인 함수 $\boldsymbol{f}(t, \boldsymbol{x}) : D \to \mathbb{R}^n$ 가 모든 $(t, \boldsymbol{x}_1),\, (t,\boldsymbol{x}_2)\in D$ 에 대해 어떤 $L>0$ 이 존재하여
+
+$$
+\|\boldsymbol{f}(t, \boldsymbol{x}_1) - \boldsymbol{f}(t, \boldsymbol{x}_2)\| \le L\| \boldsymbol{x}_1-\boldsymbol{x}_2\|
+$$
+
+를 만족할 때 이 함수 $\boldsymbol{f}$ 는 $D$ 에서 **Lipschitz 조건** 을 만족한다 라고 하며 이때의 $L$ 을 $\boldsymbol{f}$ 에 대한 **Lipschitz 상수** 라고 한다. 
+
+:::
+
+:::
+
+
+</br>
+
+아래의 정리는 일계 선형 미분방정식의 초기값 문제의 해의 존재성과 유일성을 말한다. 증명은 꽤나 긴데 여기서는 생략한다. 관심이 있으면 Moris Tenenbaum, Harriy Poland 의 *Ordinary Differential Equations* 나 J. Store, R. Bulirsch 의 *Introduction to Numerical Analysis* 와 거기에서의 참고목록을 참고하라. 
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#thm-lipschitz_condtion}
+
+$D = \{ (t,\,\boldsymbol{x}) : a \le t \le b,\, \boldsymbol{x}\in \mathbb{R}^n\}$ 에서 정의된 연속인 함수 $\boldsymbol{f}:D \to \mathbb{R}^n$ 이 Lipshitz 조건을 만족한다면 각각의 $(t_0,\, \boldsymbol{x}_0) \in D$ 에 대해 다음을 만족하는 $\boldsymbol{x}:\mathbb{R} \to \mathbb{R}^n$ 이 항상 존재한다.
+
+&emsp; ($1$) $\boldsymbol{x}\in C^1_{[a,\,b]}$,
+
+&emsp; ($2$) $\boldsymbol{x}'(t) = f(t,\, \boldsymbol{x}(t))$, 
+
+&emsp; ($3$) $\boldsymbol{x}(t_0) =\boldsymbol{x}_0$. 
+
+:::
+
+</div>
+
+</br>
+
+위의 정리는 $\boldsymbol{f}(t,\,\boldsymbol{x})$ 가 Lipschitz 조건을 만족한다면 어떠한 초기조건에 대해서도 $\boldsymbol{x}'(t) = \boldsymbol{f}(t,\,\boldsymbol{x})$ 를 만족하는 $C^1$ 급의 $\boldsymbol{x}(t)$ 가 항상 존재함을 보장한다. 
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
+::: {#thm-ode_solution}
+
+$\boldsymbol{f}:D \to \mathbb{R}$ 이 $D$ 에서 연속이며 Lipschitz 상수 $L$ 에 대해 Lipschitz 조건을 만족한다고 하자. 미분방정식 $\boldsymbol{x}' = \boldsymbol{f}(t,\,\boldsymbol{x})$ 에 대해 초기조건이 $(t_0,\, \boldsymbol{x}_1)$ 과  $(t_0,\, \boldsymbol{x}_2)$ 로 주어졌을 때 각각의 미분방정식의 해를 $\boldsymbol{x}(t;\boldsymbol{x}_1)$, $\boldsymbol{x}(t,;\boldsymbol{x}_2)$ 라고 하면 다음이 성립한다.
+
+$$
+\|\boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t; \boldsymbol{x}_2)\| \le e^{L|t-t_0|} \|\boldsymbol{x}_1 -\boldsymbol{x}_2\| .
+$$
+:::
+
+</div>
+
+</br>
+
+::: {.proof}
+
+$\boldsymbol{x}' = \boldsymbol{f}(t,\boldsymbol{x})$ 이므로 $\boldsymbol{x}(t) = \boldsymbol{x}_0 + \int_{t_0}^t \boldsymbol{f}(t,\boldsymbol{x})\, dt$ 이다. 따라서
+$$
+\boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2) = \boldsymbol{x}_1 - \boldsymbol{x}_2 + \int_{t_0}^t \left[\boldsymbol{f}(t, \boldsymbol{x}(t,\,\boldsymbol{x}_1)) - \boldsymbol{f}(t, \boldsymbol{x}(t;\boldsymbol{x}_2))\right]\, dt
+$$
+
+이며,
+
+$$
+\| \boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|  \le \| \boldsymbol{x}_1 - \boldsymbol{x}_2 \| + \int_{t_0}^t \| \boldsymbol{f}(t, \boldsymbol{x}(t,\,\boldsymbol{x}_1)) - \boldsymbol{f}(t, \boldsymbol{x}(t;\boldsymbol{x}_2))\|\, dt
+$$ {#eq-thm_ode_solution_0}
+
+이다. Lipschitz 조건을 이용하면
+
+
+$$
+\| \boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|  \le \| \boldsymbol{x}_1 - \boldsymbol{x}_2 \| +  L\int_{t_0}^t \| \boldsymbol{x}(t,\,\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|\, dt
+$$ {#eq-thm_ode_solution_1}
+
+이다. 여기서
+
+$$
+\Phi(t) := \int_{t_0}^t \| \boldsymbol{x}(t,\,\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|\, dt
+$$
+
+라고 하면 $\Phi'(t) =\| \boldsymbol{x}(t,\,\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|$ 이며,  @eq-thm_ode_solution_1 에 따라
+
+$$
+\Phi'(t) \le \|\boldsymbol{x}_1-\boldsymbol{x}_2\| + L\Phi(t)
+$$
+
+이다. $\Phi(t_0)=0$ 인데 위식을 미분방정식 $\Phi'(t) = \|\boldsymbol{x}_1-\boldsymbol{x}_2\| + L\Phi(t)$ 와 초기조건 $\Phi(t_0)=0$  에 대해 풀면
+
+$$
+\Phi(t) = e^{L(t-t_0)} \int_{t_0}^t \left(\Phi'(s) - L \Phi (s)\right) e^{L(s-t_0)}\, ds
+$$
+
+이다 $\Phi(t)$ 의 정의에 의해 $\Phi(t)\ge 0$ 이며,  $\|\Phi(s)-L\Phi(s)\| \le \|\boldsymbol{x}_1-\boldsymbol{x}_2\|$ 이므로 $t>t_0$ 에 대해
+
+$$
+0 \le \Phi(t) \le e^{L(t-t_0)} \|\boldsymbol{x}_1-\boldsymbol{x}_2 \| \int_{t_0}^t e^{L(s-t_0)}\, ds = \dfrac{\|\boldsymbol{x}_1-\boldsymbol{x}_2\|}{L} (e^{L(t-t_0)}-1)
+$$ {#eq-thm_ode_solution_2}
+
+이다. 따라서 @eq-thm_ode_solution_1 을 생각하면
+
+$$
+\|\boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t; \boldsymbol{x}_2)\| \le e^{L|t-t_0|} \|\boldsymbol{x}_1-\boldsymbol{x}_2\|
+$$
+
+이다. $\square$
+
+:::
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4  ;padding:20px;">
+<!-- <div class="border" style="background-color:#F2ECD0  ;padding:20px;"> -->
+
+::: {#thm-ode-solution_2}
+
+@thm-ode_solution 의 조건에 더해 $\boldsymbol{f}$ 의 $\boldsymbol{x}$ 에 대한 야코비 행렬 $\nabla_\boldsymbol{x}\boldsymbol{f}$ 가  $D$ 에서 존재하며 연속이고 유계라면 즉, 모든 $(t,\,\boldsymbol{x})\in D$ 에 대해 
+
+$$
+\|\nabla_{\boldsymbol{x}} \boldsymbol{f}(t,\,\boldsymbol{x})\| \le L
+$$
+ 
+라면 임의의 초기조건 $(t_0,\,\boldsymbol{x}_0)\in D$ 에서의 미분방정식 $\boldsymbol{x}'=\boldsymbol{f}(t,\boldsymbol{x})$ 의 해 $\boldsymbol{x}(t;\boldsymbol{x}_0)$ 는 $D$ 에서 연속이며 미분가능하다. 또한 그 도함수
+
+$$
+\boldsymbol{Z}(t; \boldsymbol{x}_0) := \nabla_{\boldsymbol{x}_0} \boldsymbol{x}(t; \boldsymbol{x}_0)
+$$
+
+는 아래의 미분방정식의 초기값 문제의 해이다.
+
+$$
+\dfrac{d}{dt}\boldsymbol{Z}(t; \boldsymbol{x}_0) = \nabla_{\boldsymbol{x}_0} \boldsymbol{f}(t, \boldsymbol{x}(t; \boldsymbol{x}_0)) \boldsymbol{z},\qquad \boldsymbol{Z}(t_0,\,\boldsymbol{x}_0) = 1.
+$$ {#eq-ode_solution_2_1}
+
+:::
+
+</div></br>
+
+$\boldsymbol{Z}(t;\boldsymbol{x}_0)$ 와 $\boldsymbol{Z}'(t;\boldsymbol{x}_0)$ 는 $n \times n$ 행렬임에 유의하라. 따라서 @eq-ode_solution_2_1 은 $n \times n$ 개의 미분방정식을 표현한다.
+
+
+</br>
+
+## 오일러 방법 (Newton's method)
+
+오일러 방법은 초기값이 주어졌을 때 수치해석적으로 미분방정식의 해를 구하는 가장 간단한 방법이다. 실제적이고 진지한 계산에 사용하기예는 오차가 너무 크지만 상미분방정식의 초기값 문제를 푸는 여러가지 기법과 개념을 익힐 수 있다.
+
+### 전방 오일러 방법과 후방 오일러 방법
+
+아래와 같은 미분방정식
+
+$$
+x'(t) = \dfrac{dx}{dt} = f(t, x)
+$$
+
+와 초기조건 $x(t_0)$ 이 주어졌다고 하자. 테일러 전개에 의해
+
+$$
+\begin{aligned}
+x(t+h) &= x(t) + x'(t)h + O(h^2) =  x(t) + f(t, x)h + O(h^2)
+\end{aligned}
+$$
+
+를 이용하는 방법이다. $i=1,\,2,\ldots,$ 에 대해 $t_i = t_1 + ih$ 로 놓고
+
+$$
+x_{i+1} =  x_i + f(t_i, x_i) h
+$$ {#eq-forward_euler_method}
+
+로 근사한다. 이 때 $t_i,\,i=0,\,1,\ldots$ 를 **mesh point** 라고 한다. 이렇게 $x_{i+1} =  x_i + f(t_i, x_i) h$ 로 근사하는 오일러 방법을 **전방 오일러 방법 (forward Euler method)** 혹은 **양함수적 오일러 방법(explicit Euler method)** 라고 한다. 보통 **오일러 방법(Euler method)** 라고 할 때는 전방 오일러 방법을 의미한다. 이에 반해
+
+$$
+x(t-h) = x(t) - x'(t)h + O(h) = x(t) -  f(t,\,x)h +O(h^2)
+$$
+
+로 놓고 $t_i = t-h,\, t_{i+1}=t$ 라 고 하면, 
+
+$$
+x_{i+1} = x_i + f(t_{i+1},\,x_{i+1})h
+$$ {#eq-backward_euler_method}
+
+을 얻는다. 이를 통해 $x(t)$ 를 얻는 방법을 **후방 오일러 방법(backward Euler method)** 혹은 **음함수적 오일러 방법(implicit Euler method)** 라고 한다. 음함수적이라는 이름이 붙는 이유는 $f(t,\,x)$ 함수가 $x$ 에 의존할 경우 @eq-backward_euler_method 는 우리가 이미 알고 있는 $t_i$ 와 $x(t_i)=x_i$ 에 대해
+
+$$
+\overline{x} - x_i + f(t_i, \overline{x})=0
+$$
+
+이라는 음함수 형태의 방정식의 해로서 $x_{i+1}=\overline{x}$ 를 구해야 하기 때문이다. 이 경우에도 $f(t,\,x)= f(t)$ 라면 쉽게 구할 수 있다. 
+
+
+</br>
+
+### 다변수 일차 미분 방정식
+
+$\boldsymbol{x}:\mathbb{R}\to \mathbb{R}^n$ 이며 $x_j(t)$ 가 $\boldsymbol{x}(t)$ 의 $j$ 번째 성분일 때 미분방정식이 $\boldsymbol{f}:\mathbb{R}^{n+1}\to \mathbb{R}^n$ 에 대해
+
+$$
+\boldsymbol{x}'(t)=\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
+$$
+
+로 주어지고, 초기값 $t_0,\,\boldsymbol{x}(t_0)$ 가 주어졌을 때 가장 간단하게 $\boldsymbol{x}(t)$ 를 구하는 방법이다. 테일러 전개를 이용하면,
+
+$$
+x_j(t + h) = x_j(t) + x_j'(t)h+ \dfrac{x_j''(\xi)}{2}h^2
+$$
+
+를 만족하는 $\xi\in (t,\, t+h)$ 이 존재한다는 것을 안다. 이 때 $|h | \ll 1$ 이면,
+
+$$
+x_j(t + h) \approx x_j(t) + x_i'(t)h
+$$
+
+임을 이용하는 것이 오일러 방법이다.
+
+$t_{i+1}=t_i+h$ 일 때,
+
+$$
+\boldsymbol{x}_{i+1} = \boldsymbol{x}_i + \boldsymbol{f}(t_i, \boldsymbol{x}_i) \, h
+$$
+
+를 이용하여 $\boldsymbol{x}_{i+1}$ 값을 구한다. 아래와 같이 julia 로 구현 할 수 있다.
+
+```julia
+# 일변수에 대한 오일러 방법
+function ode_euler(
+    fp::Function,
+    t0::Real, 
+    x0::Real,
+    Npoints::Integer, 
+    h = 1.0e-6)
+    
+    tn = t0 .+ collect(0:1:(Npoints-1)) * h
+    xn = zero(tn)
+    xn[1] = x0
+    for i in 1:(Npoints-1)
+        xn[i+1] = xn[i] + fp(tn[i], xn[i])* h
+    end
+    return tn, xn
+end
+
+
+# 다변수에 대한 오일러 방법
+function ode_euler(
+    fp::Vector{<:Function}, 
+    t0::Real, 
+    x0::Vector{<:Real}, 
+    Npoints::Integer, 
+    h = 1.0e-6)
+    
+    tn = t0 .+ collect(0:1:(Npoints-1)) * h
+    xn = zeros((length(x0), length(tn)))
+    xn[:,1] = x0
+    for i in 1:(Npoints-1)
+        xn[:, i+1] = xn[:, i] .+ [f(t) for (f, t) ∈ zip(fp, tn[i])] .* h
+    end
+    return tn, xn
+end
+```
+
+$f(x,\,y)$ 가 변수 2개에 대한 함수일 때는 위의 함수를 약간 수정하여 구현 할 수 있을 것이다.
+
+우리는 $y'= e^x,\, y(0)=1$ 일 때, $y=e^x$ 임을 알고 있다. 아래 그림은 위의 `ode_euler` 함수를 이용하여 미분방정식을 푼 값과, 실제 함수값을 비교해 보았다.
+
+</br>
+
+[`LaTeXStrings` 는 $\LaTeX$ 의 수식을 사용 할 수 있도록 해 주는 패키지이다.]{.aside}
+
+```julia
+using LaTeXStrings, Plots
+tn, xn = ode_euler((t, x)->exp(t), 0.0, 1.0, 500, 1.0e-2)
+plot(tn, xn, lw = 2, frame = :box, label = "Euler method")#, dpi=300)
+plot!(tn, exp.(tn), lw=2, ls = :dash, label = L"f(t) = e^t")
+```
+
+
+![Euler 방법](ch10_ode_initial_value_problem//euler_method.png){width=600}
+
+</br>
+
+다변수 오일러 방법을 사용해 볼 수 있는 문제중의 하나는 로렌츠 방정식이다.
+
+$$
+\begin{aligned}
+\dfrac{dx}{dt} &  = \sigma (y-x), \\
+\dfrac{dy}{dt} & = x(\rho - z)-y, \\
+\dfrac{dz}{dt} &= xy-\beta z.
+\end{aligned}
+$$ {#eq-lorentz_equation}
+
+$\boldsymbol{x} =\begin{bmatrix} x & y & z\end{bmatrix}^T$ 로 놓고 다변수 오일러 방법을 통해 구해보자. 어떤 조건에서 위의 미분방정식의 해가 나비를 닮았기 때문에 함수 이름을 `butterfly3d` 로 하였다. $\sigma=10$, $\rho=28$, $\beta=8/3$ 일 때, 
+
+```julia
+function butterfly3d(v, σ::Real, ρ::Real, β::Real)
+    return [σ*(v[2]-v[1]), v[1]*(ρ - v[3])-v[2], v[1]*v[2]-β*v[3]]
+end
+
+tn, xn = ode_euler((t, v)->butterfly3d(v, 10, 28, 8/3), 0.0, [0.0, 1.0, 1.0], 4000, 1.0e-2)
+```
+
+를 통해 얻은 궤적을 그리면 다음과 같다.
+
+```julia
+using Plot, LaTeXStrings
+p0 = plot(xn[1,:], xn[2,:], xn[3,:], frame=:box, aspect_ratio=1.0, label=L"xyz", dpi=300)
+p1 = plot(xn[1,:], xn[2,:], frame=:box, aspect_ratio=1.0, label=L"xy", color=:red)
+p2 = plot(xn[2,:], xn[3,:], frame=:box, aspect_ratio=1.0, label=L"yz", color=:green)
+p3 = plot(xn[3,:], xn[1,:], frame=:box, aspect_ratio=1.0, label=L"zx", color=:blue)
+
+plot!(p0, p1, p2, p3, layout=4)
+```
+
+![로렌츠 방정식](ch10_ode_initial_value_problem//lorentz.png){width=600}
+
+</br>
+
+### 일변수 이차 미분 방정식
+
+$\dfrac{d^2x}{dt^2} = f(t, x, x')$ 으로 주어진 미분방정식과 초기값 $x(t_1),\, x'(t_1)$ 이 주어졌다고 하자. $y(t) = x'(t)$ 라고 하면, 
+
+$$
+\begin{aligned}
+y'(t) &= f(t, x, y), \\
+x'(t) &= y(t) 
+\end{aligned}
+$$
+
+라는 2변수에 대한 1차 미분방정식 꼴이 된다. 즉, $\boldsymbol{y} = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로 놓았을 때의 이변수 일차 미분방정식이다.
+
+가장 간단한 1차원 조화진동자 문제를 보자. 미분방정식이 
+
+$$
+\dfrac{d^2 x(t)}{dt^2} = -k\cdot x(t)
+$$ {#eq-sho1d}
+
+로 주어졌을 때 $\boldsymbol{x}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로 놓으면, 
+
+$$
+\boldsymbol{y}(t+h) = \begin{bmatrix} x(t+h) \\ x'(t+h)\end{bmatrix} = \begin{bmatrix} x(t) + x'(t)h \\ x'(t) -k  x(t) h \end{bmatrix} = \boldsymbol{y}(t) + h\begin{bmatrix} 0 & 1\\ -k & 0\end{bmatrix} \boldsymbol{y}(t)
+$$
+
+이를 위해 다음과 같은 코드를 작성하였으며 그래프로 그려보면 다음과 같다.
+
+```julia
+function sho1d(y::Vector{<:Real}, k::Real, x0=0.0)
+    return [y[2], -k*(y[1]-x0)]
+
+tn, xn = ode_euler((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
+plot(tn, xn[1,: ], label = :none)
+```
+
+![오일러 방법으로 계산한 1차원 조화진동자](ch10_ode_initial_value_problem/euler_sho1d.png){width=600}
+
+
+1차원 조화진동자는 잘 알려져 있다 시피 삼각함수로 그 진폭이 커지면 안되지만 여기서는 커지는데 이것은 오일러 방법이 기본적으로 에러에 취약하기 때문이다. 이로 인해 실제 계산에서는 오일러 방법은 잘 사용되지 않는다. 
+
+</br>
+
+
+### 다변수 이차 미분 방정식
+ $\dfrac{d^2\boldsymbol{x}}{dt^2} = \boldsymbol{f}(t, \boldsymbol{x}, \boldsymbol{x}')$ 으로 주어진 미분방정식은,
+
+$$
+\begin{aligned}
+\boldsymbol{v}(t_{i}+h) &=\boldsymbol{v}(t_i) + \boldsymbol{f}(t, \boldsymbol{x}(t_i), \boldsymbol{v}(t_i)) h,\\
+\boldsymbol{x}(t_i+h) &=\boldsymbol{x}(t_i) + \boldsymbol{v}(t_i)h 
+\end{aligned}
+$$
+
+와 같이 2개의 1차 미분방정식에 대한 오일러 방법에 의한 해로 주어진다. 
+
+</br>
+
+## 고차 테일러 방법
+
+미분방정식이 아래와 같이 주어졌다고 하자.
+$$
+\dfrac{d}{dt}x(t) = f(t,\,x),\qquad x(t_0) = x_0
+$$
+
+만약 $f(x,\,t)$ 에 대한 $k$ 차 도함수를 구할 수 있다면 $x(t)$ 에 대한 테일러 전개는 다음과 같다. [두말하면 잔소리지만 $\dfrac{df}{dt} = \dfrac{\partial f}{\partial t} + \dfrac{\partial f}{\partial x}\dfrac{dx}{dt}$ 임에 유의하라.]{.aside}
+
+$$
+x(t_{i+1}) = x(t_i) + f(t_i,\, x_i)h + \dfrac{1}{2}\dfrac{df}{dt }(t_i,\,x_i)h^2 + \cdots + \dfrac{1}{(k+1)!}\dfrac{d^k f}{dt^k}(t_i,\,x_i) h^{k+1} + O(h^{k+2}).
+$$
+
+이 방법은 $f(t,\,x)$ 에 대한 $k$ 차 도함수 자체를 쉽게 구할 수 있는 경우에 사용할 수 있다. 참고로 다음에 다룰 룽게-쿠타 방법은 실제 $k$ 차 도함수가 아닌 수치해석적으로 계산한 $k$ 차 도함수의 값을 사용한다. 
+
+
+</br>
+
+## 룽게-쿠타 방법
+
+### 2차 룽게-쿠타 방법 (RK2)
+
+역시
+$$
+\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
+$$
+
+와 초기조건 $\boldsymbol{x}_0 = \boldsymbol{f}(t_0)$ 가 주어졌다고 하자.  $\boldsymbol{x}$ 와 $\boldsymbol{f}(t,\boldsymbol{x})$ 의 $j$ 번째 성분을 각각 $x_j,\, f_j(t,\,\boldsymbol{x})$ 라고 하면,
+
+$$
+\dfrac{d^2 x_j}{dt^2 } = \dfrac{d}{dt}f_j(t, \,\boldsymbol{x}) = \dfrac{\partial f_j}{\partial t} + \sum_k\dfrac{dx_k}{dt} \cdot \dfrac{\partial f_j}{\partial x_k}
+$$
+
+라는 것을 안다. 이것을 이용하여 2차항까지 테일러 전개를 하면,
+$$
+\begin{aligned}
+x_j(t+h) & = x_j(t) + \dfrac{dx_j}{dt}h  + \dfrac{1}{2}\dfrac{d^2 x_j}{dt^2}h^2 + \cdots \\
+&= x_j(t)  + f_j(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_j}{\partial t} + \sum_k \dfrac{dx_k}{dt} \dfrac{\partial f_j}{\partial x_k}\right) h^2 + \cdots \\
+&= x_j(t)  + f_j(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_j}{\partial t} + \sum_k f_k(t,\,\boldsymbol{x}) \dfrac{\partial f_i}{\partial x_k}\right) h^2 + \cdots
+\end{aligned}
+$$
+
+이다. 이 때,
+
+$$
+\begin{aligned}
+\boldsymbol{k}_1 &= \boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \,,\\
+\boldsymbol{k}_2 &= \boldsymbol{f}\left( t_i + \dfrac{h}{2},\, \boldsymbol{x}(t_i) + \dfrac{h}{2} \boldsymbol{k}_1\right)
+\end{aligned}
+$$
+
+라 하자. 그렇다면, 야코비 행렬 $\left(\boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i))\right)_{jk} = \dfrac{\partial f_j}{\partial x_k}(t_i, \boldsymbol{x}(t_i))$ 에 대해 
+
+$$
+\begin{aligned}
+\boldsymbol{k}_2 &= \boldsymbol{f}(t_i,\, \boldsymbol{x}(t_i)) +  \dfrac{h}{2} \dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_n)) + \dfrac{h}{2} \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \\
+&= \boldsymbol{k}_1 + \dfrac{h}{2} \left(\dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \right)
+\end{aligned}
+$$
+
+이므로,
+
+$$
+\begin{aligned}
+\dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 & = \dfrac{2}{h}(\boldsymbol{k}_2-\boldsymbol{k}_1)
+\end{aligned}
+$$
+
+이다. 이를 이용하면,
+
+$$
+\boldsymbol{x}(t_{i+1}) = \boldsymbol{x}(t_i) + \boldsymbol{k}_1h + \dfrac{h^2}{2} \dfrac{2}{h} (\boldsymbol{k}_2-\boldsymbol{k}_1) = \boldsymbol{x}(t_i)+ \dfrac{h}{2}(\boldsymbol{k}_1+\boldsymbol{k}_2)
+$$
+
+을 얻는다. 이것을 2차 룽게-쿠타 방법(RK2)이라 한다.
+
+</br>
+
+### 4차 룽게-쿠타 방법 (RK4)
+
+2차 룽게 쿠타 방법은 테일러 전개의 2차항까지 사용하였다. 4차 룽게-쿠타 방법(RK4)은 테일러 전개의 4차항까지 사용한다.
+$$
+\boldsymbol{x}(t+h)  = \boldsymbol{x}(x) + \boldsymbol{x}'(x) h + \dfrac{\boldsymbol{x}''(t)}{2} h^2 + \dfrac{\boldsymbol{x}^{(3)}(t)}{6}h^3 + \dfrac{\boldsymbol{x}^{(4)}(t)}{24}h^4 + \cdots
+$$
+
+아래와 같이 $\boldsymbol{k}_1,\,\boldsymbol{k}_2,\,\boldsymbol{k}_3,\,\boldsymbol{k}_4$ 를 정의하면,
+$$
+\begin{aligned}
+\boldsymbol{k}_{1} &= \boldsymbol{f}(t_{i},\, \boldsymbol{x}(t_{i})),\\
+\boldsymbol{k}_{2}&=\ \boldsymbol{f}\!\left( t_{i}+{\frac {h}{2}},\, \boldsymbol{x}(t_{i})+ \frac{h}{2}\boldsymbol{k}_{1}\right),\\
+\boldsymbol{k}_{3}&=\ \boldsymbol{f}\!\left(t_{i}+{\frac {h}{2}},\,  \boldsymbol{x}(t_{i})+\frac{h}{2} \boldsymbol{k}_{2}\right),\\
+\boldsymbol{k}_{4}&=\ \boldsymbol{f}\!\left(t_{i}+h,\, \boldsymbol{x}(t_{i})+h\boldsymbol{k}_{3}\right).
+\end{aligned}
+$$
+
+4차항까지의 테일러 전개가 아래와 같다는 것을 보일 수 있다. 아주 지루한 과정이므로 여기서는 생략한다.
+$$
+\begin{aligned}
+t_{i+1}&=t_{i}+h, \\
+\boldsymbol{x}(t_{i+1})&=\boldsymbol{x}(t_{i})+{\frac {h}{6}}\left(\boldsymbol{k}_{1}+2 \boldsymbol{k}_{2}+2\boldsymbol{k}_{3}+\boldsymbol{k}_{4}\right).
+\end{aligned}
+$$
+
+RK2 및 RK4 이용하여 상미분 방정식을 푸는 julia 코드는 아래와 같다. 모두 이변수 함수 `f` 와 초기값 `x0`, `y0`, 위의 $h$ 에 해당하는 값 `epsilon` 과 초기 값을 포함하여 몇개의 점에 대해 얻을지에 대한 `Npoints` 를 인자로 받는다.
+
+```julia
+function ode_rk2(f::Function, 
+    t1::Real, 
+    x1::Vector{<:Real}, 
+    Npoints::Integer, 
+    h = 1.0e-6) 
+    tn = t1 .+ collect(0:1:(Npoints-1)) * h
+    xn = zeros((length(x1), length(tn)))
+    xn[:,1] = x1
+    for i in 1:(Npoints-1)
+        k1 = f(tn[i], xn[:,i])
+        k2 = f(tn[i] + h/2, xn[:, i] .+ k1.*(h/2))
+        xn[:, i+1] = xn[:,i] .+ (k1 .+ k2) .*(h/2)
+    end 
+    return tn, xn
+end
+
+function ode_rk4(f::Function, 
+    t1::Real, 
+    x1::Vector{<:Real}, 
+    Npoints::Integer, 
+    h = 1.0e-6) 
+    tn = t1 .+ collect(0:1:(Npoints-1)) * h
+    xn = zeros((length(x1), length(tn)))
+    xn[:,1] = x1
+    for i in 1:(Npoints-1)
+        k1 = f(tn[i], xn[:, i])
+        k2 = f(tn[i] + h/2, xn[:, i] .+ k1.*(h/2))
+        k3 = f(tn[i] + h/2, xn[:,i] .+ k2 .*(h/2))
+        k4 = f(tn[i] + h, xn[:, i] .+ k3 .* h)
+        xn[:, i+1] = xn[:, i] .+ (k1 .+ (2.0 .* k2) .+ (2.0 .* k3) .+ k4).*(h/6)
+    end
+    return tn, xn
+end
+```
+
+오일러 방법에서 사용했던 로렌츠 방저식에 대한 사용법은 아래와 같다.
+
+```julia
+tn, xn = ode_rk2((t, x)->butterfly3d(x, 10, 28, 8/3), 0.0, [0.0, 1.0, 1.0], 50000, 1.0e-3)
+plot(xn[1,:], xn[2,:], xn[3,:], label="RK2")
+```
+
+![RK2를 이용한 로렌츠 방정식의 궤적](ch10_ode_initial_value_problem/lorentz_rk2.png){width=600}
+
+![RK4를 이용한 로렌츠 방정식의 궤적](ch10_ode_initial_value_problem//lorentz_rk4.png){width=600}
+
+</br>
+
+## 예제 (Examples)
+
+### 단순 조화 진동자
+
+@eq-sho1d 로 주어진 단순 조화 진동자 문제를 오일러 방법과 RK2, RK4 로 풀어보자. 오일러 방법에서와 같이 $\boldsymbol{x}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}$ 로
+로 놓고 수치해석적으로 풀 수 있다.
+
+```julia
+function sho1d(y::Vector{<:Real}, k::Real, x0=0.0)
+    return [y[2], -k*(y[1]-x0)]
+end
+tn1, xn1 = ode_rk2((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
+tn2, xn2 = ode_rk4((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
+```
+
+그 결과를 그래프로 그리면 다음과 같다.
+
+![RK 방법으로 푼 단순조화진동자](ch10_ode_initial_value_problem/sho1d_rk.png){width=600}
+
+</br>
+
+오일러 방법이나 RK2 방법에서는 실제의 해와 많이 다르게 진폭(amplitude) 가 증가하지만 RK4 방법에서는 최소한 우리가 관찰한 영역에서는 진폭이 증가하지 않는다. 
+
+</br>
+
+### 감쇄 조화 진동자
+
+$$
+m \dfrac{d^2x}{dt^2} + \gamma \dfrac{dx}{dt} + kx=0
+$$
+
+로 기술되는 $x(t)$ 를 감쇄조화진동자라 한다. 일단 방정식을 간단히 하자.
+
+$$
+\dfrac{d^2x}{dt^2} + \dfrac{\gamma}{m}\dfrac{dx}{dt} + \dfrac{k}{m} x = 0
+$$
+
+$v=x'(t)$ 라 하면 $v'(t) = -\dfrac{\gamma}{m}\dfrac{dx}{dt} - \dfrac{k}{m} x$ 이므로,
+
+$$
+\dfrac{d}{dt} \begin{bmatrix} x \\ v\end{bmatrix} = \begin{bmatrix} v \\ -\dfrac{\gamma}{m}v - \dfrac{k}{m} x\end{bmatrix}
+$$
+
+이다.
+
+많은 고전물리학이나 미분방정식 교재에 이 감쇄조화진동자가 나와 있다. 감쇄조화진동자의 해는 다음과 같다.
+
+$$
+x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \left(-\sqrt{-\omega^2}\right)\right]\qquad \text{where }  \lambda  =\dfrac{\gamma}{2m},\, \omega^2 = \dfrac{k}{m}-\dfrac{\gamma^2}{4m^2}
+$$
+
+이다. 여기서 $a,\,b$ 는 초기조건 $x(t=0),\, \dot{x}(t=0)$ 에 의해 정해진다.
+
+$\omega_0^2 >0$ 이면 $x(t)$ 의 $[\,\cdots]$ 부분이 $\cos$ 함수 (혹은 $\sin$ 함수) 꼴로 나타날 수 있으므로 진폭이 점점 줄어드는 진동을 한다. 이를 *underdamping* 라 한다. $\omega_0^2 <0$ 이면 진동 없이 감쇄만 하게 되며 이를 *overdamping* 라 한다. $\omega_0^2 = 0$ 일 경우를 *critical damping* 이라 한다.
+
+$m=1,\, \gamma=1,\, k=1$ 과 $x(t=0)=0,\, \dot{x}(t=0)=1$ 일 때에 대해 오일러 방법, 2차 및 4차 룽게 쿠타 방법과, 해석적 해를 같이 그려보자.
+
+</br>
+
+![감쇄조화진동자](ch10_ode_initial_value_problem//dho1d_rk.png){width=600}
+
+</br>
+
+### 진자(Pendulum) 문제
+
+<img src="ch10_ode_initial_value_problem/simple pendulum.png" width="250"/>
+
+</br>
+
+중력가속도 $g$ 의 영향을 받는 길이 $L$인 진자의 운동은 다음의 미분방정식으로 기술된다.
+
+$$
+\dfrac{d^2 \theta}{dt^2} = -\dfrac{g}{L} \sin \theta
+$$
+
+보통 $\theta$ 가 아주 작을 때 $\sin \theta \approx \theta$ 로 가정하여 풀면
+
+$$
+\dfrac{d^2\theta}{dt^2}= -\left( \dfrac{g}{L} \right)\theta
+$$
+
+이므로 단순조화진동자 문제이다.
+
+이제 수치적으로 풀어보자. $\phi= \dfrac{d\theta}{dt}$, $\boldsymbol{x} = \begin{bmatrix} \theta \\ \phi \end{bmatrix}$ 라 하면,
+
+$$
+\dfrac{d}{dt}\begin{bmatrix} \theta \\ \phi \end{bmatrix} = \begin{bmatrix} \phi \\ -g/L \sin \theta  \end{bmatrix}
+$$
+
+가 된다. $g=9.8,\, L=5.0$, 시간 간격을 $1\times 10^{-2}$ 잡고 미분방정식을 3가지 방법으로 풀면
+
+```julia
+function pendulum(y::Vector{<:Real}, g=9.8, l=2)
+    return [y[2], -g/l*sin(y[1])]
+end
+g, l = 9.8, 5.0
+tn1, xn1 = ode_euler((t, y)->pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
+tn2, xn2 = ode_rk2((t, y)->pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
+tn3, xn3 = ode_rk4((t, y)->pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
+```
+
+</br>
+
+![진자](ch10_ode_initial_value_problem//ode_pendulum.png)
+
+</br>
+
+와 같다. 오일러 방법은 비교적 빠르게, RK2 는 비교적 느리게 발산하지만 RK4 는 시간 범위 내에서 안정적임을 알 수 있다. 
+
+</br>
+
+### 2체 문제
+
+중력에 의한 2체 문제를 생각해보자. $m_1$ 과 $m_2$ 의 질량을 갖는 두 점입자가 오직 만유인력에 의해서만 영향을 받아 움직일 때, 그 운동은 다음의 2차 미분방정식에 의해 기술된다.
+
+$$
+\begin{aligned}
+m_1\ddot{\boldsymbol{r}}_1  =  - \dfrac{Gm_1m_2}{\|\boldsymbol{r}_1-\boldsymbol{r}_2\|^3}(\boldsymbol{r}_1 - \boldsymbol{r}_2), \\
+m_2\ddot{\boldsymbol{r}}_2  = - \dfrac{Gm_1m_2}{\|\boldsymbol{r}_1-\boldsymbol{r}_2\|^3}(\boldsymbol{r}_2 - \boldsymbol{r}_1),
+\end{aligned}
+$$
+
+$x,\,y,\,z$-좌표계에서 $m_1$ 의 위치와 속력을 각각 $\boldsymbol{r}_1 = \begin{bmatrix} x_1 & y_1 & z_1\end{bmatrix}^T$, $\boldsymbol{v}_1 = \begin{bmatrix} v_1 & u_1 & w_1\end{bmatrix}^T$ 라고 하고 $m_2$ 의 위치와 속력을 각각 $\boldsymbol{r}_2 = \begin{bmatrix} x_2 & y_2 & z_2\end{bmatrix}^T$, $\boldsymbol{v}_2 = \begin{bmatrix} v_2 & u_2 & w_2\end{bmatrix}^T$ 라고 하자. 이것을 전체적으로 기술하는 열벡터 $\boldsymbol{s}$ 를
+
+$$
+\boldsymbol{s} = \begin{bmatrix} x_1 & y_1 & z_1 & x_2 & y_2 & z_2 & v_1 & u_1 & w_1 & v_2 & u_2 & w_2\end{bmatrix}^T
+$$
+
+라 하자. $R=\|\boldsymbol{r}_1-\boldsymbol{r}_2\|$, $k_1 = \dfrac{Gm_1}{R^3}, k_2 = \dfrac{Gm_2}{R^3}$ 이라 하면, 
+
+$$
+\dfrac{d\boldsymbol{s}}{dt} = \begin{bmatrix} & & \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{array} & \\
+& & & \begin{array}{ccc} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1\end{array} \\
+\begin{array}{ccc} -k_2 & 0 & 0 \\ 0 & -k_2 & 0 \\ 0 & 0 & k_2 \\ k_1 & 0 & 0 \\ 0 & k_1 & 0 \\ 0 & 0 & k_1 \end{array} & \begin{array}{ccc} k_2 & 0 & 0 \\ 0 & k_2 & 0 \\ 0 & 0 & k_2 \\ -k_1 & 0 & 0 \\ 0 & -k_1 & 0 \\ 0 & 0 & -k_1 \end{array} 
+\end{bmatrix} \cdot \boldsymbol{s}
+$$
+
+이제 두 점입자의 초기 위치와 속도가 주어지면 $\boldsymbol{s}_{i+1} = \boldsymbol{s}_i+ \dfrac{d\boldsymbol{s}}{dt} h$ 를 이용하여 이 문제를 풀 수 있다.
+
+
+</br>
+
+### `InitialValueOdeProblem`
+
+위의 세가지 방법은 같은 입력값에 대해 계산하는 함수들로 구현되었다. 이것을 하나의 함수로 사용하도록 아래와 같이 구현하였다.
+
+```julia
+ode_initial_methods = Dict(:euler => ode_euler, :rk2 => ode_rk2, :rk4 => ode_rk4)
+
+mutable struct InitialValueOdeProblem
+    diffeq::Function
+    t1::Number
+    Npoints::Integer
+    h::Real
+    initial_value::Vector
+
+    function InitialValueOdeProblem(diffeq::Function, t1::Number, initial_value,  Npoints::Integer, h::Real)
+        @assert Npoints > 3
+        @assert h > 0
+        if isa(initial_value, Real) 
+            initial_value = [initial_value, ]
+        end
+        return new(diffeq, t1, Npoints, h, initial_value)
+    end
+end
+
+function solve(ode::InitialValueOdeProblem, method::Symbol)
+    @assert method ∈ keys(ode_initial_methods)
+    return ode_initial_methods[method](ode.diffeq, ode.t1, ode.initial_value, ode.Npoints, ode.h)
+
+end
+```
+
+이제 진자 문제는 다음과 같이 풀 수 있다.
+
+```julia
+function de_pendulum(y::Vector{<:Real}, g=9.8, l=2)
+    return [y[2], -g/l*sin(y[1])]
+end
+g, l = 9.8, 5.0
+
+pendulum = InitialValueOdeProblem((t, y)->de_pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
+tn1, xn1 = solve(pendulum, :euler)
+tn2, xn2 = solve(pendulum, :rk2)
+tn3, xn3 = solve(pendulum, :rk4)
+
+p1=plot(tn1, (180.0/π).* xn1[1,: ], label = "Euler", xlabel = L"t", ylabel = L"\textbf{Degree}", title = L"\textbf{Pendulum}", lc=:red, dpi=300)#, size=(400, 350))
+plot!(tn2, (180.0/π).* xn2[1,: ], label = "RK2", lc=:green)
+
+plot!(tn3, (180.0/π).* xn3[1,: ], label = "RK4", lc=:blue)#, xlabel = L"t", ylabel = L"\textbf{Amplitude}", title = L"RK4", size=(400, 350))
+```
+
+
+
+
+### 마치며
+
+이번 장에서는 상미분 방정식을 푸는 가장 기본적인 방법인 오일러 방법과 2차, 4차 룽게-쿠타 방법을 배웠다. 수치해석이 늘 그렇듯이 간단한 미분방정식은 잘 풀 수 있지만 다양하고 복잡한 문제에서는 더 정확한 방법을 사용해야 한다. 다음장에서는 실제 과학/공학에서 널리 활용되는 좀 더 정교한 방법에 대해 알아보기로 하자.

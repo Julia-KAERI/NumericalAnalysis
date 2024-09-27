@@ -1,0 +1,276 @@
+---
+title: "편미분 방정식의 이론적 배경"
+
+number-sections: true
+number-depth: 3
+crossref:
+  chapters: false
+---
+
+## 대표적인 편미분방정식
+
+| 이름 | 방정식 | 비고 |
+|:---------:| :-------------: |:------------|
+| 라플라스 방정식 | $\nabla^2 \psi = 0$ | 전기자기학, 유체역학, 열전달, 중력 |
+| 포아송 방정식 | $\nabla^2 \psi = -\rho/\varepsilon_0$ | source term 이 있는 전기/자기 현상 |
+| 헬름홀츠 방정식, 시간 독립적인 확산 방정식 | $\nabla^2 \psi \pm k^2 \psi  = 0$ | 고체의 탄성파와 음파, 전자기파, 원자력 발전 |
+| 시간 의존적인 확산방정식 | $\nabla^2 \psi = \dfrac{1}{a^2}\dfrac{\partial \psi}{\partial t}$ | |
+|시간 의존적인 고전 파동 방정식 | $\dfrac{1}{c^2}\dfrac{\partial^2 \psi}{\partial t^2} = \nabla^2 \psi$| |
+| 클라인-고든 방정식 | $\partial^2 \psi = -\mu^2 \psi$ | 상대론적 양자 역학 |
+| 시간 독립적인 슈레딩거 방정식 | $i\hbar \dfrac{\partial \psi}{\partial t} =  -\dfrac{\hbar^2}{2m}\nabla^2 \psi + V\psi$ | 양자역학 |
+| 시간 의존적인 슈레딩거 방정식 | $-\dfrac{\hbar^2}{2m}\nabla^2 \psi + V\psi = E\psi$ | 양자역학 |
+
+
+
+</br>
+
+## 1계 편미분 방정식
+
+### 특성곡선법 
+
+상미분방정식과 같이 선형 편미분 연산자를 $\mathcal{L}$ 이라고 하자. 다음과 같이 주어진 편미분 방정식을 생각하자.
+
+$$
+\mathcal{L}\varphi = a\dfrac{\partial \varphi}{\partial x} + b \dfrac{\partial \varphi}{\partial y} = 0.
+$$ {#eq-pde_1st_example}
+
+이 경우 $s=ax+by,\, t= bx-ay$ 로 선형 변환을 해 주면, 
+
+$$
+\begin{aligned}
+0 &= a\dfrac{\partial \varphi}{\partial x} + b \dfrac{\partial \varphi}{\partial y} = a \left(\dfrac{\partial \varphi}{\partial s}\dfrac{\partial s}{\partial x}+\dfrac{\partial \varphi}{\partial t}\dfrac{\partial t}{\partial x}\right) + b\left(\dfrac{\partial \varphi}{\partial s}\dfrac{\partial s}{\partial y}+\dfrac{\partial \varphi}{\partial t}\dfrac{\partial t}{\partial y}\right) \\
+&= (a^2+b^2)\dfrac{\partial \varphi}{\partial s}
+\end{aligned}
+$$ {#eq-pde_1st_example_2}
+
+
+이 되며, 따라서 $\varphi$ 는 $t$ 의 함수이다. 즉, 임의의 $C^1$ 함수 $f$ 에 대해 $\varphi(x,\,y) = f(bx - ay)$ 이며 다른 조건은 더이상 찾을 수 없다. 즉 @eq-pde_1st_example 에서와 같은 편미분 방정식이 $\dfrac{d\varphi}{ds}=0$ 인 1계 상미분방정식으로 변한다. 이렇게 편미분 방정식을 하나 혹은 그 이상의 상미분 방정식으로 변환하는 것을 **특성곡선법(method of characteristics)** 이라고 하며 변화된 상미분 방정식 **특성 곡선 (characteristic curve)** 혹은 **특성 곡면(characteristic curve)** 라고 한다.
+
+
+이제 @eq-pde_1st_example 을 다시 보자. $\mathbb{R}^2$ 에서 생각하면 $\boldsymbol{a} = (a,\,b)$ 에 대해 $\boldsymbol{a} \cdot \nabla \varphi (x,\,y)=0$ 인 함수 $\varphi (x,\,y)$ 를 찾는 것이다. $\nabla \varphi (x,\,y)$ 는 $x,\,y$ 에서 $\varphi$ 가 최대로 증가하는 벡터를 의미하며 $\boldsymbol{a} \cdot \nabla \varphi = 0$ 이므로 $\boldsymbol{a}$ 는 $\varphi (x, y)=c$ 인 방향을 의미한다. 즉 $t=bx-ay$ 를 상수로 놓으면 $\varphi (x,\,y)$ 도 상수이다. *-- to be extended--*
+
+
+이제 좀 더 일반적인 경우를 살펴보자. 아래와 같이 선형 미분 연산자 $\mathcal{L}$ 에 대한 inhomogeneouse 미분방정식
+
+$$
+\mathcal{L}\varphi = a\dfrac{\partial \varphi}{\partial x} + b \dfrac{\partial \varphi}{\partial y} +q(x,\,y)\varphi = F(x, y)\,.
+$$ {#eq-pde_2nd_example}
+
+를 앞에서와 같이 $s=ax+by,\, t=bx-ay$ 로 변수를 변환시키면,
+
+$$
+(a^2+b^2) \left(\dfrac{\partial \varphi}{\partial s}\right)+ \overline{q}(s, t) \varphi = \overline{F}(s, t)
+$$ {#eq-pde_2nd_example_2}
+
+이다. 여기서 $\overline{q},\,\overline{F}$ 는 $q(x,\,y),\, F(x,\,y)$ 를 $x=\dfrac{as}{a^2+b^2} + \dfrac{bt}{a^2+b^2}$, $y=\dfrac{bs}{a^2+b^2}s - \dfrac{at}{a^2+b^2}$ 로 변환시킨 함수이다. 이 경우 @eq-pde_2nd_example_2 는 $\varphi$ 의 $s$ 에 대한 1계 ODE 이며 $t$-constant function 이 특성곡선이 된다.
+
+</br>
+
+## 2계 PDE
+
+이제 LHODE 와 같이 선형 제차 편미분방정식을 LHPDE 라고 쓰자. 그리고 함수 $u(x, y)$ 에 대해 $u_{x} = \dfrac{\partial u}{\partial x}$, $u_{xy}= \dfrac{\partial^2 u}{\partial x\partial y}$ 라고 쓰기로 하자. 이것은 타이핑을 많이 줄여준다. 
+
+
+### 2계 PDE 의 분류
+
+#### 2차원의 경우
+
+2차원에서의 2계 LHPDE 는 다음과 같은 꼴을 갖는다.
+
+$$
+Au_{xx} + Bu_{xy} + Cu_{yy} + Du_x + Eu_y + Fu = 0
+$$
+
+이 때 $B^2-4AC < 0$ 일 때 이 PDE 를 **타원형(elliptical)** 이라고 하며, $B^2-4AC>0$ 일 때 **쌍곡선형(hyperbollic)** 이라고 한다. $B^2-4AC=0$ 일 때는 **포물선형(parabolic)** 이라고 한다$^\ast$. [$^\ast$ 그 이유는 $Ax^2 +B xy + Cy^2 + Dx + Eu + F = 0$ 이 $B^2-4AC <0$ 일 때 타원, $B^2-4AC>0$ 일 때 쌍곡선, $B^2-4AC=0$ 일 때 포물선인 데서 유래한다.]{.aside}
+
+
+예를 들어 실수 $a,\,c$ 에 대해 
+
+$$
+a^2 u_{xx} - c^2 u_{yy}=0 
+$$
+
+의 경우는 쌍곡선형이다. 이 미분방정식은 $(a\partial_x+c\partial_y) (a\partial_x-c\partial_y)u=0$ 를 만족하며 $(a\partial_x+c\partial_y) u=0$ 이거나 $(a\partial_x-c\partial_y) u=0$ 의 해 모두 해가 된다. 즉 2차원 LHPDE 가 1차원 LHPDE 로 변형되었다. 또한 $s=ax+by,\, t= bx-ay$ 가 특성곡선이 된다.
+
+비슷한 경우로
+
+$$
+a^2 u_{xx} + c^2 u_{yy}=0
+$$
+
+의 경우는 타원형이다. 이 미분방정식은 $(a\partial_x+ic\partial_y) (a\partial_x-ic\partial_y)u=0$ 를 만족한다. 
+
+$$
+a^2 u_{xx} - 2acu_{xy} + c^2u_{yy}=0
+$$
+
+의 경우 $(a\partial_x - c\partial_y)^2y=0$ 이다. 혹은 
+
+$$
+u_{xx} +au_t=0
+$$
+
+인 경우도 포물선형이다.
+
+</br>
+
+#### 다차원의 경우
+
+주로 2차원 공간 + 시간, 3차원 공간, 3차원 공간+시간 의 경우이며 이보다 많은 차원의 경우도 생각 할 수 있다.
+
+
+</br>
+
+### 경계조건
+
+일반적으로 경계조건은 세가지 가운데 한가지이다.
+
+1. 디리클레 경계 조건 : 경계에서의 함수값이 정해져 있는 경우.
+2. 노이만 경계 조건 : 경계에서의 normal derivative 가 정해져 있는 경우.
+3. 코시 경계 조건 : 디리클레와 노이만 경계조건이 모두 다 정해져 있는 경우. 보통은 미분방정식의 해를 너무 제한하기 때문에 사용하지 않는다. 
+
+
+
+</br>
+
+## 변수분리법
+
+$n$ 개의 변수에 대한 PDE 를 $n$ 개의 ODE 로 변환시키는 방법이다.
+
+### 데카르트 좌표계에서
+
+다음과 같이 주어지는 3차원에서의 헬름홀츠 방정식을 생각하자.
+$$
+\nabla^2 \psi + k^2 \psi = 0.
+$$ {#eq-pde-helmholtz_3d}
+
+3차원 $(x,\,y,\,z)$ 에서 정의되는 함수 $\psi$ 를 각각 $x,\,y,\,z$ 에 대한 함수의 곱으로 표현하자. 즉, 
+
+$$
+\psi(x,\,y,\,z) = X(x)Y(y)Z(z)
+$$
+
+라고 하자. @eq-pde-helmholtz_3d 를 보면 모든 미분항이 하나의 변수에 대한 미분항이다. 즉 $\partial_x\partial_y$ 같은 것이 없으며, 이 경우 각 변수에 대한 함수의 곱으로 표현했을 때 유용한 경우가 많다. 이렇게 다차원 함수를 각 변수에 대한 함수의 곱으로 표현하여 방정식을 푸는 것을 **변수분리법(separation of variables)** 이라고 한다. 이 경우 @eq-pde-helmholtz_3d 는 다음과 같다. 
+
+$$
+\dfrac{d^2 X(x)}{dx^2} Y(y)Z(z) + X(x)\dfrac{d^2Y(y)}{d^2y}Z(z) + X(x)Y(y)\dfrac{d^2 Z(z)}{dz^2} + k^2 X(x)Y(y)Z(z)=0.
+$$
+
+그렇다면, 
+
+$$
+\dfrac{1}{X}\dfrac{d^2 X}{dx^2}= -k^2 - \dfrac{1}{Y}\dfrac{d^2Y}{dy^2} - \dfrac{1}{Z} \dfrac{d^2Z}{dz^2}
+$$
+
+이다. 그런데 좌변은 $x$ 에 대한 함수이고 우변은 $y,\,z$ 에 대한 함수여야 하므로 이 식은 상수일 수 밖에 없다. 상수를 $-l^2$ 라 놓으면, 
+
+$$
+\begin{aligned}
+\dfrac{1}{X}\dfrac{d^2 X}{dx^2} &= -l^2 , \\
+ -k^2 - \dfrac{1}{Y}\dfrac{d^2Y}{dy^2} - \dfrac{1}{Z} \dfrac{d^2Z}{dz^2} &= -l^2.
+\end{aligned}
+$$
+
+이며, 이 중 두번째 식은, 
+
+$$
+\dfrac{1}{Y}\dfrac{d^2Y}{dy^2}= -k^2+l^2 - \dfrac{1}{Z}\dfrac{d^2Z}{dz^2}
+$$
+
+가 된다. 역시 좌변은 $y$ 에 대한 함수이고 우변은 $z$ 에 대한 함수이므로, 
+
+$$
+\begin{aligned}
+\dfrac{1}{Y}\dfrac{d^2Y}{dy^2} &= -m^2 , \\
+-k^2+l^2 - \dfrac{1}{Z}\dfrac{d^2Z}{dz^2} &= -m^2.
+\end{aligned}
+$$
+
+로 놓을 수 있다. 이제 
+
+$$
+\dfrac{1}{Z} \dfrac{d^2Z}{dz^2}=-n^2
+$$
+
+로 놓으면,
+
+$$
+\dfrac{1}{X}\dfrac{d^2X}{dx^2} = -l^2,\qquad \dfrac{1}{Y}\dfrac{d^2Y}{dy^2} = -m^2, \qquad\dfrac{1}{Z} \dfrac{d^2Z}{dz^2}=-n^2,\qquad l^2+m^2+n^2=k^2
+$$
+
+를 얻는다. 각각의 $l,\,m,\,n$ 에 대한 3개의 상미분방정식의 해를 $X_l(x),\, Y_m(y),\, Z_n(z)$ 라고 하자. 당연히 $l^2+m^2+n^2=k^2$ 를 만족해야 한다. 그리고 $\psi_{lmn}(x,\,y,\,z) = X_l(x)Y_m(y)Z_n(z)$ 라고 하자. 이제 @eq-pde-helmholtz_3d 의 일반해를 다음과 같이 기술할 수 있다.
+
+$$
+\psi = \sum_{l, m} a_{lm} \psi_{lmn}.
+$$
+
+인덱스에서 $n$ 을 뺀 이유는 $n^2 = k^2-l^2-m^2$ 로 정해지기 때문이다. 
+
+</br>
+
+### 원통좌표계에서
+
+$(\rho,\, \phi,\, z)$ 를 변수로 하는 실린더 좌표계에서의 핼름홀즈 방정식(@eq-pde-helmholtz_3d) 은
+
+$$
+\dfrac{1}{\rho}\dfrac{\partial }{\partial \rho} \left(\rho\dfrac{\partial \psi}{\partial \rho}\right) + \dfrac{1}{\rho^2}\dfrac{\partial^2 \psi}{\partial \phi^2} + \dfrac{\partial^2 \psi}{\partial z^2} + k^2 \psi = 0
+$$ {#eq-helimholtz_3d_cylindrical}
+
+이 된다. 이 경우 $\partial_\rho \partial_\phi$ 같은 변수가 섞인 편미분항이 없기 때문에 변수분리법을 시도해 볼 수 있다. 
+
+$$
+\psi (\rho,\, \phi,\, z) = P(\rho)\Phi (\phi) Z(z)
+$$
+
+
+라고 하자. 이 경우 @eq-helimholtz_3d_cylindrical 은 
+
+$$
+\dfrac{\Phi Z}{\rho} \dfrac{d}{d\rho} \left(\rho \dfrac{dP}{d\rho}\right) + \dfrac{PZ}{\rho^2} \dfrac{d^2\Phi}{d\phi^2} + P\Phi \dfrac{d^2Z}{dz^2} + k^2 P \Phi Z = 0
+$$
+
+이 된다. 이 식은
+$$
+\dfrac{1}{Z(z)} \dfrac{d^2Z(z)}{dz^2} = - \dfrac{1}{\rho P(\rho)} \dfrac{d}{d\rho} \left(\rho \dfrac{dP(\rho)}{d\rho}\right) - \dfrac{1}{\rho^2 \Phi(\phi)} \dfrac{d^2\Phi(\phi)}{d\phi^2} -k^2 
+$$
+
+이며, 좌변은 $z$ 의 함수, 우변은 $\rho,\, \phi$ 의 함수이므로 상수 일 수 밖에 없다. 이 값을 $l^2$ 라고 하면, 
+
+$$
+\dfrac{d^2Z}{dz^2}= l^2 Z(z)
+$$ {#eq-pde_spherical_coord_Z}
+
+이다. 또한
+
+$$
+\dfrac{1}{\rho P(\rho)} \dfrac{d}{d\rho} \left(\rho \dfrac{dP(\rho)}{d\rho}\right) + \dfrac{1}{\rho^2 \Phi(\phi)} \dfrac{d^2\Phi(\phi)}{d\phi^2} +k^2 = -l^2
+$$
+
+로부터 $n^2 = k^2+l^2$ 로 놓고 $\rho^2$ 를 곱하면, 
+
+$$
+\dfrac{\rho}{P(\rho)}\dfrac{d}{d\rho} \left(\rho \dfrac{dP(\rho)}{d\rho}\right) + n^2\rho^2 = - \dfrac{1}{\Phi (\phi)}\dfrac{d^2 \Phi (\phi)}{d\phi^2}
+$$
+
+이 되며, 역시 $m^2$ 로 놓으면, 
+
+$$
+\dfrac{d^2\Phi}{d\phi^2} = -m^2 \Phi (\phi)
+$$ {#eq-pde_spherical_coord_Phi}
+
+와 
+
+$$
+\rho\dfrac{d}{d\rho} \left(\rho \dfrac{dP(\rho)}{d\rho}\right) + (n^2\rho^2 - m^2) P(\rho) = 0
+$$ {#eq-pde_spherical_coord_Rho}
+
+을 얻는다. 이 때 각에 대한 @eq-pde_spherical_coord_Phi 의 해인 $\Phi$ 는 $\sin m\phi$ 와 $\cos m\phi$ 의 선형결합이며 @eq-pde_spherical_coord_Rho 를 만족하는 함수 $P(\rho)$ 는 베셀 함수
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,141 @@
+---
+title: "웨이블릿 변환을 이용한 이미지 처리"
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+
+</br>
+
+## 행렬 기반 변환
+
+### 1차원 변환
+
+일차원 데이터 $\boldsymbol{f} = \begin{bmatrix} f_1 & \cdots & f_N\end{bmatrix}^N$ 를 다음과 같이 변환하여 $\boldsymbol{t}=\begin{bmatrix} t_1 & \cdots & t_N\end{bmatrix}^T$ 로 변환한다고 하자.
+
+$$
+t_u = \sum_{i=1}^N r(u,\,i) f_i
+$$
+
+1차원 푸리에 변환도 위와 같은 형태의 변환이며, 이 때 $(u,\,i)$ 성분이 $r(u,\,i)$ 인 행렬 $\boldsymbol{A}$ 를 생각 할 수 있으며,
+
+$$
+\boldsymbol{t}=\boldsymbol{Af}
+$$
+
+이다. 많은 경우 $\boldsymbol{A}$ 가 직교 행렬, 즉 $\boldsymbol{AA}^T=\boldsymbol{I}$ 인데 이 경우 역변환은 다음과 같다.
+
+$$
+\boldsymbol{f} = \boldsymbol{A}^{-1}\boldsymbol{t} = \boldsymbol{A}^T\boldsymbol{t}
+$$
+
+</br>
+
+### 2차원 변환
+
+이미지를 이미지로 변환하는 경우 원본 $f[i,\,j]$ 와 변환된 $t[u,\,v]$ 사이에 다음의 관계가 성립한다고 하자.
+
+$$
+\begin{aligned}
+t[u,\,v] = \sum_{i=1}^N \sum_{j=1}^N r(u, v, i, j)\,  f[i, j], \\
+f[i,\,j] = \sum_{u=1}^N \sum_{v=1}^N s(u, v, i, j) \, t[u, v].
+\end{aligned}
+$$
+
+
+이 경우 $s(u, v, i, j)$ 는 $r(u, v, i, j)$ 의 역변환이다. $r(u, v, i, j)$ 가 두 1차원 변환의 곱으로 다음과 같이 표현될 수 있을 때 $r$ 을 분리가능하다고 한다.
+
+$$
+r(u, v, i, j) = r_1(u, i)\, r_2(v, j)
+$$
+
+또한 $r_1=r_2$ 이면 $r$ 을 대칭변환 이라고 한다. $t[u,\,v]=\boldsymbol{T}$, $r_1[i, u]=\boldsymbol{A}$, $f[i,\,j]=\boldsymbol{F}$ 라고 표현하면, 
+
+$$
+t[u,\,v] = \sum_{i, j} r_1[u, i] r_1[v, j] f[i, j]
+$$
+
+이므로 
+
+$$
+\boldsymbol{T}=\boldsymbol{AFA}^T
+$$
+
+이다. $\boldsymbol{A}$ 가 직교행렬이라면
+
+$$
+\boldsymbol{F} = \boldsymbol{A}^T\boldsymbol{TA} 
+$$
+
+이다. 
+
+</br>
+
+### $\mathbb{C}^n$ 에서의 2차원 변환
+
+$\boldsymbol{s}_k,\,\boldsymbol{s}_l\in \mathcal{M}_{N}(\mathbb{C})$ 의 내적은
+
+$$
+\langle \boldsymbol{s}_k,\,\boldsymbol{s}_l\rangle = \overline{\langle \boldsymbol{s}_l,\, \boldsymbol{s}_k\rangle} = \boldsymbol{s}_l^\ast \boldsymbol{s}_k
+$$
+
+이다. 복소벡터공간에서 거리를 보존하는 변환은 유니타리 변환이며 유니타리 변환에 대한 행렬은 유니타리 행렬로 $\boldsymbol{A}^{-1} = \boldsymbol{A}^\ast$ 인 행렬을 의미한다. 따라서 두 정사각 이미지 $\boldsymbol{T}$ 와 $\boldsymbol{F}$ 사이에
+
+$$
+\boldsymbol{T}= \boldsymbol{AFA}^T
+$$
+
+의 관계가 성립하며 $\boldsymbol{A}$ 가 유니타리라면
+
+$$
+\boldsymbol{F} = \boldsymbol{A}^{\ast} \boldsymbol{TA}^{\ast T}
+$$
+
+가 성립한다.
+
+
+</br>
+
+### 이중직교성
+
+내적벡터공간의 기저 $\{v_1,\, v_2,\ldots\}$ 의 각각의 $v_i$ 에 대해 어떤 $\widetilde{v}_i$ 가 존재하여 $i\ne j$ 이면 $\langle v_i,\, \widetilde{v}_j\rangle = 0$ 일 때 $\{v_1,\,v_2,\ldots\}$ 를 이중직교기저 라고 한다. 만약
+
+$$
+\langle v_i,\, \widetilde{v}_j\rangle = \delta_{ij}
+$$
+
+이면 이중정규직교기저 라고 한다. $\widetilde{v}_i = v_i,\, i=1,\,2,\ldots$ 이면 우리가 아는 정규직교기저이다.
+
+</br>
+
+### Correlation
+
+이미 [Convolution 과 Corellation](introduction_to_signal_processing.qmd#sec-image_convolution_correlation) 에서 정의한 correlation 은 복소함수 공간이나 복소벡터공간에서 다음과 같다.
+
+$$
+(f \otimes g)(x) = \int_{-\infty}^\infty f^\ast (t)\, g(t+x)\, dt
+$$
+
+이로부터
+
+$$
+(f \otimes g)(0) = \int_{-\infty}^\infty f^\ast (t)\, g(t)\, dt = \langle g,\, f\rangle = \overline{\langle f,\, g\rangle}
+$$
+
+임을 안다. 즉 두 벡터 사이의 
+
+</br>
+
+## Wavelet 변환
+
+### Scaling functions
+
+father scaling function $\varphi(x)$ 에 대해
+
+$$
+\varphi_{j,\,k} (x) = 2^{j/2} \varphi(2^j x-k)
+$$
+
+를 생각하자. 이 함수는 $\varphi(x)$ 에 대해 $x$ 축으로 $2^j$ 만큼 축소되어 있으며 $k$ 만큼 이동되어 있다. 고정된 $j=j_0$ 에 대해 

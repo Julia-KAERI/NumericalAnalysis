@@ -1,6 +1,5 @@
 ---
 title: "Asymptote"
-language: ../../_language-ko_custom.yml 
 
 number-sections: true
 number-depth: 2

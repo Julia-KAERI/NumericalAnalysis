@@ -1,6 +1,5 @@
 ---
 title: "비선형 최소제곱 피팅"
-# language: ../_language-ko_custom.yml 
 
 number-sections: true
 number-depth: 2

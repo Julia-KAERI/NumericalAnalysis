@@ -1,0 +1,1074 @@
+---
+title: "선형방정식과 반복법"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---
+
+</br>
+
+## 고유값, 스펙트럼반경, 반복법 
+
+### `LinearAlgebra.jl` 에서의 고유값과 고유벡터
+
+행렬의 고유값과 고유벡터는 다음과 같이 구할 수 있다.
+
+```txt
+In [1]: using LinearAlgebra
+
+In [2]: V=[1 2 3; 3 1 0; -1 2 0]
+Out[2]: 3×3 Matrix{Int64}:
+  1  2  3
+  3  1  0
+ -1  2  0
+
+In [3]: eig1 = eigen(V)
+Out[3]: Eigen{ComplexF64, ComplexF64, Matrix{ComplexF64}, Vector{ComplexF64}}
+values:
+3-element Vector{ComplexF64}:
+ -0.948231872006585 - 2.1190466104580317im
+ -0.948231872006585 + 2.1190466104580317im
+ 3.8964637440131664 + 0.0im
+vectors:
+3×3 Matrix{ComplexF64}:
+ 0.0766967-0.521334im  0.0766967+0.521334im   0.68225+0.0im
+  0.345877+0.426578im   0.345877-0.426578im  0.706638+0.0im
+ -0.648636-0.0im       -0.648636+0.0im       0.187612+0.0im
+
+In [4]: eig1.vectors
+Out[5]: 3×3 Matrix{ComplexF64}:
+ 0.0766967-0.521334im  0.0766967+0.521334im   0.68225+0.0im
+  0.345877+0.426578im   0.345877-0.426578im  0.706638+0.0im
+ -0.648636-0.0im       -0.648636+0.0im       0.187612+0.0im
+
+In [5]: eig1.values
+Out[6]: 3-element Vector{ComplexF64}:
+ -0.948231872006585 - 2.1190466104580317im
+ -0.948231872006585 + 2.1190466104580317im
+ 3.8964637440131664 + 0.0im
+
+In [6]: V*eig1.vectors[:,3] .- eig1.values[3] .* eig1.vectors[:,3]
+Out[6]: 3-element Vector{ComplexF64}:
+ 1.7763568394002505e-15 + 0.0im
+ 1.7763568394002505e-15 + 0.0im
+  5.551115123125783e-16 + 0.0im
+```
+
+`eigen(V)` 는 행렬 `V` 의 고유값과 고유벡터를 각각 `values` 필드와 `vectors` 필드로 반환한다. $k$ 번째 고유값과 고유벡터는 각각 `eig1.values[k]`, `eig1.vectors[:, k]` 이다. 행렬이 실수 타입의 성분을 갖더라도 고유값과 고유벡터는 가 복소수라면 복소수로 반환된다. 실수 영역에서 고유값 분해가 된다면 실수로 반환된다.
+
+```txt
+In [11]: A=[4 0 1; 0 2 -1; 1 -1 3]
+Out[11]: 3×3 Matrix{Int64}:
+ 4   0   1
+ 0   2  -1
+ 1  -1   3
+
+In [12]: eigvals(A)
+Out[12]: 3-element Vector{Float64}:
+ 1.267949192431122
+ 2.9999999999999996
+ 4.732050807568877
+```
+
+</br>
+
+고유값 혹은 고유벡터에만 관심이 있다면 각각 `eigvals(A)`, `eigvecs(A)` 와 같이 할 수 있다.
+
+</br>
+
+
+### 스펙트럼 반경
+
+우리는 앞서 직접적으로 선형 시스템 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해를 구하였다. 그러나 선형 시스템이 매우 크며, $\boldsymbol{A}$ 의 성분 가운데 대부분이 $0$ 일 경우는 직접적으로 구하지 않고 반복법을 통해 구하는 방법이 더 빠르다. 여기서는 를 알아보기로 한다. 먼저 많이 사용하게 될 개념을 우선 정하기로 하자.
+
+</br>
+ 
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-spectra_radius}
+
+#### 스펙트럼 반경(spectral radius)
+
+&emsp; ($1$) 정사각 행렬 $\boldsymbol{A}$ 에 대해 $\lambda(\boldsymbol{A})$ 는 $\boldsymbol{A}$ 의 모든 고유값들의 집합이다.
+
+&emsp; ($2$) 행렬 $\boldsymbol{A}$ 의 스펙트럼 반경 $\rho(\boldsymbol{A})$ 는 $\lambda(\boldsymbol{A})$ 의 절대값의 상한으로 정의된다. 즉,
+
+$$
+\rho (\boldsymbol{A}) := \max \{ |\lambda| : \lambda \in \lambda(\boldsymbol{A})\}.
+$$ {#eq-iterative_spectral_radius}
+
+:::
+:::
+
+</br>
+
+`LinearAlgebra.jl` 에는 스펙트럼 반경을 반환하는 함수는 없지만 `eigvals` 함수를 이용하여 쉽게 작성 할 수 있다.
+
+```txt
+In [16]: A=[4 0 1; 0 2 -1; 1 -1 3]
+Out[16]: 3×3 Matrix{Int64}:
+ 4   0   1
+ 0   2  -1
+ 1  -1   3
+
+In [17]: spectral_radius(M::Matrix) = eigvals(M) .|> abs |> maximum
+Out[17]: spectral_radius (generic function with 1 method)
+
+In [18]: spectral_radius(A)
+Out[18]: 4.732050807568877
+
+```
+
+</br>
+
+
+
+$\rho(\boldsymbol{A})$ 는 행렬에 대해 고유하게 정해지는 값이지만 행렬의 노름이 될 수 없다. 예를 들어 
+
+$$
+\boldsymbol{A} = \begin{bmatrix}2 & 1\\  2 &-2\end{bmatrix},\, \boldsymbol{B} = \begin{bmatrix} 2 & 4 \\ 1 &-3\end{bmatrix}
+$$
+
+의 경우 $\rho(\boldsymbol{A}) \approx 2.45$, $\rho(\boldsymbol{B}) \approx 3.70$, $\rho(\boldsymbol{A}+\boldsymbol{B}) \approx 6.44$ 이므로 $\rho(\boldsymbol{A}+\boldsymbol{B}) > \rho(\boldsymbol{A}) + \rho (\boldsymbol{B})$ 인데 이것은 행렬의 노름이 될 조건에 위배된다. 하지만 스펙트럼 반경과 노름은 아래와 같이 밀접한 관련이 있다.
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#prp-spectral_radius} 
+
+$\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 에 대해 
+
+&emsp; ($1$) $\|\boldsymbol{A}\|_2 = \left[\rho (\boldsymbol{A}^T\boldsymbol{A})\right]^{1/2}$ 이며,
+
+
+&emsp; ($2$) $\rho(\boldsymbol{A})$ 는 모든 자연스러운 노름에 대해  $\|\boldsymbol{A}\|$ 보다 작거나 같다. 
+:::
+
+</div></br>
+
+::: {.proof}
+($1$) 증명은 Isacson, Keller 의 *Analysis of numerical method* (1966) 을 참고하라
+
+($2$) $\lambda \in \lambda(\boldsymbol{A})$ 이고 $\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})$ 가 $\lambda$ 에 대한 고유벡터이며 $\|\boldsymbol{x}\|=1$ 일 때, 
+
+$$
+|\lambda| =  \|\lambda \boldsymbol{x}\| = \|\boldsymbol{Ax}\| \le \|\boldsymbol{A}\| \|\boldsymbol{x}\| = \|\boldsymbol{A}\|
+$$
+
+:::
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-convergent_matrix}
+
+#### 행렬의 수렴
+
+정사각 행렬 $\boldsymbol{A}$ 이 다음 조건을 만족할 때 행렬 $\boldsymbol{A}$ 가 수렴한다고 한다.
+
+$$
+\lim_{k \to \infty} \boldsymbol{A}^k = \boldsymbol{0}.
+$$
+:::
+:::
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#prp-convergent_matrix}
+
+정사각 행렬 $\boldsymbol{A}$ 에 대해 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{A}$ 는 수렴한다.
+
+&emsp; ($2$) 자연스러운 행렬 노름에 대해 $\displaystyle \lim_{k \to \infty} \left\|\boldsymbol{A}^k\right\|=\boldsymbol{0}$ 이다.
+
+&emsp; ($3$) $\rho (\boldsymbol{A})< 1$.
+
+&emsp; ($3$) $\displaystyle \lim_{k\to \infty} \boldsymbol{A}^k \boldsymbol{x} = \boldsymbol{0}$. 
+
+:::
+
+</div></br>
+
+::: {.proof}
+증명은 Isacson, Keller 의 *Analysis of numerical method* (1966) 을 참고하라
+::: 
+
+
+</br>
+
+### 반복법의 수학적 기초
+
+선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해를 반복법으로 구하는 방법중에 가장 일반적으로 사용되는 방법은 주어진 선형 방정식을 다음의 형태로 변형하는데서 시작한다. 
+
+$$
+\boldsymbol{x} = \boldsymbol{Tx}+ \boldsymbol{c}.
+$$
+
+만약 $\boldsymbol{T}$ 가 어떤 조건을 만족하면 초기값 $\boldsymbol{x}^{(0)}$ 부터 시작하여 
+$$
+\boldsymbol{x}^{(k+1)} =  \boldsymbol{Tx}^{(k)}  + \boldsymbol{c}
+$$
+
+에서 생성되는 수열 $\langle \boldsymbol{x}^{(k)}\rangle$, $k=0,\,1,\ldots$ 는 $\boldsymbol{x} = \boldsymbol{Tx}+ \boldsymbol{c}$ 를 만족하는 $\boldsymbol{x}$ 로 수렴한다. 
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#lem-iterative_method_1}
+
+행렬 $\boldsymbol{T}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 의 스펙트럼 반경이 $1$ 보다 작다면 $\boldsymbol{I}-\boldsymbol{T}$ 는 가역행렬이며,
+
+$$
+(\boldsymbol{I}-\boldsymbol{T})^{-1} = \sum_{j=0}^{\infty} \boldsymbol{T}^j
+$$
+
+이다.
+
+:::
+
+</div></br>
+
+::: {.proof}
+
+$\boldsymbol{x}$ 가 $\boldsymbol{T}$ 의 고유벡터이며 그 고유값이 $\lambda$ 인것과 $\boldsymbol{x}$ 가 $\boldsymbol{I}-\boldsymbol{T}$ 의 고유벡터이며 그 고유값이 $(1-\lambda)$ 인것은 동치이다. 그런데 $\boldsymbol{T}$ 의 고유값의 절대값이 $1$ 보다 작기 때문에 0 은 $(\boldsymbol{I}-\boldsymbol{T})$ 의 고유값이 될 수 없으며, 따라서 $\boldsymbol{I}-\boldsymbol{T}$ 는 가역행렬이다. 또한 
+
+$$
+(\boldsymbol{I}-\boldsymbol{T})\left(\sum_{j=0}^N \boldsymbol{T}^j\right) = \boldsymbol{I} -\boldsymbol{T}^{N+1}
+$$
+
+
+이므로 @prp-convergent_matrix 에 의해 $(\boldsymbol{I}-\boldsymbol{T})^{-1} = \displaystyle\sum_{j=0}^\infty \boldsymbol{T}^j$ 이다. $\square$
+
+:::
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#thm-iterative_method}
+
+임의의 $\boldsymbol{x}^{(0)},\, \boldsymbol{c}\in \mathcal{M}_n(\mathbb{F})$ 과 행렬 $\boldsymbol{T}\in \mathcal{M}_{n \times n}(\mathbb{F})$ 에 대해 
+
+$$
+\boldsymbol{x}^{(k+1)} =  \boldsymbol{Tx}^{(k)}+ \boldsymbol{c}
+$$
+
+에 의해 생성되는 수열 $\langle \boldsymbol{x}^{(k)}\rangle$ 이 $\boldsymbol{x}=\boldsymbol{Tx}+\boldsymbol{c}$ 를 만족하는 유일한 $\boldsymbol{x}$ 로 수렴할 필요충분조건은 $\rho(\boldsymbol{T})<1$ 이다.
+
+:::
+
+</div></br>
+
+::: {.proof}
+
+$\rho(\boldsymbol{T})<1$ 임을 가정하자. 
+
+$$
+\begin{aligned}
+\boldsymbol{x}^{(k+1)} &= \boldsymbol{Tx}^{k}+\boldsymbol{c} \\
+&= \boldsymbol{T}\left(\boldsymbol{Tx}^{k-1} + \boldsymbol{c}\right) + \boldsymbol{c}  \\
+&\qquad \qquad \vdots \\
+&=  \boldsymbol{T}^{k+1}\boldsymbol{x}^{(0)} + (\boldsymbol{T}^{k}+ \cdots + \boldsymbol{T}+ \boldsymbol{I})\boldsymbol{c}
+\end{aligned} 
+$$
+
+이다. 이로부터 $k \to \infty$ 극한에서 $\boldsymbol{x}^{(\infty)} = \left(\boldsymbol{I}-\boldsymbol{T}\right)^{-1}\boldsymbol{c}$ 임을 안다. 따라서 $\boldsymbol{x}$ 는 수렴하며 $\boldsymbol{x}^{(\infty)} = \boldsymbol{Tx}^{(\infty)} +\boldsymbol{c}$ 를 만족한다. 
+
+이제 $\displaystyle \lim_{k \to \infty}\boldsymbol{x}^{(k)} = \boldsymbol{x}$ 이며 $\boldsymbol{x}$ 가 $\boldsymbol{x}=\boldsymbol{Tx}+\boldsymbol{c}$ 를 만족하는 유일한 해라고 하자. 즉 $\boldsymbol{I}-\boldsymbol{T}$ 는 가역이다. 임의의 $\boldsymbol{z}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\boldsymbol{x}^{(0)} = \boldsymbol{x}-\boldsymbol{z}$ 라고 하자. $\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)} + \boldsymbol{c}$ 이면 $\langle \boldsymbol{x}^{k}\rangle$ 은 $\boldsymbol{x}$ 로 수렴하며,
+
+$$
+\boldsymbol{x}-\boldsymbol{x}^{(k+1)} = (\boldsymbol{Tx}+\boldsymbol{c})-(\boldsymbol{Tx}^{k}+\boldsymbol{c}) =  \boldsymbol{T}(\boldsymbol{x}-\boldsymbol{x}^{(k)})
+$$
+
+이므로, 
+
+$$
+\boldsymbol{x}-\boldsymbol{x}^{(k+1)} = \boldsymbol{T}^{k+1}(\boldsymbol{x}-\boldsymbol{x}^{(0)}) = \boldsymbol{T}^{(k+1)}\boldsymbol{z}
+$$
+
+이다. @prp-convergent_matrix 에 따라 임의의 $\boldsymbol{z}$ 에 대해 $\displaystyle \lim_{k \to \infty} \boldsymbol{T}^{(k+1)}\boldsymbol{z}=0$ 이면 $\rho(\boldsymbol{T})<1$ 이다. $\square$
+
+:::
+
+</br>
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+::: {#cor-iterative_method}
+
+임의의 자연스러운 행렬 노름에 대해 $\|\boldsymbol{T}\|<1$ 이면 임의의 벡터 $\boldsymbol{c}$ 에 대해 $\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)}+\boldsymbol{c}$ 에 의해 생성되는 수열 $\langle \boldsymbol{x}^{(k)} \rangle$ 은 초기값 $\boldsymbol{x}^{(0)}$ 에 무관하게 $\boldsymbol{x}=\boldsymbol{Tx} + \boldsymbol{c}$ 를 만족하는 $\boldsymbol{x}$ 로 수렴한다. 또한 다음을 만족한다.
+
+&emsp; ($1$) $\| \boldsymbol{x}-\boldsymbol{x}^{(k)}\| \le \|\boldsymbol{T}\|^k \|\boldsymbol{x}-\boldsymbol{x}^{(0)}\|$,
+
+&emsp; ($2$) $\displaystyle \|\boldsymbol{x}-\boldsymbol{x}^{(k)}\| \le \dfrac{\|\boldsymbol{T}\|^k}{1-\|\boldsymbol{T}\|} \|\boldsymbol{x}^{(1)}-\boldsymbol{x}^{(0)}\|$.
+:::
+
+</div></br>
+
+::: {.proof}
+
+$\langle \boldsymbol{x}^{(k)} \rangle$ 의 수렴은 @thm-iterative_method 로 부터 알 수 있다. @prp-spectral_radius 에 의해 $\rho(\boldsymbol{T}) \le \|\boldsymbol{T}\|<1$ 이다. 따라서 
+
+$$
+\|\boldsymbol{x}-\boldsymbol{x}^{(k)}\| \le \|\boldsymbol{T}\| \cdot \|\boldsymbol{x}-\boldsymbol{x}^{(k-1)}\| \le  \cdots \le \|\boldsymbol{T}\|^{k} \cdot \|\boldsymbol{x}-\boldsymbol{x}^{(0)}\|
+$$
+
+이다. 
+
+또한
+
+$$
+\begin{aligned}
+\|\boldsymbol{x}^{(k+1)}-\boldsymbol{x}^{(k)}\| & = \|\boldsymbol{Tx}^{(k)}- \boldsymbol{Tx}^{(k-1)}\|\le \|\boldsymbol{T}\|\cdot \| \boldsymbol{x}^{(k)}-\boldsymbol{x}^{(k-1)} \| \\
+& \le \cdots \le \|\boldsymbol{T}\|^k \cdot \|\boldsymbol{x}^{(1)}-\boldsymbol{x}^{(0)}\|
+\end{aligned}
+$$
+
+이므로 양의 정수 $m$ 에 대해
+
+$$
+\begin{aligned}
+\|\boldsymbol{x}^{(k+m)} -\boldsymbol{x}^{(k)}\| & = \| \boldsymbol{x}^{(k+m)} - \boldsymbol{x}^{(k+m-1)} + \boldsymbol{x}^{(k+m-1)} - \cdots + \boldsymbol{x}^{(k+1)}- \boldsymbol{x}^{(k)} \| \\
+&\le  \| \boldsymbol{x}^{(k+m)} - \boldsymbol{x}^{(k+m-1)} \| + \cdots +  \| \boldsymbol{x}^{(k+1)} - \boldsymbol{x}^{(k)}\| \\
+&\le \|\boldsymbol{T}\|^{k+m-1} \cdot \|\boldsymbol{x}^{(1)} - \boldsymbol{x}^{(0)}\| + \cdots +\|\boldsymbol{T}\|^k \|\boldsymbol{x}^{(1)} - \boldsymbol{x}^{(0)}\|  \\
+& = \|\boldsymbol{T}\|^k \left(1 + \|\boldsymbol{T}\| + \cdots +\|\boldsymbol{T}\|^{m-1}\right) \|\boldsymbol{x}^{(1)} - \boldsymbol{x}^{(0)}\| \\
+\end{aligned}
+$$
+
+이므로 $m \to \infty$ 극한에서, 
+
+$$
+\|\boldsymbol{x}-\boldsymbol{x}^{(k)} \| \le \dfrac{\|\boldsymbol{T}\|^{k}}{1-\|\boldsymbol{T}\|} \|\boldsymbol{x}^{(1)}-\boldsymbol{x}^{(0)}\|
+$$
+
+이다. $\square$
+
+:::
+
+</br>
+
+
+위의 따름정리는 매우 중요한데, 반복법으로 구한 해와 실제 해의 차이에 대한 상한을 정해주기 때문이다. 
+
+</br>
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-iteration_residual_vector}
+
+#### 오차벡터
+
+$\boldsymbol{A} \in \mathcal{M}_{n \times n}(\mathbb{F})$ 를 이용한 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 이 주어졌을 때 $\tilde{\boldsymbol{x}}\in \mathcal{M}_{n}(\mathbb{F})$ 에 대한 **오차벡터(residual vector)** $\boldsymbol{r}$ 는 다음과 같이 정의된다.
+
+$$
+\boldsymbol{r} : = \boldsymbol{b} - \boldsymbol{A}\tilde{\boldsymbol{x}}
+$$ {#eq-iterative_residual_vector}
+
+:::
+:::
+
+반복법에서 $k$ 번째 임시해 $\boldsymbol{x}^{(k)}$ 에 대한 residual vector 를 $\boldsymbol{r}^{(k)}$ 라고 하면
+
+$$
+\left\|\boldsymbol{r}^{(k)}\right\| = \left\|\boldsymbol{b}-\boldsymbol{Ax}^{(k)}\right\|
+$$
+
+이다. 즉 반복법에 의해 해를 구할 수 있다는 것은 
+
+$$
+\lim_{k \to \infty} \boldsymbol{r}^{(k)} = \boldsymbol{0}
+$$
+
+이라는 의미이다. 
+
+
+</br>
+
+## 야코비 방법과 가우스-자이델 방법
+
+앞서 말했듯이 일반적으로 반복법에 의해 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 푸는 것은, 이 선형방정식을 변형하여
+
+$$
+\boldsymbol{x} = \boldsymbol{Tx}+\boldsymbol{c}
+$$
+
+의 꼴로 만드는 데서 시작한다. $k$ 번째 반복에 의해 얻은 $\boldsymbol{x}$ 를 $\boldsymbol{x}^{(k)}$ 라고 할 때 $\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)} +\boldsymbol{c}$ 를 얻으며 $\boldsymbol{x}^{(k+1)}$ 과 $\boldsymbol{x}^{(k)}$ 의 차가 어느 기준 이하일 때 답을 얻은것으로 한다. 보통은 어떤 정해진 노름과 값 $\varepsilon>0$ 에 대해 $\|\boldsymbol{x}^{(k+1)}-\boldsymbol{x}^{(k)}\|<\varepsilon$ 혹은 $\dfrac{\|\boldsymbol{x}^{(k+1)}-\boldsymbol{x}^{(k)}\|}{\|\boldsymbol{x}^{(k+1)}\|} < \varepsilon$ 일 때이며 이때의 기준값을 **tolerence** 라고 한다. Tolerance 를 계산할때는 보통 $L_\infty$ 노름을 사용한다.
+
+</br>
+
+### 야코비 방법 {#sec-iteration_jacobi}
+
+$\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 에 대해 $\boldsymbol{D}$ 를 $\boldsymbol{A}$ 의 대각행렬, $\boldsymbol{L}$ 과 $\boldsymbol{U}$ 를 각각 $\boldsymbol{A}$ 의 하삼각 행렬부분과 상삼각 행렬에서 대각성분을 $0$ 으로 만든 행렬이라고 하자. 즉 $\boldsymbol{A}=\boldsymbol{D}+\boldsymbol{L}+\boldsymbol{U}$ 이며, $\boldsymbol{L}$ 과 $\boldsymbol{U}$ 는 대각성분이 모두 $0$ 인 하삼각행렬과 상삼각행렬이다. 이 때 $\boldsymbol{Ax}=\boldsymbol{b}$ 는 $(\boldsymbol{D} + \boldsymbol{L} +\boldsymbol{U})\boldsymbol{x}=\boldsymbol{b}$ 가 되며,
+
+$$
+\boldsymbol{Dx} = -(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x}+\boldsymbol{b}
+$$
+
+이다. 모든 대각 성분이 $0$ 이 아닌 대각행렬 $\boldsymbol{D}$ 는 가역행렬이므로, 
+
+$$
+\boldsymbol{x} = -\boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x} + \boldsymbol{D}^{-1}\boldsymbol{b}
+$$
+
+이다. 여기에 임의로 제시하는 초기벡터 $\boldsymbol{x}^{(0)}$ 가 주어지면, 
+
+$$
+\boldsymbol{x}^{(k+1)} =   -\boldsymbol{D}^{-1}(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x}^{(k)} + \boldsymbol{D}^{-1}\boldsymbol{b}
+$$
+
+를 통해 반복한다. 이 때, $(\boldsymbol{D}^{-1})_{ij} = \delta_{ij}/A_{ij}$ 이므로
+
+$$
+x_{i}^{(k+1)} = \sum_{j=1,\, j\ne i}^n \left(-\dfrac{A_{ij}}{A_{ii}}\right)x^{(k)}_j + \dfrac{b_i}{A_{ii}} =\dfrac{1}{A_{ii}} \left[ \left( \sum_{j=1,j\ne i}^n -A_{ij} x_j^{(k)}\right) - b_i\right]
+$$
+
+이다. 야코비 방법은 대각성분이 모두 $0$ 이 아닌 경우에 사용 할 수 있으며 대각성분이 다른 성분보다 클 경우 빨리 수렴한다. 
+
+
+
+Julia 코드는 다음과 같다.
+
+```{.julia code-line-numbers="true"}
+function iteration_jacobi(
+    A::AbstractMatrix, 
+    b::Vector, 
+    x0::Vector; 
+    etol::Number = 1.0e-10,
+    Maxiter::Integer = 100_000)
+    n = size(A)[1]
+    @assert n == size(A)[2] == size(b)[1]
+    @assert Maxiter > 3
+    x = zero(x0)
+    
+    for niter in 1:Maxiter
+        for i in 1:length(x0)
+            for j in 1:length(x0)
+                if i ≠ j
+                    x[i] += -A[i,j] * x0[j]
+                end
+            end
+            
+            x[i] = (x[i]+b[i])/A[i, i] 
+        end
+        if norm(x .- x0, Inf) / norm(x, Inf) < etol
+            break
+        else 
+            x0 = x[:]
+            x = zero(x0)
+        end
+    end
+    return x
+end
+```
+
+</br>
+
+
+$\boldsymbol{A} = \left[ \,\begin{array}{rr} 10 & -1 & 2 & 0\\ -1 & 11 & -1& 3\\ 2 & -1 & 10 &-1 \\ 0 & 3 & -1 & 8 \end{array}\,\right]$ 와 $\boldsymbol{b}= \left[ \begin{array}{rr}6 \\25 \\ -11 \\ 15 \end{array}\right]$ 에 대해 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해는 $\boldsymbol{x} = \left[\, \begin{array}{rr} 1 \\ 2 \\ -1 \\ 2 \end{array}\,\right]$ 이다. 
+
+```julia
+A = [10.0 -1.0 2.0 0.0; -1 11 -1 3; 2 -1 10 -1; 0 3 -1 8]
+b = [6, 25, -11, 15]
+x0 = [1, 1, -1, 1]
+
+x=iteration_jacobi(A, b, x0, etol=1.0e-5)
+```
+
+를 이용하면 다음과 같은 결과를 얻는다.
+
+```txt
+4-element Vector{Float64}:
+  0.9999964637124269
+  2.0000051877531875
+ -1.0000041868849727
+  1.000006667932778
+```
+
+</br>
+
+### 가우스-자이델 방법 {#sec-iteration_gauss_siedel}
+
+ $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 에 대한 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 에서 $\boldsymbol{D}$ 를 $\boldsymbol{A}$ 의 대각행렬, $\boldsymbol{L}$ 과 $\boldsymbol{U}$ 를 각각 $\boldsymbol{A}$ 의 하삼각 행렬부분과 상삼각 행렬에서 대각성분을 $0$ 으로 만든 행렬이라고 하자. 선형 방정식을 다음과 같이 변화시킬 수 있다.
+
+$$
+\boldsymbol{x} = (\boldsymbol{D}+\boldsymbol{L})^{-1}(\boldsymbol{b}-\boldsymbol{Ux})
+$$
+
+이다. 반복법은
+
+$$
+\boldsymbol{x}^{(k+1)} =  (\boldsymbol{D}+\boldsymbol{L})^{-1}(\boldsymbol{b}-\boldsymbol{Ux}^{(k)})
+$$
+
+를 사용하여 반복법으로 선형방정식을 푼다고 하자. 그렇다면, 
+
+$$
+(\boldsymbol{D}+\boldsymbol{L})\boldsymbol{x}^{(k+1)} = \boldsymbol{b}-\boldsymbol{Ux}^{(k)}
+$$
+
+이제 $\boldsymbol{D}+\boldsymbol{L}$ 은 하삼각행렬, $\boldsymbol{U}$ 는 대각성분이 $0$ 인 상삼각행렬임을 이용하여 위 식의 $i$ 번째 행에 대한 식을 보면
+
+$$
+\sum_{j=1}^{i-1} A_{ij}x^{(k+1)}_j + A_{ii}x^{(k)}_i = b_i - \sum_{j=i+1}^n A_{ij}x^{(k)}_j
+$$
+
+를 얻는다. 즉,
+
+$$
+x_{i}^{(k+1)} = \dfrac{1}{A_{ii}}\left[b_i - \sum_{j=1}^{i-1} A_{ij} x^{(k+1)}_j - \sum_{j=i+1}^n A_{ij} x^{(k)}\right]
+$$
+
+이다. 여기서 일단 어색해 보이는 것은 좌변과 우변에 각각 $\boldsymbol{x}^{(k+1)}$ 의 성분이 들어가 있는, 그러니까 $\boldsymbol{x}^{(k+1)}$ 을 계산하기 전에 사용하는 듯한 부분이다. 그러나 $x^{(k+1)}_1$ 을 계산하는 데는 $\boldsymbol{x}^{(k+1)}$ 의 성분이 사용되지 않으며 $x_{i}^{(k+1)}$ 을 계산하는 데는 $j<i$ 에 대한 $x_j^{(k+1)}$ 만을 사용한다. 즉 $\boldsymbol{x}^{(k+1)}$ 의 각각의 성분에 대해서는 계산하기 전에 사용하는 값은 없다. 
+
+
+
+``` {.julia code-line-numbers="true"}
+using LinearAlgebra
+function iteration_seidel(
+    A::AbstractMatrix, 
+    b::Vector, 
+    x0::Vector; 
+    etol::Number = 1.0e-10, 
+    Maxiter = 100_000)
+    @assert size(A)[1] == size(A)[2] == size(b)[1]
+    
+    x = zero(x0)
+    for niter in 1:Maxiter
+        @inbounds for i in 1:length(x0)
+            @inbounds for j in 1:length(x0)
+                if j < i
+                    x[i] += - A[i, j]*x[j]
+                elseif j>i
+                    x[i] += - A[i, j]*x0[j] 
+                end
+            end
+            @inbounds x[i] = (x[i]+b[i])/A[i, i] 
+        end
+        if norm(x .- x0, Inf) / norm(x, Inf) < etol
+            break
+        else 
+            x0 = x[:]
+            x = zero(x0)
+
+        end
+    end
+    return x
+end
+```
+
+
+야코비 방법과 가우스-지델 방법 모두 $\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)} + \boldsymbol{c}$ 형태의 반복법을 사용한다. 우리는 @thm-iterative_method 로 부터 $\rho(\boldsymbol{T})<1$ 일 경우에만 이 반복법에 의해 답을 얻을 수 있다는 것을 안다. 일반적으로 가우스-지델 방법이 야코비 방법보다 빠르게 원하는 정확도의 답을 얻지만 가우스-지델 방법이 이 조건을 충족하지 못하고 야코비 방법은 충족하는 경우 야코비 방법을 사용 할 수 있다. 물론 거꾸로 야코비 방법이 이 조건을 충족하지 못하고 가우스-지델 방법이 충족할 수 도 있다. 
+
+</br>
+
+::: {#exm-spectral_radius}
+$\boldsymbol{A} = \left[\, \begin{array}{rr} 2 & -1 & 1 \\ 2 & 2 & 2 \\ -1 & -1 & 2\end{array}\,\right]$ 의 경우 $\rho(\boldsymbol{D}^{-1}(\boldsymbol{L}+ \boldsymbol{U}))=\dfrac{\sqrt{5}}{2}>1$ 이므로 야코비 방법으로는 답을 얻을 수 없지만. $\rho((\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{U}) = \dfrac{1}{2}<1$ 이므로 가우스-지델 방법은 사용할 수 있다. 반대로 $\boldsymbol{A} = \left[\, \begin{array}{rr} 1 & 2 & -2 \\ 1 & 1 & 1 \\ 2 & 2 & 1\end{array}\,\right]$ 의 경우 $\rho(\boldsymbol{D}^{-1}(\boldsymbol{L} + \boldsymbol{U})) = 0<1$ 이므로 야코비 방법을 사용 할 수 있지만 $\rho((\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{U}) = 2>1$ 이므로 가우스-지델 방법은 사용 할 수 없다.
+
+:::
+
+</br>
+
+## Successive Over-Relaxation (SOR)
+
+선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 를 반복법을 이용하여 풀기 위해 $\boldsymbol{x}^{(k+1)}=\boldsymbol{Tx}^{(k)}+ \boldsymbol{c}$ 로 변환하였다고 하자. 우리는 $\boldsymbol{T}$ 의 스펙트럼 반경 $\rho(\boldsymbol{T})$ 값이 작을수록 $\boldsymbol{x}^{(k)}$ 가 빨리 수렴한다는 것을 알고 있다.(*explicit proof will be presented*)
+
+$\boldsymbol{D}$ $\boldsymbol{L}$, $\boldsymbol{U}$ 를 각각 $\boldsymbol{A}$ 의 대각성분, 대각성분을 제외한 하삼각행렬, 대각성분을 제외한 상삼각행렬이라고 하자. 그렇다면 $\boldsymbol{A} = \boldsymbol{D}+\boldsymbol{L}+\boldsymbol{U}$ 이다. 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 는 임의의 $\omega\in \mathbb{R}$ 에 대해 아래와 같이 변형된다.
+
+$$
+(\boldsymbol{D}+\omega \boldsymbol{L})\boldsymbol{x} = \left[(1-\omega) \boldsymbol{D}- \omega\boldsymbol{U}\right]\boldsymbol{x} + \omega \boldsymbol{b}
+$$ {#eq-iterative_sor_1}
+
+$SOR$ 은 적절한 $\omega$ 를 선택하여 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해를 구하는 것이다. 이제 아래의 반복법을 사용한다.
+
+$$
+\boldsymbol{x}^{(k+1)} = (\boldsymbol{D}+\omega \boldsymbol{L})^{-1}\left[(1-\omega) \boldsymbol{D}- \omega\boldsymbol{U}\right]\boldsymbol{x}^{(k)} + \omega (\boldsymbol{D}+\omega \boldsymbol{L})^{-1} \boldsymbol{b}
+$$
+
+가우스-자이델 방법에서와 같이 
+
+$$
+(\boldsymbol{D}+\omega \boldsymbol{L})\boldsymbol{x}^{(k+1)} = \left[(1-\omega) \boldsymbol{D}- \omega\boldsymbol{U}\right]\boldsymbol{x}^{(k)} + \omega \boldsymbol{b}
+$$
+
+의 $i$ 번째 행을 비교하면, 
+
+$$
+\sum_{j=1}^{i-1} \omega A_{ij}x^{(k+1)}_j + A_{ii}x^{(k+1)}_i = (1-\omega)A_{ii}x^{(k)}_i - \sum_{j=i+1}^n \omega A_{ij}x^{(k)}_j + \omega b_i
+$$
+
+이며(가우스-자이델 방법에서의 유도과 동일하다), 따라서
+
+$$
+x^{(k+1)}_i = (1-\omega) x^{(k)}_i + \dfrac{1}{A_{ii}}\left[ \omega b_i - \sum_{j=1}^{i-1} \omega A_{ij}x_j^{(k+1)} - \sum_{j=i+1}^n \omega A_{ij}x^{(k)}_j \right]
+$$
+
+이다. 
+
+```julia
+function iteration_sor(
+    A::AbstractMatrix, 
+    b::Vector, 
+    x0::Vector,
+    ω::Real; 
+    etol::Number = 1.0e-10, 
+    Maxiter = 100_000)
+
+    @assert 0 < ω < 2
+    
+    x = zero(x0)
+    for nitter in 1:Maxiter
+        @inbounds for i ∈ 1:length(x0)
+            @inbounds for j ∈ 1:length(x0)
+                if j < i
+                    x[i] += -A[i, j] *x[j]
+                elseif j > i
+                    x[i] += -A[i, j] *x0[j]
+                end
+            end
+            x[i] = (1-ω)*x0[i] + 1/A[i, i] * (ω*b[i] + ω *  x[i])
+        end
+        if norm(x .- x0, Inf)/norm(x, Inf)< etol    
+            return x
+        else 
+            x0 = x[:]
+            x = zero(x)
+        end
+    end
+    return x
+end
+
+```
+
+</br>
+
+
+다음의 결과를 증명 없이 사용하겠다.
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#thm-kahan}
+#### Kahan 의 정리
+
+모든 대각 성분이 $0$ 이 아닌 정사각 행렬 $\boldsymbol{A}$ 에 대해 $\boldsymbol{T}_\omega$ 를 다음과 같이 정의하자. 
+$\boldsymbol{D}$ $\boldsymbol{L}$, $\boldsymbol{U}$ 는 각각 $\boldsymbol{A}$ 의 대각성분, 대각성분을 제외한 하삼각행렬, 대각성분을 제외한 상삼각행렬이라고 하자. 
+
+$$
+\boldsymbol{T}_\omega = (\boldsymbol{D}-\omega{L})^{-1}\left[(1+\omega) \boldsymbol{D}- \omega\boldsymbol{U}\right].
+$$
+
+이 때 
+
+$$
+\rho (\boldsymbol{T}_\omega) \ge |\omega -1|
+$$
+
+이 성립한다.
+:::
+
+</div></br>
+
+</br>
+
+즉 $0 <\omega <2$ 는 해를 구할 수 있는 필요조건이다.
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#thm-ostrowski-reich}
+
+#### Ostrowski-Reich 정리
+
+$\boldsymbol{A}\in \mathcal{M}_n(\mathbb{R})$ 이 positive definite 이고 $0<\omega <2$ 이면 SOR 에서의 $\boldsymbol{x}^{(k)}$ 는 수렴한다.
+
+:::
+
+
+</div></br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#thm-positive_definite_tridiagonal}
+
+야코비 방법에서의 $\boldsymbol{T}_J = -\boldsymbol{D}^{-1}(\boldsymbol{L} +\boldsymbol{U})$ 와 가우스-자이델 방법에서의 $\boldsymbol{T}_G = -(\boldsymbol{D}+\boldsymbol{L})^{-1}\boldsymbol{U}$ 에 대해 $\boldsymbol{A}$ 가 positive definite 이며 삼중대각행렬이라면 $\rho(\boldsymbol{T}_G) = \left[\boldsymbol{T}_J\right]^2  < 1$ 이며, SOR 에서의 최적의 $\omega$ 는
+
+$$
+\omega = \dfrac{1}{1+\sqrt{1-[\rho(\boldsymbol{T}_G)]}}
+$$
+
+이다. 이 경우 $\rho(\boldsymbol{T}_\omega) = \omega -1$ 이다.
+
+:::
+
+
+</div></br>
+
+## 오차벡터와 조건수
+
+선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 에 대해 우리가 임시로 구한 해를 $\overline{\boldsymbol{x}}$ 라고 할 때 $\boldsymbol{r} = \boldsymbol{b}-\boldsymbol{A}\overline{\boldsymbol{x}}$ 는 오차벡터(residual vector) 이다(@def-iteration_residual_vector). 우리는 앞서 선형방정식의 오차의 척도로 $\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|$ 나 $\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|/\|\boldsymbol{x}\|$ 를 사용하였다. 정해진 행렬 $\boldsymbol{A}$ 의 노름에 대해 $\|\boldsymbol{r}\|$ 이 작다면 $\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|$ 혹은 $\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|/\|\boldsymbol{x}\|$ 가 작을 것이라고 예상 할 수 있지만 항상 그런것은 아니다. 
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#prp-condition_number}
+
+가역행렬 $\boldsymbol{A}$ 에 대한 선형방정식 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해 $\boldsymbol{x}\in \mathcal{M}_n (\mathbb{R})$ 과 어떤 $\overline{\boldsymbol{x}} \in \mathcal{M}_n (\mathbb{R})$, 그리고 오차 벡터 $\boldsymbol{r}= \boldsymbol{b}-\boldsymbol{A}\overline{\boldsymbol{x}}$ 과 벡터공간에서의 자연스러운 노름 $\|\cdot \|$ 에 대해 다음이 성립한다.
+
+$$
+\|\boldsymbol{x}-\overline{\boldsymbol{x}}\| \le \|\boldsymbol{r}\| \cdot \left\| \boldsymbol{A}^{-1}\right\|.
+$$
+
+또한 $\boldsymbol{x}\ne 0,\, \boldsymbol{b}\ne 0$ 일 때 다음이 성립한다.
+
+$$
+\dfrac{\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|}{\|\boldsymbol{x}\|} \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{A}^{-1}\| \dfrac{\|\boldsymbol{r}\|}{\|\boldsymbol{b}\|}.
+$$
+
+:::
+
+</div></br>
+
+::: {.proof}
+
+$\boldsymbol{A}$ 가 가역이며 [행렬의 노름의 정의](04_matrix_algebra.qmd#def-matrix_norm)에 의해 
+$$
+\|\boldsymbol{x}-\overline{\boldsymbol{x}}\| = \|\boldsymbol{A}^{-1}\boldsymbol{r}\| \le \|\boldsymbol{A}^{-1}\| \cdot \|\boldsymbol{r}\|
+$$
+
+이다. $\boldsymbol{b}=\boldsymbol{Ax}$ 이므로 $\|\boldsymbol{b}\| \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{x}\|$ 이다. 이로부터 $1/\|\boldsymbol{x}\|\le \|\boldsymbol{A}\| /\|\boldsymbol{b}\|$ 이므로, 
+$$
+\dfrac{\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|}{\|\boldsymbol{x}\|} \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{A}^{-1}\| \dfrac{\|\boldsymbol{r}\|}{\|\boldsymbol{b}\|}.
+$$
+이다. $\square$ 
+
+:::
+
+</br>
+
+우리는 앞서 [행렬의 조건수](04_matrix_algebra.qmd#sec-condition_number_of_matrix) 에서 정사각 행렬 $\boldsymbol{A}$ 의 조건수 $\kappa_\boldsymbol{A} := \|\boldsymbol{A}\|\|\boldsymbol{A}^{-1}\|$ 에 대해 알아보았다. 즉 $\boldsymbol{r}\|$ 이 작더라도 $\kappa_{\boldsymbol{A}}$ 가 크다면 절대오차 혹은 상대오차가 클 수 있다는 것을 알 수 있다. 좋은 조건과 나쁜 조건도 여기에 사용 할 수 있다. $\kappa(\boldsymbol{A})\approx 1$ 이면 오차벡터의 작은 차이가 $\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|$ 의 작은 차이를 의미하기 때문에 $\boldsymbol{A}$ 를 **좋은 조건(well-conditioned)** 이라고 한다. 반대로 $\kappa(\boldsymbol{A}) \gg 1$ 일 경우는 **나쁜 조건 (ill-conditioned)** 라고 한다.
+
+
+</br>
+
+
+
+
+</br>
+
+## The Conjugate gradient 방법
+
+$\boldsymbol{A}$ 가 positive definite 이며 내적이 유클리드 내적, 즉 $\langle \boldsymbol{x},\,\boldsymbol{y} \rangle = \boldsymbol{y}^T\boldsymbol{x}$ 라고 하자. $\boldsymbol{A}$ 가 positive definite 이므로 $\langle \boldsymbol{Ax},\,\boldsymbol{x} \rangle = \boldsymbol{x}^T\boldsymbol{Ax} > 0$ 이다. 이때 우리는 다음을 보일 수 있다.
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#prp-congjugate_gradient}
+
+$\boldsymbol{A}\in \mathcal{M}_n (\mathbb{R})$ 가 positive definite 이고 $\boldsymbol{x}_0 \in \mathcal{M}_n(\mathbb{R})$ 일 때 다음은 동치이다.
+
+&emsp; ($1$) $\boldsymbol{Ax}_0=\boldsymbol{b}$,
+
+&emsp; ($2$) $g(\boldsymbol{x})= \langle \boldsymbol{Ax},\,\boldsymbol{x}\rangle -2 \langle \boldsymbol{b}, \boldsymbol{x}\rangle$ 의 최소값은 $g(\boldsymbol{x}_0)$ 이다.
+:::
+
+</div></br>
+
+::: {.proof}
+
+우선 $t\in \mathbb{R},\, \boldsymbol{v}\in \mathcal{M}_n(\mathbb{R})$ 에 대해, 
+
+$$
+\begin{aligned}
+g(\boldsymbol{x}+t\boldsymbol{v}) &= \langle \boldsymbol{A}(\boldsymbol{x}+t\boldsymbol{v}), \, \boldsymbol{x}+t\boldsymbol{v} \rangle - 2\langle \boldsymbol{b},\, \boldsymbol{x}+t\boldsymbol{v}\rangle  \\
+&= t^2 \langle \boldsymbol{Av}, \boldsymbol{v}\rangle - 2t \langle \boldsymbol{b}-\boldsymbol{Ax}, \, \boldsymbol{v}\rangle + g(\boldsymbol{x}) \\
+&= \langle \boldsymbol{Av},\,\boldsymbol{v} \rangle \left[t-\dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}, \, \boldsymbol{v}\rangle }{\langle \boldsymbol{Av},\, \boldsymbol{v}\rangle}\right]^2 + g(\boldsymbol{x}) - \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}, \, \boldsymbol{v}\rangle^2 }{\langle \boldsymbol{Av},\, \boldsymbol{v}\rangle}
+\end{aligned}
+$$ {#eq-conjugate_gradient}
+
+이다. $\boldsymbol{A}$ 가 positive definite 이므로 $\langle \boldsymbol{Av}, \,\boldsymbol{v}\rangle > 0$ 이다.
+
+$\boldsymbol{Ax_0}=\boldsymbol{b}$ 이면 $g(\boldsymbol{x_0}+t\boldsymbol{v}) \ge g(\boldsymbol{x_0})$ 이므로 $g(\boldsymbol{x})$ 의 최소값이다. 역으로 $g(\boldsymbol{x})$ 를 최소로 하는 $\boldsymbol{x}$ 는 $\boldsymbol{b}= \boldsymbol{Ax}_0$ 를 만족하는 $\boldsymbol{x}_0$ 임을 알 수 있다. $\square$
+
+
+:::
+
+</br>
+
+이제 $\boldsymbol{Ax}=\boldsymbol{b}$ 라는 선형 시스템을 푸는 문제는 $g(\boldsymbol{x})= \langle \boldsymbol{Ax},\,\boldsymbol{x}\rangle -2 \langle \boldsymbol{b}, \boldsymbol{x}\rangle$ 를 최소로 하는 $\boldsymbol{x}_0$ 를 구하는 문제와 동일한 문제가 된다. 주어진 $\boldsymbol{x}^{(k)}$ 를 생각하자. $g(\boldsymbol{x}^{(k)} + t_k \boldsymbol{v}^{(k)}) \le g(\boldsymbol{x}^{(k)})$ 가 되도록 $t_k$ 와 $\boldsymbol{v}^{(k)}$ 를 정할 수 있다면 우리는 점차 $g(\boldsymbol{x})$ 의 최소값에 다가갈 것이며, 결국은 $g(\boldsymbol{x})$ 를 최소로 하는 $\boldsymbol{x}_0$ 를 얻게 되고 이것은 $\boldsymbol{Ax}=\boldsymbol{b}$ 의 해를 구하는 것이 된다.
+
+</br>
+
+
+우선 $t_k$ 와 $\boldsymbol{v}^{(k)}$ 를 결정하는 방법은 두가지가 있다
+
+### Steepest descent
+
+
+우리는 다변수를 다루는 미적분학 혹은 해석학에서 $g :\mathbb{R}^n \to \mathbb{R}$ 가 $C^1$ 급 함수일 때 $g(\boldsymbol{x})$ 를 증가시키는 방향이 $\nabla g = (\partial_1 g,\ldots,\, \partial_n g)$ 임을 배웠다. $\boldsymbol{x} = \begin{bmatrix} x_1 & \cdots & x_n\end{bmatrix}^T$ 에 대해 
+
+$$
+g(\boldsymbol{x}) = \sum_{i, j=1}^n A_{ij}x_i x_j - 2 \sum_{i=1}^n b_i x_i
+$$
+
+이므로, 
+
+$$
+\partial_i g(\boldsymbol{x}) = 2(\boldsymbol{Ax})_i -2b_i
+$$
+
+이다. 즉,
+
+$$
+\nabla g(\boldsymbol{x}) = 2 \boldsymbol{Ax}-2\boldsymbol{b}
+$$
+
+이다.  우리는 $g(\boldsymbol{x})$ 를 최소로 하고자 하므로 $\boldsymbol{v}^{(k)}$ 를 $-\nabla g(\boldsymbol{x})$ 방향으로 잡아야 한다. 즉 $\boldsymbol{v}^{(k)}= \boldsymbol{b}-\boldsymbol{Ax}^{(k)}$ 으로 잡을 수 있다. 
+
+@eq-conjugate_gradient 에 의해 정해진 $\boldsymbol{x}^{(k)}$ 와 $\boldsymbol{v}^{(k)}$ 로 $g(\boldsymbol{x}^{(k)}+t\boldsymbol{v}^{(k)})$ 를 최소화 하는 $t$ 는 
+
+$$
+t_k = \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(k)}, \, \boldsymbol{v}^{(k)}\rangle }{\langle \boldsymbol{Av}^{(k)},\, \boldsymbol{v}^{(k)}\rangle}
+$$
+
+이다. 이것을 Julia 코드로 구현한 것은 아래와 같다. 위의 방법과 다른 것은 반복이 멈추는 것을 $\|\boldsymbol{b}-\boldsymbol{Ax}^{(k)}\|_\infty$ 가 `etol` 이라는 함수 인자보다 작을 때로 하였다는 것이다.
+
+
+``` {.julia code-line-numbers="true"}
+function steepest_iteration(
+    A::AbstractMatrix, 
+    b::Vector, 
+    x0::Vector;
+    etol::Number = 1.0e-5, 
+    Maxiter = 100_000)
+
+    x = similar(x0)
+    for i in 1:Maxiter
+        v = b - A*x0
+        t = dot(v,(b-A*x0))/dot(v, (A*v))
+        x = x0 + t*v
+        if norm(A*x-b, Inf)<etol
+            nitter = i
+            return x
+        else 
+            x0 = x
+        end
+    end
+    return nothing
+end
+```
+
+</br>
+
+그러나 이 방법은 비선형 시스템이나 최적화 문제에는 많이 사용되지만 선형 시스템에는 많이 사용되지 않는데 이는 수렴속도가 느리기 때문이다. 
+
+</br>
+
+### $\boldsymbol{A}$-직교 조건
+
+영벡터가 아닌 벡터의 집합 $\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\} \subset \mathcal{M}_{n}(\mathbb{R})$ 이 $i \ne j \implies \langle \boldsymbol{Av}^{(i)},\, \boldsymbol{v}^{(j)}\rangle = 0$ 일 때 $\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}$ 를 $\boldsymbol{A}$-직교 벡터라고 한다. 
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#prp-A_orthogonal_vectors_are_linearly_independent}
+
+Positive definite $\boldsymbol{A}$ 에 대해 $\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}$ 가 $\boldsymbol{A}$-직교 벡터일 때 이 벡터들은 선형독립이다.
+
+:::
+
+</div></br>
+
+::: {.proof}
+
+$\sum_i c_i \boldsymbol{v}^{(i)} = \boldsymbol{0}$ 일 때 임의의 $\boldsymbol{v}^{(j)}$ 에 대해 
+
+$$
+0 = \left\langle \boldsymbol{A} \left( \sum_i c_i \boldsymbol{v}^{(i)} \right), \, \boldsymbol{v}^{(j)}\right\rangle = c_j
+$$ 
+
+이다. 따라서 $c_1 = \cdots = c_m=0$ 이므로 $\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}$ 는 선형독립이다.
+
+:::
+
+</br>
+
+즉 $\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{R})$ 에 대해 $\boldsymbol{A}$-직교인 $n$ 개의 벡터를 얻었다면 이 $n$ 개의 벡터는 $\mathcal{M}_n(\mathbb{R})$ 의 기저가 된다. 이제 $\boldsymbol{A}$-직교인 $\{\boldsymbol{v}^{(k)} : k=1,\ldots,\,n\}$ 를 구해야 할 것 같지만 잠시 미뤄두자. 구하는 것은 복잡하거나 어렵지 않다. 일단 $\boldsymbol{A}$-직교인 $\{\boldsymbol{v}^{(k)} : k=1,\ldots,\,n\}$ 를 안다면 우리는 최대 $n$ 번의 iteration 선형방정식의 해를 이론적으로 구할 수 있다는 것을 보일 수 있다. 여기서 이론적이라는 것은 roundoff-error 등으로 인한 오차를 생각하지 않는다는 조건이다.
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#thm-A-orthogonal_method}
+
+Positive definite $\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})$ 에 대해 $\{\boldsymbol{v}^{(1)}, \ldots,\,\boldsymbol{v}^{(n)}\}$ 이 $\boldsymbol{A}$-직교 벡터라고 하자. 임의의 $\boldsymbol{x}^{(0)}\in \mathcal{M}$ 과 $k=1,\ldots,\,n$ 에 대해 
+
+$$
+\begin{aligned}
+t_k &= \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(k-1)}, \, \boldsymbol{v}^{(k)}\rangle }{\langle \boldsymbol{Av}^{(k)},\, \boldsymbol{v}^{(k)}\rangle}, \\
+\boldsymbol{x}^{(k)} &= \boldsymbol{x}^{(k-1)} + t_{k} \boldsymbol{v}^{(k)}
+\end{aligned}
+$$
+
+
+라면, $\boldsymbol{Ax}^{(n)} = \boldsymbol{b}$ 이다.
+
+
+:::
+
+</div></br>
+
+::: {.proof}
+
+주어진 식으로부터
+$$
+\begin{aligned}
+\boldsymbol{Ax}^{(n)} &= \boldsymbol{Ax}^{(n-1)} + t_ n \boldsymbol{Av}^{(n)} \\
+&= \boldsymbol{A}(\boldsymbol{x}^{(n-2)}  + t_{n-1}\boldsymbol{v}^{(n-1)}) + t_n \boldsymbol{Av}^{(n)}\\
+& \qquad \qquad  \vdots \\
+& = \boldsymbol{Ax}^{(0)} + t_1\boldsymbol{Av}^{(1)} + \cdots + t_n \boldsymbol{Av}^{(n)} 
+\end{aligned}
+$$ {#eq-positive_definite_1}
+
+을 얻는다. 따라서,
+
+$$
+\boldsymbol{Ax}^{(n)} - \boldsymbol{b} = (\boldsymbol{Ax}^{(0)} - \boldsymbol{b})+ t_1\boldsymbol{Av}^{(1)} + \cdots + t_n \boldsymbol{Av}^{(n)}
+$$
+
+이다. 여기에 임의의 $k\in \{1,\ldots,\,n\}$ 에 대해 $\boldsymbol{v}^{(k)}$ 와의 내적을 구하면
+
+$$
+\langle \boldsymbol{Ax}^{(n)} - \boldsymbol{b},\, \boldsymbol{v}^{(k)}\rangle = \langle \boldsymbol{Ax}^{(0)}- \boldsymbol{b}, \, \boldsymbol{v}^{(k)}\rangle + t_k \langle \boldsymbol{Av}^{(k)},\, \, \boldsymbol{v}^{(k)}\rangle
+$$
+
+이며 $t_k$ 의 정의로부터 
+
+$$
+\begin{aligned}
+t_k \langle \boldsymbol{Av}^{(k)},\, \, \boldsymbol{v}^{(k)}\rangle &= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(k-1)}, \, \boldsymbol{v}^{(k)}\rangle  \\
+&= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(0)},\, \boldsymbol{v}^{(k)}\rangle - \sum_{j=1}^{k-1} t_j \langle \boldsymbol{Av}^{(j)},\, \boldsymbol{v}^{(k)}\rangle \\
+&= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(0)},\, \boldsymbol{v}^{(k)}\rangle
+\end{aligned}
+$$
+
+이므로, 
+
+$$
+\langle \boldsymbol{Ax}^{(n)}-\boldsymbol{b},\, \boldsymbol{v}^{(k)}\rangle = \boldsymbol{0}
+$$
+
+임을 얻을 수 있다. 임의의 $k\in \{1,\ldots,\,n\}$ 에 대해 성립하며 $\{\boldsymbol{v}^{(1)},\ldots,\,\boldsymbol{v}^{(n)}\}$ 이 $\mathcal{M}_n(\mathbb{R})$ 의 기저이므로 
+
+$$
+\boldsymbol{Ax}^{(n)} = \boldsymbol{b}
+$$
+
+이다. $\square$ 
+
+:::
+
+
+</br>
+
+이제 $\boldsymbol{A}$-직교 벡터를 구하는 방법을 알아보기 전에 다음을 보자.
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#thm-A_orthogonal_vectors_1}
+
+@thm-A-orthogonal_method 의 조건에서 $\boldsymbol{r}^{(k)}=\boldsymbol{b}-\boldsymbol{Ax}^{(k)}$ 이라 하면 $j=1,\ldots,\,k$ 에 대해 $\langle \boldsymbol{r}^{(k)}, \boldsymbol{v}^{(j)}\rangle=0$ 이다.
+
+:::
+
+</div></br>
+
+::: {.proof}
+
+Induction 으로 증명한다. $k=1$ 에 대해 $\boldsymbol{r}^{(1)} = \boldsymbol{b}-\boldsymbol{Ax}^{(1)}$ 이며 $\boldsymbol{x}^{(1)} =  \boldsymbol{x}^{(0)} +t_1 \boldsymbol{v}^{(1)}$ 이다.  $t_1 = \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(0)}, \boldsymbol{v}^{(1)}\rangle}{\langle \boldsymbol{Av}^{(1)},\boldsymbol{v}^{(1)}\rangle}$ 이므로, 
+
+$$
+\begin{aligned}
+\langle \boldsymbol{r}^{(1)},\, \boldsymbol{v}^{(1)} \rangle &=  \langle \boldsymbol{b}-\boldsymbol{Ax}^{(1)},\, \boldsymbol{v}^{(1)} \rangle =\langle \boldsymbol{b}-\boldsymbol{Ax}^{(0)},\, \boldsymbol{v}^{(1)}\rangle - t_1 \langle \boldsymbol{Av}^{(1)},\, \boldsymbol{v}^{(1)}\rangle \\
+&= \langle \boldsymbol{b}-\boldsymbol{Ax}^{(0)},\, \boldsymbol{v}^{(1)}\rangle - \langle \boldsymbol{b}-\boldsymbol{Ax}^{(0)},\, \boldsymbol{v}^{(1)}\rangle =\boldsymbol{0}
+\end{aligned}
+$$
+
+이다. 이제 $k$ 보다 작거나 같은 정수에 대해 성립함을 가정한다. 
+
+$$
+\boldsymbol{r}^{(k+1)} =  \boldsymbol{b} - \boldsymbol{Ax}^{(k+1)} = \boldsymbol{b} - \boldsymbol{Ax}^{(k)} - t_{k+1}\boldsymbol{Av}^{(k+1)} = \boldsymbol{r}^{(k)} - t_{k+1}\boldsymbol{Av}^{(k+1)}
+$$
+
+이므로, $j=1,\ldots,\,k+1$ 에 대해
+
+$$
+\langle \boldsymbol{r}^{(k+1)},\, \boldsymbol{v}^{(j)}\rangle = \langle \boldsymbol{r}^{(k)},\, \boldsymbol{v}^{(j)}\rangle - t_{k+1} \langle \boldsymbol{Av}^{(k+1)},\, \boldsymbol{v}^{(j)}\rangle
+$$
+
+이다. $j\le k$ 라면 $\langle \boldsymbol{r}^{(k)},\, \boldsymbol{v}^{(j)}\rangle$ 은 induction 의 가정에 의해 $0$ 이며 $\langle \boldsymbol{Av}^{(k+1)},\, \boldsymbol{v}^{(j)}\rangle$ 은 $\boldsymbol{A}$-직교조건에 의해 $0$ 이다. $j=k+1$ 이라면 $t_k$ 와 $\boldsymbol{r}^{(k)}$ 의 정의에 의해 $0$ 이다. 따라서 명제가 성립한다. $\square$
+
+:::
+
+</br>
+
+<div class="border" style="background-color:#F2F4F4;padding:5px;">
+
+::: {#thm-A_orthogonal_vectors_2}
+
+
+
+임의의 $\boldsymbol{x}^{(0)}$ 에 대해 $\boldsymbol{v}^{(1)}=\boldsymbol{r}^{(0)}= \boldsymbol{b}-\boldsymbol{Ax}^{(0)}$ 로 잡자. 그리고 $\boldsymbol{x}^{(k-1)}$ 와 $\boldsymbol{v}^{(k)}$ 이 주어졌을 때, 
+
+$$
+\begin{aligned}
+\boldsymbol{x}^{(k)} &= \boldsymbol{x}^{(k-1)} + t_{k} \boldsymbol{v}^{(k)}, \\
+\boldsymbol{v}^{(k+1)} &= \boldsymbol{r}^{(k)} + s_{k}\boldsymbol{v}^{(k)},\qquad s_{k}= -\dfrac{\langle \boldsymbol{v}^{(k)},\, \boldsymbol{Ar}^{(k)}\rangle}{\langle \boldsymbol{v}^{(k)},\, \boldsymbol{Av}^{(k)}\rangle} 
+\end{aligned}
+$$
+
+이라고 하면 $j=1,\ldots,\,k-1$ 에 대해 $\langle \boldsymbol{v}^{(j)},\, \boldsymbol{Av}^{(k)}\rangle = 0$ 이며 $\langle \boldsymbol{r}^{(j)},\, \boldsymbol{r}^{(k)}\rangle = 0$ 이다.
+:::
+
+</div></br>
+
+::: {.proof}
+Induction 으로 증명한다. 우선 $k=2$ 일 때 증명한다.
+$$
+\begin{aligned}
+\langle \boldsymbol{v}^{(1)},\, \boldsymbol{Av}^{(2)}\rangle &= \langle \boldsymbol{v}^{(1)},\, \boldsymbol{A}(\boldsymbol{r}^{(1)}+s_{2}\boldsymbol{v}^{(1)})\rangle \\
+&= \langle \boldsymbol{v}^{(1)},\, \boldsymbol{Ar}^{(1)}\rangle + s_2 \langle \boldsymbol{v}^{(1)},\, \boldsymbol{\boldsymbol{v}^{(1)}}\rangle = 0
+\end{aligned}
+$$
+
+이다. 이제 $k$ 보다 작거나 같은 정수에 대해 성립함을 가정한다.
+
+$$
+\begin{aligned}
+\langle \boldsymbol{v}^{(j)},\, \boldsymbol{Av}^{(k+1)}\rangle &=\langle \boldsymbol{v}^{(j)},\, \boldsymbol{Ar}^{(k)} \rangle + s_k \langle \boldsymbol{v}^{(j)},\, \boldsymbol{Av}^{(k)}\rangle 
+\end{aligned}
+$$
+
+$j=k$ 이면 $s_k$ 의 정의에 의해 $0$ 이 된다. $j<k$ 이면 induction 의 가정에 의해 $\langle \boldsymbol{v}^{(j)},\, \boldsymbol{Av}^{(k)}\rangle =0$ 이므로
+
+$$
+\begin{aligned}
+\langle \boldsymbol{v}^{(j)},\, \boldsymbol{Av}^{(k+1)}\rangle &=\langle \boldsymbol{v}^{(j)},\, \boldsymbol{Ar}^{(k)} \rangle = \
+\end{aligned}
+$$
+
+
+
+:::
+
+
