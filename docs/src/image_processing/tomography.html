@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Julia &amp; Numerical Anlaysis - 토모그래피</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../src/tools/tikz/tikz_test.html" rel="next">
+<link href="../../src/image_processing/wavelet/wavelets_julia.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Julia &amp; Numerical Anlaysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수치해석 I</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수치해석 II</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수학</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../src/image_processing/index.html" aria-current="page"> 
+<span class="menu-text">영상 처리/토모그래피</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/tools/tools.html"> 
+<span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+    <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/tomography.html">주제별 처리</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/tomography.html">토모그래피</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">영상 처리 기초</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">영상 처리와 토모그래피</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/introduction_to_signal_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">디지털 신호처리의 기초</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/fourier_transform_for_image_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">푸리에 변환</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">푸리에 변환과 웨이블릿 변환</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/wavelet/fourier_transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">푸리에 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/wavelet/wavelet_transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">웨이블릿 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/wavelet/descrete_wavelet_transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">이산 웨이블릿 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/wavelet_and_image.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">웨이블릿 변환을 이용한 이미지 처리</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/wavelet/wavelets_julia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wavelets.jl</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">주제별 처리</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/tomography.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">토모그래피</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/tools/tikz/tikz_test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">tikz test</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#라돈-변환" id="toc-라돈-변환" class="nav-link active" data-scroll-target="#라돈-변환"><span class="header-section-number">1</span> 라돈 변환</a>
+  <ul class="collapse">
+  <li><a href="#sinogram" id="toc-sinogram" class="nav-link" data-scroll-target="#sinogram"><span class="header-section-number">1.1</span> Sinogram</a></li>
+  <li><a href="#reconstruction-과-역-라돈-변환" id="toc-reconstruction-과-역-라돈-변환" class="nav-link" data-scroll-target="#reconstruction-과-역-라돈-변환"><span class="header-section-number">1.2</span> Reconstruction 과 역 라돈 변환</a></li>
+  </ul></li>
+  <li><a href="#토모그래피" id="toc-토모그래피" class="nav-link" data-scroll-target="#토모그래피"><span class="header-section-number">2</span> 토모그래피</a></li>
+  <li><a href="#projection" id="toc-projection" class="nav-link" data-scroll-target="#projection"><span class="header-section-number">3</span> Projection</a></li>
+  <li><a href="#fourier-slice-theorem" id="toc-fourier-slice-theorem" class="nav-link" data-scroll-target="#fourier-slice-theorem"><span class="header-section-number">4</span> Fourier Slice Theorem</a>
+  <ul class="collapse">
+  <li><a href="#푸리에-변환과-역변환" id="toc-푸리에-변환과-역변환" class="nav-link" data-scroll-target="#푸리에-변환과-역변환"><span class="header-section-number">4.1</span> 푸리에 변환과 역변환</a></li>
+  <li><a href="#projection-과-푸리에변환" id="toc-projection-과-푸리에변환" class="nav-link" data-scroll-target="#projection-과-푸리에변환"><span class="header-section-number">4.2</span> Projection 과 푸리에변환</a></li>
+  </ul></li>
+  <li><a href="#filtered-back-projeciton" id="toc-filtered-back-projeciton" class="nav-link" data-scroll-target="#filtered-back-projeciton"><span class="header-section-number">5</span> Filtered back projeciton</a>
+  <ul class="collapse">
+  <li><a href="#filtered-projection" id="toc-filtered-projection" class="nav-link" data-scroll-target="#filtered-projection"><span class="header-section-number">5.1</span> Filtered projection</a></li>
+  <li><a href="#low-frequency-window" id="toc-low-frequency-window" class="nav-link" data-scroll-target="#low-frequency-window"><span class="header-section-number">5.2</span> Low frequency window</a></li>
+  </ul></li>
+  <li><a href="#대수적인-reconstruction" id="toc-대수적인-reconstruction" class="nav-link" data-scroll-target="#대수적인-reconstruction"><span class="header-section-number">6</span> 대수적인 Reconstruction</a>
+  <ul class="collapse">
+  <li><a href="#art-algebraic-reconstruction-technique" id="toc-art-algebraic-reconstruction-technique" class="nav-link" data-scroll-target="#art-algebraic-reconstruction-technique"><span class="header-section-number">6.1</span> ART (Algebraic reconstruction technique)</a></li>
+  <li><a href="#sart-simultaneous-art" id="toc-sart-simultaneous-art" class="nav-link" data-scroll-target="#sart-simultaneous-art"><span class="header-section-number">6.2</span> SART (Simultaneous ART)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/tomography.html">주제별 처리</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/tomography.html">토모그래피</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">토모그래피</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="라돈-변환" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="라돈-변환"><span class="header-section-number">1</span> 라돈 변환</h2>
+<p>다음의 그림을 보자. 이미지가 <span class="math inline">\(0\)</span> 에서 <span class="math inline">\(1\)</span> 사이의 값을 가지며 검은색이 <span class="math inline">\(0\)</span>, 흰색이 <span class="math inline">\(1\)</span> 이라고 하자. 이 그림은 실제로 회색조 <span class="math inline">\(1024 \times 1024\)</span> 크기의 이미지이다. 이 이미지는 <code>f</code> 라는 배열의 변수로 저장되었다고 하자. <span class="math inline">\(f(x, y)\)</span> 라는 함수 나 <code>f[i, j]</code> 라는 형식의 배열로 이해해도 상관 없다.</p>
+<center>
+<div id="fig-object" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-object-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/object.png" class="img-fluid figure-img" width="200">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-object-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;1: object
+</figcaption>
+</figure>
+</div>
+</center>
+<p>이 이미지를 <span class="math inline">\(\theta\)</span> 만큼 회전 시킨 이미지를 <span class="math inline">\(\mathfrak{R}_\theta [f]\)</span> 라고 하자. 아래 그림은 <span class="math inline">\(\mathfrak{R}_{\pi/4}[f]\)</span> 이다. 회전방향은 시계방향이다.</p>
+<center>
+<div id="fig-rotate3d_object" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rotate3d_object-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/rotated_objects.png" class="img-fluid figure-img" width="200">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rotate3d_object-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;2: rotated object
+</figcaption>
+</figure>
+</div>
+</center>
+<p><br></p>
+<section id="sinogram" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="sinogram"><span class="header-section-number">1.1</span> Sinogram</h3>
+<p>아래와 같이 정의된 <span class="math inline">\(S(x,\,\theta)\)</span> 를 <span class="math inline">\(f\)</span> 에 대한 <strong>sinogram</strong> 이라고 한다.</p>
+<p><span class="math display">\[
+S(x, \theta) =  \int \mathfrak{R}_\theta [f](x, y) \, dy
+\]</span></p>
+<p>즉 sinogram 은 2 차원 이미지, 혹은 함수를 회전시켜가며 한 방향(여기서는 <span class="math inline">\(y\)</span> 방향) 에 대한 선적분을 구하였을때 나오는 다른 방향과 회전각도에 대한 2차원 함수를 의미한다. 위의 그림에 대한 Sinogram 은 다음과 같다.</p>
+<center>
+<div id="fig-sinogram" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sinogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/object_sinogram.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sinogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;3: sinogram
+</figcaption>
+</figure>
+</div>
+</center>
+<p>이 때 고정된 <span class="math inline">\(\theta\)</span> 에 대한 <span class="math inline">\(S(x, \theta)\)</span> 를 <strong>projection</strong> 이라고 하고 <span class="math inline">\(p_\theta (t)\)</span> 라고 표기한다. 즉 <span class="math inline">\(p_\theta(t) =  S(t, \theta)\)</span> 이다. 이미지로부터 sinogram 을 얻는 것을 <strong>라돈 변환 (Randon transformation)</strong> 이라고 한다. Radon 은 오스트리아의 수학자 <a href="https://en.wikipedia.org/wiki/Johann_Radon">Johann Karl August Radon</a> 을 의미한다.</p>
+<p><br></p>
+</section>
+<section id="reconstruction-과-역-라돈-변환" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="reconstruction-과-역-라돈-변환"><span class="header-section-number">1.2</span> Reconstruction 과 역 라돈 변환</h3>
+<p>Reconstruction 은 sinogram 으로부터 원래의 이미지를 구성하는 것을 말한다. Fourier slice theorem (projection slice theorem 혹은 central slice theorem) 은 수학적으로 simogram 으로부터 원래의 이미지를 구성할 수 있다는 것을 보장한다. 이미지로부터 sinogram 을 얻는 것을 라돈 변환이라고 하듯이 sinogram 으로부터 이미지를 얻는 것을 역 라돈 변환 (inverse Radon transformation) 이라고 한다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="토모그래피" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="토모그래피"><span class="header-section-number">2</span> 토모그래피</h2>
+<p>토모그래피의 기본적인 개념은 아래 그림과 같다. 중성자나 X 선과 같이 물질을 투과하는 성질이 강한 입자를 물질에 쐬어 주면 대부분의 입자가 물질을 투과하여 검출기에 검출된다. 하지만 모든 입자가 투과하지는 못하며 물질의 성질에 따라 일부 입자가 산란되거나 흡수되며 검출기에서는 산란되거나 흡수되지 않고 투과되는 빔의 강도를 검출기 위치별로 측정한다. 검출기는 1차원일수도 있고 2차원 일 수도 있다.</p>
+<center>
+<div id="fig-basic_concept_of_tomography" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-basic_concept_of_tomography-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/tomography.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-basic_concept_of_tomography-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;4: Tomography
+</figcaption>
+</figure>
+</div>
+</center>
+<p>비에 따라 (1) 검출기와 선원이 고정된 상태에서 측정 대상이 회전중심을 기준으로 회전할 수도 있고, (2) 측정 대상이 고정된 상태에서 검출기와 선원(radiation source) 이 회전할 수도 있다. 우리는 앞서 라돈 변환을 설명할 때 (1) 의 경우에 대대 설명했지만, 수학적인 설명은 (2) 의 경우를 기준으로 설명하겠다. (이 분야의 대표적인 교과서들이 (2) 를 기준으로 설명하였으므로…) 물리적으로는 (1) 과 (2) 는 서로 회전 방향이 반대라면 동일하다. 즉 (1) 의 경우 시계방향으로 <span class="math inline">\(\theta\)</span> 만큼의 회전은 (2) 의 경우에서 반시계방향으로 <span class="math inline">\(\theta\)</span> 만큼의 회전과 완전히 동일하다.</p>
+<p>물질의 위치에 따른 선형 감쇄 계수가 <span class="math inline">\(\mu (x,\,y)\)</span> 로 주어졌다고 하자. 감쇄 계수는 <span class="math inline">\(I_0\)</span> 의 강도로 입사된 빔이 <span class="math inline">\(ds\)</span> 만큼의 경로를 진행했을 때 감소되는 빔의 강도이다. 즉,</p>
+<p><span class="math display">\[
+\mu = -\dfrac{1}{I}\dfrac{dI}{ds}
+\]</span></p>
+<p>이다. 선원에서 <span class="math inline">\(I_0\)</span> 의 빔의 강도를 가진 빔이 <span class="math inline">\(S\)</span> 의 경로를 따라 갔을 때의 빔의 강도는</p>
+<p><span id="eq-beam_intensity"><span class="math display">\[
+I = I_0 \exp \left[-\int_S \mu (x, y)\, ds\right]
+\tag{1}\]</span></span></p>
+<p>가 된다. 중성자나 X-선의 경우 공기중의 선형 감쇠 계수는 매우 작기 때문에 우리가 관심이 있는 영역에서의 경로적분만을 생각하면 된다. 또한 빔이 <span class="math inline">\(x\)</span> 값이 고정된 직선 경로를 따른다면,</p>
+<p><span id="eq-beam_intensity_2"><span class="math display">\[
+I(x) = I_0 \exp \left[-\int_{y_i}^{y_f} \mu (x, y)\, dy\right]
+\tag{2}\]</span></span></p>
+<p>이다. 만약 물질이 없는 경로에서의 측정값이 있다면 <span class="math inline">\(I(x) = I_0\)</span> 가 될 것이다.</p>
+<p>우리가 검출기에서 측정한 값이 <span class="math inline">\(\overline{I}(x)\)</span> 이며 물질이 없는 경로에서의 측정값 <span class="math inline">\(\overline{I_0}\)</span> 을 가지고 있다면,</p>
+<p><span id="eq-beam_intensity_formula"><span class="math display">\[
+-\ln \left(\dfrac{\overline{I}(x)}{\overline{I_0}}\right) = \int_{y_i}^{y_f} \mu (x, y)\, dy
+\tag{3}\]</span></span></p>
+<p>가 될 것이다.</p>
+<p><br></p>
+</section>
+<section id="projection" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="projection"><span class="header-section-number">3</span> Projection</h2>
+<p>토모그래피에 있어 물질은 <span class="math inline">\(\mu (x, y)\)</span> 를 의미한다. <span class="math inline">\(\mu\)</span> 는 선원, 물질의 종류 및 밀도에 따라 달라지는 값이며, 토모그래피는 projection들 을 모아 <span class="math inline">\(\mu(x, y)\)</span> (3차원 토모그래피의 경우는 <span class="math inline">\(\mu(x, y, z)\)</span>) 를 재구성(reconstruction) 하는 방법이다.</p>
+<p>이제 선원과 검출기를 반시계방향으로 <span class="math inline">\(\theta\)</span> 만큼 돌려서 찍었다고 하자. 이 데이터를 <span class="math inline">\(I_\theta (x)\)</span> 라고 한다. 이것은 앞서 라돈 변환에서의 projection <span class="math inline">\(p_\theta(t)\)</span> 와 같다.</p>
+<center>
+<div id="fig-projection" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/projection.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;5: Projection
+</figcaption>
+</figure>
+</div>
+</center>
+<p><br> 이제 라돈 변환을 잠시 다른 모양의 동등한 식으로 바꿔 보자.</p>
+<p><span id="eq-projection_1"><span class="math display">\[
+p_\theta(t) = \int_{-\infty}^{\infty} \mu(x,\,y)\, \delta (x\cos \theta + y \sin \theta -t )\, dx\,dy
+\tag{4}\]</span></span></p>
+<p><br></p>
+</section>
+<section id="fourier-slice-theorem" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="fourier-slice-theorem"><span class="header-section-number">4</span> Fourier Slice Theorem</h2>
+<section id="푸리에-변환과-역변환" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="푸리에-변환과-역변환"><span class="header-section-number">4.1</span> 푸리에 변환과 역변환</h3>
+<p>이차원 함수 <span class="math inline">\(f(x, y)\)</span> 을 2차원 푸리에변환 한 함수 <span class="math inline">\(\mathfrak{F}[f](u, v) = F(u, v)\)</span> 는 다음과 같다.</p>
+<p><span class="math display">\[
+F(u, v) = \mathfrak{F}[f](u, v) = \iint f(x, y) \, e^{-2\pi i ( ux+yv)}\, dx\, dy
+\]</span></p>
+<p>우리는 <span class="math inline">\(F(u, v)\)</span> 에 대한 푸리에 역변환으로부터 <span class="math inline">\(f(x, y) = \mathfrak{F}^{-1}[F](x, y)\)</span> 를 얻을 수 있다는 것을 알고 있다. 즉,</p>
+<p><span class="math display">\[
+f(x, y) = \mathfrak{F}^{-1}[F](x, y) = \iint F(u, v) \, e^{2\pi i (ux +yv)}\, du\, dv
+\]</span></p>
+<p>임을 안다. 즉 <span class="math inline">\(f(x, y)\)</span> 를 안다는 것과 <span class="math inline">\(F(u, v)\)</span> 를 안다는 것은 정확히 같은 것이다.</p>
+<p><br></p>
+</section>
+<section id="projection-과-푸리에변환" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="projection-과-푸리에변환"><span class="header-section-number">4.2</span> Projection 과 푸리에변환</h3>
+<p>Projection <span class="math inline">\(p_\theta (s)\)</span> 에 대한 1차원 푸리에 변환을 <span class="math inline">\(S_\theta(\omega)\)</span> 라 하면,</p>
+<p><span id="eq-fourier_transform_of_projection"><span class="math display">\[
+S_\theta(\rho) = \int p_\theta(t) \,e^{-2\pi i\rho t}\, dt
+\tag{5}\]</span></span></p>
+<p>이다.</p>
+<p>아래의 그림처럼 <span class="math inline">\(\theta\)</span> 만큼 회전시킨 <span class="math inline">\(t-s\)</span> 좌표계를 생각하자. 그렇다면, <span class="math inline">\((x, y)\)</span> 와 <span class="math inline">\((t, x)\)</span> 의 관계는 아래와 같다.</p>
+<p><span class="math display">\[
+\begin{bmatrix} t \\ s \end{bmatrix} =  \begin{bmatrix} \cos \theta &amp; \sin \theta \\ - \sin \theta &amp; \cos \theta\end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}
+\]</span></p>
+<center>
+<div id="fig-new_coordinate_system" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-new_coordinate_system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/fourier_slice_theorem_1.png" class="img-fluid figure-img" width="500">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-new_coordinate_system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;6: New coordinate system
+</figcaption>
+</figure>
+</div>
+</center>
+<p>라돈 변환을 생각하면,</p>
+<p><span class="math display">\[
+p_\theta (t) = \int f(t, s)\, ds
+\]</span></p>
+<p>이며 <a href="#eq-fourier_transform_of_projection" class="quarto-xref">식&nbsp;5</a> 로 부터</p>
+<p><span id="eq-fourier_transform_of_slice_2"><span class="math display">\[
+\begin{aligned}
+S_\theta (\rho) &amp;= \int p_\theta (t) e^{-2\pi i \rho t}\, dt \\
+&amp;=\int \left[\int f(t, s) \, ds\right] \, e^{-2\pi i \rho t}\, dt \\
+&amp;= \iint f(x, y) e^{-2 \pi i \rho ( x \cos\theta + y\sin \theta) } \, dx\, dy
+\end{aligned}
+\tag{6}\]</span></span></p>
+<p>임을 안다. 여기서 <span class="math inline">\(u = \rho \cos \theta,\, v = \rho \sin \theta\)</span> 라고 하면,</p>
+<p><span id="eq-fourier_transform_of_slice_3"><span class="math display">\[
+S_\theta (\rho) = \iint f(x,  y) e^{-2\pi i (ux + vy)}\, dx\, dy = \mathfrak{F}[f](u, v) = F(\rho \cos \theta, \rho \sin \theta)
+\tag{7}\]</span></span></p>
+<p>이다. 이것이 바로 <strong>Fourier Slice Theorem</strong> 이다. Fourier slice theorem 은 sinogram 으로부터 <span class="math inline">\(f(x, y)\)</span> 를 구할 수 있음을, 즉 역 라돈 변환이 가능함을 보장한다.</p>
+<center>
+<div id="fig-fourier_slice_theorem" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fourier_slice_theorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/Fourier_Slice_Theorem_2.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fourier_slice_theorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;7: New coordinate system
+</figcaption>
+</figure>
+</div>
+</center>
+<p><br></p>
+</section>
+</section>
+<section id="filtered-back-projeciton" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="filtered-back-projeciton"><span class="header-section-number">5</span> Filtered back projeciton</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+지금까지의 정리
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><span class="math inline">\(f(x, y)\)</span> 가 함수라고 하자. 그렇다면 우리는 임의의 projeciton <span class="math inline">\(p_\theta(t)\)</span> 를 얻을 수 있으며, 이를 통해 <span class="math inline">\(\mathfrak{F}[f](u, v)\)</span> 를 구할 수 있다.</p></li>
+<li><p>우리가 토모그래피를 통해 측정하는 것은 <span class="math inline">\(\theta = \theta_1,\, \theta_2,\,\theta_3, \ldots\)</span> 에 대한 <span class="math inline">\(p_\theta (t)\)</span> 이다. 그리고 푸리에 변환을 통해 <span class="math inline">\(S_\theta (\omega)\)</span> 를 얻을 수 있다.</p></li>
+<li><p><span class="math inline">\(S_\theta (\omega) = F(\omega \cos\theta, \omega \sin \theta)\)</span> 와 같다.</p></li>
+</ul>
+</div>
+</div>
+<p><br></p>
+<section id="filtered-projection" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="filtered-projection"><span class="header-section-number">5.1</span> Filtered projection</h3>
+<p><span id="eq-filtered_projeciton_1"><span class="math display">\[
+\begin{aligned}
+f(x, y) &amp;= \iint F(u, v) e^{2\pi i (ux + yv)}\, du\, dv \\
+&amp;= \int_0^{2\pi}\int_0^{\infty} F(\rho \cos \theta, \rho \sin \theta)\, e^{2\pi i (\rho x \cos \theta + \rho y \sin \theta)} \, \rho\,   d\rho \, d\theta
+\end{aligned}
+\tag{8}\]</span></span></p>
+<p>이며 <span class="math inline">\(\theta\)</span> 에 대한 적분을 <span class="math inline">\([0, \pi)\)</span>, <span class="math inline">\([\pi, 2\pi)\)</span> 구간으로 나누어 생각해 보자.</p>
+<ul>
+<li><p>Projection <span class="math inline">\(p_\theta (t)\)</span> 를 생각해보자. <span class="math inline">\(\theta + \pi\)</span> 만큼 회전시킨 projection 은 <span class="math inline">\(\theta\)</span> 에 대한 projection 과 같은 선상의 적분이며 단지 <span class="math inline">\(t\)</span> 값이 <span class="math inline">\(-t\)</span> 로 바뀔 뿐이다. 따라서 <span class="math inline">\(p_{\theta + \pi} (t) = p_\theta(-t)\)</span> 이다.</p></li>
+<li><p>식 (<span class="math inline">\(6\)</span>) 으로부터, <span class="math inline">\(S_{\theta + \pi}(\rho) = S_\theta (-\rho)\)</span> 임을 안다. 따라서 다음이 성립한다. <span id="eq-filtered_projection_2"><span class="math display">\[
+F(\rho \cos (\theta + \pi), \rho \sin (\theta + \pi)) = F(-\rho \cos \theta, -\rho \sin\theta)
+\tag{9}\]</span></span></p></li>
+</ul>
+<p><br></p>
+<p>그렇다면, <span class="math inline">\([\pi, 2\pi)\)</span> 구간에서 <span class="math inline">\(\phi = \theta - \pi\)</span> 로 놓으면, 그리고 중간에 <span class="math inline">\(\rho \to -\rho\)</span> 변환을 사용하면,</p>
+<p><span id="eq-filtered_projection_3"><span class="math display">\[
+\begin{aligned}
+\int_\pi^{2\pi}\int_0^\infty &amp;F(\rho \cos \theta, \rho \sin \theta)\,  e^{2\pi i (\rho x \cos \theta + \rho y \sin \theta)} \, \rho\,   d\rho \, d\theta\\
+&amp;=\int_0^\pi \int_0^\infty F(-\rho\cos \phi, -\rho \sin \phi) e^{-2\pi i(\rho x \cos \phi +\rho y \sin\phi)} \, \rho\, d\rho \, d\phi \\
+&amp; = \int_0^\pi \int_{-\infty}^0 F(\rho \cos \phi,  \rho \sin \phi) e^{2\pi i (\rho x \cos \theta + \rho y \sin \theta)} (-\rho)\, d\rho \,d\phi
+\end{aligned}
+\tag{10}\]</span></span></p>
+<p>이다. <a href="#eq-fourier_transform_of_slice_3" class="quarto-xref">식&nbsp;7</a> 과 <a href="#eq-filtered_projection_3" class="quarto-xref">식&nbsp;10</a> 로부터, 그리고 Fourier slice theorem 으로부터,</p>
+<p><span id="eq-filtered_back_projection"><span class="math display">\[
+\begin{aligned}
+f(x, y) &amp;=\int_0^{ \pi} \int_{-\infty}^\infty F(\rho \cos\theta, \rho \sin \theta) e^{2\pi i \rho(x \cos \theta + y \sin \theta)}|\rho| \, d\rho \, d\theta \\
+&amp;= \int_0^\pi \left[ \int_{0}^\infty S_\theta (\rho) |\rho| e^{2\pi i \rho (x\cos \theta + y \sin \theta)}\, d\rho \right] \, d\theta
+\end{aligned}
+\tag{11}\]</span></span></p>
+<p>를 얻는다. 우리는 <span class="math inline">\(t=x \cos \theta + y \sin \theta\)</span> 가 <span class="math inline">\(\theta\)</span> 만큼 회전시켰을때의 projection 이 독립변수임을(혹은 좌표값임을) 알고 있다. 따라서</p>
+<p><span id="eq-fourier_transform_of_slice_4"><span class="math display">\[
+Q_\theta (t) = \int_{0}^\infty S_\theta(\rho) |\rho| e^{2\pi i \rho t} \, d\rho
+\tag{12}\]</span></span></p>
+<p>라고 정의하자. 그렇다면</p>
+<p><span id="eq-fourier_transform_of_slice_5"><span class="math display">\[
+f(x, y) = \int_0 ^\pi  Q_\theta (t = x \cos \theta + y \sin \theta) \,d\theta
+\tag{13}\]</span></span></p>
+<p>가 된다. 이 때의 <span class="math inline">\(Q_\theta (t)\)</span> 를 <strong>filtered projection</strong> 이라고 하며 filtered projection 을 통해 <span class="math inline">\(f(x, y)\)</span> 를 얻는 과정을 <strong>filtered back projection</strong> 이라고 한다. 즉 filtered back projection 은 다음의 과정을 통해 원본 이미지를 reconstructin 한다.</p>
+<p><span class="math display">\[
+p_\theta (t) \longrightarrow S_\theta (\rho) \longrightarrow Q_\theta(t) \longrightarrow f(x, y)
+\]</span></p>
+<p>우리가 image 를 reconstruction 할 때는 영역을 선택한다. 이를 reconstruction region 이라고 하자. 이 영역에 대해 <span class="math inline">\(f(x,\,y)\)</span> 를 구해야 한다. 다음 그림을 보자</p>
+<center>
+<div id="fig-filtered_projection" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-filtered_projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/filtered_projection.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-filtered_projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;8: Filtered projection
+</figcaption>
+</figure>
+</div>
+</center>
+<p>우리는 <span class="math inline">\(\theta = \theta_1,\,\theta_2,\ldots\)</span> 에 대한 slices <span class="math inline">\(p_\theta (t)\)</span> 를 얻었으며 이를 통해 각 slices 에 대한 <span class="math inline">\(Q_\theta (t)\)</span> 를 얻을 수 있다. <span class="math inline">\(Q_\theta(t)\)</span> 를 얻었다면 식 (<span class="math inline">\(11\)</span>) 로 부터 <span class="math inline">\(f(x,\,y)\)</span> 를 얻을 수 있는데, 실제로 reconstruction 을 할 때는 적분을 합으로 바꾸게 된다. 즉,</p>
+<p><span class="math display">\[
+f(x, y) = C \cdot \left(\sum_\theta Q_\theta (t=x \cos \theta + y \sin \theta)\right)
+\]</span></p>
+<p>이다.</p>
+<p><br></p>
+</section>
+<section id="low-frequency-window" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="low-frequency-window"><span class="header-section-number">5.2</span> Low frequency window</h3>
+<p><a href="#eq-fourier_transform_of_slice_4" class="quarto-xref">식&nbsp;12</a> 의 <span class="math inline">\(|\rho|\)</span> 는 high-pass filter 역할을 하며(이를 <em>Lamp 필터</em> 혹은 <em>Ram-Lack 필터</em> 라고 한다) 이로인해 high frequency 영역에서의 노이즈에 매우 취약하게 된다. 이로인해 <span class="math inline">\(Q_\theta (t)\)</span> 를 계산할 때 window function 이라고 불리우는 high pass filter 를 곱하여 푸리에 변환을 수행한다. 각 필터의 모양은 아래 <a href="#fig-fbp_window" class="quarto-xref">그림&nbsp;9</a> 와 같다.</p>
+<div id="fig-fbp_window" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fbp_window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/fbp_window.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fbp_window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;9: Window functions
+</figcaption>
+</figure>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="대수적인-reconstruction" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="대수적인-reconstruction"><span class="header-section-number">6</span> 대수적인 Reconstruction</h2>
+<div id="fig-rec_algebraic_1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rec_algebraic_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/tomography/fig-algebraic_1.png" class="img-fluid figure-img" width="450">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rec_algebraic_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;10: 대수적인 reconstruction
+</figcaption>
+</figure>
+</div>
+<p>토모그래피를 수행하는 전체 영역이 <span class="math inline">\(N_1 \times N_2\)</span> 의 그리드라고 하자. 우리는 이 때 그리드 내의 선형 감쇄 계수 <span class="math inline">\(\mu(x,\,y)\)</span> 는 동일하다고 가정한다. 그리드마다 인덱스를 부여하여 <span class="math inline">\(\mu_j\)</span> <span class="math inline">\((j=1,\,2,\ldots,\,N_1 \times N_2)\)</span> 라고 하자. 중성자나 X 선원에서 발생하는 방사선이 물질을 투과하여 그 결과로 감소하여 검출기 픽셀 <span class="math inline">\(i\)</span> 번째 pixel 에 검출되었다고 하자. <a href="#eq-beam_intensity_formula" class="quarto-xref">식&nbsp;3</a> 에 따라 <span class="math inline">\(i\)</span> 번째 pixel 에 검출된 카운트 수는</p>
+<p><span class="math display">\[
+-\ln \left(\dfrac{I_i}{I_0}\right) = \sum_{j} w_{ij} \mu_j
+\]</span></p>
+<p>가 된다. <span class="math inline">\(d_i = -\ln \left(\dfrac{I_i}{I_0}\right)\)</span> 라고 하면, <span class="math inline">\(d_i = \sum_{j} w_{ij} \mu_j\)</span> 이다. 토모그래피에서 slice 를 <span class="math inline">\(\theta = \theta_1,\ldots,\,\theta_m\)</span> 만큼 얻었다고 하자. 이제 인덱스 <span class="math inline">\(i\)</span> 를 검출기 뿐만 아니라 slice 에 대한 인덱스로 하자. 즉 검출기 픽셀이 <span class="math inline">\(N_d\)</span> 일 때 <span class="math inline">\(d_1,\ldots,\,d_{N_d}\)</span> 는 <span class="math inline">\(\theta_1\)</span> slice 에 대한 검출기 픽셀 값을 처리한(<span class="math inline">\(-\ln (I_i/I_0)\)</span>) 값이고 <span class="math inline">\(d_{N_d+1},\ldots,\, d_{N_d\times 2}\)</span> 는 <span class="math inline">\(\theta_2\)</span> 에 대한 값이라고 하자. 그렇다면</p>
+<p><span class="math display">\[
+\boldsymbol{d} = \begin{bmatrix} d_1 &amp; d_2 &amp; \cdots &amp; d_{N_d\times m}\end{bmatrix}^T
+\]</span></p>
+<p>를 정의 할 수 있다. 또한 <span class="math inline">\(w_{ij}\)</span> 의 index <span class="math inline">\(i\)</span> 도 검출기 픽셀과 slice 회전에 대한 인덱스에 대해 <span class="math inline">\(\mu_j\)</span> 가 <span class="math inline">\(d_j\)</span> 에 기여하는 정도 라고 볼 수 있다. 그렇다면 우리는 아래와 같은 선형방정식을 얻는다.</p>
+<p><span id="eq-algebraic_equation"><span class="math display">\[
+\boldsymbol{\Omega \mu} = \boldsymbol{d}.
+\tag{14}\]</span></span></p>
+<p>즉 reconstruction 문제가 선형방정식 문제가 된다. 이 때 <span class="math inline">\(\omega\)</span> 는 [검출기 픽셀 갯수 <span class="math inline">\(\times\)</span> slice 수] 만큼의 행과 [Recustruct 되는 이미지의 그리드 수] 만큼의 열을 갖는 행렬이다. 보통 이미지의 그리드 수는 검출기 픽셀 수의 제곱이며 검출기 픽셀 수는 수백 ~ 수천이며 , slice 수 역시 수백 ~ 수천 정도 이므로, <span class="math inline">\(\boldsymbol{\Omega}\)</span> 는 수만 <span class="math inline">\(\times\)</span> 수만 에서 수백만 <span class="math inline">\(\times\)</span> 수백만 정도의 크기를 갖는 매우 큰 행렬이다. 물론 대부분의 성분이 <span class="math inline">\(0\)</span> 인 희소행력(spase matrix) 이다.</p>
+<p><a href="#eq-algebraic_equation" class="quarto-xref">식&nbsp;14</a> 을 보자. 이것이 유일한 해를 갖는 경우는 <span class="math inline">\(\boldsymbol{A}\)</span> 가 정사각 행렬이며 <span class="math inline">\(\det (\boldsymbol{A}) \neq 0\)</span> 일 때 뿐이다. 그러나 일반적인 경우에 <span class="math inline">\(\boldsymbol{A}\)</span> 는 정사각 행렬이 아니다. 이 경우 일반화된 역행렬 방법이 사용된다.</p>
+<p><br></p>
+<section id="art-algebraic-reconstruction-technique" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="art-algebraic-reconstruction-technique"><span class="header-section-number">6.1</span> ART (Algebraic reconstruction technique)</h3>
+<p><span class="math display">\[
+\boldsymbol{x}^{(k+1)} = \boldsymbol{x}^{(k)} + \lambda_m \dfrac{1}{\boldsymbol{A}_{1:}^T \boldsymbol{A}_{1:}} (\boldsymbol{b}_i - \boldsymbol{A}_{i:}\boldsymbol{x}^{(k)}) \boldsymbol{A}_{i:}
+\]</span></p>
+<p>ㅋ <br></p>
+</section>
+<section id="sart-simultaneous-art" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="sart-simultaneous-art"><span class="header-section-number">6.2</span> SART (Simultaneous ART)</h3>
+<p><span class="math display">\[
+\boldsymbol{x}^{(k+1)} = \boldsymbol{x}^{(k)} + \lambda_m \boldsymbol{V}^{-1} \boldsymbol{A}^T \boldsymbol{W} (\boldsymbol{b}-\boldsymbol{Ax}^{(k)})
+\]</span></p>
+<p>이 때 <span class="math inline">\(\boldsymbol{V}\)</span> 와 <span class="math inline">\(\boldsymbol{W}\)</span> 는 대각행렬로 각각의 대각성분은 다음과 같다.</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{jj} = \sum_{i=1}^M |\boldsymbol{A}_{ij}|, \qquad \boldsymbol{W}_{ii} = \dfrac{1}{\sum_{j=1}^N |\boldsymbol{A}_{ij}|}
+\]</span></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../src/image_processing/wavelet/wavelets_julia.html" class="pagination-link" aria-label="Wavelets.jl">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Wavelets.jl</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../src/tools/tikz/tikz_test.html" class="pagination-link" aria-label="tikz test">
+        <span class="nav-page-text">tikz test</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

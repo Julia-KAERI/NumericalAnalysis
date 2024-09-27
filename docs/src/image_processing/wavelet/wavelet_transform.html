@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Julia &amp; Numerical Anlaysis - 웨이블릿 변환</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../src/image_processing/wavelet/descrete_wavelet_transform.html" rel="next">
+<link href="../../../src/image_processing/wavelet/fourier_transform.html" rel="prev">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Julia &amp; Numerical Anlaysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수치해석 I</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수치해석 II</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수학</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../src/image_processing/index.html" aria-current="page"> 
+<span class="menu-text">영상 처리/토모그래피</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../src/tools/tools.html"> 
+<span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+    <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../src/image_processing/wavelet/fourier_transform.html">푸리에 변환과 웨이블릿 변환</a></li><li class="breadcrumb-item"><a href="../../../src/image_processing/wavelet/wavelet_transform.html">웨이블릿 변환</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">영상 처리 기초</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">영상 처리와 토모그래피</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/introduction_to_signal_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">디지털 신호처리의 기초</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/fourier_transform_for_image_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">푸리에 변환</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">푸리에 변환과 웨이블릿 변환</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet/fourier_transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">푸리에 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet/wavelet_transform.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">웨이블릿 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet/descrete_wavelet_transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">이산 웨이블릿 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet_and_image.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">웨이블릿 변환을 이용한 이미지 처리</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet/wavelets_julia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wavelets.jl</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">주제별 처리</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/tomography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">토모그래피</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/tools/tikz/tikz_test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">tikz test</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#정의와-기본적인-성질" id="toc-정의와-기본적인-성질" class="nav-link active" data-scroll-target="#정의와-기본적인-성질"><span class="header-section-number">1</span> 정의와 기본적인 성질</a></li>
+  <li><a href="#딸-웨이블릿" id="toc-딸-웨이블릿" class="nav-link" data-scroll-target="#딸-웨이블릿"><span class="header-section-number">2</span> 딸 웨이블릿</a></li>
+  <li><a href="#연속-웨이블릿-변환" id="toc-연속-웨이블릿-변환" class="nav-link" data-scroll-target="#연속-웨이블릿-변환"><span class="header-section-number">3</span> 연속 웨이블릿 변환</a>
+  <ul class="collapse">
+  <li><a href="#sec-wavelet_continuous_wavelet_transform" id="toc-sec-wavelet_continuous_wavelet_transform" class="nav-link" data-scroll-target="#sec-wavelet_continuous_wavelet_transform"><span class="header-section-number">3.1</span> 연속 웨이블릿 변환</a></li>
+  <li><a href="#웨이블릿-변환과-분해능" id="toc-웨이블릿-변환과-분해능" class="nav-link" data-scroll-target="#웨이블릿-변환과-분해능"><span class="header-section-number">3.2</span> 웨이블릿 변환과 분해능</a></li>
+  </ul></li>
+  <li><a href="#이산-웨이블릿-변환" id="toc-이산-웨이블릿-변환" class="nav-link" data-scroll-target="#이산-웨이블릿-변환"><span class="header-section-number">4</span> 이산 웨이블릿 변환</a></li>
+  <li><a href="#orthogonal-wavelet" id="toc-orthogonal-wavelet" class="nav-link" data-scroll-target="#orthogonal-wavelet"><span class="header-section-number">5</span> Orthogonal wavelet</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../src/image_processing/wavelet/fourier_transform.html">푸리에 변환과 웨이블릿 변환</a></li><li class="breadcrumb-item"><a href="../../../src/image_processing/wavelet/wavelet_transform.html">웨이블릿 변환</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">웨이블릿 변환</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="정의와-기본적인-성질" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="정의와-기본적인-성질"><span class="header-section-number">1</span> 정의와 기본적인 성질</h2>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_definition_of_wavelet" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 1 (Wavelet)</strong></span> <span class="math inline">\(\psi\in L^2(\mathbb{R})\)</span> 이 <span class="math inline">\(\hat{\psi}=\mathfrak{F}[\psi]\)</span> 에 대해 다음을 만족할 때 <span class="math inline">\(\psi\)</span> 를 <strong>웨이블릿(wavelet)</strong> 이라고 한다.</p>
+<p><span id="eq-wavelet_condition"><span class="math display">\[
+C_\psi := {\Large \int}_{-\infty}^\infty \dfrac{\left| \hat{\psi}(\omega)\right|^2}{|\omega|} \, d\omega &lt; \infty.
+\tag{1}\]</span></span></p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-wavelet_basic_properties_of_wavelet" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 1</strong></span> <a href="#eq-wavelet_condition" class="quarto-xref">식&nbsp;1</a> 을 <em>admissibility condition</em> 이라고 한다. 이 정의로부터 다음을 알 수 있다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\displaystyle \lim_{\omega \to 0} \hat{\psi}(\omega) = 0\)</span>.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\hat{\psi}\)</span> 가 연속함수라면 <span class="math inline">\(\hat{\psi}(0)=0\)</span> 이어야 한다.</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\displaystyle 0 = \hat{\psi}(0) = \int_{-\infty}^\infty \psi (t)\, dt\)</span> 이다. 즉 <span class="math inline">\(\psi\)</span> 의 평균값은 <span class="math inline">\(0\)</span> 이다.</p>
+<p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\displaystyle \lim_{|\omega| \to \infty }  \hat{\psi}(\omega) = 0\)</span> 이다.</p>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_moment" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 2 (웨이블릿의 <span class="math inline">\(k\)</span>-차 모멘트)</strong></span> <span class="math inline">\(\psi\in L^2(\mathbb{R})\)</span> 이 웨이블릿일 때 아래와 같이 정의된 <span class="math inline">\(m_k\)</span> 를 <span class="math inline">\(k\)</span>-차 모멘트 라고 한다.</p>
+<p><span id="eq-wavelet_moment"><span class="math display">\[
+m_k := \int_{-\infty}^\infty t^k \psi(t)\, dt.
+\tag{2}\]</span></span></p>
+<p><span class="math inline">\(m_0 = m_1 = \cdots = m_k=0\)</span> 일 때 <span class="math inline">\(\psi\)</span> 는 <strong><span class="math inline">\(k\)</span>-vanishing moment</strong> 를 가진다고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-wavelet_vanishing_moment" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 2</strong></span> <a href="#def-wavelet_moment" class="quarto-xref">정의&nbsp;2</a> 에서 <span class="math inline">\(m_k=0\)</span> 인 것의 필요충분조건은 다음과 같다.</p>
+<p><span class="math display">\[
+\left[\dfrac{d^k \hat{\psi}(\omega)}{d\omega^k}\right]_{\omega = 0} = 0.
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><a href="../../../src/image_processing/wavelet/fourier_transform.html#prp-wavelet_properties_of_fourier_transform">푸리에 변환의 수학적 성질</a> (<span class="math inline">\(7\)</span>) 로부터</p>
+<p><span class="math display">\[
+\left[\dfrac{d^k \hat{\psi}(\omega)}{d\omega^k}\right]_{\omega = 0} = (-i)^k \mathfrak{F}\left[t^k \psi(t)\right](\omega = 0) = (-i)^k \int_{-\infty}^\infty t^n \psi(t)\, dt = (-i)^k m_k
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p>웨이블릿은 보통 1차부터 특정 <span class="math inline">\(n\)</span> 차 까지의 모멘트가 <span class="math inline">\(0\)</span> 이다. <span class="math inline">\(m_k=0\)</span> 이 되는 가장 큰 <span class="math inline">\(k\)</span> 값은 웨이블릿의 성질을 파악하는 중요한 값이다. <span class="math inline">\(K = \min \{ k\in \mathbb{Z}_+: m_k \ne 0\}\)</span> 이라고 하자. <span class="math inline">\(\hat{\psi}\)</span> 를 <span class="math inline">\(\omega=0\)</span> 근처에서 테일러 전개 하면</p>
+<p><span class="math display">\[
+\hat{\psi}(\omega) \approx (-i)^K \dfrac{m_K}{K!} \omega^K + O(\omega^{k+1})
+\]</span></p>
+<p>이다.</p>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-wavelet_Haar_wavelet" class="theorem example">
+<p><span class="theorem-title"><strong>예제 1 (Harr 웨이블릿)</strong></span> Haar 웨이블릿은 헝가리의 수학자 Alfred Haar 에 의해 도입된 최초의 웨이블릿으로 아래와 같이 정의된다.</p>
+<p><span id="eq-wavelet_Haar_wavelet"><span class="math display">\[
+\psi_H (t) = \left\{\begin{array}{ll} 1, \qquad &amp; 0, \le t &lt; \dfrac{1}{2} \\ -1 &amp; \dfrac{1}{2} \le t &lt; 1 \\ 0, &amp; \text{otherwise}.\end{array}\right.
+\tag{3}\]</span></span></p>
+<p>이로부터 다음을 쉽게 알 수 있다.</p>
+<p><span class="math display">\[
+\int_{-\infty}^\infty \psi_H (t)\, dt = 0, \qquad \int_{-\infty}^\infty |\psi_H(t)|^2 = 1.
+\]</span></p>
+<p>웨이블릿의 푸리에 변환 <span class="math inline">\(\mathfrak{F}[\psi_H](\omega)\)</span> 는 다음과 같다.</p>
+<p><span id="eq-wavelet_fourier_transform_of_haar_wavelet"><span class="math display">\[
+\begin{aligned}
+\hat{\psi}_H(\omega) &amp;= \int_{0}^{1/2} e^{-i \omega t} \, dt - \int_{1/2}^1 e^{-i\omega t}\, dt = i e^{-i\omega/2} \dfrac{\sin^2(\omega/4)}{\omega/4}
+\end{aligned}
+\tag{4}\]</span></span></p>
+<p>admissibility condition 을 확인해보자.</p>
+<p><span class="math display">\[
+{\Large \int}_{-\infty}^\infty \dfrac{\left| \hat{\psi}_H(\omega)\right|^2}{|\omega|} \, d\omega = \int_{-\infty}^\infty 16|\omega|^{-3} \left|\sin^4 \left(\dfrac{\omega}{4}\right)\right|\, d\omega \le \int_{-\infty}^\infty \dfrac{16}{|\omega|^3}\, d\omega &lt;\infty
+\]</span></p>
+<div id="fig-wavelet_haar_wavelet" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wavelet_haar_wavelet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fig-wavelet_haar_wavelet.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wavelet_haar_wavelet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;1: Haar 웨이블릿과 그 푸리에 변환
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-wavelet_haar_wavelet" class="quarto-xref">그림&nbsp;1</a> 에서 보듯이 Haar wavelet 은 시간 도메인에서 잘 국소화 되어 있지만 진동수 도메인에서는 잘 국소화 되어 있지 않다. 또한 푸리에 변환인 <span class="math inline">\(\hat{\psi}_H(\omega)\)</span> 는 <span class="math inline">\(\omega\)</span> 가 커짐에 따라 <span class="math inline">\(\omega\)</span> 에 빈비례하므로 진동수 도메인에서 컴팩트 지지 함수가 아니다. <span class="math inline">\(\psi(t)\)</span> 가 연속함수가 아니므로 <span class="math inline">\(\omega \to \infty\)</span> 극한에서 충분히 빨리 <span class="math inline">\(0\)</span> 이 되지 않는데 이것으로 인해 Haar 웨이블릿은 실제로 사용하는데 약점이 있지만 일반적인 웨이블릿의 성질을 파악하는데 가장 기초적인 웨이블릿이다.</p>
+</div>
+</div>
+<p><br></p>
+<div id="thm-wavelet_convolution_of_wavelet" class="theorem">
+<p><span class="theorem-title"><strong>정리 1</strong></span> <span class="math inline">\(\psi\)</span> 가 웨이블릿이고 <span class="math inline">\(\phi\)</span> 가 유계인 적분가능 함수라면 <span class="math inline">\(\psi \ast \phi\)</span> 는 웨이블릿이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>우선 다음을 보자. <span class="math inline">\(f,\,g\in L^2(\mathbb{R})\)</span> 이라면</p>
+<p><span class="math display">\[
+\infty &gt; \int_{-\infty}^\infty |f(t)|^2\, dt
+\]</span></p>
+<p>이므로 <span class="math inline">\(|f|\in L^2(\mathbb{R})\)</span> 이다. 코시-슈바르츠 부등식에 따라</p>
+<p><span class="math display">\[
+\left(\int_{-\infty}^\infty |f(t)g(t)|\, dt\right)^2 \le {\int_{-\infty}^\infty |f(t)|^2\, dt}{\int_{-\infty}^\infty |g(t')|^2\, dt'}
+\]</span></p>
+<p>이다. 다음의 식에는 이것이 사용된다. 다음을 보자.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\int_{-\infty}^\infty \left|(\psi \ast \phi)(t)\right|^2\,  dt &amp;= \int_{-\infty}^\infty \left|\int_{-\infty}^\infty \psi(x-t)\,\phi(x) \, dx\right|^2\, dt \\
+&amp; \le \int_{-\infty}^\infty \left[\int_{-\infty}^\infty \left|\psi(x-t)\right|\,\left|\phi(x)\right| \, dx\right]^2\, dt \\
+&amp;= \int_{-\infty}^\infty \left[\int_{-\infty}^\infty |\psi(x-t) |\, |\phi(x)|^{1/2} |\phi(x)|^{1/2}\, dx\right]^2\, dt \\
+&amp;\le \int_{-\infty}^\infty \left[\int_{-\infty}^\infty |\psi(x-t) |^2\, |\phi(x)| \, dx \int_{-\infty}^\infty |\phi(y)|\, dy\right]\, dt \\
+&amp;=\int_{-\infty}^\infty |\phi(y)|\, dy \int_{-\infty}^\infty \left[\int_{-\infty}^\infty |\psi(x-t) |^2\, |\phi(x)| \, dx \right]\, dt  \\
+&amp;= \left(\int_{-\infty}^\infty |\phi(y)|\, dy \right)^2 \int_{-\infty}^\infty |\psi(t) |^2\, dt &lt;\infty
+\end{aligned}
+\]</span></p>
+<p>따라서 <span class="math inline">\(\psi \ast \phi \in L^2(\mathbb{R})\)</span> 이다. <span class="math inline">\(\phi\)</span> 가 유계인 적분가능함수이므로 <span class="math inline">\(\left|\hat{\phi}(\omega)\right|&lt;\le M\)</span> 인 양수 <span class="math inline">\(M\)</span> 이 존재한다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+{\Large \int_{-\infty}^\infty} \dfrac{\left|\mathfrak{F}[\psi \ast \phi](\omega)\right|^2}{|\omega|}\, d\omega &amp;= {\Large \int_{-\infty}^\infty} \dfrac{\left| \hat{\psi}(\omega) \hat{\phi}(\omega) \right|^2 }{\omega} \, d\omega = {\Large \int_{-\infty}^\infty} \dfrac{\left| \hat{\psi}(\omega) \right|^2 }{\omega} \left| \hat{\phi}(\omega)\right|^2\, d\omega  \\
+&amp;\le {\Large \int_{-\infty}^\infty} \dfrac{\left| \hat{\psi}(\omega) \right|^2 }{\omega}  \sup \left\{\left|\hat{\phi}(\omega)\right|^2 \right\}\, d\omega \le \infty
+\end{aligned}
+\]</span></p>
+<p>이므로 <span class="math inline">\(\psi \ast \phi\)</span> 도 웨이블릿이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p><a href="#thm-wavelet_convolution_of_wavelet" class="quarto-xref">정리&nbsp;1</a> 은 일단 하나의 웨이블릿이 존재한다면 이로부터 무수히 많은 웨이블릿을 만들 수 있다는 것을 보장한다. 유계인 적분 가능함수 <span class="math inline">\(\phi\)</span> 만 찾고 웨이블릿 <span class="math inline">\(\psi\)</span> 에 대해 <span class="math inline">\(\psi \ast \phi\)</span> 만 해 주면 된다.</p>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-wavelet_convolution_of_Haar_wavelet_1" class="theorem example">
+<p><span class="theorem-title"><strong>예제 2</strong></span> <span class="math inline">\(\phi (t)\)</span> 를 다음과 같이 정의하자.</p>
+<p><span class="math display">\[
+\phi(t) = \left\{\begin{array}{ll} 0, \qquad &amp; t&lt;0, \\ 1, &amp; 0 \le t \le 1, \\ 0 \ge 1. \end{array}\right.
+\]</span></p>
+<p>Haar 웨이블릿 <span class="math inline">\(\psi_H\)</span> 와 <span class="math inline">\(\phi\)</span> 의 합성곱 <span class="math inline">\(\psi_H \ast \phi\)</span> 는 아래 그림 <a href="#fig-wavelet_convolution_of_haar_1" class="quarto-xref">그림&nbsp;3</a> 과 같다.</p>
+<div id="fig-wavelet_convolution_of_haar_1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wavelet_convolution_of_haar_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fig-wavelet_convolution_of_haar.png" class="img-fluid figure-img" width="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wavelet_convolution_of_haar_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;2: <span class="math inline">\(\psi_H \ast \phi (t)\)</span> 웨이블릿
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-wavelet_convolution_of_Haar_wavelet_2" class="theorem example">
+<p><span class="theorem-title"><strong>예제 3</strong></span> <span class="math inline">\(\phi (t) = e^{-t^2}\)</span> 와의 합성곱은</p>
+<p>Haar 웨이블릿 <span class="math inline">\(\psi_H\)</span> 와 <span class="math inline">\(\phi\)</span> 의 합성곱 <span class="math inline">\(\psi_H \ast \phi\)</span> 는 아래 그림 <a href="#fig-wavelet_convolution_of_haar_1" class="quarto-xref">그림&nbsp;3</a> 과 같다.</p>
+<div id="fig-wavelet_convolution_of_haar_1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wavelet_convolution_of_haar_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fig-wavelet_convolution_of_haar.png" class="img-fluid figure-img" width="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wavelet_convolution_of_haar_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;3: <span class="math inline">\(\psi_H \ast \phi (t)\)</span> 웨이블릿
+</figcaption>
+</figure>
+</div>
+<div id="fig-wavelet_convolution_of_haar_2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wavelet_convolution_of_haar_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="wavelet_2.png" class="img-fluid figure-img" width="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wavelet_convolution_of_haar_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;4: <span class="math inline">\(\mathfrak[F](\psi_H \ast \phi)(t)\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="딸-웨이블릿" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="딸-웨이블릿"><span class="header-section-number">2</span> 딸 웨이블릿</h2>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_mother_wavelet" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 3 (Mother wavelet)</strong></span> 우리는 기본이 되는 웨이블릿 <span class="math inline">\(\psi(t)\)</span> 에 대해 아래와 같이 <strong>딸 웨이블릿(daughter wavelet)</strong> <span class="math inline">\(\psi_{a,\,b}(t)\)</span> 를 정의 할 수 있다.</p>
+<p><span id="eq-def_daughter_wavelet"><span class="math display">\[
+\psi_{a,b}(t) = \dfrac{1}{\sqrt{|a|}} \psi \left(\dfrac{t-b}{a}\right), \qquad a,\,b\in \mathbb{R},\, a\ne 0.
+\tag{5}\]</span></span></p>
+<p>여기서 <span class="math inline">\(a\)</span> 를 <em>scaling parameter</em> 라고 하고 <span class="math inline">\(b\)</span> 를 <em>translation parameter</em> 라고 한다. 여기서 <span class="math inline">\(\psi(t) = \psi_{1,\,0}(t)\)</span> 를 <strong>mother wavelet</strong> 이라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="prp-wavelet_fourier_transform_of_daughter_wavelet" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 3</strong></span> Mother wavelet <span class="math inline">\(\psi_{1, 0}(t)\)</span> 에 대해 <span class="math inline">\(\hat{\psi}_{0,1}(\omega) = \mathfrak{F}[\psi_{0, 1}](\omega)\)</span> 일 때, 딸 웨이블릿의 푸리에 변환은 다음과 같다.</p>
+<p><span id="eq-wavelet_fourier_transform_of_daughter_wavelet"><span class="math display">\[
+\hat{\psi}_{a,\,b}(\omega)= \mathfrak{F}[\psi_{a,b}](\omega) = \dfrac{a}{\sqrt{|a|}}e^{i\omega b} \hat{\psi}_{1, 0}(a\omega).
+\tag{6}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>푸리에 변환을 직접 해보면 된다.</p>
+</div>
+<p><br></p>
+<p>웨이블릿에 대해 <span class="math inline">\(a,\,b\)</span> 값이 변화하면 어떻게 되는지 아래 그림으로 대략 파악 할 수 있다.</p>
+<div id="fig-daughter_wavelet" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-daughter_wavelet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fig-wavelet_daughter_wavelet.png" class="img-fluid figure-img" width="700">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-daughter_wavelet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;5: Daughter wavlet
+</figcaption>
+</figure>
+</div>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-wavelet_Maxican_hat_wavelet" class="theorem example">
+<p><span class="theorem-title"><strong>예제 4 (멕시코 모자 웨이블릿)</strong></span> 멕시코 모자 웨이블릿은 가우시안 함수 <span class="math inline">\(e^{-t^2/2}\)</span> 의 2차 미분에 <span class="math inline">\(-1\)</span> 을 곱한 함수로 정의된다.</p>
+<p><span id="eq-wavelet_maxican_hat_wavelet"><span class="math display">\[
+\psi_{1,0}(t) := -\left(\dfrac{d^2}{dt^2}e^{-t^2/2}\right) = (1-t^2)\,e^{-t^2/2}.
+\tag{7}\]</span></span></p>
+<p>이에 대한 푸리에 변환은 다음과 같다.</p>
+<p><span id="eq-wavelet_fourier_transformation_of_maxican_hat_wavelet"><span class="math display">\[
+\hat{\psi}_{1, 0}(\omega) = \mathfrak{F}\left[-\dfrac{d^2}{dt^2}e^{-t^2/2}\right] = \omega^2 \mathfrak{F}[e^{-t^2/2}] = \sqrt{2\pi}\omega^2 e^{-\omega^2/2}
+\tag{8}\]</span></span></p>
+<div id="fig-wavelet_maxican_hat_wavelet_and_its_fourier_transform" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wavelet_maxican_hat_wavelet_and_its_fourier_transform-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fig-wavelet_maxican_wavelet.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wavelet_maxican_hat_wavelet_and_its_fourier_transform-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;6: 멕시코 모자 웨이블릿 <span class="math inline">\(\psi_{1, 0}\)</span> 과 <span class="math inline">\(\hat{\psi}_{1, 0}\)</span>
+</figcaption>
+</figure>
+</div>
+<div id="fig-wavelet_three_maxican_hat_wavelet" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wavelet_three_maxican_hat_wavelet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fig-wavelet_maxican_wavelet2.png" class="img-fluid figure-img" width="500">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wavelet_three_maxican_hat_wavelet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;7: 멕시코 모자 웨이블릿 <span class="math inline">\(\psi_{1, 0}(t)\)</span>, <span class="math inline">\(\psi_{\frac{3}{2}, -2}(t)\)</span>, <span class="math inline">\(\psi_{\frac{1}{4}, \sqrt{2}}(t)\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="연속-웨이블릿-변환" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="연속-웨이블릿-변환"><span class="header-section-number">3</span> 연속 웨이블릿 변환</h2>
+<section id="sec-wavelet_continuous_wavelet_transform" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="sec-wavelet_continuous_wavelet_transform"><span class="header-section-number">3.1</span> 연속 웨이블릿 변환</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_continuous_wavelet_transform" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 4 (연속 웨이블릿 변환)</strong></span> 위에블릿 <span class="math inline">\(\psi (t)\)</span> 와 그 딸 웨이블릿 <span class="math inline">\(\psi_{a, b}(t)\)</span> 에 대해</p>
+<p><span id="eq-wavelet_definition_of_wavelet_transformation"><span class="math display">\[
+\mathfrak{W}_\psi[f](a,\,b) := \langle f,\, \psi_{a,b}\rangle = \int_{-\infty}^\infty f(t)\, \overline{\psi_{a,b}(t)}\, dt
+\tag{9}\]</span></span></p>
+<p>를 <span class="math inline">\(f(t)\)</span> 의 웨이블릿 <span class="math inline">\(\psi_{a,b}(t)\)</span> 에 대한 <strong>연속 웨이블릿 변환(continuous wavelet transformation)</strong>이라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>웨이블릿 변환의 커널 <span class="math inline">\(\psi_{a,b}(t)\)</span> 는 푸리에 변환의 커널 <span class="math inline">\(e^{i\omega t}\)</span> 와 같은 역할을 한다. 푸리에 변환처럼 웨이블릿 변환도 선형변환이다. 푸리에 변환은 <span class="math inline">\(\omega\)</span> 에 대한 함수로 주어지지만 웨이블릿 변환은 scaling parameter <span class="math inline">\(a\)</span> 와 translation parameter <span class="math inline">\(b\)</span> 에 대한 함수이다.</p>
+<p><br></p>
+<div id="exr-wavelet_fourier_transform_of_daughter_wavelet" class="theorem exercise">
+<p><span class="theorem-title"><strong>연습문제 1</strong></span> Mother 웨이블릿 <span class="math inline">\(\psi(t)\)</span> 에 대한 푸리에 변환을 <span class="math inline">\(\hat{\psi}(\omega)\)</span>, 딸 웨이블릿 <span class="math inline">\(\psi_{a,\,b}(t)\)</span> 에 대한 푸리에 변환을 <span class="math inline">\(\hat{\psi}_{a,\,b}(\omega)\)</span> 라고 할 때 다음이 성립함을 보여라.</p>
+<p><span class="math display">\[
+\hat{\psi}_{a,\,b}(\omega) = \sqrt{|a|} e^{-ib\omega} \hat{\psi}(a\omega)
+\]</span></p>
+</div>
+<div class="proof solution">
+<p><span class="proof-title"><em>(해답)</em>. </span><span id="eq-wavelet_fourier_transform_of_daughter_wavelet"><span class="math display">\[
+\hat{\psi}_{a,\,b}(\omega) = \dfrac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty e^{-i\omega t} \psi_{a,\,b}(t)\, dt = \sqrt{|a|} e^{-i\omega b} \hat{\psi}(a\omega)
+\tag{10}\]</span></span></p>
+</div>
+<p><br></p>
+<div id="prp-wavelet_properties_of_transformation_1" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 4</strong></span> Mother 웨이블릿 <span class="math inline">\(\psi(t)\)</span> 가 <a href="#def-wavelet_moment"><span class="math inline">\(k\)</span>-vanishing moment</a> 를 가진다면 <span class="math inline">\(f\)</span> 를 <span class="math inline">\(b\)</span> 근처에서 푸리에 전개 했을 때 <span class="math inline">\(\mathfrak{W}_\psi[f](a,\,b)\)</span> 첫번째 <span class="math inline">\(k\)</span> 개의 항이 <span class="math inline">\(0\)</span> 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>웨이블릿 변환에서 <span class="math inline">\(f(t)\)</span> 의 <span class="math inline">\(b\)</span> 근방의 테일려 전개를 통해 다음을 보일 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{W}_\psi[f](a,\,b) &amp;= \int_{-\infty}^\infty \dfrac{1}{\sqrt{|a|}} \overline{\psi\left(\dfrac{t-b}{a}\right)} \left[\sum_{j=0}^\infty \dfrac{f^{(j)}(b)}{j!} (t-b)^j\right]\, dt \\
+&amp;= \sum_{j=0}^\infty \dfrac{f^{(j)}(b)}{(j!)\sqrt{|a|}} \int_{-\infty}^\infty \overline{\psi \left(\dfrac{t-b}{a}\right)}(t-b)^j\, dt &amp;\qquad &amp;; x:=\dfrac{t-b}{a} \\
+&amp;= \sum_{j=0}^\infty \dfrac{f^{(j)}(b)}{(j!)\sqrt{|a|}} a^{j+1}\int_{-\infty}^\infty \overline{\psi(x)} x^j\, dx\\
+&amp;=\sum_{j=0}^\infty \dfrac{f^{(j)}(b)}{(j!)\sqrt{|a|}} a^{j+1}m_k
+\end{aligned}
+\]</span></p>
+<p>이다. <span class="math inline">\(j=0\)</span> 부터 <span class="math inline">\(j=k\)</span> 까지의 항이 모두 <span class="math inline">\(0\)</span> 이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+</section>
+<section id="웨이블릿-변환과-분해능" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="웨이블릿-변환과-분해능"><span class="header-section-number">3.2</span> 웨이블릿 변환과 분해능</h3>
+<p>웨이블릿 <span class="math inline">\(\psi(t)\)</span> 에 대해 <span class="math inline">\(\displaystyle \int |\psi(t)|^2=1\)</span> 인 경우를 생각하자. 이 때 <span class="math inline">\(|\psi(t)|^2\)</span> 를 <span class="math inline">\(t\)</span> 에 대한 확률분포로 생각 할 수 있으며 <a href="../../../src/image_processing/wavelet/fourier_transform.html#thm-wavelet_norm_of_fourier_transfrom_in_L2"><span class="math inline">\(\|\psi\|_2 = \left\|\hat{\psi}\right\|_2\)</span></a> 이므로 <span class="math inline">\(|\hat{\psi}(\omega)|^2\)</span> 는 <span class="math inline">\(\omega\)</span> 에 대한 확률분포로 생각할 수 있다. (양자역학의 파동함수를 생각하라.)</p>
+<p><span class="math inline">\(t\)</span> 와 <span class="math inline">\(\omega\)</span> 에 대한 평균값 <span class="math inline">\(t_m\)</span> 과 <span class="math inline">\(\omega_m\)</span> 은 각각</p>
+<p><span class="math display">\[
+t_m = \int_{_\infty}^\infty t|\psi(t)|^2\, dt,\qquad \omega_m = \dfrac{1}{2\pi} \int_{0}^\infty \omega \left|\hat{\psi}(\omega)\right|^2\, d\omega
+\]</span></p>
+<p>이며 각각의 표준편차 <span class="math inline">\(\sigma_t,\,\sigma_\omega\)</span> 는 다음으로 부터 구할 수 있다.</p>
+<p><span class="math display">\[
+{\sigma_t}^2 = \int_{-\infty}^\infty (t-t_m)^2 |\psi(t)|^2\, dt,\qquad {\sigma_\omega}^2 = \dfrac{1}{2\pi} \int_{-\infty}^\infty (\omega - \omega_m)^2 \left|\hat{\psi}(\omega)\right|^2\,d\omega
+\]</span></p>
+<p>따라서 연속 웨이블릿 변환 <span class="math inline">\(\mathfrak{W}_\psi[f](a,\,b)\)</span> 는 time window 에서</p>
+<p><span class="math display">\[
+\left[at_m + b - a\sigma_t,\, at_m + b +a\sigma_t\right]
+\]</span></p>
+<p>영역의 정보를 준다고 할 수 있다. 또한</p>
+<p><span class="math display">\[
+\mathfrak{W}_\psi[f](a,\,b) = \langle f,\,\psi_{a,b}\rangle = \langle \hat{f},\, \hat{\psi}_{a,b}\rangle = \dfrac{1}{2\pi} \int_{-\infty}^\infty \left[\sqrt{|a|} \hat{f}(\omega) \overline{\hat{\psi}_{a,b}}\right]\, e^{ib\omega}\, d\omega
+\]</span></p>
+<p>이므로 frequency window 에서는</p>
+<p><span class="math display">\[
+\left[\dfrac{\omega_m}{a} - \dfrac{\sigma_\omega}{a},\, \dfrac{\omega_m}{a} + \dfrac{\sigma_\omega}{a}\right]
+\]</span></p>
+<p>영역의 정보를 준다고 할 수 있다. 즉 <span class="math inline">\(\mathfrak{W}_\psi[f](a,\,b)\)</span> 는 <span class="math inline">\(t-\omega\)</span> 평면에서</p>
+<p><span class="math display">\[
+\left[at_m + b - a\sigma_t,\, at_m + b +a\sigma_t\right] \times \left[\dfrac{\omega_m}{a} - \dfrac{\sigma_\omega}{a},\, \dfrac{\omega_m}{a} + \dfrac{\sigma_\omega}{a}\right]
+\]</span></p>
+<p>영역의 정보를 준다.</p>
+<div id="fig-wavelet_resolution" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wavelet_resolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fig-wavelet_resolution_1-1.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wavelet_resolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;8: 웨이블렛 변환의 Time-frequency 평면
+</figcaption>
+</figure>
+</div>
+<p><br></p>
+<div id="thm-wavelet_basic_properties" class="theorem">
+<p><span class="theorem-title"><strong>정리 2</strong></span> <span class="math inline">\(\phi,\,\psi\)</span> 가 웨이블릿이며 <span class="math inline">\(f,\,g\in L^2(\mathbb{R}),\, \alpha,\, \beta\in \mathbb{C},\, c\in \mathbb{R}\)</span> 일 때 다음이 성립한다. (see <a href="../../../src/image_processing/wavelet/fourier_transform.html#def-wavelet_operators">연산자들</a>)</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\mathfrak{W}_\psi [\alpha f +  \beta g](a,\,b) = \alpha\mathfrak{W}_\psi[f](a,\,b) + \beta \mathfrak{W}_\psi [g](a,\,b)\)</span>.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\mathfrak{W}_\psi[T_cf](a,\,b) = \mathfrak{W}_\psi [f] (a,\, b-c)\)</span>.</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(c&gt;0\)</span> 일 때 <span class="math inline">\(\mathfrak{W}_\psi \left[D_c f\right](a,\,b) = \dfrac{1}{\sqrt{c}}\mathfrak{W}_\psi [f] \left(\dfrac{a}{c},\,\dfrac{b}{c}\right)\)</span>.</p>
+<p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(a\ne 0\)</span> 일 때 <span class="math inline">\(\mathfrak{W}_\psi [f] (a,\,b)= \overline{\mathfrak{W}_f[\psi] \left(\dfrac{1}{a},\,-\dfrac{b}{a}\right)}\)</span>.</p>
+<p>  (<span class="math inline">\(5\)</span>) <span class="math inline">\(\mathfrak{W}_{P\psi}[Pf](a,\,b) = \mathfrak{W}_\psi[f] (a,\,-b)\)</span>.</p>
+<p>  (<span class="math inline">\(6\)</span>) <span class="math inline">\(\mathfrak{W}_{\alpha \psi + \beta \phi} [f](a,\,b) = \overline{\alpha} \mathfrak{W}_\psi [f](a,\,b) + \overline{\beta} \mathfrak{W}_\phi[f](a,\,b)\)</span>.</p>
+<p>  (<span class="math inline">\(7\)</span>) <span class="math inline">\(\mathfrak{W}_{T_c \psi}[f] (a,\,b) = \mathfrak{W}_\psi [f](a,\, b+ca)\)</span>.</p>
+<p>  (<span class="math inline">\(8\)</span>) <span class="math inline">\(c&gt;0\)</span> 에 대해 <span class="math inline">\(\mathfrak{W}_{D_c \psi}[f](a,\,b) = \dfrac{1}{\sqrt{c}} \mathfrak{W}_\psi [f](ac,\,b)\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>(<span class="math inline">\(1\)</span>) 정의에 의해 선형성은 자명하다.</p>
+<p>(<span class="math inline">\(2\)</span>)</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{W}_\psi[T_cf](a,\,b) &amp;= \int_{-\infty}^\infty f(t-c) \dfrac{1}{\sqrt{a}}\overline{\psi \left(\dfrac{t-b}{a}\right)}\, dt= \int_{-\infty}^\infty f(x) \dfrac{1}{\sqrt{a}} \overline{\psi \left(\dfrac{x-(b-c)}{a}\right)}\,dx\\[0.5em]
+&amp;= \mathfrak{W}_\psi [f](a,\, b-c).
+\end{aligned}
+\]</span></p>
+<p>(<span class="math inline">\(3\)</span>)</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{W}_\psi \left[D_c f\right](a,\,b) &amp;= \int_{-\infty}^\infty \dfrac{1}{\sqrt{|c|}} f\left(\dfrac{t}{c}\right) \dfrac{1}{\sqrt{a}}\overline{\psi \left(\dfrac{t-b}{a}\right)}\, dt \\
+&amp;= \int_{-\infty}^\infty \dfrac{1}{\sqrt{c}} f(x) \dfrac{1}{\sqrt{a}} \overline{\psi \left(\dfrac{x-b/c}{a/c}\right)}\, dt \\
+&amp;=\dfrac{1}{\sqrt{c}} \mathfrak{W}_{\psi}[f](a/c,\, b/c).
+\end{aligned}
+\]</span></p>
+<p>(<span class="math inline">\(4\)</span>)</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{W}_\psi [f] (a,\,b) &amp;= \dfrac{1}{\sqrt{a}} \int_{-\infty}^\infty f(t) \overline{\psi\left(\dfrac{t-b}{a}\right)}\, dx \\
+&amp;={\sqrt{a}} \int_{-\infty}^\infty f\left(\dfrac{x+b/a}{1/a}\right) \overline{\psi (x)}\, dx \\
+&amp;={\sqrt{a}} \overline{ \int_{-\infty}^\infty \psi(x) \, \overline{f\left(\dfrac{x+b/a}{1/a}\right)}} \, dx\\
+&amp;= \overline{\mathfrak{W}_{f}[\psi]\left(\dfrac{1}{a},\, -\dfrac{b}{a}\right)}.
+\end{aligned}
+\]</span></p>
+<p>(<span class="math inline">\(5\)</span>) <span class="math inline">\(\displaystyle \mathfrak{W}_{P\psi}[Pf] = \dfrac{1}{\sqrt{|a|}}\int_{-\infty}^\infty f(-t) \overline{\psi \left(\dfrac{-t-b}{a}\right)}\, dt = \mathfrak{W}_\psi [f](a,\,-b).\)</span></p>
+<p>(<span class="math inline">\(6\)</span>)</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{W}_{\alpha \psi + \beta \phi} [f](a,\,b) &amp;= \dfrac{1}{\sqrt{|a|}}\int_{-\infty}^\infty f(t) \left[\overline{\alpha \psi \left(\dfrac{t-b}{a}\right) + \beta \phi\left(\dfrac{t-b}{a}\right) }\right] \, dt \\
+&amp;= \dfrac{\overline{\alpha}}{\sqrt{|a|}} \int_{-\infty}^\infty f(t)  \overline{\psi \left(\dfrac{t-b}{a}\right)}\, dt + \dfrac{\overline{\beta}}{\sqrt{|a|}} \int_{-\infty}^\infty f(t)  \overline{\phi \left(\dfrac{t-b}{a}\right)}\, dt \\
+&amp;= \overline{\alpha} \mathfrak{W}_\psi [f](a,\,b) + \overline{\beta} \mathfrak{W}_\phi [f](a,\,b).
+\end{aligned}
+\]</span></p>
+<p>(<span class="math inline">\(7\)</span>) <span class="math inline">\(\displaystyle \mathfrak{W}_{T_c \psi}[f] (a,\,b) = \dfrac{1}{\sqrt{|a|}}\int_{\infty}^\infty f(t) \overline{\psi \left(\dfrac{(t-b)}{a}-c\right)}\, dt = \mathfrak{W}_\psi [f](a,\,b+ac)\)</span></p>
+<p>(<span class="math inline">\(8\)</span>) <span class="math inline">\(D_c\psi =  \dfrac{1}{\sqrt{c}} \psi\left(\dfrac{t}{c}\right)\)</span> 이므로,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{W}_{D_c \psi}[f](a,\,b) &amp;= \dfrac{1}{\sqrt{|a|c}} \int_{-\infty}^{\infty}f(t) \overline{\psi \left(\dfrac{1}{c}\dfrac{t-b}{a}\right)}\, dt = \dfrac{1}{\sqrt{|a|c}} \int_{-\infty}^{\infty}f(t) \overline{\psi \left(\dfrac{t-b}{ac}\right)}\, dt \\
+&amp;= \mathfrak{F}_\psi [f](ac,\,b). \qquad \square
+\end{aligned}
+\]</span></p>
+</div>
+<p><br></p>
+<div id="thm-wavelet_parsevals_formular_for_wavelet" class="theorem">
+<p><span class="theorem-title"><strong>정리 3 (Parseval’s formula)</strong></span> <span class="math inline">\(\psi \in L^2(\mathbb{R})\)</span> 이며 <span class="math inline">\(f,\,g\in L^2(\mathbb{R})\)</span> 일 때 다음이 성립한다.</p>
+<p><span id="eq-wavelet_parsevals_of_wavelet_1"><span class="math display">\[
+\langle f,\,g \rangle = \dfrac{1}{C_\psi} \int_{-\infty}^\infty \int_{-\infty}^\infty \,\mathfrak{W}_\psi [f](a,\,b) \overline{ \mathfrak{W}_\psi [g](a,\,b)}\,\dfrac{db\,da}{a^2}.
+\tag{11}\]</span></span></p>
+<p>여기서 <span class="math inline">\(C_\psi\)</span> 는 다음과 같다.</p>
+<p><span id="eq-wavelet_parsevals_of_wavelet_2"><span class="math display">\[
+C_\psi = \displaystyle \int_{-\infty}^\infty \dfrac{\left|\hat{\psi}(\omega)\right|^2}{|\omega|} \, d\omega &lt; \infty
+\tag{12}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><a href="../../../src/image_processing/wavelet/fourier_transform.html#thm-wavelet_general_Parseval_relation">일반화된 Parseval’s relation</a> 과 <a href="#def-wavelet_continuous_wavelet_transform">연속 웨이블릿 변환</a> 의 정의, 그리고 <a href="#exr-wavelet_fourier_transform_of_daughter_wavelet" class="quarto-xref">연습문제&nbsp;1</a> 로부터</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{W}_\psi [f](a,\,b) &amp;= \langle f,\, \psi_{a,\,b}\rangle = \langle \hat{f},\, \hat{\psi}_{a,\,b}\rangle = \int_{-\infty}^\infty \hat{f}(\omega) \, \sqrt{|a|} e^{ib\omega} \overline{\hat{\psi}(a\omega)}\, d\omega, \\
+\overline{\mathfrak{W}_\psi [g](a,\,b)} &amp;= \int_{-\infty}^\infty \overline{\hat{g}(\mu)} \, \sqrt{|a|} e^{-ib\mu} \hat{\psi}(a\mu)\, d\mu,
+\end{aligned}
+\]</span></p>
+<p><a href="#eq-wavelet_parsevals_of_wavelet_1" class="quarto-xref">식&nbsp;11</a> 의 우변은</p>
+<p><span class="math display">\[
+\begin{aligned}
+\int_{-\infty}^\infty &amp;\int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \,\overline{ \mathfrak{W}_\psi [g](a,\,b)}\,\dfrac{db\,da}{a^2} \\
+&amp;= \int_{-\infty}^\infty \int_{-\infty}^\infty \dfrac{db\,da}{a^2} \int_{-\infty}^\infty \int_{-\infty}^\infty |a|e^{ib(\omega-\mu)} \, \hat{f}(\omega)\,\overline{\hat{g}(\mu)} \overline{\hat{\psi}(a\omega)}\hat{\psi}(a\mu)\, d\mu\, d\omega \\
+\end{aligned}
+\]</span></p>
+<p>여기서 <span class="math inline">\(\int_{-\infty}^\infty e^{ib(\omega - \mu)}\, db = \delta(\omega-\mu)\)</span> 이므로,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \,\overline{ \mathfrak{W}_\psi [g](a,\,b)}\,\dfrac{db\,da}{a^2} &amp;= \int_{-\infty}^\infty \dfrac{da}{|a|} \int_{-\infty}^\infty \hat{f}(\omega)\,\overline{\hat{g}(\omega)} \left|\hat{\psi}(a\omega)\right|^2\, d\omega \\
+&amp;= \int_{-\infty}^\infty \left[\int_{-\infty}^\infty \left|\hat{\psi}(a\omega)\right|^2 \, \dfrac{da}{|a|}\right] \,\hat{f}(\omega)\,\overline{\hat{g}(\omega)}\,d\omega \\
+&amp;= \int_{-\infty}^\infty \left[\int_{-\infty}^\infty \dfrac{\left|\hat{\psi}(x)\right|^2}{|x|}\, dx\right] \,\hat{f}(\omega)\,\overline{\hat{g}(\omega)}\,d\omega \\
+&amp;= C_\psi  \int_{-\infty}^\infty\hat{f}(\omega)\,\overline{\hat{g}(\omega)}\,d\omega\\
+&amp;= C_\psi \langle \hat{f},\, \hat{g}\rangle = C_\psi \langle f,\,g\rangle
+\end{aligned}
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div id="thm-wavelet_inversion" class="theorem">
+<p><span class="theorem-title"><strong>정리 4</strong></span> <span class="math inline">\(f\in \mathcal{L}^2(\mathbb{R})\)</span> 일 때 아래의 식이 거의 모든 <span class="math inline">\(\mathbb{R}\)</span> 에서 성립한다.</p>
+<p><span id="eq-wavelet_inversion"><span class="math display">\[
+\dfrac{1}{C_\psi} \int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi[f](a,\,b) \, \psi_{a,\,b}(t)\,\dfrac{db\,da}{a^2} = f(t).
+\tag{13}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><a href="#thm-wavelet_parsevals_formular_for_wavelet" class="quarto-xref">정리&nbsp;3</a> 로부터 시작한다. <span class="math display">\[
+\begin{aligned}
+C_\psi \langle f,\,g\rangle &amp;=\int_{-\infty}^\infty \int_{-\infty}^\infty \,\mathfrak{W}_\psi [f](a,\,b) \overline{ \mathfrak{W}_\psi [g](a,\,b)}\,\dfrac{db\,da}{a^2} \\
+&amp;= \int_{-\infty}^\infty \int_{-\infty}^\infty \,\mathfrak{W}_\psi [f](a,\,b) \overline{\left[\int_{-\infty}^\infty g(t)\, \overline{\psi_{a,\,b}(t)}\, dt\right]}\,\dfrac{db\,da}{a^2} \\
+&amp;= \int_{-\infty}^\infty \int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \psi_{a,\,b}(t) \,\dfrac{db\,da}{a^2} \, \overline{g(t)}\,dt \\
+&amp;= \left\langle  \int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \psi_{a,\,b}(t) \,\dfrac{db\,da}{a^2},\, g(t)\right\rangle
+\end{aligned}
+\]</span></p>
+<p>이다. <span class="math inline">\(g\)</span> 가 임의의 함수이므로</p>
+<p><span class="math display">\[
+f(t) = \dfrac{1}{C_\psi }\int_{-\infty}^\infty \int_{-\infty}^\infty \mathfrak{W}_\psi [f](a,\,b) \psi_{a,\,b}(t) \,\dfrac{db\,da}{a^2}
+\]</span></p>
+<p>가 거의 모든 곳에서 성립한다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="이산-웨이블릿-변환" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="이산-웨이블릿-변환"><span class="header-section-number">4</span> 이산 웨이블릿 변환</h2>
+<p>이산 푸리에 변환과 그 역변환은 이산적인 시간 <span class="math inline">\(t\)</span> 와 진동수 <span class="math inline">\(\omega\)</span> 사이의 변환이지만 이산 웨이블릿 변환은 이산적인 <span class="math inline">\(t\)</span> 에 대해, 역시 이산적인 scale parameter <span class="math inline">\(a\)</span> 와 translation parameter <span class="math inline">\(b\)</span> 사이의 변환이다. 이산 웨이블릿 변환을 위해서는 scale paramter 와 관련있는 <span class="math inline">\(0&lt;a_0\ne 1\)</span> 과 translation paramter 와 관련있는 <span class="math inline">\(b_0&gt;0\)</span> 을 우선 정한다.</p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-wavelet_dwt_1" class="theorem example">
+<p><span class="theorem-title"><strong>예제 5</strong></span> mother wavelet <span class="math inline">\(\psi\)</span> 에 대해 scale parameter 가 <span class="math inline">\(a_0^m\)</span> 이며 translation parametr <span class="math inline">\(nb_0 a_0^m\)</span> 일 때의 딸 웨이블릿은</p>
+<p><span class="math display">\[
+\dfrac{1}{\sqrt{|a_0^{m}|}} \psi \left(\dfrac{t-nb_0a_0^m}{a_0^m}\right) = a_0^{-m/2} \psi (a_0^{-m}t - nb_0)
+\]</span></p>
+<p>이다.</p>
+</div>
+</div>
+<p><br></p>
+<p>Mother 웨이블릿 <span class="math inline">\(\psi\)</span> 와 정수 <span class="math inline">\(m,\,n\)</span> 에 대한 딸 웨이블릿의 집합을 아래와 같이 정의한다.</p>
+<p><span id="eq-wavelet_dwt_family"><span class="math display">\[
+F_\psi (a,\,b) := \left\{ \psi_{m,\,n}(t) = a_0^{-m/2} \psi \left(a_0^{-m} t - nb_0\right): m,\,n \in \mathbb{Z}\right\}.
+\tag{14}\]</span></span></p>
+<p><br></p>
+<p>가장 바람직한 것은 <span class="math inline">\(F_\psi (a,\,b)\)</span> 가 <span class="math inline">\(L^2(\mathbb{R})\)</span> 에서 complete 하고 orthogonal 한 것이지만 그것을 보장할 수는 없다.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_frame" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 5 (아핀 웨이블릿과 프레임)</strong></span> <a href="#eq-wavelet_dwt_family" class="quarto-xref">식&nbsp;14</a> 의 $F_(a,,b) $ 가 complete 하다면 <span class="math inline">\(\psi\)</span> 를 <strong>아핀 웨이블릿 (affine wavelet)</strong> 이라고 한다. 임의의 <span class="math inline">\(f\in L^2\)</span> 에 대해 어떤 양수 <span class="math inline">\(A_f,\,B_f\)</span> 가 존재하여</p>
+<p><span class="math display">\[
+A_f\|f\|_2^2 \le \sum_{m,\,n\in \mathbb{Z}} |\langle f,\,\psi_{m,\,n}\rangle|^2 \le B_f\|f\|_2^2
+\]</span></p>
+<p>일 때 <span class="math inline">\(F_\psi\)</span> 를 <strong>프레임(frame)</strong> 이라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-wavelet_and_frame" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 5</strong></span> <span class="math inline">\(\psi \in L^2(\mathbb{R})\)</span> 가 <a href="#def-wavelet_definition_of_wavelet" class="quarto-xref">정의&nbsp;1</a> 의 admissiblitity 조건을 만족한다면 <span class="math inline">\(F_\psi\)</span> 는 frame 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>증명 생략</p>
+</div>
+<p><br></p>
+<p>일반적으로 DWT 에서는 <span class="math inline">\(a_0=2,\,b_0=1\)</span> 을 사용한다. 그렇다면 웨이블릿 <span class="math inline">\(\psi\)</span> 에 대해</p>
+<p><span class="math display">\[
+F_\psi = \left\{ \psi_{m,n}:= 2^{-m/2} \psi\left( 2^{-m/2} - n \right) : m,\,n\in \mathbb{Z}\right\}
+\]</span></p>
+<p>를 사용한다.</p>
+<div id="fig-wavelet_resolution_2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wavelet_resolution_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fig-wavelet_resolution_2.png" class="img-fluid figure-img" width="700">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wavelet_resolution_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;9: Dyadic sampling grid for the DWT
+</figcaption>
+</figure>
+</div>
+<p><br></p>
+</section>
+<section id="orthogonal-wavelet" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="orthogonal-wavelet"><span class="header-section-number">5</span> Orthogonal wavelet</h2>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../src/image_processing/wavelet/fourier_transform.html" class="pagination-link" aria-label="푸리에 변환">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">푸리에 변환</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../src/image_processing/wavelet/descrete_wavelet_transform.html" class="pagination-link" aria-label="이산 웨이블릿 변환">
+        <span class="nav-page-text">이산 웨이블릿 변환</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

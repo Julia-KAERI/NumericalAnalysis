@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Julia &amp; Numerical Anlaysis - 푸리에 변환</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../src/image_processing/wavelet/wavelet_transform.html" rel="next">
+<link href="../../../src/image_processing/fourier_transform_for_image_processing.html" rel="prev">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Julia &amp; Numerical Anlaysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수치해석 I</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수치해석 II</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수학</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../src/image_processing/index.html" aria-current="page"> 
+<span class="menu-text">영상 처리/토모그래피</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../src/tools/tools.html"> 
+<span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+    <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../src/image_processing/wavelet/fourier_transform.html">푸리에 변환과 웨이블릿 변환</a></li><li class="breadcrumb-item"><a href="../../../src/image_processing/wavelet/fourier_transform.html">푸리에 변환</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">영상 처리 기초</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">영상 처리와 토모그래피</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/introduction_to_signal_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">디지털 신호처리의 기초</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/fourier_transform_for_image_processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">푸리에 변환</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">푸리에 변환과 웨이블릿 변환</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet/fourier_transform.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">푸리에 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet/wavelet_transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">웨이블릿 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet/descrete_wavelet_transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">이산 웨이블릿 변환</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet_and_image.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">웨이블릿 변환을 이용한 이미지 처리</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/wavelet/wavelets_julia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wavelets.jl</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">주제별 처리</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/image_processing/tomography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">토모그래피</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../src/tools/tikz/tikz_test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">tikz test</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#l1mathbbr-에서의-푸리에-변환" id="toc-l1mathbbr-에서의-푸리에-변환" class="nav-link active" data-scroll-target="#l1mathbbr-에서의-푸리에-변환"><span class="header-section-number">1</span> <span class="math inline">\(L^1(\mathbb{R})\)</span> 에서의 푸리에 변환</a>
+  <ul class="collapse">
+  <li><a href="#lp-공간-과-l1-공간에서의-푸리에-변환" id="toc-lp-공간-과-l1-공간에서의-푸리에-변환" class="nav-link" data-scroll-target="#lp-공간-과-l1-공간에서의-푸리에-변환"><span class="header-section-number">1.1</span> <span class="math inline">\(L^p\)</span> 공간 과 <span class="math inline">\(L^1\)</span> 공간에서의 푸리에 변환</a></li>
+  <li><a href="#푸리에-변환의-수학적-성질" id="toc-푸리에-변환의-수학적-성질" class="nav-link" data-scroll-target="#푸리에-변환의-수학적-성질"><span class="header-section-number">1.2</span> 푸리에 변환의 수학적 성질</a></li>
+  </ul></li>
+  <li><a href="#합성곱과-푸리에-변환" id="toc-합성곱과-푸리에-변환" class="nav-link" data-scroll-target="#합성곱과-푸리에-변환"><span class="header-section-number">2</span> 합성곱과 푸리에 변환</a>
+  <ul class="collapse">
+  <li><a href="#sec-inverse_fourier_transform_in_L1" id="toc-sec-inverse_fourier_transform_in_L1" class="nav-link" data-scroll-target="#sec-inverse_fourier_transform_in_L1"><span class="header-section-number">2.1</span> 역 푸리에 변환 문제</a></li>
+  </ul></li>
+  <li><a href="#l2mathbbr-에서의-푸리에-변환" id="toc-l2mathbbr-에서의-푸리에-변환" class="nav-link" data-scroll-target="#l2mathbbr-에서의-푸리에-변환"><span class="header-section-number">3</span> <span class="math inline">\(L^2(\mathbb{R})\)</span> 에서의 푸리에 변환</a>
+  <ul class="collapse">
+  <li><a href="#l2mathbbr-에서의-역푸리에-변환과-일반화된-parservals-relation" id="toc-l2mathbbr-에서의-역푸리에-변환과-일반화된-parservals-relation" class="nav-link" data-scroll-target="#l2mathbbr-에서의-역푸리에-변환과-일반화된-parservals-relation"><span class="header-section-number">3.1</span> <span class="math inline">\(L^2(\mathbb{R})\)</span> 에서의 역푸리에 변환과 일반화된 Parserval’s Relation</a></li>
+  </ul></li>
+  <li><a href="#이산-푸리에-변환-discrete-fourier-transformation-dft" id="toc-이산-푸리에-변환-discrete-fourier-transformation-dft" class="nav-link" data-scroll-target="#이산-푸리에-변환-discrete-fourier-transformation-dft"><span class="header-section-number">4</span> 이산 푸리에 변환 (Discrete Fourier Transformation, DFT)</a>
+  <ul class="collapse">
+  <li><a href="#이산-푸리에-변환과-역변환" id="toc-이산-푸리에-변환과-역변환" class="nav-link" data-scroll-target="#이산-푸리에-변환과-역변환"><span class="header-section-number">4.1</span> 이산 푸리에 변환과 역변환</a></li>
+  <li><a href="#dft-의-행렬-형태와-성질" id="toc-dft-의-행렬-형태와-성질" class="nav-link" data-scroll-target="#dft-의-행렬-형태와-성질"><span class="header-section-number">4.2</span> DFT 의 행렬 형태와 성질</a></li>
+  </ul></li>
+  <li><a href="#고속-푸리에-변환-fft" id="toc-고속-푸리에-변환-fft" class="nav-link" data-scroll-target="#고속-푸리에-변환-fft"><span class="header-section-number">5</span> 고속 푸리에 변환 (FFT)</a>
+  <ul class="collapse">
+  <li><a href="#기본적인-아이디어" id="toc-기본적인-아이디어" class="nav-link" data-scroll-target="#기본적인-아이디어"><span class="header-section-number">5.1</span> 기본적인 아이디어</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../src/image_processing/wavelet/fourier_transform.html">푸리에 변환과 웨이블릿 변환</a></li><li class="breadcrumb-item"><a href="../../../src/image_processing/wavelet/fourier_transform.html">푸리에 변환</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">푸리에 변환</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-warning no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>여기의 상당수 내용은 일반적인 학부 2학년 수준의 선형대수학, 해석학 범위를 넘어선 지식을 요구한다. 이런 내용은 증명하지 않고 언급하고 넘어가거나 사용할 수 있다.</p>
+</div>
+</div>
+</div>
+<p><br></p>
+<section id="l1mathbbr-에서의-푸리에-변환" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="l1mathbbr-에서의-푸리에-변환"><span class="header-section-number">1</span> <span class="math inline">\(L^1(\mathbb{R})\)</span> 에서의 푸리에 변환</h2>
+<section id="lp-공간-과-l1-공간에서의-푸리에-변환" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="lp-공간-과-l1-공간에서의-푸리에-변환"><span class="header-section-number">1.1</span> <span class="math inline">\(L^p\)</span> 공간 과 <span class="math inline">\(L^1\)</span> 공간에서의 푸리에 변환</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_Lp_norm" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 1 (<span class="math inline">\(L^p\)</span>-노름 과 <span class="math inline">\(L^p\)</span> 공간)</strong></span> <span class="math inline">\(f:\mathbb{R} \to \mathbb{C}\)</span> 와 <span class="math inline">\(1\le p &lt; \infty\)</span> 인 <span class="math inline">\(p\)</span> 에 대해</p>
+<p><span class="math display">\[
+\|f\|_p = \left[\int_{-\infty}^\infty |f(t)|^p\, dt\,\right]^{1/p} &lt;\infty
+\]</span></p>
+<p>를 <strong><span class="math inline">\(L^p\)</span>-노름</strong> 이라고 한다. <span class="math inline">\(L^p\)</span> 노름이 정의된 함수의 집합을 <strong><span class="math inline">\(L^p\)</span>-공간</strong> 이라고 하며 <span class="math inline">\(L^p\)</span> 혹은 <span class="math inline">\(L^p(\mathbb{R})\)</span> 로 쓴다.</p>
+</div>
+</div>
+</div>
+</div>
+<p>행렬과 벡터의 노름에서처럼 <span class="math inline">\(p=1,\,2,\infty\)</span> 일 때 가장 중요하다. 또한 <span class="math inline">\(L^p\)</span> 노름이 정의되는 함수의 집합은 벡터공간이다. <span class="math inline">\(p=1\)</span> 일 때 <span class="math inline">\(L^1\)</span> 노름이 정의되는 함수들을 <em>Lebesgue 적분 가능 함수</em> 라고 한다. 이제 <span class="math inline">\(f\in L^1(\mathbb{R})\)</span> 이라고 하자. <span class="math inline">\(e^{-i\omega t}\)</span> 는 유계인 연속 함수이므로 <span class="math inline">\(e^{-i \omega t}f(t)\)</span> 는 모든 <span class="math inline">\(\omega \in \mathbb{R}\)</span> 에서 <em>국소적으로 적분 가능한 함수(locally integrable function)</em> 이다. 이 경우 아래와 같이 <span class="math inline">\(L^1\)</span> 공간에서의 푸리에 변환을 정의 할 수 있다. <span class="math inline">\(L^\infty(\mathbb{R})\)</span> 는 measure zero 인 집합을 제외하면 유계인 함수의 집합이다.</p>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_fourier_transform_in_L1" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 2 (<span class="math inline">\(L^1(\mathbb{R})\)</span> 에서의 푸리에 변환)</strong></span> <span class="math inline">\(f\in L^1(\mathbb{R})\)</span> 에 대한 푸리에 변환 <span class="math inline">\(\hat{f}(\omega)\)</span> 를 다음과 같이 정의 할 수 있다.</p>
+<p><span id="eq-wavelet_fourier_transform_L1"><span class="math display">\[
+\hat{f}(\omega)= \mathfrak{F}[f(t)] = \int_{-\infty}^\infty e^{-i\omega t}f(t)\, dt.
+\tag{1}\]</span></span></p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>원래 함수 <span class="math inline">\(f(t)\)</span> 는 실함수이더라도 <span class="math inline">\(\hat{f}(\omega)\)</span> 는 실변수 <span class="math inline">\(\omega\)</span> 에 대한 복소함수이다. 복소수를 극좌표계에서 <span class="math inline">\(x+iy=re^{i\theta}\)</span>, <span class="math inline">\(r=\sqrt{x^2+y^2}\)</span>, <span class="math inline">\(\theta = \arctan(y/x)\)</span> 로 표현하는 것처럼 <span class="math inline">\(R(\omega) = \text{Re}[\hat{f}(\omega)]\)</span> ,<span class="math inline">\(X(\omega)= \text{Im}[\hat{f}(\omega)]\)</span> 에 대해</p>
+<p><span class="math display">\[
+\hat{f}(\omega)= R(\omega)+ iX(\omega)= A(\omega) e^{i\theta(\omega)}
+\]</span></p>
+<p>로 표현할 수 있으며 이 때 <span class="math inline">\(A(\omega)=\left|\hat{f}(\omega)\right|\)</span> 를 <strong>amplitude spectrum</strong>, <span class="math inline">\(\theta(\omega)\)</span> 을 <strong>phase spectrum</strong> 이라고 한다.</p>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-wavelet_fourier_transform_of_gaussian" class="theorem example">
+<p><span class="theorem-title"><strong>예제 1 (가우시안 함수의 푸리에 변환)</strong></span> 가우시안 함수 <span class="math inline">\(f(t) = e^{-t^2/2\sigma^2}\)</span> 에 대한 푸리에 변환 역시 가우시안이다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{f}(\omega) = \int_{-\infty}^\infty e^{-(i\omega t + t^2/2\sigma^2)}\,dt = \int_{-\infty}^\infty \exp\left(-\dfrac{1}{2\sigma^2}(t+i\sigma^2\omega)^2-\dfrac{\omega^2\sigma^2}{2}\right) = \sqrt{2\pi}\sigma e^{-\sigma^2 \omega^2/2}
+\end{aligned}
+\]</span></p>
+<p>푸리에 변환에 의해 원래 함수의 표준편차 <span class="math inline">\(\sigma\)</span> 가 <span class="math inline">\(1/\sigma\)</span> 로 변화한다.</p>
+</div>
+</div>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-wavelet_fourier_transform_of_rectangular_pulse" class="theorem example">
+<p><span class="theorem-title"><strong>예제 2 (직사각 함수의 푸리에 변환)</strong></span> <span class="math display">\[
+f(t) = \left\{\begin{array}{ll} 1, \qquad &amp; |t|&lt; a \\ 0&amp;\text{otherwise}\end{array}\right. .
+\]</span></p>
+<p>의 푸리에 변환은 다음과 같다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{f}(\omega) = \int_{-a}^a e^{-i\omega t}\, dt= \left(\dfrac{2}{\omega}\right) \sin (a\omega) = 2a\,  \text{sinc} (a\omega)
+\end{aligned}
+\]</span></p>
+<p>이 때 <span class="math inline">\(\textrm{sinc}(x) := \dfrac{\sin x}{x}\)</span> 로 정의되는 함수이다. <a href="../../../src/image_processing/introduction_to_signal_processing.html#sec-signal_basic_signals">기본적인 신호</a> 를 참고하라. 실제로 <span class="math inline">\(\operatorname{sinc}\)</span> 는 <span class="math inline">\(L^1(\mathbb{R})\)</span> 함수가 아니다. 즉 <span class="math inline">\(f\in L^1(\mathbb{R})\)</span> 이더라도 <span class="math inline">\(\hat{f}\not\in L^1(\mathbb{R})\)</span> 일 수 있다.</p>
+</div>
+</div>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-wavelet_sharp_function" class="theorem example">
+<p><span class="theorem-title"><strong>예제 3</strong></span> <a href="../../../src/image_processing/introduction_to_signal_processing.html#tbl-signal_basic_signals">기본적인 신호 함수들</a> 의 Heaviside 계단함수 <span class="math inline">\(\text{step}(x)\)</span> 가 사용된 아래와 같은 함수를 생각하자.</p>
+<p><span class="math display">\[
+f(t) = \left(1-\dfrac{|t|}{a}\right) \text{step}\left( 1-\dfrac{|t|}{a}\right)
+\]</span></p>
+<p>이 함수의 푸리에 변환은 다음과 같다.</p>
+<p><span class="math display">\[
+\hat{f}(\omega)= a \cdot \dfrac{\sin^2 \left(\dfrac{a\omega}{2}\right)}{\left(\dfrac{a\omega}{2}\right)^2}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/fig-wavelet_sharp_function_1-1.png" class="img-fluid figure-img"></p>
+<figcaption>함수의 푸리에 변환</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-wavelet_exponential_1" class="theorem example">
+<p><span class="theorem-title"><strong>예제 4</strong></span> <span class="math inline">\(f(t) = e^{-a|t|},\, (a&gt;0)\)</span> 의 푸리에 변환은 다음과 같다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{f}(\omega) = \mathfrak{F}\left[ e^{-a|t|} \right] &amp;= \int_{-\infty}^0 e^{(a-i\omega)t}\, dt + \int_0^\infty e^{-(a+i\omega)t}\, dt = \dfrac{2a}{\omega^2+a^2}
+\end{aligned}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/fig-wavelet_sharp_function_2.png" class="img-fluid figure-img"></p>
+<figcaption><span class="math inline">\(e^{-a|t|}\)</span> 함수의 푸리에 변환</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="푸리에-변환의-수학적-성질" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="푸리에-변환의-수학적-성질"><span class="header-section-number">1.2</span> 푸리에 변환의 수학적 성질</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_operators" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 3 (연산자들)</strong></span> 앞으로 많이 사용될 연산자들을 정의하기로 한다.</p>
+<p>  <em>Translation</em> : <span class="math inline">\(T_a f(t) := f(t-a)\)</span>,</p>
+<p>  <em>Modulation</em> : <span class="math inline">\(M_bf(t) := e^{ibt}f(t)\)</span>,</p>
+<p>  <em>Dilation</em> : <span class="math inline">\(D_c f(t) := \dfrac{1}{\sqrt{|c|}}f\left(\dfrac{1}{c}\right)\)</span>.</p>
+<p>  <em>Parity</em> : <span class="math inline">\(Pf(t) := f(-t)\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+<p>다음은 푸리에 변환의 정의에 따라 쉽게 증명 할 수 있다.</p>
+<div id="prp-wavelet_properties_of_fourier_transform" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 1 (푸리에 변환의 수학적 성질)</strong></span> <span class="math inline">\(f(t),\,g(t)\in L^1(\mathbb{R})\)</span>, <span class="math inline">\(a,\,b\in \mathbb{C}\)</span> 이고 <span class="math inline">\(\hat{f}(\omega) = \mathfrak{F}[f(t)]\)</span>, <span class="math inline">\(\hat{g}(t) = \mathfrak{F}[g(t)]\)</span> 일 때 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) (<em>Linearity</em>) <span class="math inline">\(\mathfrak{F}[af(t)+bg(t)] = a \mathfrak{F}[f(t)] + b\mathfrak{F}[g(t)]\)</span>.</p>
+<p>  (<span class="math inline">\(2\)</span>) (<em>Shifting</em>) <span class="math inline">\(\mathfrak{F}[T_a f(t)] = \mathfrak{F}[f(t-a)] = e^{-ia\omega}\hat{f}(\omega)\)</span>.</p>
+<p>  (<span class="math inline">\(3\)</span>) (<em>Scaling</em>) <span class="math inline">\(\mathfrak{F}\left[D_{1/a} f(t)\right] = \mathfrak{F}[\sqrt{|a|}f(at)] =  \dfrac{1}{\sqrt{|a|}}\hat{f}\left(\dfrac{\omega}{a} \right) = D_a \hat{f}(\omega)\)</span>.</p>
+<p>  (<span class="math inline">\(4\)</span>) (<em>Conjugation</em>) <span class="math inline">\(\mathfrak{F}[\overline{D_{-1}f(t)}] = \mathfrak{F}[\overline{f(-t)}] = \overline{\hat{f}(\omega)}\)</span>.</p>
+<p>  (<span class="math inline">\(5\)</span>) (<em>Modulation</em>) <span class="math inline">\(\mathfrak{F}[M_b f(t) = \mathfrak{F}[e^{ibt}f(t)] = T_b \hat{f}(\omega) = \hat{f}(\omega - b)\)</span>.</p>
+<p>  (<span class="math inline">\(6\)</span>) (<em>Continuity</em>) <span class="math inline">\(\hat{f}(\omega)\)</span> 는 연속이다.</p>
+<p>  (<span class="math inline">\(7\)</span>) (<em>Differentiation</em>) <span class="math inline">\(\dfrac{d^n \hat{f}(\omega)}{d\omega^n} = (-i)^n \mathfrak{F}\left[t^n f(t)\right]\)</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>(<span class="math inline">\(7\)</span>) 만 수학적 귀납법으로 증명한다. 우선 <span class="math inline">\(n=1\)</span> 경우.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{d\hat{f}}{d\omega} &amp;= \lim_{h \to 0}\dfrac{\hat{f}(\omega + h) - \hat{f}(\omega)}{h} = \lim_{h \to 0} \int_{-\infty}^\infty f(t) e^{-i\omega t}\left(\dfrac{e^{-iht}-1}{h}\right)\, dt \\
+&amp;= \int_{-\infty}^\infty (-it)f(t)e{-i\omega t}\, dt = -i \mathfrak{F}[tf(t)].
+\end{aligned}
+\]</span></p>
+<p>이제 <span class="math inline">\(n\)</span> 에 대해 성립함을 가정하자.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{d^{n+1}\hat{f}}{d\omega^{n+1}}&amp;= \dfrac{d}{d\omega}\left((-i)^n\mathfrak{F}[t^nf(t)]\right) = (-i)^n \dfrac{d}{d\omega}\mathfrak{F}[t^n f(t)] = (-i)^{n+1}\mathfrak{F}[t^{n+1}f(t)]
+\end{aligned}
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div id="thm-wavelet_Riemann_Lebesgue_lemma" class="theorem">
+<p><span class="theorem-title"><strong>정리 1 (리만-르벡 따름정리)</strong></span> <span class="math inline">\(f\in L^1(\mathbb{R})\)</span> 일 때</p>
+<p><span class="math display">\[
+\lim_{|\omega|\to \infty} \left|\hat{f}(\omega)\right| = 0
+\]</span></p>
+<p>이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(e^{-i\omega t} = - e^{-i\omega (t+\pi/\omega)}\)</span> 를 이용하면,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{f}(\omega) &amp; = - \int_{-\infty}^\infty e^{-i\omega (t+\pi/\omega)} f(t) = - \int_{-\infty}^\infty e^{-i \omega x} f\left(x-\dfrac{\pi}{\omega}\right)\, dx \\
+\end{aligned}
+\]</span></p>
+<p>이다. 따라서,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{f}(\omega) &amp;=  \dfrac{1}{2}\left[\int_{-\infty}^\infty e^{-i\omega t} f(t) \, dt - \int_{-\infty}^\infty e^{-i\omega t} f\left(t- \dfrac{\pi}{\omega}\right)\, dt\right] \\[0.5em]
+&amp;= \dfrac{1}{2} \int_{-\infty}^\infty e^{-i\omega t}\left[f(t) - f\left(t-\dfrac{\pi}{\omega}\right)\right]\, dt \\[0.5em]
+\end{aligned}
+\]</span></p>
+<p>이다. 이로부터</p>
+<p><span class="math display">\[
+\lim_{|\omega|\to \infty} \left|\hat{f}(\omega) \right| \le \lim_{|\omega|\to \infty}\dfrac{1}{2} \int_{-\infty}^\infty \left| f(t) - f\left(t-\dfrac{\pi}{\omega}\right)\right|\, dt = 0
+\]</span></p>
+<p>임을 안다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p><span class="math inline">\(C_0 (\mathbb{R})\)</span> 은 <span class="math inline">\(f:\mathbb{R}\to \mathbb{C}\)</span> 함수 가운데 모든 <span class="math inline">\(\mathbb{R}\)</span> 에서 연속이며 <span class="math inline">\(\displaystyle \lim_{|t|\to \infty} f(t) = 0\)</span> 인 함수의 집합이다. <span class="math inline">\(C_0 (\mathbb{R})\)</span> 에 대해 노름을</p>
+<p><span class="math display">\[
+\|f\| := \sup_{t\in \mathbb{R}} |f(t)|
+\]</span></p>
+<p>로 정의 할 수 있으며, 따라서 <span class="math inline">\(C_0 (\mathbb{R})\)</span> 은 노름 공간이다. <a href="#thm-wavelet_Riemann_Lebesgue_lemma" class="quarto-xref">정리&nbsp;1</a> 로부터 푸리에 변환은 <span class="math inline">\(L^1(\mathbb{R})\)</span> 에서 <span class="math inline">\(C_0(\mathbb{R})\)</span> 로의 선형 변환이라는 것을 알 수 있다.</p>
+<p><br></p>
+<div id="thm-wavelet_1" class="theorem">
+<p><span class="theorem-title"><strong>정리 2 (<span class="math inline">\(n\)</span> 계 도함수의 푸리에 변환)</strong></span> <span class="math inline">\(f(t)\)</span> 가 <span class="math inline">\(C^1(\mathbb{R})\)</span> 함수이고 <span class="math inline">\(\displaystyle \lim_{|t|\to\infty} f(t) = 0\)</span> 이며 <span class="math inline">\(f,\,f'\in L^1(\mathbb{R})\)</span> 이면</p>
+<p><span id="eq-wavelet_differential_of_fourier_transform"><span class="math display">\[
+\mathfrak{F}[f'(t)] = (i\omega) \mathfrak{F}[f(t)]
+\tag{2}\]</span></span></p>
+<p>이 성립한다. 또한 <span class="math inline">\(f\in C^n(\mathbb{R})\)</span> 이며 <span class="math inline">\(f,\,f',\ldots,\,f^{(n)}\in L^1(\mathbb{R})\)</span> 이고 <span class="math inline">\(k=1,\ldots,\,n-1\)</span> 에 대해 <span class="math inline">\(\displaystyle \lim_{|t|\to \infty} f^{(k)}(t) = 0\)</span> 이라면 다음이 성립한다.</p>
+<p><span id="eq-wavelet_differential_of_fourier_transform_for_n"><span class="math display">\[
+\mathfrak{F}\left[f^{(n)}(t)\right] = (i\omega)^n \mathfrak{F}[f(t)].
+\tag{3}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>푸리에 변환의 정의로부터</p>
+<p><span class="math display">\[
+\mathfrak{F}[f'(t)] = \int_{-\infty}^\infty e^{-i\omega t}f'(t)\, dt = \left[e^{-i\omega t} f(t)\right]_{-\infty}^{\infty} +i\omega \int_{\infty}^\infty e^{i\omega t}f(t)\, dt = (i\omega)\mathfrak{F}[f(t)]
+\]</span></p>
+<p>이다. <span class="math inline">\(1,\,2,\ldots,\,(n-1)\)</span>-계 도함수에 대해 <a href="#eq-wavelet_differential_of_fourier_transform_for_n" class="quarto-xref">식&nbsp;3</a> 이 성립한다고 가정하면</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{F}[f^{(n)}(t)] &amp;=(i\omega)\mathfrak{F}[f^{(n-1)}(t)] = (i\omega)^n \mathfrak{F}[f(t)]
+\end{aligned}
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p>곡선의 매끄러운 정도(smoothness) 는 그 곡선이 어떤 <span class="math inline">\(C^n\)</span> 급 함수인지를 의미한다. 만약 <span class="math inline">\(f^{(n)}\in L^1(\mathbb{R})\)</span> 이며 <span class="math inline">\(\displaystyle \lim_{|t|\to\infty}f^{(n)}(t)=0\)</span> 이라면 <a href="#thm-wavelet_Riemann_Lebesgue_lemma">리만 르벡 정리</a> 에 따라 <span class="math inline">\(\displaystyle \lim_{|\omega|\to\infty} (i\omega)^n \mathfrak{F}[f(t)]=0\)</span> 이다. 즉 <span class="math inline">\(f\)</span> 가 더 매끄러울 수록, 즉 <span class="math inline">\(f\in C^n\)</span> 에서 <span class="math inline">\(n\)</span> 값이 클 수록 <span class="math inline">\(\mathfrak{F}[f(t)]\)</span> 는 <span class="math inline">\(|\omega| \to \infty\)</span> 극한에서 더 빨리 <span class="math inline">\(0\)</span> 으로 수렴한다. 뒤에 나오겠지만 그 역도 마찬가지이다. <span class="math inline">\(f\in C^n(\mathbb{R})\)</span> 은 함수의 전역적 성질이며 <span class="math inline">\(\displaystyle \lim_{|\omega|\to\infty}\mathfrak{F}[f(t)] = 0\)</span> 은 국소적 성질이다. 함수의 전역적 성질이 그 푸리에 변환의 국소적 성질을 규정한다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="합성곱과-푸리에-변환" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="합성곱과-푸리에-변환"><span class="header-section-number">2</span> 합성곱과 푸리에 변환</h2>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_convolution" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 4 (합성곱)</strong></span> <span class="math inline">\(f,\,g\in L^1(\mathbb{R})\)</span> 에 대해 두 함수의 합성곱 <span class="math inline">\((f \ast g)(t)\)</span> 는 다음과 같이 정의된다.</p>
+<p><span id="eq-wavelet_definition_of_convolution"><span class="math display">\[
+(f \ast g)(t) := \int_{-\infty}^\infty f(t-\tau)\,g(\tau)\, d\tau
+\tag{4}\]</span></span></p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-wavelet_existence_of_convolution" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 2</strong></span> <a href="#def-wavelet_convolution" class="quarto-xref">정의&nbsp;4</a> 에서의 <span class="math inline">\((f\ast g)\in L^1(\mathbb{R})\)</span> 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\|f\ast g\|_1 \le \|g\|_1\|f\|_1\)</span> 임을 보이자. <span class="math display">\[
+\begin{aligned}
+\|f\ast g\|_1 = \int_{-\infty}^\infty |(f\ast g)(t)|\, dt &amp; = \int_{-\infty}^\infty \left|\int_{-\infty}^\infty f(t-\tau)\, g(\tau)\, d\tau \right|\, dt \\
+&amp;\le \int_{-\infty}^\infty \int_{-\infty}^\infty |f(t-\tau)\, g(\tau)| \, d\tau\, dt \\
+&amp;= \int_{-\infty}^\infty |g(\tau)|\,d\tau\, \int_{-\infty}^\infty |f(t)|\,dt = \|g\|_1 \|f\|_1. \qquad \square
+\end{aligned}
+\]</span></p>
+</div>
+<p><br></p>
+<div id="prp-wavelet-properties_of_convolution" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 3</strong></span> <span class="math inline">\(f,\,g,\,h \in L^1(\mathbb{R})\)</span> 에 대해 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(f \ast g= g \ast f\)</span>.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(f\ast (g \ast h)= (f \ast g)\ast h\)</span>.</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(f \ast (g + h) = f\ast g + f \ast h\)</span>.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>(<span class="math inline">\(1\)</span>) <span class="math inline">\(\displaystyle (f\ast g)(t) = \int_{-\infty}^\infty f(t-\tau)g(\tau) \, d\tau \stackrel{s=t-\tau}{=} \int_{-\infty}^\infty f(s)\, g(t-s)\, ds = (g\ast f)(t).\)</span></p>
+<p>(<span class="math inline">\(2\)</span>)</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left[f\ast (g \ast h)\right](t)&amp;= \int_{-\infty}^\infty f(t-\tau) \left[\int_{-\infty}^{\infty} g(\tau - s)\, h (s)\, ds\right]\, d\tau \\
+&amp;=\int_{-\infty}^\infty \left[\int_{-\infty}^\infty f(t-\tau) \,g(\tau-s) \, d\tau \right] h(s)\, ds \\
+&amp;\stackrel{x=\tau-s}{=} \int_{-\infty}^\infty \left[\int_{-\infty}^\infty f((t-s)-x))\, g(x)\, dx\right] h(s)\, ds\\
+&amp;= \int_{-\infty}^\infty (f \ast g)(t-s)\, h(s)\,ds \\
+&amp;= (f \ast g)\ast h (t).
+\end{aligned}
+\]</span></p>
+<p>(<span class="math inline">\(3\)</span>) trivial. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p>아래의 두 명제는 증명 없이 받아들인다.</p>
+<div id="prp-wavelet_continuity_of_convolution" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 4</strong></span> <span class="math inline">\(f\in L^1(\mathbb{R})\)</span> 이고 <span class="math inline">\(g\in L^\infty(\mathbb{R})\)</span> 이면 <span class="math inline">\(f\ast g\)</span> 는 <span class="math inline">\(\mathbb{R}\)</span> 에서 연속이다.</p>
+</div>
+<p><br></p>
+<div id="prp-wavelet_young_inequality" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 5</strong></span> 양수 <span class="math inline">\(p,\,q,\,s\)</span> 가 <span class="math inline">\(\dfrac{1}{s} = \dfrac{1}{p} + \dfrac{1}{q} -1\)</span> 일 때 다음이 성립한다.</p>
+<p><span class="math display">\[
+\|f\ast g\|_s \le \|f\|_p \|g\|_q
+\]</span></p>
+</div>
+<p><br></p>
+<div id="thm-wavelet_fourier_transform_of_convolution" class="theorem">
+<p><span class="theorem-title"><strong>정리 3 (Convolution theorem)</strong></span> <span class="math inline">\(f,\,g\in L^1(\mathbb{R})\)</span> 일 때 다음이 성립한다.</p>
+<p><span class="math display">\[
+\mathfrak{F}[(f \ast g)(t)] = \mathfrak{F}[f(t)]\mathfrak{F}[g(t)].
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math display">\[
+\begin{aligned}
+\mathfrak{F}[(f \ast g)(t)] &amp;= \int_{-\infty}^\infty e^{-i \omega t} \int_{-\infty}^\infty f(t-\tau)\, g(\tau)\, d\tau\, dt \\
+&amp;= \int_{-\infty}^\infty\left[ \int_{-\infty}^\infty e^{-i\omega (t-\tau)} f(t-\tau) \, dt\right] e^{-i \omega \tau}g(\tau)\, d\tau \\
+&amp;= \int_{-\infty}^\infty \mathfrak{F}[f(t)] \, e^{-i \omega \tau} g(\tau)\, d\tau\\
+&amp;= \mathfrak{F}[f(t)]\mathfrak{F}[g(t)]. \qquad \square
+\end{aligned}
+\]</span></p>
+</div>
+<p>위의 정리는 합성곱의 푸리에 변환은 각 함수의 푸리에 변환의 곱과 같다는 의미이다.</p>
+<p><br></p>
+<div id="cor-wavelent_fourier_transform_of_convolution" class="theorem corollary">
+<p><span class="theorem-title"><strong>따름정리 1</strong></span> <span class="math inline">\(f,\,g,\,h\in L^1(\mathbb{R})\)</span> 이며</p>
+<p><span class="math display">\[
+h(x) = \int_{-\infty}^\infty g(\omega)\, e^{i\omega x}\, d\omega
+\]</span></p>
+<p>일 때 다음이 성립한다.</p>
+<p><span class="math display">\[
+(f\ast h)(x) = \int_{-\infty}^\infty g(\omega)\, \hat{f}(\omega) \, e^{i\omega x}\, d\omega.
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math display">\[
+\begin{aligned}
+(f\ast h)(x) &amp;= \int_{-\infty}^\infty f(x-\tau) h(\tau)\, d\tau = \int_{-\infty}^\infty f(x-\tau) \left[\int_{-\infty}^\infty g(\omega)\, e^{i\omega \tau}\, d\omega\right]\, d\tau \\
+&amp;= \int_{-\infty}^\infty g(\omega) \left[\int_{-\infty}^\infty f(x-\tau) e^{i\omega \tau} \, d\tau\right] \, d\omega\\
+&amp;=\int_{-\infty}^\infty g(\omega) \left[\int_{-\infty}^\infty f(x-\tau) e^{-i\omega (x-\tau)} \, d\tau\right] \, e^{i\omega x} d\omega\\
+&amp;= \int_{-\infty}^\infty g(\omega) \hat{f}(\omega) e^{i\omega x}\, d\omega, \qquad \square
+\end{aligned}
+\]</span></p>
+</div>
+<p><br></p>
+<section id="sec-inverse_fourier_transform_in_L1" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="sec-inverse_fourier_transform_in_L1"><span class="header-section-number">2.1</span> 역 푸리에 변환 문제</h3>
+<p>우리는 <span class="math inline">\(f \in L^1(\mathbb{R})\)</span> 에 대한 푸리에 변환을 알아보았다. 이제 그 역변환, 즉 어떤 frequency domain 에서의 함수 <span class="math inline">\(\hat{f}(\omega)\)</span> 로 부터 원함수 <span class="math inline">\(f(t)\)</span> 를 어떤 조건에서 구할 수 있는지 알아보기로 하자.</p>
+<div id="thm-wavelet_inverse_fourier_transform" class="theorem">
+<p><span class="theorem-title"><strong>정리 4 (푸리에 역변환)</strong></span> <span class="math inline">\(f\in L^1(\mathbb{R})\)</span> 이고 <span class="math inline">\(\hat{f}=\mathfrak{F}[f(t)]\in L^1(\mathbb{R})\)</span> 일 때</p>
+<p><span id="eq-wavelet_priliminary_inverse_fourier_transform"><span class="math display">\[
+\dfrac{1}{2\pi}\int_{-\infty}^\infty \hat{f}(\omega) e^{i\omega t}\, d\omega = f(t)
+\tag{5}\]</span></span></p>
+<p>이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math display">\[
+\begin{aligned}
+\dfrac{1}{2\pi} \int_{-\infty}^\infty \hat{f}(\omega)e^{i\omega t}\, d\omega &amp;= \dfrac{1}{2\pi} \int_{-\infty}^\infty \left[\int_{-\infty}^\infty f(t')e^{-i\omega t'}\, dt'\right] e^{i\omega t}\, d\omega \\
+&amp;= \dfrac{1}{2\pi} \int_{-\infty}^\infty \left[\int_{-\infty}^\infty e^{i\omega (t-t')}\, d\omega\right] \, f(t')\, dt'
+\end{aligned}
+\]</span></p>
+<p>여기서 <span class="math inline">\(\int_\mathbb{R} e^{i\omega t}\, d\omega = 2\pi \delta(t)\)</span> 이므로</p>
+<p><span class="math display">\[
+\dfrac{1}{2\pi} \int_{-\infty}^\infty \hat{f}(\omega)e^{i\omega t}\, d\omega = \int_{-\infty}^\infty f'(t) \delta(t-t')\, dt' = f(t)
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p>그러나 <a href="#exm-wavelet_fourier_transform_of_rectangular_pulse" class="quarto-xref">예제&nbsp;2</a> 에서 보았듯이 <span class="math inline">\(f\in L^1(\mathbb{R})\)</span> 이더라도 <span class="math inline">\(f\not\in L^1(\mathbb{R})\)</span> 일 수 있다. 여기에 어떤 함수 <span class="math inline">\(K_\lambda(\omega)\)</span> 를 도입하여 대부분의 <span class="math inline">\(t\in \mathbb{R}\)</span> 에 대해 다음이 성립할 수 있도록 할 수 있음을 보이고자 한다.</p>
+<p><span class="math display">\[
+\lim_{\lambda\to \infty} \int_{-\lambda}^\lambda \hat{f}(\omega)K_\lambda (\omega)e^{i\omega t}\, dt = f(t).
+\]</span></p>
+<p>이 때 <span class="math inline">\(K_\lambda(\omega)\)</span> 를 <strong>summability kernel</strong> 이라고 한다.</p>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_summability_kernel" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 5 (Summability kernel)</strong></span> <span class="math inline">\(\mathbb{R}\)</span> 에서의 <strong>summability kernel</strong> 은 아래의 조건을 만족하는 연속함수 <span class="math inline">\(K_\lambda :\mathbb{R} \to \mathbb{C}\)</span> 의 집합 이다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\forall \lambda &gt; 0,\, \displaystyle \int_\mathbb{R} K_\lambda (x)\, dx = 1\)</span>.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\exists M&gt;0,\forall \lambda &gt;0\,\, \displaystyle \|K_\lambda\|_1=\int_{\mathbb{R}} |K_\lambda(x)|\, dx \le M\)</span>.</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\forall \delta &gt;0,\, \displaystyle \lim_{\lambda \to \infty} \int_{|x|&gt;\delta} |K_\lambda(x)| \, dx = 0\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="thm-wavelet_approximate_identity_theorem" class="theorem">
+<p><span class="theorem-title"><strong>정리 5</strong></span> <span class="math inline">\(f\in L^{1}(\mathbb{R})\)</span> 이며 <span class="math inline">\(\{K_\lambda\}\)</span> 가 summability kernel 의 집합일 때 다음이 성립한다.</p>
+<p><span id="eq-wavelet_approximate_identity"><span class="math display">\[
+\lim_{\lambda \to \infty} \|(f\ast K_\lambda)- f\|_1 = 0.
+\tag{6}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math display">\[
+\begin{aligned}
+\left|(f\ast K_\lambda) (t)- f(t)\right| &amp;= \left|\int_{-\infty}^\infty f(t-\tau)\, K_\lambda(\tau)\, d\tau - \int_{-\infty}^\infty K_\lambda(\tau)f(t)\, d\tau\right| &amp; &amp;;\text{정의 ($1$)}\\
+&amp;=\left|\int_{-\infty}^\infty \left(f(t-\tau) - f(t)\right)K_\lambda (\tau)\, d\tau\right| \\
+&amp;\le \int_{-\infty}^\infty |K_\lambda(\tau) |f(t-\tau)-f(t)|\, d\tau
+\end{aligned}
+\]</span></p>
+<p>이다. 이로부터</p>
+<p><span class="math display">\[
+\begin{aligned}
+\|(f\ast K_\lambda) (t) - f(t)\|_1 &amp;= \int_{-\infty}^\infty |(f\ast K_\lambda)(t) - f(t)|\, dt \\
+&amp;\le\int_{-\infty}^\infty dt \int_{-\infty}^\infty |K_\lambda(\tau)| |f(t-\tau) - f(t)|\, d\tau \\
+&amp;= \int_{-\infty}^\infty \left[\int_{-\infty}^\infty |f(t-\tau) - f(t)| \, dt\right] \,|K_\lambda(\tau)|\, d\tau \\
+&amp;= \int_{-\infty}^\infty \|f(t-\tau)-f(t)\|_1 \, |K_\lambda (\tau)| \, d\tau
+\end{aligned}
+\]</span></p>
+<p>정의 (<span class="math inline">\(2\)</span>) 로부터 <span class="math inline">\(\|K_\lambda\|_1 \le M\)</span> 인 <span class="math inline">\(M&gt;0\)</span> 이 존재함을 안다. <span class="math inline">\(f\in L^1(\mathbb{R})\)</span> 일 때 <span class="math inline">\(\int_{-\infty}^\infty |f(t-\tau)- f(t)|\, dt\)</span> 는 <span class="math inline">\(\tau\)</span> 에 대해 연속이므로 모든 <span class="math inline">\(\varepsilon&gt;0\)</span> 에 대해 어떤 <span class="math inline">\(\delta&gt;0\)</span> 이 존재하여 <span class="math inline">\(|\tau|&lt;\delta\)</span> 이면 <span class="math inline">\(\|f(t-\tau)-f(t)\|_1&lt;\dfrac{\varepsilon}{M}\)</span> 이 되도록 할 수 있다. 또한 <span class="math inline">\(\|f(t-\tau) - f(t)\|_1\)</span> 는 유계이므로 <span class="math inline">\(\|f(t-\tau) - f(t)\|_1&lt;C\)</span> 인 <span class="math inline">\(C&gt;0\)</span> 이 존재한다. 따라서</p>
+<p><span class="math display">\[
+\begin{aligned}
+\lim_{\lambda \to \infty}\|(f\ast K_\lambda) (t) - f(t)\|_1 &amp;\le \lim_{\lambda \to \infty} \left[\left(\int_{-\infty}^{-\delta} + \int_{-\delta}^\delta + \int_{\delta}^\infty \right)\|f(t-\tau)-f(t)\|_1 \, |K_\lambda (\tau)| \, d\tau\right] \\
+&amp;&lt; \lim_{\lambda \to \infty} \left[C\int_{|\tau|&gt;\delta} |K_\lambda(\tau)|\, d\tau+ \int_{|\tau|&lt;\delta} \dfrac{\varepsilon}{M}|K_\lambda (\tau)| \, d\tau \right] &lt;\varepsilon
+\end{aligned}
+\]</span></p>
+<p>이므로 <a href="#eq-wavelet_approximate_identity" class="quarto-xref">식&nbsp;6</a> 이 성립한다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div id="thm-wavelet_general_modulation" class="theorem">
+<p><span class="theorem-title"><strong>정리 6 (General modulation)</strong></span> <span class="math inline">\(\hat{f}=\mathfrak{F}[f(t)],\, \hat{g}=\mathfrak{F}[g(t)]\)</span> 이며 <span class="math inline">\(\hat{f},\, \hat{g}\in L^1(\mathbb{R})\)</span> 일 때 다음이 성립한다.</p>
+<p><span id="eq-wavelet_general_modulation"><span class="math display">\[
+\mathfrak{F}[f(t)\,g(t)]= \dfrac{1}{2\pi}\left(\hat{f} \ast \hat{g}\right).
+\tag{7}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\hat{f},\,\hat{g}\in L^1(\mathbb{R})\)</span> 이므로 역변환이 가능하다. <a href="#thm-wavelet_inverse_fourier_transform" class="quarto-xref">정리&nbsp;4</a> 을 이용한다.</p>
+<p><span class="math display">\[\begin{aligned}
+\mathfrak{F}[f(t)\,g(t)](\omega) &amp;=\int_{-\infty}^\infty e^{-i\omega t} f(t)\, g(t)\, dt= \dfrac{1}{2\pi}\int_{-\infty}^\infty e^{-i \omega t}g(t)\, dt \int_{-\infty}^\infty \hat{f}(\omega') e^{i\omega' t}d\omega' \\
+&amp;= \dfrac{1}{2\pi}\int_{-\infty}^\infty \hat{f}(\omega') \left[\int_{-\infty}^\infty g(t)\,e^{-i(\omega-\omega')t}\, dt\right]\, d\omega' \\
+&amp;= \dfrac{1}{2\pi}\int_{-\infty}^\infty \hat{f}(\omega') \hat{g}(\omega-\omega')\, d\omega' = \dfrac{1}{2\pi} (\hat{f} \ast \hat{g})(\omega),\qquad \square
+\end{aligned}\]</span></p>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="l2mathbbr-에서의-푸리에-변환" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="l2mathbbr-에서의-푸리에-변환"><span class="header-section-number">3</span> <span class="math inline">\(L^2(\mathbb{R})\)</span> 에서의 푸리에 변환</h2>
+<p><span class="math inline">\(L^2\)</span> 공간에서의 노름 <span class="math inline">\(\|\cdot\|_2\)</span> 은 다음과 같이 정의된다.</p>
+<p><span class="math display">\[
+\|f\|_2 := \left(\int_{-\infty}^\infty |f(t)|^2\, dt\right)^{1/2}
+\]</span></p>
+<p><span class="math inline">\(f\in L^2(\mathbb{R})\)</span> 일 때 <span class="math inline">\(\left\|\hat{f}\right\|_2 = \sqrt{2\pi}\|f\|_2\)</span> 이다. <span class="math inline">\(\sqrt{2\pi}\)</span> factor 를 안보이게 하기 위해 푸리에 변환을 다음과 같이 재정의 한다.</p>
+<p><span id="eq-wavelengt_fourier_transform_in_L2"><span class="math display">\[
+\hat{f}(\omega):= \mathfrak{F}[f(t)]=\dfrac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty e^{-i\omega t}\, f(t)\, dt
+\tag{8}\]</span></span></p>
+<p><br></p>
+<div id="thm-wavelet_norm_of_fourier_transfrom_in_L2" class="theorem">
+<p><span class="theorem-title"><strong>정리 7</strong></span> <span class="math inline">\(f\in C_{\mathbb{R}}\)</span> 이며 어떤 유계인 구간 밖에서 <span class="math inline">\(0\)</span> 값을 갖는다고 하자. 그렇다면 <span class="math inline">\(\hat{f}=\mathfrak{F}[f(t)]\in L^2(\mathbb{R})\)</span> 이며</p>
+<p><span class="math display">\[
+\|f\|_2 = \left\|\hat{f}\right\|_2
+\]</span></p>
+<p>이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>일반성을 잃지 않고 <span class="math inline">\(t\not\in [-\pi,\,\pi]\)</span> 일 때 <span class="math inline">\(f(t)=0\)</span> 이라고 할 수 있다. 아래의 <span class="math inline">\(\{\phi_n(t)\}\)</span> 는 <span class="math inline">\(L^2(\mathbb{R})\)</span> 의 정규직교기저이다.</p>
+<p><span class="math display">\[
+\left\{\phi_n(t)=\dfrac{1}{\sqrt{2\pi}} e^{int}: n\in \mathbb{Z}\right\}.
+\]</span></p>
+<p>따라서,</p>
+<p><span class="math display">\[
+f(t) = \sum_{n\in \mathbb{Z}}f_n e^{int},\qquad \text{where}\; f_n = \int \overline{\phi_n(t)} f(t)\, dt = \dfrac{1}{\sqrt{2\pi}} \int_{-\infty}  ^\infty e^{-int}f(t)\,dt = \hat{f}(n)
+\]</span></p>
+<p>이며,</p>
+<p><span class="math display">\[
+{\|f\|_2}^2 = \sum_{n\in \mathbb{Z}} |\hat{f}(n)|^2
+\]</span></p>
+<p>이다. <span class="math inline">\(g(t) = e^{i\mu t}f(t)\)</span> 에 대해 <span class="math inline">\(|g(t)|=|f(t)|\)</span> 이므로 <span class="math inline">\(\|g\|_2 = \|f\|_2\)</span> 이다. 또한 <span class="math inline">\(\displaystyle g(t) = \sum_{n\in \mathbb{Z}}f_n e^{i(n+\mu)t}\)</span> 이므로</p>
+<p><span class="math display">\[
+{\|f\|_2}^2 =\sum_{n\in \mathbb{Z}} \left|\hat{f}(n+\mu)\right|^2
+\]</span></p>
+<p>이다. 위 식의 양 변을 <span class="math inline">\(\mu\)</span> 에 대해 <span class="math inline">\([0,\,1]\)</span> 구간에서 적분하면</p>
+<p><span class="math display">\[
+{\|f\|_2}^2 = \sum_{n\in \mathbb{Z}}\int_0^1 \left|\hat{f}(n+\mu)\right|^2 \, d\mu = \int_{-\infty}^\infty \left|\hat{f}(\mu)\right|^2\, d\mu = {\left\|\hat{f}\right\|_2}^2
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p><a href="#thm-wavelet_norm_of_fourier_transfrom_in_L2" class="quarto-xref">정리&nbsp;7</a> 은 <span class="math inline">\(f\in L^2(\mathbb{R}) \iff\hat{f}\in L^2(\mathbb{R})\)</span> 를 의미한다. <span class="math inline">\(f\in L^1(\mathbb{R})\)</span> 일 경우에는 이것이 성립하지 않았음을 생각하라(<a href="#exm-wavelet_fourier_transform_of_rectangular_pulse" class="quarto-xref">예제&nbsp;2</a>).</p>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_compact_support" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 6 (콤팩트 지지 함수)</strong></span> 위상공간 <span class="math inline">\(X\)</span> 에서 정의된 <span class="math inline">\(f:X \to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(S=\{x\in X:  f(x)\ne 0\}\)</span> 의 closure <span class="math inline">\(\overline{S}\)</span> 를 <span class="math inline">\(f\)</span> 에 대한 support 라고 하고 <span class="math inline">\(\textrm{supp}(f)\)</span> 라고 쓴다. <span class="math inline">\(\textrm{supp}(f)\)</span> 가 옹골집합(compact set) 일 때 <span class="math inline">\(f\)</span> 를 <strong>콤팩트 지지 함수 (compactly supported function)</strong> 라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(\mathbb{R}\)</span> 에서의 옹골집합은 유계인 닫힌 집합과 동치이다. 즉 <span class="math inline">\(\mathbb{R}\)</span> 에서의 콤팩트 지지함수는 support 가 유계인 닫힌 집합인 함수이다. 그렇다면 <span class="math inline">\(f\)</span> 가 <span class="math inline">\(L^2(\mathbb{R})\)</span> 에서의 콤팩트 지지함수라면 <a href="#thm-wavelet_norm_of_fourier_transfrom_in_L2" class="quarto-xref">정리&nbsp;7</a> 에 따라 푸리에 변환이 존재하며 <span class="math inline">\(\|f\|_2 = \left\|\hat{f}\right\|_2\)</span> 이다.</p>
+<p>또 한가지 사실은 <span class="math inline">\(\mathbb{R}\)</span> 에서 정의된 모든 컴팩트 지지함수의 집합은 <span class="math inline">\(L^2(\mathbb{R})\)</span> 에서 조밀하다는 것이다(이것은 증명하지 않고 받아들이기로 하자). 즉 <span class="math inline">\(f\in L^2(\mathbb{R})\)</span> 라면 임의의 <span class="math inline">\(\varepsilon&gt;0\)</span> 에 대해 <span class="math inline">\(\|f-g\|_2&lt;\varepsilon\)</span> 인 콤팩트 지지함수 <span class="math inline">\(g\in L^2(\mathbb{R})\)</span> 을 찾을 수 있다는 의미이다. 그런 의미에서 푸리에 변환을 다음과 같이 정의 할 수 있다.</p>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_fourier_transform_in_L2" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 7 (<span class="math inline">\(L^2(\mathbb{R})\)</span> 에서의 푸리에 변환)</strong></span> <span class="math inline">\(f\in L^2(\mathbb{R})\)</span> 이며 <span class="math inline">\(\{f_n : f_n\in L^2(\mathbb{R})\}\)</span> 을 <span class="math inline">\(\displaystyle \lim_{n \to \infty}f_n = f\)</span> 인 콤팩트 지지함수의 함수열이라고 하자. 이 때 <span class="math inline">\(f\)</span> 의 푸리에 변환은 다음과 같이 정의된다.</p>
+<p><span class="math display">\[
+\hat{f} = \lim_{n \to \infty} \mathfrak{F}[f_n]
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(f_n\)</span> 이 콤팩트 지지함수이므로 <a href="#thm-wavelet_norm_of_fourier_transfrom_in_L2" class="quarto-xref">정리&nbsp;7</a> 에 따라 <span class="math inline">\(\|\hat{f}_n\|_2\)</span> 가 존재하며 그 극한이 <span class="math inline">\(f\)</span> 의 푸리에 변환이다. 그렇다면 이 정의는 우리가 <span class="math inline">\(L^1(\mathbb{R})\)</span> 에서 했던 정의와 동일할까?</p>
+<p><span class="math inline">\(f\in L^1(\mathbb{R}) \cap L^2(\mathbb{R})\)</span></p>
+<div id="thm-wavelet_parseval_identity" class="theorem">
+<p><span class="theorem-title"><strong>정리 8 (Parseval’s Identity)</strong></span> <span class="math inline">\(f\in L^2(\mathbb{R})\)</span> 이면 <span class="math inline">\(\|f\|_2 = \left\|\hat{f}\right\|_2\)</span> 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><a href="#def-wavelet_fourier_transform_in_L2" class="quarto-xref">정의&nbsp;7</a> 과 <a href="#thm-wavelet_norm_of_fourier_transfrom_in_L2" class="quarto-xref">정리&nbsp;7</a> 로부터,</p>
+<p><span class="math display">\[
+\left\| \hat{f}\right\|_2 = \lim_{n \to \infty} \left\|\mathfrak{F}[f_n]\right\|_2 = \lim_{n \to \infty} \|f_n\|_2 = \|f\|_2.\qquad \square
+\]</span></p>
+</div>
+<p><br></p>
+<div id="thm-wavelet_fourier_transform_in_L2_2" class="theorem">
+<p><span class="theorem-title"><strong>정리 9</strong></span> <span class="math inline">\(f\in L_2(\mathbb{R})\)</span> 일 때</p>
+<p><span class="math display">\[
+\hat{f}(\omega)= \lim_{n \to \infty} \dfrac{1}{\sqrt{2\pi}} \int_{-n}^n e^{-i\omega t}f(t)\, dt
+\]</span></p>
+<p>이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(n\in \mathbb{Z}_+\)</span> 에 대해 <span class="math inline">\(f_n(t)\)</span> 를 아래와 같이 정의한다.</p>
+<p><span id="eq-wavelet_seqential_definition_of_function"><span class="math display">\[
+f_n (t) = \left\{\begin{array}{ll} f(t), \qquad &amp;\text{for }|t|&lt;n, \\ 0&amp;\text{otherwise}.\end{array}\right.
+\tag{9}\]</span></span></p>
+<p><span class="math inline">\(\displaystyle \lim_{n \to \infty} \|f-f_n\|_2=0\)</span> 이며, 따라서 <span class="math inline">\(\displaystyle \lim_{n \to \infty}\|\hat{f} - \hat{f}_n\|_2 = 0\)</span> 이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div id="thm-wavelet_change_of_roof" class="theorem">
+<p><span class="theorem-title"><strong>정리 10</strong></span> <span class="math inline">\(f,\,g\in L^2(\mathbb{R})\)</span> 일 때 다음이 성립한다.</p>
+<p><span class="math display">\[
+\left\langle f,\, \overline{\hat{g}}\right\rangle = \int_{-\infty}^\infty f(t) \hat{g(t)}\, dt = \int_{-\infty} \hat{f}(t)\, g(t)\, dt = \left\langle \hat{f},\, \overline{g}\right\rangle.
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>힘수열 <span class="math inline">\(f_n,\,g_n\)</span> 을 <a href="#eq-wavelet_seqential_definition_of_function" class="quarto-xref">식&nbsp;9</a> 에 따라 정의 한다.</p>
+<p><span class="math display">\[
+\hat{f}_m (t) = \dfrac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty e^{-ist} f_m(s)\, ds
+\]</span></p>
+<p>이므로,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\int_{-\infty}^\infty \hat {f}_m (t) g_n (t)\, dt &amp;= \dfrac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty g_n(t) \left[\int_{-\infty}^\infty e^{-ist}\, f_m (s)\, ds\right]\, dt \\
+&amp;= \dfrac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty f_m (s) \left[\int_{-\infty}^\infty g_n(t)\, e^{-ist}\, dt\right]\, ds \\
+&amp;=  \int_{-\infty}^\infty f_m (s) \,\hat{g}_n (s)\, ds
+\end{aligned}
+\]</span></p>
+<p>이다. <span class="math inline">\(\displaystyle \lim_{n \to \infty} \|g-g_n\|_2 = 0\)</span>, <span class="math inline">\(\displaystyle \lim_{n \to \infty} \|\hat{g}-\hat{g} _n\|_2 = 0\)</span> 임을 안다. 이로부터</p>
+<p><span class="math display">\[
+\int_{-\infty}^\infty \hat{f}_m(t) \, g(t) \, dt = \int_{-\infty}^\infty f_m(t) \, \hat{g}(t)\, dt
+\]</span></p>
+<p>이다. 또한 <span class="math inline">\(\displaystyle \lim_{m \to \infty} \|f-f_n\|_2 = 0\)</span>, <span class="math inline">\(\displaystyle \lim_{m \to \infty} \|\hat{f}-\hat{f} _f\|_2 = 0\)</span> 임 이므로 다음이 성립한다.</p>
+<p><span class="math display">\[
+\int_{-\infty} \hat{f}(t)\, g(t)\, dt  = \int_{-\infty}^\infty f(t) \hat{g(t)}\, dt.  \qquad \square
+\]</span></p>
+</div>
+<p><br></p>
+<div id="lem-wavelet_change_of_roof" class="theorem lemma">
+<p><span class="theorem-title"><strong>보조정리 1</strong></span> <span class="math inline">\(f\in L^2(\mathbb{R})\)</span> 이고 <span class="math inline">\(g=\overline{\hat{f}}\)</span> 이면 <span class="math inline">\(f=\overline{\hat{g}}\)</span> 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>다음을 보일 수 있다.</p>
+<p><span class="math display">\[
+\left\langle f,\, \overline{\hat{g}}\right\rangle = \left\langle \hat{f},\, \overline{g}\right\rangle = \left\langle \hat{f},\, \hat{f}\right\rangle = {\left\|\hat{f}\right\|_2}^2 = {\|f\|_2}^2.
+\]</span></p>
+<p>또한</p>
+<p><span class="math display">\[
+\overline{\langle f,\, \overline{\hat{g}}\rangle} = \overline{\langle \hat{f},\,\hat{f}\rangle} = \|f\|_2^2
+\]</span></p>
+<p>이다. 마지막으로 Parseval’s relation 으로부터,</p>
+<p><span class="math display">\[
+\left\|\hat{g}\right\|_2^2 = \|g\|_2^2 = \left\|\hat{f}\right\|_2^2 = \|f\|_2^2
+\]</span></p>
+<p>임을 안다. 위의 세 식을 이용하면,</p>
+<p><span class="math display">\[
+{\left\|f-\overline{\hat{g}}\right\|_2}^2 = \left\langle f-\overline{\hat{g}},\,f-\overline{\hat{g}}\right\rangle = {\|f\|_2}^2 - \langle f,\, \overline{\hat{g}}\rangle - \overline{\langle f,\, \overline{\hat{g}}\rangle} + \left\|\hat{g}\right\|_2^2 = 0.
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<section id="l2mathbbr-에서의-역푸리에-변환과-일반화된-parservals-relation" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="l2mathbbr-에서의-역푸리에-변환과-일반화된-parservals-relation"><span class="header-section-number">3.1</span> <span class="math inline">\(L^2(\mathbb{R})\)</span> 에서의 역푸리에 변환과 일반화된 Parserval’s Relation</h3>
+<div id="thm-wavelet_inverse_fourier_tranform_in_L2" class="theorem">
+<p><span class="theorem-title"><strong>정리 11</strong></span> <span class="math inline">\(f\in L^2(\mathbb{R})\)</span> 에 대해</p>
+<p><span id="eq-wavelet_inverse_fourier_transform_in_L2"><span class="math display">\[
+\lim_{n\to \infty}\dfrac{1}{\sqrt{2\pi}} \int_{-n}^n e^{i\omega t}\hat{f}(\omega)\, d\omega = f(t)
+\tag{10}\]</span></span></p>
+<p>이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(f\in L^2(\mathbb{R})\)</span> 이며 <span class="math inline">\(g=\overline{\hat{f}}\)</span> 라고 하자. <a href="#lem-wavelet_change_of_roof" class="quarto-xref">보조정리&nbsp;1</a> 에 의해</p>
+<p><span class="math display">\[
+\begin{aligned}
+f(t) = \overline{\hat{g}(t)} &amp;= \lim_{n \to \infty} \dfrac{1}{\sqrt{2\pi}} \overline{\int_{-n}^n e^{-i\omega t}\, g(\omega)\, d\omega} \\
+&amp;= \lim_{n \to \infty} \dfrac{1}{\sqrt{2\pi}} \int_{-n}^n e^{i\omega t} \overline{g(\omega)}\, d\omega  = \lim_{n \to \infty}\dfrac{1}{\sqrt{2\pi}} \int_{-n}^n e^{i\omega t}\, \hat{f}(\omega)\, d\omega. \qquad \square
+\end{aligned}
+\]</span></p>
+</div>
+<p>여기서 <a href="#eq-wavelet_inverse_fourier_transform_in_L2" class="quarto-xref">식&nbsp;10</a> 를 <strong>푸리에 역변환 (inverse Fourier transform)</strong> 이라고 하고 <span class="math inline">\(\mathfrak{F}^{-1}\left[\hat{f}\right]\)</span> 라고도 쓴다.</p>
+<p><br></p>
+<div id="thm-wavelet_general_Parseval_relation" class="theorem">
+<p><span class="theorem-title"><strong>정리 12 (일반화된 Parseval’s relation)</strong></span> <span class="math inline">\(f,\,g\in L^2(\mathbb{R})\)</span> 일 때 다음이 성립한다.</p>
+<p><span id="eq-wavelet_generalized_parseval_relation"><span class="math display">\[
+\langle f,\,g \rangle = \int_{-\infty}^\infty f(t) \overline{g(t)}\, dt = \int_{-\infty}^\infty \hat{f}(\omega)\overline{\hat{g}(\omega)}\, d\omega = \left\langle \hat{f},\, \hat{g}\right\rangle.
+\tag{11}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><a href="#thm-wavelet_parseval_identity" class="quarto-xref">정리&nbsp;8</a> 로부터 <span class="math inline">\(\|f+g\|_2^2 = \left\|\hat{f}+\hat{g}\right\|_2^2\)</span> 임을 안다. 이로부터,</p>
+<p><span class="math display">\[
+\|f\|_2^2 + \|g\|_2^2 + \int \left[\overline{f(t)}\,g(t) + f(t)\,\overline{g(t)}\right]\, dt = \left\|\hat{f}\right\|_2^2 + \left\|\hat{g}\right\|_2^2 + \int \left[\overline{\hat{f}(\omega)}\,\hat{g}(\omega) + \hat{f}(\omega)\, \overline{\hat{g}(\omega)}\right]\, d\omega
+\]</span></p>
+<p>이다. <span class="math inline">\(\|f\|_2=\left\|\hat{f}\right\|_2\)</span>, <span class="math inline">\(\|g\|_2 = \left\|\hat{g}\right\|_2\)</span> 이므로,</p>
+<p><span id="eq-wavelet_general_Parseval_relation_1"><span class="math display">\[
+\int \left[\overline{f(t)}\,g(t) + f(t)\,\overline{g(t)}\right]\, dt = \int \left[\overline{\hat{f}(\omega)}\,\hat{g}(\omega) + \hat{f}(\omega)\, \overline{\hat{g}(\omega)}\right]\, d\omega
+\tag{12}\]</span></span></p>
+<p>이다. <span class="math inline">\(g,\, \hat{g}\)</span> 를 각각 <span class="math inline">\(ig,\, i\hat{g}\)</span> 로 변경시켜도 <a href="#eq-wavelet_general_Parseval_relation_1" class="quarto-xref">식&nbsp;12</a> 이 성립하므로,</p>
+<p><span id="eq-wavelet_general_Parseval_relation_2"><span class="math display">\[
+\int \left[\overline{f(t)}\,g(t) - f(t)\,\overline{g(t)}\right]\, dt = \int \left[\overline{\hat{f}(\omega)}\,\hat{g}(\omega) - \hat{f}(\omega)\, \overline{\hat{g}(\omega)}\right]\, d\omega
+\tag{13}\]</span></span></p>
+<p>이다. <a href="#eq-wavelet_general_Parseval_relation_1" class="quarto-xref">식&nbsp;12</a> 에서 <a href="#eq-wavelet_general_Parseval_relation_1" class="quarto-xref">식&nbsp;12</a> 를 빼면</p>
+<p><span class="math display">\[
+\int f(t)\,\overline{g(t)}\, dt = \int  \hat{f}(\omega)\, \overline{\hat{g}(\omega)}\, d\omega
+\]</span></p>
+<p>를 얻는다. 즉 <span class="math inline">\(\langle f,\,g\rangle = \left\langle \hat{f},\, \hat{g}\right\rangle\)</span> 이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="이산-푸리에-변환-discrete-fourier-transformation-dft" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="이산-푸리에-변환-discrete-fourier-transformation-dft"><span class="header-section-number">4</span> 이산 푸리에 변환 (Discrete Fourier Transformation, DFT)</h2>
+<section id="이산-푸리에-변환과-역변환" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="이산-푸리에-변환과-역변환"><span class="header-section-number">4.1</span> 이산 푸리에 변환과 역변환</h3>
+<p><span class="math inline">\([a,\,b]\)</span> 구간에서 정의된 1차원 공간상의 함수 <span class="math inline">\(f\)</span> 에 대해 구간 내의 <span class="math inline">\(N\)</span> 개의 점을 아래와 같이 잡을 수 있다.</p>
+<p><span class="math display">\[
+t_1=a &lt; t_2 &lt; \cdots &lt; t_{N-1} &lt; t_{N} = b.
+\]</span></p>
+<p>계산을 간단하게 하기 위해 동일한 간격을 갖는 <span class="math inline">\(t_k = a + (k-1)\dfrac{b-a}{N-1}\)</span> 라고 할 수 있다. <span class="math inline">\(f_k: = f(t_k)\)</span> 라고 하면 수열 <span class="math inline">\(\langle f \rangle = (f_1,\ldots,\, f_{N})\)</span> 를 정의 할 수 있다.</p>
+<p>우리는 여기서 한가지 가정을 하게 되는데 <span class="math inline">\(f\)</span> 이 주기 <span class="math inline">\(N\)</span> 을 갖는다는 것이다. 정수 <span class="math inline">\(m\)</span> 에 대해 <span class="math inline">\(f_{k+mN}=f_k\)</span> 이다. 예를 들어 <span class="math inline">\((1, 3, 2, 4)\)</span> 에 대한 이산 푸리에 변환은</p>
+<p><span class="math display">\[
+\ldots , \underline{1, 3, 2 , 4}, 1, 3,2,4, \underline{1, 3, 2,4},\ldots
+\]</span></p>
+<p>에 대한 푸리에 변환이라는 의미이다 (주기적으로 반복되는 것을 잘 보이게 하기 위해 밑줄로 표현하였다).</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-wavelet_dft" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 8 (이산 푸리에 변환)</strong></span> <span class="math inline">\(\langle f\rangle = (f_1,\ldots,\,f_{N})\)</span> 에 대해 아래와 같이 정의된 <span class="math inline">\(\mathfrak{F}[f]:=\langle F\rangle = (F_1,\ldots,\,F_{N})\)</span> 을 <span class="math inline">\(\langle f\rangle\)</span> 에 대한 <strong>이산 푸리에 변환(descrete Fourier transform, DFT)</strong> 이라고 한다.</p>
+<p><span id="eq-wavelet_dft"><span class="math display">\[
+F_u = \mathfrak{F}[f]_u : =\dfrac{1}{N} \sum_{k=1}^{N} f_k \exp\left(-\dfrac{i2\pi (u-1)(k-1) }{N}  \right).
+\tag{14}\]</span></span></p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="thm-wavelet_identity_of_dft" class="theorem">
+<p><span class="theorem-title"><strong>정리 13 (이산 푸리에 변환의 역변환)</strong></span> <span class="math inline">\((f_k)\)</span> 에 대한 이산 푸리에 변환 <span class="math inline">\((F_u)\)</span> 에 대해 다음이 성립한다.</p>
+<p><span id="eq-wavelet_idft"><span class="math display">\[
+f_k = \sum_{u=1}^{N} F_u \exp \left(\dfrac{i2\pi (u-1)(k-1)}{N}\right)
+\tag{15}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span id="eq-wavelet_identity_of_dft"><span class="math display">\[
+\begin{aligned}
+\sum_{u=1}^{N} F_u &amp;\exp \left(\dfrac{i2\pi (k-1)(u-1)}{N}  \right) \\
+&amp;= \dfrac{1}{N}\sum_{u=1}^{N} \left[\sum_{k'=1}^{N} f_{k'} \exp \left(\dfrac{-i2\pi (k'-1)(u-1)}{N}  \right)  \right]\exp \left(\dfrac{i2\pi (k-1)(u-1)}{N} \right)  \\
+&amp;= \dfrac{1}{N}\sum_{k'=1}^{N} f_k \sum_{u=1}^{N} \exp\left( \dfrac{2\pi i (k-k')(u-1)}{N}  \right) \\
+\end{aligned}
+\tag{16}\]</span></span></p>
+<p>우리는 여기서 <span class="math inline">\(k'=k\)</span> 이면 <span class="math inline">\(\sum_{u=1}^{N} \exp (\cdots )= N\)</span> 임을 안다. <span class="math inline">\(k'\ne k\)</span> 라면 <span class="math inline">\(|k'-k|\le N-1\)</span> 이므로</p>
+<p><span class="math display">\[
+\sum_{u=1}^{N} \exp\left( \dfrac{2\pi i (k-k')(u-1)}{N}  \right) = \dfrac{{1-\exp \left( \dfrac{2\pi i (k-k') N}{N}\right)}}{1-\exp \left( \dfrac{2\pi i (k-k')}{N}\right)} = 0
+\]</span></p>
+<p>이다. 따라서, <a href="#eq-wavelet_identity_of_dft" class="quarto-xref">식&nbsp;16</a> 의 마지막 줄의 <span class="math inline">\(\sum_{u=1}^{N}\exp (\cdots)  = N\delta_{k,k'}\)</span> 이므로</p>
+<p><span class="math display">\[
+\sum_{u=1}^{N} F_u \exp \left(\dfrac{i2\pi (k-1)(u-1)}{N}  \right) = \dfrac{1}{N} \sum_{k=1}^{N} f_{k'} N\delta_{k,k'} = f_k
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p>이로부터 <span class="math inline">\(\langle F\rangle = \mathfrak{F}[f]\)</span> 에 대해 <span class="math inline">\(\langle f\rangle = \mathfrak{F}^{-1}[F]\)</span> 을 얻었다. 즉 DFT 로도 푸리에 변환과 역변환이 똑같이 성립한다.</p>
+<p><br></p>
+<p>우리는 위의 식으로 부터 다음을 알 수 있다.</p>
+<ul>
+<li><p>푸리에 변환으로 얻는 <span class="math inline">\(F_u = \mathfrak{F}[f_k]\)</span> 의 변수 <span class="math inline">\(u\)</span> 는 각진동수(angular frequency) 이다. 따라서 이 신호를 진동수(frequency) 에 대한 신호로 바꾸고 싶다면 변수를 <span class="math inline">\(2\pi u\)</span> 로 변경시켜야 한다.</p></li>
+<li><p>입력되는 신호 <span class="math inline">\(f\)</span> 가 실수 신호더라도 푸리에 변환 신호는 복소수가 된다. 각진동수에 대한 분포를 알고싶다면 <span class="math inline">\(|F_u|\)</span> 를 보아야 한다. Julia 에서는 <code>abs</code> 함수가 복소수에 대한 절대값을 반환한다.</p></li>
+</ul>
+<p><br></p>
+</section>
+<section id="dft-의-행렬-형태와-성질" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="dft-의-행렬-형태와-성질"><span class="header-section-number">4.2</span> DFT 의 행렬 형태와 성질</h3>
+<p>수열 <span class="math inline">\((f)\)</span> 와 그 DFT <span class="math inline">\((F)\)</span> 를 열벡터 형식으로 쓸 수 있다. 즉</p>
+<p><span class="math display">\[
+f=\begin{bmatrix} f_1 \\ \vdots \\ f_N\end{bmatrix},\qquad F=\begin{bmatrix} F_1 \\ \vdots \\ F_N\end{bmatrix}
+\]</span></p>
+<p>이다. 이 때 <a href="#eq-wavelet_dft" class="quarto-xref">식&nbsp;14</a> 와 <a href="#eq-wavelet_idft" class="quarto-xref">식&nbsp;15</a> 에서 볼 수 있듯이 DFT 와 역변환은 선형 변환이다. 따라서 행렬 <span class="math inline">\(W\)</span> 에 대해 <span class="math inline">\(f=WF\)</span> 와 같은 꼴로 쓸 수 있다. 여기서</p>
+<p><span class="math display">\[
+W_{jk} = \dfrac{1}{N} \exp \left(-\dfrac{2 \pi i (j-1)(k-1)}{N}\right)
+\]</span></p>
+<p>이다.</p>
+<p><br></p>
+<div id="lem-wavelet_1" class="theorem lemma">
+<p><span class="theorem-title"><strong>보조정리 2</strong></span> 수열 <span class="math inline">\((f_k),\,k=1,\ldots,\,N\)</span> 과 정수 <span class="math inline">\(m\in \mathbb{Z}\)</span> 에 대해 다음이 성립한다.</p>
+<p><span class="math display">\[
+\sum_{k=1}^{N} f_{k-m} e^{-2\pi i (k-m-1)(u-1)/N} = \mathfrak{F}[f]_u
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(f_k\)</span> 와 <span class="math inline">\(e^{-2\pi i (k-1)(u-1)/N}\)</span> 모두 <span class="math inline">\(N\)</span> 주기 함수이며 따라서 위의 식은 <span class="math inline">\(\displaystyle \sum_{k=1} f_k e^{-2\pi i (k-1)(u-1)/N} = \mathfrak{F}[f]_u\)</span> 와 같다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div id="thm-wavelet_properties_of_dft" class="theorem">
+<p><span class="theorem-title"><strong>정리 14 (DFT 의 성질)</strong></span> <span class="math inline">\(\hat{f} = \mathfrak{F}[f]\)</span> 일 때 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(g_k = f_{k-m}\)</span> 인 수열 <span class="math inline">\((g_k)\)</span> 에 대해 <span class="math inline">\(\mathfrak{F}[g]_{u} = \mathfrak{F}[f]_u e^{-2\pi i m(u-1)/N}\)</span> 이다.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(g_k = f_k e^{2\pi i (k-1)m/N}\)</span> 인 수열 <span class="math inline">\((g_k)\)</span> 에 대해 <span class="math inline">\(\mathfrak{F}[g]_u = \mathfrak{F}[f]_{u-m}\)</span> 이다.</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(g_k = f_k \cos \left(\dfrac{2\pi m(k-1)}{N}\right)\)</span> 인 수열 <span class="math inline">\((g_k)\)</span> 에 대해 <span class="math inline">\(\hat{g}_u = \dfrac{1}{2}\left(\hat{f}_{u-m} + \hat{f}_{u+m}\right)\)</span> 이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>(<span class="math inline">\(1\)</span>) <a href="#lem-wavelet_1" class="quarto-xref">보조정리&nbsp;2</a> 을 이용하면</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{g}_u &amp;= \dfrac{1}{N}\sum_{k=1}^N g_k e^{-2\pi i (k-1)(u-1)/N } = \dfrac{1}{N} \sum_{k=1}^N f_{k-m} e^{-2\pi i (k-m-1)(u-1)/N} e^{-2 \pi i m(u-1)/N} \\
+&amp;= \hat{f}_u e^{-2\pi i m(u-1)/N}.
+\end{aligned}
+\]</span></p>
+<p>(<span class="math inline">\(2\)</span>)</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{F}[g]_u &amp;= \dfrac{1}{N}\sum_{k=1}^N f_k e^{2\pi i (k-1)m/N} e^{-2\pi i (k-1)(u-1)} = \dfrac{1}{N} \sum_{k=1}^N f_k e^{-2\pi i (k-1)(u-m-1)/N} = \mathfrak{F}[f]_{u-m}.
+\end{aligned}
+\]</span></p>
+<p>(<span class="math inline">\(3\)</span>) <span class="math inline">\(\cos \theta = (e^{i\theta} + e^{-i\theta})/2\)</span> 와 (<span class="math inline">\(2\)</span>) 를 이용하면</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathfrak{F}[g]_u &amp;= \dfrac{1}{N}\sum_{k=1}^N f_k \dfrac{e^{2\pi i m(k-1)/N} + e^{-2\pi i m(k-1)/N}}{2}e^{-2\pi i (k-1)(u-m-1)/N} \\
+&amp;= \dfrac{1}{2} \left(\mathfrak{F}[f]_{u-m} + \mathfrak{F}[f]_{u+m}\right). \qquad \square
+\end{aligned}
+\]</span></p>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="고속-푸리에-변환-fft" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="고속-푸리에-변환-fft"><span class="header-section-number">5</span> 고속 푸리에 변환 (FFT)</h2>
+<p>고속 푸리에 변환(Fast Fourier Transform, FFT)은 DFT 과 그 역변환을 빠르게 수행하는 효율적인 알고리즘이다. 위의 이산 푸리에 변환은 <span class="math inline">\(N^2\)</span> 번의 곱셉과 <span class="math inline">\(N(N-1)\)</span> 번의 덧셈 연산, 즉 대략 <span class="math inline">\(2N^2\)</span> 번의 연산이 필요하지만 FFT를 이용하면 대략 <span class="math inline">\(\mathcal{O}(N \log_2 N)\)</span> 의 연산만으로 가능하다. 기본적인 아이디어는 가우스가 생각했었으나 잊혀졌고 이후 Cooley 와 Tukey 가 1965년도에 고속 푸리에 변환 알고리즘을 발표하였으며 이후 전 세계적으로 광범위하게 사용되었다.</p>
+<p><br></p>
+<section id="기본적인-아이디어" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="기본적인-아이디어"><span class="header-section-number">5.1</span> 기본적인 아이디어</h3>
+<p>우선 <span class="math inline">\(N=2^n\)</span> 일 경우에 대해 생각하자. 그리고 우리는 <span class="math inline">\(f_k\)</span> 의 인덱스 <span class="math inline">\(k\)</span> 를 <span class="math inline">\(1\le k \le N\)</span> 에서 생각했지만 여기서는 <span class="math inline">\(0\le k \le N-1\)</span> 로 생각하자. 이 경우,</p>
+<p><span class="math display">\[
+\mathfrak{F}[f]_u=\dfrac{1}{N}\sum_{k=0}^{N-1} f_k e^{-2 \pi i ku /N},\qquad u=0,\ldots,N-1
+\]</span> 이다. <span class="math inline">\(f_k,\, k=0,\ldots,\,N-1\)</span> 에 대해 <span class="math inline">\((f_k)\)</span> 의 짝수 인덱스만 모아 수열 <span class="math inline">\((a_k)\)</span> 를 만들고 홀수 인덱스만 모아 수열 <span class="math inline">\((b_k)\)</span> 를 만든다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+a_k &amp;= f_{2k}, \\
+b_k &amp;= f_{2k+1}
+\end{aligned}
+\]</span></p>
+<p>이렇게 하면</p>
+<p><span class="math display">\[
+(f_k) = (a_0,\,b_0,\,a_1,\,b_1,\ldots,\, a_{N/2-2},\, b_{N/2-2},\, a_{N/2-1},\, b_{N/2-1})
+\]</span></p>
+<p>이다. <span class="math inline">\(w_N := e^{-2\pi i /N},\, M=N/2=2^{n-1}\)</span> 이라 하면 <span class="math inline">\({w_N}^2 = w_M = e^{-2\pi i /M} = e^{-2\pi i /(N/2)}\)</span> 이며, 이를 이용하여 <span class="math inline">\(\mathfrak{F}_u\)</span> 를 계산하면 아래와 같다.</p>
+<p><span id="eq-fft_1"><span class="math display">\[
+\begin{aligned}
+\mathfrak{F}[f]_u &amp;= \sum_{k=0}^{N-1} f_k e^{-2\pi i uk/N} =  \sum_{k=0}^{N-1}f_k {w_N}^{uk} \\
+&amp;= \sum_{k=0}^{M-1}a_k {w_N}^{2uk} + \sum_{k=0}^{M-1} b_k {w_N}^{(2k+1)u}\\
+&amp;= \sum_{k=0}^{M-1} a_k (w_M)^{uk} + \left({w_N}^u\right) \sum_{k=0}^{M-1} b_k (w_M)^{uk} \\
+\end{aligned}
+\tag{17}\]</span></span></p>
+<p>이다. <span class="math inline">\(M-1\)</span> 개의 점에 대한 <span class="math inline">\((a_k)\)</span> 와 <span class="math inline">\((b_k)\)</span> 의 푸리에 변환 <span class="math inline">\(\mathfrak{F}[a]_u,\, \mathfrak{F}[b]_u\)</span> 를 생각하자. <span class="math inline">\(0 \le u \le M-1\)</span> 일 경우</p>
+<p><span id="eq-fft_2"><span class="math display">\[
+\mathfrak{F}[f]_{u} = \mathfrak{F}[a]_u + ({w_N}^u) \mathfrak{F}[b]_u
+\tag{18}\]</span></span></p>
+<p>이며, <span class="math inline">\(M\le u \le N-1\)</span> 일 경우 <span class="math inline">\(v=u-M\)</span> 으로 놓고 <span class="math inline">\({w_N}^{-M} = (e^{-2\pi i /N})^{-M} = e^{i\pi} = -1\)</span> 과 <span class="math inline">\({w_M}^M=1\)</span> 을 이용하면,</p>
+<p><span id="eq-fft_3"><span class="math display">\[
+\begin{aligned}
+\mathfrak{F}[f]_{M \le u \le N-1} &amp;= \sum_{k=0}^{M-1} a_k (w_M)^{uk} + ({w_N}^u) \sum_{k=0}^{M-1} b_k (w_M)^{uk} \\
+&amp;= \sum_{k=0}^{M-1}a_k (w_M)^{vk} (w_M)^{Mk} + (w_N)^{v}(w_N)^M \sum_{k=0}^{M-1}b_k (w_M)(w_M)^{vk} (w_M)^{Mk} \\
+&amp;= \sum_{k=0}^{M-1} a_k (w_M)^{vk} - ({w_N}^v) \sum_{k=0}^{M-1} b_k (w_M)^{vk} \\
+&amp;= \mathfrak{F}[a]_{u-M} - ({w_N}^{u-M}) \mathfrak{F}[b]_{u-M}
+\end{aligned}
+\tag{19}\]</span></span></p>
+<p>이다. 즉 <span class="math inline">\(1\le u\le M\)</span> 에 대해</p>
+<p><span id="eq-fft_4"><span class="math display">\[
+\begin{aligned}
+\mathfrak{F}[f]_u &amp;= \mathfrak{F}[a]_u + ({w_N}^u) \mathfrak{F}[b]_u, \\
+\mathfrak{F}[f]_{u+M} &amp;= \mathfrak{F}[a]_u - ({w_N}^u) \mathfrak{F}[b]_u,
+\end{aligned}
+\tag{20}\]</span></span></p>
+<p>이다. 우리는 <span class="math inline">\(N=2^n\)</span> 개의 점에 대한 DFT 가 <span class="math inline">\(M=N/2\)</span> 인 두 푸리에 변환의 선형결합과 같다는 것을 알게 되었다. 만약 <span class="math inline">\(N\)</span> 개의 점에 대한 DFT 의 연산 횟수를 <span class="math inline">\(X(N)\)</span> 이라고 하자. <span class="math inline">\(N=2^n\)</span> 일 때 <span class="math inline">\(N/2=2^{n-1}\)</span> 개의 점에 대한 두번의 DFT 와 <span class="math inline">\((w_N^m)\)</span> 과 <span class="math inline">\(\mathfrak{F}[b]_u\)</span> 와의 <span class="math inline">\(N/2\)</span> 번의 곱셈 연산이 필요하므로</p>
+<p><span class="math display">\[
+\begin{aligned}
+X(N=2^n) &amp;= 2X(2^{n-1}) + 2^{n-1} \\
+&amp;= 2(2X(2^{n-2}) + 2^{n-2}) + 2^{n-1}\\
+&amp;\qquad \vdots \\
+&amp;= 2^{n-1} X(2^1) + (n-1)2^{n-1}
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(N=2\)</span> 일 때 <span class="math inline">\(X(2^1)=X(2)=4\)</span> 이므로</p>
+<p><span class="math display">\[
+X(2^n) = 2^{n+1} + (n-1)2^{n-1} \approx n 2^{n} = 2^n \log_2 (2^n) = N \log_2(N)
+\]</span></p>
+<p>이다. 즉 <span class="math inline">\(N=2^n\)</span> 개의 점에 대해 대략 <span class="math inline">\(N \log_2 (N)\)</span> 번의 연산을 통해 DFT 를 수행 할 수 있다.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../src/image_processing/fourier_transform_for_image_processing.html" class="pagination-link" aria-label="푸리에 변환">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">푸리에 변환</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../src/image_processing/wavelet/wavelet_transform.html" class="pagination-link" aria-label="웨이블릿 변환">
+        <span class="nav-page-text">웨이블릿 변환</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

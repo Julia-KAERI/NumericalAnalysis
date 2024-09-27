@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Julia &amp; Numerical Anlaysis - 상미분 방정식의 초기값 문제-I</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../src/numerical_analysis_using_julia/12_ode_initial_value_problem_2.html" rel="next">
+<link href="../../src/numerical_analysis_using_julia/10_least_square_problem.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Julia &amp; Numerical Anlaysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수치해석 I</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수치해석 II</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수학</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/image_processing/index.html"> 
+<span class="menu-text">영상 처리/토모그래피</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/tools/tools.html"> 
+<span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+    <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/11_ode_initial_value_problem_1.html">상미분 방정식의 초기값 문제-I</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/08_matrix_decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">행렬의 분해</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/09_iterative_method_for_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">선형방정식과 반복법</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/10_least_square_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">최소자승 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/11_ode_initial_value_problem_1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">상미분 방정식의 초기값 문제-I</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/12_ode_initial_value_problem_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">상미분 방정식의 초기값 문제-II</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/13_ode_boundary_value_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">상미분 방정식의 경계값 문제</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/14_approximation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Approximation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/15_pde_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">편미분 방정식</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#미분방정식" id="toc-미분방정식" class="nav-link active" data-scroll-target="#미분방정식"><span class="header-section-number">1</span> 미분방정식</a>
+  <ul class="collapse">
+  <li><a href="#상미분방정식과-편미분-방정식" id="toc-상미분방정식과-편미분-방정식" class="nav-link" data-scroll-target="#상미분방정식과-편미분-방정식">상미분방정식과 편미분 방정식</a></li>
+  <li><a href="#상미분-방정식의-기본-표기법" id="toc-상미분-방정식의-기본-표기법" class="nav-link" data-scroll-target="#상미분-방정식의-기본-표기법">상미분 방정식의 기본 표기법</a></li>
+  <li><a href="#superposition" id="toc-superposition" class="nav-link" data-scroll-target="#superposition">Superposition</a></li>
+  </ul></li>
+  <li><a href="#상미분-방정식과-초기값-문제" id="toc-상미분-방정식과-초기값-문제" class="nav-link" data-scroll-target="#상미분-방정식과-초기값-문제"><span class="header-section-number">2</span> 상미분 방정식과 초기값 문제</a>
+  <ul class="collapse">
+  <li><a href="#계-미분방정식의-경우" id="toc-계-미분방정식의-경우" class="nav-link" data-scroll-target="#계-미분방정식의-경우">1계 미분방정식의 경우</a></li>
+  <li><a href="#계-상미분-방정식-시스템의-경우" id="toc-계-상미분-방정식-시스템의-경우" class="nav-link" data-scroll-target="#계-상미분-방정식-시스템의-경우">1계 상미분 방정식 시스템의 경우</a></li>
+  <li><a href="#다계-상미분-방정식-시스템의-경우" id="toc-다계-상미분-방정식-시스템의-경우" class="nav-link" data-scroll-target="#다계-상미분-방정식-시스템의-경우">다계 상미분 방정식 시스템의 경우</a></li>
+  </ul></li>
+  <li><a href="#sec-mathematical_foundation_of_ode" id="toc-sec-mathematical_foundation_of_ode" class="nav-link" data-scroll-target="#sec-mathematical_foundation_of_ode"><span class="header-section-number">3</span> 상미분 방정식의 해에 대한 수학적 기반</a></li>
+  <li><a href="#오일러-방법-newtons-method" id="toc-오일러-방법-newtons-method" class="nav-link" data-scroll-target="#오일러-방법-newtons-method"><span class="header-section-number">4</span> 오일러 방법 (Newton’s method)</a>
+  <ul class="collapse">
+  <li><a href="#전방-오일러-방법과-후방-오일러-방법" id="toc-전방-오일러-방법과-후방-오일러-방법" class="nav-link" data-scroll-target="#전방-오일러-방법과-후방-오일러-방법">전방 오일러 방법과 후방 오일러 방법</a></li>
+  <li><a href="#다변수-일차-미분-방정식" id="toc-다변수-일차-미분-방정식" class="nav-link" data-scroll-target="#다변수-일차-미분-방정식">다변수 일차 미분 방정식</a></li>
+  <li><a href="#일변수-이차-미분-방정식" id="toc-일변수-이차-미분-방정식" class="nav-link" data-scroll-target="#일변수-이차-미분-방정식">일변수 이차 미분 방정식</a></li>
+  <li><a href="#다변수-이차-미분-방정식" id="toc-다변수-이차-미분-방정식" class="nav-link" data-scroll-target="#다변수-이차-미분-방정식">다변수 이차 미분 방정식</a></li>
+  </ul></li>
+  <li><a href="#고차-테일러-방법" id="toc-고차-테일러-방법" class="nav-link" data-scroll-target="#고차-테일러-방법"><span class="header-section-number">5</span> 고차 테일러 방법</a></li>
+  <li><a href="#룽게-쿠타-방법" id="toc-룽게-쿠타-방법" class="nav-link" data-scroll-target="#룽게-쿠타-방법"><span class="header-section-number">6</span> 룽게-쿠타 방법</a>
+  <ul class="collapse">
+  <li><a href="#차-룽게-쿠타-방법-rk2" id="toc-차-룽게-쿠타-방법-rk2" class="nav-link" data-scroll-target="#차-룽게-쿠타-방법-rk2">2차 룽게-쿠타 방법 (RK2)</a></li>
+  <li><a href="#차-룽게-쿠타-방법-rk4" id="toc-차-룽게-쿠타-방법-rk4" class="nav-link" data-scroll-target="#차-룽게-쿠타-방법-rk4">4차 룽게-쿠타 방법 (RK4)</a></li>
+  </ul></li>
+  <li><a href="#예제-examples" id="toc-예제-examples" class="nav-link" data-scroll-target="#예제-examples"><span class="header-section-number">7</span> 예제 (Examples)</a>
+  <ul class="collapse">
+  <li><a href="#단순-조화-진동자" id="toc-단순-조화-진동자" class="nav-link" data-scroll-target="#단순-조화-진동자">단순 조화 진동자</a></li>
+  <li><a href="#감쇄-조화-진동자" id="toc-감쇄-조화-진동자" class="nav-link" data-scroll-target="#감쇄-조화-진동자">감쇄 조화 진동자</a></li>
+  <li><a href="#진자pendulum-문제" id="toc-진자pendulum-문제" class="nav-link" data-scroll-target="#진자pendulum-문제">진자(Pendulum) 문제</a></li>
+  <li><a href="#체-문제" id="toc-체-문제" class="nav-link" data-scroll-target="#체-문제">2체 문제</a></li>
+  <li><a href="#initialvalueodeproblem" id="toc-initialvalueodeproblem" class="nav-link" data-scroll-target="#initialvalueodeproblem"><code>InitialValueOdeProblem</code></a></li>
+  <li><a href="#마치며" id="toc-마치며" class="nav-link" data-scroll-target="#마치며">마치며</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">상미분 방정식의 초기값 문제-I</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="미분방정식" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="미분방정식"><span class="header-section-number">1</span> 미분방정식</h2>
+<div class="callout callout-style-simple callout-warning no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><a href="../../src/numerical_analysis_using_julia/A_ode.html">상미분 방정식</a> 을 미리 참고하라.</p>
+</div>
+</div>
+</div>
+<section id="상미분방정식과-편미분-방정식" class="level3">
+<h3 class="anchored" data-anchor-id="상미분방정식과-편미분-방정식">상미분방정식과 편미분 방정식</h3>
+<p>일변수 함수에 대한 미분 연산을 포함하는 방정식을 <strong>상미분방정식 (ordinary differential equation)</strong> 이라고 하며 다변수 함수에 대한 미분연산, 즉 편미분 연산을 표함하는 연산을 <strong>편미분 방정식(partial differential equation)</strong> 이라고 한다. 여기서는 상미분방정식에 대해 다루며 편미분 방정식에 대해서는 이후 다루기로 한다.</p>
+<p><br></p>
+</section>
+<section id="상미분-방정식의-기본-표기법" class="level3">
+<h3 class="anchored" data-anchor-id="상미분-방정식의-기본-표기법">상미분 방정식의 기본 표기법</h3>
+<p><span class="math inline">\([a,\,b]\)</span> 구간에서 <span class="math inline">\(n\)</span> 번 미분 가능하며 그 도함수도 연속인 함수의 집합 <span class="math inline">\(C^n_{[a,\,b]}\)</span> 를 생각하자. 또한 <span class="math inline">\(C^n_{[a,\,b]}\)</span> 에서 정의된 다음과 같은 연산자를 생각하자.</p>
+<p><span class="math display">\[
+\mathcal{L}[\phi(t)] = \left[p_n(t) \dfrac{d^n}{dt^n} + p_{n-1}(t)\dfrac{d^{n-1}}{dt^{n-1}} \cdots + p_1(t)\dfrac{d}{dt} + p_0(t)\right] \phi(t).
+\]</span></p>
+<p>임의의 상수 <span class="math inline">\(a,\,b\)</span> 와 <span class="math inline">\(\phi,\, \psi \in C_{\mathbb{R}}^\infty\)</span> 에 대해</p>
+<p><span class="math display">\[
+\mathcal{L}\left[a\phi (t) + b \psi (t)\right] = a \mathcal{L}\phi(t) + b \mathcal{L}\psi(t)
+\]</span></p>
+<p>를 만족하기 때문에 <span class="math inline">\(\mathcal{L}\)</span> 를 <strong>선형연산자 (linear operator)</strong> 라고 할 수 있다. 연산자에 피연산자에 대한 미분이 포함되는 연산자를 <strong>미분 연산자(differential operator)</strong> 라고 하며, <strong>선형 미분 연산자 (linear differential operator)</strong> 는 미분연산자를 포함하는 선형 연산자를 의미한다.</p>
+<p><br></p>
+<p>미분방정식이 어떤 선형 미분 연산자 <span class="math inline">\(\mathcal{L}\)</span> 에 대해 <span class="math inline">\(\mathcal{L}\phi(t) = 0\)</span> 꼴이 되면 이 미분방정식을 <strong>동차 선형 미분 방정식(homogeneous linear differential equation)</strong> 라고 하며, 그렇지 않으면 <strong>비동차 선형 미분 방정식(inhomogeneous linear differential equation)</strong> 이라고 한다.</p>
+<p>미분방정식에서 최고차 미분항이 <span class="math inline">\(n\)</span> 일 때 <span class="math inline">\(n\)</span> 을 이 미분방정식의 <strong>차수 (order)</strong> 라고 하며, 차수가 <span class="math inline">\(n\)</span> 인 미분방정식을 <span class="math inline">\(n\)</span>-차 미분 방정식이라고 한다. <span class="math inline">\(\dfrac{d^2}{dt^2}x(t) = a\)</span> 는 2차 비동차 선형 미분 방정식이 된다.</p>
+<p><br></p>
+</section>
+<section id="superposition" class="level3">
+<h3 class="anchored" data-anchor-id="superposition">Superposition</h3>
+<p>동차 선형 미분방정식의 경우 <span class="math inline">\(\phi(t),\, \psi(t)\)</span> 가 각각 미분방정식의 해라면 임의의 상수 <span class="math inline">\(a,\,b\)</span> 에 대해 <span class="math inline">\(a \phi(t) + b \psi(t)\)</span> 도 그 해가 된다. 이를 <strong>superposition</strong> 이라고 한다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="상미분-방정식과-초기값-문제" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="상미분-방정식과-초기값-문제"><span class="header-section-number">2</span> 상미분 방정식과 초기값 문제</h2>
+<p><span class="math inline">\(x(t)\)</span> 에 대한 미분방정식이 <span class="math inline">\(x\)</span> 에 대해 최대 <span class="math inline">\(n\)</span> 계 미분까지 포함되었을 경우, <span class="math inline">\(n\)</span>-계 상미분 방정식이라 한다. 일반적으로 <span class="math inline">\(n\)</span> 계 미분 방정식은 다음 꼴로 주어진다.</p>
+<p><span class="math display">\[
+x^{(n)}(t) = f\left(t, x(t), x'(t), \ldots, x^{(n-1)}(t)\right)
+\]</span></p>
+<p>이 방정식과 초기값 <span class="math inline">\(x(t_0),\,x^{(1)}(t_0), \ldots, x^{(n-1)}(t_0)\)</span> 을 통해 <span class="math inline">\(f(t)\)</span> 를 알아내는 것을 <strong>초기값 문제 (initial value problem)</strong> 이라고 한다.</p>
+<p><br></p>
+<section id="계-미분방정식의-경우" class="level3">
+<h3 class="anchored" data-anchor-id="계-미분방정식의-경우">1계 미분방정식의 경우</h3>
+<div class="callout callout-style-simple callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+표기법
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>미분방정식 <span class="math inline">\(x'(t) = f(t,\,x)\)</span> 가 주어졌을 때 이 미분방정식의 해 <span class="math inline">\(x(t)\)</span> 의 <span class="math inline">\(t=t_i\)</span> 에서의 값을 <span class="math inline">\(x(t_i)\)</span> 로 표기한다. 그러나 근사적인 방법으로 풀었을 때 <span class="math inline">\(t_i\)</span> 의 값은 <span class="math inline">\(x_{i}\)</span> 와 같은 형식으로 표기한다.</p>
+</div>
+</div>
+<p><br></p>
+<p>가장 간단한 1계 미분방정식이라면</p>
+<p><span class="math display">\[
+x'(t) = f(t, x(t))
+\]</span></p>
+<p>꼴이며 이 미분방정식을</p>
+<p><span class="math display">\[
+x(t+h) = x(t) + f(t, x(t)) h + O(h^2)
+\]</span></p>
+<p>를 이용하여 1차 근사로 풀 수 있다. 즉 <span class="math inline">\(t_i = t_0 +ih\)</span> 라고 할 때,</p>
+<p><span class="math display">\[
+x_{i+1} = x_i + f(t_i, x_i)h, \qquad i=0,\,1,\,2,\ldots
+\]</span></p>
+<p>로 풀 수 있다. 이것이 잠시 후 다룰 오일러 방법이다. 우리는 앞서 <a href="../../src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html#sec-richardson_extrapolation">리차드슨 외삽법</a> 에서 보았던 것처럼 주변의 복수의 값을 이용하여 정밀도를 높일 수 있다. 즉 <span class="math inline">\(f(t_i, x(t_i))\)</span> 뿐만 아니라 몇몇 <span class="math inline">\(\alpha_j\)</span> 값에 대해 <span class="math inline">\(f(t_i, x(t_i + \alpha_j h))\)</span> 를 선형결합하여</p>
+<p><span class="math display">\[
+\begin{aligned}
+x(t_{i+1}) &amp;= x(t_i) + \sum_j c_j f(t_i, x(t_i + \alpha_j h))h + O(h^k), \\
+&amp;= x(t_i) + \tilde{f}(t_i, h, f,\, \{\alpha_i\}) +O(h^k)
+\end{aligned}
+\]</span></p>
+<p>을 <span class="math inline">\(k&gt;2\)</span> 에 대해 만족하도록 할 수 있다. 이 <span class="math inline">\(\tilde{f}(t_n, h, f,\, \{\alpha_i\})\)</span> 를 얻는 방법에는 오일러 방법, 룽게-쿠타 방법 등 여러가지가 존재한다.</p>
+<p><br></p>
+</section>
+<section id="계-상미분-방정식-시스템의-경우" class="level3">
+<h3 class="anchored" data-anchor-id="계-상미분-방정식-시스템의-경우">1계 상미분 방정식 시스템의 경우</h3>
+<p>상미분 방정식의 시스템도 존재 할 수 있다. 예를 들어, <span class="math inline">\(n\)</span> 개의 다음과 같은 1계 미분방정식이 존재 할 수 있다.</p>
+<p><span class="math display">\[
+x_i(t)  = f_i (t,\,x_1(t),\,x_2(t),\ldots,\,x_n(t)),\qquad i=1,\ldots,n
+\]</span></p>
+<p>이 경우 우리는 <span class="math inline">\(\boldsymbol{x}(t) = \begin{bmatrix}x_1(t) &amp; \cdots &amp; x_n(t)\end{bmatrix}^T\)</span> 로 놓고 다음과 같이 표기 할 수 있다.</p>
+<p><span class="math display">\[
+\boldsymbol{x}'(t) = \begin{bmatrix} f_1 (t,\,\boldsymbol{x}) \\ \vdots \\ f_n (t,\, \boldsymbol{x}_n)\end{bmatrix} = \boldsymbol{f}(t,\,\boldsymbol{x})
+\]</span></p>
+<p>초기조건 <span class="math inline">\(\boldsymbol{x}(t_0) = \boldsymbol{x}_0\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}:[a,\,b] \to \mathbb{R}^m\)</span> 을 구한다고 하자. <span class="math inline">\(\boldsymbol{x} = \begin{bmatrix} x_1(t) &amp; \cdots &amp; x_m(t) \end{bmatrix}^T\)</span> 라 할 때 1변수의 경우와 마찬가지로</p>
+<p><span class="math display">\[
+\boldsymbol{x}(t_{i+1}) =  \boldsymbol{x}(t_i) +\tilde{\boldsymbol{f}}(t_i, h, \boldsymbol{x}, \ldots, \boldsymbol{x}^{(n-1)})
+\]</span></p>
+<p>을 통해 구한다.</p>
+<p><br></p>
+</section>
+<section id="다계-상미분-방정식-시스템의-경우" class="level3">
+<h3 class="anchored" data-anchor-id="다계-상미분-방정식-시스템의-경우">다계 상미분 방정식 시스템의 경우</h3>
+<p>상미분 방정식의 시스템을 이용하여 1계 상미분 방정식 뿐만 아니라 1계 이상의 상미분 방정식에 대해서도 사용 할 수 있다. 예를 들어 <span class="math inline">\(n\)</span> 계 미분방정식</p>
+<p><span class="math display">\[
+x^{(n)}(t) = f(t,\,x,\,x',\ldots,\, x^{n-1})
+\]</span></p>
+<p>이 주어졌을 경우, <span class="math inline">\(y_1(t) = x(t),\, y_2 (t) = x'(t) ,\ldots, y_n (t) = x^{(n-1)}(t)\)</span> 로 놓고 <span class="math inline">\(\boldsymbol{y}(t) = \begin{bmatrix} y_1(t) &amp; \cdots &amp; y_n(t)\end{bmatrix}^T\)</span> 라 하면 위의 미분 방정식은</p>
+<p><span class="math display">\[
+\boldsymbol{y'}(t) = \begin{bmatrix} y'_1(t) \\ \vdots \\ y'_{n-1}(t) \\ y'_n(t)\end{bmatrix} = \begin{bmatrix} y_2(t) \\ \vdots \\ y_{n}(t)  \\ f(t,\, y_1,\ldots,\, y_{n}(t))\end{bmatrix} = \boldsymbol{f}(t,\, \boldsymbol{y})
+\]</span></p>
+<p>가 된다. 다계 상미분 방정식 시스템의 경우도 같은 형태를 가진다는 것을 쉽게 예상 이해 할 수 있을 것이다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="sec-mathematical_foundation_of_ode" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="sec-mathematical_foundation_of_ode"><span class="header-section-number">3</span> 상미분 방정식의 해에 대한 수학적 기반</h2>
+<p>이제 일계 선형미분방정식이 해를 가질 수 있는 수학적 조건에 대해 알아보기로 하자.</p>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-Lipschitz_condition" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 1 (Lipschitz 조건)</strong></span> <span class="math inline">\(D = \{ t,\,\boldsymbol{x} : a \le t \le b,\, \boldsymbol{x}\in \mathbb{R}^n\}\)</span> 에서 연속인 함수 <span class="math inline">\(\boldsymbol{f}(t, \boldsymbol{x}) : D \to \mathbb{R}^n\)</span> 가 모든 <span class="math inline">\((t, \boldsymbol{x}_1),\, (t,\boldsymbol{x}_2)\in D\)</span> 에 대해 어떤 <span class="math inline">\(L&gt;0\)</span> 이 존재하여</p>
+<p><span class="math display">\[
+\|\boldsymbol{f}(t, \boldsymbol{x}_1) - \boldsymbol{f}(t, \boldsymbol{x}_2)\| \le L\| \boldsymbol{x}_1-\boldsymbol{x}_2\|
+\]</span></p>
+<p>를 만족할 때 이 함수 <span class="math inline">\(\boldsymbol{f}\)</span> 는 <span class="math inline">\(D\)</span> 에서 <strong>Lipschitz 조건</strong> 을 만족한다 라고 하며 이때의 <span class="math inline">\(L\)</span> 을 <span class="math inline">\(\boldsymbol{f}\)</span> 에 대한 <strong>Lipschitz 상수</strong> 라고 한다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>아래의 정리는 일계 선형 미분방정식의 초기값 문제의 해의 존재성과 유일성을 말한다. 증명은 꽤나 긴데 여기서는 생략한다. 관심이 있으면 Moris Tenenbaum, Harriy Poland 의 <em>Ordinary Differential Equations</em> 나 J. Store, R. Bulirsch 의 <em>Introduction to Numerical Analysis</em> 와 거기에서의 참고목록을 참고하라.</p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="thm-lipschitz_condtion" class="theorem">
+<p><span class="theorem-title"><strong>정리 1</strong></span> <span class="math inline">\(D = \{ (t,\,\boldsymbol{x}) : a \le t \le b,\, \boldsymbol{x}\in \mathbb{R}^n\}\)</span> 에서 정의된 연속인 함수 <span class="math inline">\(\boldsymbol{f}:D \to \mathbb{R}^n\)</span> 이 Lipshitz 조건을 만족한다면 각각의 <span class="math inline">\((t_0,\, \boldsymbol{x}_0) \in D\)</span> 에 대해 다음을 만족하는 <span class="math inline">\(\boldsymbol{x}:\mathbb{R} \to \mathbb{R}^n\)</span> 이 항상 존재한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{x}\in C^1_{[a,\,b]}\)</span>,</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{x}'(t) = f(t,\, \boldsymbol{x}(t))\)</span>,</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{x}(t_0) =\boldsymbol{x}_0\)</span>.</p>
+</div>
+</div>
+<p><br></p>
+<p>위의 정리는 <span class="math inline">\(\boldsymbol{f}(t,\,\boldsymbol{x})\)</span> 가 Lipschitz 조건을 만족한다면 어떠한 초기조건에 대해서도 <span class="math inline">\(\boldsymbol{x}'(t) = \boldsymbol{f}(t,\,\boldsymbol{x})\)</span> 를 만족하는 <span class="math inline">\(C^1\)</span> 급의 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 가 항상 존재함을 보장한다.</p>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="thm-ode_solution" class="theorem">
+<p><span class="theorem-title"><strong>정리 2</strong></span> <span class="math inline">\(\boldsymbol{f}:D \to \mathbb{R}\)</span> 이 <span class="math inline">\(D\)</span> 에서 연속이며 Lipschitz 상수 <span class="math inline">\(L\)</span> 에 대해 Lipschitz 조건을 만족한다고 하자. 미분방정식 <span class="math inline">\(\boldsymbol{x}' = \boldsymbol{f}(t,\,\boldsymbol{x})\)</span> 에 대해 초기조건이 <span class="math inline">\((t_0,\, \boldsymbol{x}_1)\)</span> 과 <span class="math inline">\((t_0,\, \boldsymbol{x}_2)\)</span> 로 주어졌을 때 각각의 미분방정식의 해를 <span class="math inline">\(\boldsymbol{x}(t;\boldsymbol{x}_1)\)</span>, <span class="math inline">\(\boldsymbol{x}(t,;\boldsymbol{x}_2)\)</span> 라고 하면 다음이 성립한다.</p>
+<p><span class="math display">\[
+\|\boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t; \boldsymbol{x}_2)\| \le e^{L|t-t_0|} \|\boldsymbol{x}_1 -\boldsymbol{x}_2\| .
+\]</span></p>
+</div>
+</div>
+<p><br></p>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{x}' = \boldsymbol{f}(t,\boldsymbol{x})\)</span> 이므로 <span class="math inline">\(\boldsymbol{x}(t) = \boldsymbol{x}_0 + \int_{t_0}^t \boldsymbol{f}(t,\boldsymbol{x})\, dt\)</span> 이다. 따라서 <span class="math display">\[
+\boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2) = \boldsymbol{x}_1 - \boldsymbol{x}_2 + \int_{t_0}^t \left[\boldsymbol{f}(t, \boldsymbol{x}(t,\,\boldsymbol{x}_1)) - \boldsymbol{f}(t, \boldsymbol{x}(t;\boldsymbol{x}_2))\right]\, dt
+\]</span></p>
+<p>이며,</p>
+<p><span id="eq-thm_ode_solution_0"><span class="math display">\[
+\| \boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|  \le \| \boldsymbol{x}_1 - \boldsymbol{x}_2 \| + \int_{t_0}^t \| \boldsymbol{f}(t, \boldsymbol{x}(t,\,\boldsymbol{x}_1)) - \boldsymbol{f}(t, \boldsymbol{x}(t;\boldsymbol{x}_2))\|\, dt
+\tag{1}\]</span></span></p>
+<p>이다. Lipschitz 조건을 이용하면</p>
+<p><span id="eq-thm_ode_solution_1"><span class="math display">\[
+\| \boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|  \le \| \boldsymbol{x}_1 - \boldsymbol{x}_2 \| +  L\int_{t_0}^t \| \boldsymbol{x}(t,\,\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|\, dt
+\tag{2}\]</span></span></p>
+<p>이다. 여기서</p>
+<p><span class="math display">\[
+\Phi(t) := \int_{t_0}^t \| \boldsymbol{x}(t,\,\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|\, dt
+\]</span></p>
+<p>라고 하면 <span class="math inline">\(\Phi'(t) =\| \boldsymbol{x}(t,\,\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|\)</span> 이며, <a href="#eq-thm_ode_solution_1" class="quarto-xref">식&nbsp;2</a> 에 따라</p>
+<p><span class="math display">\[
+\Phi'(t) \le \|\boldsymbol{x}_1-\boldsymbol{x}_2\| + L\Phi(t)
+\]</span></p>
+<p>이다. <span class="math inline">\(\Phi(t_0)=0\)</span> 인데 위식을 미분방정식 <span class="math inline">\(\Phi'(t) = \|\boldsymbol{x}_1-\boldsymbol{x}_2\| + L\Phi(t)\)</span> 와 초기조건 <span class="math inline">\(\Phi(t_0)=0\)</span> 에 대해 풀면</p>
+<p><span class="math display">\[
+\Phi(t) = e^{L(t-t_0)} \int_{t_0}^t \left(\Phi'(s) - L \Phi (s)\right) e^{L(s-t_0)}\, ds
+\]</span></p>
+<p>이다 <span class="math inline">\(\Phi(t)\)</span> 의 정의에 의해 <span class="math inline">\(\Phi(t)\ge 0\)</span> 이며, <span class="math inline">\(\|\Phi(s)-L\Phi(s)\| \le \|\boldsymbol{x}_1-\boldsymbol{x}_2\|\)</span> 이므로 <span class="math inline">\(t&gt;t_0\)</span> 에 대해</p>
+<p><span id="eq-thm_ode_solution_2"><span class="math display">\[
+0 \le \Phi(t) \le e^{L(t-t_0)} \|\boldsymbol{x}_1-\boldsymbol{x}_2 \| \int_{t_0}^t e^{L(s-t_0)}\, ds = \dfrac{\|\boldsymbol{x}_1-\boldsymbol{x}_2\|}{L} (e^{L(t-t_0)}-1)
+\tag{3}\]</span></span></p>
+<p>이다. 따라서 <a href="#eq-thm_ode_solution_1" class="quarto-xref">식&nbsp;2</a> 을 생각하면</p>
+<p><span class="math display">\[
+\|\boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t; \boldsymbol{x}_2)\| \le e^{L|t-t_0|} \|\boldsymbol{x}_1-\boldsymbol{x}_2\|
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:20px;">
+<!-- <div class="border" style="background-color:#F2ECD0  ;padding:20px;"> -->
+<div id="thm-ode-solution_2" class="theorem">
+<p><span class="theorem-title"><strong>정리 3</strong></span> <a href="#thm-ode_solution" class="quarto-xref">정리&nbsp;2</a> 의 조건에 더해 <span class="math inline">\(\boldsymbol{f}\)</span> 의 <span class="math inline">\(\boldsymbol{x}\)</span> 에 대한 야코비 행렬 <span class="math inline">\(\nabla_\boldsymbol{x}\boldsymbol{f}\)</span> 가 <span class="math inline">\(D\)</span> 에서 존재하며 연속이고 유계라면 즉, 모든 <span class="math inline">\((t,\,\boldsymbol{x})\in D\)</span> 에 대해</p>
+<p><span class="math display">\[
+\|\nabla_{\boldsymbol{x}} \boldsymbol{f}(t,\,\boldsymbol{x})\| \le L
+\]</span></p>
+<p>라면 임의의 초기조건 <span class="math inline">\((t_0,\,\boldsymbol{x}_0)\in D\)</span> 에서의 미분방정식 <span class="math inline">\(\boldsymbol{x}'=\boldsymbol{f}(t,\boldsymbol{x})\)</span> 의 해 <span class="math inline">\(\boldsymbol{x}(t;\boldsymbol{x}_0)\)</span> 는 <span class="math inline">\(D\)</span> 에서 연속이며 미분가능하다. 또한 그 도함수</p>
+<p><span class="math display">\[
+\boldsymbol{Z}(t; \boldsymbol{x}_0) := \nabla_{\boldsymbol{x}_0} \boldsymbol{x}(t; \boldsymbol{x}_0)
+\]</span></p>
+<p>는 아래의 미분방정식의 초기값 문제의 해이다.</p>
+<p><span id="eq-ode_solution_2_1"><span class="math display">\[
+\dfrac{d}{dt}\boldsymbol{Z}(t; \boldsymbol{x}_0) = \nabla_{\boldsymbol{x}_0} \boldsymbol{f}(t, \boldsymbol{x}(t; \boldsymbol{x}_0)) \boldsymbol{z},\qquad \boldsymbol{Z}(t_0,\,\boldsymbol{x}_0) = 1.
+\tag{4}\]</span></span></p>
+</div>
+</div>
+<p><br></p>
+<p><span class="math inline">\(\boldsymbol{Z}(t;\boldsymbol{x}_0)\)</span> 와 <span class="math inline">\(\boldsymbol{Z}'(t;\boldsymbol{x}_0)\)</span> 는 <span class="math inline">\(n \times n\)</span> 행렬임에 유의하라. 따라서 <a href="#eq-ode_solution_2_1" class="quarto-xref">식&nbsp;4</a> 은 <span class="math inline">\(n \times n\)</span> 개의 미분방정식을 표현한다.</p>
+<p><br></p>
+</section>
+<section id="오일러-방법-newtons-method" class="level2 page-columns page-full" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="오일러-방법-newtons-method"><span class="header-section-number">4</span> 오일러 방법 (Newton’s method)</h2>
+<p>오일러 방법은 초기값이 주어졌을 때 수치해석적으로 미분방정식의 해를 구하는 가장 간단한 방법이다. 실제적이고 진지한 계산에 사용하기예는 오차가 너무 크지만 상미분방정식의 초기값 문제를 푸는 여러가지 기법과 개념을 익힐 수 있다.</p>
+<section id="전방-오일러-방법과-후방-오일러-방법" class="level3">
+<h3 class="anchored" data-anchor-id="전방-오일러-방법과-후방-오일러-방법">전방 오일러 방법과 후방 오일러 방법</h3>
+<p>아래와 같은 미분방정식</p>
+<p><span class="math display">\[
+x'(t) = \dfrac{dx}{dt} = f(t, x)
+\]</span></p>
+<p>와 초기조건 <span class="math inline">\(x(t_0)\)</span> 이 주어졌다고 하자. 테일러 전개에 의해</p>
+<p><span class="math display">\[
+\begin{aligned}
+x(t+h) &amp;= x(t) + x'(t)h + O(h^2) =  x(t) + f(t, x)h + O(h^2)
+\end{aligned}
+\]</span></p>
+<p>를 이용하는 방법이다. <span class="math inline">\(i=1,\,2,\ldots,\)</span> 에 대해 <span class="math inline">\(t_i = t_1 + ih\)</span> 로 놓고</p>
+<p><span id="eq-forward_euler_method"><span class="math display">\[
+x_{i+1} =  x_i + f(t_i, x_i) h
+\tag{5}\]</span></span></p>
+<p>로 근사한다. 이 때 <span class="math inline">\(t_i,\,i=0,\,1,\ldots\)</span> 를 <strong>mesh point</strong> 라고 한다. 이렇게 <span class="math inline">\(x_{i+1} =  x_i + f(t_i, x_i) h\)</span> 로 근사하는 오일러 방법을 <strong>전방 오일러 방법 (forward Euler method)</strong> 혹은 <strong>양함수적 오일러 방법(explicit Euler method)</strong> 라고 한다. 보통 <strong>오일러 방법(Euler method)</strong> 라고 할 때는 전방 오일러 방법을 의미한다. 이에 반해</p>
+<p><span class="math display">\[
+x(t-h) = x(t) - x'(t)h + O(h) = x(t) -  f(t,\,x)h +O(h^2)
+\]</span></p>
+<p>로 놓고 <span class="math inline">\(t_i = t-h,\, t_{i+1}=t\)</span> 라 고 하면,</p>
+<p><span id="eq-backward_euler_method"><span class="math display">\[
+x_{i+1} = x_i + f(t_{i+1},\,x_{i+1})h
+\tag{6}\]</span></span></p>
+<p>을 얻는다. 이를 통해 <span class="math inline">\(x(t)\)</span> 를 얻는 방법을 <strong>후방 오일러 방법(backward Euler method)</strong> 혹은 <strong>음함수적 오일러 방법(implicit Euler method)</strong> 라고 한다. 음함수적이라는 이름이 붙는 이유는 <span class="math inline">\(f(t,\,x)\)</span> 함수가 <span class="math inline">\(x\)</span> 에 의존할 경우 <a href="#eq-backward_euler_method" class="quarto-xref">식&nbsp;6</a> 는 우리가 이미 알고 있는 <span class="math inline">\(t_i\)</span> 와 <span class="math inline">\(x(t_i)=x_i\)</span> 에 대해</p>
+<p><span class="math display">\[
+\overline{x} - x_i + f(t_i, \overline{x})=0
+\]</span></p>
+<p>이라는 음함수 형태의 방정식의 해로서 <span class="math inline">\(x_{i+1}=\overline{x}\)</span> 를 구해야 하기 때문이다. 이 경우에도 <span class="math inline">\(f(t,\,x)= f(t)\)</span> 라면 쉽게 구할 수 있다.</p>
+<p><br></p>
+</section>
+<section id="다변수-일차-미분-방정식" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="다변수-일차-미분-방정식">다변수 일차 미분 방정식</h3>
+<p><span class="math inline">\(\boldsymbol{x}:\mathbb{R}\to \mathbb{R}^n\)</span> 이며 <span class="math inline">\(x_j(t)\)</span> 가 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 의 <span class="math inline">\(j\)</span> 번째 성분일 때 미분방정식이 <span class="math inline">\(\boldsymbol{f}:\mathbb{R}^{n+1}\to \mathbb{R}^n\)</span> 에 대해</p>
+<p><span class="math display">\[
+\boldsymbol{x}'(t)=\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
+\]</span></p>
+<p>로 주어지고, 초기값 <span class="math inline">\(t_0,\,\boldsymbol{x}(t_0)\)</span> 가 주어졌을 때 가장 간단하게 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 를 구하는 방법이다. 테일러 전개를 이용하면,</p>
+<p><span class="math display">\[
+x_j(t + h) = x_j(t) + x_j'(t)h+ \dfrac{x_j''(\xi)}{2}h^2
+\]</span></p>
+<p>를 만족하는 <span class="math inline">\(\xi\in (t,\, t+h)\)</span> 이 존재한다는 것을 안다. 이 때 <span class="math inline">\(|h | \ll 1\)</span> 이면,</p>
+<p><span class="math display">\[
+x_j(t + h) \approx x_j(t) + x_i'(t)h
+\]</span></p>
+<p>임을 이용하는 것이 오일러 방법이다.</p>
+<p><span class="math inline">\(t_{i+1}=t_i+h\)</span> 일 때,</p>
+<p><span class="math display">\[
+\boldsymbol{x}_{i+1} = \boldsymbol{x}_i + \boldsymbol{f}(t_i, \boldsymbol{x}_i) \, h
+\]</span></p>
+<p>를 이용하여 <span class="math inline">\(\boldsymbol{x}_{i+1}\)</span> 값을 구한다. 아래와 같이 julia 로 구현 할 수 있다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 일변수에 대한 오일러 방법</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_euler</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    fp<span class="op">::</span><span class="dt">Function</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    t0<span class="op">::</span><span class="dt">Real</span>, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    x0<span class="op">::</span><span class="dt">Real</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    Npoints<span class="op">::</span><span class="dt">Integer</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1.0e-6</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> t0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> h</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    xn <span class="op">=</span> <span class="fu">zero</span>(tn)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    xn[<span class="fl">1</span>] <span class="op">=</span> x0</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        xn[i<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> xn[i] <span class="op">+</span> <span class="fu">fp</span>(tn[i], xn[i])<span class="op">*</span> h</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tn, xn</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 다변수에 대한 오일러 방법</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_euler</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    fp<span class="op">::</span><span class="dt">Vector{&lt;:Function}</span>, </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    t0<span class="op">::</span><span class="dt">Real</span>, </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    x0<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    Npoints<span class="op">::</span><span class="dt">Integer</span>, </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1.0e-6</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> t0 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> h</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    xn <span class="op">=</span> <span class="fu">zeros</span>((<span class="fu">length</span>(x0), <span class="fu">length</span>(tn)))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    xn[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> x0</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        xn[<span class="op">:</span>, i<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> xn[<span class="op">:</span>, i] <span class="op">.+</span> [<span class="fu">f</span>(t) for (f, t) <span class="op">∈</span> <span class="fu">zip</span>(fp, tn[i])] <span class="op">.*</span> h</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tn, xn</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><span class="math inline">\(f(x,\,y)\)</span> 가 변수 2개에 대한 함수일 때는 위의 함수를 약간 수정하여 구현 할 수 있을 것이다.</p>
+<p>우리는 <span class="math inline">\(y'= e^x,\, y(0)=1\)</span> 일 때, <span class="math inline">\(y=e^x\)</span> 임을 알고 있다. 아래 그림은 위의 <code>ode_euler</code> 함수를 이용하여 미분방정식을 푼 값과, 실제 함수값을 비교해 보았다.</p>
+<p><br></p>
+<div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class="margin-aside"><code>LaTeXStrings</code> 는 <span class="math inline">\(\LaTeX\)</span> 의 수식을 사용 할 수 있도록 해 주는 패키지이다.</span></div></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LaTeXStrings</span>, <span class="bu">Plots</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, x)<span class="fu">-&gt;exp</span>(t), <span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">500</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn, lw <span class="op">=</span> <span class="fl">2</span>, frame <span class="op">=</span> <span class="op">:</span>box, label <span class="op">=</span> <span class="st">"Euler method"</span>)<span class="co">#, dpi=300)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(tn, <span class="fu">exp</span>.(tn), lw<span class="op">=</span><span class="fl">2</span>, ls <span class="op">=</span> <span class="op">:</span>dash, label <span class="op">=</span> L<span class="st">"f(t) = e^t"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//euler_method.png" class="img-fluid figure-img" width="600"></p>
+<figcaption>Euler 방법</figcaption>
+</figure>
+</div>
+<p><br></p>
+<p>다변수 오일러 방법을 사용해 볼 수 있는 문제중의 하나는 로렌츠 방정식이다.</p>
+<p><span id="eq-lorentz_equation"><span class="math display">\[
+\begin{aligned}
+\dfrac{dx}{dt} &amp;  = \sigma (y-x), \\
+\dfrac{dy}{dt} &amp; = x(\rho - z)-y, \\
+\dfrac{dz}{dt} &amp;= xy-\beta z.
+\end{aligned}
+\tag{7}\]</span></span></p>
+<p><span class="math inline">\(\boldsymbol{x} =\begin{bmatrix} x &amp; y &amp; z\end{bmatrix}^T\)</span> 로 놓고 다변수 오일러 방법을 통해 구해보자. 어떤 조건에서 위의 미분방정식의 해가 나비를 닮았기 때문에 함수 이름을 <code>butterfly3d</code> 로 하였다. <span class="math inline">\(\sigma=10\)</span>, <span class="math inline">\(\rho=28\)</span>, <span class="math inline">\(\beta=8/3\)</span> 일 때,</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">butterfly3d</span>(v, σ<span class="op">::</span><span class="dt">Real</span>, ρ<span class="op">::</span><span class="dt">Real</span>, β<span class="op">::</span><span class="dt">Real</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="fu">σ*</span>(v[<span class="fl">2</span>]<span class="op">-</span>v[<span class="fl">1</span>]), v[<span class="fl">1</span>]<span class="fu">*</span>(ρ <span class="op">-</span> v[<span class="fl">3</span>])<span class="op">-</span>v[<span class="fl">2</span>], v[<span class="fl">1</span>]<span class="op">*</span>v[<span class="fl">2</span>]<span class="op">-</span>β<span class="op">*</span>v[<span class="fl">3</span>]]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, v)<span class="fu">-&gt;butterfly3d</span>(v, <span class="fl">10</span>, <span class="fl">28</span>, <span class="fl">8</span><span class="op">/</span><span class="fl">3</span>), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>], <span class="fl">4000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>를 통해 얻은 궤적을 그리면 다음과 같다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Plot</span>, <span class="bu">LaTeXStrings</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>p0 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">1</span>,<span class="op">:</span>], xn[<span class="fl">2</span>,<span class="op">:</span>], xn[<span class="fl">3</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"xyz"</span>, dpi<span class="op">=</span><span class="fl">300</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">1</span>,<span class="op">:</span>], xn[<span class="fl">2</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"xy"</span>, color<span class="op">=:</span>red)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">2</span>,<span class="op">:</span>], xn[<span class="fl">3</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"yz"</span>, color<span class="op">=:</span>green)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">3</span>,<span class="op">:</span>], xn[<span class="fl">1</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"zx"</span>, color<span class="op">=:</span>blue)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(p0, p1, p2, p3, layout<span class="op">=</span><span class="fl">4</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//lorentz.png" class="img-fluid figure-img" width="600"></p>
+<figcaption>로렌츠 방정식</figcaption>
+</figure>
+</div>
+<p><br></p>
+</section>
+<section id="일변수-이차-미분-방정식" class="level3">
+<h3 class="anchored" data-anchor-id="일변수-이차-미분-방정식">일변수 이차 미분 방정식</h3>
+<p><span class="math inline">\(\dfrac{d^2x}{dt^2} = f(t, x, x')\)</span> 으로 주어진 미분방정식과 초기값 <span class="math inline">\(x(t_1),\, x'(t_1)\)</span> 이 주어졌다고 하자. <span class="math inline">\(y(t) = x'(t)\)</span> 라고 하면,</p>
+<p><span class="math display">\[
+\begin{aligned}
+y'(t) &amp;= f(t, x, y), \\
+x'(t) &amp;= y(t)
+\end{aligned}
+\]</span></p>
+<p>라는 2변수에 대한 1차 미분방정식 꼴이 된다. 즉, <span class="math inline">\(\boldsymbol{y} = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}\)</span> 로 놓았을 때의 이변수 일차 미분방정식이다.</p>
+<p>가장 간단한 1차원 조화진동자 문제를 보자. 미분방정식이</p>
+<p><span id="eq-sho1d"><span class="math display">\[
+\dfrac{d^2 x(t)}{dt^2} = -k\cdot x(t)
+\tag{8}\]</span></span></p>
+<p>로 주어졌을 때 <span class="math inline">\(\boldsymbol{x}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}\)</span> 로 놓으면,</p>
+<p><span class="math display">\[
+\boldsymbol{y}(t+h) = \begin{bmatrix} x(t+h) \\ x'(t+h)\end{bmatrix} = \begin{bmatrix} x(t) + x'(t)h \\ x'(t) -k  x(t) h \end{bmatrix} = \boldsymbol{y}(t) + h\begin{bmatrix} 0 &amp; 1\\ -k &amp; 0\end{bmatrix} \boldsymbol{y}(t)
+\]</span></p>
+<p>이를 위해 다음과 같은 코드를 작성하였으며 그래프로 그려보면 다음과 같다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sho1d</span>(y<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, k<span class="op">::</span><span class="dt">Real</span>, x0<span class="op">=</span><span class="fl">0.0</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="fl">2</span>], <span class="fu">-k*</span>(y[<span class="fl">1</span>]<span class="op">-</span>x0)]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn[<span class="fl">1</span>,<span class="op">:</span> ], label <span class="op">=</span> <span class="op">:</span>none)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem/euler_sho1d.png" class="img-fluid figure-img" width="600"></p>
+<figcaption>오일러 방법으로 계산한 1차원 조화진동자</figcaption>
+</figure>
+</div>
+<p>1차원 조화진동자는 잘 알려져 있다 시피 삼각함수로 그 진폭이 커지면 안되지만 여기서는 커지는데 이것은 오일러 방법이 기본적으로 에러에 취약하기 때문이다. 이로 인해 실제 계산에서는 오일러 방법은 잘 사용되지 않는다.</p>
+<p><br></p>
+</section>
+<section id="다변수-이차-미분-방정식" class="level3">
+<h3 class="anchored" data-anchor-id="다변수-이차-미분-방정식">다변수 이차 미분 방정식</h3>
+<p><span class="math inline">\(\dfrac{d^2\boldsymbol{x}}{dt^2} = \boldsymbol{f}(t, \boldsymbol{x}, \boldsymbol{x}')\)</span> 으로 주어진 미분방정식은,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{v}(t_{i}+h) &amp;=\boldsymbol{v}(t_i) + \boldsymbol{f}(t, \boldsymbol{x}(t_i), \boldsymbol{v}(t_i)) h,\\
+\boldsymbol{x}(t_i+h) &amp;=\boldsymbol{x}(t_i) + \boldsymbol{v}(t_i)h
+\end{aligned}
+\]</span></p>
+<p>와 같이 2개의 1차 미분방정식에 대한 오일러 방법에 의한 해로 주어진다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="고차-테일러-방법" class="level2 page-columns page-full" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="고차-테일러-방법"><span class="header-section-number">5</span> 고차 테일러 방법</h2>
+<p>미분방정식이 아래와 같이 주어졌다고 하자. <span class="math display">\[
+\dfrac{d}{dt}x(t) = f(t,\,x),\qquad x(t_0) = x_0
+\]</span></p>
+<div class="page-columns page-full"><p>만약 <span class="math inline">\(f(x,\,t)\)</span> 에 대한 <span class="math inline">\(k\)</span> 차 도함수를 구할 수 있다면 <span class="math inline">\(x(t)\)</span> 에 대한 테일러 전개는 다음과 같다. </p><div class="no-row-height column-margin column-container"><span class="margin-aside">두말하면 잔소리지만 <span class="math inline">\(\dfrac{df}{dt} = \dfrac{\partial f}{\partial t} + \dfrac{\partial f}{\partial x}\dfrac{dx}{dt}\)</span> 임에 유의하라.</span></div></div>
+<p><span class="math display">\[
+x(t_{i+1}) = x(t_i) + f(t_i,\, x_i)h + \dfrac{1}{2}\dfrac{df}{dt }(t_i,\,x_i)h^2 + \cdots + \dfrac{1}{(k+1)!}\dfrac{d^k f}{dt^k}(t_i,\,x_i) h^{k+1} + O(h^{k+2}).
+\]</span></p>
+<p>이 방법은 <span class="math inline">\(f(t,\,x)\)</span> 에 대한 <span class="math inline">\(k\)</span> 차 도함수 자체를 쉽게 구할 수 있는 경우에 사용할 수 있다. 참고로 다음에 다룰 룽게-쿠타 방법은 실제 <span class="math inline">\(k\)</span> 차 도함수가 아닌 수치해석적으로 계산한 <span class="math inline">\(k\)</span> 차 도함수의 값을 사용한다.</p>
+<p><br></p>
+</section>
+<section id="룽게-쿠타-방법" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="룽게-쿠타-방법"><span class="header-section-number">6</span> 룽게-쿠타 방법</h2>
+<section id="차-룽게-쿠타-방법-rk2" class="level3">
+<h3 class="anchored" data-anchor-id="차-룽게-쿠타-방법-rk2">2차 룽게-쿠타 방법 (RK2)</h3>
+<p>역시 <span class="math display">\[
+\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
+\]</span></p>
+<p>와 초기조건 <span class="math inline">\(\boldsymbol{x}_0 = \boldsymbol{f}(t_0)\)</span> 가 주어졌다고 하자. <span class="math inline">\(\boldsymbol{x}\)</span> 와 <span class="math inline">\(\boldsymbol{f}(t,\boldsymbol{x})\)</span> 의 <span class="math inline">\(j\)</span> 번째 성분을 각각 <span class="math inline">\(x_j,\, f_j(t,\,\boldsymbol{x})\)</span> 라고 하면,</p>
+<p><span class="math display">\[
+\dfrac{d^2 x_j}{dt^2 } = \dfrac{d}{dt}f_j(t, \,\boldsymbol{x}) = \dfrac{\partial f_j}{\partial t} + \sum_k\dfrac{dx_k}{dt} \cdot \dfrac{\partial f_j}{\partial x_k}
+\]</span></p>
+<p>라는 것을 안다. 이것을 이용하여 2차항까지 테일러 전개를 하면, <span class="math display">\[
+\begin{aligned}
+x_j(t+h) &amp; = x_j(t) + \dfrac{dx_j}{dt}h  + \dfrac{1}{2}\dfrac{d^2 x_j}{dt^2}h^2 + \cdots \\
+&amp;= x_j(t)  + f_j(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_j}{\partial t} + \sum_k \dfrac{dx_k}{dt} \dfrac{\partial f_j}{\partial x_k}\right) h^2 + \cdots \\
+&amp;= x_j(t)  + f_j(t, \boldsymbol{x})\, h + \dfrac{1}{2} \left(\dfrac{\partial f_j}{\partial t} + \sum_k f_k(t,\,\boldsymbol{x}) \dfrac{\partial f_i}{\partial x_k}\right) h^2 + \cdots
+\end{aligned}
+\]</span></p>
+<p>이다. 이 때,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{k}_1 &amp;= \boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \,,\\
+\boldsymbol{k}_2 &amp;= \boldsymbol{f}\left( t_i + \dfrac{h}{2},\, \boldsymbol{x}(t_i) + \dfrac{h}{2} \boldsymbol{k}_1\right)
+\end{aligned}
+\]</span></p>
+<p>라 하자. 그렇다면, 야코비 행렬 <span class="math inline">\(\left(\boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i))\right)_{jk} = \dfrac{\partial f_j}{\partial x_k}(t_i, \boldsymbol{x}(t_i))\)</span> 에 대해</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{k}_2 &amp;= \boldsymbol{f}(t_i,\, \boldsymbol{x}(t_i)) +  \dfrac{h}{2} \dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_n)) + \dfrac{h}{2} \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \\
+&amp;= \boldsymbol{k}_1 + \dfrac{h}{2} \left(\dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \right)
+\end{aligned}
+\]</span></p>
+<p>이므로,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 &amp; = \dfrac{2}{h}(\boldsymbol{k}_2-\boldsymbol{k}_1)
+\end{aligned}
+\]</span></p>
+<p>이다. 이를 이용하면,</p>
+<p><span class="math display">\[
+\boldsymbol{x}(t_{i+1}) = \boldsymbol{x}(t_i) + \boldsymbol{k}_1h + \dfrac{h^2}{2} \dfrac{2}{h} (\boldsymbol{k}_2-\boldsymbol{k}_1) = \boldsymbol{x}(t_i)+ \dfrac{h}{2}(\boldsymbol{k}_1+\boldsymbol{k}_2)
+\]</span></p>
+<p>을 얻는다. 이것을 2차 룽게-쿠타 방법(RK2)이라 한다.</p>
+<p><br></p>
+</section>
+<section id="차-룽게-쿠타-방법-rk4" class="level3">
+<h3 class="anchored" data-anchor-id="차-룽게-쿠타-방법-rk4">4차 룽게-쿠타 방법 (RK4)</h3>
+<p>2차 룽게 쿠타 방법은 테일러 전개의 2차항까지 사용하였다. 4차 룽게-쿠타 방법(RK4)은 테일러 전개의 4차항까지 사용한다. <span class="math display">\[
+\boldsymbol{x}(t+h)  = \boldsymbol{x}(x) + \boldsymbol{x}'(x) h + \dfrac{\boldsymbol{x}''(t)}{2} h^2 + \dfrac{\boldsymbol{x}^{(3)}(t)}{6}h^3 + \dfrac{\boldsymbol{x}^{(4)}(t)}{24}h^4 + \cdots
+\]</span></p>
+<p>아래와 같이 <span class="math inline">\(\boldsymbol{k}_1,\,\boldsymbol{k}_2,\,\boldsymbol{k}_3,\,\boldsymbol{k}_4\)</span> 를 정의하면, <span class="math display">\[
+\begin{aligned}
+\boldsymbol{k}_{1} &amp;= \boldsymbol{f}(t_{i},\, \boldsymbol{x}(t_{i})),\\
+\boldsymbol{k}_{2}&amp;=\ \boldsymbol{f}\!\left( t_{i}+{\frac {h}{2}},\, \boldsymbol{x}(t_{i})+ \frac{h}{2}\boldsymbol{k}_{1}\right),\\
+\boldsymbol{k}_{3}&amp;=\ \boldsymbol{f}\!\left(t_{i}+{\frac {h}{2}},\,  \boldsymbol{x}(t_{i})+\frac{h}{2} \boldsymbol{k}_{2}\right),\\
+\boldsymbol{k}_{4}&amp;=\ \boldsymbol{f}\!\left(t_{i}+h,\, \boldsymbol{x}(t_{i})+h\boldsymbol{k}_{3}\right).
+\end{aligned}
+\]</span></p>
+<p>4차항까지의 테일러 전개가 아래와 같다는 것을 보일 수 있다. 아주 지루한 과정이므로 여기서는 생략한다. <span class="math display">\[
+\begin{aligned}
+t_{i+1}&amp;=t_{i}+h, \\
+\boldsymbol{x}(t_{i+1})&amp;=\boldsymbol{x}(t_{i})+{\frac {h}{6}}\left(\boldsymbol{k}_{1}+2 \boldsymbol{k}_{2}+2\boldsymbol{k}_{3}+\boldsymbol{k}_{4}\right).
+\end{aligned}
+\]</span></p>
+<p>RK2 및 RK4 이용하여 상미분 방정식을 푸는 julia 코드는 아래와 같다. 모두 이변수 함수 <code>f</code> 와 초기값 <code>x0</code>, <code>y0</code>, 위의 <span class="math inline">\(h\)</span> 에 해당하는 값 <code>epsilon</code> 과 초기 값을 포함하여 몇개의 점에 대해 얻을지에 대한 <code>Npoints</code> 를 인자로 받는다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_rk2</span>(f<span class="op">::</span><span class="dt">Function</span>, </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    t1<span class="op">::</span><span class="dt">Real</span>, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    x1<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    Npoints<span class="op">::</span><span class="dt">Integer</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1.0e-6</span>) </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> t1 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> h</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    xn <span class="op">=</span> <span class="fu">zeros</span>((<span class="fu">length</span>(x1), <span class="fu">length</span>(tn)))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    xn[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> x1</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        k1 <span class="op">=</span> <span class="fu">f</span>(tn[i], xn[<span class="op">:</span>,i])</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        k2 <span class="op">=</span> <span class="fu">f</span>(tn[i] <span class="op">+</span> h<span class="op">/</span><span class="fl">2</span>, xn[<span class="op">:</span>, i] <span class="op">.+</span> k1<span class="op">.*</span>(h<span class="op">/</span><span class="fl">2</span>))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        xn[<span class="op">:</span>, i<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> xn[<span class="op">:</span>,i] <span class="op">.+</span> (k1 <span class="op">.+</span> k2) <span class="op">.*</span>(h<span class="op">/</span><span class="fl">2</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tn, xn</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">ode_rk4</span>(f<span class="op">::</span><span class="dt">Function</span>, </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    t1<span class="op">::</span><span class="dt">Real</span>, </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    x1<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    Npoints<span class="op">::</span><span class="dt">Integer</span>, </span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> <span class="fl">1.0e-6</span>) </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> t1 <span class="op">.+</span> <span class="fu">collect</span>(<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)) <span class="op">*</span> h</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    xn <span class="op">=</span> <span class="fu">zeros</span>((<span class="fu">length</span>(x1), <span class="fu">length</span>(tn)))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    xn[<span class="op">:</span>,<span class="fl">1</span>] <span class="op">=</span> x1</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>(Npoints<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        k1 <span class="op">=</span> <span class="fu">f</span>(tn[i], xn[<span class="op">:</span>, i])</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        k2 <span class="op">=</span> <span class="fu">f</span>(tn[i] <span class="op">+</span> h<span class="op">/</span><span class="fl">2</span>, xn[<span class="op">:</span>, i] <span class="op">.+</span> k1<span class="op">.*</span>(h<span class="op">/</span><span class="fl">2</span>))</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        k3 <span class="op">=</span> <span class="fu">f</span>(tn[i] <span class="op">+</span> h<span class="op">/</span><span class="fl">2</span>, xn[<span class="op">:</span>,i] <span class="op">.+</span> k2 <span class="op">.*</span>(h<span class="op">/</span><span class="fl">2</span>))</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        k4 <span class="op">=</span> <span class="fu">f</span>(tn[i] <span class="op">+</span> h, xn[<span class="op">:</span>, i] <span class="op">.+</span> k3 <span class="op">.*</span> h)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        xn[<span class="op">:</span>, i<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> xn[<span class="op">:</span>, i] <span class="op">.+</span> (k1 <span class="op">.+</span> (<span class="fl">2.0</span> <span class="op">.*</span> k2) <span class="op">.+</span> (<span class="fl">2.0</span> <span class="op">.*</span> k3) <span class="op">.+</span> k4)<span class="op">.*</span>(h<span class="op">/</span><span class="fl">6</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tn, xn</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>오일러 방법에서 사용했던 로렌츠 방저식에 대한 사용법은 아래와 같다.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_rk2</span>((t, x)<span class="fu">-&gt;butterfly3d</span>(x, <span class="fl">10</span>, <span class="fl">28</span>, <span class="fl">8</span><span class="op">/</span><span class="fl">3</span>), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>], <span class="fl">50000</span>, <span class="fl">1.0e-3</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xn[<span class="fl">1</span>,<span class="op">:</span>], xn[<span class="fl">2</span>,<span class="op">:</span>], xn[<span class="fl">3</span>,<span class="op">:</span>], label<span class="op">=</span><span class="st">"RK2"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem/lorentz_rk2.png" class="img-fluid figure-img" width="600"></p>
+<figcaption>RK2를 이용한 로렌츠 방정식의 궤적</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//lorentz_rk4.png" class="img-fluid figure-img" width="600"></p>
+<figcaption>RK4를 이용한 로렌츠 방정식의 궤적</figcaption>
+</figure>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="예제-examples" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="예제-examples"><span class="header-section-number">7</span> 예제 (Examples)</h2>
+<section id="단순-조화-진동자" class="level3">
+<h3 class="anchored" data-anchor-id="단순-조화-진동자">단순 조화 진동자</h3>
+<p><a href="#eq-sho1d" class="quarto-xref">식&nbsp;8</a> 로 주어진 단순 조화 진동자 문제를 오일러 방법과 RK2, RK4 로 풀어보자. 오일러 방법에서와 같이 <span class="math inline">\(\boldsymbol{x}(t) = \begin{bmatrix} x(t) \\ x'(t) \end{bmatrix}\)</span> 로 로 놓고 수치해석적으로 풀 수 있다.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">sho1d</span>(y<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, k<span class="op">::</span><span class="dt">Real</span>, x0<span class="op">=</span><span class="fl">0.0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="fl">2</span>], <span class="fu">-k*</span>(y[<span class="fl">1</span>]<span class="op">-</span>x0)]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>tn1, xn1 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>그 결과를 그래프로 그리면 다음과 같다.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem/sho1d_rk.png" class="img-fluid figure-img" width="600"></p>
+<figcaption>RK 방법으로 푼 단순조화진동자</figcaption>
+</figure>
+</div>
+<p><br></p>
+<p>오일러 방법이나 RK2 방법에서는 실제의 해와 많이 다르게 진폭(amplitude) 가 증가하지만 RK4 방법에서는 최소한 우리가 관찰한 영역에서는 진폭이 증가하지 않는다.</p>
+<p><br></p>
+</section>
+<section id="감쇄-조화-진동자" class="level3">
+<h3 class="anchored" data-anchor-id="감쇄-조화-진동자">감쇄 조화 진동자</h3>
+<p><span class="math display">\[
+m \dfrac{d^2x}{dt^2} + \gamma \dfrac{dx}{dt} + kx=0
+\]</span></p>
+<p>로 기술되는 <span class="math inline">\(x(t)\)</span> 를 감쇄조화진동자라 한다. 일단 방정식을 간단히 하자.</p>
+<p><span class="math display">\[
+\dfrac{d^2x}{dt^2} + \dfrac{\gamma}{m}\dfrac{dx}{dt} + \dfrac{k}{m} x = 0
+\]</span></p>
+<p><span class="math inline">\(v=x'(t)\)</span> 라 하면 <span class="math inline">\(v'(t) = -\dfrac{\gamma}{m}\dfrac{dx}{dt} - \dfrac{k}{m} x\)</span> 이므로,</p>
+<p><span class="math display">\[
+\dfrac{d}{dt} \begin{bmatrix} x \\ v\end{bmatrix} = \begin{bmatrix} v \\ -\dfrac{\gamma}{m}v - \dfrac{k}{m} x\end{bmatrix}
+\]</span></p>
+<p>이다.</p>
+<p>많은 고전물리학이나 미분방정식 교재에 이 감쇄조화진동자가 나와 있다. 감쇄조화진동자의 해는 다음과 같다.</p>
+<p><span class="math display">\[
+x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \left(-\sqrt{-\omega^2}\right)\right]\qquad \text{where }  \lambda  =\dfrac{\gamma}{2m},\, \omega^2 = \dfrac{k}{m}-\dfrac{\gamma^2}{4m^2}
+\]</span></p>
+<p>이다. 여기서 <span class="math inline">\(a,\,b\)</span> 는 초기조건 <span class="math inline">\(x(t=0),\, \dot{x}(t=0)\)</span> 에 의해 정해진다.</p>
+<p><span class="math inline">\(\omega_0^2 &gt;0\)</span> 이면 <span class="math inline">\(x(t)\)</span> 의 <span class="math inline">\([\,\cdots]\)</span> 부분이 <span class="math inline">\(\cos\)</span> 함수 (혹은 <span class="math inline">\(\sin\)</span> 함수) 꼴로 나타날 수 있으므로 진폭이 점점 줄어드는 진동을 한다. 이를 <em>underdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 &lt;0\)</span> 이면 진동 없이 감쇄만 하게 되며 이를 <em>overdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 = 0\)</span> 일 경우를 <em>critical damping</em> 이라 한다.</p>
+<p><span class="math inline">\(m=1,\, \gamma=1,\, k=1\)</span> 과 <span class="math inline">\(x(t=0)=0,\, \dot{x}(t=0)=1\)</span> 일 때에 대해 오일러 방법, 2차 및 4차 룽게 쿠타 방법과, 해석적 해를 같이 그려보자.</p>
+<p><br></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//dho1d_rk.png" class="img-fluid figure-img" width="600"></p>
+<figcaption>감쇄조화진동자</figcaption>
+</figure>
+</div>
+<p><br></p>
+</section>
+<section id="진자pendulum-문제" class="level3">
+<h3 class="anchored" data-anchor-id="진자pendulum-문제">진자(Pendulum) 문제</h3>
+<p><img src="ch10_ode_initial_value_problem/simple pendulum.png" width="250"></p>
+<p><br></p>
+<p>중력가속도 <span class="math inline">\(g\)</span> 의 영향을 받는 길이 <span class="math inline">\(L\)</span>인 진자의 운동은 다음의 미분방정식으로 기술된다.</p>
+<p><span class="math display">\[
+\dfrac{d^2 \theta}{dt^2} = -\dfrac{g}{L} \sin \theta
+\]</span></p>
+<p>보통 <span class="math inline">\(\theta\)</span> 가 아주 작을 때 <span class="math inline">\(\sin \theta \approx \theta\)</span> 로 가정하여 풀면</p>
+<p><span class="math display">\[
+\dfrac{d^2\theta}{dt^2}= -\left( \dfrac{g}{L} \right)\theta
+\]</span></p>
+<p>이므로 단순조화진동자 문제이다.</p>
+<p>이제 수치적으로 풀어보자. <span class="math inline">\(\phi= \dfrac{d\theta}{dt}\)</span>, <span class="math inline">\(\boldsymbol{x} = \begin{bmatrix} \theta \\ \phi \end{bmatrix}\)</span> 라 하면,</p>
+<p><span class="math display">\[
+\dfrac{d}{dt}\begin{bmatrix} \theta \\ \phi \end{bmatrix} = \begin{bmatrix} \phi \\ -g/L \sin \theta  \end{bmatrix}
+\]</span></p>
+<p>가 된다. <span class="math inline">\(g=9.8,\, L=5.0\)</span>, 시간 간격을 <span class="math inline">\(1\times 10^{-2}\)</span> 잡고 미분방정식을 3가지 방법으로 풀면</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">pendulum</span>(y<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, g<span class="op">=</span><span class="fl">9.8</span>, l<span class="op">=</span><span class="fl">2</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="fl">2</span>], <span class="op">-</span>g<span class="op">/</span><span class="fu">l*sin</span>(y[<span class="fl">1</span>])]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>g, l <span class="op">=</span> <span class="fl">9.8</span>, <span class="fl">5.0</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>tn1, xn1 <span class="op">=</span> <span class="fu">ode_euler</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>tn3, xn3 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch10_ode_initial_value_problem//ode_pendulum.png" class="img-fluid figure-img"></p>
+<figcaption>진자</figcaption>
+</figure>
+</div>
+<p><br></p>
+<p>와 같다. 오일러 방법은 비교적 빠르게, RK2 는 비교적 느리게 발산하지만 RK4 는 시간 범위 내에서 안정적임을 알 수 있다.</p>
+<p><br></p>
+</section>
+<section id="체-문제" class="level3">
+<h3 class="anchored" data-anchor-id="체-문제">2체 문제</h3>
+<p>중력에 의한 2체 문제를 생각해보자. <span class="math inline">\(m_1\)</span> 과 <span class="math inline">\(m_2\)</span> 의 질량을 갖는 두 점입자가 오직 만유인력에 의해서만 영향을 받아 움직일 때, 그 운동은 다음의 2차 미분방정식에 의해 기술된다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+m_1\ddot{\boldsymbol{r}}_1  =  - \dfrac{Gm_1m_2}{\|\boldsymbol{r}_1-\boldsymbol{r}_2\|^3}(\boldsymbol{r}_1 - \boldsymbol{r}_2), \\
+m_2\ddot{\boldsymbol{r}}_2  = - \dfrac{Gm_1m_2}{\|\boldsymbol{r}_1-\boldsymbol{r}_2\|^3}(\boldsymbol{r}_2 - \boldsymbol{r}_1),
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(x,\,y,\,z\)</span>-좌표계에서 <span class="math inline">\(m_1\)</span> 의 위치와 속력을 각각 <span class="math inline">\(\boldsymbol{r}_1 = \begin{bmatrix} x_1 &amp; y_1 &amp; z_1\end{bmatrix}^T\)</span>, <span class="math inline">\(\boldsymbol{v}_1 = \begin{bmatrix} v_1 &amp; u_1 &amp; w_1\end{bmatrix}^T\)</span> 라고 하고 <span class="math inline">\(m_2\)</span> 의 위치와 속력을 각각 <span class="math inline">\(\boldsymbol{r}_2 = \begin{bmatrix} x_2 &amp; y_2 &amp; z_2\end{bmatrix}^T\)</span>, <span class="math inline">\(\boldsymbol{v}_2 = \begin{bmatrix} v_2 &amp; u_2 &amp; w_2\end{bmatrix}^T\)</span> 라고 하자. 이것을 전체적으로 기술하는 열벡터 <span class="math inline">\(\boldsymbol{s}\)</span> 를</p>
+<p><span class="math display">\[
+\boldsymbol{s} = \begin{bmatrix} x_1 &amp; y_1 &amp; z_1 &amp; x_2 &amp; y_2 &amp; z_2 &amp; v_1 &amp; u_1 &amp; w_1 &amp; v_2 &amp; u_2 &amp; w_2\end{bmatrix}^T
+\]</span></p>
+<p>라 하자. <span class="math inline">\(R=\|\boldsymbol{r}_1-\boldsymbol{r}_2\|\)</span>, <span class="math inline">\(k_1 = \dfrac{Gm_1}{R^3}, k_2 = \dfrac{Gm_2}{R^3}\)</span> 이라 하면,</p>
+<p><span class="math display">\[
+\dfrac{d\boldsymbol{s}}{dt} = \begin{bmatrix} &amp; &amp; \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{array} &amp; \\
+&amp; &amp; &amp; \begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1\end{array} \\
+\begin{array}{ccc} -k_2 &amp; 0 &amp; 0 \\ 0 &amp; -k_2 &amp; 0 \\ 0 &amp; 0 &amp; k_2 \\ k_1 &amp; 0 &amp; 0 \\ 0 &amp; k_1 &amp; 0 \\ 0 &amp; 0 &amp; k_1 \end{array} &amp; \begin{array}{ccc} k_2 &amp; 0 &amp; 0 \\ 0 &amp; k_2 &amp; 0 \\ 0 &amp; 0 &amp; k_2 \\ -k_1 &amp; 0 &amp; 0 \\ 0 &amp; -k_1 &amp; 0 \\ 0 &amp; 0 &amp; -k_1 \end{array}
+\end{bmatrix} \cdot \boldsymbol{s}
+\]</span></p>
+<p>이제 두 점입자의 초기 위치와 속도가 주어지면 <span class="math inline">\(\boldsymbol{s}_{i+1} = \boldsymbol{s}_i+ \dfrac{d\boldsymbol{s}}{dt} h\)</span> 를 이용하여 이 문제를 풀 수 있다.</p>
+<p><br></p>
+</section>
+<section id="initialvalueodeproblem" class="level3">
+<h3 class="anchored" data-anchor-id="initialvalueodeproblem"><code>InitialValueOdeProblem</code></h3>
+<p>위의 세가지 방법은 같은 입력값에 대해 계산하는 함수들로 구현되었다. 이것을 하나의 함수로 사용하도록 아래와 같이 구현하였다.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ode_initial_methods <span class="op">=</span> <span class="fu">Dict</span>(<span class="op">:</span>euler <span class="op">=&gt;</span> ode_euler, <span class="op">:</span>rk2 <span class="op">=&gt;</span> ode_rk2, <span class="op">:</span>rk4 <span class="op">=&gt;</span> ode_rk4)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">mutable struct</span> InitialValueOdeProblem</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    diffeq<span class="op">::</span><span class="dt">Function</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    t1<span class="op">::</span><span class="dt">Number</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    Npoints<span class="op">::</span><span class="dt">Integer</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    h<span class="op">::</span><span class="dt">Real</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    initial_value<span class="op">::</span><span class="dt">Vector</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">function</span> <span class="fu">InitialValueOdeProblem</span>(diffeq<span class="op">::</span><span class="dt">Function</span>, t1<span class="op">::</span><span class="dt">Number</span>, initial_value,  Npoints<span class="op">::</span><span class="dt">Integer</span>, h<span class="op">::</span><span class="dt">Real</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="pp">@assert</span> Npoints <span class="op">&gt;</span> <span class="fl">3</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        <span class="pp">@assert</span> h <span class="op">&gt;</span> <span class="fl">0</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="fu">isa</span>(initial_value, <span class="dt">Real</span>) </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>            initial_value <span class="op">=</span> [initial_value, ]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">new</span>(diffeq, t1, Npoints, h, initial_value)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">solve</span>(ode<span class="op">::</span><span class="dt">InitialValueOdeProblem</span>, method<span class="op">::</span><span class="dt">Symbol</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> method <span class="op">∈</span> <span class="fu">keys</span>(ode_initial_methods)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ode_initial_methods[method](ode.diffeq, ode.t1, ode.initial_value, ode.Npoints, ode.h)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이제 진자 문제는 다음과 같이 풀 수 있다.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">de_pendulum</span>(y<span class="op">::</span><span class="dt">Vector{&lt;:Real}</span>, g<span class="op">=</span><span class="fl">9.8</span>, l<span class="op">=</span><span class="fl">2</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="fl">2</span>], <span class="op">-</span>g<span class="op">/</span><span class="fu">l*sin</span>(y[<span class="fl">1</span>])]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>g, l <span class="op">=</span> <span class="fl">9.8</span>, <span class="fl">5.0</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>pendulum <span class="op">=</span> <span class="fu">InitialValueOdeProblem</span>((t, y)<span class="fu">-&gt;de_pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>tn1, xn1 <span class="op">=</span> <span class="fu">solve</span>(pendulum, <span class="op">:</span>euler)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">solve</span>(pendulum, <span class="op">:</span>rk2)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>tn3, xn3 <span class="op">=</span> <span class="fu">solve</span>(pendulum, <span class="op">:</span>rk4)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>p1<span class="op">=</span><span class="fu">plot</span>(tn1, (<span class="fl">180.0</span><span class="op">/</span><span class="cn">π</span>)<span class="op">.*</span> xn1[<span class="fl">1</span>,<span class="op">:</span> ], label <span class="op">=</span> <span class="st">"Euler"</span>, xlabel <span class="op">=</span> L<span class="st">"t"</span>, ylabel <span class="op">=</span> L<span class="st">"</span><span class="sc">\t</span><span class="st">extbf{Degree}"</span>, title <span class="op">=</span> L<span class="st">"</span><span class="sc">\t</span><span class="st">extbf{Pendulum}"</span>, lc<span class="op">=:</span>red, dpi<span class="op">=</span><span class="fl">300</span>)<span class="co">#, size=(400, 350))</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(tn2, (<span class="fl">180.0</span><span class="op">/</span><span class="cn">π</span>)<span class="op">.*</span> xn2[<span class="fl">1</span>,<span class="op">:</span> ], label <span class="op">=</span> <span class="st">"RK2"</span>, lc<span class="op">=:</span>green)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(tn3, (<span class="fl">180.0</span><span class="op">/</span><span class="cn">π</span>)<span class="op">.*</span> xn3[<span class="fl">1</span>,<span class="op">:</span> ], label <span class="op">=</span> <span class="st">"RK4"</span>, lc<span class="op">=:</span>blue)<span class="co">#, xlabel = L"t", ylabel = L"\textbf{Amplitude}", title = L"RK4", size=(400, 350))</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="마치며" class="level3">
+<h3 class="anchored" data-anchor-id="마치며">마치며</h3>
+<p>이번 장에서는 상미분 방정식을 푸는 가장 기본적인 방법인 오일러 방법과 2차, 4차 룽게-쿠타 방법을 배웠다. 수치해석이 늘 그렇듯이 간단한 미분방정식은 잘 풀 수 있지만 다양하고 복잡한 문제에서는 더 정확한 방법을 사용해야 한다. 다음장에서는 실제 과학/공학에서 널리 활용되는 좀 더 정교한 방법에 대해 알아보기로 하자.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../src/numerical_analysis_using_julia/10_least_square_problem.html" class="pagination-link" aria-label="최소자승 문제">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">최소자승 문제</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../src/numerical_analysis_using_julia/12_ode_initial_value_problem_2.html" class="pagination-link" aria-label="상미분 방정식의 초기값 문제-II">
+        <span class="nav-page-text">상미분 방정식의 초기값 문제-II</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

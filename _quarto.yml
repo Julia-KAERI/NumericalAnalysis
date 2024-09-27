@@ -1,16 +1,15 @@
 project:
   type: website
-  output-dir: _site
+  output-dir: docs
   render: 
     - "*.qmd"
     # - "*.ipynb"
     - "!aux/"
 
-
 website:
   title: "Julia & Numerical Anlaysis"
   site-url: "https://julia-kaeri.github.io/"
-  site-path: "/"
+  site-path: "/JuliaNumerical"
   page-navigation: true
   navbar:
     background: primary
@@ -18,18 +17,16 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href : src/introduction_to_julia/index.qmd
-        text : "Julia 언어"
       - href : src/numerical_analysis_using_julia/index.qmd
-        text : "수치해석"
+        text : "수치해석 I"
+      - href : src/numerical_analysis_using_julia/index.qmd
+        text : "수치해석 II"
+      - href : src/numerical_analysis_using_julia/index.qmd
+        text : "수학"
       - href :  src/image_processing/index.qmd
         text : "영상 처리/토모그래피"
       - href : src/tools/tools.qmd
         text : "Tools"
-      - href : src/posts/index.qmd
-        text : "Posts"
-      - href : https://julia-kaeri.github.io/ClassicalMechanics.doc/
-        text : "Classical Mechanics"
       - about.qmd
     tools:
       - icon: envelope
@@ -37,82 +34,47 @@ website:
 
 
   sidebar:
-    - title : "Introduction to Julia"
+    - title : "수치해석 I"
       style : "docked"
       type : "dark"
-      collapse-level : 2
-      contents :
-        - section : Julia 언어의 기초
-          contents :
-          - href : src/introduction_to_julia/index.qmd
-          - href : src/introduction_to_julia/01_julia_language.qmd 
-          - href : src/introduction_to_julia/02_variables_basic_types.qmd
-          - href : src/introduction_to_julia/03_functions_and_operators.qmd
-          - href : src/introduction_to_julia/04_containers.qmd
-          - href : src/introduction_to_julia/04I_splat_operator.qmd
-          - href : src/introduction_to_julia/05_control_flows.qmd
-          - href : src/introduction_to_julia/06_arrays.qmd
-          - href : src/introduction_to_julia/06I_function_composition_and_piping.qmd
-          - href : src/introduction_to_julia/07_module_package.qmd
-          - href : src/introduction_to_julia/07I_sort.qmd
-          - href : src/introduction_to_julia/08_type_hierarchy.qmd
-          - href : src/introduction_to_julia/08I_documentation.qmd
-          - href : src/introduction_to_julia/09_composite_types.qmd
-          - href : src/introduction_to_julia/09I_pretty_printing.qmd
-          - href : src/introduction_to_julia/10_metaprogramming_and_macro.qmd
-          - href : src/introduction_to_julia/10I_exception.qmd
-          - href : src/introduction_to_julia/11_interfaces.qmd
-        
-        - text : "-----"
-        - section : Julia 언어의 활용
-          contents :
-          - href : src/applications_of_julia/fileio.qmd
-          - href : src/applications_of_julia/makie.qmd
-          - href : src/applications_of_julia/random.qmd
-          - href : src/applications_of_julia/leastsquarefit.qmd
-          - href : src/applications_of_julia/multithreads.qmd
-          - href : src/applications_of_julia/pkg_dev.qmd
-          - href : src/applications_of_julia/dataframes.qmd
-          - href : src/applications_of_julia/unittest.qmd
-          - href : src/applications
-
-    - title : "Numerical Analysis using Julia"
       collapse-level: 2
       contents:
-      - section : Julia 언어를 이용한 수치해석 1부
-        contents : 
-        - href: src/numerical_analysis_using_julia/index.qmd
-        - href: src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.qmd
-        - href: src/numerical_analysis_using_julia/02_notations_and_propositions.qmd
-        - href: src/numerical_analysis_using_julia/03_linear_system.qmd
-        - href: src/numerical_analysis_using_julia/04_matrix_algebra.qmd
-        - href: src/numerical_analysis_using_julia/04I_polynomial.qmd
-        - href: src/numerical_analysis_using_julia/05_interpolation.qmd
-        - href: src/numerical_analysis_using_julia/05I_interpolation_struct.qmd
-        - href: src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.qmd
-        - href: src/numerical_analysis_using_julia/06I_Bezier.qmd
-        - href: src/numerical_analysis_using_julia/07_finding_root.qmd
+      - href: src/numerical_analysis_using_julia/index.qmd
+      - href: src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.qmd
+      - href: src/numerical_analysis_using_julia/02_notations_and_propositions.qmd
+      - href: src/numerical_analysis_using_julia/03_linear_system.qmd
+      - href: src/numerical_analysis_using_julia/04_matrix_algebra.qmd
+      - href: src/numerical_analysis_using_julia/04I_polynomial.qmd
+      - href: src/numerical_analysis_using_julia/05_interpolation.qmd
+      - href: src/numerical_analysis_using_julia/05I_interpolation_struct.qmd
+      - href: src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.qmd
+      - href: src/numerical_analysis_using_julia/06I_Bezier.qmd
+      - href: src/numerical_analysis_using_julia/07_finding_root.qmd
       - text : "-----"
-      - section : Julia 언어를 이용한 수치해석 2부
-        contents :
-        - href: src/numerical_analysis_using_julia/08_matrix_decomposition.qmd
-        - href: src/numerical_analysis_using_julia/09_iterative_method_for_linear_system.qmd
-        - href: src/numerical_analysis_using_julia/10_least_square_problem.qmd
-        - href: src/numerical_analysis_using_julia/11_ode_initial_value_problem_1.qmd
-        - href: src/numerical_analysis_using_julia/12_ode_initial_value_problem_2.qmd
-        - href: src/numerical_analysis_using_julia/13_ode_boundary_value_problem.qmd
-        - href: src/numerical_analysis_using_julia/14_approximation.qmd
-        - href: src/numerical_analysis_using_julia/15_pde_1.qmd
+      
+    - title : "수치해석 II"
+      collapse-level: 2
+      contents :
+      - href: src/numerical_analysis_using_julia/08_matrix_decomposition.qmd
+      - href: src/numerical_analysis_using_julia/09_iterative_method_for_linear_system.qmd
+      - href: src/numerical_analysis_using_julia/10_least_square_problem.qmd
+      - href: src/numerical_analysis_using_julia/11_ode_initial_value_problem_1.qmd
+      - href: src/numerical_analysis_using_julia/12_ode_initial_value_problem_2.qmd
+      - href: src/numerical_analysis_using_julia/13_ode_boundary_value_problem.qmd
+      - href: src/numerical_analysis_using_julia/14_approximation.qmd
+      - href: src/numerical_analysis_using_julia/15_pde_1.qmd
       - text : "-----"
-      - section : 수학
-        contents :
-        - href: src/numerical_analysis_using_julia/A_collection_of_proofs.qmd
-        - href: src/numerical_analysis_using_julia/A_generalized_inverse.qmd
-        - href: src/numerical_analysis_using_julia/A_ode.qmd
-        - href: src/numerical_analysis_using_julia/A_pde.qmd
     
+    - title : "수학 "
+      collapse-level: 2
+      contents :
+      - href: src/numerical_analysis_using_julia/A_collection_of_proofs.qmd
+      - href: src/numerical_analysis_using_julia/A_generalized_inverse.qmd
+      - href: src/numerical_analysis_using_julia/A_ode.qmd
+      - href: src/numerical_analysis_using_julia/A_pde.qmd
+  
     
-    - title : "Image processing and Tomography"
+    - title : "영상 처리와 토모그래피"
       collapse-level: 2
       contents:
         - section : 영상 처리 기초
@@ -132,18 +94,18 @@ website:
           contents:
           - href: src/image_processing/tomography.qmd
 
-    - title: "Tools"
-      collapse-level: 2
-      contents:
-        - src/tools/tools.qmd
+    # - title: "Tools"
+    #   collapse-level: 2
+    #   contents:
+    #     - src/tools/tools.qmd
         
-        - href: src/tools/Asymptote/asymptote.qmd
+    #     - href: src/tools/Asymptote/asymptote.qmd
         
-        - href: src/tools/tikz/tikz.qmd
-        - href: src/tools/tikz/tikz_functions.qmd
-        - href: src/tools/tikz/tikz_image.qmd
-        - href: src/tools/tikz/tikz_wavelet.qmd
-        - href: src/tools/tikz/tikz_pde.qmd
+    #     - href: src/tools/tikz/tikz.qmd
+    #     - href: src/tools/tikz/tikz_functions.qmd
+    #     - href: src/tools/tikz/tikz_image.qmd
+    #     - href: src/tools/tikz/tikz_wavelet.qmd
+    #     - href: src/tools/tikz/tikz_pde.qmd
         - href: src/tools/tikz/tikz_test.qmd
 
 bibliography: references.bib

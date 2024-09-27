@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Julia &amp; Numerical Anlaysis - Julia 에서의 행렬 계산</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../src/numerical_analysis_using_julia/04I_polynomial.html" rel="next">
+<link href="../../src/numerical_analysis_using_julia/03_linear_system.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Julia &amp; Numerical Anlaysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../src/numerical_analysis_using_julia/index.html" aria-current="page"> 
+<span class="menu-text">수치해석 I</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수치해석 II</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
+<span class="menu-text">수학</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/image_processing/index.html"> 
+<span class="menu-text">영상 처리/토모그래피</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../src/tools/tools.html"> 
+<span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+    <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/04_matrix_algebra.html">Julia 에서의 행렬 계산</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">들어가며</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">수치해석 (Numerical Analysis) 과 알고리즘 (Algorithm)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/02_notations_and_propositions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">수학에 관련된 표기법과 명제들</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/03_linear_system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">수치해석 입문 : 선형시스템과 다항식</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/04_matrix_algebra.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Julia 에서의 행렬 계산</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/04I_polynomial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interlude : 일변수 다항식의 Julia 구현</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/05_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">다항식을 이용한 1차원 보간법</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/05I_interpolation_struct.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interlude : 보간법의 구현</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">일변수 함수의 미분과 적분</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/06I_Bezier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interlude : 베지에 곡선(Bézier curve)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/07_finding_root.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">일변수 방정식의 해</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#sec-norm_of_vector_and_matrix" id="toc-sec-norm_of_vector_and_matrix" class="nav-link active" data-scroll-target="#sec-norm_of_vector_and_matrix"><span class="header-section-number">1</span> 벡터와 행렬의 노름과 조건수</a>
+  <ul class="collapse">
+  <li><a href="#벡터의-노름" id="toc-벡터의-노름" class="nav-link" data-scroll-target="#벡터의-노름">벡터의 노름</a></li>
+  <li><a href="#sec-norm_of_matrix" id="toc-sec-norm_of_matrix" class="nav-link" data-scroll-target="#sec-norm_of_matrix">행렬의 노름</a></li>
+  <li><a href="#sec-condition_number_of_matrix" id="toc-sec-condition_number_of_matrix" class="nav-link" data-scroll-target="#sec-condition_number_of_matrix">행렬의 조건수</a></li>
+  </ul></li>
+  <li><a href="#다양한-행렬들" id="toc-다양한-행렬들" class="nav-link" data-scroll-target="#다양한-행렬들"><span class="header-section-number">2</span> 다양한 행렬들</a>
+  <ul class="collapse">
+  <li><a href="#sec-sparse_matrix" id="toc-sec-sparse_matrix" class="nav-link" data-scroll-target="#sec-sparse_matrix">성긴행렬과 밀집행렬</a></li>
+  <li><a href="#타입으로-정의된-행렬" id="toc-타입으로-정의된-행렬" class="nav-link" data-scroll-target="#타입으로-정의된-행렬">타입으로 정의된 행렬</a></li>
+  </ul></li>
+  <li><a href="#linearalgebra.jl-의-기본-연산자와-함수" id="toc-linearalgebra.jl-의-기본-연산자와-함수" class="nav-link" data-scroll-target="#linearalgebra.jl-의-기본-연산자와-함수"><span class="header-section-number">3</span> <code>LinearAlgebra.jl</code> 의 기본 연산자와 함수</a>
+  <ul class="collapse">
+  <li><a href="#기본-연산자와-함수" id="toc-기본-연산자와-함수" class="nav-link" data-scroll-target="#기본-연산자와-함수">기본 연산자와 함수</a></li>
+  </ul></li>
+  <li><a href="#선형-시스템" id="toc-선형-시스템" class="nav-link" data-scroll-target="#선형-시스템"><span class="header-section-number">4</span> 선형 시스템</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Julia 에서의 행렬 계산</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>지금까지는 Julia 의 기본적인 벡터와 행렬, 그리고 연산을 이용하여 일반적인 행렬에 대한 가우스 소거법과 LU 분해, QR 분해를 구현하여 보았다. Julia 는 큰 벡터와 행렬을 다루기 위한 <code>SparseArrays</code> 모듈과 행렬 및 벡터 계산을 위한 <code>LinearAlgebra</code> 모듈을 기본으로 제공한다. 또한 다양한 형태의 행렬에 대한 특별한 연산도 제공한다. 이제 이런 기능들을 알아보도록 하자. 그 전에 벡터와 행렬의 크기 혹은 거리를 의미하는 노름을 먼저 알아보기로 하자.</p>
+<p><br></p>
+<section id="sec-norm_of_vector_and_matrix" class="level2 page-columns page-full" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="sec-norm_of_vector_and_matrix"><span class="header-section-number">1</span> 벡터와 행렬의 노름과 조건수</h2>
+<section id="벡터의-노름" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="벡터의-노름">벡터의 노름</h3>
+<p><a href="../../src/numerical_analysis_using_julia/02_notations_and_propositions.html#def-innerproduct_space">벡터의 노름(norm)</a> 은 벡터의 크기에 대한 척도로서 실수, 혹은 복소수의 절대값과 비슷한 역할을 한다. 보통 <span class="math inline">\(n\)</span> 차원 유클리드 공간에서 사용하는 거리도 노름의 일종이다. 벡터공간에서의 노름은 특정한 성질을 만족하는 함수 가운데 선택된다. 내적벡터공간에서는 내적에 의해 자연스럽게 노름을 정의할 수 있지만 노름 자체는 집합에 부여되는 성질이며 내적과 관계 없이 노름을 정의할 수도 있다. 즉 어떤 집합에 위의 노름이 정의되면 노름공간이라고 한다. <br></p>
+<p>벡터의 노름에 대한 성질을 알기 위해 다음 부등식을 알 필요가 있다.</p>
+<div id="prp-norm_inequality" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 1 (횔더부등식(Hölder’s inequality) 과 민코프스키 부등식(Minkowski’s ineqality))</strong></span> <span class="math inline">\(p\ge 1\)</span> 이며 <span class="math inline">\(1/p+1/q =1\)</span> 일 때 다음이 성립한다. <span class="math display">\[
+\begin{aligned}
+\text{H\"older's inequality} &amp; \sum_{i=1}^n |u_i v_i| \le \left(\sum_{i=1}^n |u_i|^p\right)^{1/p}\left(\sum_{i=1}^n |v_i|^q\right)^{1/q}, \\
+\text{Mincowski's inequality} &amp; \left(\sum_{i=1}^n |u_i+v_i|^p\right)^{1/p} \le \left(\sum_{i=1}^n |u_i|^p\right)^{1/p} + \left(\sum_{i=1}^n |v_i|^p\right)^{1/p}.
+\end{aligned}
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><a href="../../src/numerical_analysis_using_julia/A_collection_of_proofs.html#sec-mathematical_proof">수학적 증명</a> 의 <a href="../../src/numerical_analysis_using_julia/A_collection_of_proofs.html#prp-hoelders_inequality">Hölder 부등식</a> 를 참고하라.</p>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-p_morm" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 1 (<span class="math inline">\(L_p\)</span>-노름 과 <span class="math inline">\(\infty\)</span>-노름)</strong></span> <span class="math inline">\(p&gt;1\)</span> 에 대해 아래와 같이 정의된 <span class="math inline">\(\| \cdot \|_p : \mathcal{M}_n(\mathbb{F}) \to [0, \infty)\)</span> 는 노름이며 이 노름을 <span class="math inline">\(L_p\)</span>-노름 이라고 한다.</p>
+<p><span class="math display">\[
+\|\boldsymbol{v}\|_p := \left( \sum_{i=1} |v_i|^p \right)^{1/p}.
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p><span class="math inline">\(p&gt;1\)</span> 인 실수에 대해 사용할 수 있으며 보통 <span class="math inline">\(p=1,\,2,\,\infty\)</span> 인 경우를 많이 사용한다. <span class="math inline">\(p=1\)</span> 인 경우는 맨해튼 노름(Manhattan norm) 혹은 taxicab norm 이라고 하며,</p>
+<p><span class="math display">\[
+\|\boldsymbol{v}\|_1 = \sum_i |v_i|
+\]</span></p>
+<p>이다. <span class="math inline">\(p=2\)</span> 인 경우는 우리가 많이 사용하는 유클리드 노름(Euclidean norm) 으로</p>
+<p><span class="math display">\[
+\|\boldsymbol{v}\|_2 = \sqrt{\sum_i |v_i|^2}
+\]</span></p>
+<p>이다. <span class="math inline">\(p=\infty\)</span> 인 경우는 상한 노름(maximum norm) 이라고 하며</p>
+<p><span class="math display">\[
+\|\boldsymbol{v}\|_{\infty} = \max_{i=1,\ldots} |x_i|
+\]</span></p>
+<p>이다. 혹은 단순히 <span class="math inline">\(L_1,\,L_2,\,L_\infty\)</span> 노름 이라고도 한다.</p>
+<p><br></p>
+<p>다음은 쉽게 증명 할 수 있다.</p>
+<div id="prp-p_norm" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 2</strong></span> <span class="math inline">\(p=\infty\)</span> 를 포함하여 <span class="math inline">\(p \ge 1\)</span> 일 때, 유한차원 벡터공간에서의 <span class="math inline">\(L_p\)</span>-노름은 노름의 정의를 만족한다.</p>
+</div>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-equivalence_of_norm" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 2 (노름의 동등함)</strong></span> 벡터공간 <span class="math inline">\(V\)</span> 에 두개의 노름 <span class="math inline">\(\|\cdot \|_\alpha\)</span> 와 <span class="math inline">\(\|\cdot \|_\beta\)</span> 가 정의되었을 때, 모든 <span class="math inline">\(\boldsymbol{v}\in V\)</span> 에 대해 어떤 상수 <span class="math inline">\(c_1,\,c_2\)</span> 가 존재하여</p>
+<p><span class="math display">\[
+c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol{v}\|_\alpha
+\]</span></p>
+<p>라면 이 두 노름을 <strong>동등하다(equivalent)</strong> 라고 한다. 유한차원 벡터공간에 대해서는 모든 노름이 동등하다는 것이 알려져 있다.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-magnitude_of_Lp_norms" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 3</strong></span> <span class="math inline">\(\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})\)</span> 에 대해 다음이 성립한다. 즉 <span class="math inline">\(\|\cdot \|_\infty\)</span> 와 <span class="math inline">\(\|\cdot \|_2\)</span> 는 동등하다.</p>
+<p><span class="math display">\[
+\|\boldsymbol{v}\|_{\infty} \le \|\boldsymbol{v}\|_2 \le \sqrt{n}\|\boldsymbol{v}\|_\infty
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(v_M = \max \{ |v_i|, i=1,\ldots,\,v_n\}\)</span> 이라고 하자. <span class="math display">\[
+\|\boldsymbol{v}\|_\infty = v_M \le \sqrt{\sum_{i=1}^n |v_i|^2} = \|\boldsymbol{v}\|_2 \le \sqrt{\sum_{i=1}^n {v_M}^2} = \sqrt{n} v_M = \sqrt{n} \|\boldsymbol{v}\|_\infty
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div class="page-columns page-full"><p>Julia 에서는 <code>LinearAlgebra</code> 모듈의 <code>norm(v, p=2)</code> 로 정의되는 함수를 이용하여 계산 할 수 있으며 <code>p</code> 는 <code>1</code>, <code>2</code>, <code>Inf</code> 가 가능한데 각각 <span class="math inline">\(L_1,\,L_2,\,L_\infty\)</span> 노름을 의미한다. 노름이 정의된 벡터공간에서 벡터를 그 크기로 나누는 것 (<span class="math inline">\(\boldsymbol{v}/\|\boldsymbol{v}\|\)</span>) 을 정규화(normalization) 라고 하며 역시 <code>LinearAlgebra</code> 모듈에 <code>normalize(v, p=2)</code> 함수로 구현되어 있다. </p><div class="no-row-height column-margin column-container"><span class="margin-aside"><code>norm(v, p=2)</code> 에서 <code>p=2</code> 는 <code>p</code> 의 기본값이 <code>2</code> 라는 의미이다. 즉, <code>norm(v)</code> 로 벡터만을 인자로 하여 함수를 호출했을 경우는 <code>p=2</code> 일 경우를 계산한다.</span></div></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>In [1]: using LinearAlgebra</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>In [2]: v=[1, 2, 3];</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>In [3]: norm(v, 1)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Out[3]: 6.0</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>In [4]: norm(v, Inf)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Out[4]: 3.0</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>In [5]: norm(v, 2)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Out[5]: 3.7416573867739413</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>In [6]: normalize(v)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Out[6]: 3-element Vector{Float64}:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a> 0.2672612419124244</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a> 0.5345224838248488</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="sec-norm_of_matrix" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="sec-norm_of_matrix">행렬의 노름</h3>
+<p>행렬의 노름(norm) 역시 행렬의 크기에 대한 척도로서 특정한 성질을 만족하는 함수 가운데 선택된다.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-matrix_norm" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 3</strong></span> 행렬의 노름 <span class="math inline">\(\|\cdot \|: \mathcal{M}_{m\times n}(\mathbb{F}) \to \mathbb{R}\)</span> 은 행렬 <span class="math inline">\(\boldsymbol{A},\, \boldsymbol{B}\)</span> 와 스칼라 <span class="math inline">\(\alpha\)</span> 에 대해 다음의 성질을 만족한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\|\boldsymbol{A}\| \ge 0\)</span>,</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\|\boldsymbol{A}\| = 0 \iff \boldsymbol{A} = 0\)</span>,</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\|\alpha \boldsymbol{A}\| = |\alpha| \|\boldsymbol{A}\|\)</span>,</p>
+<p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\|\boldsymbol{A}+\boldsymbol{B}\| \le \|\boldsymbol{A}\|+\|\boldsymbol{B}\|\)</span>.</p>
+<p>또한 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{m\times n}(\mathbb{F}),\, \boldsymbol{B} \in \mathcal{M}_{n\times p}(\mathbb{F})\)</span> 에 대해 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(5\)</span>) <span class="math inline">\(\|\boldsymbol{AB}\| \le \|\boldsymbol{A}\| \cdot\|\boldsymbol{B}\|\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>위의 정의 중 5번을 제외한 나머지 성질은 벡터에 대해서 성립하며, 5번은 행렬의 노름에만 성립하는 고유한 성질이다.</p>
+<p><br></p>
+<section id="프로베니우스-노름" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="프로베니우스-노름">프로베니우스 노름</h4>
+<div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class="margin-aside">프로베니우스 노름은 힐버트-슈미트 노름(Hilbert-Schmidt norm), 혹은 슈어 노름(Schur norm) 으로도 불린다.</span></div></div>
+<p>선형대수학에서 배웠다시피 <span class="math inline">\(\mathcal{M}_{m\times n}(\mathbb{F})\)</span> 은 벡터공간을 이루며 각각의 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{m\times n}(\mathbb{F})\)</span> 도 벡터므로, 벡터에 대한 노름 처럼 행렬에 대한 노름도 정의 할 수 있다. 대표적으로 프로베니우스 노름(Frobenius norm) <span class="math inline">\(\|\cdot \|_F\)</span> 은 행렬을 벡터처럼 간주했을 때의 <span class="math inline">\(L_2\)</span> 노름이다.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-frobenius_norm" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 4 (프로베니우스 노름)</strong></span> <span class="math inline">\(m \times n\)</span> 행렬에 대한 프로베니우스 노름(Frobenius norm) 은 다음과 같이 정의된다. <span class="math display">\[
+\|\boldsymbol{A}\|_F := \left(\sum_{i=1}^m \sum_{j=1}^n |A_{ij}|^2\right)^{1/2} = \sqrt{\text{tr}(\boldsymbol{AA}^\dagger)}
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<div id="exr-frobenius_norm" class="theorem exercise">
+<p><span class="theorem-title"><strong>연습문제 1</strong></span> 프로베니우스 노름이 행렬의 노름의 정의에 나열된 5가지의 성질을 만족한다는 것을 보여라.</p>
+</div>
+<p><br></p>
+</section>
+<section id="sec-natural_norm" class="level4">
+<h4 class="anchored" data-anchor-id="sec-natural_norm">자연스러운 노름</h4>
+<p>행렬은 벡터공간에서 정의된 선형 함수로서의 의미가 중요하기 때문에, 벡터가 연산되었을 때 그 크기가 어떻게 되는지에 관심이 있는 경우가 많다. 이런 의미에서 행렬의 노름을 벡터와의 연산에 대해 정의할 수 있는데 이렇게 정의된 행렬의 노름은 <strong>유도된 행렬 노름 (induced matrix norm)</strong>, <strong>자연스러운 행렬 노름(natural matrix norm)</strong> 혹은 <strong>종속된 노름(subordinate norm)</strong> 이라고 하며 정사각 행렬의 경우는 <strong>연산자 노름(operator norm)</strong> 이라고도 한다. <u>앞으로 행렬의 노름을 이야기할 때는 별다른 언급이 없다면 자연스러운 노름을 의미한다.</u></p>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-operator_norm" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 5 (행렬의 노름)</strong></span> <span class="math inline">\(\mathcal{M}_n(\mathbb{F})\)</span> 에서의 노름이 <span class="math inline">\(\|\cdot \|_\alpha\)</span>, <span class="math inline">\(\mathcal{M}_m(\mathbb{F})\)</span> 에서의 노름이 <span class="math inline">\(\| \cdot \|_\beta\)</span> 로 정의되었다고 하자. <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})\)</span> 에 대한 연산자 노름은 다음과 같이 정의된다.</p>
+<p><span class="math display">\[
+\|\boldsymbol{A}\|_{\alpha,\,\beta} := \sup \{\|\boldsymbol{Av}\|_\beta : \|\boldsymbol{v}\|_\alpha=1\} = \sup_{\|\boldsymbol{v}\|_\alpha = 1} \|\boldsymbol{Av}\|_\beta
+\]</span></p>
+<p>위의 정의와 다음의 정의는 같다. <span class="math display">\[
+\|\boldsymbol{A}\|_{\alpha,\,\beta} = \sup \left\{\dfrac{\|\boldsymbol{Av}\|_\beta}{\|\boldsymbol{v}\|_\alpha} : \boldsymbol{v}\in \mathbb{F}^n,\, \boldsymbol{v}\ne \boldsymbol{0} \right\} = \sup_{\|\boldsymbol{v}\|_\alpha \ne 0}\dfrac{\|\boldsymbol{Av}\|_\beta}{\|\boldsymbol{v}\|_\alpha}.
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-operator_norm" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 4</strong></span> 자연스러운 노름은 행렬의 노름의 정의에 나열된 5 가지 성질을 만족한다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(1\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(3\)</span>, <span class="math inline">\(4\)</span>는 쉽게 보일 수 있다. 각각의 벡터공간에서 노름을 상징하는 아래첨자는 생략해도 이해하는데 무리가 없을 것이다.</p>
+<p><span class="math inline">\(\text{5}\)</span>. 우선 <span class="math inline">\(\|\boldsymbol{Av}\| \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{v}\|\)</span> 임을 보이자. <span class="math inline">\(\boldsymbol{v}=\boldsymbol{0}\)</span> 일 때는 자명하다. <span class="math inline">\(\boldsymbol{v}\ne \boldsymbol{0}\)</span> 이라면,</p>
+<p><span class="math display">\[
+\|\boldsymbol{A}\| = \sup_{\|\boldsymbol{v}\|\ne 0} \left\{ \dfrac{\|\boldsymbol{Av}\|}{\|\boldsymbol{v}\|} \right\} \ge \dfrac{\|\boldsymbol{Av}\|}{\|\boldsymbol{v}\|}
+\]</span></p>
+<p>이므로 <span class="math inline">\(\|\boldsymbol{Av}\| \le \|\boldsymbol{A}\|\cdot \|\boldsymbol{v}\|\)</span> 이다. 이를 이용하면 <span class="math display">\[
+\|\boldsymbol{ABv}\| \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{Bv}\| \le \| \boldsymbol{A}\| \cdot \|\boldsymbol{B}\| \cdot \|\boldsymbol{v}\|
+\]</span></p>
+<p>이므로 <span class="math inline">\(\dfrac{\|\boldsymbol{ABv}\|}{\|\boldsymbol{v}\|} \le \|\boldsymbol{A}\|\|\boldsymbol{B}\|\)</span> 이다. 따라서,</p>
+<p><span class="math display">\[
+\|\boldsymbol{AB}\| =\sup \left\{ \dfrac{\|\boldsymbol{ABv}\|}{\|\boldsymbol{v}\|}\right\} \le \|\boldsymbol{A}\| \|\boldsymbol{B}\|
+\]</span></p>
+<p>이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p>다음은 증명 과정에서 보였지만 별도로 언급할 가치가 있다.</p>
+<div id="cor-norm_of_matrix_and_vector" class="theorem corollary">
+<p><span class="theorem-title"><strong>따름정리 1</strong></span> <span class="math inline">\(\|\boldsymbol{Av}\|\le \|\boldsymbol{A}\|\cdot \|\boldsymbol{v}\|\)</span> 이다.</p>
+</div>
+<p>이것이 의미하는 것은 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 노름은 <span class="math inline">\(\boldsymbol{A}\)</span> 에 의해 변환되는 벡터의 노름이 변화하는 최대값을 규정한다는 것으로, 앞으로 매우 많이 나올 내용이다.</p>
+<p>행렬의 정의역(domain)과 공역(codomain)에서의 노름이 동일할 때 <span class="math inline">\(\|\boldsymbol{A}\|_\alpha\)</span> 와 같이 노름에 대한 첨자를 하나만 표기한다. 또한 노름을 계산할 때 <span class="math inline">\(L_p\)</span> 벡터 노름, 그중에서도 <span class="math inline">\(p=1, 2, \infty\)</span> 를 많이 사용한다. 즉</p>
+<p><span class="math display">\[
+\|\boldsymbol{A}\|_p = \sup \left\{ \dfrac{\|\boldsymbol{Av}\|_p}{\|\boldsymbol{v}\|_p}\right\}
+\]</span></p>
+<p>이다.</p>
+<p><br></p>
+<div id="prp-special_matrix_norm" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 5</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})\)</span> 일 때, <span class="math display">\[
+\begin{aligned}
+\|\boldsymbol{A}\|_\infty &amp;= \max_{i=1,\ldots,\,m} \sum_{j=1}^n |A_{ij}|,\\
+\|\boldsymbol{A}\|_1 &amp;= \max_{j=1,\ldots,\,n} \sum_{i=1}^m |A_{ij}|,\\
+\end{aligned}
+\]</span></p>
+<p>이다.</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span>벡터 <span class="math inline">\(L_p\)</span>-노름의 정의로부터, <span class="math display">\[
+\|\boldsymbol{Av}\|_\infty = \sup \left\{ \left|\sum_{j=1}^n A_{ij}v_j\right| : i=1,\ldots,\,m,\, \|\boldsymbol{v}\|_\infty = 1 \right\}
+\]</span> 이다. <span class="math inline">\(\|\boldsymbol{v}\|_\infty=1\)</span> 이면 <span class="math inline">\(|v_j|\le 1,\, i=1,\ldots,\,n\)</span> 이므로 <span class="math display">\[
+\left| \sum_{j=1}^n A_{ij}v_j\right| \le \sum_{j=1}^n |A_{ij}|\cdot |v_j| \le \sum_{j=1}^n |A_{ij}|
+\]</span> 인데 <span class="math inline">\(v_j = \text{sign}(A_{ij})\)</span> 일 때 등호가 성립한다. 따라서, <span class="math inline">\(\displaystyle \|\boldsymbol{A}\|_\infty = \max_{i=1,\ldots,\,m} \sum_{j=1}^n |A_{ij}|\)</span> 이다.</p>
+<p><span class="math inline">\(\|\boldsymbol{A}\|_1 = \displaystyle \sup_{\|\boldsymbol{v}\|_1=1} \|\boldsymbol{Av}\|_1\)</span> 이며, <span class="math inline">\(\displaystyle \|\boldsymbol{v}\|_1 = \sum_{j=1}^n |v_j|\)</span> 이다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\|\boldsymbol{Av}\|_1 &amp;= \sum_{i=1}^m \left| \sum_{j=1}^n A_{ij}v_j\right| \le \sum_{i=1}^m \sum_{j=1}^n |A_{ij}| \cdot |v_j| = \sum_{j=1}^n |v_j| \left(\sum_{i=1}^n |A_{ij}|\right) \\
+&amp;\le \max_{j=1,\ldots,n} \left(\sum_{i=1}^n |A_{ij}|\right) \\
+\end{aligned}
+\]</span></p>
+<p>이다. <span class="math inline">\(\displaystyle \sum_{i=1}^n |A_{ij}|\)</span> 이 최대가 되는 <span class="math inline">\(j\)</span> 인덱스를 찾아 <span class="math inline">\(j_M\)</span> 이라 하면</p>
+<p><span class="math display">\[
+\|\boldsymbol{Ae}_{j_M}\|_1 = \sum_{i=1}^m |A_{i,j_M}| = \max_{j=1,\ldots,n} \sum_{i=1}^m |A_{ij}|
+\]</span></p>
+<p>이다. 따라서 <span class="math inline">\(\displaystyle \|\boldsymbol{A}\|_1 = \max_{j=1,\ldots,\,n}\sum_{i=1}^m |A_{ij}|\)</span> 이다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<p>Julia 에서 행렬의 <span class="math inline">\(L_p\)</span> 노름은 <code>opnorm(A, p=2)</code> 로 구현되었으며 가능한 <code>p</code> 값은 <code>1</code>, <code>2</code> 와 <code>Inf</code> 로 각각 <span class="math inline">\(L_1,\, L_2,\,L_\infty\)</span> norm을 계산한다. Frobenius 노름은 <code>norm(A, 2)</code> 로 벡터의 <code>norm</code> 처럼 계산 할 수 있다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>In [7]: A = [1 3 2; 4.0 2.0 -3.0];</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>In [8]: opnorm(A, 1), opnorm(A, 2), opnorm(A, Inf)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Out[8]: (5.0, 5.47722557505166, 9.0)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>In [9]: norm(A, 2) # Frobenius norm</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>Out[9]: 6.557438524302</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+</section>
+<section id="sec-condition_number_of_matrix" class="level3">
+<h3 class="anchored" data-anchor-id="sec-condition_number_of_matrix">행렬의 조건수</h3>
+<p>어떤 함수 <span class="math inline">\(f\)</span> 와 이를 구현하여 수치해석적으로 계산하는 함수 <span class="math inline">\(\overline{f}\)</span> 가 있다고 하자. 많은 경우 <span class="math inline">\(f(x)\)</span> 와 <span class="math inline">\(\overline{f}(x)\)</span> 는 차이가 나며 이 차이를 계량하기 위애 보통 아래의 세가지 오차를 사용한다.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-errors" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 6 (오차, 절대오차, 상대오차)</strong></span> 함수 <span class="math inline">\(f(x)\)</span> 와 그 수치해석적인 구현 <span class="math inline">\(\overline{f}(x)\)</span> 에 대해 아래와 같은 세가지 오차를 정의 할 수 있다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <strong>오차(error)</strong> <span class="math inline">\(\delta f(x) := f(x) - \overline{f}(x)\)</span>.</p>
+<p>  (<span class="math inline">\(2\)</span>) <strong>절대오차(absolute error)</strong> <span class="math inline">\(|\delta f(x)| := |f(x) - \overline{f}(x)|\)</span>.</p>
+<p>  (<span class="math inline">\(3\)</span>) <strong>상대오차(relative error)</strong> <span class="math inline">\(\displaystyle \dfrac{|\delta f(x)|}{|f(x)|} = \dfrac{|f(x) - \overline{f}(x)|}{|f(x)|}\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>위의 세가지 오차는 우리가 구하고자 하는 <span class="math inline">\(f\)</span> 와 우리가 고안한 <span class="math inline">\(\overline{f}\)</span> 사이의 차이에 대해 정량화 한 값이다. 이제 시스템 자체의 안정성에 대해 한번 보기로 하자. 시스템을 기술하는 함수 <span class="math inline">\(f(x)\)</span> 가 있다고 하자. 적당하게 작은 <span class="math inline">\(\delta x\)</span> 애 대해 만약 <span class="math inline">\(f(x_0+\delta x)\)</span> 가 <span class="math inline">\(f(x_0)\)</span> 와 큰 차이가 난다면 이 시스템을 다루는 데는 큰 주의가 필요할 것이다. 이를 <strong>ill-conditioned</strong> 라고 한다. 반대로 <span class="math inline">\(f(x_0 + \delta x)\)</span> 가 <span class="math inline">\(f(x)\)</span> 와 큰 차이가 나지 않는다면 <span class="math inline">\(x_0\)</span> 에 어느 정도 오차가 있더라도 우리가 구하고자 하는 값과 큰 차이가 나지 않을 것이고 우리가 다루기 쉬울 것이다. 이를 <strong>well-conditioned</strong> 라고 한다. 이 성질의 정량화를 위해 함수 <span class="math inline">\(f\)</span> 에 대한 조건수를 아래와 같이 정의한다.</p>
+<p><br></p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-condition_number_of_function" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 7 (함수의 조건수)</strong></span> 함수 <span class="math inline">\(f:X\subset \mathbb{R}^m \to \mathbb{R}^n\)</span> 와 <span class="math inline">\(x_0 \in X\)</span> 에 대해 아래와 같이 정의된 <span class="math inline">\(\kappa_f (x_0)\)</span> 를 <span class="math inline">\(f\)</span> 의 <span class="math inline">\(x_0 (\ne \boldsymbol{0})\)</span> 에 대한 <strong>조건수 (condition number)</strong> 혹은 <strong>상대적 조건수 (relative condition number)</strong> 라고 한다.</p>
+<p><span class="math display">\[
+\kappa_f(x_0) = \lim_{\epsilon \to 0} \sup_{\|\delta x\| &lt; \epsilon} \dfrac{\|f(x_0+\delta x)-f(x_0)\|/\|f(x_0)\|}{\|\delta x\|/\|x_0\|}
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p><span class="math inline">\(\kappa_f(x_0) \ll 1\)</span> 이라면 <span class="math inline">\(\|f(x_0 + \delta x)\|\)</span> 가 <span class="math inline">\(\|f(x_0)\|\)</span> 와의 차이가 매우 작다. 즉 well-conditioned 이다. 반대로 <span class="math inline">\(\kappa_f(x_0) \gg 1\)</span> 이라면 <span class="math inline">\(\|f(x_0+\delta x)\|\)</span> 가 <span class="math inline">\(\|f(x_0)\|\)</span> 와의 차이가 매우 크기때문에 ill-conditioned 이다.</p>
+<p><br></p>
+<p>다음은 미분의 정의로부터 쉽게 보일 수 있다.</p>
+<div id="prp-condition_number_for_differential_function" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 6</strong></span> <span class="math inline">\(\boldsymbol{f}:\mathbb{R}^m \to \mathbb{R}^n\)</span> 가 미분가능한 함수라면</p>
+<p><span class="math display">\[
+\kappa_\boldsymbol{f}(\boldsymbol{x}_0) = \dfrac{\|D\boldsymbol{f}(\boldsymbol{x}_0) \| \cdot \|\boldsymbol{x}_0\|}{\|\boldsymbol{f}(\boldsymbol{x}_0)\|}
+\]</span></p>
+<p>이다.</p>
+</div>
+<p><br></p>
+<p>가역행렬인 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 을 생각하자. <span class="math inline">\(\boldsymbol{A}\)</span> 는 <span class="math inline">\(\mathbb{R}^n \mapsto \mathbb{R}^n\)</span> 함수이므로 조건수를 생각 할 수 있다. <span class="math inline">\(\boldsymbol{Ax}_0 = \boldsymbol{y}_0\)</span> 라고 하면 <span class="math inline">\(\boldsymbol{x}_0 = \boldsymbol{A}^{-1}\boldsymbol{y}_0\)</span> 이므로,</p>
+<p><span class="math display">\[
+\dfrac{\|\boldsymbol{A}(\boldsymbol{x}_0 + \delta \boldsymbol{x}) - \boldsymbol{Ax}_0\|/\|\boldsymbol{Ax}_0\|}{\|\delta\boldsymbol{ \boldsymbol{x}}\|/\|\boldsymbol{x}_0\|} = \dfrac{\|\boldsymbol{A}\delta \boldsymbol{x}\|}{\|\delta \boldsymbol{x}\|} \dfrac{\|\boldsymbol{x}_0\|}{\|\boldsymbol{Ax}_0\|} =  \dfrac{\|\boldsymbol{A}\delta \boldsymbol{x}\|}{\|\delta \boldsymbol{x}\|} \dfrac{\|\boldsymbol{A}^{-1}\boldsymbol{y}_0\|}{\|\boldsymbol{y}_0\|} \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{A}^{-1}\|
+\]</span></p>
+<p>이다. 또한 <a href="#def-matrix_norm" class="quarto-xref">정의&nbsp;3</a> 의 (<span class="math inline">\(5\)</span>) 로 부터,</p>
+<p><span class="math display">\[
+\|\boldsymbol{A}\|\cdot\|\boldsymbol{A}^{-1}\| \ge \|\boldsymbol{AA}^{-1}\| = 1
+\]</span></p>
+<p>이 성립한다. 즉 가역행렬의 경우 조건수는 함수에 대한 입력값(<span class="math inline">\(\boldsymbol{x}_0\)</span>) 과는 상관 없이 행렬과 그 역행렬의 노름의 곱으로 정해진다.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-conditional_number_of_invirtible_matrix" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 8 (가역행렬의 조건수)</strong></span> <span class="math inline">\(n \times n\)</span> 가역행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 조건수 <span class="math inline">\(\kappa_\boldsymbol{A}\)</span> 는 다음과 같다.</p>
+<p><span class="math display">\[
+\kappa_\boldsymbol{A} := \|\boldsymbol{A}\| \cdot \|\boldsymbol{A}^{-1}\|
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<div id="prp-condition_number_for_types_of_matrix" class="theorem proposition">
+<p><span class="theorem-title"><strong>명제 7</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 가 정규행렬이며 <span class="math inline">\(\mathcal{M}_{n}(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(L_2\)</span> 노름이 정의되어 있다고 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유값의 집합 <span class="math inline">\(\Lambda\)</span> 에 대해 <span class="math inline">\(\lambda_\max := \max \{|\lambda|: \lambda \in \Lambda\}\)</span>, <span class="math inline">\(\lambda_\min := \min \{|\lambda| :\lambda \in \Lambda \}\)</span> 일 때 다음이 성립한다.</p>
+<p><span class="math display">\[
+\kappa_\boldsymbol{A}= \dfrac{\lambda_{\max}}{\lambda_{\min}}
+\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{A}\)</span> 가 정규행렬이면 고유벡터로 대각화가 가능하며, 가역이므로 고유값은 모두 <span class="math inline">\(0\)</span> 이 아니다. 이제 <span class="math inline">\(\boldsymbol{A}\)</span> 를 각각의 대각성분이 모두 <span class="math inline">\(0\)</span> 이 아닌 대각행렬로 간주해도 된다. <span class="math inline">\(\boldsymbol{v}\in \mathcal{M}_{n}(\mathbb{F})\)</span> 가 정규화된 벡터라고 하면</p>
+<p><span class="math display">\[
+\|\boldsymbol{Av}\|_2  \le |\lambda_\max|
+\]</span></p>
+<p>이다. <span class="math inline">\(\boldsymbol{v}\)</span> 가 <span class="math inline">\(\lambda_\max\)</span> 에 대한 고유벡터일 때 등호가 성립하므로 <span class="math inline">\(\|\boldsymbol{A}\|_2 = \lambda_\max\)</span> 이다. 같은 방법으로 <span class="math inline">\(\|\boldsymbol{A}^{-1}\|_2 = \dfrac{1}{\lambda_\min}\)</span> 임을 보일 수 있다. <span class="math inline">\(\square\)</span></p>
+</div>
+<p><br></p>
+<div id="cor-condition_number_for_types_of_matrix" class="theorem corollary">
+<p><span class="theorem-title"><strong>따름정리 2</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 가 에르미트 행렬일 때도 <a href="#prp-condition_number_for_types_of_matrix" class="quarto-xref">명제&nbsp;7</a> 가 성립한다.</p>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="다양한-행렬들" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="다양한-행렬들"><span class="header-section-number">2</span> 다양한 행렬들</h2>
+<p>여기서는 julia 언어에서 다양한 벡터와 행렬을 어떻게 다루는 지를 배운다.</p>
+<section id="sec-sparse_matrix" class="level3">
+<h3 class="anchored" data-anchor-id="sec-sparse_matrix">성긴행렬과 밀집행렬</h3>
+<p>수학적으로 <strong>성긴행렬</strong>(혹은 <strong>희소행렬</strong>, <strong>sparse matrix</strong>) 은 행렬 성분의 대다수가 0 인 행렬을 의미하며, 반대의 경우를 <strong>밀집 행렬(dense matrix)</strong> 이라고 한다. 우리가 지금까지 다룬 행렬들은 행렬의 모든 성분을 컴퓨터가 저장하였다. 그러나 행렬이 매우 큰 경우, 예를 들면 <code>Float64</code> 타입의 <span class="math inline">\(100K \times 100K\)</span>(<span class="math inline">\(1K=1,000\)</span>) 행렬은 성분을 저장하는 데만 80 Gbytes 의 저장공간을 차지하므로 개인 컴퓨터에서는 처리가 거의 불가능하며, 실제로 많이 다루는 시스템은 이것보다 훨씬 클 수 가 있다. 다행히 우리가 관심있는 시스템 가운데 상당수는 행렬의 대부분의 성분이 <span class="math inline">\(0\)</span> 인데, 이 경우 행렬의 모든 성분을 저장하는 것이 아니라 <span class="math inline">\(0\)</span> 이 아닌 성분만을 그 인덱스와 함께 저장하여 더 작은 저장공간에서 더 빠르게 계산 할 수 있다. 수치해석에서는 이렇게 행렬의 인덱스와 값을 저장하고, 인덱스가 지정되지 않은 행렬을 <span class="math inline">\(0\)</span> 으로 간주하는 행렬을 성긴 행렬이라 하며, 우리가 지금 까지 다뤘던, 인덱스에 따라 순차적으로 성분을 저장하는 행렬을 밀집 행렬 (dense matrix) 이라 한다.</p>
+<p>다차원 배열에 대해서도 성긴 배열을 생각 할 수 있으며 Julia 의 표준 라이브러리에 포함된 <code>SparseArrays</code> 모듈을 이용하여 1차원 배열인 성긴 벡터와, 2차원 배열인 성긴 행렬을 지원한다. Julia 에서의 희소행렬은 내부적으로 아래와 같이 구현되어 있다. 5개의 멤버를 갖는 구조체이며 행렬의 크기와, 행, 열, 값을 갖는다. <code>SmarseMatrixCSC</code> 의 <code>CSC</code> 는 희소행렬을 내부적으로 저장할 때 쓰는 일종의 압축 방식을 표현한다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> <span class="dt">SparseMatrixCSC</span>{Tv,Ti<span class="op">&lt;:</span><span class="dt">Integer</span>} <span class="op">&lt;:</span><span class="dt"> AbstractSparseMatrixCSC{Tv,Ti}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    m<span class="op">::</span><span class="dt">Int                  </span><span class="co"># Number of rows</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    n<span class="op">::</span><span class="dt">Int                  </span><span class="co"># Number of columns</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    colptr<span class="op">::</span><span class="dt">Vector{Ti}      </span><span class="co"># Column j is in colptr[j]:(colptr[j+1]-1)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    rowval<span class="op">::</span><span class="dt">Vector{Ti}      </span><span class="co"># Row indices of stored values</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    nzval<span class="op">::</span><span class="dt">Vector{Tv}       </span><span class="co"># Stored values, typically nonzeros</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>가장 기본적인 생성 방법은 <code>sparse()</code> 함수를 이용하는 것이다. 아래의 예에서 <code>A</code> 는 밀집행렬이며 이것을 <code>sparse</code> 함수를 통해 희소행렬로 만들었다. 혹은 <code>sparse(I, J, V)</code> 를 통해서도 생성할 수 있는데, <code>I</code> 는 행 인덱스를 나타내는 벡터, <code>J</code> 는 열 인덱스를 나타내는 벡터, <code>V</code> 는 값을 나타내는 벡터이다. 즉, <code>B=sparse(I, J, V)</code> 라면,</p>
+<p><span class="math display">\[
+B_{I[i], J[i]}=V[i], \, i=1,\,2,\ldots
+\]</span></p>
+<p>이다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [1]: using LinearAlgebra, SparseArrays</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>In [2]: A = Matrix(1.0I, 3, 3)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Out[2]: 3×3 Matrix{Float64}:</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a> 1.0  0.0  0.0</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a> 0.0  1.0  0.0</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a> 0.0  0.0  1.0</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>In [3]: sparse(A)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>Out[3]: 3×3 SparseMatrixCSC{Float64, Int64} with 3 stored entries:</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a> 1.0   ⋅    ⋅ </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  ⋅   1.0   ⋅ </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  ⋅    ⋅   1.0</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>In [4]: B = sparse([1, 1, 2, 3], [1, 3, 2, 3], [-1.0, 2.0, 0.0, 4.0])</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>Out[4]: 3×3 SparseMatrixCSC{Float64, Int64} with 4 stored entries:</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a> -1.0   ⋅   2.0</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>   ⋅   0.0   ⋅ </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>   ⋅    ⋅   4.0</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>In [5]: dropzeros(B)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>Out[5]: 3×3 SparseMatrixCSC{Float64, Int64} with 3 stored entries:</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a> -1.0   ⋅   2.0</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>   ⋅    ⋅    ⋅ </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>   ⋅    ⋅   4.0</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>마지막의 <code>dropzeros()</code> 함수는 희소 행렬 내의 <span class="math inline">\(0\)</span> 을 제거하여 저장공간을 줄인다. <code>B=sparse(I, J, V)</code> 형식으로 생성하면, <code>B</code> 행렬의 크기는 <code>I</code> 와 <code>J</code> 벡터의 최대값으로 정해지지만, 행렬의 크기를 정할 수 있다. 예를 들어,</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>In [6]: sparse([1, 2], [1, 3], [1, -1], 4, 4)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Out[6]: 4×4 SparseMatrixCSC{Int64, Int64} with 2 stored entries:</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> 1  ⋅   ⋅  ⋅</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  -1  ⋅</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅   ⋅  ⋅</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>와 같이 <code>sparse(I, J, V, m, n)</code> 형식으로 생성하면 이 희소행렬은 <span class="math inline">\(m \times n\)</span> 행렬이 된다. 희소벡터는 <code>sparsevec(I, V, m)</code> 형식으로 생성 할 수 있다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>In [7]: sparsevec([1, 4], [2, -1], 5)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Out[7]: 5-element SparseVector{Int64, Int64} with 2 stored entries:</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  [1]  =  2</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  [4]  =  -1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>영행렬 혹은 영벡터는 <code>spzeros()</code> 함수를 통해 생성한다. 성긴 단위행렬은 <code>sparse(I, 4, 4)</code> 와 같이 생성한다. 단 <code>I</code> 는 <code>LinearAlgebra</code> 모듈에 정의되어 있으므로 <code>using LinearAlgebra</code> 를 한 후 사용할 수 있다.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">LinearAlgebra</span>, <span class="bu">SparseArrays</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sm1 <span class="op">=</span> <span class="fu">spzeros</span>(<span class="dt">Float32</span>, <span class="fl">10</span>, <span class="fl">10</span>) <span class="co"># Float32 타입의 값을 갖는 10x10 성긴행렬</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>sm2 <span class="op">=</span> <span class="fu">spzeros</span>(<span class="fl">5</span>, <span class="fl">5</span>) <span class="co"># 타입이 지정되지 않으면 Float64 타입의 값을 갖는다.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>sv <span class="op">=</span> <span class="fu">spzeros</span>(<span class="fl">4</span>) <span class="co">#Float64 타입의 4 차원 벡터</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>sI <span class="op">=</span> <span class="fu">sparse</span>(I, <span class="fl">4</span>, <span class="fl">4</span>) <span class="co"># 4xt 단위행렬</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="타입으로-정의된-행렬" class="level3">
+<h3 class="anchored" data-anchor-id="타입으로-정의된-행렬">타입으로 정의된 행렬</h3>
+<p><code>LinearAlgebra.jl</code> 은 선형대수학에서 사용되는 특별한 명칭이 붙은 행렬중 일부를 특별히 별도의 타입으로 지정하였다. 아주 단순한 예를 들자면 선형 시스템 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 풀 때, <span class="math inline">\(\boldsymbol{A}\)</span> 가 대각성분을 제외한 성분이 모두 <span class="math inline">\(0\)</span> 인 대각행렬이라면 쉽게 풀 수 있으며, 상삼각행렬이나, 하삼각행렬이라도 일반적인 행렬에 비해서도 훨씬 쉽게 풀 수 있다. 그러나 컴퓨터가 임의로 <span class="math inline">\(\boldsymbol{A}\)</span> 가 어떤 행렬인지 결정하게 하기는 힘들며, 때때로 바람직 하지 않은 오류를 낼 수 있다. Julia 에서는 다중 디스패치를 이용할 수 있으므로 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 를 각각의 형태에 맞는 타입으로(대각행렬이라든가, 상삼각행렬이라든가) 정해 줄 수 있다면 이에 맞춰서 선형 시스템을 푸는 함수를 공통적으로 정의 할 수 있다. 즉 <code>solve_linearsystem_diagonal</code>, <code>solve_linearsystem_uppertriangula</code> 등을 따로 정의 할 필요 없이 <code>solve_linearsystem(A::Diatonal)</code>, <code>solve_linearsystem(A::UpperTriangula)</code> 와 같이 할 수 있다는 뜻이다.</p>
+<p><code>LinearAlgebra.jl</code> 에 정의된 특수한 타입으로서의 행렬의 목록은 아래와 같다.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+경고
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>아래의 목록에 정의된 행렬의 타입들 가운데 상당수는 성긴행렬이다. 굳이 밀집행렬로 바꾸고 싶다면 <code>Matrix(A)</code> 를 사용한다.</p>
+</div>
+</div>
+<p><br></p>
+<table class="table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 35%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">타입</th>
+<th style="text-align: left;">명칭</th>
+<th style="text-align: center;">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>UniformScaling</code></td>
+<td style="text-align: left;">Uniform scaling operator</td>
+<td style="text-align: center;">c<span class="math inline">\(\boldsymbol{I}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>Diagonal</code></td>
+<td style="text-align: left;">대각행렬 (Diagonal matrix)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>Bidiagonal</code></td>
+<td style="text-align: left;">상/하 쌍대각 행렬 (Upper/lower bidiagonal matrix)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>Tridiagonal</code></td>
+<td style="text-align: left;">삼중 대각 행렬 (Tridiagonal matrix)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>SymTridiagonal</code></td>
+<td style="text-align: left;">대칭 삼중 대각 행렬 (Symmetric tridiagonal matrix)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>UpperTriangular</code></td>
+<td style="text-align: left;">상삼각행렬 (Upper triangular matrix)</td>
+<td style="text-align: center;"><span class="math inline">\(i&gt;j \implies A_{ij}=0\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>UnitUpperTriangular</code></td>
+<td style="text-align: left;">단위 상삼각행렬 (Upper triangular matrix with unit diagonal)</td>
+<td style="text-align: center;">상삼각행렬이며 대각성분이 <span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>LowerTriangular</code></td>
+<td style="text-align: left;">하삼각행렬 (Lower triangular matrix)</td>
+<td style="text-align: center;"><span class="math inline">\(i&lt;j \implies A_{ij}=0\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>UnitLowerTriangular</code></td>
+<td style="text-align: left;">단위 하삼각행렬 (Lower triangular matrix with unit diagonal)</td>
+<td style="text-align: center;">하삼각행렬이며 대각성분이 <span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>UpperHessenberg</code></td>
+<td style="text-align: left;">상 헤센베르크 행렬 (Upper Hessenberg matrix)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>Symmetric</code></td>
+<td style="text-align: left;">대칭 행렬 (Symmetric matrix)</td>
+<td style="text-align: center;"><span class="math inline">\(\boldsymbol{A} =\boldsymbol{A}^T\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>Hermitian</code></td>
+<td style="text-align: left;">에르미트 행렬 (Hermitian matrix)</td>
+<td style="text-align: center;"><span class="math inline">\(\boldsymbol{A} =\boldsymbol{A}^\ast\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<section id="uniformscaling" class="level4">
+<h4 class="anchored" data-anchor-id="uniformscaling"><code>UniformScaling</code></h4>
+<p><code>UniformScaling</code> 은 단위행렬에 상수를 곱한것을 말한다. <code>UniformScaling(2.0)</code> 은 (<code>2.0</code> 이 <code>Float64</code> 타입의 부동소수이므로) <code>Float64</code> 타입의 성분을 갖는 단위행렬이다. 다만 아직까지는 차원이 정해지지 않으며 다른 행렬과 연산될 때 적절한 차원을 갖게 된다. 단위행렬을 나타내는 <code>I</code> 를 대신 사용 할 수 있으며, <code>UniformScaling(2.0)==2.0I</code> 이다.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>In [1]: using LinearAlgebra, SparseArrays</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>In [2]: 2.0I + 3</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Out[2]: 5.0</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>In [3]: 2.0I + [0  1; 2 3]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Out[3]: 2×2 Matrix{Float64}:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a> 2.0  1.0</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a> 2.0  5.0</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="sec-diagonal_matrix" class="level4">
+<h4 class="anchored" data-anchor-id="sec-diagonal_matrix"><code>Diagonal</code></h4>
+<p>대각행렬을 나타내는 타입이다. <span class="math inline">\(n\)</span> 차원 벡터를 입력하면 차례로 대각성분이 되는 대각행렬을 만든다.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>In [4]: Diagonal([1, 10, 100])</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Out[4]: 3×3 Diagonal{Int64, Vector{Int64}}:</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a> 1   ⋅    ⋅</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a> ⋅  10    ⋅</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a> ⋅   ⋅  100</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>Diagonal</code> 타입의 행렬에 <code>UniformScaling</code> 을 더하면, 아마 여러분이 예상한 결과가 나올 것이다.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">5</span>]<span class="op">:</span> <span class="fu">Diagonal</span>([<span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">100</span>]) <span class="op">+</span> <span class="fl">3.0</span>I</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">5</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">×</span><span class="fl">3</span> Diagonal{<span class="dt">Float64</span>, <span class="dt">Vector</span>{<span class="dt">Float64</span>}}<span class="op">:</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> <span class="fl">4.0</span>    <span class="op">⋅</span>      <span class="op">⋅</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">⋅</span>   <span class="fl">13.0</span>     <span class="op">⋅</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">⋅</span>     <span class="op">⋅</span>   <span class="fl">103.0</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="sec-pseudodiagonal_matrix" class="level4">
+<h4 class="anchored" data-anchor-id="sec-pseudodiagonal_matrix"><code>Bidiagonal</code>, <code>Tridiagonal</code>, <code>SymTridiagonal</code></h4>
+<p><span class="math inline">\(m\times n\)</span> 행렬 <span class="math inline">\(A_{ij}\)</span> 에서 <span class="math inline">\(A_{ii},\, i=1,\ldots,\, \min \{m,\,n\}\)</span> 을 대각(diagonal) 성분이라 한다. 대각 성분의 바로 오른쪽 성분, 즉 <span class="math inline">\(A_{i,\, i+1}\)</span> 을 <strong>상대각 (superdialgonal)</strong> 성분이라 하며, 왼쪽 성분, 즉 <span class="math inline">\(A_{i+1,\,i}\)</span> 을 <strong>하대각(subdiagonal)</strong> 성분이라 한다.(적절한 번역어를 못찾아서 임의로 붙인 이름이다.)</p>
+<p>대각행렬과 대각성분 근처의 일부만을 제외한 모든 성분이 <span class="math inline">\(0\)</span> 인 행렬을 <strong>띠행렬 (Band matrix)</strong>이라 한다. 대각성분과 상대각 성분/하대각 성성분 가운데 하나를 제외한 모든 성분이 <span class="math inline">\(0\)</span> 인 행렬을 각각 상쌍대각 행렬/하쌍대각 행렬이라 한다. 아래의 보기에서 <span class="math inline">\(\boldsymbol{B}_U\)</span> 는 상쌍대각행렬, <span class="math inline">\(\boldsymbol{B}_L\)</span> 은 하쌍대각행렬이다.</p>
+<p><span class="math display">\[
+\boldsymbol{B}_U = \begin{bmatrix} 4 &amp; 1 &amp; 0 &amp;0  \\ 0 &amp; 3 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 2 &amp;  2 \\ 0 &amp; 0 &amp; 0 &amp; 5 \end{bmatrix} ,\qquad \boldsymbol{B}_L = \begin{bmatrix} 4 &amp; 0 &amp; 0 &amp;0  \\ 1 &amp; 3 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 2 &amp;  0 \\ 0 &amp; 0 &amp; 2 &amp; 5 \end{bmatrix}
+\]</span></p>
+<p>쌍대각 행렬은 <code>Bidiagonal</code> 객체로 표현되며, 두가지 방법으로 구성 할 수 있다. 첫번째 방법은 생성자에(객체의 생성자이므로 객체와 같은 이름을 가진다.) 첫번째 인자로 대각성분을, 두번째 인자로 <span class="math inline">\(0\)</span> 이 아닌 대각성분의 위/아래 성분을, 세번째 인자로 상쌍대각행렬이면 <code>:U</code> 를 하쌍대각행렬이면 <code>:L</code> 을 입력하는 방법이다.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>In [6]: Bu = Bidiagonal([4, 3, 2, 5], [1, 1, 0], :U)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Out[6]: 4×4 Bidiagonal{Int64, Vector{Int64}}:</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a> 4  1  ⋅  ⋅</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a> ⋅  3  1  ⋅</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  2  0</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  ⋅  5</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>In [7]: Bl = Bidiagonal([4, 3, 2, 5], [1, 1, 2], :L)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>Out[7]: 4×4 Bidiagonal{Int64, Vector{Int64}}:</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a> 4  ⋅  ⋅  ⋅</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a> 1  3  ⋅  ⋅</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a> ⋅  1  2  ⋅</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  2  5</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>Bidiangoal</code> 타입 행렬을 구성하는 두번째 방법은 이미 존재하는 행렬로부터 대각성분을 포함한 <span class="math inline">\(0\)</span> 이 아닌 성분을 가져오는 방법이다. 다음을 보면 쉽게 이해 할 수 있을 것이다.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>In [9]: A = [1 1 1 1; 2 2 2 2; 3 3 3 3; 4 4 4 4]; Bidiagonal(A, :U)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Out[9]: 4×4 Bidiagonal{Int64, Vector{Int64}}:</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a> 1  1  ⋅  ⋅</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a> ⋅  2  2  ⋅</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  3  3</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  ⋅  4</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>In [10]: Bidiagonal(A, :L)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>Out[10]: 4×4 Bidiagonal{Int64, Vector{Int64}}:</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a> 1  ⋅  ⋅  ⋅</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a> 2  2  ⋅  ⋅</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a> ⋅  3  3  ⋅</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  4  4</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<p>대각성분, 상대각성분, 하대각성분을 제외한 성분이 모두 <span class="math inline">\(0\)</span> 인 성분을 삼중대각행렬 (Tridiagonal matrix) 라 하며 <code>LinearAlgebra.jl</code> 에서는 <code>Tridiagonal</code> 타입으로 정의된다. 아래의 행렬 <span class="math inline">\(\boldsymbol{C}\)</span> 는 삼중 대각행렬이다.</p>
+<p><span class="math display">\[
+\boldsymbol{C} = \begin{bmatrix} 4 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\ 2 &amp; 3 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 3 &amp;1&amp; 2 &amp;  0 \\ 0 &amp; 0 &amp; 2&amp; 5 &amp; 1 \\ 0 &amp; 0 &amp; 0 &amp;3 &amp; 6 \end{bmatrix}
+\]</span></p>
+<p>삼중대각행렬을 구성하는 방법은 쌍대각행렬을 구성하는 방법과 비슷하게 두가지 방법이다. 하나는 대각행렬 아래 성분들을 나타내는 벡터, 대각성분벡터, 대각성분 위의 성분들을 나타내는 벡터를 차례로 입력하는 것이다.</p>
+<p>위의 행렬 <span class="math inline">\(\boldsymbol{C}\)</span> 를 구성한다면</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>In [11]: C = Tridiagonal([2, 3, 2, 3], [4, 3, 1, 5, 6], [1, 1, 2, 1])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Out[11]: 5×5 Tridiagonal{Int64, Vector{Int64}}:</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> 4  1  ⋅  ⋅  ⋅</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> 2  3  1  ⋅  ⋅</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a> ⋅  3  1  2  ⋅</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  2  5  1</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  ⋅  3  6</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>와 같이 할 수 있다.</p>
+<p>다른 방법은 이미 존재하는 행렬로부터 구성하는 것이다.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>In [13]: D = [1 2 3 4 5]' *ones(Int64, 5)'</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Out[13]: 5×5 Matrix{Int64}:</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> 1  1  1  1  1</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a> 2  2  2  2  2</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a> 3  3  3  3  3</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a> 4  4  4  4  4</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a> 5  5  5  5  5</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>In [13]: Tridiagonal(D)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>Out[13]: 5×5 Tridiagonal{Int64, Vector{Int64}}:</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a> 1  1  ⋅  ⋅  ⋅</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a> 2  2  2  ⋅  ⋅</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a> ⋅  3  3  3  ⋅</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  4  4  4</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  ⋅  5  5</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>SymTridiagonal</code> 은 대칭인 삼중대각행렬을 나타내는 타입이다. 대칭행렬이므로 대각행렬의 위 띠와 아래띠가 같다. 이것은 어떻게 구성할까? 여러분이 짐작할 수 있듯이 대각성분과, 띠 성분을 벡터로 입력하면 된다.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>In [14]: SymTridiagonal([1,2, 3, 4, 5], [-1, -2, -3, -4])</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Out[14]: 5×5 SymTridiagonal{Int64, Vector{Int64}}:</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  1  -1   ⋅   ⋅   ⋅</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a> -1   2  -2   ⋅   ⋅</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  ⋅  -2   3  -3   ⋅</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  ⋅   ⋅  -3   4  -4</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  ⋅   ⋅   ⋅  -4   5</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="uppertriangular-lowertriangular" class="level4">
+<h4 class="anchored" data-anchor-id="uppertriangular-lowertriangular"><code>UpperTriangular</code>, <code>LowerTriangular</code></h4>
+<p>상삼각행렬과 하삼각행렬을 다루기 위한 타입은 각각 <code>UpperTriangular</code>, <code>LowerTriangular</code> 이다. 거기에 대각성분이 <span class="math inline">\(1\)</span> 인 행렬로 특별히 <code>UnitUpperTriangular</code>, <code>UnitLowerTriangular</code> 타입이 준비되어 있다. 이미 존재하는 행렬로부터 필요한 만큼의 행렬 원소를 취하여 행렬을 구성 할 수 있다.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>In [15]: A = [1.0 2.0 3.0; 4.0 5.0 6.0; 7.0 8.0 9.0]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Out[15]: 3×3 Matrix{Float64}:</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a> 1.0  2.0  3.0</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a> 4.0  5.0  6.0</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a> 7.0  8.0  9.0</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>In [16]: UpperTriangular(A)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>Out[16]: 3×3 UpperTriangular{Float64, Matrix{Float64}}:</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a> 1.0  2.0  3.0</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  ⋅   5.0  6.0</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  ⋅    ⋅   9.0</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>In [17]: LowerTriangular(A)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>Out[17]: 3×3 LowerTriangular{Float64, Matrix{Float64}}:</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a> 1.0   ⋅    ⋅ </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a> 4.0  5.0   ⋅ </span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a> 7.0  8.0  9.0</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>In [18]: UnitUpperTriangular(A)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>Out[18]: 3×3 UnitUpperTriangular{Float64, Matrix{Float64}}:</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a> 1.0  2.0  3.0</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  ⋅   1.0  6.0</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  ⋅    ⋅   1.0</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>In [19]: UnitLowerTriangular(A)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>Out[19]: 3×3 UnitLowerTriangular{Float64, Matrix{Float64}}:</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a> 1.0   ⋅    ⋅ </span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a> 4.0  1.0   ⋅ </span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a> 7.0  8.0  1.0</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="헤센베르그-행렬" class="level4">
+<h4 class="anchored" data-anchor-id="헤센베르그-행렬">헤센베르그 행렬</h4>
+<p>헤센베르그 행렬은 상헤센베르그 행렬(Upper Hessenberg matrix) 과 하헤센베르그 행렬(Lower Hessenberg matrix) 로 이루어진다. 상헤센베르그 행렬(Upper Hessenberg matrix) 은 정사각행렬이며 행렬의 좌하단 모서리 부근이 모두 <span class="math inline">\(0\)</span> 인 행렬이다. 하헤센베르그 행렬(Lower Hessenberg matrix) 는 정사각 행렬이며 행렬의 우하단 모서리 부근이 모두 <span class="math inline">\(0\)</span> 인 행렬이다. 아래의 보기에서 <span class="math inline">\(\boldsymbol{H}_U\)</span> 는 상헤센베르그 행렬, <span class="math inline">\(\boldsymbol{H}_L\)</span> 은 하헤센베르그 행렬이다.</p>
+<p><span class="math display">\[
+\boldsymbol{H}_U = \begin{bmatrix} 3 &amp; 4 &amp; 2 &amp; 3\\ 1 &amp; 4 &amp; 2 &amp; 3\\ 0 &amp; 2 &amp; 3 &amp; 5 \\ 0 &amp; 0 &amp; 1 &amp; 1\\\end{bmatrix}
+,\qquad \boldsymbol{H}_L = \begin{bmatrix} 1 &amp; 2 &amp; 0 &amp; 0 \\ 7 &amp; 2 &amp; 3 &amp; 0 \\ 3 &amp; 4 &amp; 3 &amp; 7 \\ 5 &amp; 3 &amp; 1 &amp;2 \end{bmatrix}
+\]</span></p>
+<p>Julia 에서는 상헤센베르그 행렬 가운데 첫번째 subdiagonal elements 아래의 성분을 <code>0</code> 으로 하는 행렬만 따로 <code>UpperHessenberg</code> 타입으로 정의한다. 임의의 정사각 행렬에 대해 <code>UpperHessenberg</code> 생성자를 취하면 다음과 같다.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>In [20]: HH = [3  4  2  3; 1  4  2  3; 1  2  3  5 ; 1  2  1  1]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Out[20]: 4×4 Matrix{Int64}:</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> 3  4  2  3</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a> 1  4  2  3</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a> 1  2  3  5</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a> 1  2  1  1</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>In [21]: HU = UpperHessenberg(HH)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>Out[21]: 4×4 UpperHessenberg{Int64, Matrix{Int64}}:</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a> 3  4  2  3</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a> 1  4  2  3</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a> ⋅  2  3  5</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a> ⋅  ⋅  1  1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="대칭행렬과-에르미트-행렬" class="level4">
+<h4 class="anchored" data-anchor-id="대칭행렬과-에르미트-행렬">대칭행렬과 에르미트 행렬</h4>
+<p>어떤 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 행과 열을 바꾼 행렬을 그 행렬의 전치행렬 (transposed matrix) 라 하고 <span class="math inline">\(\boldsymbol{A}^T\)</span> 이라 한다. 즉 <span class="math inline">\((\boldsymbol{A}^T)_{ij} = (\boldsymbol{A})_{ji}\)</span> 이다. 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 행과 열을 바꾸고 켤레복소수를 취한것을 켤레전치 행렬(conjugate transpose matrix) 혹은 에르미트 전치 행렬(Hermite transpose matrix)라 하고 <span class="math inline">\(\boldsymbol{A}^\ast\)</span> 나 <span class="math inline">\(\boldsymbol{A}^\dagger\)</span> 라 쓴다. 전자는 수학에서, 후자는 물리학에서 주로 쓰는 표현이다. <span class="math inline">\(\boldsymbol{A}=\boldsymbol{A}^T\)</span> 이면 <strong>대칭행렬</strong> 이라 한다. <span class="math inline">\(\boldsymbol{A}=\boldsymbol{A}^\ast\)</span> 이면 에르미트 행렬(Hermitian matrix), 혹은 자기수반 행렬(Self-adjoint matrix) 라 한다. 예를 들어 <span class="math inline">\(\boldsymbol{A} =\begin{bmatrix} 2+3i &amp; i \\ 2i &amp; 3\end{bmatrix}\)</span> 에 대해,</p>
+<p><span class="math display">\[
+\boldsymbol{A}^T =\begin{bmatrix} 2+3i &amp; 2i \\ i &amp; 3\end{bmatrix},\qquad \boldsymbol{A}^\ast = \begin{bmatrix} 2-3i &amp; -i \\ -2i &amp; 3\end{bmatrix}
+\]</span></p>
+<p>이다. 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 가 실수 성분만을 가진다면 <span class="math inline">\(\boldsymbol{A}^T = \boldsymbol{A}^\ast\)</span> 이다.</p>
+<p>대칭행렬에 대한 타입은 <code>Symmetric</code> 이다. 이미 존재 하는 행렬에서 하삼각부분이나 상삼각부분을 취하여 대칭행렬로 만든다.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>In [22]: A = [1 0 2 0 3; 0 4 0 5 0; 6 0 7 0 8; 0 9 0 1 0; 2 0 3 0 4]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>Out[22]: 5×5 Matrix{Int64}:</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a> 1  0  2  0  3</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a> 0  4  0  5  0</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a> 6  0  7  0  8</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a> 0  9  0  1  0</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a> 2  0  3  0  4</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>In [23]: Supper = Symmetric(A, :U)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>Out[23]: 5×5 Symmetric{Int64, Matrix{Int64}}:</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a> 1  0  2  0  3</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a> 0  4  0  5  0</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a> 2  0  7  0  8</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a> 0  5  0  1  0</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a> 3  0  8  0  4</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>In [24]: Slower = Symmetric(A, :L)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>Out[24]: 5×5 Symmetric{Int64, Matrix{Int64}}:</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a> 1  0  6  0  2</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a> 0  4  0  9  0</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a> 6  0  7  0  3</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a> 0  9  0  1  0</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a> 2  0  3  0  4</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>행렬 <code>A</code> 의 하삼각 부분을 취하여 대칭행렬로 만들 때는 <code>Symmetric(A, :U)</code> 라 하고, 하삼각 부분을 취하여 대칭행렬로 만들 때는 <code>Symmetric(A, :L)</code> 라 한다. 이 때 <code>:U</code> 나 <code>:L</code> 을 입력하지 않으면 <code>:U</code> 를 기본값으로 하여 대칭행렬을 만든다.</p>
+<p>에르미트 행렬에 대한 타입은 <code>Hermite</code> 이며 마찬가지로 <code>Hermite(A, :U)</code> 나 <code>Hermite(A, :L)</code> 로 에르미트행렬을 만든다. 역시 기본값은 <code>:U</code> 이다.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>In [25]: A = [1 0 2+2im 0 3-3im; 0 4 0 5 0; 6-6im 0 7 0 8+8im; 0 9 0 1 0; 2+2im 0 3-3im 0 4];</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>In [26]: Hupper = Hermitian(A)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Out[26]: 5×5 Hermitian{Complex{Int64}, Matrix{Complex{Int64}}}:</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a> 1+0im  0+0im  2+2im  0+0im  3-3im</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a> 0+0im  4+0im  0+0im  5+0im  0+0im</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a> 2-2im  0+0im  7+0im  0+0im  8+8im</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a> 0+0im  5+0im  0+0im  1+0im  0+0im</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a> 3+3im  0+0im  8-8im  0+0im  4+0im</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>In [27]: Hlower = Hermitian(A, :L)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>Out[27]: 5×5 Hermitian{Complex{Int64}, Matrix{Complex{Int64}}}:</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a> 1+0im  0+0im  6+6im  0+0im  2-2im</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a> 0+0im  4+0im  0+0im  9+0im  0+0im</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a> 6-6im  0+0im  7+0im  0+0im  3+3im</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a> 0+0im  9+0im  0+0im  1+0im  0+0im</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a> 2+2im  0+0im  3-3im  0+0im  4+0im</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+</section>
+</section>
+<section id="linearalgebra.jl-의-기본-연산자와-함수" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="linearalgebra.jl-의-기본-연산자와-함수"><span class="header-section-number">3</span> <code>LinearAlgebra.jl</code> 의 기본 연산자와 함수</h2>
+<p>우리는 앞서 가우스 소거법과 LU 분해 그리고 그람-그람 슈미트 과정을 통한 QR 분해를 구현하였다. 그러나 앞으로는 이것을 버리고 Julia 에서 제공하는 <code>LinearAlgebra</code> 모듈을 사용하도록 하자. Julia 의 <code>LinearAlgebra</code> 모듈은 선형대수학에서 사용하는 많은 기능을 포함하고 있다. 여기서는 중요한 것만 설명할 것이며 자세한 것은 <a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/">LinearAlgbra.jl 공식 문서</a> 를 참고하자. <code>LinearAlgebra</code> 를 우리가 지금껏 작성한 함수와 그 속도를 비교해보면 <code>LinearAlgebra</code> 쪽이 훨씬 빠르다. 그리고 <code>LinearAlgebra</code> module 은 많은 프로그래밍 언어에서 사용중이며, 수십년의 역사를 가진 <a href="https://netlib.org/blas/">BLAS(Basic Linear Algebra Subprograms)</a> 과 <a href="https://netlib.org/lapack/">LAPACK(Linear Algebra PACKage)</a> 에 기반하여 만들어졌으므로 믿을만 하다. 많은 함수는 희소행렬과 밀집행렬에 대해 공통적으로 사용 할 수 있다.(<strong>다중 디스패치!!!</strong>)</p>
+<p><br></p>
+<section id="기본-연산자와-함수" class="level3">
+<h3 class="anchored" data-anchor-id="기본-연산자와-함수">기본 연산자와 함수</h3>
+<p><code>LininearAlgebra.jl</code> 은 행렬 <code>A</code>(<span class="math inline">\(\boldsymbol{A}\)</span>), <code>B</code>(<span class="math inline">\(\boldsymbol{B}\)</span>) 와 벡터 <code>u</code>(<span class="math inline">\(\boldsymbol{u}\)</span>), <code>v</code>(<span class="math inline">\(\boldsymbol{v}\)</span>), 스칼라 <code>a</code>(<span class="math inline">\(a\)</span>), <code>b</code>(<span class="math inline">\(b\)</span>) 에 대해 다음과 같은 함수를 지원한다. (<code>LinearAlgebra.jl</code> 이 지원하는 함수중 일부이다.)</p>
+<section id="연산자" class="level4">
+<h4 class="anchored" data-anchor-id="연산자">연산자</h4>
+<table class="table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 67%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">연산자</th>
+<th style="text-align: left;">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>+</code>, <code>-</code>, <code>*</code></td>
+<td style="text-align: left;">수학적으로 정의된 스칼라, 벡터, 행렬 사이의 더하기, 빼기, 곱하기 연산</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>\</code></td>
+<td style="text-align: left;"><code>A \ B</code> 일 경우 <code>AX==B</code> 를 만족하는 행렬 <code>A</code> 를 구한다. 구하는 방법은 <code>A</code> 가 어떤 행렬인지에 따라 달라진다.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>/</code></td>
+<td style="text-align: left;">행렬간의 연산일 경우 <code>(B' / A')</code> 를 구한다.</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>u⋅v</code> (<code>\cdot</code>+[tab])</td>
+<td style="text-align: left;"><span class="math inline">\(\boldsymbol{u} \cdot \boldsymbol{v}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>×(u, v)</code> (<code>\times</code>+[tab])</td>
+<td style="text-align: left;"><span class="math inline">\(\boldsymbol{u \times v}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</section>
+<section id="기본적인-함수" class="level4">
+<h4 class="anchored" data-anchor-id="기본적인-함수">기본적인 함수</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">함수</th>
+<th style="text-align: center;">설명</th>
+<th style="text-align: left;">비고</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>tr(A)</code></td>
+<td style="text-align: center;"><span class="math inline">\(\text{tr}(\boldsymbol{A})\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>det(A)</code></td>
+<td style="text-align: center;"><span class="math inline">\(\det(\boldsymbol{A})\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>inv(A)</code></td>
+<td style="text-align: center;"><span class="math inline">\(\boldsymbol{A}^{-1}\)</span></td>
+<td style="text-align: left;"><code>A</code> 가 정사각행렬일 경우</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>transpose(A)</code></td>
+<td style="text-align: center;"><span class="math inline">\(\boldsymbol{A}^{T}\)</span></td>
+<td style="text-align: left;"><code>A</code> 의 전치행렬</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>A'</code> or <code>adjoint(A)</code></td>
+<td style="text-align: center;"><span class="math inline">\(\boldsymbol{A}^\dagger\)</span></td>
+<td style="text-align: left;"><code>A</code> 의 에르미트 전치행렬</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>diag(A)</code></td>
+<td style="text-align: center;"><span class="math inline">\([A_{11},\,A_{22},\ldots]\)</span></td>
+<td style="text-align: left;">대각성분</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>dot(u, v)</code></td>
+<td style="text-align: center;"><code>u⋅v</code> 와 같다</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>dot(u, A, v)</code></td>
+<td style="text-align: center;"><code>dot(u, A*v)</code> 와 같다</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>cross(u, v)</code></td>
+<td style="text-align: center;"><code>×(u, v)</code> 와 같다</td>
+<td style="text-align: left;">벡터의 외적</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>norm(u, p)</code> or <code>norm(A, p)</code></td>
+<td style="text-align: center;">벡터의 <span class="math inline">\(L_p\)</span>-노름</td>
+<td style="text-align: left;"><a href="#sec-norm_of_vector_and_matrix">벡터와 행렬의 노름과 조건수</a> 참고</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>opnorm(A, p::Real=2)</code></td>
+<td style="text-align: center;">행렬의 <span class="math inline">\(L_p\)</span>-노름</td>
+<td style="text-align: left;"><a href="#sec-norm_of_vector_and_matrix">벡터와 행렬의 노름과 조건수</a> 참고</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>normalize(a, p::Real=2)</code></td>
+<td style="text-align: center;">벡터, 행렬의 정규화</td>
+<td style="text-align: left;"><code>norm(a, p)==1</code> 되도록 normalize 한다.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>exp(A)</code></td>
+<td style="text-align: center;">exponential of <span class="math inline">\(\boldsymbol{A}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\displaystyle \sum_{k=1}^\infty \dfrac{\boldsymbol{A}^k}{k!}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</section>
+</section>
+</section>
+<section id="선형-시스템" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="선형-시스템"><span class="header-section-number">4</span> 선형 시스템</h2>
+<p>우리는 앞서 LU 분해를 통해 선형 시스템을 푸는 코드를 작성하였다. 이제는 <code>LinearAlgebra.jl</code> 이 제공하는 <code>\</code> 연산자를 이용하면 쉽게 풀 수 있다. 일반적인 정사각 행렬에 대해서는 성긴 행렬이든 밀집 행렬이든 LU 분해를 통해 선형 시스템을 쉽게 풀 수 도록 해 준다. 예를 들어,</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">1</span>]<span class="op">:</span> <span class="im">using</span> <span class="bu">LinearAlgebra</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">2</span>]<span class="op">:</span> A<span class="op">=</span>[<span class="fl">4</span> <span class="fl">2</span> <span class="fl">3</span>;<span class="fl">3</span> <span class="fl">1</span> <span class="fl">2</span>;<span class="fl">3</span> <span class="fl">3</span> <span class="fl">4</span>];b<span class="op">=</span>[<span class="fl">2</span>; <span class="fl">1</span> ;<span class="op">-</span><span class="fl">1</span>]</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">2</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Int64</span>}<span class="op">:</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fl">1</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a> <span class="op">-</span><span class="fl">1</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>In [<span class="fl">3</span>]<span class="op">:</span> A<span class="op">\</span>b</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>Out[<span class="fl">3</span>]<span class="op">:</span> <span class="fl">3</span><span class="op">-</span>element <span class="dt">Vector</span>{<span class="dt">Float64</span>}<span class="op">:</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2.0</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fl">3.0000000000000013</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a> <span class="op">-</span><span class="fl">4.000000000000001</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>와 같이 풀 수 있다.</p>
+<p><br></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../src/numerical_analysis_using_julia/03_linear_system.html" class="pagination-link" aria-label="수치해석 입문 : 선형시스템과 다항식">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">수치해석 입문 : 선형시스템과 다항식</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../src/numerical_analysis_using_julia/04I_polynomial.html" class="pagination-link" aria-label="Interlude : 일변수 다항식의 Julia 구현">
+        <span class="nav-page-text">Interlude : 일변수 다항식의 Julia 구현</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
