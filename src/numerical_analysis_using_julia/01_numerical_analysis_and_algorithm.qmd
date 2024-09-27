@@ -21,7 +21,7 @@ crossref:
 
 ### 정수의 표현
 
-Introductio to Julia 의 [기본적인 수 타입](../introduction_to_julia/02_variables_basic_types.qmd#sec-primary_number_types) 과 [정수형 타입](../introduction_to_julia/02_variables_basic_types.qmd#sec-integer_types) 을 참고하라.
+[Introductio to Julia](https://julia-kaeri.github.io/IntroductionToJulia/) 의 [기본적인 수 타입](https://julia-kaeri.github.io/IntroductionToJulia/src/introduction_to_julia/02_variables_basic_types.html#sec-primary_number_types) 과 [정수형 타입](https://julia-kaeri.github.io/IntroductionToJulia/src/introduction_to_julia/02_variables_basic_types.html#sec-integer_types) 을 참고하라.
 
 </br>
 

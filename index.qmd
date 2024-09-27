@@ -3,8 +3,5 @@ title: "Julia 언어와 수치해석"
 ---
 
 
-이 사이트는 주로 Julia 언어를 이용한 수치해석을 다룹니다. [Julia 프로그래밍 언어](src/introduction_to_julia/index.qmd) 에서는 Julia 언어 자체에 대해 설명합니다. [Julia 언어를 이용한 수치해석](src/numerical_analysis_using_julia/index.qmd) 에서는 Julia 언어를 이용한 수치해석에 대해 다룹니다. 
-
-
-
+이 사이트는 주로 Julia 언어를 이용한 수치해석을 다룹니다. Julia 언어에 대해서는 [Introduction to Julia](https://julia-kaeri.github.io/IntroductionToJulia/) 를 참고하시기 바랍니다. 
 

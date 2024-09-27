@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Julia &amp; Numerical Anlaysis - 수치해석 (Numerical Analysis) 과 알고리즘 (Algorithm)</title>
+<title>Julia 와 수치해석 - 수치해석 (Numerical Analysis) 과 알고리즘 (Algorithm)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../src/numerical_analysis_using_julia/02_notations_and_propositions.html" rel="next">
-<link href="../../src/numerical_analysis_using_julia/index.html" rel="prev">
+<link href="../../src/numerical_analysis_using_julia/index_part1.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -144,7 +144,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Julia &amp; Numerical Anlaysis</span>
+    <span class="navbar-title">Julia 와 수치해석</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -158,24 +158,16 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../src/numerical_analysis_using_julia/index.html" aria-current="page"> 
+    <a class="nav-link active" href="../../src/numerical_analysis_using_julia/index_part1.html" aria-current="page"> 
 <span class="menu-text">수치해석 I</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
+    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index_part2.html"> 
 <span class="menu-text">수치해석 II</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index.html"> 
-<span class="menu-text">수학</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../src/image_processing/index.html"> 
 <span class="menu-text">영상 처리/토모그래피</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../src/tools/tools.html"> 
-<span class="menu-text">Tools</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
@@ -207,7 +199,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/numerical_analysis_using_julia/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../src/numerical_analysis_using_julia/index_part1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">들어가며</span></a>
   </div>
 </li>
@@ -271,7 +263,6 @@ window.Quarto = {
  <span class="menu-text">일변수 방정식의 해</span></a>
   </div>
 </li>
-        <li class="px-0"><hr class="sidebar-divider hi "></li>
     </ul>
     </div>
 </nav>
@@ -334,7 +325,7 @@ window.Quarto = {
 <p><br></p>
 <section id="정수의-표현" class="level3">
 <h3 class="anchored" data-anchor-id="정수의-표현">정수의 표현</h3>
-<p>Introductio to Julia 의 <a href="../introduction_to_julia/02_variables_basic_types.qmd#sec-primary_number_types">기본적인 수 타입</a> 과 <a href="../introduction_to_julia/02_variables_basic_types.qmd#sec-integer_types">정수형 타입</a> 을 참고하라.</p>
+<p><a href="https://julia-kaeri.github.io/IntroductionToJulia/">Introductio to Julia</a> 의 <a href="https://julia-kaeri.github.io/IntroductionToJulia/src/introduction_to_julia/02_variables_basic_types.html#sec-primary_number_types">기본적인 수 타입</a> 과 <a href="https://julia-kaeri.github.io/IntroductionToJulia/src/introduction_to_julia/02_variables_basic_types.html#sec-integer_types">정수형 타입</a> 을 참고하라.</p>
 <p><br></p>
 <p>많은 언어들이 정수에 대해 1, 2, 4, 8, 16 바이트 정수형을 제공한다. 예를 들어 8바이트, 즉 64비트 정수형의 경우는 2<sup>64</sup>=18_446_744_073_709_551_616 개 즉, 대략 <span class="math inline">\(1.8 \times 10^{19}\)</span> 개의 정수를 표현 할 수 있다. 정수는 각 바이트에 대해 부호 있는 정수와 부호 없는 정수의 자료형이 있다. 예를 들어 2바이트 부호 없는 정수의 경우 <span class="math inline">\(0\)</span> 부터 <span class="math inline">\(2^16=65536\)</span> 까지의 정수를 다룰 수 있다. Julia 의 경우 2바이트 부호 없는 정수를 위한 자료형은 <code>UInt16</code> 이다. 부호 있는 정수의 경우에는 전체 바이트중 하나를 부호 즉 음수와 앙수를 구별하는데 사용한다. 기본적으로 부호 있는 정수에서 모든 비트가 <span class="math inline">\(0\)</span> 이면 정수 <span class="math inline">\(0\)</span> 으로 간주한다. 2바이트 부호 있는 정수의 경우 <span class="math inline">\(-32758\)</span> 에서 <span class="math inline">\(+32757\)</span> 까지의 정수를 다룰 수 있다.</p>
 <p><br></p>
@@ -980,7 +971,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../src/numerical_analysis_using_julia/index.html" class="pagination-link" aria-label="들어가며">
+      <a href="../../src/numerical_analysis_using_julia/index_part1.html" class="pagination-link" aria-label="들어가며">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">들어가며</span>
       </a>          
   </div>

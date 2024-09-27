@@ -7,7 +7,7 @@ project:
     - "!aux/"
 
 website:
-  title: "Julia & Numerical Anlaysis"
+  title: "Julia 와 수치해석"
   site-url: "https://julia-kaeri.github.io/"
   site-path: "/JuliaNumerical"
   page-navigation: true
@@ -17,21 +17,20 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href : src/numerical_analysis_using_julia/index.qmd
+      - href : src/numerical_analysis_using_julia/index_part1.qmd
         text : "수치해석 I"
-      - href : src/numerical_analysis_using_julia/index.qmd
+      - href : src/numerical_analysis_using_julia/index_part2.qmd
         text : "수치해석 II"
-      - href : src/numerical_analysis_using_julia/index.qmd
-        text : "수학"
+      # - href : src/numerical_analysis_using_julia/index.qmd
+      #   text : "수학"
       - href :  src/image_processing/index.qmd
         text : "영상 처리/토모그래피"
-      - href : src/tools/tools.qmd
-        text : "Tools"
+      # - href : src/tools/tools.qmd
+      #   text : "Tools"
       - about.qmd
     tools:
       - icon: envelope
         href: mailto:julia.kaeri@gmail.com
-
 
   sidebar:
     - title : "수치해석 I"
@@ -39,7 +38,7 @@ website:
       type : "dark"
       collapse-level: 2
       contents:
-      - href: src/numerical_analysis_using_julia/index.qmd
+      - href: src/numerical_analysis_using_julia/index_part1.qmd
       - href: src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.qmd
       - href: src/numerical_analysis_using_julia/02_notations_and_propositions.qmd
       - href: src/numerical_analysis_using_julia/03_linear_system.qmd
@@ -50,11 +49,11 @@ website:
       - href: src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.qmd
       - href: src/numerical_analysis_using_julia/06I_Bezier.qmd
       - href: src/numerical_analysis_using_julia/07_finding_root.qmd
-      - text : "-----"
       
     - title : "수치해석 II"
       collapse-level: 2
       contents :
+      - href: src/numerical_analysis_using_julia/index_part2.qmd
       - href: src/numerical_analysis_using_julia/08_matrix_decomposition.qmd
       - href: src/numerical_analysis_using_julia/09_iterative_method_for_linear_system.qmd
       - href: src/numerical_analysis_using_julia/10_least_square_problem.qmd
@@ -63,7 +62,6 @@ website:
       - href: src/numerical_analysis_using_julia/13_ode_boundary_value_problem.qmd
       - href: src/numerical_analysis_using_julia/14_approximation.qmd
       - href: src/numerical_analysis_using_julia/15_pde_1.qmd
-      - text : "-----"
     
     - title : "수학 "
       collapse-level: 2

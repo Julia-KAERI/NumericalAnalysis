@@ -1,0 +1,38 @@
+---
+title: "들어가며"
+
+number-sections: true
+number-depth: 2
+bibliography: ../../references.bib
+crossref:
+  chapters: false
+---
+
+수치해석은 알고리즘을 중점적으로 다룰 수도 있고, 특정 언어로의 구현을 중점적으로 다룰 수도 있다. 보통 알고리즘을 중심적으로 다루는 경우는 수학적으로 깊이 들어가 내용이 명제와 수식으로 가득 차 있지만 실제 언어로 구현하는데 어려움이 있을 수 있다. 언어로의 구현을 중점적으로 다루게 되면 깊이 없이 피상적으로 코딩만 하게 될 수도 있다.
+
+알고리즘을 중심으로 설명하는 경우 실제 코드가 아닌 의사 코드(psedo code) 를 사용하는 경우가 많다. Julia 언어는 알고리즘을 직접 코드로 옮기는데 아주 유용하며, 알고리즘을 의사 코드가 아닌 julia 코드로 써도 julia 언어에 대한 기본 지식만 있다면 쉽게 알고리즘을 이해할 수 있는 경우가 많다. 여기서는 의사 코드가 아닌 julia 코드로 알고리즘을 설명한다. 
+
+실제적인 상황에서의 또 하나의 문제는 pseudo 코드와 비슷한 julia 코드가 꼭 효울적인 코드는 아니라는 것이다. 그래서 여기서는 다음의 방침을 정했다.
+
+1. 알고리즘은 julia 코드로 최대한 읽고 이해하기 쉬운 코드로 제시한다. 이 julia 코드는 자체로서 알고리즘이 원하는 동작을 하는 코드이다.
+2. 이 책에서 많은 경우 앞부분에서 사용했던 알고리즘이나 방법을 뒤에서 사용하는 경우가 많이 있다. 이를 위해 여기서 구현한 것들을 julia 패키지로 만들었고 github 에 올려두었다. [NAJ.jl](https://github.com/Julia-KAERI/NAJ.jl.git) 이며 julia 에 설치 할 수 있다.
+
+```julia
+julia> ]
+(@v1.10) pkg> add https://github.com/Julia-KAERI/NAJ.jl.git
+```
+
+
+</br>
+
+### 참고자료
+
+1. [계산수학의 태동과 발전](https://horizon.kias.re.kr/5881/) : KAIST 수학과 이창옥 교수님의 강연 요약. 수치해석의 다양한 토픽을 역사적, 실제적 맥락에서 다루었다. 
+
+2. [Some disasters attributable to bad numerical computing](https://www.iro.umontreal.ca/~mignotte/IFT2425/Disasters.html) : 캐나다 몬트리올 대학 Max Mignotte 교수님의 개인 사이트. 제목대로 수치해석의 오류로 인한 대형사고 3가지를 다룬다.
+
+3. [수치해석을 모르면 생기는 사고들](https://nx006.tistory.com/80) : 한국어 자료
+
+4. 
+
+
