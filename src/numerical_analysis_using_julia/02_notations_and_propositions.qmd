@@ -912,7 +912,7 @@ $f\in C^{n-2}[a,\,b]$ 이고 $f$ 가 $(a,\,b)$ 구간에서 $n-1$ 번 미분 가
 
 ::: {#prp-intermediate_value_theorem}
 
-#### 중간값 정리 (Intermediate value theorem) {#sec-intermediate_value_theorem}
+#### 사잇값 정리 (Intermediate value theorem) {#sec-intermediate_value_theorem}
 
 $[a,\,b]$ 를 포함하는 구간에서 연속인 함수 $f:X\to \mathbb{R}$  에 대해 $d$ 가 $f(a)$ 와 $f(b)$ 사이의 값이면, 즉 $f(a)< d < f(b)$ 이거나 $f(b)<d <f(a)$ 라면
 $$

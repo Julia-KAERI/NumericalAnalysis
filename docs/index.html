@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Julia 와 수치해석 - Julia 언어와 수치해석</title>
+<title>수치해석과 이미지 처리 - Julia 언어와 수치해석</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Julia 와 수치해석</span>
+    <span class="navbar-title">수치해석과 이미지 처리</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -145,7 +145,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>이 사이트는 주로 Julia 언어를 이용한 수치해석을 다룹니다. Julia 언어에 대해서는 <a href="https://julia-kaeri.github.io/IntroductionToJulia/">Introduction to Julia</a> 를 참고하시기 바랍니다.</p>
+<p>이 사이트는 수치해석과 이미지 처리를 다룹니다. 실제 구현되는 코드는 julia 언어로 작성되었습니다. Julia 언어에 대해서는 <a href="https://julia-kaeri.github.io/IntroductionToJulia/">Introduction to Julia</a> 를 참고하시기 바랍니다.</p>
+<p>수치해석에 많이 사용되는 언어는 Fortran, C/C++, Python, Matlab, Julia 가 있습니다. 수치 해석을 julia 언어로 구현하는 장점은 다음과 같습니다.</p>
+<ol type="1">
+<li><p>Julia 는 속도가 빠릅니다. 다른 무엇보다 <code>for</code> 나 <code>while</code> 루프가 빠릅니다. 이 속도를 더 빠르게 하는 매크로가 있지만 이 매크로 없이도 C/C++/Fortran 과 비교할만한 속도가 나오며 Python 이나 Matlab 의 루프보다는 훨씬 빠릅니다.</p></li>
+<li><p>C/C++ 보다 알고리즘의 표현력이 좋습니다. 보통 알고리즘은 언어 독립적인 유사 코드(pseudo code) 로 제시되는데 julia 의 코드와 이 유사 코드는 상당히 비슷하며 많은 경우 1-1 대응이 됩니다.</p></li>
+<li><p>Interpreter 언어입니다. 코드를 작성한 후 즉각적으로 테스트하고 확인할 수 있습니다. 물론 Python 이나 Matlab 으로도 수치 해석을 배울 수 있습니다. 그러나 numpy/scipy 나 cython, numba 등의 도움을 받지 않은 순수 파이썬 코드는 대부분의 경우 속도가 매우 느리며, numpy 등을 사용하는 경우는 수치해석을 배우는 것이 아니라 numpy 의 사용법을 배우게 됩니다. Matlab 의 경우도 유사합니다.</p></li>
+</ol>
+<p>이미 좋은 수치해석 라이브러리/패키지가 각자의 언어에서 존재합니다. 그러나 여기서는 이 패키지의 사용법이 아니라 수치해석 자체를 설명하고자 합니다. 이것을 위해서는 julia 만큼 좋은 선택이 없다고 생각합니다. 물론 실전에서는 다릅니다. Julia 의 대표적인 이미지 처리 패키지인 <code>Images.jl</code> 과 <code>OpenCV</code> 를 비교해보면 비룍 <code>OpenCV</code> 는 C++ 언어로 작성되었지만 Python 에서 구동시키는 <code>OpenCV</code> 보다 <code>Images.jl</code> 이 좋다고 말하기는 매우 힘들것입니다.</p>
 
 
 

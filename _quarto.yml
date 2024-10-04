@@ -7,7 +7,7 @@ project:
     - "!aux/"
 
 website:
-  title: "Julia 와 수치해석"
+  title: "수치해석과 이미지 처리"
   site-url: "https://julia-kaeri.github.io/"
   site-path: "/JuliaNumerical"
   page-navigation: true
