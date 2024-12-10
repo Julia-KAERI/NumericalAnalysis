@@ -891,7 +891,7 @@ $$
 
 </br>
 
-::: {#prp-roll_theorem}
+::: {#prp-roll_theorem}git
 #### 롤의 정리 (Roll's theorem) {#sec-roll_theorem}
 
 $f\in C[a,\,b]$ 이고 $f$ 가 $(a,\,b)$ 구간에서 미분가능하다고 하자. $f(a)=f(b)$ 이면 $f'(c)=0$ 을 만족하는 $c\in (a,\,b)$ 가 존재한다.

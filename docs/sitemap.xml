@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://julia-kaeri.github.io/src/tools/tools.html</loc>
-    <lastmod>2024-09-27T04:38:04.448Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/tools/tikz/tikz_test.html</loc>
-    <lastmod>2024-09-27T04:38:04.448Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/tools/tikz/tikz_image.html</loc>
-    <lastmod>2024-09-27T04:38:04.447Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/tools/tikz/tikz.html</loc>
-    <lastmod>2024-09-27T04:38:04.446Z</lastmod>
+    <loc>https://julia-kaeri.github.io/src/topics/topics.html</loc>
+    <lastmod>2024-12-10T02:09:05.178Z</lastmod>
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/index_part2.html</loc>
@@ -50,7 +38,7 @@
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/06I_Bezier.html</loc>
-    <lastmod>2024-09-27T04:38:04.289Z</lastmod>
+    <lastmod>2024-12-10T02:19:32.114Z</lastmod>
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/05I_interpolation_struct.html</loc>
@@ -62,7 +50,7 @@
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/02_notations_and_propositions.html</loc>
-    <lastmod>2024-10-04T07:26:46.949Z</lastmod>
+    <lastmod>2024-12-10T02:11:55.075Z</lastmod>
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/image_processing/wavelet_and_image.html</loc>
@@ -153,19 +141,7 @@
     <lastmod>2024-10-04T07:22:16.904Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/src/tools/Asymptote/asymptote.html</loc>
-    <lastmod>2024-09-27T04:38:04.444Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/tools/tikz/tikz_functions.html</loc>
-    <lastmod>2024-09-27T04:38:04.447Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/tools/tikz/tikz_pde.html</loc>
-    <lastmod>2024-09-27T04:38:04.447Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/tools/tikz/tikz_wavelet.html</loc>
-    <lastmod>2024-09-27T04:38:04.448Z</lastmod>
+    <loc>https://julia-kaeri.github.io/src/topics/nonlinear_least_square_fit.html</loc>
+    <lastmod>2024-12-10T02:10:57.068Z</lastmod>
   </url>
 </urlset>

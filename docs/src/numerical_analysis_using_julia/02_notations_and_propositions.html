@@ -170,6 +170,10 @@ window.Quarto = {
 <span class="menu-text">영상 처리/토모그래피</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../src/topics/topics.html"> 
+<span class="menu-text">다양한 주제들</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
@@ -974,23 +978,23 @@ n&gt;N \implies |a_n -a |&lt;\epsilon
 </div>
 </div>
 <p><br></p>
-<div id="prp-roll_theorem" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 34 (롤의 정리 (Roll’s theorem))</strong></span> <span class="math inline">\(f\in C[a,\,b]\)</span> 이고 <span class="math inline">\(f\)</span> 가 <span class="math inline">\((a,\,b)\)</span> 구간에서 미분가능하다고 하자. <span class="math inline">\(f(a)=f(b)\)</span> 이면 <span class="math inline">\(f'(c)=0\)</span> 을 만족하는 <span class="math inline">\(c\in (a,\,b)\)</span> 가 존재한다.</p>
-</div>
+<p>::: {#prp-roll_theorem}git #### 롤의 정리 (Roll’s theorem) {#sec-roll_theorem}</p>
+<p><span class="math inline">\(f\in C[a,\,b]\)</span> 이고 <span class="math inline">\(f\)</span> 가 <span class="math inline">\((a,\,b)\)</span> 구간에서 미분가능하다고 하자. <span class="math inline">\(f(a)=f(b)\)</span> 이면 <span class="math inline">\(f'(c)=0\)</span> 을 만족하는 <span class="math inline">\(c\in (a,\,b)\)</span> 가 존재한다.</p>
+<p>:::</p>
 <p><br></p>
 <div id="prp-generalized_roll_theorem" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 35 (일반화된 롤의 정리)</strong></span> <span class="math inline">\(f\in C^{n-2}[a,\,b]\)</span> 이고 <span class="math inline">\(f\)</span> 가 <span class="math inline">\((a,\,b)\)</span> 구간에서 <span class="math inline">\(n-1\)</span> 번 미분 가능하며 <span class="math inline">\(n\)</span> 개의 서로 다른 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 에서 <span class="math inline">\(f(x_i)=0\)</span> 일 때, <span class="math inline">\(f^{(n-1)}(\xi) = 0\)</span> 인 <span class="math inline">\(\xi\in (a,\,b)\)</span> 가 존재한다.</p>
+<p><span class="theorem-title"><strong>명제 34 (일반화된 롤의 정리)</strong></span> <span class="math inline">\(f\in C^{n-2}[a,\,b]\)</span> 이고 <span class="math inline">\(f\)</span> 가 <span class="math inline">\((a,\,b)\)</span> 구간에서 <span class="math inline">\(n-1\)</span> 번 미분 가능하며 <span class="math inline">\(n\)</span> 개의 서로 다른 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 에서 <span class="math inline">\(f(x_i)=0\)</span> 일 때, <span class="math inline">\(f^{(n-1)}(\xi) = 0\)</span> 인 <span class="math inline">\(\xi\in (a,\,b)\)</span> 가 존재한다.</p>
 </div>
 <p><br></p>
 <div id="prp-intermediate_value_theorem" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 36 (사잇값 정리 (Intermediate value theorem))</strong></span> <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 연속인 함수 <span class="math inline">\(f:X\to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(d\)</span> 가 <span class="math inline">\(f(a)\)</span> 와 <span class="math inline">\(f(b)\)</span> 사이의 값이면, 즉 <span class="math inline">\(f(a)&lt; d &lt; f(b)\)</span> 이거나 <span class="math inline">\(f(b)&lt;d &lt;f(a)\)</span> 라면 <span class="math display">\[
+<p><span class="theorem-title"><strong>명제 35 (사잇값 정리 (Intermediate value theorem))</strong></span> <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 연속인 함수 <span class="math inline">\(f:X\to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(d\)</span> 가 <span class="math inline">\(f(a)\)</span> 와 <span class="math inline">\(f(b)\)</span> 사이의 값이면, 즉 <span class="math inline">\(f(a)&lt; d &lt; f(b)\)</span> 이거나 <span class="math inline">\(f(b)&lt;d &lt;f(a)\)</span> 라면 <span class="math display">\[
 f(c) = d
 \]</span></p>
 <p>인 <span class="math inline">\(c\)</span> 가 <span class="math inline">\((a,\,b)\)</span> 안에 항상 존재한다.</p>
 </div>
 <p><br></p>
 <div id="prp-intermediate_value_for_many_points" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 37 (따름정리 : 여러 점의 경우)</strong></span> <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 연속인 함수 <span class="math inline">\(f:X \to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(\{x_1,\ldots,\,x_n\}\subset [a,\,b]\)</span> 일 때</p>
+<p><span class="theorem-title"><strong>명제 36 (따름정리 : 여러 점의 경우)</strong></span> <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 연속인 함수 <span class="math inline">\(f:X \to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(\{x_1,\ldots,\,x_n\}\subset [a,\,b]\)</span> 일 때</p>
 <p><span class="math display">\[
 f(c) = \dfrac{f(x_1)+ \cdots + f(x_n)}{n}
 \]</span></p>
@@ -998,14 +1002,14 @@ f(c) = \dfrac{f(x_1)+ \cdots + f(x_n)}{n}
 </div>
 <p><br></p>
 <div id="prp-mean_value_theorem" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 38 (평균값 정리 (Mean value theorem))</strong></span> 함수 <span class="math inline">\(f:X \subset\mathbb{R} \to \mathbb{R}\)</span> 이 <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 에서 연속이고, <span class="math inline">\((a,\,b)\)</span> 에서 미분 가능하면 <span class="math display">\[
+<p><span class="theorem-title"><strong>명제 37 (평균값 정리 (Mean value theorem))</strong></span> 함수 <span class="math inline">\(f:X \subset\mathbb{R} \to \mathbb{R}\)</span> 이 <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 에서 연속이고, <span class="math inline">\((a,\,b)\)</span> 에서 미분 가능하면 <span class="math display">\[
 \dfrac{f(b)-f(a)}{b-a}=f'(c)
 \]</span></p>
 <p>를 만족하는 <span class="math inline">\(c\in (a,\,b)\)</span> 가 존재한다.</p>
 </div>
 <p><br></p>
 <div id="prp-taylor_theorem_for_single_variable" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 39 (일변수 함수에 대한 테일러 정리)</strong></span> <span class="math inline">\(a\)</span> 를 포함하는 열린구간 <span class="math inline">\(I\)</span> 에서 정의된 함수 <span class="math inline">\(f:I \to \mathbb{R}\)</span> 가 <span class="math inline">\(n+1\)</span> 번 미분 가능한 함수일 때 임의의 <span class="math inline">\(x\in I\)</span> 에 대하여</p>
+<p><span class="theorem-title"><strong>명제 38 (일변수 함수에 대한 테일러 정리)</strong></span> <span class="math inline">\(a\)</span> 를 포함하는 열린구간 <span class="math inline">\(I\)</span> 에서 정의된 함수 <span class="math inline">\(f:I \to \mathbb{R}\)</span> 가 <span class="math inline">\(n+1\)</span> 번 미분 가능한 함수일 때 임의의 <span class="math inline">\(x\in I\)</span> 에 대하여</p>
 <p><span class="math display">\[
 f(x) = \sum_{k=0}^{n} \dfrac{f^{(k)}(a)}{k!} (x-a)^k + \dfrac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}
 \]</span></p>
@@ -1036,11 +1040,11 @@ f(x) = \sum_{k=0}^{n} \dfrac{f^{(k)}(a)}{k!} (x-a)^k + \dfrac{f^{(n+1)}(\xi)}{(n
 </div>
 <p><br></p>
 <div id="prp-continuous_function_integrable" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 40</strong></span> <span class="math inline">\([a,\,b]\)</span> 구간에서 연속인 함수는 리만 적분 가능하다.</p>
+<p><span class="theorem-title"><strong>명제 39</strong></span> <span class="math inline">\([a,\,b]\)</span> 구간에서 연속인 함수는 리만 적분 가능하다.</p>
 </div>
 <p><br></p>
 <div id="prp-first_fundamental_theorem_of_calculus" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 41 (미적분학의 제 1 기본 정리)</strong></span> <span class="math inline">\(f:[a,b] \to \mathbb{R}\)</span>가 리만 적분 가능한 함수일 때, 함수 <span class="math inline">\(g : [a,\,b] \to \mathbb{R}\)</span> 을 다음과 같이 정의하자.</p>
+<p><span class="theorem-title"><strong>명제 40 (미적분학의 제 1 기본 정리)</strong></span> <span class="math inline">\(f:[a,b] \to \mathbb{R}\)</span>가 리만 적분 가능한 함수일 때, 함수 <span class="math inline">\(g : [a,\,b] \to \mathbb{R}\)</span> 을 다음과 같이 정의하자.</p>
 <p><span class="math display">\[
 g(x) = \int_a^x f(t)\, dt.
 \]</span></p>
@@ -1052,7 +1056,7 @@ g(x) = \int_a^x f(t)\, dt.
 </div>
 <p><br></p>
 <div id="prp-relation_betwein_indefinite_integral" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 42</strong></span> <span class="math inline">\(f[a,\,b] \to \mathbb{R}\)</span> 이 리만적분 가능한 함수이며, <span class="math inline">\(a'\in [a,\,b]\)</span> 라 하자. 이 때</p>
+<p><span class="theorem-title"><strong>명제 41</strong></span> <span class="math inline">\(f[a,\,b] \to \mathbb{R}\)</span> 이 리만적분 가능한 함수이며, <span class="math inline">\(a'\in [a,\,b]\)</span> 라 하자. 이 때</p>
 <p><span class="math display">\[
 g(x) = \int_a^x f(t)\, dt,\qquad h(x) = \int_{a'}^x f(t)\, dt
 \]</span></p>
@@ -1064,21 +1068,21 @@ g(x)-h(x) = \text{const}
 </div>
 <p><br></p>
 <div id="prp-second_fundamental_theorem_of_calculus" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 43 (미적분학의 제 2 기본 정리)</strong></span> <span class="math inline">\([a,\,b]\)</span> 구간에서 적분가능한 함수 <span class="math inline">\(f(x)\)</span> 의 부정적분이 <span class="math inline">\(F(x)\)</span> 일 때 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>명제 42 (미적분학의 제 2 기본 정리)</strong></span> <span class="math inline">\([a,\,b]\)</span> 구간에서 적분가능한 함수 <span class="math inline">\(f(x)\)</span> 의 부정적분이 <span class="math inline">\(F(x)\)</span> 일 때 다음이 성립한다.</p>
 <p><span class="math display">\[
 \int_a^b f(x)\, dx = F(b)-F(a).
 \]</span></p>
 </div>
 <p><br></p>
 <div id="prp-mean_value_theorem_for_integrals" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 44 (적분에 대한 평균값 정리 (Mean value theorem for integrals))</strong></span> 함수 <span class="math inline">\(f:X \subset\mathbb{R} \to \mathbb{R}\)</span> 이 <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 에서 연속이면 <span class="math display">\[
+<p><span class="theorem-title"><strong>명제 43 (적분에 대한 평균값 정리 (Mean value theorem for integrals))</strong></span> 함수 <span class="math inline">\(f:X \subset\mathbb{R} \to \mathbb{R}\)</span> 이 <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 에서 연속이면 <span class="math display">\[
 f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 \]</span></p>
 <p>를 만족하는 <span class="math inline">\(c\in (a,\,b)\)</span> 가 존재한다.</p>
 </div>
 <p><br></p>
 <div id="prp-weighted_mean_value_theorem_for_integrals" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 45 (적분에 대한 가중 평균 정리 (Weighted mean value theorems for integrals))</strong></span> 함수 <span class="math inline">\(f:X \subset\mathbb{R} \to \mathbb{R}\)</span>, <span class="math inline">\(g:Y \subset\mathbb{R} \to \mathbb{R}\)</span> 이 <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 에서 연속이면</p>
+<p><span class="theorem-title"><strong>명제 44 (적분에 대한 가중 평균 정리 (Weighted mean value theorems for integrals))</strong></span> 함수 <span class="math inline">\(f:X \subset\mathbb{R} \to \mathbb{R}\)</span>, <span class="math inline">\(g:Y \subset\mathbb{R} \to \mathbb{R}\)</span> 이 <span class="math inline">\([a,\,b]\)</span> 를 포함하는 구간에서 에서 연속이면</p>
 <p><span class="math display">\[
 \int_a^b f(x)\,g(x)\, dx = f(c)\int_a^b g(x)\, dx
 \]</span></p>
@@ -1140,7 +1144,7 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <p><br></p>
 <div id="prp-equivalence_of_differentiation_for_mv" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 46</strong></span> <span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 에 대해 다음은 동치이다.</p>
+<p><span class="theorem-title"><strong>명제 45</strong></span> <span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 에 대해 다음은 동치이다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{F}\)</span> 는 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분가능하다.</p>
 <p>  (<span class="math inline">\(2\)</span>) 어떤 <span class="math inline">\(\boldsymbol{M}\in \mathcal{M}_{m \times n}(\mathbb{R})\)</span> 과 <span class="math inline">\(\displaystyle \lim_{\boldsymbol{h}\to \boldsymbol{0}}\dfrac{\boldsymbol{R}(\boldsymbol{h})}{\|\boldsymbol{h}\|} = \boldsymbol{0}\)</span> 인 어떤 함수 <span class="math inline">\(\boldsymbol{R}:U \to \mathbb{R}^m\)</span> 에 대해 <span class="math display">\[
 \boldsymbol{F}(\boldsymbol{p}+\boldsymbol{h}) = \boldsymbol{Mp}+\boldsymbol{R}(\boldsymbol{v})
@@ -1168,7 +1172,7 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <p><br></p>
 <div id="prp-differentiable_continuous" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 47</strong></span> <span class="math inline">\(\boldsymbol{F} : U \subset \mathbb{R}^n \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분가능이면 <span class="math inline">\(\boldsymbol{p}\)</span> 에서 연속이다.</p>
+<p><span class="theorem-title"><strong>명제 46</strong></span> <span class="math inline">\(\boldsymbol{F} : U \subset \mathbb{R}^n \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분가능이면 <span class="math inline">\(\boldsymbol{p}\)</span> 에서 연속이다.</p>
 </div>
 <p><br></p>
 </section>

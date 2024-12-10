@@ -1,0 +1,8 @@
+---
+title: "Levenberg-Marquardt 방법"
+
+number-sections: true
+number-depth: 2
+crossref:
+  chapters: false
+---

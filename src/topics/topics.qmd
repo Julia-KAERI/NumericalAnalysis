@@ -1,5 +1,5 @@
 ---
-title: "유용한 도구들"
+title: "다양한 수치해석적 주제들"
 
 number-sections: true
 number-depth: 2

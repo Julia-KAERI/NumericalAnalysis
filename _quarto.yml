@@ -25,8 +25,8 @@ website:
       #   text : "수학"
       - href :  src/image_processing/index.qmd
         text : "영상 처리/토모그래피"
-      # - href : src/tools/tools.qmd
-      #   text : "Tools"
+      - href : src/topics/topics.qmd
+        text : "다양한 주제들"
       - about.qmd
     tools:
       - icon: envelope
@@ -91,11 +91,11 @@ website:
         - section : 주제별 처리
           contents:
           - href: src/image_processing/tomography.qmd
-
-    # - title: "Tools"
-    #   collapse-level: 2
-    #   contents:
-    #     - src/tools/tools.qmd
+  
+    - title: "Topics"
+      collapse-level: 2
+      contents:
+        - href: src/topics/nonlinear_least_square_fit.qmd
         
     #     - href: src/tools/Asymptote/asymptote.qmd
         
@@ -104,7 +104,7 @@ website:
     #     - href: src/tools/tikz/tikz_image.qmd
     #     - href: src/tools/tikz/tikz_wavelet.qmd
     #     - href: src/tools/tikz/tikz_pde.qmd
-        - href: src/tools/tikz/tikz_test.qmd
+        # - href: src/tools/tikz/tikz_test.qmd
 
 bibliography: references.bib
 
