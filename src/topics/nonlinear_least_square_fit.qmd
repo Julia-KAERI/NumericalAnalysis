@@ -6,3 +6,166 @@ number-depth: 2
 crossref:
   chapters: false
 ---
+
+
+{{< include ../../latexmacros.qmd >}}
+
+</br>
+
+
+## 비선형 최소 제곱 문제(nonlinear least squares problems)
+
+측정된 데이터 $y_i$, $(i=1,\ldots,\, n)$ 와 모델 함수 $y=f(x;\bf{p})$ 사이의 편차를 최소로 하는 함수의 파라메터 $\bf{p}=(p_1,\ldots,\,p_m)$ 을 구하고 싶다고 하자. 이 때
+
+$$
+E(\bf{p}) = \sum_{i=1}^n \left[\dfrac{y_i - f(x_i;\bf{p})}{\sigma_{y_i}}\right]^2
+$${#eq-levmar_error_function_with_sigma}
+
+은 $\bf{p}$ 에 대한 함수이며 $E(\bf{p})$ 를 최소화 하는 $\bf{p}$ 를 찾는 것이 비선형 최소자승법이다. 여기서 $\sigma_{y_i}$ 는 $y_i$ 측정에 대한 측정 오차이다. 예를 들어 방사능이나 입자 실험에서 많은 경우처럼 측정값이 푸아송 분포를 따르는 경우 $\sigma_{y_i}= \sqrt{y_i}$ 가 될 수 있다. 이를 좀 다르게 표현하면 $w_i = (1/\sigma_{y_i})^2$ 에 대해
+
+$$
+\bf{p}^\ast = \arg \min \sum_{i=1}^{n} w_i (y_i - f(x_i;\bf{p}))^2
+$${#eq-levmar_error_function_mathematical_form}
+
+를 찾는것이라고 할 수 있다. 
+
+</bf>
+
+이제 측정값을 $\bf{y}=\begin{bmatrix} y_1 & \cdots &y_n\end{bmatrix}^T$, 모델값을 $\hat{\bf{y}}(\bf{p}) = \begin{bmatrix} f(x_1;\bf{p}) & \cdots &f(x_n;\bf{p})\end{bmatrix}^T$ 라고 하자. 또한 가중치 행렬 $\bf{W}$ 를 $W_{ij}= \dfrac{\delta_{ij}}{\sigma_{y_i}^2}$ 라고 하면
+
+$$
+E(\bf{p}) = (\bf{y}-\hat{\bf{y}}(\bf{p}))^T \cdot \bf{W} \cdot (\bf{y}-\hat{\bf{y}}(\bf{p})) 
+$${#eq-levmar_error_function_matrix_form}
+
+이다. $\lambda_k$ 는 보통 상수 $\lambda$ 로 주어진다.
+
+
+
+
+</br>
+
+## Gradient-Descent Method
+
+$\chi^2(\bf{p})$ 의 최소값은 $\chi^2(p)$ 의 미분이 $0$ 인 점에서 나타난다. $\chi^2(\bf{p})$ 가 벡터에 대한 이차형식이며 $\bf{W}$ 가 대칭행렬이므로 
+$$
+\begin{aligned}
+\dfrac{\partial E(\bf{p})}{\partial p_i} &= -2(\bf{y}-\hat{\bf{y}}(\bf{p}))^T \cdot \bf{W} \cdot \dfrac{\partial \hat{\bf{y}}(\bf{p})}{\partial p_i} 
+\end{aligned}
+$$
+
+로 나타 낼 수 있다. 즉 $\hat{\bf{y}}(\bf{p})$ 에 대한 야코비안 행렬 $\bf{J}$ 에 대해 
+
+$$
+\nabla E(\bf{p}) =  -2(\bf{y}-\hat{\bf{y}}(\bf{p}))^T  \bf{WJ} ,\qquad \text{where }J_{ij} = \dfrac{\partial \hat{y}_i(\bf{p})}{\partial p_j}
+$$
+
+이다. 파라미터 $\bf{p}$ 에 대한 초기값 $\bf{p}_0$ 가 주어졌을 때
+
+$$
+\bf{p}_{k+1} = \bf{p}_k - \lambda_k \nabla E(\bf{p}) 
+$$
+
+이다.
+
+</br>
+
+## 뉴턴 방법
+
+뉴턴 방법 혹은 뉴턴-랩슨 방법은 [수치해석 I-뉴턴 방법](../numerical_analysis_using_julia/07_finding_root.qmd#newton-method) 에서 보았듯이 함수 $f(x)$ 에 대해 $f(x)=0$ 의 해를
+
+$$
+x_{k+1} = x_{k} - \dfrac{f(x_k)}{f'(x_k)}
+$$
+
+를 반복하여 수열 $\langle x_k\rangle$ 이 수렴하는 점으로 구하는 방법이다.  그러나 이 방법은 1변수 함수에 대한 방법이므로 다변수 함수에 대해 알아보자
+
+</br>
+
+### 다변수 함수에 대한 뉴턴-랩슨 방법
+
+$f:\R^n \to \R$ 이 $C^2$ 급 함수라고 하자. 이 함수에 대한 2차 테일러 전개는 $f$ 에 대한 $\bf{x}$ 에서의 헤세 행렬(Hessian matrix) $\bf{H}$ 에 대해
+
+$$
+f(\bf{x}+\bf{h}) \approx f(\bf{x})+ \nabla f(\bf{x}) \cdot \bf{h} + \dfrac{1}{2}\bf{h}^T \cdot \bf{H}\cdot \bf{h}
+$$ {#eq-levenmar_multivariable_1}
+
+이다. 여기서 $f$ 에 대한 $\bf{x}$ 에서의 헤세 행렬(Hessian matrix) $\bf{H}$ 는 $H_{ij} = \dfrac{\partial^2 f(\bf{x})}{\partial x_i x_j}$ 이며 따라서 대칭행렬이다. 
+
+이제 대칭행렬 $\bf{C} \in \mathcal{M}_{n \times n}(\R)$ 과 $\bf{b}\in \mathcal{M}_{n}(\R)$ 이 주어졌을 때 $\bf{x}\in \mathcal{M}_{n}(\R)$ 에 대한 아래와 같은 방정식을 생각하자.
+
+$$
+f(\bf{x})= a + \bf{b}^T \bf{x} + \bf{x}^T\bf{C}\bf{x}
+$$
+
+그렇다면
+
+$$
+\nabla f(\bf{x}) = \bf{b}^T + 2 \bf{x}^T\bf{C}
+$$
+
+이며, $\bf{x}^T = - \dfrac{1}{2}\bf{b}^T\bf{C}^{-1}$ 일 때 $f(\bf{x})=0$ 이므로
+
+$$
+\bf{x} = - \dfrac{1}{2}\bf{C}^{-1}\bf{b}
+$$
+
+가 $f(\bf{x})$ 의 해 이다. (행렬 $\bf{C}$ 가 대칭이며 가역이라면 $\bf{CC}^{-1}=\bf{I}$ 이므로 $(\bf{C}^{-1})^T\bf{C}^T=\bf{I}^T=\bf{I}$ 이다. $\bf{C}^T=\bf{C}$ 이므로 $(\bf{C}^{-1})^T=\bf{C}^{-1}$ 이다.)
+
+
+이제 @eq-levenmar_multivariable_1 로 돌아가고 $\bf{H}$ 가 positive definite 임을 가정하자. 즉 임의의 $\bf{x}\in \mathcal{M}_n$ 에 대해 $\bf{x}^T\bf{Hx} \ge 0$ 이다. 그렇다면 
+
+$$
+\bf{x}+\bf{h} = \bf{x}-\bf{H}^{-1} \cdot \left(\nabla f(\bf{x})\right)^T
+$$
+
+일 때 $f(\bf{x}+\bf{h})$ 는 최소값을 가진다. 
+
+
+</br>
+
+이제 이를 $E(\bf{p})$ 에 적용해 보면, 뉴턴 방법은
+
+$$
+\bf{p}_{k+1} = \bf{p}_k - \bf{H}^{-1}(E(\bf{p})) \cdot (\nabla_\bf{p} E(\bf{p}))^T
+$$
+
+이며, 수렴 속도를 조절하기 위해 $0<\lambda <1$ 에 대해
+
+$$
+\bf{p}_{k+1} = \bf{p}_k -  \lambda \bf{H}^{-1}(E(\bf{p})) \cdot (\nabla_\bf{p} E(\bf{p}))^T
+$$
+
+
+로 전행한다.
+
+
+</br>
+
+## 가우스-뉴턴 방법
+
+$\hat{\bf{y}}(\bf{p})$ 가 최적해 근처에 있다고 하면
+
+$$
+\hat{\bf{y}}(\bf{p}+\bf{h}) \approx \hat{\bf{y}}(\bf{p}) + \bf{J}\bf{h},\qquad \text{where } J_{ij}= \dfrac{\partial y_i(\bf{p})}{\partial p_j} 
+$$
+
+이며, 따라서 @eq-levmar_error_function_matrix_form 를 생각하면 (잠시 $\hat{\bf{y}}(\bf{p})=\hat{\bf{y}}$ 라고 쓰자.)
+
+
+$$
+\begin{aligned}
+E(\bf{p}+\bf{h}) & = (\bf{y}-\hat{\bf{y}}(\bf{p}+\bf{h}))^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}+\bf{h})) \\[0.3em]
+&\approx (\bf{y}-\hat{\bf{y}}-\bf{Jh})^T\bf{W}(\bf{y}-\hat{\bf{y}}-\bf{Jh}) \\[0.3em]
+&= \bf{y}^T\bf{Wy} - \hat{\bf{y}}^T\bf{Wy} - \bf{yW}\hat{\bf{y}} - (\bf{y}-\hat{\bf{y}})^T\bf{WJh} - \bf{h}^T\bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}) + \bf{h}^T\bf{J}^T\bf{WJh}
+\end{aligned}
+$$
+
+이다. 그렇다면
+
+$$
+\nabla_\bf{p}E(\bf{p}+\bf{h}) = -2(\bf{y}-\hat{\bf{y}})^T\bf{WJ} + 2 \bf{h}^T\bf{J}^T\bf{WJ} 
+$$
+
+
+
+
