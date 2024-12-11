@@ -164,4 +164,4 @@ plot!(s3[:,1], s3[:, 2], label = "Quadratic2")
 
 를 통해 다음 그림을 얻을 수 있을 것이다.
 
-![Bezier Curve](bezier.png)
+![Bezier Curve](figure/bezier.png)

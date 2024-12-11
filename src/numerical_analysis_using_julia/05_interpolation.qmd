@@ -340,11 +340,11 @@ $$
 
 데이터 갯수가 많을 경우 고차다항식으로 보간을 하게 되는데, 이 경우 다항식이 심하게 진동하는 경우가 있을 수 있다. 아래 그림의 데이터는 15개의 포인트로 가우스 분포 $e^{-(x-x_0)/2\sigma^2}$ 를 그린 것이며, 라그랑쥬나 뉴턴 방법을 통해 14차 다항식으로 보간한 결과를 같이 보여준다.
 
-![Oscilating behavior](ch04_interpolation/interpolation_oscillation.png){width=100%}
+![Oscilating behavior](figure/interpolation_oscillation.png){#fig-interpolation_oscillation_1 width=100%}
 
 게다가 데이터 갯수가 상당히 많으면 수치적으로 불안정해 진다. 예를 들어, 25개의 데이터에 대한 가우스 분포를 다항식으로 보간하면 아래와 같이 더 이상 사용할 수 없는 결과가 발생한다.
 
-![Oscilating behavior2](ch04_interpolation/interpolation_oscillation2.png){width=100%}
+![Oscilating behavior2](figure/interpolation_oscillation2.png){#fig-interpolation_oscillation_2 width=100%}
 
 
 </br>
@@ -528,7 +528,7 @@ plot!(xt, interp_cubic(xp, yp, xt), lw=2, lc=:green, label=L"\mathrm{Cubic}")
 
 </br>
 
-![Interpolation](ch04_interpolation/Interpolation.png){width=100%}
+![Interpolation](figure/Interpolation.png){#fig-interpolation_3 width=100%}
 
 </br>
 
@@ -688,6 +688,6 @@ plot!(xt, interp3.(xt), lw=2, lc=:blue, ls = :dot, label=L"\mathrm{Cubic\;Spline
 
 이 결과로 다음의 그래프를 얻었다.
 
-![Cubic Spline Interpolation](ch04_interpolation/test_spline.png){width=100%}
+![Cubic Spline Interpolation](figure/test_spline.png){#fig-interpolatino_spline width=100%}
 
 </br>

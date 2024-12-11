@@ -115,12 +115,6 @@ $$
 이 성립한다. $u_{1,k},\ldots,\, u_{j,k}$ $(k=0,\ldots,\, N+1)$ 을 알 때 @eq-pde_parabolic_diffusion_3 를 이용하여 $u_{j+1,k}\;(k=0,\ldots,\,N+1)$ 을 알 수 있다. 
 
 
-
-
-
-
-
-
 </br>
 
 
@@ -136,7 +130,7 @@ $$ {#eq-pde_poisson}
 
 여기에 디리클레 경계조건 $g(x,\,y)$ 가 부여되어 $R$ 의 경계 $S$ 에서 $u(x,\,y) = g(x,\,y)$ 라고 하자. 아래 그림과 같이 $N \times M$ 그리드를 생각한다.
 
-![그리드](ch15_pde/fig-pde_grid.png){#fig-pde_grid}
+![그리드](figure/pde/fig-pde_grid.png){#fig-NA1_pde_grid}
 
 
 $x_0=a,\, x_N=b,\, y_0=c,\, y_M = d$ 이며 $h_x = \dfrac{b-a}{N},\, h_y = \dfrac{d-c}{M}$ 에 대해 $x_j = a+jh_x$, $y_k = c+kh_y$ 이다. 테일러 시리즈로부터,

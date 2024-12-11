@@ -13,7 +13,7 @@ crossref:
 
 아래 그림과 같이 $\{(x_i,\,y_i) : i = 1,\ldots, N\}$ 가 주어졌을 때 이 데이터에 가장 근접하는 선형 방정식 $y=ax+b$ 를 찾아야 할 때가 있다.
 
-![선형 최소 자승법](ch13_approximations/images/fig-linear_approximation-1.png){#fig-linear_lieast_seuare width=250}
+![선형 최소 자승법](figure/linear_approx/fig-linear_approximation-1.png){#fig-linear_lieast_seuare width=250}
 
 아래와 같은 함수 $E(a,\,b)$ 를 보자.
 $$
@@ -185,7 +185,7 @@ p = least_square_poly(x, y, 3)
 plot!(x, p.(x), label = "LeastSquared Polynoimal")
 ```
 
-![다항식을 이용한 최소자승법](ch13_approximations/least_square_poly.png){#fig-least_square_poly width=600}
+![다항식을 이용한 최소자승법](figure/linear_approx/least_square_poly.png){#fig-NA1_least_square_poly width=600}
 
 
 
@@ -274,7 +274,7 @@ $$
 :::
 
 
-![르장드르 다항식](ch13_approximations/fig-Legendre_polynoimal.png){#fig-legendre_polynomials width=300}
+![르장드르 다항식](figure/linear_approx/fig-Legendre_polynoimal.png){#fig-NA1_legendre_polynomials width=300}
 
 르장드르 다항식은 르장드르 미분방정식이라고 불리는 2계 제차 미분방정식
 
@@ -319,7 +319,7 @@ $$
 :::
 :::
 
-![Chevyshev 다항식](ch13_approximations/fig-Chevyshev_polynoimal.png){#fig-chevyshev_polynomials width=350}
+![Chevyshev 다항식](figure/linear_approx/fig-Chevyshev_polynoimal.png){#fig-NA1_chevyshev_polynomials width=350}
 
 체비쇼프 다항식의 내적에 대해
 

@@ -38,7 +38,7 @@ crossref:
 
 ### 이분법 과정
 
-![이분법](ch06_finding_root/bisection_concept.png)
+![이분법](figure/bisection_concept.png)
 
 이 과정을 프로그래밍 입장에서 다시 정리해보자.  일단 처음 주어지는 함수 $f(x)$ 와 $a,\,b$ 에 대해 $a<b$ 로 주어졌다고 하자. 그리고 우리는 실제의 근 $x_0$ 와 우리가 구한 근의 차이를 어떤 작은 양수 $\delta$ 보다 작게 하고자 한다. 이 $\delta$ 가 허용범위이다.
 
@@ -233,9 +233,9 @@ fixedpoint(h, 2.0)
 
 </br>
 
-## 뉴턴 방법 (Newton-Method)
+## 뉴턴 방법 (Newton-Method){#sec-NA1_newton_method}
 
-![뉴턴 방법](ch06_finding_root/newton_method.png)
+![뉴턴 방법](figure/newton_method.png)
 
 함수 $f(x)$ 가 미분가능하다고 하자. 그리고 $(a,\,b)$ 구간에서 $f(x)=0$ 의 해가 존재하며, 이 구간에서 도함수 $f'(x)$ 가 $0$ 보다 항상 크다고 하자. 해는 정확히 모르지만 대략 $p_0 \in (a,\,b)$ 근처임을 안다고 하자. 테일러 정리에 의해 $f(x)$ 는 $p_0$ 근처에서 대략
 $$
@@ -382,7 +382,7 @@ $|t-p|<\delta$ 이므로 $|g(t)-p|<\delta$ 이다. 따라서 $g$ 는 $[p-\delta,
 
 ## 할선법 (Secant method)
 
-![할선법](ch06_finding_root/secant_method.png)
+![할선법](figure/secant_method.png)
 
 뉴턴 방법에서는 함수 $f(x)$ 뿐만 아니라 도함수 $f'(x)$ 도 필요하다. 그러나 도함수 $f'(x)$ 가 매우 복잡하거나 하여, 도함수를 직접적으로 인자로 주기 힘든 경우가 생길 수 있다. 이 때 시작점이 아닌 두 $x$ 좌표 $p_0,\,p_1$ 을 함수의 인자로 주고, 도함수가 아닌 수치적으로 계산한 미분의 근사값 $\dfrac{f(p_n)-f(p_{n-1})}{p_n -p_{n-1}}$ 을 사용하는 것을 할선법이라 한다. 즉 주어진 $p_{n-1},\, p_n$ 에 대해 $p_{n+1}$ 을 다음과 같이 얻는다.
 

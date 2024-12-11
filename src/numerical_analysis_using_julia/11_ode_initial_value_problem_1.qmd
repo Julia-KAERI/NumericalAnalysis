@@ -439,7 +439,7 @@ plot!(tn, exp.(tn), lw=2, ls = :dash, label = L"f(t) = e^t")
 ```
 
 
-![Euler 방법](ch10_ode_initial_value_problem//euler_method.png){width=600}
+![Euler 방법](figure/ode/euler_method.png){#fig-NA1_euler_method width=600}
 
 </br>
 
@@ -475,7 +475,7 @@ p3 = plot(xn[3,:], xn[1,:], frame=:box, aspect_ratio=1.0, label=L"zx", color=:bl
 plot!(p0, p1, p2, p3, layout=4)
 ```
 
-![로렌츠 방정식](ch10_ode_initial_value_problem//lorentz.png){width=600}
+![로렌츠 방정식](figure/ode/lorentz.png){#fig-NA1_ode_lorentz width=600}
 
 </br>
 
@@ -514,7 +514,7 @@ tn, xn = ode_euler((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
 plot(tn, xn[1,: ], label = :none)
 ```
 
-![오일러 방법으로 계산한 1차원 조화진동자](ch10_ode_initial_value_problem/euler_sho1d.png){width=600}
+![오일러 방법으로 계산한 1차원 조화진동자](figure/ode/euler_sho1d.png){#fig-NA1_euler_sho1d width=600}
 
 
 1차원 조화진동자는 잘 알려져 있다 시피 삼각함수로 그 진폭이 커지면 안되지만 여기서는 커지는데 이것은 오일러 방법이 기본적으로 에러에 취약하기 때문이다. 이로 인해 실제 계산에서는 오일러 방법은 잘 사용되지 않는다. 
@@ -684,9 +684,9 @@ tn, xn = ode_rk2((t, x)->butterfly3d(x, 10, 28, 8/3), 0.0, [0.0, 1.0, 1.0], 5000
 plot(xn[1,:], xn[2,:], xn[3,:], label="RK2")
 ```
 
-![RK2를 이용한 로렌츠 방정식의 궤적](ch10_ode_initial_value_problem/lorentz_rk2.png){width=600}
+![RK2를 이용한 로렌츠 방정식의 궤적](figure/ode/lorentz_rk2.png){#fig-NA1_lorentz_rk2 width=600}
 
-![RK4를 이용한 로렌츠 방정식의 궤적](ch10_ode_initial_value_problem//lorentz_rk4.png){width=600}
+![RK4를 이용한 로렌츠 방정식의 궤적](figure/ode/lorentz_rk4.png){#fig-NA1_lorentz_rk4 width=600}
 
 </br>
 
@@ -707,7 +707,7 @@ tn2, xn2 = ode_rk4((t, y)->sho1d(y, 3, 1.0), 2.0, [1.1, 0.0], 10000, 1.0e-2)
 
 그 결과를 그래프로 그리면 다음과 같다.
 
-![RK 방법으로 푼 단순조화진동자](ch10_ode_initial_value_problem/sho1d_rk.png){width=600}
+![RK 방법으로 푼 단순조화진동자](figure/ode/sho1d_rk.png){#fig-NA1_sho1d_rk width=600}
 
 </br>
 
@@ -749,13 +749,13 @@ $m=1,\, \gamma=1,\, k=1$ 과 $x(t=0)=0,\, \dot{x}(t=0)=1$ 일 때에 대해 오�
 
 </br>
 
-![감쇄조화진동자](ch10_ode_initial_value_problem//dho1d_rk.png){width=600}
+![감쇄조화진동자](figure/ode/dho1d_rk.png){#fig-NA1_dho1d_rk width=600}
 
 </br>
 
 ### 진자(Pendulum) 문제
 
-<img src="ch10_ode_initial_value_problem/simple pendulum.png" width="250"/>
+![진자](figure/ode/simple pendulum.png){#fig-NA1_pendulum  width=250}
 
 </br>
 
@@ -793,7 +793,7 @@ tn3, xn3 = ode_rk4((t, y)->pendulum(y, g, l), 0.0, [0.0, 0.04], 20000, 1.0e-2)
 
 </br>
 
-![진자](ch10_ode_initial_value_problem//ode_pendulum.png)
+![진자](figure/ode/ode_pendulum.png){#fig-NA1_ode_pendulum width=400}
 
 </br>
 

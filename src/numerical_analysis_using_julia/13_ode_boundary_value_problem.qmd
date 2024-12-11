@@ -221,7 +221,7 @@ ax.ylabel = L"\varphi"
 fig
 ```
 
-![결과](ch11_ode_boundary_value_problem/potential_problem.png)
+![결과](figure/ode/potential_problem.png){#fig-NA1_potential_problem width=400}
 
 
 :::
