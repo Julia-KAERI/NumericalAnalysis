@@ -166,6 +166,21 @@ $$
 \nabla_\bf{p}E(\bf{p}+\bf{h}) = -2(\bf{y}-\hat{\bf{y}})^T\bf{WJ} + 2 \bf{h}^T\bf{J}^T\bf{WJ} 
 $$
 
+이며 최소값이 되는 $\bf{h}_m$ 은
+
+$$
+\bf{h}_m = \left(\bf{J}^T\bf{WJ}\right)^{-1}\bf{JW}(\bf{y}-\hat{\bf{y}})
+$$
+
+이어야 한다. 
 
 
+<br>
 
+## Levenberg-Marquardt 방법
+
+Levenberg-Marquardt 방법은 Gradient-Descent와 Gauss-Newton가 서로 보완하는 형태의 알고리즘이다.
+
+- Gradient-Descent 방식은 1차 미분으로 이동 방향을 잘 설정하지만, 이동 크기는 잘 설정하지 못합니다.
+
+- Gauss-Newton 방식은 2차 미분으로 해 주변에서 크기를 잘 설정하지만, 극소점이 아닌 극대점으로도 수렴 할 수 있는 문제를 갖고 있습니다.

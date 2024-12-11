@@ -25,7 +25,7 @@ website:
       #   text : "수학"
       - href :  src/image_processing/index.qmd
         text : "영상 처리/토모그래피"
-      - href : src/topics/topics.qmd
+      - href : src/topics/nonlinear_least_square_fit.qmd
         text : "다양한 주제들"
       - about.qmd
     tools:
@@ -95,6 +95,7 @@ website:
     - title: "Topics"
       collapse-level: 2
       contents:
+        # - href: src/topics/topics.qmd
         - href: src/topics/nonlinear_least_square_fit.qmd
         
     #     - href: src/tools/Asymptote/asymptote.qmd

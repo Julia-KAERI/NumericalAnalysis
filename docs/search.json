@@ -1459,6 +1459,7 @@
     "section": "",
     "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
     "crumbs": [
+      "다양한 주제들",
       "Levenberg-Marquardt 방법"
     ]
   },
@@ -1469,6 +1470,7 @@
     "section": "1 비선형 최소 제곱 문제(nonlinear least squares problems)",
     "text": "1 비선형 최소 제곱 문제(nonlinear least squares problems)\n측정된 데이터 \\(y_i\\), \\((i=1,\\ldots,\\, n)\\) 와 모델 함수 \\(y=f(x;\\boldsymbol{p})\\) 사이의 편차를 최소로 하는 함수의 파라메터 \\(\\boldsymbol{p}=(p_1,\\ldots,\\,p_m)\\) 을 구하고 싶다고 하자. 이 때\n\\[\nE(\\boldsymbol{p}) = \\sum_{i=1}^n \\left[\\dfrac{y_i - f(x_i;\\boldsymbol{p})}{\\sigma_{y_i}}\\right]^2\n\\tag{1}\\]\n은 \\(\\boldsymbol{p}\\) 에 대한 함수이며 \\(E(\\boldsymbol{p})\\) 를 최소화 하는 \\(\\boldsymbol{p}\\) 를 찾는 것이 비선형 최소자승법이다. 여기서 \\(\\sigma_{y_i}\\) 는 \\(y_i\\) 측정에 대한 측정 오차이다. 예를 들어 방사능이나 입자 실험에서 많은 경우처럼 측정값이 푸아송 분포를 따르는 경우 \\(\\sigma_{y_i}= \\sqrt{y_i}\\) 가 될 수 있다. 이를 좀 다르게 표현하면 \\(w_i = (1/\\sigma_{y_i})^2\\) 에 대해\n\\[\n\\boldsymbol{p}^\\ast = \\arg \\min \\sum_{i=1}^{n} w_i (y_i - f(x_i;\\boldsymbol{p}))^2\n\\tag{2}\\]\n를 찾는것이라고 할 수 있다.\n\n이제 측정값을 \\(\\boldsymbol{y}=\\begin{bmatrix} y_1 & \\cdots &y_n\\end{bmatrix}^T\\), 모델값을 \\(\\hat{\\boldsymbol{y}}(\\boldsymbol{p}) = \\begin{bmatrix} f(x_1;\\boldsymbol{p}) & \\cdots &f(x_n;\\boldsymbol{p})\\end{bmatrix}^T\\) 라고 하자. 또한 가중치 행렬 \\(\\boldsymbol{W}\\) 를 \\(W_{ij}= \\dfrac{\\delta_{ij}}{\\sigma_{y_i}^2}\\) 라고 하면\n\\[\nE(\\boldsymbol{p}) = (\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}))^T \\cdot \\boldsymbol{W} \\cdot (\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}))\n\\tag{3}\\]\n이다. \\(\\lambda_k\\) 는 보통 상수 \\(\\lambda\\) 로 주어진다.",
     "crumbs": [
+      "다양한 주제들",
       "Levenberg-Marquardt 방법"
     ]
   },
@@ -1479,6 +1481,7 @@
     "section": "2 Gradient-Descent Method",
     "text": "2 Gradient-Descent Method\n\\(\\chi^2(\\boldsymbol{p})\\) 의 최소값은 \\(\\chi^2(p)\\) 의 미분이 \\(0\\) 인 점에서 나타난다. \\(\\chi^2(\\boldsymbol{p})\\) 가 벡터에 대한 이차형식이며 \\(\\boldsymbol{W}\\) 가 대칭행렬이므로 \\[\n\\begin{aligned}\n\\dfrac{\\partial E(\\boldsymbol{p})}{\\partial p_i} &= -2(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}))^T \\cdot \\boldsymbol{W} \\cdot \\dfrac{\\partial \\hat{\\boldsymbol{y}}(\\boldsymbol{p})}{\\partial p_i}\n\\end{aligned}\n\\]\n로 나타 낼 수 있다. 즉 \\(\\hat{\\boldsymbol{y}}(\\boldsymbol{p})\\) 에 대한 야코비안 행렬 \\(\\boldsymbol{J}\\) 에 대해\n\\[\n\\nabla E(\\boldsymbol{p}) =  -2(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}))^T  \\boldsymbol{WJ} ,\\qquad \\text{where }J_{ij} = \\dfrac{\\partial \\hat{y}_i(\\boldsymbol{p})}{\\partial p_j}\n\\]\n이다. 파라미터 \\(\\boldsymbol{p}\\) 에 대한 초기값 \\(\\boldsymbol{p}_0\\) 가 주어졌을 때\n\\[\n\\boldsymbol{p}_{k+1} = \\boldsymbol{p}_k - \\lambda_k \\nabla E(\\boldsymbol{p})\n\\]\n이다.",
     "crumbs": [
+      "다양한 주제들",
       "Levenberg-Marquardt 방법"
     ]
   },
@@ -1489,6 +1492,7 @@
     "section": "3 뉴턴 방법",
     "text": "3 뉴턴 방법\n뉴턴 방법 혹은 뉴턴-랩슨 방법은 수치해석 I-뉴턴 방법 에서 보았듯이 함수 \\(f(x)\\) 에 대해 \\(f(x)=0\\) 의 해를\n\\[\nx_{k+1} = x_{k} - \\dfrac{f(x_k)}{f'(x_k)}\n\\]\n를 반복하여 수열 \\(\\langle x_k\\rangle\\) 이 수렴하는 점으로 구하는 방법이다. 그러나 이 방법은 1변수 함수에 대한 방법이므로 다변수 함수에 대해 알아보자\n\n\n다변수 함수에 대한 뉴턴-랩슨 방법\n\\(f:\\mathbb{R}^n \\to \\mathbb{R}\\) 이 \\(C^2\\) 급 함수라고 하자. 이 함수에 대한 2차 테일러 전개는 \\(f\\) 에 대한 \\(\\boldsymbol{x}\\) 에서의 헤세 행렬(Hessian matrix) \\(\\boldsymbol{H}\\) 에 대해\n\\[\nf(\\boldsymbol{x}+\\boldsymbol{h}) \\approx f(\\boldsymbol{x})+ \\nabla f(\\boldsymbol{x}) \\cdot \\boldsymbol{h} + \\dfrac{1}{2}\\boldsymbol{h}^T \\cdot \\boldsymbol{H}\\cdot \\boldsymbol{h}\n\\tag{4}\\]\n이다. 여기서 \\(f\\) 에 대한 \\(\\boldsymbol{x}\\) 에서의 헤세 행렬(Hessian matrix) \\(\\boldsymbol{H}\\) 는 \\(H_{ij} = \\dfrac{\\partial^2 f(\\boldsymbol{x})}{\\partial x_i x_j}\\) 이며 따라서 대칭행렬이다.\n이제 대칭행렬 \\(\\boldsymbol{C} \\in \\mathcal{M}_{n \\times n}(\\mathbb{R})\\) 과 \\(\\boldsymbol{b}\\in \\mathcal{M}_{n}(\\mathbb{R})\\) 이 주어졌을 때 \\(\\boldsymbol{x}\\in \\mathcal{M}_{n}(\\mathbb{R})\\) 에 대한 아래와 같은 방정식을 생각하자.\n\\[\nf(\\boldsymbol{x})= a + \\boldsymbol{b}^T \\boldsymbol{x} + \\boldsymbol{x}^T\\boldsymbol{C}\\boldsymbol{x}\n\\]\n그렇다면\n\\[\n\\nabla f(\\boldsymbol{x}) = \\boldsymbol{b}^T + 2 \\boldsymbol{x}^T\\boldsymbol{C}\n\\]\n이며, \\(\\boldsymbol{x}^T = - \\dfrac{1}{2}\\boldsymbol{b}^T\\boldsymbol{C}^{-1}\\) 일 때 \\(f(\\boldsymbol{x})=0\\) 이므로\n\\[\n\\boldsymbol{x} = - \\dfrac{1}{2}\\boldsymbol{C}^{-1}\\boldsymbol{b}\n\\]\n가 \\(f(\\boldsymbol{x})\\) 의 해 이다. (행렬 \\(\\boldsymbol{C}\\) 가 대칭이며 가역이라면 \\(\\boldsymbol{CC}^{-1}=\\boldsymbol{I}\\) 이므로 \\((\\boldsymbol{C}^{-1})^T\\boldsymbol{C}^T=\\boldsymbol{I}^T=\\boldsymbol{I}\\) 이다. \\(\\boldsymbol{C}^T=\\boldsymbol{C}\\) 이므로 \\((\\boldsymbol{C}^{-1})^T=\\boldsymbol{C}^{-1}\\) 이다.)\n이제 식 4 로 돌아가고 \\(\\boldsymbol{H}\\) 가 positive definite 임을 가정하자. 즉 임의의 \\(\\boldsymbol{x}\\in \\mathcal{M}_n\\) 에 대해 \\(\\boldsymbol{x}^T\\boldsymbol{Hx} \\ge 0\\) 이다. 그렇다면\n\\[\n\\boldsymbol{x}+\\boldsymbol{h} = \\boldsymbol{x}-\\boldsymbol{H}^{-1} \\cdot \\left(\\nabla f(\\boldsymbol{x})\\right)^T\n\\]\n일 때 \\(f(\\boldsymbol{x}+\\boldsymbol{h})\\) 는 최소값을 가진다.\n\n이제 이를 \\(E(\\boldsymbol{p})\\) 에 적용해 보면, 뉴턴 방법은\n\\[\n\\boldsymbol{p}_{k+1} = \\boldsymbol{p}_k - \\boldsymbol{H}^{-1}(E(\\boldsymbol{p})) \\cdot (\\nabla_\\boldsymbol{p} E(\\boldsymbol{p}))^T\n\\]\n이며, 수렴 속도를 조절하기 위해 \\(0&lt;\\lambda &lt;1\\) 에 대해\n\\[\n\\boldsymbol{p}_{k+1} = \\boldsymbol{p}_k -  \\lambda \\boldsymbol{H}^{-1}(E(\\boldsymbol{p})) \\cdot (\\nabla_\\boldsymbol{p} E(\\boldsymbol{p}))^T\n\\]\n로 전행한다.",
     "crumbs": [
+      "다양한 주제들",
       "Levenberg-Marquardt 방법"
     ]
   },
@@ -1497,8 +1501,20 @@
     "href": "src/topics/nonlinear_least_square_fit.html#가우스-뉴턴-방법",
     "title": "Levenberg-Marquardt 방법",
     "section": "4 가우스-뉴턴 방법",
-    "text": "4 가우스-뉴턴 방법\n\\(\\hat{\\boldsymbol{y}}(\\boldsymbol{p})\\) 가 최적해 근처에 있다고 하면\n\\[\n\\hat{\\boldsymbol{y}}(\\boldsymbol{p}+\\boldsymbol{h}) \\approx \\hat{\\boldsymbol{y}}(\\boldsymbol{p}) + \\boldsymbol{J}\\boldsymbol{h},\\qquad \\text{where } J_{ij}= \\dfrac{\\partial y_i(\\boldsymbol{p})}{\\partial p_j}\n\\]\n이며, 따라서 식 3 를 생각하면 (잠시 \\(\\hat{\\boldsymbol{y}}(\\boldsymbol{p})=\\hat{\\boldsymbol{y}}\\) 라고 쓰자.)\n\\[\n\\begin{aligned}\nE(\\boldsymbol{p}+\\boldsymbol{h}) & = (\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}+\\boldsymbol{h}))^T\\boldsymbol{W}(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}+\\boldsymbol{h})) \\\\[0.3em]\n&\\approx (\\boldsymbol{y}-\\hat{\\boldsymbol{y}}-\\boldsymbol{Jh})^T\\boldsymbol{W}(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}-\\boldsymbol{Jh}) \\\\[0.3em]\n&= \\boldsymbol{y}^T\\boldsymbol{Wy} - \\hat{\\boldsymbol{y}}^T\\boldsymbol{Wy} - \\boldsymbol{yW}\\hat{\\boldsymbol{y}} - (\\boldsymbol{y}-\\hat{\\boldsymbol{y}})^T\\boldsymbol{WJh} - \\boldsymbol{h}^T\\boldsymbol{J}^T\\boldsymbol{W}(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}) + \\boldsymbol{h}^T\\boldsymbol{J}^T\\boldsymbol{WJh}\n\\end{aligned}\n\\]\n이다. 그렇다면\n\\[\n\\nabla_\\boldsymbol{p}E(\\boldsymbol{p}+\\boldsymbol{h}) = -2(\\boldsymbol{y}-\\hat{\\boldsymbol{y}})^T\\boldsymbol{WJ} + 2 \\boldsymbol{h}^T\\boldsymbol{J}^T\\boldsymbol{WJ}\n\\]",
+    "text": "4 가우스-뉴턴 방법\n\\(\\hat{\\boldsymbol{y}}(\\boldsymbol{p})\\) 가 최적해 근처에 있다고 하면\n\\[\n\\hat{\\boldsymbol{y}}(\\boldsymbol{p}+\\boldsymbol{h}) \\approx \\hat{\\boldsymbol{y}}(\\boldsymbol{p}) + \\boldsymbol{J}\\boldsymbol{h},\\qquad \\text{where } J_{ij}= \\dfrac{\\partial y_i(\\boldsymbol{p})}{\\partial p_j}\n\\]\n이며, 따라서 식 3 를 생각하면 (잠시 \\(\\hat{\\boldsymbol{y}}(\\boldsymbol{p})=\\hat{\\boldsymbol{y}}\\) 라고 쓰자.)\n\\[\n\\begin{aligned}\nE(\\boldsymbol{p}+\\boldsymbol{h}) & = (\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}+\\boldsymbol{h}))^T\\boldsymbol{W}(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}+\\boldsymbol{h})) \\\\[0.3em]\n&\\approx (\\boldsymbol{y}-\\hat{\\boldsymbol{y}}-\\boldsymbol{Jh})^T\\boldsymbol{W}(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}-\\boldsymbol{Jh}) \\\\[0.3em]\n&= \\boldsymbol{y}^T\\boldsymbol{Wy} - \\hat{\\boldsymbol{y}}^T\\boldsymbol{Wy} - \\boldsymbol{yW}\\hat{\\boldsymbol{y}} - (\\boldsymbol{y}-\\hat{\\boldsymbol{y}})^T\\boldsymbol{WJh} - \\boldsymbol{h}^T\\boldsymbol{J}^T\\boldsymbol{W}(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}) + \\boldsymbol{h}^T\\boldsymbol{J}^T\\boldsymbol{WJh}\n\\end{aligned}\n\\]\n이다. 그렇다면\n\\[\n\\nabla_\\boldsymbol{p}E(\\boldsymbol{p}+\\boldsymbol{h}) = -2(\\boldsymbol{y}-\\hat{\\boldsymbol{y}})^T\\boldsymbol{WJ} + 2 \\boldsymbol{h}^T\\boldsymbol{J}^T\\boldsymbol{WJ}\n\\]\n이며 최소값이 되는 \\(\\boldsymbol{h}_m\\) 은\n\\[\n\\boldsymbol{h}_m = \\left(\\boldsymbol{J}^T\\boldsymbol{WJ}\\right)^{-1}\\boldsymbol{JW}(\\boldsymbol{y}-\\hat{\\boldsymbol{y}})\n\\]\n이어야 한다.",
     "crumbs": [
+      "다양한 주제들",
+      "Levenberg-Marquardt 방법"
+    ]
+  },
+  {
+    "objectID": "src/topics/nonlinear_least_square_fit.html#levenberg-marquardt-방법",
+    "href": "src/topics/nonlinear_least_square_fit.html#levenberg-marquardt-방법",
+    "title": "Levenberg-Marquardt 방법",
+    "section": "5 Levenberg-Marquardt 방법",
+    "text": "5 Levenberg-Marquardt 방법\nLevenberg-Marquardt 방법은 Gradient-Descent와 Gauss-Newton가 서로 보완하는 형태의 알고리즘이다.\n\nGradient-Descent 방식은 1차 미분으로 이동 방향을 잘 설정하지만, 이동 크기는 잘 설정하지 못합니다.\nGauss-Newton 방식은 2차 미분으로 해 주변에서 크기를 잘 설정하지만, 극소점이 아닌 극대점으로도 수렴 할 수 있는 문제를 갖고 있습니다.",
+    "crumbs": [
+      "다양한 주제들",
       "Levenberg-Marquardt 방법"
     ]
   }
