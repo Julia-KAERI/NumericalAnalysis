@@ -548,17 +548,25 @@ f(x) = P_{n-1}(x) + \dfrac{f^{(n)}(\xi)}{n!}\prod_{i=1}^n (x-x_i)
 <section id="전역적-보간법의-문제점" class="level3">
 <h3 class="anchored" data-anchor-id="전역적-보간법의-문제점">전역적 보간법의 문제점</h3>
 <p>데이터 갯수가 많을 경우 고차다항식으로 보간을 하게 되는데, 이 경우 다항식이 심하게 진동하는 경우가 있을 수 있다. 아래 그림의 데이터는 15개의 포인트로 가우스 분포 <span class="math inline">\(e^{-(x-x_0)/2\sigma^2}\)</span> 를 그린 것이며, 라그랑쥬나 뉴턴 방법을 통해 14차 다항식으로 보간한 결과를 같이 보여준다.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch04_interpolation/interpolation_oscillation.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Oscilating behavior</figcaption>
+<div id="fig-interpolation_oscillation_1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interpolation_oscillation_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/interpolation_oscillation.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interpolation_oscillation_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;1: Oscilating behavior
+</figcaption>
 </figure>
 </div>
 <p>게다가 데이터 갯수가 상당히 많으면 수치적으로 불안정해 진다. 예를 들어, 25개의 데이터에 대한 가우스 분포를 다항식으로 보간하면 아래와 같이 더 이상 사용할 수 없는 결과가 발생한다.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch04_interpolation/interpolation_oscillation2.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Oscilating behavior2</figcaption>
+<div id="fig-interpolation_oscillation_2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interpolation_oscillation_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/interpolation_oscillation2.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interpolation_oscillation_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;2: Oscilating behavior2
+</figcaption>
 </figure>
 </div>
 <p><br></p>
@@ -768,10 +776,14 @@ l_i (x) = \dfrac{y_{i+1}-y_i}{x_{+1}-x_i} (x-x_i) + y_i
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp_linear</span>(xp, yp, xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>blue, label<span class="op">=</span>L<span class="st">"\mathrm{Linear}"</span>)</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp_cubic</span>(xp, yp, xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>green, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic}"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch04_interpolation/Interpolation.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Interpolation</figcaption>
+<div id="fig-interpolation_3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interpolation_3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/Interpolation.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interpolation_3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;3: Interpolation
+</figcaption>
 </figure>
 </div>
 <p><br></p>
@@ -888,10 +900,14 @@ M_{4n-4, 4n-6}=1,\, M_{4n-4, 4n-5}=2x_n,\, M_{4n-4,4n-4}=3(x_n)^2,\, b_{4n-4}=f'
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp2</span>.(xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>red, ls <span class="op">=</span> <span class="op">:</span>dash, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic\;Spline\;with\;natural\;BC}"</span>)</span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp3</span>.(xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>blue, ls <span class="op">=</span> <span class="op">:</span>dot, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic\;Spline\;with\;clamped\;BC}"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이 결과로 다음의 그래프를 얻었다.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch04_interpolation/test_spline.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Cubic Spline Interpolation</figcaption>
+<div id="fig-interpolatino_spline" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interpolatino_spline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/test_spline.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interpolatino_spline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;4: Cubic Spline Interpolation
+</figcaption>
 </figure>
 </div>
 <p><br></p>

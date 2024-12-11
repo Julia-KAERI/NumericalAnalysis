@@ -635,10 +635,14 @@ x_j(t + h) \approx x_j(t) + x_i'(t)h
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, x)<span class="fu">-&gt;exp</span>(t), <span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">500</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn, lw <span class="op">=</span> <span class="fl">2</span>, frame <span class="op">=</span> <span class="op">:</span>box, label <span class="op">=</span> <span class="st">"Euler method"</span>)<span class="co">#, dpi=300)</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(tn, <span class="fu">exp</span>.(tn), lw<span class="op">=</span><span class="fl">2</span>, ls <span class="op">=</span> <span class="op">:</span>dash, label <span class="op">=</span> L<span class="st">"f(t) = e^t"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch10_ode_initial_value_problem//euler_method.png" class="img-fluid figure-img" width="600"></p>
-<figcaption>Euler 방법</figcaption>
+<div id="fig-NA1_euler_method" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NA1_euler_method-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/ode/euler_method.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NA1_euler_method-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;1: Euler 방법
+</figcaption>
 </figure>
 </div>
 <p><br></p>
@@ -664,10 +668,14 @@ x_j(t + h) \approx x_j(t) + x_i'(t)h
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">3</span>,<span class="op">:</span>], xn[<span class="fl">1</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"zx"</span>, color<span class="op">=:</span>blue)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(p0, p1, p2, p3, layout<span class="op">=</span><span class="fl">4</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch10_ode_initial_value_problem//lorentz.png" class="img-fluid figure-img" width="600"></p>
-<figcaption>로렌츠 방정식</figcaption>
+<div id="fig-NA1_ode_lorentz" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NA1_ode_lorentz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/ode/lorentz.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NA1_ode_lorentz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;2: 로렌츠 방정식
+</figcaption>
 </figure>
 </div>
 <p><br></p>
@@ -696,10 +704,14 @@ x'(t) &amp;= y(t)
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn[<span class="fl">1</span>,<span class="op">:</span> ], label <span class="op">=</span> <span class="op">:</span>none)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch10_ode_initial_value_problem/euler_sho1d.png" class="img-fluid figure-img" width="600"></p>
-<figcaption>오일러 방법으로 계산한 1차원 조화진동자</figcaption>
+<div id="fig-NA1_euler_sho1d" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NA1_euler_sho1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/ode/euler_sho1d.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NA1_euler_sho1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;3: 오일러 방법으로 계산한 1차원 조화진동자
+</figcaption>
 </figure>
 </div>
 <p>1차원 조화진동자는 잘 알려져 있다 시피 삼각함수로 그 진폭이 커지면 안되지만 여기서는 커지는데 이것은 오일러 방법이 기본적으로 에러에 취약하기 때문이다. 이로 인해 실제 계산에서는 오일러 방법은 잘 사용되지 않는다.</p>
@@ -831,16 +843,24 @@ t_{i+1}&amp;=t_{i}+h, \\
 <p>오일러 방법에서 사용했던 로렌츠 방저식에 대한 사용법은 아래와 같다.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_rk2</span>((t, x)<span class="fu">-&gt;butterfly3d</span>(x, <span class="fl">10</span>, <span class="fl">28</span>, <span class="fl">8</span><span class="op">/</span><span class="fl">3</span>), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>], <span class="fl">50000</span>, <span class="fl">1.0e-3</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xn[<span class="fl">1</span>,<span class="op">:</span>], xn[<span class="fl">2</span>,<span class="op">:</span>], xn[<span class="fl">3</span>,<span class="op">:</span>], label<span class="op">=</span><span class="st">"RK2"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch10_ode_initial_value_problem/lorentz_rk2.png" class="img-fluid figure-img" width="600"></p>
-<figcaption>RK2를 이용한 로렌츠 방정식의 궤적</figcaption>
+<div id="fig-NA1_lorentz_rk2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NA1_lorentz_rk2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/ode/lorentz_rk2.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NA1_lorentz_rk2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;4: RK2를 이용한 로렌츠 방정식의 궤적
+</figcaption>
 </figure>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch10_ode_initial_value_problem//lorentz_rk4.png" class="img-fluid figure-img" width="600"></p>
-<figcaption>RK4를 이용한 로렌츠 방정식의 궤적</figcaption>
+<div id="fig-NA1_lorentz_rk4" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NA1_lorentz_rk4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/ode/lorentz_rk4.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NA1_lorentz_rk4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;5: RK4를 이용한 로렌츠 방정식의 궤적
+</figcaption>
 </figure>
 </div>
 <p><br></p>
@@ -857,10 +877,14 @@ t_{i+1}&amp;=t_{i}+h, \\
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>tn1, xn1 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>그 결과를 그래프로 그리면 다음과 같다.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch10_ode_initial_value_problem/sho1d_rk.png" class="img-fluid figure-img" width="600"></p>
-<figcaption>RK 방법으로 푼 단순조화진동자</figcaption>
+<div id="fig-NA1_sho1d_rk" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NA1_sho1d_rk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/ode/sho1d_rk.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NA1_sho1d_rk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;6: RK 방법으로 푼 단순조화진동자
+</figcaption>
 </figure>
 </div>
 <p><br></p>
@@ -889,17 +913,30 @@ x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \le
 <p><span class="math inline">\(\omega_0^2 &gt;0\)</span> 이면 <span class="math inline">\(x(t)\)</span> 의 <span class="math inline">\([\,\cdots]\)</span> 부분이 <span class="math inline">\(\cos\)</span> 함수 (혹은 <span class="math inline">\(\sin\)</span> 함수) 꼴로 나타날 수 있으므로 진폭이 점점 줄어드는 진동을 한다. 이를 <em>underdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 &lt;0\)</span> 이면 진동 없이 감쇄만 하게 되며 이를 <em>overdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 = 0\)</span> 일 경우를 <em>critical damping</em> 이라 한다.</p>
 <p><span class="math inline">\(m=1,\, \gamma=1,\, k=1\)</span> 과 <span class="math inline">\(x(t=0)=0,\, \dot{x}(t=0)=1\)</span> 일 때에 대해 오일러 방법, 2차 및 4차 룽게 쿠타 방법과, 해석적 해를 같이 그려보자.</p>
 <p><br></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch10_ode_initial_value_problem//dho1d_rk.png" class="img-fluid figure-img" width="600"></p>
-<figcaption>감쇄조화진동자</figcaption>
+<div id="fig-NA1_dho1d_rk" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NA1_dho1d_rk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/ode/dho1d_rk.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NA1_dho1d_rk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;7: 감쇄조화진동자
+</figcaption>
 </figure>
 </div>
 <p><br></p>
 </section>
 <section id="진자pendulum-문제" class="level3">
 <h3 class="anchored" data-anchor-id="진자pendulum-문제">진자(Pendulum) 문제</h3>
-<p><img src="ch10_ode_initial_value_problem/simple pendulum.png" width="250"></p>
+<div id="fig-NA1_pendulum" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NA1_pendulum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/ode/simple pendulum.png" class="img-fluid figure-img" width="250">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NA1_pendulum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;8: 진자
+</figcaption>
+</figure>
+</div>
 <p><br></p>
 <p>중력가속도 <span class="math inline">\(g\)</span> 의 영향을 받는 길이 <span class="math inline">\(L\)</span>인 진자의 운동은 다음의 미분방정식으로 기술된다.</p>
 <p><span class="math display">\[
@@ -923,10 +960,14 @@ x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \le
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>tn3, xn3 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="ch10_ode_initial_value_problem//ode_pendulum.png" class="img-fluid figure-img"></p>
-<figcaption>진자</figcaption>
+<div id="fig-NA1_ode_pendulum" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NA1_ode_pendulum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/ode/ode_pendulum.png" class="img-fluid figure-img" width="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NA1_ode_pendulum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;9: 진자
+</figcaption>
 </figure>
 </div>
 <p><br></p>
