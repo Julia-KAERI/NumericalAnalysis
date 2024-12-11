@@ -73,12 +73,16 @@
     <lastmod>2024-12-11T00:47:27.843Z</lastmod>
   </url>
   <url>
+    <loc>https://julia-kaeri.github.io/index.html</loc>
+    <lastmod>2024-12-11T00:47:27.842Z</lastmod>
+  </url>
+  <url>
     <loc>https://julia-kaeri.github.io/about.html</loc>
     <lastmod>2024-12-11T00:47:27.789Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/index.html</loc>
-    <lastmod>2024-12-11T00:47:27.842Z</lastmod>
+    <loc>https://julia-kaeri.github.io/latexmacros.html</loc>
+    <lastmod>2024-12-11T01:02:33.315Z</lastmod>
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/image_processing/tomography.html</loc>
@@ -142,6 +146,6 @@
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/topics/nonlinear_least_square_fit.html</loc>
-    <lastmod>2024-12-11T00:47:28.019Z</lastmod>
+    <lastmod>2024-12-11T01:09:50.422Z</lastmod>
   </url>
 </urlset>

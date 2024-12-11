@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>수치해석과 이미지 처리 - Levenberg-Marquardt 방법</title>
+<title>수치해석과 이미지 처리</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,22 +23,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -97,17 +97,17 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">수치해석과 이미지 처리</span>
     </a>
   </div>
@@ -118,27 +118,27 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index_part1.html"> 
+    <a class="nav-link" href="./src/numerical_analysis_using_julia/index_part1.html"> 
 <span class="menu-text">수치해석 I</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../src/numerical_analysis_using_julia/index_part2.html"> 
+    <a class="nav-link" href="./src/numerical_analysis_using_julia/index_part2.html"> 
 <span class="menu-text">수치해석 II</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../src/image_processing/index.html"> 
+    <a class="nav-link" href="./src/image_processing/index.html"> 
 <span class="menu-text">영상 처리/토모그래피</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../src/topics/topics.html"> 
+    <a class="nav-link" href="./src/topics/topics.html"> 
 <span class="menu-text">다양한 주제들</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -148,69 +148,18 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/topics/nonlinear_least_square_fit.html">Levenberg-Marquardt 방법</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../src/topics/nonlinear_least_square_fit.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Levenberg-Marquardt 방법</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">목차</h2>
-   
-  <ul>
-  <li><a href="#비선형-최소-제곱-문제nonlinear-least-squares-problems" id="toc-비선형-최소-제곱-문제nonlinear-least-squares-problems" class="nav-link active" data-scroll-target="#비선형-최소-제곱-문제nonlinear-least-squares-problems"><span class="header-section-number">1</span> 비선형 최소 제곱 문제(nonlinear least squares problems)</a></li>
-  <li><a href="#gradient-descent-method" id="toc-gradient-descent-method" class="nav-link" data-scroll-target="#gradient-descent-method"><span class="header-section-number">2</span> Gradient-Descent Method</a></li>
-  <li><a href="#뉴턴-방법" id="toc-뉴턴-방법" class="nav-link" data-scroll-target="#뉴턴-방법"><span class="header-section-number">3</span> 뉴턴 방법</a>
-  <ul class="collapse">
-  <li><a href="#다변수-함수에-대한-뉴턴-랩슨-방법" id="toc-다변수-함수에-대한-뉴턴-랩슨-방법" class="nav-link" data-scroll-target="#다변수-함수에-대한-뉴턴-랩슨-방법">다변수 함수에 대한 뉴턴-랩슨 방법</a></li>
-  </ul></li>
-  <li><a href="#가우스-뉴턴-방법" id="toc-가우스-뉴턴-방법" class="nav-link" data-scroll-target="#가우스-뉴턴-방법"><span class="header-section-number">4</span> 가우스-뉴턴 방법</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Levenberg-Marquardt 방법</h1>
-</div>
 
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
 
 
 <div class="hidden">
@@ -221,111 +170,8 @@ window.Quarto = {
 \DeclareMathOperator*{\argmax}{argmax}
 \]</span></p>
 </div>
-<p><br></p>
-<section id="비선형-최소-제곱-문제nonlinear-least-squares-problems" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="비선형-최소-제곱-문제nonlinear-least-squares-problems"><span class="header-section-number">1</span> 비선형 최소 제곱 문제(nonlinear least squares problems)</h2>
-<p>측정된 데이터 <span class="math inline">\(y_i\)</span>, <span class="math inline">\((i=1,\ldots,\, n)\)</span> 와 모델 함수 <span class="math inline">\(y=f(x;\boldsymbol{p})\)</span> 사이의 편차를 최소로 하는 함수의 파라메터 <span class="math inline">\(\boldsymbol{p}=(p_1,\ldots,\,p_m)\)</span> 을 구하고 싶다고 하자. 이 때</p>
-<p><span id="eq-levmar_error_function_with_sigma"><span class="math display">\[
-E(\boldsymbol{p}) = \sum_{i=1}^n \left[\dfrac{y_i - f(x_i;\boldsymbol{p})}{\sigma_{y_i}}\right]^2
-\tag{1}\]</span></span></p>
-<p>은 <span class="math inline">\(\boldsymbol{p}\)</span> 에 대한 함수이며 <span class="math inline">\(E(\boldsymbol{p})\)</span> 를 최소화 하는 <span class="math inline">\(\boldsymbol{p}\)</span> 를 찾는 것이 비선형 최소자승법이다. 여기서 <span class="math inline">\(\sigma_{y_i}\)</span> 는 <span class="math inline">\(y_i\)</span> 측정에 대한 측정 오차이다. 예를 들어 방사능이나 입자 실험에서 많은 경우처럼 측정값이 푸아송 분포를 따르는 경우 <span class="math inline">\(\sigma_{y_i}= \sqrt{y_i}\)</span> 가 될 수 있다. 이를 좀 다르게 표현하면 <span class="math inline">\(w_i = (1/\sigma_{y_i})^2\)</span> 에 대해</p>
-<p><span id="eq-levmar_error_function_mathematical_form"><span class="math display">\[
-\boldsymbol{p}^\ast = \arg \min \sum_{i=1}^{n} w_i (y_i - f(x_i;\boldsymbol{p}))^2
-\tag{2}\]</span></span></p>
-<p>를 찾는것이라고 할 수 있다.</p>
-<p></p>
-<p>이제 측정값을 <span class="math inline">\(\boldsymbol{y}=\begin{bmatrix} y_1 &amp; \cdots &amp;y_n\end{bmatrix}^T\)</span>, 모델값을 <span class="math inline">\(\hat{\boldsymbol{y}}(\boldsymbol{p}) = \begin{bmatrix} f(x_1;\boldsymbol{p}) &amp; \cdots &amp;f(x_n;\boldsymbol{p})\end{bmatrix}^T\)</span> 라고 하자. 또한 가중치 행렬 <span class="math inline">\(\boldsymbol{W}\)</span> 를 <span class="math inline">\(W_{ij}= \dfrac{\delta_{ij}}{\sigma_{y_i}^2}\)</span> 라고 하면</p>
-<p><span id="eq-levmar_error_function_matrix_form"><span class="math display">\[
-E(\boldsymbol{p}) = (\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))^T \cdot \boldsymbol{W} \cdot (\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))
-\tag{3}\]</span></span></p>
-<p>이다. <span class="math inline">\(\lambda_k\)</span> 는 보통 상수 <span class="math inline">\(\lambda\)</span> 로 주어진다.</p>
-<p><br></p>
-</section>
-<section id="gradient-descent-method" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="gradient-descent-method"><span class="header-section-number">2</span> Gradient-Descent Method</h2>
-<p><span class="math inline">\(\chi^2(\boldsymbol{p})\)</span> 의 최소값은 <span class="math inline">\(\chi^2(p)\)</span> 의 미분이 <span class="math inline">\(0\)</span> 인 점에서 나타난다. <span class="math inline">\(\chi^2(\boldsymbol{p})\)</span> 가 벡터에 대한 이차형식이며 <span class="math inline">\(\boldsymbol{W}\)</span> 가 대칭행렬이므로 <span class="math display">\[
-\begin{aligned}
-\dfrac{\partial E(\boldsymbol{p})}{\partial p_i} &amp;= -2(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))^T \cdot \boldsymbol{W} \cdot \dfrac{\partial \hat{\boldsymbol{y}}(\boldsymbol{p})}{\partial p_i}
-\end{aligned}
-\]</span></p>
-<p>로 나타 낼 수 있다. 즉 <span class="math inline">\(\hat{\boldsymbol{y}}(\boldsymbol{p})\)</span> 에 대한 야코비안 행렬 <span class="math inline">\(\boldsymbol{J}\)</span> 에 대해</p>
-<p><span class="math display">\[
-\nabla E(\boldsymbol{p}) =  -2(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))^T  \boldsymbol{WJ} ,\qquad \text{where }J_{ij} = \dfrac{\partial \hat{y}_i(\boldsymbol{p})}{\partial p_j}
-\]</span></p>
-<p>이다. 파라미터 <span class="math inline">\(\boldsymbol{p}\)</span> 에 대한 초기값 <span class="math inline">\(\boldsymbol{p}_0\)</span> 가 주어졌을 때</p>
-<p><span class="math display">\[
-\boldsymbol{p}_{k+1} = \boldsymbol{p}_k - \lambda_k \nabla E(\boldsymbol{p})
-\]</span></p>
-<p>이다.</p>
-<p><br></p>
-</section>
-<section id="뉴턴-방법" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="뉴턴-방법"><span class="header-section-number">3</span> 뉴턴 방법</h2>
-<p>뉴턴 방법 혹은 뉴턴-랩슨 방법은 <a href="../../src/numerical_analysis_using_julia/07_finding_root.html#newton-method">수치해석 I-뉴턴 방법</a> 에서 보았듯이 함수 <span class="math inline">\(f(x)\)</span> 에 대해 <span class="math inline">\(f(x)=0\)</span> 의 해를</p>
-<p><span class="math display">\[
-x_{k+1} = x_{k} - \dfrac{f(x_k)}{f'(x_k)}
-\]</span></p>
-<p>를 반복하여 수열 <span class="math inline">\(\langle x_k\rangle\)</span> 이 수렴하는 점으로 구하는 방법이다. 그러나 이 방법은 1변수 함수에 대한 방법이므로 다변수 함수에 대해 알아보자</p>
-<p><br></p>
-<section id="다변수-함수에-대한-뉴턴-랩슨-방법" class="level3">
-<h3 class="anchored" data-anchor-id="다변수-함수에-대한-뉴턴-랩슨-방법">다변수 함수에 대한 뉴턴-랩슨 방법</h3>
-<p><span class="math inline">\(f:\mathbb{R}^n \to \mathbb{R}\)</span> 이 <span class="math inline">\(C^2\)</span> 급 함수라고 하자. 이 함수에 대한 2차 테일러 전개는 <span class="math inline">\(f\)</span> 에 대한 <span class="math inline">\(\boldsymbol{x}\)</span> 에서의 헤세 행렬(Hessian matrix) <span class="math inline">\(\boldsymbol{H}\)</span> 에 대해</p>
-<p><span id="eq-levenmar_multivariable_1"><span class="math display">\[
-f(\boldsymbol{x}+\boldsymbol{h}) \approx f(\boldsymbol{x})+ \nabla f(\boldsymbol{x}) \cdot \boldsymbol{h} + \dfrac{1}{2}\boldsymbol{h}^T \cdot \boldsymbol{H}\cdot \boldsymbol{h}
-\tag{4}\]</span></span></p>
-<p>이다. 여기서 <span class="math inline">\(f\)</span> 에 대한 <span class="math inline">\(\boldsymbol{x}\)</span> 에서의 헤세 행렬(Hessian matrix) <span class="math inline">\(\boldsymbol{H}\)</span> 는 <span class="math inline">\(H_{ij} = \dfrac{\partial^2 f(\boldsymbol{x})}{\partial x_i x_j}\)</span> 이며 따라서 대칭행렬이다.</p>
-<p>이제 대칭행렬 <span class="math inline">\(\boldsymbol{C} \in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 과 <span class="math inline">\(\boldsymbol{b}\in \mathcal{M}_{n}(\mathbb{R})\)</span> 이 주어졌을 때 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_{n}(\mathbb{R})\)</span> 에 대한 아래와 같은 방정식을 생각하자.</p>
-<p><span class="math display">\[
-f(\boldsymbol{x})= a + \boldsymbol{b}^T \boldsymbol{x} + \boldsymbol{x}^T\boldsymbol{C}\boldsymbol{x}
-\]</span></p>
-<p>그렇다면</p>
-<p><span class="math display">\[
-\nabla f(\boldsymbol{x}) = \boldsymbol{b}^T + 2 \boldsymbol{x}^T\boldsymbol{C}
-\]</span></p>
-<p>이며, <span class="math inline">\(\boldsymbol{x}^T = - \dfrac{1}{2}\boldsymbol{b}^T\boldsymbol{C}^{-1}\)</span> 일 때 <span class="math inline">\(f(\boldsymbol{x})=0\)</span> 이므로</p>
-<p><span class="math display">\[
-\boldsymbol{x} = - \dfrac{1}{2}\boldsymbol{C}^{-1}\boldsymbol{b}
-\]</span></p>
-<p>가 <span class="math inline">\(f(\boldsymbol{x})\)</span> 의 해 이다. (행렬 <span class="math inline">\(\boldsymbol{C}\)</span> 가 대칭이며 가역이라면 <span class="math inline">\(\boldsymbol{CC}^{-1}=\boldsymbol{I}\)</span> 이므로 <span class="math inline">\((\boldsymbol{C}^{-1})^T\boldsymbol{C}^T=\boldsymbol{I}^T=\boldsymbol{I}\)</span> 이다. <span class="math inline">\(\boldsymbol{C}^T=\boldsymbol{C}\)</span> 이므로 <span class="math inline">\((\boldsymbol{C}^{-1})^T=\boldsymbol{C}^{-1}\)</span> 이다.)</p>
-<p>이제 <a href="#eq-levenmar_multivariable_1" class="quarto-xref">식&nbsp;4</a> 로 돌아가고 <span class="math inline">\(\boldsymbol{H}\)</span> 가 positive definite 임을 가정하자. 즉 임의의 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n\)</span> 에 대해 <span class="math inline">\(\boldsymbol{x}^T\boldsymbol{Hx} \ge 0\)</span> 이다. 그렇다면</p>
-<p><span class="math display">\[
-\boldsymbol{x}+\boldsymbol{h} = \boldsymbol{x}-\boldsymbol{H}^{-1} \cdot \left(\nabla f(\boldsymbol{x})\right)^T
-\]</span></p>
-<p>일 때 <span class="math inline">\(f(\boldsymbol{x}+\boldsymbol{h})\)</span> 는 최소값을 가진다.</p>
-<p><br></p>
-<p>이제 이를 <span class="math inline">\(E(\boldsymbol{p})\)</span> 에 적용해 보면, 뉴턴 방법은</p>
-<p><span class="math display">\[
-\boldsymbol{p}_{k+1} = \boldsymbol{p}_k - \boldsymbol{H}^{-1}(E(\boldsymbol{p})) \cdot (\nabla_\boldsymbol{p} E(\boldsymbol{p}))^T
-\]</span></p>
-<p>이며, 수렴 속도를 조절하기 위해 <span class="math inline">\(0&lt;\lambda &lt;1\)</span> 에 대해</p>
-<p><span class="math display">\[
-\boldsymbol{p}_{k+1} = \boldsymbol{p}_k -  \lambda \boldsymbol{H}^{-1}(E(\boldsymbol{p})) \cdot (\nabla_\boldsymbol{p} E(\boldsymbol{p}))^T
-\]</span></p>
-<p>로 전행한다.</p>
-<p><br></p>
-</section>
-</section>
-<section id="가우스-뉴턴-방법" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="가우스-뉴턴-방법"><span class="header-section-number">4</span> 가우스-뉴턴 방법</h2>
-<p><span class="math inline">\(\hat{\boldsymbol{y}}(\boldsymbol{p})\)</span> 가 최적해 근처에 있다고 하면</p>
-<p><span class="math display">\[
-\hat{\boldsymbol{y}}(\boldsymbol{p}+\boldsymbol{h}) \approx \hat{\boldsymbol{y}}(\boldsymbol{p}) + \boldsymbol{J}\boldsymbol{h},\qquad \text{where } J_{ij}= \dfrac{\partial y_i(\boldsymbol{p})}{\partial p_j}
-\]</span></p>
-<p>이며, 따라서 <a href="#eq-levmar_error_function_matrix_form" class="quarto-xref">식&nbsp;3</a> 를 생각하면 (잠시 <span class="math inline">\(\hat{\boldsymbol{y}}(\boldsymbol{p})=\hat{\boldsymbol{y}}\)</span> 라고 쓰자.)</p>
-<p><span class="math display">\[
-\begin{aligned}
-E(\boldsymbol{p}+\boldsymbol{h}) &amp; = (\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}+\boldsymbol{h}))^T\boldsymbol{W}(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}+\boldsymbol{h})) \\[0.3em]
-&amp;\approx (\boldsymbol{y}-\hat{\boldsymbol{y}}-\boldsymbol{Jh})^T\boldsymbol{W}(\boldsymbol{y}-\hat{\boldsymbol{y}}-\boldsymbol{Jh}) \\[0.3em]
-&amp;= \boldsymbol{y}^T\boldsymbol{Wy} - \hat{\boldsymbol{y}}^T\boldsymbol{Wy} - \boldsymbol{yW}\hat{\boldsymbol{y}} - (\boldsymbol{y}-\hat{\boldsymbol{y}})^T\boldsymbol{WJh} - \boldsymbol{h}^T\boldsymbol{J}^T\boldsymbol{W}(\boldsymbol{y}-\hat{\boldsymbol{y}}) + \boldsymbol{h}^T\boldsymbol{J}^T\boldsymbol{WJh}
-\end{aligned}
-\]</span></p>
-<p>이다. 그렇다면</p>
-<p><span class="math display">\[
-\nabla_\boldsymbol{p}E(\boldsymbol{p}+\boldsymbol{h}) = -2(\boldsymbol{y}-\hat{\boldsymbol{y}})^T\boldsymbol{WJ} + 2 \boldsymbol{h}^T\boldsymbol{J}^T\boldsymbol{WJ}
-\]</span></p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
