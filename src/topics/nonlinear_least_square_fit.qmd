@@ -12,6 +12,19 @@ crossref:
 
 </br>
 
+## 참고 문헌 
+
+(@Gavin2024, )
+
+::: {#refs}
+
+
+
+:::
+
+</br>
+
+
 
 ## 비선형 최소 제곱 문제(nonlinear least squares problems)
 
@@ -21,7 +34,7 @@ $$
 E(\bf{p}) = \sum_{i=1}^n \left[\dfrac{y_i - f(x_i;\bf{p})}{\sigma_{y_i}}\right]^2
 $${#eq-levmar_error_function_with_sigma}
 
-은 $\bf{p}$ 에 대한 함수이며 $E(\bf{p})$ 를 최소화 하는 $\bf{p}$ 를 찾는 것이 비선형 최소자승법이다. 여기서 $\sigma_{y_i}$ 는 $y_i$ 측정에 대한 측정 오차이다. 예를 들어 방사능이나 입자 실험에서 많은 경우처럼 측정값이 푸아송 분포를 따르는 경우 $\sigma_{y_i}= \sqrt{y_i}$ 가 될 수 있다. 이를 좀 다르게 표현하면 $w_i = (1/\sigma_{y_i})^2$ 에 대해
+은 $\bf{p}$ 에 대한 함수이며 $E(\bf{p})$ 를 최소화 하는 $\bf{p}^\ast$ 를 찾는 것이 비선형 최소자승법이다. 여기서 $\sigma_{y_i}$ 는 $y_i$ 측정에 대한 측정 오차이다. 예를 들어 방사능이나 입자 실험에서 많은 경우처럼 측정값이 푸아송 분포를 따르는 경우 $\sigma_{y_i}= \sqrt{y_i}$ 가 될 수 있다. @eq-levmar_error_function_with_sigma 를 좀 다르게 표현하면 $w_i = (1/\sigma_{y_i})^2$ 에 대해
 
 $$
 \bf{p}^\ast = \arg \min \sum_{i=1}^{n} w_i (y_i - f(x_i;\bf{p}))^2
@@ -37,7 +50,7 @@ $$
 E(\bf{p}) = (\bf{y}-\hat{\bf{y}}(\bf{p}))^T \cdot \bf{W} \cdot (\bf{y}-\hat{\bf{y}}(\bf{p})) 
 $${#eq-levmar_error_function_matrix_form}
 
-이다. $\lambda_k$ 는 보통 상수 $\lambda$ 로 주어진다.
+이다. 참고로 $\bf{W}$ 는 대각행렬이며 (따라서) 대칭행렬이다.
 
 
 
@@ -46,7 +59,7 @@ $${#eq-levmar_error_function_matrix_form}
 
 ## Gradient-Descent Method
 
-$\chi^2(\bf{p})$ 의 최소값은 $\chi^2(p)$ 의 미분이 $0$ 인 점에서 나타난다. $\chi^2(\bf{p})$ 가 벡터에 대한 이차형식이며 $\bf{W}$ 가 대칭행렬이므로 
+$E(\bf{p})$ 의 최소값은 $E(\bf{p})$ 의 미분이 $0$ 인 점에서 나타난다. $E(\bf{p})$ 가 벡터에 대한 이차형식이며 $\bf{W}$ 가 대칭행렬이므로 
 $$
 \begin{aligned}
 \dfrac{\partial E(\bf{p})}{\partial p_i} &= -2(\bf{y}-\hat{\bf{y}}(\bf{p}))^T \cdot \bf{W} \cdot \dfrac{\partial \hat{\bf{y}}(\bf{p})}{\partial p_i} 
@@ -59,13 +72,13 @@ $$
 \nabla E(\bf{p}) =  -2(\bf{y}-\hat{\bf{y}}(\bf{p}))^T  \bf{WJ} ,\qquad \text{where }J_{ij} = \dfrac{\partial \hat{y}_i(\bf{p})}{\partial p_j}
 $$
 
-이다. 파라미터 $\bf{p}$ 에 대한 초기값 $\bf{p}_0$ 가 주어졌을 때
+이다. $\bf{y} = (y_1,\ldots,\,y_n),\, \bf{p}=(p_1,\ldots,\,p_m)$ 이므로 $\nabla E(\bf{p})$ 는 $1\times m$ 행렬임에 유의하자. 즉 $\bf{p}$ 에 대해 $-(\nabla E(\bf{p}))^T$ 방향이 $E(\bf{p})$ 를 감소시키는 방향이다. 그러나 $-\nabla E(\bf{p})$ 값이 크다면 최소값 지점을 넘어갈 수 있으므로 보통 작은 값 $\lambda$ 를 곱해서 조금씩 진전시킨다. 이제 파라미터 $\bf{p}$ 에 대한 초기값 $\bf{p}_0$ 가 주어졌다면
 
 $$
-\bf{p}_{k+1} = \bf{p}_k - \lambda_k \nabla E(\bf{p}) 
-$$
+\bf{p}_{k+1} = \bf{p}_k - \lambda\left(\nabla E(\bf{p})\right)^T = \bf{p}_k + \lambda  \bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}))
+$$ {#eq-levmar_gradient_decent_solution}
 
-이다.
+를 통해 $E(\bf{p})$ 를 최소화 시키는 $\bf{p}^\ast$ 를 찾을 수 있다.
 
 </br>
 
@@ -169,10 +182,16 @@ $$
 이며 최소값이 되는 $\bf{h}_m$ 은
 
 $$
-\bf{h}_m = \left(\bf{J}^T\bf{WJ}\right)^{-1}\bf{JW}(\bf{y}-\hat{\bf{y}})
-$$
+\bf{h}_m = \left(\bf{J}^T\bf{WJ}\right)^{-1}\bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}))
+$${#eq-levmar_gauss_newton_solution_0}
 
-이어야 한다. 
+이며 따라서 $\bf{p}_k$ 가 주어졌을 때 
+$$
+\bf{p}_{k+1} = \bf{p}_k+\bf{h}_m = \bf{p}_k + \left(\bf{J}^T\bf{WJ}\right)^{-1}\bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}))
+$${#eq-levmar_gauss_newton_solution}
+
+
+로 진행 시킬 수 있다.
 
 
 <br>
@@ -181,6 +200,22 @@ $$
 
 Levenberg-Marquardt 방법은 Gradient-Descent와 Gauss-Newton가 서로 보완하는 형태의 알고리즘이다.
 
-- Gradient-Descent 방식은 1차 미분으로 이동 방향을 잘 설정하지만, 이동 크기는 잘 설정하지 못합니다.
+- Gradient-Descent 방식은 1차 미분으로 이동 방향을 잘 설정하지만, 이동 크기는 잘 설정하지 못한다.
 
-- Gauss-Newton 방식은 2차 미분으로 해 주변에서 크기를 잘 설정하지만, 극소점이 아닌 극대점으로도 수렴 할 수 있는 문제를 갖고 있습니다.
+- Gauss-Newton 방식은 2차 미분으로 해 주변에서 크기를 잘 설정하지만, 극소점이 아닌 극대점으로도 수렴 할 수 있는 문제를 갖고 있다.
+
+- Levenberg–Marquardt 방법은 가우스-뉴턴법보다 안정적으로 해를 찾을 수 있으며(초기값이 해로부터 멀리 떨어진 경우에도 해를 찾을 확률이 높음) 비교적 빠르게 해에 수렴하기 때문에 비선형 최소자승문제에 있어서는 대부분 Levenberg–Marquardt 방법이 사용된다.
+
+
+이제 @eq-levmar_gradient_decent_solution 과 @eq-levmar_gauss_newton_solution 을 합쳐서
+
+$$
+\bf{p}_{k+1} = \bf{p}_k + \left[\bf{J}^T\bf{WJ} + \lambda \cdot\text{diag}(\bf{J}^T\bf{WJ})\right]^{-1}\bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}))
+$$ {#eq-levmar_levenberg_marquardt_with_weight}
+
+이다. 많은 경우 $\bf{W}=\bf{I}$ 이며 이 경우
+
+$$
+\bf{p}_{k+1} = \bf{p}_k + \left[\bf{J}^T\bf{J} + \lambda \cdot \text{diag}(\bf{J}^T\bf{J})\right]^{-1}\bf{J}^T(\bf{y}-\hat{\bf{y}}(\bf{p}))
+$${#eq-levmar_levenberg_marquardt_without_weight}
+

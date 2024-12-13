@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -181,14 +201,15 @@ window.Quarto = {
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#비선형-최소-제곱-문제nonlinear-least-squares-problems" id="toc-비선형-최소-제곱-문제nonlinear-least-squares-problems" class="nav-link active" data-scroll-target="#비선형-최소-제곱-문제nonlinear-least-squares-problems"><span class="header-section-number">1</span> 비선형 최소 제곱 문제(nonlinear least squares problems)</a></li>
-  <li><a href="#gradient-descent-method" id="toc-gradient-descent-method" class="nav-link" data-scroll-target="#gradient-descent-method"><span class="header-section-number">2</span> Gradient-Descent Method</a></li>
-  <li><a href="#뉴턴-방법" id="toc-뉴턴-방법" class="nav-link" data-scroll-target="#뉴턴-방법"><span class="header-section-number">3</span> 뉴턴 방법</a>
+  <li><a href="#참고-문헌" id="toc-참고-문헌" class="nav-link active" data-scroll-target="#참고-문헌"><span class="header-section-number">1</span> 참고 문헌</a></li>
+  <li><a href="#비선형-최소-제곱-문제nonlinear-least-squares-problems" id="toc-비선형-최소-제곱-문제nonlinear-least-squares-problems" class="nav-link" data-scroll-target="#비선형-최소-제곱-문제nonlinear-least-squares-problems"><span class="header-section-number">2</span> 비선형 최소 제곱 문제(nonlinear least squares problems)</a></li>
+  <li><a href="#gradient-descent-method" id="toc-gradient-descent-method" class="nav-link" data-scroll-target="#gradient-descent-method"><span class="header-section-number">3</span> Gradient-Descent Method</a></li>
+  <li><a href="#뉴턴-방법" id="toc-뉴턴-방법" class="nav-link" data-scroll-target="#뉴턴-방법"><span class="header-section-number">4</span> 뉴턴 방법</a>
   <ul class="collapse">
   <li><a href="#다변수-함수에-대한-뉴턴-랩슨-방법" id="toc-다변수-함수에-대한-뉴턴-랩슨-방법" class="nav-link" data-scroll-target="#다변수-함수에-대한-뉴턴-랩슨-방법">다변수 함수에 대한 뉴턴-랩슨 방법</a></li>
   </ul></li>
-  <li><a href="#가우스-뉴턴-방법" id="toc-가우스-뉴턴-방법" class="nav-link" data-scroll-target="#가우스-뉴턴-방법"><span class="header-section-number">4</span> 가우스-뉴턴 방법</a></li>
-  <li><a href="#levenberg-marquardt-방법" id="toc-levenberg-marquardt-방법" class="nav-link" data-scroll-target="#levenberg-marquardt-방법"><span class="header-section-number">5</span> Levenberg-Marquardt 방법</a></li>
+  <li><a href="#가우스-뉴턴-방법" id="toc-가우스-뉴턴-방법" class="nav-link" data-scroll-target="#가우스-뉴턴-방법"><span class="header-section-number">5</span> 가우스-뉴턴 방법</a></li>
+  <li><a href="#levenberg-marquardt-방법" id="toc-levenberg-marquardt-방법" class="nav-link" data-scroll-target="#levenberg-marquardt-방법"><span class="header-section-number">6</span> Levenberg-Marquardt 방법</a></li>
   </ul>
 </nav>
     </div>
@@ -223,13 +244,23 @@ window.Quarto = {
 \]</span></p>
 </div>
 <p><br></p>
-<section id="비선형-최소-제곱-문제nonlinear-least-squares-problems" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="비선형-최소-제곱-문제nonlinear-least-squares-problems"><span class="header-section-number">1</span> 비선형 최소 제곱 문제(nonlinear least squares problems)</h2>
+<section id="참고-문헌" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="참고-문헌"><span class="header-section-number">1</span> 참고 문헌</h2>
+<p>(<span class="citation" data-cites="Gavin2024">Gavin (<a href="#ref-Gavin2024" role="doc-biblioref">2024</a>)</span>, )</p>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Gavin2024" class="csl-entry" role="listitem">
+Gavin, Henri P. 2024. <span>“The Levenberg-Marquardt Algorithm for Nonlinear Least Squares Curve-Fitting Problems.”</span> 2024. <a href="https://people.duke.edu/~hpgavin/lm.pdf">https://people.duke.edu/~hpgavin/lm.pdf</a>.
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="비선형-최소-제곱-문제nonlinear-least-squares-problems" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="비선형-최소-제곱-문제nonlinear-least-squares-problems"><span class="header-section-number">2</span> 비선형 최소 제곱 문제(nonlinear least squares problems)</h2>
 <p>측정된 데이터 <span class="math inline">\(y_i\)</span>, <span class="math inline">\((i=1,\ldots,\, n)\)</span> 와 모델 함수 <span class="math inline">\(y=f(x;\boldsymbol{p})\)</span> 사이의 편차를 최소로 하는 함수의 파라메터 <span class="math inline">\(\boldsymbol{p}=(p_1,\ldots,\,p_m)\)</span> 을 구하고 싶다고 하자. 이 때</p>
 <p><span id="eq-levmar_error_function_with_sigma"><span class="math display">\[
 E(\boldsymbol{p}) = \sum_{i=1}^n \left[\dfrac{y_i - f(x_i;\boldsymbol{p})}{\sigma_{y_i}}\right]^2
 \tag{1}\]</span></span></p>
-<p>은 <span class="math inline">\(\boldsymbol{p}\)</span> 에 대한 함수이며 <span class="math inline">\(E(\boldsymbol{p})\)</span> 를 최소화 하는 <span class="math inline">\(\boldsymbol{p}\)</span> 를 찾는 것이 비선형 최소자승법이다. 여기서 <span class="math inline">\(\sigma_{y_i}\)</span> 는 <span class="math inline">\(y_i\)</span> 측정에 대한 측정 오차이다. 예를 들어 방사능이나 입자 실험에서 많은 경우처럼 측정값이 푸아송 분포를 따르는 경우 <span class="math inline">\(\sigma_{y_i}= \sqrt{y_i}\)</span> 가 될 수 있다. 이를 좀 다르게 표현하면 <span class="math inline">\(w_i = (1/\sigma_{y_i})^2\)</span> 에 대해</p>
+<p>은 <span class="math inline">\(\boldsymbol{p}\)</span> 에 대한 함수이며 <span class="math inline">\(E(\boldsymbol{p})\)</span> 를 최소화 하는 <span class="math inline">\(\boldsymbol{p}^\ast\)</span> 를 찾는 것이 비선형 최소자승법이다. 여기서 <span class="math inline">\(\sigma_{y_i}\)</span> 는 <span class="math inline">\(y_i\)</span> 측정에 대한 측정 오차이다. 예를 들어 방사능이나 입자 실험에서 많은 경우처럼 측정값이 푸아송 분포를 따르는 경우 <span class="math inline">\(\sigma_{y_i}= \sqrt{y_i}\)</span> 가 될 수 있다. <a href="#eq-levmar_error_function_with_sigma" class="quarto-xref">식&nbsp;1</a> 를 좀 다르게 표현하면 <span class="math inline">\(w_i = (1/\sigma_{y_i})^2\)</span> 에 대해</p>
 <p><span id="eq-levmar_error_function_mathematical_form"><span class="math display">\[
 \boldsymbol{p}^\ast = \arg \min \sum_{i=1}^{n} w_i (y_i - f(x_i;\boldsymbol{p}))^2
 \tag{2}\]</span></span></p>
@@ -239,12 +270,12 @@ E(\boldsymbol{p}) = \sum_{i=1}^n \left[\dfrac{y_i - f(x_i;\boldsymbol{p})}{\sigm
 <p><span id="eq-levmar_error_function_matrix_form"><span class="math display">\[
 E(\boldsymbol{p}) = (\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))^T \cdot \boldsymbol{W} \cdot (\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))
 \tag{3}\]</span></span></p>
-<p>이다. <span class="math inline">\(\lambda_k\)</span> 는 보통 상수 <span class="math inline">\(\lambda\)</span> 로 주어진다.</p>
+<p>이다. 참고로 <span class="math inline">\(\boldsymbol{W}\)</span> 는 대각행렬이며 (따라서) 대칭행렬이다.</p>
 <p><br></p>
 </section>
-<section id="gradient-descent-method" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="gradient-descent-method"><span class="header-section-number">2</span> Gradient-Descent Method</h2>
-<p><span class="math inline">\(\chi^2(\boldsymbol{p})\)</span> 의 최소값은 <span class="math inline">\(\chi^2(p)\)</span> 의 미분이 <span class="math inline">\(0\)</span> 인 점에서 나타난다. <span class="math inline">\(\chi^2(\boldsymbol{p})\)</span> 가 벡터에 대한 이차형식이며 <span class="math inline">\(\boldsymbol{W}\)</span> 가 대칭행렬이므로 <span class="math display">\[
+<section id="gradient-descent-method" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="gradient-descent-method"><span class="header-section-number">3</span> Gradient-Descent Method</h2>
+<p><span class="math inline">\(E(\boldsymbol{p})\)</span> 의 최소값은 <span class="math inline">\(E(\boldsymbol{p})\)</span> 의 미분이 <span class="math inline">\(0\)</span> 인 점에서 나타난다. <span class="math inline">\(E(\boldsymbol{p})\)</span> 가 벡터에 대한 이차형식이며 <span class="math inline">\(\boldsymbol{W}\)</span> 가 대칭행렬이므로 <span class="math display">\[
 \begin{aligned}
 \dfrac{\partial E(\boldsymbol{p})}{\partial p_i} &amp;= -2(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))^T \cdot \boldsymbol{W} \cdot \dfrac{\partial \hat{\boldsymbol{y}}(\boldsymbol{p})}{\partial p_i}
 \end{aligned}
@@ -253,15 +284,15 @@ E(\boldsymbol{p}) = (\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))^T \cdo
 <p><span class="math display">\[
 \nabla E(\boldsymbol{p}) =  -2(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))^T  \boldsymbol{WJ} ,\qquad \text{where }J_{ij} = \dfrac{\partial \hat{y}_i(\boldsymbol{p})}{\partial p_j}
 \]</span></p>
-<p>이다. 파라미터 <span class="math inline">\(\boldsymbol{p}\)</span> 에 대한 초기값 <span class="math inline">\(\boldsymbol{p}_0\)</span> 가 주어졌을 때</p>
-<p><span class="math display">\[
-\boldsymbol{p}_{k+1} = \boldsymbol{p}_k - \lambda_k \nabla E(\boldsymbol{p})
-\]</span></p>
-<p>이다.</p>
+<p>이다. <span class="math inline">\(\boldsymbol{y} = (y_1,\ldots,\,y_n),\, \boldsymbol{p}=(p_1,\ldots,\,p_m)\)</span> 이므로 <span class="math inline">\(\nabla E(\boldsymbol{p})\)</span> 는 <span class="math inline">\(1\times m\)</span> 행렬임에 유의하자. 즉 <span class="math inline">\(\boldsymbol{p}\)</span> 에 대해 <span class="math inline">\(-(\nabla E(\boldsymbol{p}))^T\)</span> 방향이 <span class="math inline">\(E(\boldsymbol{p})\)</span> 를 감소시키는 방향이다. 그러나 <span class="math inline">\(-\nabla E(\boldsymbol{p})\)</span> 값이 크다면 최소값 지점을 넘어갈 수 있으므로 보통 작은 값 <span class="math inline">\(\lambda\)</span> 를 곱해서 조금씩 진전시킨다. 이제 파라미터 <span class="math inline">\(\boldsymbol{p}\)</span> 에 대한 초기값 <span class="math inline">\(\boldsymbol{p}_0\)</span> 가 주어졌다면</p>
+<p><span id="eq-levmar_gradient_decent_solution"><span class="math display">\[
+\boldsymbol{p}_{k+1} = \boldsymbol{p}_k - \lambda\left(\nabla E(\boldsymbol{p})\right)^T = \boldsymbol{p}_k + \lambda  \boldsymbol{J}^T\boldsymbol{W}(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))
+\tag{4}\]</span></span></p>
+<p>를 통해 <span class="math inline">\(E(\boldsymbol{p})\)</span> 를 최소화 시키는 <span class="math inline">\(\boldsymbol{p}^\ast\)</span> 를 찾을 수 있다.</p>
 <p><br></p>
 </section>
-<section id="뉴턴-방법" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="뉴턴-방법"><span class="header-section-number">3</span> 뉴턴 방법</h2>
+<section id="뉴턴-방법" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="뉴턴-방법"><span class="header-section-number">4</span> 뉴턴 방법</h2>
 <p>뉴턴 방법 혹은 뉴턴-랩슨 방법은 <a href="../../src/numerical_analysis_using_julia/07_finding_root.html#newton-method">수치해석 I-뉴턴 방법</a> 에서 보았듯이 함수 <span class="math inline">\(f(x)\)</span> 에 대해 <span class="math inline">\(f(x)=0\)</span> 의 해를</p>
 <p><span class="math display">\[
 x_{k+1} = x_{k} - \dfrac{f(x_k)}{f'(x_k)}
@@ -273,7 +304,7 @@ x_{k+1} = x_{k} - \dfrac{f(x_k)}{f'(x_k)}
 <p><span class="math inline">\(f:\mathbb{R}^n \to \mathbb{R}\)</span> 이 <span class="math inline">\(C^2\)</span> 급 함수라고 하자. 이 함수에 대한 2차 테일러 전개는 <span class="math inline">\(f\)</span> 에 대한 <span class="math inline">\(\boldsymbol{x}\)</span> 에서의 헤세 행렬(Hessian matrix) <span class="math inline">\(\boldsymbol{H}\)</span> 에 대해</p>
 <p><span id="eq-levenmar_multivariable_1"><span class="math display">\[
 f(\boldsymbol{x}+\boldsymbol{h}) \approx f(\boldsymbol{x})+ \nabla f(\boldsymbol{x}) \cdot \boldsymbol{h} + \dfrac{1}{2}\boldsymbol{h}^T \cdot \boldsymbol{H}\cdot \boldsymbol{h}
-\tag{4}\]</span></span></p>
+\tag{5}\]</span></span></p>
 <p>이다. 여기서 <span class="math inline">\(f\)</span> 에 대한 <span class="math inline">\(\boldsymbol{x}\)</span> 에서의 헤세 행렬(Hessian matrix) <span class="math inline">\(\boldsymbol{H}\)</span> 는 <span class="math inline">\(H_{ij} = \dfrac{\partial^2 f(\boldsymbol{x})}{\partial x_i x_j}\)</span> 이며 따라서 대칭행렬이다.</p>
 <p>이제 대칭행렬 <span class="math inline">\(\boldsymbol{C} \in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 과 <span class="math inline">\(\boldsymbol{b}\in \mathcal{M}_{n}(\mathbb{R})\)</span> 이 주어졌을 때 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_{n}(\mathbb{R})\)</span> 에 대한 아래와 같은 방정식을 생각하자.</p>
 <p><span class="math display">\[
@@ -288,7 +319,7 @@ f(\boldsymbol{x})= a + \boldsymbol{b}^T \boldsymbol{x} + \boldsymbol{x}^T\boldsy
 \boldsymbol{x} = - \dfrac{1}{2}\boldsymbol{C}^{-1}\boldsymbol{b}
 \]</span></p>
 <p>가 <span class="math inline">\(f(\boldsymbol{x})\)</span> 의 해 이다. (행렬 <span class="math inline">\(\boldsymbol{C}\)</span> 가 대칭이며 가역이라면 <span class="math inline">\(\boldsymbol{CC}^{-1}=\boldsymbol{I}\)</span> 이므로 <span class="math inline">\((\boldsymbol{C}^{-1})^T\boldsymbol{C}^T=\boldsymbol{I}^T=\boldsymbol{I}\)</span> 이다. <span class="math inline">\(\boldsymbol{C}^T=\boldsymbol{C}\)</span> 이므로 <span class="math inline">\((\boldsymbol{C}^{-1})^T=\boldsymbol{C}^{-1}\)</span> 이다.)</p>
-<p>이제 <a href="#eq-levenmar_multivariable_1" class="quarto-xref">식&nbsp;4</a> 로 돌아가고 <span class="math inline">\(\boldsymbol{H}\)</span> 가 positive definite 임을 가정하자. 즉 임의의 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n\)</span> 에 대해 <span class="math inline">\(\boldsymbol{x}^T\boldsymbol{Hx} \ge 0\)</span> 이다. 그렇다면</p>
+<p>이제 <a href="#eq-levenmar_multivariable_1" class="quarto-xref">식&nbsp;5</a> 로 돌아가고 <span class="math inline">\(\boldsymbol{H}\)</span> 가 positive definite 임을 가정하자. 즉 임의의 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n\)</span> 에 대해 <span class="math inline">\(\boldsymbol{x}^T\boldsymbol{Hx} \ge 0\)</span> 이다. 그렇다면</p>
 <p><span class="math display">\[
 \boldsymbol{x}+\boldsymbol{h} = \boldsymbol{x}-\boldsymbol{H}^{-1} \cdot \left(\nabla f(\boldsymbol{x})\right)^T
 \]</span></p>
@@ -306,8 +337,8 @@ f(\boldsymbol{x})= a + \boldsymbol{b}^T \boldsymbol{x} + \boldsymbol{x}^T\boldsy
 <p><br></p>
 </section>
 </section>
-<section id="가우스-뉴턴-방법" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="가우스-뉴턴-방법"><span class="header-section-number">4</span> 가우스-뉴턴 방법</h2>
+<section id="가우스-뉴턴-방법" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="가우스-뉴턴-방법"><span class="header-section-number">5</span> 가우스-뉴턴 방법</h2>
 <p><span class="math inline">\(\hat{\boldsymbol{y}}(\boldsymbol{p})\)</span> 가 최적해 근처에 있다고 하면</p>
 <p><span class="math display">\[
 \hat{\boldsymbol{y}}(\boldsymbol{p}+\boldsymbol{h}) \approx \hat{\boldsymbol{y}}(\boldsymbol{p}) + \boldsymbol{J}\boldsymbol{h},\qquad \text{where } J_{ij}= \dfrac{\partial y_i(\boldsymbol{p})}{\partial p_j}
@@ -325,19 +356,31 @@ E(\boldsymbol{p}+\boldsymbol{h}) &amp; = (\boldsymbol{y}-\hat{\boldsymbol{y}}(\b
 \nabla_\boldsymbol{p}E(\boldsymbol{p}+\boldsymbol{h}) = -2(\boldsymbol{y}-\hat{\boldsymbol{y}})^T\boldsymbol{WJ} + 2 \boldsymbol{h}^T\boldsymbol{J}^T\boldsymbol{WJ}
 \]</span></p>
 <p>이며 최소값이 되는 <span class="math inline">\(\boldsymbol{h}_m\)</span> 은</p>
-<p><span class="math display">\[
-\boldsymbol{h}_m = \left(\boldsymbol{J}^T\boldsymbol{WJ}\right)^{-1}\boldsymbol{JW}(\boldsymbol{y}-\hat{\boldsymbol{y}})
-\]</span></p>
-<p>이어야 한다.</p>
+<p><span id="eq-levmar_gauss_newton_solution_0"><span class="math display">\[
+\boldsymbol{h}_m = \left(\boldsymbol{J}^T\boldsymbol{WJ}\right)^{-1}\boldsymbol{J}^T\boldsymbol{W}(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))
+\tag{6}\]</span></span></p>
+<p>이며 따라서 <span class="math inline">\(\boldsymbol{p}_k\)</span> 가 주어졌을 때 <span id="eq-levmar_gauss_newton_solution"><span class="math display">\[
+\boldsymbol{p}_{k+1} = \boldsymbol{p}_k+\boldsymbol{h}_m = \boldsymbol{p}_k + \left(\boldsymbol{J}^T\boldsymbol{WJ}\right)^{-1}\boldsymbol{J}^T\boldsymbol{W}(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))
+\tag{7}\]</span></span></p>
+<p>로 진행 시킬 수 있다.</p>
 <p><br></p>
 </section>
-<section id="levenberg-marquardt-방법" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="levenberg-marquardt-방법"><span class="header-section-number">5</span> Levenberg-Marquardt 방법</h2>
+<section id="levenberg-marquardt-방법" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="levenberg-marquardt-방법"><span class="header-section-number">6</span> Levenberg-Marquardt 방법</h2>
 <p>Levenberg-Marquardt 방법은 Gradient-Descent와 Gauss-Newton가 서로 보완하는 형태의 알고리즘이다.</p>
 <ul>
-<li><p>Gradient-Descent 방식은 1차 미분으로 이동 방향을 잘 설정하지만, 이동 크기는 잘 설정하지 못합니다.</p></li>
-<li><p>Gauss-Newton 방식은 2차 미분으로 해 주변에서 크기를 잘 설정하지만, 극소점이 아닌 극대점으로도 수렴 할 수 있는 문제를 갖고 있습니다.</p></li>
+<li><p>Gradient-Descent 방식은 1차 미분으로 이동 방향을 잘 설정하지만, 이동 크기는 잘 설정하지 못한다.</p></li>
+<li><p>Gauss-Newton 방식은 2차 미분으로 해 주변에서 크기를 잘 설정하지만, 극소점이 아닌 극대점으로도 수렴 할 수 있는 문제를 갖고 있다.</p></li>
+<li><p>Levenberg–Marquardt 방법은 가우스-뉴턴법보다 안정적으로 해를 찾을 수 있으며(초기값이 해로부터 멀리 떨어진 경우에도 해를 찾을 확률이 높음) 비교적 빠르게 해에 수렴하기 때문에 비선형 최소자승문제에 있어서는 대부분 Levenberg–Marquardt 방법이 사용된다.</p></li>
 </ul>
+<p>이제 <a href="#eq-levmar_gradient_decent_solution" class="quarto-xref">식&nbsp;4</a> 과 <a href="#eq-levmar_gauss_newton_solution" class="quarto-xref">식&nbsp;7</a> 을 합쳐서</p>
+<p><span id="eq-levmar_levenberg_marquardt_with_weight"><span class="math display">\[
+\boldsymbol{p}_{k+1} = \boldsymbol{p}_k + \left[\boldsymbol{J}^T\boldsymbol{WJ} + \lambda \cdot\text{diag}(\boldsymbol{J}^T\boldsymbol{WJ})\right]^{-1}\boldsymbol{J}^T\boldsymbol{W}(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))
+\tag{8}\]</span></span></p>
+<p>이다. 많은 경우 <span class="math inline">\(\boldsymbol{W}=\boldsymbol{I}\)</span> 이며 이 경우</p>
+<p><span id="eq-levmar_levenberg_marquardt_without_weight"><span class="math display">\[
+\boldsymbol{p}_{k+1} = \boldsymbol{p}_k + \left[\boldsymbol{J}^T\boldsymbol{J} + \lambda \cdot \text{diag}(\boldsymbol{J}^T\boldsymbol{J})\right]^{-1}\boldsymbol{J}^T(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))
+\tag{9}\]</span></span></p>
 
 
 </section>

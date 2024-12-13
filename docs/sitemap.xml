@@ -5,127 +5,19 @@
     <lastmod>2024-12-12T02:18:42.645Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/notebooks/notebooks.html</loc>
-    <lastmod>2024-12-12T02:18:42.641Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/index_part1.html</loc>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/index_part2.html</loc>
     <lastmod>2024-12-12T02:18:42.638Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/A_ode.html</loc>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/A_pde.html</loc>
     <lastmod>2024-12-12T02:18:42.616Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/A_collection_of_proofs.html</loc>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/A_generalized_inverse.html</loc>
     <lastmod>2024-12-12T02:18:42.616Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/14_approximation.html</loc>
-    <lastmod>2024-12-12T02:18:42.615Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/12_ode_initial_value_problem_2.html</loc>
-    <lastmod>2024-12-12T02:18:42.615Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/10_least_square_problem.html</loc>
-    <lastmod>2024-12-12T02:18:42.614Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/08_matrix_decomposition.html</loc>
-    <lastmod>2024-12-12T02:18:42.614Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html</loc>
-    <lastmod>2024-12-12T02:18:42.613Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/05_interpolation.html</loc>
-    <lastmod>2024-12-12T02:18:42.613Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/04_matrix_algebra.html</loc>
-    <lastmod>2024-12-12T02:18:42.612Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/03_linear_system.html</loc>
-    <lastmod>2024-12-12T02:18:42.612Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html</loc>
-    <lastmod>2024-12-12T02:18:42.611Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet/wavelets_julia.html</loc>
-    <lastmod>2024-12-12T02:18:42.611Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet/fourier_transform.html</loc>
-    <lastmod>2024-12-12T02:18:42.604Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/image_processing/tomography.html</loc>
-    <lastmod>2024-12-12T02:18:42.602Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/latexmacros.html</loc>
-    <lastmod>2024-12-12T02:18:42.495Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/about.html</loc>
-    <lastmod>2024-12-12T02:18:42.426Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/index.html</loc>
-    <lastmod>2024-12-12T02:18:42.495Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/image_processing/fourier_transform_for_image_processing.html</loc>
-    <lastmod>2024-12-12T02:18:42.496Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/image_processing/introduction_to_signal_processing.html</loc>
-    <lastmod>2024-12-12T02:18:42.507Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet/descrete_wavelet_transform.html</loc>
-    <lastmod>2024-12-12T02:18:42.604Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet/wavelet_transform.html</loc>
-    <lastmod>2024-12-12T02:18:42.609Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet_and_image.html</loc>
-    <lastmod>2024-12-12T02:18:42.611Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/02_notations_and_propositions.html</loc>
-    <lastmod>2024-12-12T02:18:42.612Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/04I_polynomial.html</loc>
-    <lastmod>2024-12-12T02:18:42.612Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/05I_interpolation_struct.html</loc>
-    <lastmod>2024-12-12T02:18:42.613Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/06I_Bezier.html</loc>
-    <lastmod>2024-12-12T02:18:42.613Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/07_finding_root.html</loc>
-    <lastmod>2024-12-12T02:18:42.614Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/09_iterative_method_for_linear_system.html</loc>
-    <lastmod>2024-12-12T02:18:42.614Z</lastmod>
-  </url>
-  <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/11_ode_initial_value_problem_1.html</loc>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/15_pde_1.html</loc>
     <lastmod>2024-12-12T02:18:42.615Z</lastmod>
   </url>
   <url>
@@ -133,23 +25,127 @@
     <lastmod>2024-12-12T02:18:42.615Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/15_pde_1.html</loc>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/11_ode_initial_value_problem_1.html</loc>
     <lastmod>2024-12-12T02:18:42.615Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/A_generalized_inverse.html</loc>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/09_iterative_method_for_linear_system.html</loc>
+    <lastmod>2024-12-12T02:18:42.614Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/07_finding_root.html</loc>
+    <lastmod>2024-12-12T02:18:42.614Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/06I_Bezier.html</loc>
+    <lastmod>2024-12-12T02:18:42.613Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/05I_interpolation_struct.html</loc>
+    <lastmod>2024-12-12T02:18:42.613Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/04I_polynomial.html</loc>
+    <lastmod>2024-12-12T02:18:42.612Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/02_notations_and_propositions.html</loc>
+    <lastmod>2024-12-12T02:18:42.612Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet_and_image.html</loc>
+    <lastmod>2024-12-12T02:18:42.611Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet/wavelet_transform.html</loc>
+    <lastmod>2024-12-12T02:18:42.609Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet/descrete_wavelet_transform.html</loc>
+    <lastmod>2024-12-12T02:18:42.604Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/image_processing/introduction_to_signal_processing.html</loc>
+    <lastmod>2024-12-12T02:18:42.507Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/image_processing/fourier_transform_for_image_processing.html</loc>
+    <lastmod>2024-12-12T02:18:42.496Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/index.html</loc>
+    <lastmod>2024-12-12T02:18:42.495Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/about.html</loc>
+    <lastmod>2024-12-12T02:18:42.426Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/latexmacros.html</loc>
+    <lastmod>2024-12-12T02:18:42.495Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/image_processing/tomography.html</loc>
+    <lastmod>2024-12-12T02:18:42.602Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet/fourier_transform.html</loc>
+    <lastmod>2024-12-12T02:18:42.604Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/image_processing/wavelet/wavelets_julia.html</loc>
+    <lastmod>2024-12-12T02:18:42.611Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html</loc>
+    <lastmod>2024-12-12T02:18:42.611Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/03_linear_system.html</loc>
+    <lastmod>2024-12-12T02:18:42.612Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/04_matrix_algebra.html</loc>
+    <lastmod>2024-12-12T02:18:42.612Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/05_interpolation.html</loc>
+    <lastmod>2024-12-12T02:18:42.613Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html</loc>
+    <lastmod>2024-12-12T02:18:42.613Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/08_matrix_decomposition.html</loc>
+    <lastmod>2024-12-12T02:18:42.614Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/10_least_square_problem.html</loc>
+    <lastmod>2024-12-12T02:18:42.614Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/12_ode_initial_value_problem_2.html</loc>
+    <lastmod>2024-12-12T02:18:42.615Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/14_approximation.html</loc>
+    <lastmod>2024-12-12T02:18:42.615Z</lastmod>
+  </url>
+  <url>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/A_collection_of_proofs.html</loc>
     <lastmod>2024-12-12T02:18:42.616Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/A_pde.html</loc>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/A_ode.html</loc>
     <lastmod>2024-12-12T02:18:42.616Z</lastmod>
   </url>
   <url>
-    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/index_part2.html</loc>
+    <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/index_part1.html</loc>
     <lastmod>2024-12-12T02:18:42.638Z</lastmod>
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/topics/nonlinear_least_square_fit.html</loc>
-    <lastmod>2024-12-12T02:18:42.644Z</lastmod>
+    <lastmod>2024-12-13T07:17:56.000Z</lastmod>
   </url>
 </urlset>
