@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -381,6 +415,60 @@ E(\boldsymbol{p}+\boldsymbol{h}) &amp; = (\boldsymbol{y}-\hat{\boldsymbol{y}}(\b
 <p><span id="eq-levmar_levenberg_marquardt_without_weight"><span class="math display">\[
 \boldsymbol{p}_{k+1} = \boldsymbol{p}_k + \left[\boldsymbol{J}^T\boldsymbol{J} + \lambda \cdot \text{diag}(\boldsymbol{J}^T\boldsymbol{J})\right]^{-1}\boldsymbol{J}^T(\boldsymbol{y}-\hat{\boldsymbol{y}}(\boldsymbol{p}))
 \tag{9}\]</span></span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">jacobian</span>(f<span class="op">::</span><span class="dt">Function</span>, xarr<span class="op">::</span><span class="dt">AbstractVector{&lt;:Real}</span>, params<span class="op">::</span><span class="dt">AbstractVector{T}</span>, ϵ <span class="op">=</span> <span class="fl">0.001</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">Real</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    J <span class="op">=</span> <span class="fu">Array</span><span class="dt">{Float64}</span>(<span class="cn">undef</span>, (<span class="fu">length</span>(xarr), <span class="fu">length</span>(params)))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@inbounds</span> <span class="cf">for</span> j <span class="op">∈</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(params), i <span class="op">∈</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(xarr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        p1, p2 <span class="op">=</span> params[<span class="op">:</span>], params[<span class="op">:</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        p1[j] <span class="op">+=</span> ϵ</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        p2[j] <span class="op">-=</span> ϵ</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        J[i, j] <span class="op">=</span> (<span class="fu">f</span>(xarr[i], p1)<span class="fu">-f</span>(xarr[i], p2))<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>ϵ)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> J</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">err</span>(xarr<span class="op">::</span><span class="dt">AbstractVector{&lt;:Real}</span>, yarr<span class="op">::</span><span class="dt">AbstractVector{&lt;:Real}</span>, f<span class="op">::</span><span class="dt">Function</span>, params)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">h</span>(x) <span class="op">=</span> <span class="fu">f</span>(x, params)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">sum</span>((yarr <span class="op">.-</span> <span class="fu">h</span>.(xarr))<span class="op">.^</span><span class="fl">2</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">LM</span>(f<span class="op">::</span><span class="dt">Function</span>, xarr<span class="op">::</span><span class="dt">AbstractArray{&lt;:Real}</span>, yarr<span class="op">::</span><span class="dt">AbstractArray{&lt;:Real}</span>, params; λ<span class="op">::</span><span class="dt">Real </span><span class="op">=</span> <span class="fl">1.0e-3</span>, ϵ<span class="op">::</span><span class="dt">Real</span>=<span class="fl">1.0e-3</span>, MaxIteration <span class="op">=</span> <span class="fl">10000</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    Nitter <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> params[<span class="op">:</span>]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    ee <span class="op">=</span> <span class="fu">err</span>(xarr, yarr, f, p)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    qs <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># J = jacobian(f, xarr, p, ϵ)</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> Nitter <span class="op">&lt;</span> MaxIteration</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        Nitter <span class="op">+=</span> <span class="fl">1</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        J <span class="op">=</span> <span class="fu">jacobian</span>(f, xarr, p, ϵ)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        JtJ <span class="op">=</span> J<span class="op">'*</span>J</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> p <span class="op">.+</span> <span class="fu">inv</span>(JtJ <span class="op">.+</span> λ <span class="op">.*</span> <span class="fu">Diagonal</span>(<span class="fu">diag</span>(JtJ))) <span class="op">*</span> J<span class="op">'</span> <span class="op">*</span> (yarr <span class="op">.-</span> [<span class="fu">f</span>(t, p) for t <span class="kw">in</span> xarr])</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        ee0 <span class="op">=</span> <span class="fu">err</span>(xarr, yarr, f, p)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        qs <span class="op">=</span> <span class="fu">abs</span>(ee <span class="op">-</span> ee0)<span class="op">/</span>ee</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> qs <span class="op">&lt;</span> ϵ </span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>            ee <span class="op">=</span> ee0</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="fu">println</span>( (p, qs, Nitter))</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (p, qs, Nitter)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>(x, p) <span class="op">=</span> p[<span class="fl">1</span>]<span class="fu">*sin</span>(x) <span class="op">+</span> p[<span class="fl">2</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>t<span class="op">=</span><span class="fl">0.0</span><span class="op">:</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">10.0</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="fl">5.0</span><span class="fu">*sin</span>.(t) <span class="op">.+</span> <span class="fl">7.0</span> <span class="op">.+</span> (<span class="fl">0.3</span><span class="op">.*</span><span class="fu">rand</span>(<span class="fu">length</span>(t)))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># jacobian(q, t, [2.0, 1], 0.001)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">LM</span>(q, <span class="fu">collect</span>(t), data, [<span class="fl">1.0</span>, <span class="op">-</span><span class="fl">1.0</span>], λ <span class="op">=</span> <span class="fl">0.001</span>, ϵ <span class="op">=</span> <span class="fl">0.000001</span> , MaxIteration <span class="op">=</span> <span class="fl">100</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>([5.012957019746288, 7.14253888593573], 0.9999272905261456, 1)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>([5.013960904057669, 7.150493532354603], 0.010698591624230576, 2)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>([5.013958759822676, 7.150501863003215], 1.058330305524245e-8, 3)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

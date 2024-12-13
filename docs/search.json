@@ -1464,6 +1464,17 @@
     ]
   },
   {
+    "objectID": "src/topics/nonlinear_least_square_fit.html#참고-문헌",
+    "href": "src/topics/nonlinear_least_square_fit.html#참고-문헌",
+    "title": "Levenberg-Marquardt 방법",
+    "section": "1 참고 문헌",
+    "text": "1 참고 문헌\n(Gavin (2024), )\n\n\nGavin, Henri P. 2024. “The Levenberg-Marquardt Algorithm for Nonlinear Least Squares Curve-Fitting Problems.” 2024. https://people.duke.edu/~hpgavin/lm.pdf.",
+    "crumbs": [
+      "다양한 주제들",
+      "Levenberg-Marquardt 방법"
+    ]
+  },
+  {
     "objectID": "src/topics/nonlinear_least_square_fit.html#비선형-최소-제곱-문제nonlinear-least-squares-problems",
     "href": "src/topics/nonlinear_least_square_fit.html#비선형-최소-제곱-문제nonlinear-least-squares-problems",
     "title": "Levenberg-Marquardt 방법",
@@ -1512,18 +1523,7 @@
     "href": "src/topics/nonlinear_least_square_fit.html#levenberg-marquardt-방법",
     "title": "Levenberg-Marquardt 방법",
     "section": "6 Levenberg-Marquardt 방법",
-    "text": "6 Levenberg-Marquardt 방법\nLevenberg-Marquardt 방법은 Gradient-Descent와 Gauss-Newton가 서로 보완하는 형태의 알고리즘이다.\n\nGradient-Descent 방식은 1차 미분으로 이동 방향을 잘 설정하지만, 이동 크기는 잘 설정하지 못한다.\nGauss-Newton 방식은 2차 미분으로 해 주변에서 크기를 잘 설정하지만, 극소점이 아닌 극대점으로도 수렴 할 수 있는 문제를 갖고 있다.\nLevenberg–Marquardt 방법은 가우스-뉴턴법보다 안정적으로 해를 찾을 수 있으며(초기값이 해로부터 멀리 떨어진 경우에도 해를 찾을 확률이 높음) 비교적 빠르게 해에 수렴하기 때문에 비선형 최소자승문제에 있어서는 대부분 Levenberg–Marquardt 방법이 사용된다.\n\n이제 식 4 과 식 7 을 합쳐서\n\\[\n\\boldsymbol{p}_{k+1} = \\boldsymbol{p}_k + \\left[\\boldsymbol{J}^T\\boldsymbol{WJ} + \\lambda \\cdot\\text{diag}(\\boldsymbol{J}^T\\boldsymbol{WJ})\\right]^{-1}\\boldsymbol{J}^T\\boldsymbol{W}(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}))\n\\tag{8}\\]\n이다. 많은 경우 \\(\\boldsymbol{W}=\\boldsymbol{I}\\) 이며 이 경우\n\\[\n\\boldsymbol{p}_{k+1} = \\boldsymbol{p}_k + \\left[\\boldsymbol{J}^T\\boldsymbol{J} + \\lambda \\cdot \\text{diag}(\\boldsymbol{J}^T\\boldsymbol{J})\\right]^{-1}\\boldsymbol{J}^T(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}))\n\\tag{9}\\]",
-    "crumbs": [
-      "다양한 주제들",
-      "Levenberg-Marquardt 방법"
-    ]
-  },
-  {
-    "objectID": "src/topics/nonlinear_least_square_fit.html#참고-문헌",
-    "href": "src/topics/nonlinear_least_square_fit.html#참고-문헌",
-    "title": "Levenberg-Marquardt 방법",
-    "section": "1 참고 문헌",
-    "text": "1 참고 문헌\n(Gavin (2024), )\n\n\nGavin, Henri P. 2024. “The Levenberg-Marquardt Algorithm for Nonlinear Least Squares Curve-Fitting Problems.” 2024. https://people.duke.edu/~hpgavin/lm.pdf.",
+    "text": "6 Levenberg-Marquardt 방법\nLevenberg-Marquardt 방법은 Gradient-Descent와 Gauss-Newton가 서로 보완하는 형태의 알고리즘이다.\n\nGradient-Descent 방식은 1차 미분으로 이동 방향을 잘 설정하지만, 이동 크기는 잘 설정하지 못한다.\nGauss-Newton 방식은 2차 미분으로 해 주변에서 크기를 잘 설정하지만, 극소점이 아닌 극대점으로도 수렴 할 수 있는 문제를 갖고 있다.\nLevenberg–Marquardt 방법은 가우스-뉴턴법보다 안정적으로 해를 찾을 수 있으며(초기값이 해로부터 멀리 떨어진 경우에도 해를 찾을 확률이 높음) 비교적 빠르게 해에 수렴하기 때문에 비선형 최소자승문제에 있어서는 대부분 Levenberg–Marquardt 방법이 사용된다.\n\n이제 식 4 과 식 7 을 합쳐서\n\\[\n\\boldsymbol{p}_{k+1} = \\boldsymbol{p}_k + \\left[\\boldsymbol{J}^T\\boldsymbol{WJ} + \\lambda \\cdot\\text{diag}(\\boldsymbol{J}^T\\boldsymbol{WJ})\\right]^{-1}\\boldsymbol{J}^T\\boldsymbol{W}(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}))\n\\tag{8}\\]\n이다. 많은 경우 \\(\\boldsymbol{W}=\\boldsymbol{I}\\) 이며 이 경우\n\\[\n\\boldsymbol{p}_{k+1} = \\boldsymbol{p}_k + \\left[\\boldsymbol{J}^T\\boldsymbol{J} + \\lambda \\cdot \\text{diag}(\\boldsymbol{J}^T\\boldsymbol{J})\\right]^{-1}\\boldsymbol{J}^T(\\boldsymbol{y}-\\hat{\\boldsymbol{y}}(\\boldsymbol{p}))\n\\tag{9}\\]\nfunction jacobian(f::Function, xarr::AbstractVector{&lt;:Real}, params::AbstractVector{T}, ϵ = 0.001) where T&lt;:Real\n\n    J = Array{Float64}(undef, (length(xarr), length(params)))\n    @inbounds for j ∈ 1:length(params), i ∈ 1:length(xarr)\n        p1, p2 = params[:], params[:]\n        p1[j] += ϵ\n        p2[j] -= ϵ\n        J[i, j] = (f(xarr[i], p1)-f(xarr[i], p2))/(2*ϵ)\n    end\n    return J\n\nend\n\nfunction err(xarr::AbstractVector{&lt;:Real}, yarr::AbstractVector{&lt;:Real}, f::Function, params)\n    h(x) = f(x, params)\n    return sum((yarr .- h.(xarr)).^2)\nend\n\nfunction LM(f::Function, xarr::AbstractArray{&lt;:Real}, yarr::AbstractArray{&lt;:Real}, params; λ::Real = 1.0e-3, ϵ::Real=1.0e-3, MaxIteration = 10000)\n    Nitter = 0\n    p = params[:]\n    ee = err(xarr, yarr, f, p)\n    \n    qs = 0.0\n    # J = jacobian(f, xarr, p, ϵ)\n    \n    \n    while Nitter &lt; MaxIteration\n        Nitter += 1\n        J = jacobian(f, xarr, p, ϵ)\n        JtJ = J'*J\n        p = p .+ inv(JtJ .+ λ .* Diagonal(diag(JtJ))) * J' * (yarr .- [f(t, p) for t in xarr])\n        \n        ee0 = err(xarr, yarr, f, p)\n        qs = abs(ee - ee0)/ee\n        if qs &lt; ϵ \n            break\n        else \n            ee = ee0\n        end\n        println( (p, qs, Nitter))\n    end\n    return (p, qs, Nitter)\nend\nq(x, p) = p[1]*sin(x) + p[2]\nt=0.0:0.1:10.0\ndata = 5.0*sin.(t) .+ 7.0 .+ (0.3.*rand(length(t)))\n\n# jacobian(q, t, [2.0, 1], 0.001)\nLM(q, collect(t), data, [1.0, -1.0], λ = 0.001, ϵ = 0.000001 , MaxIteration = 100)\n([5.012957019746288, 7.14253888593573], 0.9999272905261456, 1)\n([5.013960904057669, 7.150493532354603], 0.010698591624230576, 2)\n\n([5.013958759822676, 7.150501863003215], 1.058330305524245e-8, 3)",
     "crumbs": [
       "다양한 주제들",
       "Levenberg-Marquardt 방법"
