@@ -2,7 +2,7 @@
 title: "Levenberg-Marquardt 방법"
 
 number-sections: true
-number-depth: 2
+number-depth: 3
 crossref:
   chapters: false
 ---
@@ -14,8 +14,6 @@ crossref:
 
 ## 참고 문헌 
 
-(@Gavin2024, )
-
 ::: {#refs}
 
 
@@ -25,32 +23,48 @@ crossref:
 </br>
 
 
-
 ## 비선형 최소 제곱 문제(nonlinear least squares problems)
 
-측정된 데이터 $y_i$, $(i=1,\ldots,\, n)$ 와 모델 함수 $y=f(x;\bf{p})$ 사이의 편차를 최소로 하는 함수의 파라메터 $\bf{p}=(p_1,\ldots,\,p_m)$ 을 구하고 싶다고 하자. 이 때
+실험에서 측정되거나 계산된 데이터가 독립변수 $x_1,\ldots,\,x_n$ 과 종속변수 $y_1,\ldots,\,y_n$ 으로 이루어 졌다고 하자. 그리고 이 데이터를 어떤 모델 함수 $f(x)$ 와 비교하여 이 데이터를 가장 잘 설명하는 혹은 이 데이터와 가장 잘 맞는, 아직 정해지지 않은 파라미터 $\bf{p} = \{p_1,\ldots,\,p_m\}$ 를 결정해야 한다고 하자. 이제 함수를 $f(x;\bf{p})$ 라고 표기하자. 예를 들어 모델 함수가 다음과 같다고 하자.
 
 $$
-E(\bf{p}) = \sum_{i=1}^n \left[\dfrac{y_i - f(x_i;\bf{p})}{\sigma_{y_i}}\right]^2
-$${#eq-levmar_error_function_with_sigma}
+f(x) = ae^{-\lambda x} + b.
+$$
 
-은 $\bf{p}$ 에 대한 함수이며 $E(\bf{p})$ 를 최소화 하는 $\bf{p}^\ast$ 를 찾는 것이 비선형 최소자승법이다. 여기서 $\sigma_{y_i}$ 는 $y_i$ 측정에 대한 측정 오차이다. 예를 들어 방사능이나 입자 실험에서 많은 경우처럼 측정값이 푸아송 분포를 따르는 경우 $\sigma_{y_i}= \sqrt{y_i}$ 가 될 수 있다. @eq-levmar_error_function_with_sigma 를 좀 다르게 표현하면 $w_i = (1/\sigma_{y_i})^2$ 에 대해
+여기서 결정해야 하는 값이 $a,\, \lambda,\,b$ 라면 $\bf{p}=(a,\lambda,\,b)$ 이다. 어떤 이유로 $b$ 값이 고정된다면 $\bf{p}=(a,\,\lambda)$ 이다. $\bf{p}=(a,\lambda,\,b)$ 인 경우 다음과 같이 표기 할 수 있다.
+
+$$
+f(x;\bf{p}) = p_1 e^{-p_2 x} + p_3
+$$
+
+데이터와 모델을 비교할 때 아주 이상적인 상태라면 $y_i = f(x_i;\,\bf{p})$ 인 $\bf{p}$ 를 찾겠지만 이런 경우는 거의 없으며 실제로는 $\bf{y} = y_1,\ldots,\,y_n$ 과 $\hat{\bf{y}}=f(x_1;\bf{p}),\ldots,f(x_n;\bf{p})$ 의 차이를 최소화 하는 $\bf{p}$ 값을 찾아야 하는 경우가 대부분이다. 이 때 아래와 같이 정의된 함수 $E(\bf{p})$ 를 최소화 하는 $\bf{p}^\ast$ 를 찾는 것을 최소제곱법(least square method) 이라고 한다.
+$$
+E(\bf{p}) = \sum_{i=1}^n \left[\dfrac{y_i - f(x_i;\bf{p})}{\sigma_{y_i}}\right]^2
+$${#eq-levmar_error_function_with_sigma_1}
+
+여기서 $\sigma_{y_i}$ 는 $y_i$ 측정에 대한 측정 오차로 예를 들어 방사능 측정이나 입자 측정 실험에서는 많은 경우 측정값이 푸아송 분포를 따르며 이 때 $\sigma_{y_i}= \sqrt{y_i}$ 이다.  @eq-levmar_error_function_with_sigma_1 를 좀 다르게 표현하면 $w_i = (1/\sigma_{y_i})^2$ 에 대해
+
+$$
+E(\bf{p}) = \sum_{i=1}^n w_i\left[y_i - f(x_i;\bf{p})\right]^2
+$${#eq-levmar_error_function_with_sigma_2}
+
+이며 @eq-levmar_error_function_with_sigma_2 를 최소로 하는 $\bf{p}^\ast$ 는 다음과 같이 표현 할 수 있다.
 
 $$
 \bf{p}^\ast = \arg \min \sum_{i=1}^{n} w_i (y_i - f(x_i;\bf{p}))^2
 $${#eq-levmar_error_function_mathematical_form}
 
-를 찾는것이라고 할 수 있다. 
+
 
 </bf>
 
-이제 측정값을 $\bf{y}=\begin{bmatrix} y_1 & \cdots &y_n\end{bmatrix}^T$, 모델값을 $\hat{\bf{y}}(\bf{p}) = \begin{bmatrix} f(x_1;\bf{p}) & \cdots &f(x_n;\bf{p})\end{bmatrix}^T$ 라고 하자. 또한 가중치 행렬 $\bf{W}$ 를 $W_{ij}= \dfrac{\delta_{ij}}{\sigma_{y_i}^2}$ 라고 하면
+이제 측정값을 열벡터$\bf{y}=\begin{bmatrix} y_1 & \cdots &y_n\end{bmatrix}^T$, 모델값을 열벡터 $\hat{\bf{y}}(\bf{p}) = \begin{bmatrix} f(x_1;\bf{p}) & \cdots &f(x_n;\bf{p})\end{bmatrix}^T$ 라고 하자. 또한 $w_i$ 를 표현하는 가중치 행렬 $\bf{W}$ 를 $W_{ij}= \dfrac{\delta_{ij}}{\sigma_{y_i}^2}$ 라고 하면
 
 $$
 E(\bf{p}) = (\bf{y}-\hat{\bf{y}}(\bf{p}))^T \cdot \bf{W} \cdot (\bf{y}-\hat{\bf{y}}(\bf{p})) 
 $${#eq-levmar_error_function_matrix_form}
 
-이다. 참고로 $\bf{W}$ 는 대각행렬이며 (따라서) 대칭행렬이다.
+이다. 여기서 $\bf{W}$ 는 대각행렬이며 따라서 대칭행렬이다.
 
 
 
@@ -66,23 +80,26 @@ $$
 \end{aligned}
 $$
 
-로 나타 낼 수 있다. 즉 $\hat{\bf{y}}(\bf{p})$ 에 대한 야코비안 행렬 $\bf{J}$ 에 대해 
+로 나타 낼 수 있다. 즉 $\hat{\bf{y}}(\bf{p})$ 에 대한 야코비 행렬 $\bf{J}$ 에 대해 
 
 $$
 \nabla E(\bf{p}) =  -2(\bf{y}-\hat{\bf{y}}(\bf{p}))^T  \bf{WJ} ,\qquad \text{where }J_{ij} = \dfrac{\partial \hat{y}_i(\bf{p})}{\partial p_j}
 $$
 
-이다. $\bf{y} = (y_1,\ldots,\,y_n),\, \bf{p}=(p_1,\ldots,\,p_m)$ 이므로 $\nabla E(\bf{p})$ 는 $1\times m$ 행렬임에 유의하자. 즉 $\bf{p}$ 에 대해 $-(\nabla E(\bf{p}))^T$ 방향이 $E(\bf{p})$ 를 감소시키는 방향이다. 그러나 $-\nabla E(\bf{p})$ 값이 크다면 최소값 지점을 넘어갈 수 있으므로 보통 작은 값 $\lambda$ 를 곱해서 조금씩 진전시킨다. 이제 파라미터 $\bf{p}$ 에 대한 초기값 $\bf{p}_0$ 가 주어졌다면
+이다. $\nabla E(\bf{p})$ 는 $1\times m$ 행렬, 즉 행벡터임에 유의하자. 우리는 $-(\nabla E(\bf{p}))^T$ 방향이 $E(\bf{p})$ 를 감소시키는 방향임을 안다. 그러나 $-\nabla E(\bf{p})$ 값이 크다면 최소값 지점을 넘어갈 수 있으므로 보통 작은 값을 곱해서 조금씩 진전시키며 이것을 반복하여 $E(\bf{p})$ 를 최소로 하는 값을 찾는다. 보통 초기값 $\bf{p}_0$ 는 사용자에 의해 주어지며, 곱해지는 값 $\lambda_k$ 는 각 반복에서 결정된다. $k$ 차의 $\bf{p}_k$ 가 정해졌을 때 $\bf{p}_{k+1}$ 은 다음과 같다. 
 
 $$
-\bf{p}_{k+1} = \bf{p}_k - \lambda\left(\nabla E(\bf{p})\right)^T = \bf{p}_k + \lambda  \bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}))
+\bf{p}_{k+1} = \bf{p}_k + \bf{h}_{gd}= \bf{p}_k - \lambda_k\left(\nabla E(\bf{p})\right)^T = \bf{p}_k + \lambda_k  \bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p})).
 $$ {#eq-levmar_gradient_decent_solution}
 
-를 통해 $E(\bf{p})$ 를 최소화 시키는 $\bf{p}^\ast$ 를 찾을 수 있다.
+여기서 $\bf{h}_{gd}$ 는 gradient-descent 방법을 통해 $\bf{p}$ 가 변화하는 값이다. $\lambda_k$ 가 너무 작다면 $E(\bf{p}_{k+1}) \approx E(\bf{p}_k)$ 일 겻이며 $\lambda_k$ 가 지나치게 크다면 $E(\bf{p}_{k+1}) \ge E(\bf{p}_{k})$ 가 될 수 있다. 보통 $\lambda_k$ 를 다소 큰 값으로 잡은 후 $E(\bf{p}_{k+1}) \ge E(\bf{p}_{k})$ 일 때 $\lambda_k$ 값을 줄여 다시 @eq-levmar_gradient_decent_solution 를 수행하게 된다. 
+
+
+
 
 </br>
 
-## 뉴턴 방법
+<!-- ## 뉴턴 방법
 
 뉴턴 방법 혹은 뉴턴-랩슨 방법은 [수치해석 I-뉴턴 방법](../numerical_analysis_using_julia/07_finding_root.qmd#newton-method) 에서 보았듯이 함수 $f(x)$ 에 대해 $f(x)=0$ 의 해를
 
@@ -152,7 +169,7 @@ $$
 로 전행한다.
 
 
-</br>
+</br> -->
 
 ## 가우스-뉴턴 방법
 
@@ -176,16 +193,16 @@ $$
 이다. 그렇다면
 
 $$
-\nabla_\bf{p}E(\bf{p}+\bf{h}) = -2(\bf{y}-\hat{\bf{y}})^T\bf{WJ} + 2 \bf{h}^T\bf{J}^T\bf{WJ} 
+\nabla E(\bf{p}+\bf{h}) = -2(\bf{y}-\hat{\bf{y}})^T\bf{WJ} + 2 \bf{h}^T\bf{J}^T\bf{WJ} 
 $$
 
-이며 최소값이 되는 $\bf{h}_m$ 은
+이며, 따라서 최소값이 되는 $\bf{h}_m$ 은 $\nabla E(\bf{p}+\bf{h}_m)=\bf{0}$ 을 만족해야 하므로 
 
 $$
 \bf{h}_m = \left(\bf{J}^T\bf{WJ}\right)^{-1}\bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}))
 $${#eq-levmar_gauss_newton_solution_0}
 
-이며 따라서 $\bf{p}_k$ 가 주어졌을 때 
+이다. $\bf{p}_k$ 가 주어졌을 때 
 $$
 \bf{p}_{k+1} = \bf{p}_k+\bf{h}_m = \bf{p}_k + \left(\bf{J}^T\bf{WJ}\right)^{-1}\bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}))
 $${#eq-levmar_gauss_newton_solution}
@@ -207,17 +224,79 @@ Levenberg-Marquardt 방법은 Gradient-Descent와 Gauss-Newton가 서로 보완�
 - Levenberg–Marquardt 방법은 가우스-뉴턴법보다 안정적으로 해를 찾을 수 있으며(초기값이 해로부터 멀리 떨어진 경우에도 해를 찾을 확률이 높음) 비교적 빠르게 해에 수렴하기 때문에 비선형 최소자승문제에 있어서는 대부분 Levenberg–Marquardt 방법이 사용된다.
 
 
-이제 @eq-levmar_gradient_decent_solution 과 @eq-levmar_gauss_newton_solution 을 합쳐서
+Levenberg-Marquardt 방법은 @eq-levmar_gradient_decent_solution 과 @eq-levmar_gauss_newton_solution 을 합쳐서
 
 $$
-\bf{p}_{k+1} = \bf{p}_k + \left[\bf{J}^T\bf{WJ} + \lambda \cdot\text{diag}(\bf{J}^T\bf{WJ})\right]^{-1}\bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}))
+\bf{p}_{k+1} = \bf{p}_k + \bf{h}_{lm} = \bf{p}_k + \left[\bf{J}^T\bf{WJ} + \lambda \cdot\text{diag}(\bf{J}^T\bf{WJ})\right]^{-1}\bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p}))
 $$ {#eq-levmar_levenberg_marquardt_with_weight}
 
-이다. 많은 경우 $\bf{W}=\bf{I}$ 이며 이 경우
+를 사용한다. 여기서 $\text{diag}(\bf{J}^T\bf{WJ})$ 는 $\bf{J}^T\bf{WJ}$ 의 대각성분만으로 이루어진 행렬이며, $\bf{h}_{lm}$ 은 Levenberg-Marquardt 방법에 의해 $\bf{p}$ 값을 update 하는 값이다. 
+
+많은 경우 $\bf{W}=\bf{I}$ 로 간주할 경우가 많으며 이때는 
 
 $$
-\bf{p}_{k+1} = \bf{p}_k + \left[\bf{J}^T\bf{J} + \lambda \cdot \text{diag}(\bf{J}^T\bf{J})\right]^{-1}\bf{J}^T(\bf{y}-\hat{\bf{y}}(\bf{p}))
+\bf{p}_{k+1} = \bf{p}_k + \bf{h}_{lm} = \bf{p}_k + \left[\bf{J}^T\bf{J} + \lambda \cdot \text{diag}(\bf{J}^T\bf{J})\right]^{-1}\bf{J}^T(\bf{y}-\hat{\bf{y}}(\bf{p}))
 $${#eq-levmar_levenberg_marquardt_without_weight}
+
+이다. 
+
+</br>
+
+## 구현
+
+### Iteration 조건의 구현
+
+@Gavin2024 에서 제시된 방법을 따른다. @eq-levmar_levenberg_marquardt_with_weight 를 다시 보자. 여기서 $\bf{D}=\text{diag}(\bf{J}^T\bf{WJ})$ 라고 할때 일종의 메트릭 $\rho_k$ 를 다음과 같이 정의한다.
+
+$$
+\begin{aligned}
+\rho_k &:= \dfrac{E(\bf{p}_k)- E(\bf{p}_{k+1})}{\|\bf{h}^T \cdot \lambda_k \text{diag}(\bf{D})\cdot \bf{h} + \bf{J}^T\bf{W}(\bf{y}-\hat{\bf{y}}(\bf{p_k}))\|},\\[0.3em] 
+&\qquad \qquad \qquad \text{where }\bf{h}=\bf{h}_{lm}=\left[\bf{J}^T\bf{J} + \lambda \cdot \text{diag}(\bf{J}^T\bf{J})\right]^{-1}\bf{J}^T(\bf{y}-\hat{\bf{y}}(\bf{p})).
+\end{aligned}
+$$
+
+우리는 $E(\bf{p}_k)> E(\bf{p}_{k+1})$ 일 것을 기대하며 또한 충분히 클것을 기대한다. 어떤 기준 $\epsilon_4>0$ 에 대해 $\rho_k > \epsilon_4$ 이면 $\bf{p}_{k+1}$ 을 잘 얻은것으로 간주한다. 그렇지 않다면 $\bf{p}_{k+1}=\bf{p}_k$ 로 유지시키고 $\lambda_{k+1}$ 를 $\lambda_k$ 에 비해 적은 값으로 정한다. @Gavin2024 에서는 이 과정에 대한 세가지 방법이 제시되며 이 가운데 첫번째 방법이 가장 좋은 결과를 보인다고 한다. 여기서도 이 방법을 따르기로 한다. 이 과정은 다음과 같다.
+
+&emsp;($1$) $\lambda_0, \,\epsilon_4,\, L_{\uparrow},\, L_\downarrow$ 를 이용자가 정한다.
+
+&emsp;($2$) @eq-levmar_levenberg_marquardt_with_weight  따라 $\bf{p}_{k+1}$ 을 계산한다.
+
+&emsp;($4$) $\rho_k>\epsilon_4$ 일 경우 $\bf{p}_{k+1}$ 을 채택하며 $\lambda_{k+1} = \max \{\lambda_k/L_{\downarrow},\, 10^{-7}\}$ 로 정한다.
+
+&emsp;($5$) $\rho_k \le \epsilon_4$ 일 경우 $\bf{p}_{k+1}=\bf{p}$ 로 유지하고 $\lambda_{k+1} =  \min \{\lambda_k L^{\uparrow},\, 10^7\}$ 로 정한다.
+
+</br>
+
+@Gavin2024 에 따르면 $L_{\uparrow}\approx 11$ 일 때, $L_{\downarrow} \approx 9$ 에서 가장 좋은 성능을 보인다고 한다. 
+
+</br>
+
+### 야코비 행렬
+
+야코비 행렬은 수치해석적으로 전방 차분을 이용하여
+
+$$
+J_{ij} = \dfrac{f(x_i;\, \bf{p}+\delta \bf{e}_j)-f(x_i;\, \bf{p})}{\delta}
+$$ {#eq-levmar_jacobian_forward}
+
+로 구하거나 중앙차분을 이용하여 
+
+$$
+J_{ij} = \dfrac{f(x_i;\, \bf{p}+\delta \bf{e}_j)-f(x_i;\, \bf{p}-\delta \bf{e}_j)}{2\delta}
+$$ {#eq-levmar_jacobian_forward}
+
+를 통해 구한다. 두 경우 모두 피팅 매개변수 $\bf{p}$ 의 개수가 많을 경우, $\bf{y}$ 가 많을 경우 야코비 행렬의 계산량이 급격하게 증가한다. Broyden rank-1 update formula 를 사용하면
+
+$$
+\bf{J}_{k+1}=\bf{J}_k + \dfrac{1}{\bf{h}^T\bf{h}}\left[\hat{\bf{y}}(\bf{p}_{k+1}) - \hat{\bf{y}}(\bf{p}_k) - \bf{J}_k(\bf{p}_{k+1}-\bf{p}_k)\right]\bf{h}^T
+$$
+
+
+
+
+
+
+
 
 
 

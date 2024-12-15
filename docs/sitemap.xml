@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://julia-kaeri.github.io/src/topics/topics.html</loc>
-    <lastmod>2024-12-12T02:18:42.645Z</lastmod>
+    <lastmod>2024-12-11T05:12:38.803Z</lastmod>
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/index_part2.html</loc>
@@ -98,7 +98,7 @@
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/01_numerical_analysis_and_algorithm.html</loc>
-    <lastmod>2024-12-12T02:18:42.611Z</lastmod>
+    <lastmod>2024-12-14T09:33:31.791Z</lastmod>
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/numerical_analysis_using_julia/03_linear_system.html</loc>
@@ -146,6 +146,6 @@
   </url>
   <url>
     <loc>https://julia-kaeri.github.io/src/topics/nonlinear_least_square_fit.html</loc>
-    <lastmod>2024-12-13T10:25:14.955Z</lastmod>
+    <lastmod>2024-12-15T03:27:58.460Z</lastmod>
   </url>
 </urlset>
