@@ -291,75 +291,7 @@ $$
 \bf{J}_{k+1}=\bf{J}_k + \dfrac{1}{\bf{h}^T\bf{h}}\left[\hat{\bf{y}}(\bf{p}_{k+1}) - \hat{\bf{y}}(\bf{p}_k) - \bf{J}_k(\bf{p}_{k+1}-\bf{p}_k)\right]\bf{h}^T
 $$
 
+이다. 
 
 
 
-
-
-
-
-
-
-
-```julia
-function jacobian(f::Function, xarr::AbstractVector{<:Real}, params::AbstractVector{T}, ϵ = 0.001) where T<:Real
-
-    J = Array{Float64}(undef, (length(xarr), length(params)))
-    @inbounds for j ∈ 1:length(params), i ∈ 1:length(xarr)
-        p1, p2 = params[:], params[:]
-        p1[j] += ϵ
-        p2[j] -= ϵ
-        J[i, j] = (f(xarr[i], p1)-f(xarr[i], p2))/(2*ϵ)
-    end
-    return J
-
-end
-
-function err(xarr::AbstractVector{<:Real}, yarr::AbstractVector{<:Real}, f::Function, params)
-    h(x) = f(x, params)
-    return sum((yarr .- h.(xarr)).^2)
-end
-
-function LM(f::Function, xarr::AbstractArray{<:Real}, yarr::AbstractArray{<:Real}, params; λ::Real = 1.0e-3, ϵ::Real=1.0e-3, MaxIteration = 10000)
-    Nitter = 0
-    p = params[:]
-    ee = err(xarr, yarr, f, p)
-    
-    qs = 0.0
-    # J = jacobian(f, xarr, p, ϵ)
-    
-    
-    while Nitter < MaxIteration
-        Nitter += 1
-        J = jacobian(f, xarr, p, ϵ)
-        JtJ = J'*J
-        p = p .+ inv(JtJ .+ λ .* Diagonal(diag(JtJ))) * J' * (yarr .- [f(t, p) for t in xarr])
-        
-        ee0 = err(xarr, yarr, f, p)
-        qs = abs(ee - ee0)/ee
-        if qs < ϵ 
-            break
-        else 
-            ee = ee0
-        end
-        println( (p, qs, Nitter))
-    end
-    return (p, qs, Nitter)
-end
-```
-
-```julia
-q(x, p) = p[1]*sin(x) + p[2]
-t=0.0:0.1:10.0
-data = 5.0*sin.(t) .+ 7.0 .+ (0.3.*rand(length(t)))
-
-# jacobian(q, t, [2.0, 1], 0.001)
-LM(q, collect(t), data, [1.0, -1.0], λ = 0.001, ϵ = 0.000001 , MaxIteration = 100)
-```
-
-```txt
-([5.012957019746288, 7.14253888593573], 0.9999272905261456, 1)
-([5.013960904057669, 7.150493532354603], 0.010698591624230576, 2)
-
-([5.013958759822676, 7.150501863003215], 1.058330305524245e-8, 3)
-```
