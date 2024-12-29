@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>수치해석과 이미지 처리 - 수치해석 입문 : 선형시스템과 다항식</title>
+<title>수치해석 입문 : 선형시스템과 다항식 – 수치해석과 이미지 처리</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -148,7 +148,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -179,18 +179,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/03_linear_system.html">수치해석 입문 : 선형시스템과 다항식</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -280,31 +280,31 @@ window.Quarto = {
   <li><a href="#선형-시스템과-선형-방정식" id="toc-선형-시스템과-선형-방정식" class="nav-link active" data-scroll-target="#선형-시스템과-선형-방정식"><span class="header-section-number">1</span> 선형 시스템과 선형 방정식</a></li>
   <li><a href="#상삼각-행렬과-하삼각-행렬과-선형방정식" id="toc-상삼각-행렬과-하삼각-행렬과-선형방정식" class="nav-link" data-scroll-target="#상삼각-행렬과-하삼각-행렬과-선형방정식"><span class="header-section-number">2</span> 상삼각 행렬과 하삼각 행렬과 선형방정식</a>
   <ul class="collapse">
-  <li><a href="#하삼각-행렬에서의-선형방정식의-풀이" id="toc-하삼각-행렬에서의-선형방정식의-풀이" class="nav-link" data-scroll-target="#하삼각-행렬에서의-선형방정식의-풀이">하삼각 행렬에서의 선형방정식의 풀이</a></li>
-  <li><a href="#상삼각-행렬의-선형방정식의-풀이" id="toc-상삼각-행렬의-선형방정식의-풀이" class="nav-link" data-scroll-target="#상삼각-행렬의-선형방정식의-풀이">상삼각 행렬의 선형방정식의 풀이</a></li>
-  <li><a href="#코드-작성" id="toc-코드-작성" class="nav-link" data-scroll-target="#코드-작성">코드 작성</a></li>
-  <li><a href="#계산-복잡도-분석" id="toc-계산-복잡도-분석" class="nav-link" data-scroll-target="#계산-복잡도-분석">계산 복잡도 분석</a></li>
+  <li><a href="#하삼각-행렬에서의-선형방정식의-풀이" id="toc-하삼각-행렬에서의-선형방정식의-풀이" class="nav-link" data-scroll-target="#하삼각-행렬에서의-선형방정식의-풀이"><span class="header-section-number">2.1</span> 하삼각 행렬에서의 선형방정식의 풀이</a></li>
+  <li><a href="#상삼각-행렬의-선형방정식의-풀이" id="toc-상삼각-행렬의-선형방정식의-풀이" class="nav-link" data-scroll-target="#상삼각-행렬의-선형방정식의-풀이"><span class="header-section-number">2.2</span> 상삼각 행렬의 선형방정식의 풀이</a></li>
+  <li><a href="#코드-작성" id="toc-코드-작성" class="nav-link" data-scroll-target="#코드-작성"><span class="header-section-number">2.3</span> 코드 작성</a></li>
+  <li><a href="#계산-복잡도-분석" id="toc-계산-복잡도-분석" class="nav-link" data-scroll-target="#계산-복잡도-분석"><span class="header-section-number">2.4</span> 계산 복잡도 분석</a></li>
   </ul></li>
   <li><a href="#sec-gauss_jordan_elimination" id="toc-sec-gauss_jordan_elimination" class="nav-link" data-scroll-target="#sec-gauss_jordan_elimination"><span class="header-section-number">3</span> 가우스-요르단 소거법</a>
   <ul class="collapse">
-  <li><a href="#행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산" id="toc-행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산" class="nav-link" data-scroll-target="#행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산">행 사다리꼴 행렬, 행 간소 사다리꼴 행렬과 행 기본 연산</a></li>
-  <li><a href="#sec-gauss_jordan_elimination_process" id="toc-sec-gauss_jordan_elimination_process" class="nav-link" data-scroll-target="#sec-gauss_jordan_elimination_process">가우스-요르단 소거 과정 (Gauss-Jordan elimination method)</a></li>
-  <li><a href="#계산-복잡도-분석-1" id="toc-계산-복잡도-분석-1" class="nav-link" data-scroll-target="#계산-복잡도-분석-1">계산 복잡도 분석</a></li>
+  <li><a href="#행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산" id="toc-행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산" class="nav-link" data-scroll-target="#행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산"><span class="header-section-number">3.1</span> 행 사다리꼴 행렬, 행 간소 사다리꼴 행렬과 행 기본 연산</a></li>
+  <li><a href="#sec-gauss_jordan_elimination_process" id="toc-sec-gauss_jordan_elimination_process" class="nav-link" data-scroll-target="#sec-gauss_jordan_elimination_process"><span class="header-section-number">3.2</span> 가우스-요르단 소거 과정 (Gauss-Jordan elimination method)</a></li>
+  <li><a href="#계산-복잡도-분석-1" id="toc-계산-복잡도-분석-1" class="nav-link" data-scroll-target="#계산-복잡도-분석-1"><span class="header-section-number">3.3</span> 계산 복잡도 분석</a></li>
   </ul></li>
   <li><a href="#sec-lu_decomposition" id="toc-sec-lu_decomposition" class="nav-link" data-scroll-target="#sec-lu_decomposition"><span class="header-section-number">4</span> LU 분해</a>
   <ul class="collapse">
-  <li><a href="#lu-분해-lu-decomposition" id="toc-lu-분해-lu-decomposition" class="nav-link" data-scroll-target="#lu-분해-lu-decomposition">LU 분해 (LU decomposition)</a></li>
-  <li><a href="#lu-분해를-이용한-선형방정식의-풀이-및-행렬식" id="toc-lu-분해를-이용한-선형방정식의-풀이-및-행렬식" class="nav-link" data-scroll-target="#lu-분해를-이용한-선형방정식의-풀이-및-행렬식">LU 분해를 이용한 선형방정식의 풀이 및 행렬식</a></li>
-  <li><a href="#sec-plu_decomposition" id="toc-sec-plu_decomposition" class="nav-link" data-scroll-target="#sec-plu_decomposition">PLU 분해</a></li>
-  <li><a href="#복잡도-분석" id="toc-복잡도-분석" class="nav-link" data-scroll-target="#복잡도-분석">복잡도 분석</a></li>
-  <li><a href="#왜-lu-인가" id="toc-왜-lu-인가" class="nav-link" data-scroll-target="#왜-lu-인가">왜 LU 인가?</a></li>
-  <li><a href="#ldu-분해" id="toc-ldu-분해" class="nav-link" data-scroll-target="#ldu-분해">LDU 분해</a></li>
+  <li><a href="#lu-분해-lu-decomposition" id="toc-lu-분해-lu-decomposition" class="nav-link" data-scroll-target="#lu-분해-lu-decomposition"><span class="header-section-number">4.1</span> LU 분해 (LU decomposition)</a></li>
+  <li><a href="#lu-분해를-이용한-선형방정식의-풀이-및-행렬식" id="toc-lu-분해를-이용한-선형방정식의-풀이-및-행렬식" class="nav-link" data-scroll-target="#lu-분해를-이용한-선형방정식의-풀이-및-행렬식"><span class="header-section-number">4.2</span> LU 분해를 이용한 선형방정식의 풀이 및 행렬식</a></li>
+  <li><a href="#sec-plu_decomposition" id="toc-sec-plu_decomposition" class="nav-link" data-scroll-target="#sec-plu_decomposition"><span class="header-section-number">4.3</span> PLU 분해</a></li>
+  <li><a href="#복잡도-분석" id="toc-복잡도-분석" class="nav-link" data-scroll-target="#복잡도-분석"><span class="header-section-number">4.4</span> 복잡도 분석</a></li>
+  <li><a href="#왜-lu-인가" id="toc-왜-lu-인가" class="nav-link" data-scroll-target="#왜-lu-인가"><span class="header-section-number">4.5</span> 왜 LU 인가?</a></li>
+  <li><a href="#ldu-분해" id="toc-ldu-분해" class="nav-link" data-scroll-target="#ldu-분해"><span class="header-section-number">4.6</span> LDU 분해</a></li>
   </ul></li>
   <li><a href="#qr-분해-qr-factorization" id="toc-qr-분해-qr-factorization" class="nav-link" data-scroll-target="#qr-분해-qr-factorization"><span class="header-section-number">5</span> QR 분해 (QR-Factorization)</a>
   <ul class="collapse">
-  <li><a href="#정사영-projection" id="toc-정사영-projection" class="nav-link" data-scroll-target="#정사영-projection">정사영 (Projection)</a></li>
-  <li><a href="#그람-슈미트-과정" id="toc-그람-슈미트-과정" class="nav-link" data-scroll-target="#그람-슈미트-과정">그람-슈미트 과정</a></li>
-  <li><a href="#그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition" id="toc-그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition" class="nav-link" data-scroll-target="#그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition">그람 슈미트 과정을 이용한 QR 분해 (QR decomppsition)</a></li>
+  <li><a href="#정사영-projection" id="toc-정사영-projection" class="nav-link" data-scroll-target="#정사영-projection"><span class="header-section-number">5.1</span> 정사영 (Projection)</a></li>
+  <li><a href="#그람-슈미트-과정" id="toc-그람-슈미트-과정" class="nav-link" data-scroll-target="#그람-슈미트-과정"><span class="header-section-number">5.2</span> 그람-슈미트 과정</a></li>
+  <li><a href="#그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition" id="toc-그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition" class="nav-link" data-scroll-target="#그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition"><span class="header-section-number">5.3</span> 그람 슈미트 과정을 이용한 QR 분해 (QR decomppsition)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -331,6 +331,15 @@ window.Quarto = {
 </header>
 
 
+<div class="hidden">
+<p>% %</p>
+%
+<p><span class="math display">\[
+\DeclarePairedDelimiters{\set}{\{}{\}}
+\DeclareMathOperator*{\argmax}{argmax}
+\]</span></p>
+</div>
+<p><br></p>
 <p>이번 장에서는 본격적인 수치해석에 들어가기에 앞서 선형 시스템을 코딩을 통해 푸는 방법, 코딩에서 이루어지는 계산의 성능 분석과 다항식에 관한 객체를 만들어본다. 수학적 내용을 코드로 만들어 보고 이를 이용하여 문제를 풀어 보면서 선형대수학과 julia 언어에 대한 지식을 습득하게 된다. 그리고 다항식에 대한 객체는 이후 계속 사용하게 될 것이다.</p>
 <p><br></p>
 <section id="선형-시스템과-선형-방정식" class="level2" data-number="1">
@@ -402,8 +411,8 @@ f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\bolds
 <p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{b}\in\mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 가 유일하게 정해진다.</p>
 </div>
 <p><br></p>
-<section id="하삼각-행렬에서의-선형방정식의-풀이" class="level3">
-<h3 class="anchored" data-anchor-id="하삼각-행렬에서의-선형방정식의-풀이">하삼각 행렬에서의 선형방정식의 풀이</h3>
+<section id="하삼각-행렬에서의-선형방정식의-풀이" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="하삼각-행렬에서의-선형방정식의-풀이"><span class="header-section-number">2.1</span> 하삼각 행렬에서의 선형방정식의 풀이</h3>
 <p><span class="math inline">\(\boldsymbol{L}\in \mathcal{M}_{n\times n}(\mathbb{F})\)</span> 과 <span class="math inline">\(\boldsymbol{b}\in \mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Lx}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})\)</span> 을 구해보자. 이 때 <span class="math inline">\(\boldsymbol{L}\)</span> 의 각각의 대각 성분은 <span class="math inline">\(0\)</span> 이 아니라고 하자.</p>
 <p><span class="math display">\[
 \begin{bmatrix} L_{11} &amp; &amp; &amp; \\ L_{21} &amp; L_{22}  &amp; &amp; \\ \vdots &amp; &amp; \ddots &amp; \\ L_{n1} &amp; L_{n2} &amp; \cdots &amp; L_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
@@ -426,8 +435,8 @@ x_k &amp;= \dfrac{1}{L_{kk}} \left( b_k - \sum_{i=1}^{k-1} L_{ki}x_{i}\right),\,
 \]</span></p>
 <p><br></p>
 </section>
-<section id="상삼각-행렬의-선형방정식의-풀이" class="level3">
-<h3 class="anchored" data-anchor-id="상삼각-행렬의-선형방정식의-풀이">상삼각 행렬의 선형방정식의 풀이</h3>
+<section id="상삼각-행렬의-선형방정식의-풀이" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="상삼각-행렬의-선형방정식의-풀이"><span class="header-section-number">2.2</span> 상삼각 행렬의 선형방정식의 풀이</h3>
 <p>상삼각 행렬 <span class="math inline">\(\boldsymbol{U}\in \mathcal{M}_{n\times n}(\mathbb{F})\)</span> 와 <span class="math inline">\(\boldsymbol{b}\in\mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ux}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})\)</span> 을 구해보자. 역시 <span class="math inline">\(\boldsymbol{U}\)</span> 의 각각의 대각성분은 <span class="math inline">\(0\)</span> 이 아니다.</p>
 <p><span class="math display">\[
 \begin{bmatrix} U_{11} &amp; U_{12} &amp;\cdots &amp; U_{11} \\  &amp; U_{22}  &amp;\cdots  &amp; U_{21} \\  &amp; &amp; \ddots &amp; \vdots\\  &amp; &amp;  &amp; U_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
@@ -451,8 +460,8 @@ x_k &amp;= \dfrac{1}{U_{kk}} \left( b_k - \sum_{i=k+1}^{n} U_{ki}x_{i}\right),\,
 <p>임을 안다.</p>
 <p><br></p>
 </section>
-<section id="코드-작성" class="level3">
-<h3 class="anchored" data-anchor-id="코드-작성">코드 작성</h3>
+<section id="코드-작성" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="코드-작성"><span class="header-section-number">2.3</span> 코드 작성</h3>
 <p>Julia 의 장점중의 하나는 알고리즘을 코드로 구현 했을 때 코드에서 알고리즘을 명확히 표현할 수 있다는 것이다. 또한 Julia 의 코드 실행 속도가 빠르기 때문에 많은 경우 알고리즘을 그대로 코드화 한 경우라도 상당한 속도를 낸다는 것이다.</p>
 <p>상삼각행렬에 대해서는 <code>Us()</code>, 하삼각행렬에 대해서는 <code>Ls()</code> 함수로 선형방정식의 해를 구하는 코드를 작성해보자. 아래의 코드는 가능한 답중의 하나이다.</p>
 <div class="callout callout-style-simple callout-warning no-icon">
@@ -541,8 +550,8 @@ x_k &amp;= \dfrac{1}{U_{kk}} \left( b_k - \sum_{i=k+1}^{n} U_{ki}x_{i}\right),\,
 <p><br></p>
 </section>
 </section>
-<section id="계산-복잡도-분석" class="level3">
-<h3 class="anchored" data-anchor-id="계산-복잡도-분석">계산 복잡도 분석</h3>
+<section id="계산-복잡도-분석" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="계산-복잡도-분석"><span class="header-section-number">2.4</span> 계산 복잡도 분석</h3>
 <p>하삼각 행렬의 경우 <span class="math inline">\(x_1\)</span> 을 계산하는데흔 한번의 나눗셈, <span class="math inline">\(k\ne 1\)</span> 일 때 <span class="math inline">\(x_k\)</span> 를 계산하는데 스칼라곱이 <span class="math inline">\(k-1\)</span> 번, 덧셈과 뺄셈이 <span class="math inline">\(k\)</span> 번, 나눗셈 <span class="math inline">\(1\)</span> 번이 필요하므로 모두 <span class="math inline">\(2k\)</span> 번의 계신이 필요하다. <span class="math inline">\(n \times n\)</span> 하삼각 행렬의 행렬식에 대해서</p>
 <p><span class="math display">\[
 T(n) = 1 + \sum_{k=2}^n 2k = n^2 + n -1 = O(n^2)
@@ -563,8 +572,8 @@ T(n) = 1 + \sum_{k=2}^n 2k = n^2 + n -1 = O(n^2)
 \]</span></p>
 <p>가 성립한다. 즉 주어진 <span class="math inline">\(\boldsymbol{A}\)</span> 와 <span class="math inline">\(\boldsymbol{b}\)</span> 에 대해 가역 행렬 <span class="math inline">\(\boldsymbol{L}\)</span> 을 통해 <span class="math inline">\(\boldsymbol{LA}\)</span> 가 매우 간단한 행렬이 된다면 <span class="math inline">\(\boldsymbol{LAx}=\boldsymbol{Lb}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 를 쉽게 구할 수 있으며, 이 <span class="math inline">\(\boldsymbol{x}\)</span> 가 우리가 구하고자하는 선형방정식의 해이다.</p>
 <p><br></p>
-<section id="행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산" class="level3">
-<h3 class="anchored" data-anchor-id="행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산">행 사다리꼴 행렬, 행 간소 사다리꼴 행렬과 행 기본 연산</h3>
+<section id="행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산"><span class="header-section-number">3.1</span> 행 사다리꼴 행렬, 행 간소 사다리꼴 행렬과 행 기본 연산</h3>
 <section id="행-사다리꼴과-행-간소-사다리꼴" class="level4">
 <h4 class="anchored" data-anchor-id="행-사다리꼴과-행-간소-사다리꼴">행 사다리꼴과 행 간소 사다리꼴</h4>
 <p>행 사다리꼴 행렬(row echelon form matrix)은 다음의 조건을 만족하는 행렬이다.</p>
@@ -634,8 +643,8 @@ c &amp; \text{if } i = k, j = l\,, \\ 0 &amp;\text{oterwise}  \end{array}\right.
 <p><br></p>
 </section>
 </section>
-<section id="sec-gauss_jordan_elimination_process" class="level3">
-<h3 class="anchored" data-anchor-id="sec-gauss_jordan_elimination_process">가우스-요르단 소거 과정 (Gauss-Jordan elimination method)</h3>
+<section id="sec-gauss_jordan_elimination_process" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="sec-gauss_jordan_elimination_process"><span class="header-section-number">3.2</span> 가우스-요르단 소거 과정 (Gauss-Jordan elimination method)</h3>
 <p>가우스 소거법은 기본 행 연산을 유한번 시행하여 행렬을 행 사다리꼴(Row echelon form) 행렬로 변환시키는 것을 말한다. 목적이 사다리꼴이 아닌 행 간소 사다리꼴(Row-reduced echelon form) 일 경우 가우스-요르단 소거법이라 한다. 사람에 따라 가우스-요르단 소거법을 가우스 소거법이라고 하는데 여기서는 둘을 구분하기로 하자. 정사각행렬의 경우 가우스 소거법에 의해 상삼각행렬로 변환되며, 가역행렬일 경우 가우스-요르단 소거법의 결과는 단위행렬이다.</p>
 <p>이제 <span class="math inline">\(m\times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대한 가우스 소거법을 생각해보자. <span class="math inline">\(\boldsymbol{A}\)</span> 가 영행렬이면 의미가 없으므로 영행렬이 아닐 때만 생각한다.</p>
 <p><strong>P<sub>1</sub>-1.</strong> 영벡터가 아닌 첫번째 열벡터를 찾는다. 그 열벡터의 첫번째 행이 <span class="math inline">\(0\)</span> 이거나 절대값이 작을 경우 그 열벡터에서 적당한 <span class="math inline">\(0\)</span> 이 아닌 행을 찾아 그 행과 첫번째 행을 교환한다(<span class="math inline">\(\hat{L}_1\)</span> 연산). 이것을 <strong>피보팅 (pivoting)</strong> 이라 한다. 보통 첫번째 행이 <span class="math inline">\(0\)</span> 이 아니더라도 절대값이 가장 큰 값을 찾아 교환한다. 예를 들어</p>
@@ -719,8 +728,8 @@ c &amp; \text{if } i = k, j = l\,, \\ 0 &amp;\text{oterwise}  \end{array}\right.
 <span id="cb7-45"><a href="#cb7-45"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
-<section id="계산-복잡도-분석-1" class="level3">
-<h3 class="anchored" data-anchor-id="계산-복잡도-분석-1">계산 복잡도 분석</h3>
+<section id="계산-복잡도-분석-1" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="계산-복잡도-분석-1"><span class="header-section-number">3.3</span> 계산 복잡도 분석</h3>
 <p>우선 피보팅 없이 <span class="math inline">\(n \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 와 <span class="math inline">\(n\)</span> 차원 벡터 <span class="math inline">\(\boldsymbol{b}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ax}=b\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 를 가우스-요르단 소거법을 통해 구하는 데 필요한 계산복잡도를 알아보자. 우선 <span class="math inline">\(n\times (n+1)\)</span> 행렬 <span class="math inline">\(\begin{bmatrix} \boldsymbol{A} &amp; \boldsymbol{b}\end{bmatrix}\)</span> 에 대해 수행하므로,</p>
 <p>우선 <span class="math inline">\(k\)</span> 번째 행에 대해</p>
 <ol type="1">
@@ -739,8 +748,8 @@ T(n) = \sum_{k=1}^n (n-k+2) + 2(n-k)(n-k+2) = O\left( \frac{2}{3}n^3 \right) = O
 <h2 data-number="4" class="anchored" data-anchor-id="sec-lu_decomposition"><span class="header-section-number">4</span> LU 분해</h2>
 <p>선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해를 수치해석적으로 얻는 가장 기본적인 방법이 <strong>LU 분해(LU decomposition, LU factorization)</strong> 이다. 또한 행렬의 행렬식과 역행렬을 구하는 가장 기본적인 방법이 LU 분해를 통해 구하는 것이다.</p>
 <p><br></p>
-<section id="lu-분해-lu-decomposition" class="level3">
-<h3 class="anchored" data-anchor-id="lu-분해-lu-decomposition">LU 분해 (LU decomposition)</h3>
+<section id="lu-분해-lu-decomposition" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="lu-분해-lu-decomposition"><span class="header-section-number">4.1</span> LU 분해 (LU decomposition)</h3>
 <p>행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 를 어떤 하삼각행렬 <span class="math inline">\(\boldsymbol{L}\)</span> 과 상삼각행렬 <span class="math inline">\(\boldsymbol{U}\)</span> 의 곱으로 다음과 같이 나타내는 것을 LU 분해 (LU decomposition 혹은 LU factorization) 이라고 한다. LU 분해 자체는 정사각 행렬이 아니더라도 가능하다.</p>
 <p><span class="math display">\[
 \boldsymbol{A}=\boldsymbol{LU}
@@ -796,8 +805,8 @@ l_{21}u_{12} + l_{22}u_{22} &amp; = 3,
 <p>로 LU 분해가 가능하다. 즉 <span class="math inline">\(\boldsymbol{P} =\begin{bmatrix} 0 &amp; 1 \\ 1 &amp; 0\end{bmatrix}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{PB}\)</span> 가 LU 분해가 가능하다. 이렇게 피보팅까지 포함하여 LU 분해를 수행하는 것을 <strong>PLU 분해</strong>라고 하며 보통 LU 분해를 구현하는 경우 PLU 분해를 포함하여 구현할 수 밖에 없다. <u>이제부터는 LU 분해는 항상 PLU 분해를 의미한다.</u></p>
 <p><br></p>
 </section>
-<section id="lu-분해를-이용한-선형방정식의-풀이-및-행렬식" class="level3">
-<h3 class="anchored" data-anchor-id="lu-분해를-이용한-선형방정식의-풀이-및-행렬식">LU 분해를 이용한 선형방정식의 풀이 및 행렬식</h3>
+<section id="lu-분해를-이용한-선형방정식의-풀이-및-행렬식" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="lu-분해를-이용한-선형방정식의-풀이-및-행렬식"><span class="header-section-number">4.2</span> LU 분해를 이용한 선형방정식의 풀이 및 행렬식</h3>
 <p><span class="math inline">\(\boldsymbol{A}\)</span> 가 LU 분해 가능이고 <span class="math inline">\(\boldsymbol{PA}=\boldsymbol{LU}\)</span> 로 분해되었다고 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 가 가역행렬이 아니라면 분해가 의미가 없으므로 가역행렬일 때만 생각한다. <span class="math inline">\(\boldsymbol{P}\)</span> 치환행렬의 곱이며 각각의 치환행렬은 가역행렬이므로 <span class="math inline">\(\boldsymbol{P}\)</span> 도 가역행렬이다.</p>
 <p><span class="math display">\[
 \boldsymbol{Ax}=\boldsymbol{b} \iff \boldsymbol{PAx}=\boldsymbol{Pb} \iff \boldsymbol{LUx}=\boldsymbol{Pb}
@@ -810,8 +819,8 @@ l_{21}u_{12} + l_{22}u_{22} &amp; = 3,
 <p>이다. 여기서 <span class="math inline">\(n(P)\)</span> 는 <span class="math inline">\(\boldsymbol{P}\)</span> 에 나타나는 치환의 횟수이다.</p>
 <p><br></p>
 </section>
-<section id="sec-plu_decomposition" class="level3">
-<h3 class="anchored" data-anchor-id="sec-plu_decomposition">PLU 분해</h3>
+<section id="sec-plu_decomposition" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="sec-plu_decomposition"><span class="header-section-number">4.3</span> PLU 분해</h3>
 <p><span class="math inline">\(n \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 가 어떤 행교환 행렬 <span class="math inline">\(\boldsymbol{P}\)</span> 와 하삼각 행렬 <span class="math inline">\(\boldsymbol{L}\)</span>, 상삼각 행렬 <span class="math inline">\(\boldsymbol{U}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{PA} = \boldsymbol{LU}\)</span> 라 하자. <span class="math inline">\(\boldsymbol{P}\)</span>, <span class="math inline">\(\boldsymbol{L}\)</span>, <span class="math inline">\(\boldsymbol{U}\)</span> 는 모두 <span class="math inline">\(n \times n\)</span> 행렬이다. <span class="math inline">\(\boldsymbol{A}\)</span> 의 첫번째 열벡터에서 절대값이 최대값인 행과 1행을 교환하는 행교환 행렬을 <span class="math inline">\(\boldsymbol{P}_1\)</span> 이라고 하고 <span class="math inline">\(\boldsymbol{B}_1=\boldsymbol{P}_1\boldsymbol{A}\)</span> 라 하자. 행렬 <span class="math inline">\(\boldsymbol{B}_1\)</span> 과 <span class="math inline">\(\boldsymbol{L},\,\boldsymbol{U}\)</span> 를 1행, 1열과 나머지 부분행렬로 아래와 같이 구분한다.</p>
 <p><span class="math display">\[
 \boldsymbol{B}_1=\left[\begin{array}{cc} b_1 &amp; \boldsymbol{r}_1^T \\ \boldsymbol{c}_1 &amp; \boldsymbol{C}_1\end{array}\right],\qquad \boldsymbol{L}=\begin{bmatrix} 1 &amp; 0 \\ \boldsymbol{l}_1 &amp; \boldsymbol{L}_1\end{bmatrix}, \qquad \boldsymbol{U} = \begin{bmatrix} v_1 &amp; \boldsymbol{u}_1^T \\ 0 &amp; \boldsymbol{U}_1\\\end{bmatrix}
@@ -877,8 +886,8 @@ u_1 \boldsymbol{l}_1 &amp;= \boldsymbol{c}_1, \\
 </div>
 <p><br></p>
 </section>
-<section id="복잡도-분석" class="level3">
-<h3 class="anchored" data-anchor-id="복잡도-분석">복잡도 분석</h3>
+<section id="복잡도-분석" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="복잡도-분석"><span class="header-section-number">4.4</span> 복잡도 분석</h3>
 <p>피봇을 고려하지 않은 복잡도를 분석해보자. <span class="math inline">\(m\times m\)</span> 행렬에 대해 첫번째 열의 각 열에 대한 연산은 <span class="math inline">\(m\)</span> 번의 곱하기(코딩상으로는 나누기) 와 <span class="math inline">\(m\)</span> 번의 더하기(코딩상으로는 빼기) 가 이루어지며 총 <span class="math inline">\(m-1\)</span> 번의 행에 대해 이루어지기 때문에 <span class="math inline">\(2m(m-1)\)</span> 번의 연산이 이루어진다. <span class="math inline">\(n\times n\)</span> 행렬에 대해서라면 <span class="math inline">\(m\)</span> 값이 <span class="math inline">\(2\)</span> 부터 <span class="math inline">\(n\)</span> 까지 변할때의 합이므로</p>
 <p><span class="math display">\[
 T(n) = \sum_{m=2}^{n} 2m(m-1) = \sum_{m=1}^n 2m(m-1)= O\left(\dfrac{2n^3}{3}\right)
@@ -886,13 +895,13 @@ T(n) = \sum_{m=2}^{n} 2m(m-1) = \sum_{m=1}^n 2m(m-1)= O\left(\dfrac{2n^3}{3}\rig
 <p>이다. 즉 가우스 소거법과 계산복잡도는 같다.</p>
 <p><br></p>
 </section>
-<section id="왜-lu-인가" class="level3">
-<h3 class="anchored" data-anchor-id="왜-lu-인가">왜 LU 인가?</h3>
+<section id="왜-lu-인가" class="level3" data-number="4.5">
+<h3 data-number="4.5" class="anchored" data-anchor-id="왜-lu-인가"><span class="header-section-number">4.5</span> 왜 LU 인가?</h3>
 <p>많은 경우 선형시스템을 푼다는 것은 시스템 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 가 주어진 상태에서 <span class="math inline">\(\boldsymbol{b}\)</span> 가 변함에 따라 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 를 찾는다. 가우스 소거법을 이용하는 경우라면 매번 <span class="math inline">\(O(n^3)\)</span> 복잡도의 계산을 해 주어야 한다. LU 분해의 경우 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{LU}\)</span> (혹은 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{P}^{-1}\boldsymbol{LU}\)</span>) 에 대해 <span class="math inline">\(\boldsymbol{L}\)</span>, <span class="math inline">\(\boldsymbol{U}\)</span> 가 정해져 있기 때문에 각각 한번의 상삼각행렬과 하삼각행렬에 대해 풀어주면 된다. 상삼각 행렬과 하삼각 행렬의 복잡도는 <span class="math inline">\(O(n^2)\)</span> 이므로 주어진 시스템 행렬에 대해 많은 계산을 할 때는 LU 분해가 훨씬 유리하며, 따라서 기본적으로 선형방정식의 해는 LU 분해를 사용한다.</p>
 <p><br></p>
 </section>
-<section id="ldu-분해" class="level3">
-<h3 class="anchored" data-anchor-id="ldu-분해">LDU 분해</h3>
+<section id="ldu-분해" class="level3" data-number="4.6">
+<h3 data-number="4.6" class="anchored" data-anchor-id="ldu-분해"><span class="header-section-number">4.6</span> LDU 분해</h3>
 <p>LU 분해에서 상삼각해렬 <span class="math inline">\(\boldsymbol{U}\)</span> 를 대각행렬 <span class="math inline">\(\boldsymbol{D}\)</span> 와 대각성분이 <span class="math inline">\(1\)</span> 인 상삼각행렬 <span class="math inline">\(\boldsymbol{U}'\)</span> 의 곱으로 나타 낼 수 있다. 이를 LDU 분해라고 한다. <span class="math display">\[
 \underbrace{\begin{bmatrix} U_{11} &amp; U_{12} &amp; \cdots &amp; U_{1n} \\ 0 &amp; U_{22} &amp; \cdots &amp; U_{2n} \\ &amp; &amp; \ddots &amp; \\ 0 &amp; 0 &amp; \cdots &amp; U_{nn}\end{bmatrix}}_{\Large\boldsymbol{U}} = \underbrace{\begin{bmatrix} U_{11} &amp;  &amp;  &amp; 0 \\   &amp; U_{22} &amp;  &amp;  \\ &amp; &amp; \ddots &amp; \\ 0&amp; &amp; &amp; U_{nn}\end{bmatrix}}_{\Large{\boldsymbol{D}}} \underbrace{\begin{bmatrix} 1 &amp; U_{12}/U_{11}&amp; \cdots &amp; U_{1n}/U_{11} \\ 0 &amp; 1 &amp; \cdots &amp; U_{2n}/U_{22} \\ &amp; &amp; \ddots &amp; \\ 0 &amp; 0 &amp; \cdots &amp; 1\end{bmatrix}}_{\Large\boldsymbol{U}'}
 \]</span></p>
@@ -904,8 +913,8 @@ T(n) = \sum_{m=2}^{n} 2m(m-1) = \sum_{m=1}^n 2m(m-1)= O\left(\dfrac{2n^3}{3}\rig
 <p><span class="math inline">\(m \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 을 <span class="math inline">\(m \times m\)</span> 행렬 <span class="math inline">\(\boldsymbol{Q}\)</span> 와 <span class="math inline">\(m\times n\)</span> 상 삼각행렬 <span class="math inline">\(\boldsymbol{R}\)</span> 분해하여 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{QR}\)</span> 로 나타내는 것을 QR 분해라 한다. 이 때 <span class="math inline">\(\boldsymbol{Q}\)</span> 행렬의 각 열벡터는 서로 직교하며, 그 크기가 <span class="math inline">\(1\)</span> 이다. <span class="math inline">\(m=n\)</span> 이면 <span class="math inline">\(\boldsymbol{Q}\)</span> 가 유니터리행렬(unitary matrix) 로 <span class="math inline">\(\boldsymbol{Q}\boldsymbol{Q}^\ast = \boldsymbol{I}\)</span> 가 된다. 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 가 실수체에서 정의되었다면 <span class="math inline">\(\boldsymbol{Q}\)</span> 행렬은 직교행렬로 <span class="math inline">\(\boldsymbol{Q}\boldsymbol{Q}^T = \boldsymbol{I}\)</span> 이다.</p>
 <p>보통 이론적으로 QR 분해를 설명할 때는 그람-슈미트 과정(Gram-Schmidt process)을 사용하지만, 실제 수치해석적으로 구할 때는 Householder reflection 방법을 사용하거나 기븐스 회전(Givens rotation)을 사용한다. 여기서는 그람-슈미트 과정을 통한 QR 분해를 구현해보기로 한다.</p>
 <p><br></p>
-<section id="정사영-projection" class="level3">
-<h3 class="anchored" data-anchor-id="정사영-projection">정사영 (Projection)</h3>
+<section id="정사영-projection" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="정사영-projection"><span class="header-section-number">5.1</span> 정사영 (Projection)</h3>
 <p><span class="math inline">\(\mathbb{F}\)</span> 에서 정의된 내적 벡터공간 <span class="math inline">\(V\)</span> 의 기저 <span class="math inline">\(\{\boldsymbol{u}_1,\,\boldsymbol{u}_2,\ldots,\boldsymbol{u}_n\}\)</span> 이 <span class="math inline">\(\langle \boldsymbol{u}_i,\,\boldsymbol{u}_j \rangle=\delta_{ij}\)</span> 를 만족할 때 이 기저를 정규직교기저 (orthonormal basis) 라 한다. 내적이 정의되면 임의의 기저로부터 항상 정규직교기저를 구할 수 있으며, 이중 가장 유명한 방법이 그람-슈미트 방법이다.</p>
 <p>벡터 <span class="math inline">\(\boldsymbol{v}\)</span> 의 <span class="math inline">\(\boldsymbol{u}\)</span> 에 대한 정사영 <span class="math inline">\(\textrm{Proj}_\boldsymbol{u} \boldsymbol{v}\)</span> 는 다음과 같이 정의된다.</p>
 <p><span class="math display">\[
@@ -922,8 +931,8 @@ T(n) = \sum_{m=2}^{n} 2m(m-1) = \sum_{m=1}^n 2m(m-1)= O\left(\dfrac{2n^3}{3}\rig
 <p>이다.</p>
 <p><br></p>
 </section>
-<section id="그람-슈미트-과정" class="level3">
-<h3 class="anchored" data-anchor-id="그람-슈미트-과정">그람-슈미트 과정</h3>
+<section id="그람-슈미트-과정" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="그람-슈미트-과정"><span class="header-section-number">5.2</span> 그람-슈미트 과정</h3>
 <p>그람-슈미트 과정을 통해 유한차원 내적 벡터공간에서 주어진 독립 벡터를 이용하여 같은 갯수의 정규 직교 벡터를 얻을 수 있다. <span class="math inline">\(N\)</span> 차원 내적 벡터 공간 <span class="math inline">\(V\)</span> 에서 <span class="math inline">\(M\)</span> 개의 독립벡터 <span class="math inline">\(\{\boldsymbol{v}_1,\ldots,\boldsymbol{v}_M\}\)</span> 가 주어졌다고 하자. (당연히 <span class="math inline">\(M \le N\)</span> 이다). 다음을 이용하여 <span class="math inline">\(\hat{\boldsymbol{u}}_1,\ldots,\,\hat{\boldsymbol{u}}_M\)</span> 을 얻을 수 있다. 이를 그람-슈미트 과정이라고 한다.</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -940,8 +949,8 @@ T(n) = \sum_{m=2}^{n} 2m(m-1) = \sum_{m=1}^n 2m(m-1)= O\left(\dfrac{2n^3}{3}\rig
 </div>
 <p><br></p>
 </section>
-<section id="그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition" class="level3">
-<h3 class="anchored" data-anchor-id="그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition">그람 슈미트 과정을 이용한 QR 분해 (QR decomppsition)</h3>
+<section id="그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="그람-슈미트-과정을-이용한-qr-분해-qr-decomppsition"><span class="header-section-number">5.3</span> 그람 슈미트 과정을 이용한 QR 분해 (QR decomppsition)</h3>
 <p>이제 우리는 주어진 독립벡터들로 정규직교벡터를 구성하는 법을 배웠다. 여기서는 <span class="math inline">\(m \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 열벡터 <span class="math inline">\(\boldsymbol{A}_{:1},\ldots\)</span>, <span class="math inline">\(\boldsymbol{A}_{:n}\)</span> 에 대해 그람-슈미트 과정을 수행한다고 하자. <span class="math display">\[
 \begin{aligned}
 \boldsymbol{u}_1 &amp;=  \boldsymbol{A}_{:1},\qquad \hat{\boldsymbol{u}}_1 = \dfrac{\boldsymbol{u}_1}{\|\boldsymbol{u}_1\|}, \\
@@ -1022,18 +1031,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1065,7 +1063,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -1073,7 +1093,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

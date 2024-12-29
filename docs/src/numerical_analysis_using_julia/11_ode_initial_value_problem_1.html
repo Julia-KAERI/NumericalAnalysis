@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>수치해석과 이미지 처리 - 상미분 방정식의 초기값 문제-I</title>
+<title>상미분 방정식의 초기값 문제-I – 수치해석과 이미지 처리</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -148,7 +148,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -179,18 +179,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/11_ode_initial_value_problem_1.html">상미분 방정식의 초기값 문제-I</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -635,7 +635,7 @@ x_j(t + h) \approx x_j(t) + x_i'(t)h
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, x)<span class="fu">-&gt;exp</span>(t), <span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">500</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn, lw <span class="op">=</span> <span class="fl">2</span>, frame <span class="op">=</span> <span class="op">:</span>box, label <span class="op">=</span> <span class="st">"Euler method"</span>)<span class="co">#, dpi=300)</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(tn, <span class="fu">exp</span>.(tn), lw<span class="op">=</span><span class="fl">2</span>, ls <span class="op">=</span> <span class="op">:</span>dash, label <span class="op">=</span> L<span class="st">"f(t) = e^t"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_euler_method" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-NA1_euler_method" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_euler_method-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/euler_method.png" class="img-fluid figure-img" width="600">
@@ -668,7 +668,7 @@ x_j(t + h) \approx x_j(t) + x_i'(t)h
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">3</span>,<span class="op">:</span>], xn[<span class="fl">1</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"zx"</span>, color<span class="op">=:</span>blue)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(p0, p1, p2, p3, layout<span class="op">=</span><span class="fl">4</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_ode_lorentz" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-NA1_ode_lorentz" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_ode_lorentz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/lorentz.png" class="img-fluid figure-img" width="600">
@@ -704,7 +704,7 @@ x'(t) &amp;= y(t)
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn[<span class="fl">1</span>,<span class="op">:</span> ], label <span class="op">=</span> <span class="op">:</span>none)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_euler_sho1d" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-NA1_euler_sho1d" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_euler_sho1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/euler_sho1d.png" class="img-fluid figure-img" width="600">
@@ -843,7 +843,7 @@ t_{i+1}&amp;=t_{i}+h, \\
 <p>오일러 방법에서 사용했던 로렌츠 방저식에 대한 사용법은 아래와 같다.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_rk2</span>((t, x)<span class="fu">-&gt;butterfly3d</span>(x, <span class="fl">10</span>, <span class="fl">28</span>, <span class="fl">8</span><span class="op">/</span><span class="fl">3</span>), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>], <span class="fl">50000</span>, <span class="fl">1.0e-3</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xn[<span class="fl">1</span>,<span class="op">:</span>], xn[<span class="fl">2</span>,<span class="op">:</span>], xn[<span class="fl">3</span>,<span class="op">:</span>], label<span class="op">=</span><span class="st">"RK2"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_lorentz_rk2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-NA1_lorentz_rk2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_lorentz_rk2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/lorentz_rk2.png" class="img-fluid figure-img" width="600">
@@ -853,7 +853,7 @@ t_{i+1}&amp;=t_{i}+h, \\
 </figcaption>
 </figure>
 </div>
-<div id="fig-NA1_lorentz_rk4" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-NA1_lorentz_rk4" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_lorentz_rk4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/lorentz_rk4.png" class="img-fluid figure-img" width="600">
@@ -877,7 +877,7 @@ t_{i+1}&amp;=t_{i}+h, \\
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>tn1, xn1 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>그 결과를 그래프로 그리면 다음과 같다.</p>
-<div id="fig-NA1_sho1d_rk" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-NA1_sho1d_rk" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_sho1d_rk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/sho1d_rk.png" class="img-fluid figure-img" width="600">
@@ -913,7 +913,7 @@ x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \le
 <p><span class="math inline">\(\omega_0^2 &gt;0\)</span> 이면 <span class="math inline">\(x(t)\)</span> 의 <span class="math inline">\([\,\cdots]\)</span> 부분이 <span class="math inline">\(\cos\)</span> 함수 (혹은 <span class="math inline">\(\sin\)</span> 함수) 꼴로 나타날 수 있으므로 진폭이 점점 줄어드는 진동을 한다. 이를 <em>underdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 &lt;0\)</span> 이면 진동 없이 감쇄만 하게 되며 이를 <em>overdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 = 0\)</span> 일 경우를 <em>critical damping</em> 이라 한다.</p>
 <p><span class="math inline">\(m=1,\, \gamma=1,\, k=1\)</span> 과 <span class="math inline">\(x(t=0)=0,\, \dot{x}(t=0)=1\)</span> 일 때에 대해 오일러 방법, 2차 및 4차 룽게 쿠타 방법과, 해석적 해를 같이 그려보자.</p>
 <p><br></p>
-<div id="fig-NA1_dho1d_rk" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-NA1_dho1d_rk" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_dho1d_rk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/dho1d_rk.png" class="img-fluid figure-img" width="600">
@@ -927,7 +927,7 @@ x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \le
 </section>
 <section id="진자pendulum-문제" class="level3">
 <h3 class="anchored" data-anchor-id="진자pendulum-문제">진자(Pendulum) 문제</h3>
-<div id="fig-NA1_pendulum" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-NA1_pendulum" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_pendulum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/simple pendulum.png" class="img-fluid figure-img" width="250">
@@ -960,7 +960,7 @@ x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \le
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>tn3, xn3 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
-<div id="fig-NA1_ode_pendulum" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-NA1_ode_pendulum" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_ode_pendulum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/ode_pendulum.png" class="img-fluid figure-img" width="400">
@@ -1084,18 +1084,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1127,7 +1116,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -1135,7 +1146,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

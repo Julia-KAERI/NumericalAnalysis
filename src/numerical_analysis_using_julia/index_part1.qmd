@@ -2,11 +2,15 @@
 title: "수치해석 I"
 
 number-sections: true
-number-depth: 2
+number-depth: 3
 bibliography: ../../references.bib
 crossref:
   chapters: false
 ---
+
+{{< include ../../latexmacros.qmd >}}
+
+</br>
 
 여기서는 기본적인 수치해석에 대해 다룬다. 수치해석에 필요한 배경 지식을 다루며, julia 언어로 구현하는데 필요한 내용을 설명한다. 선형대수학과 행렬 계산에 대해 다루며, 보간법과 다항식, 1변수 미분과 적분, 그리고 1변수 방정식의 해를 구하는 방법에 대해 알아본다.
 
@@ -14,7 +18,8 @@ crossref:
 
 2. 이 책에서 많은 경우 앞부분에서 사용했던 알고리즘이나 방법을 뒤에서 사용하는 경우가 많이 있다. 이를 위해 여기서 구현한 것들을 julia 패키지로 만들었고 github 에 올려두었다. [NAJ.jl](https://github.com/Julia-KAERI/NAJ.jl.git) 이며 julia 에 설치 할 수 있다.
 
-```julia
+
+```{.julia}
 julia> ]
 (@v1.10) pkg> add https://github.com/Julia-KAERI/NAJ.jl.git
 ```
@@ -22,7 +27,7 @@ julia> ]
 
 </br>
 
-### 참고자료
+### 참고자료 {.unnumbered}
 
 수치해석 입문을 위해 읽어볼 만한 자료들은 다음과 같다.
 
