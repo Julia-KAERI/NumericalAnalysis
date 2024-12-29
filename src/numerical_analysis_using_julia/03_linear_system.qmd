@@ -43,7 +43,7 @@ $$
 
 
 
-이 시스템이 선형시스템이라고 불리는 이유는 $\bf{x}_1,\,\bf{x}_2 \in \mathcal{M}_n(\mathbb{F})$ 이며 $a$ 가 상수 일 때, 
+이 시스템이 선형시스템이라고 불리는 이유는 $\bf{x}_1,\,\bf{x}_2 \in \F^n$ 이며 $a$ 가 상수 일 때, 
 
 $$
 f_i(\bf{x}_1 + a \bf{x}_2) = f_i(\bf{x}_1) + af_i(\bf{x}_2) = \bf{Ax}_1 + a\bf{Ax}_2
@@ -55,8 +55,8 @@ $$
 
 $$
 \begin{aligned}
-\ker (\bf{A}) &:= \left\{\bf{x}\in \mathcal{M}_n(\mathbb{F}) : \bf{Ax}=\bf{0} \right\}, \\
-\text{im}(\bf{A}) &:= \left\{\bf{Ax}: \bf{x} \in \mathcal{M}_n(\mathbb{F})\right\}
+\ker (\bf{A}) &:= \left\{\bf{x}\in \F^n : \bf{Ax}=\bf{0} \right\}, \\
+\text{im}(\bf{A}) &:= \left\{\bf{Ax}: \bf{x} \in \F^n\right\}
 \end{aligned}
 $$
 

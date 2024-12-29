@@ -366,7 +366,7 @@ f_m (x_1,\ldots,\,x_n ) &amp;= A_{m1}x_1 + \cdots + A_{mn}x_n \\
 <p><span class="math display">\[
 f_i(\boldsymbol{x})=\boldsymbol{Ax},\qquad \boldsymbol{A} = \begin{bmatrix} A_{11} &amp; \cdots &amp; A_{1n} \\ \vdots &amp; \ddots &amp; \vdots \\ A_{m1} &amp; \cdots &amp;A_{mn} \end{bmatrix},\qquad \boldsymbol{x} = \begin{bmatrix} x_1 \\ \vdots \\ x_n \end{bmatrix}
 \]</span></p>
-<p>이 시스템이 선형시스템이라고 불리는 이유는 <span class="math inline">\(\boldsymbol{x}_1,\,\boldsymbol{x}_2 \in \mathcal{M}_n(\mathbb{F})\)</span> 이며 <span class="math inline">\(a\)</span> 가 상수 일 때,</p>
+<p>이 시스템이 선형시스템이라고 불리는 이유는 <span class="math inline">\(\boldsymbol{x}_1,\,\boldsymbol{x}_2 \in \mathbb{F}^n\)</span> 이며 <span class="math inline">\(a\)</span> 가 상수 일 때,</p>
 <p><span class="math display">\[
 f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\boldsymbol{x}_2) = \boldsymbol{Ax}_1 + a\boldsymbol{Ax}_2
 \]</span></p>
@@ -374,8 +374,8 @@ f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\bolds
 <p>주어진 <span class="math inline">\(m \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}\)</span> 의 커널 <span class="math inline">\(\ker (\boldsymbol{A})\)</span> 와 이미지 <span class="math inline">\(\text{im}(\boldsymbol{A})\)</span> 를 다음과 같이 정의한다.</p>
 <p><span class="math display">\[
 \begin{aligned}
-\ker (\boldsymbol{A}) &amp;:= \left\{\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F}) : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\
-\text{im}(\boldsymbol{A}) &amp;:= \left\{\boldsymbol{Ax}: \boldsymbol{x} \in \mathcal{M}_n(\mathbb{F})\right\}
+\ker (\boldsymbol{A}) &amp;:= \left\{\boldsymbol{x}\in \mathbb{F}^n : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\
+\text{im}(\boldsymbol{A}) &amp;:= \left\{\boldsymbol{Ax}: \boldsymbol{x} \in \mathbb{F}^n\right\}
 \end{aligned}
 \]</span></p>
 <p>만약 <span class="math inline">\(\boldsymbol{b}\in \text{im}(\boldsymbol{A})\)</span> 라면 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 가 존재하며 이 <span class="math inline">\(\boldsymbol{x}\)</span> 를 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해(solution) 라고 한다. <span class="math inline">\(\boldsymbol{x}_0 \in \ker (\boldsymbol{A})\)</span> 라면 <span class="math inline">\(\boldsymbol{A}(\boldsymbol{x}+\boldsymbol{x}_0) = \boldsymbol{Ax}\)</span> 이다.</p>
