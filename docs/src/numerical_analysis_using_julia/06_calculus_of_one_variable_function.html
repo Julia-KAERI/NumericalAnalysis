@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -279,28 +299,34 @@ window.Quarto = {
   <ul>
   <li><a href="#일변수-함수의-미분" id="toc-일변수-함수의-미분" class="nav-link active" data-scroll-target="#일변수-함수의-미분"><span class="header-section-number">1</span> 일변수 함수의 미분</a>
   <ul class="collapse">
-  <li><a href="#전방차분과-후방차분" id="toc-전방차분과-후방차분" class="nav-link" data-scroll-target="#전방차분과-후방차분">전방차분과 후방차분</a></li>
-  <li><a href="#두-점을-이용한-미분" id="toc-두-점을-이용한-미분" class="nav-link" data-scroll-target="#두-점을-이용한-미분">두 점을 이용한 미분</a></li>
-  <li><a href="#세-점을-이용한-미분" id="toc-세-점을-이용한-미분" class="nav-link" data-scroll-target="#세-점을-이용한-미분">세 점을 이용한 미분</a></li>
-  <li><a href="#roundoff-에러" id="toc-roundoff-에러" class="nav-link" data-scroll-target="#roundoff-에러">Roundoff 에러</a></li>
-  <li><a href="#다섯개의-점을-이용한-미분" id="toc-다섯개의-점을-이용한-미분" class="nav-link" data-scroll-target="#다섯개의-점을-이용한-미분">다섯개의 점을 이용한 미분</a></li>
+  <li><a href="#전방차분과-후방차분" id="toc-전방차분과-후방차분" class="nav-link" data-scroll-target="#전방차분과-후방차분"><span class="header-section-number">1.1</span> 전방차분과 후방차분</a></li>
+  <li><a href="#두-점을-이용한-미분" id="toc-두-점을-이용한-미분" class="nav-link" data-scroll-target="#두-점을-이용한-미분"><span class="header-section-number">1.2</span> 두 점을 이용한 미분</a></li>
+  <li><a href="#세-점을-이용한-미분" id="toc-세-점을-이용한-미분" class="nav-link" data-scroll-target="#세-점을-이용한-미분"><span class="header-section-number">1.3</span> 세 점을 이용한 미분</a></li>
+  <li><a href="#roundoff-에러" id="toc-roundoff-에러" class="nav-link" data-scroll-target="#roundoff-에러"><span class="header-section-number">1.4</span> Roundoff 에러</a></li>
+  <li><a href="#다섯개의-점을-이용한-미분" id="toc-다섯개의-점을-이용한-미분" class="nav-link" data-scroll-target="#다섯개의-점을-이용한-미분"><span class="header-section-number">1.5</span> 다섯개의 점을 이용한 미분</a></li>
   </ul></li>
-  <li><a href="#일변수-함수의-적분-뉴턴-코츠-방법" id="toc-일변수-함수의-적분-뉴턴-코츠-방법" class="nav-link" data-scroll-target="#일변수-함수의-적분-뉴턴-코츠-방법"><span class="header-section-number">2</span> 일변수 함수의 적분 : 뉴턴-코츠 방법</a>
+  <li><a href="#자동-미분" id="toc-자동-미분" class="nav-link" data-scroll-target="#자동-미분"><span class="header-section-number">2</span> 자동 미분</a>
   <ul class="collapse">
-  <li><a href="#뉴턴-코츠-방법" id="toc-뉴턴-코츠-방법" class="nav-link" data-scroll-target="#뉴턴-코츠-방법">뉴턴-코츠 방법</a></li>
-  <li><a href="#중점을-이용한-적분" id="toc-중점을-이용한-적분" class="nav-link" data-scroll-target="#중점을-이용한-적분">중점을 이용한 적분</a></li>
-  <li><a href="#사다리꼴-방법-를-이용한-적분" id="toc-사다리꼴-방법-를-이용한-적분" class="nav-link" data-scroll-target="#사다리꼴-방법-를-이용한-적분">사다리꼴 방법 를 이용한 적분</a></li>
-  <li><a href="#simpson-13-적분" id="toc-simpson-13-적분" class="nav-link" data-scroll-target="#simpson-13-적분">Simpson 1/3 적분</a></li>
-  <li><a href="#simpson-38-적분" id="toc-simpson-38-적분" class="nav-link" data-scroll-target="#simpson-38-적분">Simpson 3/8 적분</a></li>
+  <li><a href="#편미분과-합성함수의-편미분" id="toc-편미분과-합성함수의-편미분" class="nav-link" data-scroll-target="#편미분과-합성함수의-편미분"><span class="header-section-number">2.1</span> 편미분과 합성함수의 편미분</a></li>
+  <li><a href="#sec-automatic_differentiation" id="toc-sec-automatic_differentiation" class="nav-link" data-scroll-target="#sec-automatic_differentiation"><span class="header-section-number">2.2</span> 자동 미분</a></li>
+  <li><a href="#전진법과-후진법" id="toc-전진법과-후진법" class="nav-link" data-scroll-target="#전진법과-후진법"><span class="header-section-number">2.3</span> 전진법과 후진법</a></li>
   </ul></li>
-  <li><a href="#리처드슨-외삽법과-롬버그-적분" id="toc-리처드슨-외삽법과-롬버그-적분" class="nav-link" data-scroll-target="#리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">3</span> 리처드슨 외삽법과 롬버그 적분</a>
+  <li><a href="#일변수-함수의-적분-뉴턴-코츠-방법" id="toc-일변수-함수의-적분-뉴턴-코츠-방법" class="nav-link" data-scroll-target="#일변수-함수의-적분-뉴턴-코츠-방법"><span class="header-section-number">3</span> 일변수 함수의 적분 : 뉴턴-코츠 방법</a>
   <ul class="collapse">
-  <li><a href="#sec-richardson_extrapolation" id="toc-sec-richardson_extrapolation" class="nav-link" data-scroll-target="#sec-richardson_extrapolation">리처드슨 외삽법</a></li>
-  <li><a href="#롬버그-적분" id="toc-롬버그-적분" class="nav-link" data-scroll-target="#롬버그-적분">롬버그 적분</a></li>
+  <li><a href="#뉴턴-코츠-방법" id="toc-뉴턴-코츠-방법" class="nav-link" data-scroll-target="#뉴턴-코츠-방법"><span class="header-section-number">3.1</span> 뉴턴-코츠 방법</a></li>
+  <li><a href="#중점을-이용한-적분" id="toc-중점을-이용한-적분" class="nav-link" data-scroll-target="#중점을-이용한-적분"><span class="header-section-number">3.2</span> 중점을 이용한 적분</a></li>
+  <li><a href="#사다리꼴-방법-를-이용한-적분" id="toc-사다리꼴-방법-를-이용한-적분" class="nav-link" data-scroll-target="#사다리꼴-방법-를-이용한-적분"><span class="header-section-number">3.3</span> 사다리꼴 방법 를 이용한 적분</a></li>
+  <li><a href="#simpson-13-적분" id="toc-simpson-13-적분" class="nav-link" data-scroll-target="#simpson-13-적분"><span class="header-section-number">3.4</span> Simpson 1/3 적분</a></li>
+  <li><a href="#simpson-38-적분" id="toc-simpson-38-적분" class="nav-link" data-scroll-target="#simpson-38-적분"><span class="header-section-number">3.5</span> Simpson 3/8 적분</a></li>
   </ul></li>
-  <li><a href="#가우스-구적법" id="toc-가우스-구적법" class="nav-link" data-scroll-target="#가우스-구적법"><span class="header-section-number">4</span> 가우스 구적법</a>
+  <li><a href="#리처드슨-외삽법과-롬버그-적분" id="toc-리처드슨-외삽법과-롬버그-적분" class="nav-link" data-scroll-target="#리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">4</span> 리처드슨 외삽법과 롬버그 적분</a>
   <ul class="collapse">
-  <li><a href="#르장드르-다항식을-이용한-가우스-구적법" id="toc-르장드르-다항식을-이용한-가우스-구적법" class="nav-link" data-scroll-target="#르장드르-다항식을-이용한-가우스-구적법">르장드르 다항식을 이용한 가우스 구적법</a></li>
+  <li><a href="#sec-richardson_extrapolation" id="toc-sec-richardson_extrapolation" class="nav-link" data-scroll-target="#sec-richardson_extrapolation"><span class="header-section-number">4.1</span> 리처드슨 외삽법</a></li>
+  <li><a href="#롬버그-적분" id="toc-롬버그-적분" class="nav-link" data-scroll-target="#롬버그-적분"><span class="header-section-number">4.2</span> 롬버그 적분</a></li>
+  </ul></li>
+  <li><a href="#가우스-구적법" id="toc-가우스-구적법" class="nav-link" data-scroll-target="#가우스-구적법"><span class="header-section-number">5</span> 가우스 구적법</a>
+  <ul class="collapse">
+  <li><a href="#르장드르-다항식을-이용한-가우스-구적법" id="toc-르장드르-다항식을-이용한-가우스-구적법" class="nav-link" data-scroll-target="#르장드르-다항식을-이용한-가우스-구적법"><span class="header-section-number">5.1</span> 르장드르 다항식을 이용한 가우스 구적법</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -327,6 +353,15 @@ window.Quarto = {
 </header>
 
 
+<div class="hidden">
+<p>% %</p>
+%
+<p><span class="math display">\[
+\DeclarePairedDelimiters{\set}{\{}{\}}
+\DeclareMathOperator*{\argmax}{argmax}
+\]</span></p>
+</div>
+<p><br></p>
 <section id="일변수-함수의-미분" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="일변수-함수의-미분"><span class="header-section-number">1</span> 일변수 함수의 미분</h2>
 <p>이 장에서는 수치해석적으로 주어진 함수의 미분을 구하는 방법을 알아본다. 앞서 설명했듯이함수 <span class="math inline">\(f: X\subset \mathbb{R} \to \mathbb {R}\)</span> 이 <span class="math inline">\(x_0 \in X\)</span> 에서 미분가능하다는 것은 다음의 극한이 존재한다는 것이다.</p>
@@ -335,40 +370,40 @@ f'(x_0)=\lim_{h\to 0} \dfrac{f(x_0+h)- f(x_0)}{h}
 \]</span></p>
 <p>여기서 <span class="math inline">\(h\)</span> 는 음수도, 양수도 가능하다. 그리고 우리가 앞서 배웠듯이 컴퓨터가 다룰수 있는 가장 <span class="math inline">\(0\)</span> 에 가깝지만 가장 작은 수에는 한계가 있으므로 이러한 극한을 다룰수 없다. 따라서 수치해석적으로 미분을 계산할 때는 우리가 관심있는 영역 <span class="math inline">\([a,\,b]\subset X\)</span> 를 분할하여 수열을 만들어 다룰 수 밖에 없다. 즉 우리는 <span class="math inline">\(x_1=a&lt;x_2&lt;\cdots &lt;x_n=b\)</span> 에 대해 <span class="math inline">\(f(x_i) = y_i\)</span> 로 정하고 수열 <span class="math inline">\((x_i)\)</span> 와 <span class="math inline">\((y_i)\)</span> 를 이용하여 수치해석적으로 미분을 구한다. 이것은 미분가능한 함수가 주어졌을 때 뿐만 아니라 이산적인 값 <span class="math inline">\(\{(x_i,\, y_i)\}\)</span> 가 주어졌을 때도 동일하게 사용 할 수 있다. 우리는 <span class="math inline">\([a,\,b]\)</span> 를 일정한 간격으로 분할한, 즉 <span class="math inline">\(x_{i+1}-x_i =h\)</span> 가 상수일 경우만 생각하기로 한다.</p>
 <p><br></p>
-<section id="전방차분과-후방차분" class="level3">
-<h3 class="anchored" data-anchor-id="전방차분과-후방차분">전방차분과 후방차분</h3>
-<p>수열 <span class="math inline">\(y_1,\,y_2,\ldots\)</span> 에 대해 <strong>전방 차분 (forward difference)</strong> 는 <span class="math inline">\(\Delta_F y_i = y_{i+1}-y_i\)</span> 로 정의된다. <strong>후방 차분 (backward difference)</strong> 는 <span class="math inline">\(\Delta_B y_i = y_{i}-y_{i-1}\)</span> 로 정의된다. 함수 <span class="math inline">\(f(x)\)</span> 에 대해 어떤 특정한 간격 <span class="math inline">\(h&gt;0\)</span> 가 주어졌을 때 전방 차분은 <span class="math inline">\(\Delta_F f(x) = f(x+h)-f(x)\)</span> 이며 후방차분은 <span class="math inline">\(\Delta_B f(x) = f(x)-f(x-h)\)</span> 이다. 앞서 말했듯이 수치해석에서는 <span class="math inline">\(h\to 0\)</span> 극한을 사용할 수 없으므로 차분을 이용하여 미분값을 계산한다. 즉 <span class="math inline">\((y_1,\ldots,\,y_n)\)</span> 의 경우,</p>
-<p><span class="math display">\[
-(\Delta_F y)_i := y_{i+1}-y_i,\qquad i=1,\ldots,\,n-1
-\]</span></p>
-<p>는 전방차분이며,</p>
-<p><span class="math display">\[
-(\Delta_B y)_i := y_{i}-y_{i-1}, \qquad i=2,\ldots,\,n
-\]</span></p>
-<p>은 후방차분이다.</p>
+<section id="전방차분과-후방차분" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="전방차분과-후방차분"><span class="header-section-number">1.1</span> 전방차분과 후방차분</h3>
+<p>수열 <span class="math inline">\(y_1,\,y_2,\ldots\)</span> 에 대해 <strong>전방 차분 (forward difference)</strong> 는 다음과 같이 정의된다.</p>
+<p><span id="eq-forward_difference"><span class="math display">\[
+\Delta_F y_i := y_{i+1}-y_i
+\tag{1}\]</span></span></p>
+<p>비슷한 방법으로 <strong>후방 차분 (backward difference)</strong> 은 다음과 같이 정의된다.</p>
+<p><span id="eq-backward_difference"><span class="math display">\[
+\Delta_B y_i := y_{i}-y_{i-1}
+\tag{2}\]</span></span></p>
+<p>함수 <span class="math inline">\(f(x)\)</span> 에 대해 어떤 특정한 간격 <span class="math inline">\(h&gt;0\)</span> 가 주어졌을 때 전방 차분은 <span class="math inline">\(\Delta_F f(x) = f(x+h)-f(x)\)</span> 이며 후방차분은 <span class="math inline">\(\Delta_B f(x) = f(x)-f(x-h)\)</span> 이다. 앞서 말했듯이 수치해석에서는 <span class="math inline">\(h\to 0\)</span> 극한을 사용할 수 없으므로 차분을 이용하여 미분값을 계산한다.</p>
 <p><br></p>
 </section>
-<section id="두-점을-이용한-미분" class="level3">
-<h3 class="anchored" data-anchor-id="두-점을-이용한-미분">두 점을 이용한 미분</h3>
+<section id="두-점을-이용한-미분" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="두-점을-이용한-미분"><span class="header-section-number">1.2</span> 두 점을 이용한 미분</h3>
 <p>함수 <span class="math inline">\(f\)</span> 가 <span class="math inline">\(C^2\)</span> 함수일 때 <span class="math inline">\(f\)</span> 에 대한 테일러 전개는 아래와 같다.</p>
 <p><span id="eq-taylor_expansion_1nd"><span class="math display">\[
 \begin{aligned}
 f(x-h) &amp;= f(x) - f'(x)h + \dfrac{f''(\xi_1)}{2} h^2,  \\
 f(x+h) &amp;= f(x) + f'(x)h + \dfrac{f''(\xi_2)}{2} h^2.
 \end{aligned}
-\tag{1}\]</span></span></p>
+\tag{3}\]</span></span></p>
 <p><span class="math inline">\(h&gt;0\)</span> 일 때 전방차분과 후방차분을 이용하여</p>
 <p><span id="eq-difference_taylor_1nd"><span class="math display">\[
 \begin{aligned}
 f'(x) &amp;= \dfrac{f(x+h)-f(x)}{h} + O(h) = \dfrac{\Delta_F f(x)}{h} + O(h) \\
 &amp;= \dfrac{f(x)-f(x-h)}{h} + O(h) = \dfrac{\Delta_B f(x)}{h} + O(h)
 \end{aligned}
-\tag{2}\]</span></span></p>
+\tag{4}\]</span></span></p>
 <p>로 근사 할 수 있다.</p>
 <p><br></p>
 </section>
-<section id="세-점을-이용한-미분" class="level3">
-<h3 class="anchored" data-anchor-id="세-점을-이용한-미분">세 점을 이용한 미분</h3>
+<section id="세-점을-이용한-미분" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="세-점을-이용한-미분"><span class="header-section-number">1.3</span> 세 점을 이용한 미분</h3>
 <p>2차와 3차 테일러 다항식 까지 전개한다면 <span id="eq-tayler_expansion_2nd"><span class="math display">\[
 \begin{aligned}
 f(x-h) &amp;= f(x) - f'(x)h + \dfrac{f''(x)}{2} h^2 - \dfrac{f^{(3)}(\xi_1)}{6} h^3,  \\
@@ -376,7 +411,7 @@ f(x-h) &amp;= f(x) - f'(x)h + \dfrac{f''(x)}{2} h^2 - \dfrac{f^{(3)}(\xi_1)}{6} 
 f(x+h) &amp;= f(x) + f'(x)h + \dfrac{f''(x)}{2} h^2 + \dfrac{f^{(3)}(\xi_2)}{6} h^3, \\
 &amp;= f(x) + f'(x)h + \dfrac{f''(x)}{2} h^2 + \dfrac{f^{(3)}(x)}{6} h^3 + \dfrac{f^{(4)}(\xi'_2)}{24}h^4
 \end{aligned}
-\tag{3}\]</span></span></p>
+\tag{5}\]</span></span></p>
 <p>를 만족하는 <span class="math inline">\(\xi_1,\,\xi'_1\in (x-h,\, x),\, \xi_2,\,\xi'_2 \in (x,\,x+h)\)</span> 가 존재한다.</p>
 <p>이로부터</p>
 <p><span class="math display">\[
@@ -391,42 +426,53 @@ f(x+h) -2 f(x) + f(x-h) &amp;= f''(x) h^2 + \dfrac{1}{24}\left(f^{(4)}(\xi'_1) +
 f'(x) &amp;= \dfrac{f(x+h)-f(x-h)}{2h} - \dfrac{f^{(3)}(\xi)}{6}h^2 ,\\
 f''(x) &amp;=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h^2
 \end{aligned}
-\tag{4}\]</span></span></p>
-<p>이 때 수치해석적으로 계산한 미분의 오차는 <span class="math inline">\(h^2\)</span> 에 비례한다. 따라서 <span class="math inline">\(h\)</span> 을 작게 잡을 수록 오차가 작아지며 충분히 작을 때 전방차분이나 후방차분보다 오차가 작을 것을 기대 할 수 있다. 위의 식에 의해 구한 미분의 추정값을 <strong>중앙 차분 (central difference)</strong> 라고 한다. 아래 그림은 함수 <span class="math inline">\(f\)</span> 에 대한 전방 차분, 후방 차분, 중앙 차분값을 그림으로 표현하였다. 실제 미분값은 중앙차분에 의한 값과 거의 같다.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figure/difference_01.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Finite difference</figcaption>
+\tag{6}\]</span></span></p>
+<p>이 때 수치해석적으로 계산한 미분의 오차는 <span class="math inline">\(h^2\)</span> 에 비례한다. 따라서 <span class="math inline">\(h\)</span> 을 작게 잡을 수록 오차가 작아지며 충분히 작을 때 전방차분이나 후방차분보다 오차가 작을 것을 기대 할 수 있다. 위의 식에 의해 구한 미분의 추정값을 <strong>중앙 차분 (central difference)</strong> 라고 한다. 아래 그림은 함수 <span class="math inline">\(f\)</span> 에 대한 전방 차분, 후방 차분, 중앙 차분값을 그림으로 표현하였다.</p>
+<div id="fig-comparision_of_differences" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-comparision_of_differences-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/difference_01.png" class="img-fluid figure-img" width="500">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comparision_of_differences-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;1: Finite difference
+</figcaption>
 </figure>
 </div>
-<p>양 끝점에서는 도함수를 구할 수 없는데 이때는 전방차분이나 후방차분과 비슷한 방법을 사용하여 구할 수 있다.</p>
-<p><span class="math display">\[
+<!-- 
+양 끝점에서는 도함수를 구할 수 없는데 이때는 전방차분이나 후방차분과 비슷한 방법을 사용하여 구할 수 있다.
+
+$$
 \begin{aligned}
-f(x+2h) &amp; = f(x) + f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 + \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4) \\
-f(x-2h) &amp;= f(x) - f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 - \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4),
+f(x+2h) & = f(x) + f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 + \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4) \\
+f(x-2h) &= f(x) - f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 - \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4),
 \end{aligned}
-\]</span></p>
-<p><span id="eq-3points_forward_backward_difference"><span class="math display">\[
+$$
+
+$$
 \begin{aligned}
-y'_1 &amp;= \dfrac{-y_{3}+4y_{2}-3y_1}{2h} + O(h^2),\\
-y'_n &amp;= \dfrac{3y_{n}-4x_{n-1}+y_{n-2}}{2h} + O(h^2).
+y'_1 &= \dfrac{-y_{3}+4y_{2}-3y_1}{2h} + O(h^2),\\
+y'_n &= \dfrac{3y_{n}-4x_{n-1}+y_{n-2}}{2h} + O(h^2).
 \end{aligned}
-\tag{5}\]</span></span></p>
+$$ {#eq-3points_forward_backward_difference} -->
 <p><br></p>
 </section>
-<section id="roundoff-에러" class="level3">
-<h3 class="anchored" data-anchor-id="roundoff-에러">Roundoff 에러</h3>
+<section id="roundoff-에러" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="roundoff-에러"><span class="header-section-number">1.4</span> Roundoff 에러</h3>
 <p><span class="math inline">\(h\)</span> 값이 작을 수록 오차가 작아지지만 <span class="math inline">\(h\)</span> 값이 어느 이하로 작아지면 에러가 발생한다. 아래는 쉬운 예를 보여준다. 우리는 <span class="math inline">\(f(x)=e^x\)</span> 의 도함수는 자기 자신과 같으며, <span class="math inline">\(f(0)=f'(0)=1\)</span> 임을 알고 있다. 앞의 전방, 후반 차분법과 보통의 차분법에 대해 <span class="math inline">\(h\)</span> 값을 변화시키며 <span class="math inline">\(f'(0)\)</span> 의 값을 계산하였다. <span class="math inline">\(h\)</span> 값이 충분히 작지 않을 때는 오차가 발생하였으나 어느 정도 작아지면 그 값이 정확하고 안정적이다. 그러나 <span class="math inline">\(h\)</span> 값이 <span class="math inline">\(10^{-13}\)</span> 보다 작아지면 roundoff 에러가 발생하여 불안정해지는 것을 알 수 있다.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figure/difference_02.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Roundioff-Finite difference</figcaption>
+<div id="fig-round_off_error_of_differnce" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-round_off_error_of_differnce-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figure/difference_02.png" class="img-fluid figure-img" width="500">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-round_off_error_of_differnce-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;2: Roundioff-Finite difference
+</figcaption>
 </figure>
 </div>
 <p><br></p>
 </section>
-<section id="다섯개의-점을-이용한-미분" class="level3">
-<h3 class="anchored" data-anchor-id="다섯개의-점을-이용한-미분">다섯개의 점을 이용한 미분</h3>
+<section id="다섯개의-점을-이용한-미분" class="level3" data-number="1.5">
+<h3 data-number="1.5" class="anchored" data-anchor-id="다섯개의-점을-이용한-미분"><span class="header-section-number">1.5</span> 다섯개의 점을 이용한 미분</h3>
 <p>지금까지 1차와 2차 테일러 전개를 이용하여 미분계수를 <span class="math inline">\(O(h)\)</span> 나 <span class="math inline">\(O(h^2)\)</span> 의 오차로 구하는 방법을 소개하였다. 고차 테일러 전개를 이용하면 더 정확하게 미분값을 구할 수 있다. 4차 테일러 다항식과 나머지 값은 다음과 같다.</p>
 <p><span id="eq-difference_taylor_4th"><span class="math display">\[
 \begin{aligned}
@@ -439,7 +485,7 @@ f(x+h) &amp;= f(x) + f'(x) \cdot (h) + \dfrac{f''(x)}{2}(h)^2 \\
 f(x+2h) &amp;= f(x) + f'(x) \cdot (2h) + \dfrac{f''(x)}{2}(2h)^2 \\
 &amp;\qquad \qquad + \dfrac{f'''(x)}{6} (2h)^3 + \dfrac{f^{(4)}(x)}{24}(2h)^4 + \dfrac{f^{(5)}(\xi_4)}{120} (2h)^5\,\\
 \end{aligned}
-\tag{6}\]</span></span></p>
+\tag{7}\]</span></span></p>
 <p>이로부터,</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -453,7 +499,7 @@ f(x-2h) -8f(x-h) + 8f(x+h)  - f(x+2h) &amp;= 12 f'(x) h+ O (h^5) \,,\\
 f'(x) &amp; = \dfrac{f(x-2h) -8f(x-h) + 8f(x+h)  - f(x+2h)}{12h} + O(h^5)\,,\\
 f''(x) &amp;= \dfrac{-f(x-2h) + 16f(x-h) -30 f(x) + 16 f(x+h) - f(x+2h)}{12h^2} + O(h^4)
 \end{aligned}
-\tag{7}\]</span></span></p>
+\tag{8}\]</span></span></p>
 <p>이다.</p>
 <p>다음 그림은 함수 <span class="math inline">\(f(x) = x\sin (x)\)</span> 에 대해 <span class="math inline">\(h\)</span> 를 변화시켜 가면서로 잡고 위에서 설명한 두가지 방법을 이용하여 도함수를 구했을때의 그래프(“3 Points”, “5 Points”) 와 <span class="math inline">\(f'(x) = \sin (x) + x\cos (x)\)</span> 의 그래프 (“Analytical”) 를 같이 그린 것이다. <span class="math inline">\(h=1\times 10^{-1}\)</span> 에서는 첫번째 수치미분보다 두번째 수치미분이 좀 더 실제 값에 가까우며 <span class="math inline">\(1 \times 10^{-2}\)</span> 부터 <span class="math inline">\(1.0 \times 10^{-14}\)</span> 까지는 두 방법 모두 상당히 정확한 값을 보여준다. 그러나 <span class="math inline">\(h\)</span> 값이 <span class="math inline">\(1.0\times 10^{-15}\)</span> 보다 작아지면서부터는 뚜렷하게 오차를 보여준다. 이것은 수치 미분을 구할 때 분모를 <span class="math inline">\(h\)</span> 로 나누게 되는데, 이 값이 작을수록 round-off 에러가 발생하기 때문이다. 따라서 적당한 <span class="math inline">\(h\)</span> 값을 잡는 것이 중요하다.</p>
 <p><br></p>
@@ -466,16 +512,98 @@ f''(x) &amp;= \dfrac{-f(x-2h) + 16f(x-h) -30 f(x) + 16 f(x+h) - f(x+2h)}{12h^2} 
 <p><br></p>
 </section>
 </section>
-<section id="일변수-함수의-적분-뉴턴-코츠-방법" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="일변수-함수의-적분-뉴턴-코츠-방법"><span class="header-section-number">2</span> 일변수 함수의 적분 : 뉴턴-코츠 방법</h2>
+<section id="자동-미분" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="자동-미분"><span class="header-section-number">2</span> 자동 미분</h2>
+<section id="참고자료" class="level4">
+<h4 class="anchored" data-anchor-id="참고자료"><strong>참고자료</strong></h4>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Baydin_2018" class="csl-entry" role="listitem">
+Baydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul, and Jeffrey Mark Siskind. 2018. <span>“Automatic Differentiation in Machine Learning: A Survey.”</span> <em>Journal of Machine Learning Research</em> 18 (153): 1–43. <a href="http://jmlr.org/papers/v18/17-468.html">http://jmlr.org/papers/v18/17-468.html</a>.
+</div>
+<div id="ref-Margossian_2019" class="csl-entry" role="listitem">
+Margossian, Charles C. 2019. <span>“A Review of Automatic Differentiation and Its Efficient Implementation.”</span> <em>WIREs Data Mining and Knowledge Discovery</em> 9 (4). <a href="https://doi.org/10.1002/widm.1305">https://doi.org/10.1002/widm.1305</a>.
+</div>
+<div id="ref-Verma2000" class="csl-entry" role="listitem">
+Verma, Arun. 2000. <span>“An Introduction to Automatic Differentiation.”</span> <em>Current Science</em> 78 (7): 804–7. <a href="http://www.jstor.org/stable/24103956">http://www.jstor.org/stable/24103956</a>.
+</div>
+</div>
+</section>
+<section id="편미분과-합성함수의-편미분" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="편미분과-합성함수의-편미분"><span class="header-section-number">2.1</span> 편미분과 합성함수의 편미분</h3>
+<p><span class="math inline">\(f:\mathbb{R}^n \to \mathbb{R}\)</span> 에 대해 <span class="math inline">\(f(\boldsymbol{x})\)</span> 의 <span class="math inline">\(\boldsymbol{a}\in \mathbb{R}^n\)</span> 에서의 <span class="math inline">\(i\)</span> 번째 변수에 대한 편미분 <span class="math inline">\(\dfrac{\partial f(\boldsymbol{a})}{\partial x_i}\)</span> 은 다음과 같이 정의된다.</p>
+<p><span class="math display">\[
+\dfrac{\partial f(\boldsymbol{a})}{\partial x_i} := \lim_{h \to 0}\dfrac{f(\boldsymbol{a}+h\boldsymbol{e}_i) - f(\boldsymbol{a})}{h}
+\]</span></p>
+<p>이것은 <span class="math inline">\(\boldsymbol{x}\)</span> 에 대해 <span class="math inline">\(x_i\)</span> 를 제외한 <span class="math inline">\(x_j\)</span> 에 대해 <span class="math inline">\(x_j=a_j (j\ne i)\)</span> 로 고정시킨 함수를 <span class="math inline">\(\overline{f}\)</span> 라 고 했을 때의 <span class="math inline">\(\dfrac{d \overline{f}(a_j)}{dx}\)</span> 와 같다. 즉 수치해석적으로 편미분을 구하는 것은 본질적으로 일변수 함수의 편미분을 구하는 것과 다르지 않다. 또 하나 중요한 값은 <strong>헤시안(Hessian)</strong> 이라 불리는 함수로 <span class="math inline">\(f\)</span> 에 대한 <span class="math inline">\(\boldsymbol{a}\)</span> 에서의 헤시안 <span class="math inline">\(\boldsymbol{H}_f(\boldsymbol{a})\)</span> 은 다음과 같이 정의된다.</p>
+<p><span id="eq-hessian_matrix"><span class="math display">\[
+\boldsymbol{H}_F(\boldsymbol{a}) = \begin{bmatrix} \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_1\partial x_1} &amp; \cdots &amp; \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_1 \partial x_n} \\ \vdots &amp; &amp; \vdots \\ \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_n \partial x_1} &amp; \cdots &amp; \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_n \partial x_n} \end{bmatrix}  
+\tag{9}\]</span></span></p>
+<p><span class="math inline">\(f(\boldsymbol{x})\)</span> 가 <span class="math inline">\(C^2\)</span> 급 함수라면, 즉 2차 편미분이 모두 연속이라면 헤시안은 대칭행렬이다.</p>
+<p>이제 다변수 함수의 경우를 보자. <span class="math inline">\(F:\mathbb{R}^n \to \mathbb{R}^m\)</span> 함수 <span class="math inline">\(F(\boldsymbol{x}) = \begin{bmatrix} f_1(\boldsymbol{x}) &amp; \cdots &amp; f_m(\boldsymbol{x})\end{bmatrix}^T\)</span> 에 대해</p>
+<p><span id="eq-derivative_of_vector_valued_function"><span class="math display">\[
+\dfrac{\partial F(\boldsymbol{x})}{\partial x_i} = \lim_{h \to 0} \dfrac{F(\boldsymbol{x} + h \boldsymbol{e}_i)- F(\boldsymbol{x})}{h} = \begin{bmatrix} \dfrac{\partial f_1(\boldsymbol{x})}{\partial x_i} \\ \vdots \\ \dfrac{\partial f_m(\boldsymbol{x})}{\partial x_i}\end{bmatrix}
+\tag{10}\]</span></span></p>
+<p>이며 야코비 행렬 <span class="math inline">\(\boldsymbol{J}_F(\boldsymbol{x})\)</span> 는</p>
+<p><span id="eq-jacobian_of_vector_valued_function"><span class="math display">\[
+\boldsymbol{J}_F(\boldsymbol{x}) = \begin{bmatrix} \dfrac{\partial f_1(\boldsymbol{x})}{\partial x_1} &amp; \cdots &amp; \dfrac{\partial f_1(\boldsymbol{x})}{\partial x_1} \\ \vdots &amp; \vdots \\ \dfrac{\partial f_m(\boldsymbol{x})}{\partial x_n} &amp; \cdots &amp; \dfrac{\partial f_m(\boldsymbol{x})}{\partial x_n}\end{bmatrix}
+\tag{11}\]</span></span></p>
+<p>이다.</p>
+<p>이제 함성함수를 생각해보자. <span class="math inline">\(F=F^{(N)}(F^{(N-1)} \cdots F^{(2)}(F^{(1)}(\boldsymbol{x}))\cdots )\)</span> 이며 <span class="math inline">\(F^{(k)} = \begin{bmatrix} f^{(k)}_1 &amp; \cdots f^{(k)}_{m_k}\end{bmatrix}^T\)</span> 라고 하자. <span class="math inline">\(\boldsymbol{z}^{(1)} = F^{(1)}(\boldsymbol{x})\)</span>, <span class="math inline">\(\boldsymbol{z}^{(2)} = F^{(2)}(F^{(1)}(\boldsymbol{x})),\ldots\)</span>, <span class="math inline">\(\boldsymbol{y}=F(\boldsymbol{x})\)</span> 라고 하면</p>
+<p><span id="eq-jacobian_of_compositions"><span class="math display">\[
+\dfrac{\partial y_j}{\partial x_i} = \dfrac{\partial f_j(\boldsymbol{x})}{\partial x_i} = \sum_{k_{N-1}=1}^{m_{N-1}}\sum_{k_{N-2}=1}^{m_{N-2}} \cdots \sum_{k_1=1}^{m_1}\dfrac{\partial f_j^{(N)}(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \dfrac{\partial f^{(N-1)}_{k_{N-1}}(\boldsymbol{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial f^{(1)}_{k_{1}}(\boldsymbol{x})}{\partial x_i}
+\tag{12}\]</span></span></p>
+<p>이며, 이로부터</p>
+<p><span id="eq-jacobian_of_compositions_matrix_form"><span class="math display">\[
+\boldsymbol{J}_F(\boldsymbol{x}) = \boldsymbol{J}_{F^{N}}(\boldsymbol{z}^{(N-1)}) \boldsymbol{J}_{F^{(N-1)}}(\boldsymbol{z}^{(N-2)}) \cdots \boldsymbol{J}_{F^{(1)}}(\boldsymbol{x})
+\tag{13}\]</span></span></p>
+<p>임을 안다. 이것이 소위 <strong>chain rule</strong> 이다.</p>
+<p><br></p>
+</section>
+<section id="sec-automatic_differentiation" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="sec-automatic_differentiation"><span class="header-section-number">2.2</span> 자동 미분</h3>
+<p>특히 현재의 인공지능의 발전에 있어 위에 언급한 대량의 미분 및 편미분에 대한 정확하고 빠른 계산이 중요해 졌다. 전통적으로 함수의 미분을 컴퓨터를 이용하여 계산하는 방법에는 세가지가 있었다.</p>
+<ol type="1">
+<li>[<strong>수동</strong>] 미분/편미분 함수를 손으로 계산하고, 그 결과를 코딩한다.</li>
+<li>[<strong>차분</strong>] 앞서 배운 유한 차분법을 이용하여 수치해석적으로 계산한다.</li>
+<li>[<strong>기호</strong>] 메쓰메티카(Mathematica) 프로그램과 같이 기호를 이용하여 미분한다.</li>
+</ol>
+<p>이 방법은 모두 치명적인 단점이 존재한다. ‘수동’ 방법은 시간이 오래 걸리고, 오류가 나기 쉽다. ‘차분’ 법은 앞서 보았듯이 함수만 제대로 구현했다면 쉽고 빠르계 계산 할 수 있지만 truncation error 와 round-off error 는 항상 발생한다. 게다가 변수가 많고 여러 단계로 합성된 함수의 경우(인공지능의 신경망이 정확히 이런 경우이다) 그 오차가 계속 누적되기 때문에 오차가 필연적으로 커질 수 밖에 없다. ‘기호’ 법은 느리며 함수가 복잡할 때 만족할 만한 깔끔한 결과를 낼 수 없고 컴퓨팅 파워를 많이 사용한다.</p>
+<p>이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 자명하다. 예를 들어 <span class="math inline">\(x^n\)</span> 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다.</p>
+<p>여기서는 자동 미분의 구체적인 구현에 대해 설명하지 않고, 자동 미분은 어떻게 이루어 지는지, 전진법(forwared AD)과 후진법(backward AD) 는 어떻게 다른지에 대해 설명하기로 한다.</p>
+<p><br></p>
+</section>
+<section id="전진법과-후진법" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="전진법과-후진법"><span class="header-section-number">2.3</span> 전진법과 후진법</h3>
+<section id="전진법" class="level4">
+<h4 class="anchored" data-anchor-id="전진법"><strong>전진법</strong></h4>
+<p>아래의 식을 사용한다.</p>
+<p><span id="eq-master_eq_of_forward_autodiff"><span class="math display">\[
+\dfrac{\partial z^{(m)}_i}{\partial x_j} = \sum_{k_1}\cdots \sum_{k_{m-1}}\dfrac{\partial z^{(1)}(\boldsymbol{x})}{\partial x_j} \cdots \dfrac{\partial z^{(m-1)}(\boldsymbol{z}^{(m-2)})}{\partial z^{(m-1)}_{k_{m-2}}}\dfrac{\partial z^{(m)}(\boldsymbol{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}}
+\tag{14}\]</span></span></p>
+<p><span class="math inline">\(m=1\)</span>, 즉 <span class="math inline">\(\dfrac{\partial z^{(1)}(\boldsymbol{x})}{\partial x_j}\)</span> 부터 계산하기 시작하여 <span class="math inline">\(m=2,\,3,\ldots,\,N\)</span> 까지 증가시키면 <span class="math inline">\(\boldsymbol{J}_F\)</span> 를 계산 할 수 있다.</p>
+<p><br></p>
+</section>
+<section id="후진법" class="level4">
+<h4 class="anchored" data-anchor-id="후진법"><strong>후진법</strong></h4>
+<p>아래의 식을 사용한다.</p>
+<p><span id="eq-master_eq_of_backward_autodiff"><span class="math display">\[
+\dfrac{\partial y_j}{\partial z^{(m)}_i} = \sum_{k_N}\cdots \sum_{k_{m+1}} \dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}} \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\boldsymbol{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\boldsymbol{z}^{m})}{\partial z^{(m)}_i}
+\tag{15}\]</span></span></p>
+<p><span class="math inline">\(m=(N-1)\)</span>, 즉 <span class="math inline">\(\dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}}\)</span> 부터 계산한다. <span class="math inline">\(m=N-2,\,N-3,\ldots,\,1\)</span> 까지 감소시키면 <span class="math inline">\(\boldsymbol{J}_F\)</span> 를 계산 할 수 있다.</p>
+<p><br></p>
+</section>
+</section>
+</section>
+<section id="일변수-함수의-적분-뉴턴-코츠-방법" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="일변수-함수의-적분-뉴턴-코츠-방법"><span class="header-section-number">3</span> 일변수 함수의 적분 : 뉴턴-코츠 방법</h2>
 <p>수치해석적으로 적분을 구하는 방법을 알아보도록 한다. 다항식이나 삼각함수, 지수함수를 포함한 몇면 함수에 대해서는 우리가 이미 프로그래밍 언어에 내장되어 있는 기본적인 함수로 존재하므로 쉽게 구할 수 있다. 예를 들어 <span class="math inline">\([0, \theta]\)</span> 영역에서의 <span class="math inline">\(\sin x\)</span> 함수의 적분은</p>
 <p><span class="math display">\[
 \int_0^\theta \sin x \, dx = -\cos \theta  +1
 \]</span></p>
 <p>이라는 것을 안다. 그러나 대부분의 함수는 수치해석적으로 구할 수 밖에 없다. 수학적으로는 우리는 어떤 구간에서 연속인 함수라면 그 구간에서 적분이 존재한다는 것을 알고 있다. 또한 <span class="math inline">\([a,\,b]\)</span> 구간에서 불연속인 점이 유한개이면 적분이 존재한다는 것도 알고 있다<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. 만약 적분구간이 부분적으로 연속인 유한개의 구간으로 이루어져 있다면, 각각의 유한개의 구간에 대한 적분의 합으로 생각 할 수 있으므로, 여기서는 연속인 경우만 다루기로 한다. 미분과 마찬가지로 <span class="math inline">\([a,\,b]\)</span> 구간이 <span class="math inline">\(x_1=a&lt;x_2&lt;\cdots &lt;x_{n-1}&lt;x_n=b\)</span> 인 <span class="math inline">\(n\)</span> 개의 점을 이용하여 <span class="math inline">\(n-1\)</span> 개의 부분구간(subintervals)로 분할되었다고 가정한다. 이렇게 적분을 유한개의 구간으로 나누어 구간의 폭과 구간마다 정해지는 값의 합으로 계산하는 방법을 <strong>구적법(quadrature)</strong> 라고 한다.</p>
 <p><br></p>
-<section id="뉴턴-코츠-방법" class="level3">
-<h3 class="anchored" data-anchor-id="뉴턴-코츠-방법">뉴턴-코츠 방법</h3>
+<section id="뉴턴-코츠-방법" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="뉴턴-코츠-방법"><span class="header-section-number">3.1</span> 뉴턴-코츠 방법</h3>
 <p>많은 경우 구간의 간격 <span class="math inline">\(x_{i+1}-x_i\)</span> 가 항상 같으며, 이런 구간에 대해 구적법으로 구하는 것을 뉴턴-코츠 방법(Newton-Cotes method) 이라고 한다. <span class="math inline">\([a,\,b]\)</span> 구간에서 뉴턴-방법으로 적분을 수행할 때 양 끝점을 포함하여 구간을 나눌 수도 있고, 양 끝점을 빼고 구간을 나눌 수도 있다. 양 끝점을 포함하는 것을 <strong>닫힌 Newton-Cotes 방법(closed Newton-Cotes method)</strong> 이라고 하고, 양 끝점을 빼는 것을 <strong>열린 Newton-Cotes 방법(open Newton-Cotes method)</strong> 이라고 한다. 여기서는 닫힌 Newton-Cotes 방법에 대해서 주로 다루기로 한다. 우선 <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(n\)</span> 개의 점 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 을 이용하여 <span class="math inline">\(n-1\)</span> 개의 등간격으로 분할하면 각 <span class="math inline">\(x_k\)</span> 는 간격 <span class="math inline">\(h=(b-a)/(n-1)\)</span> 에 대해 다음과 같다.</p>
 <p><span class="math display">\[
 x_k = a + (k-1)h = a+ (k-1)\dfrac{(b-a)}{n-1},\qquad k=1,\ldots,\,n.
@@ -499,8 +627,8 @@ x_k = a + (k-1)h = a+ (k-1)\dfrac{(b-a)}{n-1},\qquad k=1,\ldots,\,n.
 <p>중점법은 구간 <span class="math inline">\([x_k,\, x_{k+1}]\)</span> 의 중점 <span class="math inline">\(\dfrac{1}{2}(x_k + x_{k+1})\)</span> 에서의 함수값을 이용하여 적분값을 계산하는 방법이다. 사다리꼴 방법은 <span class="math inline">\([x_k,\,x_{k+1}]\)</span> 의 적분을 <span class="math inline">\((x_k,\, f(x_k))\)</span> 와 <span class="math inline">\((x_{k+1},\, f(x_{k+1}))\)</span> 을 1차 함수로 근사하여 적분값을 계산한다. Simpson 방법은 두가지가 있는데 각각은 이어지는 세 점이나 네 점을 각각 2차함수와 3차함수로 근사하여 적분하는 방법이다.</p>
 <p><br></p>
 </section>
-<section id="중점을-이용한-적분" class="level3">
-<h3 class="anchored" data-anchor-id="중점을-이용한-적분">중점을 이용한 적분</h3>
+<section id="중점을-이용한-적분" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="중점을-이용한-적분"><span class="header-section-number">3.2</span> 중점을 이용한 적분</h3>
 <p>중점을 이용한 적분은 기본적으로 뉴턴-코츠 방법은 아니지만 구간 <span class="math inline">\([a,\,b]\)</span> 와 함수 <span class="math inline">\(f(x)\)</span> 가 주어졌을 때 함수의 적분을 구하는 가장 간단하고 직관적인 방법이기 때문에 여기에 소개하기로 한다. <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(n-1\)</span> 개의 구간으로 나누어,</p>
 <p><span class="math display">\[
 a=x_1 &lt; x_2 &lt; \cdots &lt; x_n=b
@@ -536,8 +664,8 @@ I_M [f,\,a,\,b,\,n] = \sum_{i=1}^{n-1}f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h
 <p>이라고 할 수 있으며, <span class="math inline">\(M=\max \{ |f^{(2)}(x)| : x\in [a,\,b] \}\)</span> 일 때 중점을 이용한 적분의 오차는 <span class="math inline">\(E_M [f,\,a,\,b,\,n]=\dfrac{(n-1)h^3}{24} M=\dfrac{(b-a)M}{24}h^2\)</span> 보다 작거나 같다. 즉 <span class="math inline">\(O(E_M) =h^2\)</span> 이다.</p>
 <p><br></p>
 </section>
-<section id="사다리꼴-방법-를-이용한-적분" class="level3">
-<h3 class="anchored" data-anchor-id="사다리꼴-방법-를-이용한-적분">사다리꼴 방법 를 이용한 적분</h3>
+<section id="사다리꼴-방법-를-이용한-적분" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="사다리꼴-방법-를-이용한-적분"><span class="header-section-number">3.3</span> 사다리꼴 방법 를 이용한 적분</h3>
 <p>사다리꼴 방법은 <span class="math inline">\([a,\,b]\)</span> 구간에 대한 함수 <span class="math inline">\(f(x)\)</span> 가 주어졌거나 수열 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 과 <span class="math inline">\(f(x_k)= y_k\)</span> 가 주어졌을 때 사용할 수 있다. 여기서도</p>
 <p><span class="math display">\[
 a=x_1&lt;x_2&lt;\cdots &lt;x_n=b
@@ -560,16 +688,16 @@ f(x) = \tilde{f}(x) + \dfrac{f^{(2)}(\xi_k)}{2}(x-x_{k-1})(x-x_k).\\
 <p>를 얻는다. 사다리꼴 방법에 의한 적분값 <span class="math inline">\(I_T\)</span> 는</p>
 <p><span id="eq-trapzoidal_value"><span class="math display">\[
 I_T[f, a, b, n] = \dfrac{h}{2}\left(f(x_1)+ f(x_n) + \sum_{k=2}^{n-1} f(x_k)\right)
-\tag{8}\]</span></span></p>
+\tag{16}\]</span></span></p>
 <p>이다. 이제 적분의 오차를 알아보자. <span class="math inline">\(f^{(2)}(x)\)</span> 가 연속이므로 <span class="math inline">\(\displaystyle \dfrac{1}{n-1}\sum_{k=1}^{n-1} f^{(2)}(\xi_k)= f^{(2)}(\xi)\)</span> 를 만족하는 <span class="math inline">\(\xi\in [a,\,b]\)</span> 가 존재하며<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> 따라서 사다리꼴 방법에 의한 적분에 대한 에러 <span class="math inline">\(E_T\)</span> 는</p>
 <p><span id="eq-trapzoidal_error"><span class="math display">\[
 E_T[f, a, b, n] = \dfrac{h^3}{12}(n-1)f^{(2)}(\xi) = \dfrac{(b-a)f^{(2)}(\xi)}{12}h^2 = O(h^2)
-\tag{9}\]</span></span></p>
+\tag{17}\]</span></span></p>
 <p>이다.</p>
 <p><br></p>
 </section>
-<section id="simpson-13-적분" class="level3">
-<h3 class="anchored" data-anchor-id="simpson-13-적분">Simpson 1/3 적분</h3>
+<section id="simpson-13-적분" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="simpson-13-적분"><span class="header-section-number">3.4</span> Simpson 1/3 적분</h3>
 <p><span class="math inline">\([x_{k-1},\,x_{k+1}]\)</span> 구간에서의 적분을 생각하자. 테일러 정리에 의해</p>
 <p><span class="math display">\[
 f(x) = f(x_k) + f'(x_k)(x-x_k) + \dfrac{f''(x_k)}{2}(x-x_k)^2 + \dfrac{f^{(3)}(x_k)}{6}(x-x_k)^3 + \dfrac{f^{(4)}(\xi_k)}{24}(x-x_k)^4
@@ -580,7 +708,7 @@ f(x) = f(x_k) + f'(x_k)(x-x_k) + \dfrac{f''(x_k)}{2}(x-x_k)^2 + \dfrac{f^{(3)}(x
 \int_{x_{k-1}}^{x_{k+1}}f(x)\,dx &amp;= f(x_k)(2h) + \dfrac{f''(x_k)}{3}h^3 + \dfrac{f^{(4)}(\xi_k)}{60}h^5
 \end{aligned}
 \]</span></p>
-<p>이다. 또한 <a href="#eq-difference_3points" class="quarto-xref">식&nbsp;4</a> 로부터</p>
+<p>이다. 또한 <a href="#eq-difference_3points" class="quarto-xref">식&nbsp;6</a> 로부터</p>
 <p><span class="math display">\[
 f''(x) =  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi_k')}{36}h^5
 \]</span></p>
@@ -607,11 +735,11 @@ f''(x) =  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi_k')}{36}h^5
 \]</span></p>
 <p>따라서 Simpson 1/3 적분값은 다음과 같다. <span id="eq-simpson_1_3_value"><span class="math display">\[
 \mathcal{I}_{1/3}[f,\,a,\,b,\, 2n+1] = \dfrac{h}{3} \left[f(x_1) + f(x_{2m+1}) + 4\left(\sum_{k=1}^m  f(x_{2k})\right) + 2\left(\sum_{k=1}^{m-1} f(x_{2k+1})\right)\right]
-\tag{10}\]</span></span></p>
+\tag{18}\]</span></span></p>
 <p><br></p>
 </section>
-<section id="simpson-38-적분" class="level3">
-<h3 class="anchored" data-anchor-id="simpson-38-적분">Simpson 3/8 적분</h3>
+<section id="simpson-38-적분" class="level3" data-number="3.5">
+<h3 data-number="3.5" class="anchored" data-anchor-id="simpson-38-적분"><span class="header-section-number">3.5</span> Simpson 3/8 적분</h3>
 <p>Simpson 1/3 적분이 전체 <span class="math inline">\(n-1\)</span> 개의 구간을 2개씩 묶어서 적분하여 합쳤다면 3/8 적분은 3개씩 묶어서 합친다. 라그랑쥬 다항식을 이용하면,</p>
 <p><span class="math display">\[
 L_4(x) = f(x_{i-1})l_{i-1}(x) + f(x_i)l_i(x) + f(x_{i+1})l_{i+1}(x) + f(x_{i+2})l_{i+2}(x)
@@ -635,7 +763,7 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 <p>를 만족하는 <span class="math inline">\(\xi \in [a,\,b]\)</span> 가 존재한다. 여기서</p>
 <p><span id="eq-simpson_3_8_value"><span class="math display">\[
 \mathcal{I}_{3/8}[f,\,a,\,b,\, 3m+1]=\dfrac{3h}{8} \left[f(x_1) + f(x_{3m+1}) + 3\sum_{i=0}^{m-1} \left(f(x_{3i+2}) +f(x_{3i+3})\right) +  + 2\sum_{i=1}^{m-1} f(x_{3i+1})\right]
-\tag{11}\]</span></span></p>
+\tag{19}\]</span></span></p>
 <p>는 Simpson 3/8 적분값이며 그 오차는 <span class="math inline">\(- \dfrac{3m}{80}f^{(4)} (\xi) h^5\)</span> 이다.</p>
 <!-- [^2]: 일변수 함수 $f$ 가 닫힌 구간 $[a,\,b]$ 에서 연속이면 최대값과 최소값이 항상 존재한다는 것은 아주 중요한 수학적 사실이다. -->
 <p><br></p>
@@ -699,20 +827,20 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 <p><br></p>
 </section>
 </section>
-<section id="리처드슨-외삽법과-롬버그-적분" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">3</span> 리처드슨 외삽법과 롬버그 적분</h2>
-<section id="sec-richardson_extrapolation" class="level3">
-<h3 class="anchored" data-anchor-id="sec-richardson_extrapolation">리처드슨 외삽법</h3>
+<section id="리처드슨-외삽법과-롬버그-적분" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="리처드슨-외삽법과-롬버그-적분"><span class="header-section-number">4</span> 리처드슨 외삽법과 롬버그 적분</h2>
+<section id="sec-richardson_extrapolation" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="sec-richardson_extrapolation"><span class="header-section-number">4.1</span> 리처드슨 외삽법</h3>
 <p>오차가 작은 알고리즘을 사용하는 것은 일반적으로 오차가 큰 알고리즘을 계산하는 것보다 자원을 많이 사용한다. 리차드슨 외삽법은 오차가 큰 알고리즘에 의한 계산값을 사용하여 오차가 작은 계산값을 얻는 방법으로 많은 경우 같은 오차의 알고리즘으로 직접 계산하는 것보다 자원을 덜 소모하는 경우가 많아 다양한 분야에 널리 사용된다.</p>
 <p>어떤 값 <span class="math inline">\(M\)</span> 을 계산하는데 매개변수 <span class="math inline">\(h\)</span> 에 대해 그 truncation 오차가 <span class="math inline">\(O(h)\)</span> 인 방법을 사용하여 <span class="math inline">\(N_1(h)\)</span> 를 얻었다고 하자. 이 때 우리는</p>
 <p><span id="eq-richardson_1"><span class="math display">\[
 M - N_1(h) = k_1 h + k_2 h^2 + O(h^3)
-\tag{12}\]</span></span></p>
+\tag{20}\]</span></span></p>
 <p>라고 생각 할 수 있다. 이것을 약간 변형하면,</p>
 <p><span id="eq-richardson_2"><span class="math display">\[
 M-N_1\left(\dfrac{h}{2}\right) = k_1 \dfrac{h}{2} + k_2 \dfrac{h^2}{4} + O(h^3)
-\tag{13}\]</span></span></p>
-<p>이며 <span class="math inline">\(2\times\)</span>(<a href="#eq-richardson_2" class="quarto-xref">식&nbsp;13</a>)<span class="math inline">\(-\)</span>(<a href="#eq-richardson_1" class="quarto-xref">식&nbsp;12</a>) 를 계산하면,</p>
+\tag{21}\]</span></span></p>
+<p>이며 <span class="math inline">\(2\times\)</span>(<a href="#eq-richardson_2" class="quarto-xref">식&nbsp;21</a>)<span class="math inline">\(-\)</span>(<a href="#eq-richardson_1" class="quarto-xref">식&nbsp;20</a>) 를 계산하면,</p>
 <p><span class="math display">\[
 \begin{aligned}
 M&amp;=\left[2N_1\left(\dfrac{h}{2}\right) - N_1(h) \right] - k_2 \dfrac{h^2}{2} + O(h^3) = N_2(h) + O(h^2) \\
@@ -748,7 +876,7 @@ M - N_m\left(\dfrac{h}{2}\right) &amp; = k_m \left(\dfrac{h}{2}\right)^m + k_{m+
 M &amp;= \dfrac{1}{2^m-1}\left[ 2^m N_m \left(\dfrac{h}{2}\right)-N_m (h)\right] - \dfrac{k_{m+1}}{2(2^m-1)}h^{m+1} + O(h^{m+2}) \\
 &amp;= N_{m+1}(h) + O(h^{m+1})
 \end{aligned}
-\tag{14}\]</span></span></p>
+\tag{22}\]</span></span></p>
 <p>을 얻는다.</p>
 <p><br></p>
 <section id="sec-richardson_extrapolation_with_even_order_error" class="level4">
@@ -773,13 +901,13 @@ M &amp;= \dfrac{1}{4^{m} -1} \left[4^{m}N_{2m} \left(\dfrac{h}{2}\right) - N_{2m
 <p>를 얻는다. 즉</p>
 <p><span id="eq-richardson_even_order"><span class="math display">\[
 N_{2m+2}(h) =  \dfrac{1}{4^{m} -1} \left[4^{m}N_{2m} \left(\dfrac{h}{2}\right) - N_{2m}(h)\right]
-\tag{15}\]</span></span></p>
+\tag{23}\]</span></span></p>
 <p>를 얻는다.</p>
 <p><br></p>
 </section>
 </section>
-<section id="롬버그-적분" class="level3">
-<h3 class="anchored" data-anchor-id="롬버그-적분">롬버그 적분</h3>
+<section id="롬버그-적분" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="롬버그-적분"><span class="header-section-number">4.2</span> 롬버그 적분</h3>
 <div class="callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -794,11 +922,11 @@ N_{2m+2}(h) =  \dfrac{1}{4^{m} -1} \left[4^{m}N_{2m} \left(\dfrac{h}{2}\right) -
 </div>
 </div>
 <p>앞서 사다리꼴 방법을 통해 <span class="math inline">\(O(h^2)\)</span> 의 오차를 갖는 함수 <span class="math inline">\(f\)</span> 의 적분값을 얻었다. 이것을 <a href="../../src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html#sec-richardson_extrapolation_with_even_order_error">짝수승 오차의 리차드슨 외삽법</a>과 결합하면 <span class="math inline">\(O(h^4)\)</span> 의 오차를 갖는 적분값을 계산 할 수 있을 것이다.</p>
-<p><a href="#eq-trapzoidal_value" class="quarto-xref">식&nbsp;8</a> 의 사다리꼴 적분 <span class="math inline">\(I_T[f, a, b, n]\)</span> 에서 <span class="math inline">\(n\)</span> 을 <span class="math inline">\(2^k\)</span> 로 잡았을 때의 적분을 <span class="math inline">\(N_{k, 1}\)</span> 이라고 하자. 즉,</p>
+<p><a href="#eq-trapzoidal_value" class="quarto-xref">식&nbsp;16</a> 의 사다리꼴 적분 <span class="math inline">\(I_T[f, a, b, n]\)</span> 에서 <span class="math inline">\(n\)</span> 을 <span class="math inline">\(2^k\)</span> 로 잡았을 때의 적분을 <span class="math inline">\(N_{k, 1}\)</span> 이라고 하자. 즉,</p>
 <p><span id="eq-trapzoidal_value2"><span class="math display">\[
 N_{k, 1} = I_T[f, a, b, 2^k] = \dfrac{h}{2}\left(f(x_1)+ f(x_{2^k}) + \sum_{i=2}^{2^k-1} f(x_i)\right)
-\tag{16}\]</span></span></p>
-<p>이라고 하자. 이 때의 오차는 <span class="math inline">\(O(h^2)\)</span> 이다. <span class="math inline">\(k=1,\ldots, k_M\)</span> 에 대해 <span class="math inline">\(N_{k, 1}\)</span> 을 구할 수 있다. <span class="math inline">\(m\le k_M-1\)</span> 에 대해 <span class="math inline">\(N_{1, m}, \ldots, N_{k_M-m+1, m}\)</span> 의 값을 구하였다고 하자. <a href="#eq-richardson_even_order" class="quarto-xref">식&nbsp;15</a> 를 이용하여, <span class="math inline">\(O(h^{2m+2})\)</span> 의 오차를 갖는 <span class="math inline">\(2^k-1\)</span> 개의 구간을 갖는 적분 <span class="math inline">\(N_{k, m+1}\)</span> 은 <span class="math display">\[
+\tag{24}\]</span></span></p>
+<p>이라고 하자. 이 때의 오차는 <span class="math inline">\(O(h^2)\)</span> 이다. <span class="math inline">\(k=1,\ldots, k_M\)</span> 에 대해 <span class="math inline">\(N_{k, 1}\)</span> 을 구할 수 있다. <span class="math inline">\(m\le k_M-1\)</span> 에 대해 <span class="math inline">\(N_{1, m}, \ldots, N_{k_M-m+1, m}\)</span> 의 값을 구하였다고 하자. <a href="#eq-richardson_even_order" class="quarto-xref">식&nbsp;23</a> 를 이용하여, <span class="math inline">\(O(h^{2m+2})\)</span> 의 오차를 갖는 <span class="math inline">\(2^k-1\)</span> 개의 구간을 갖는 적분 <span class="math inline">\(N_{k, m+1}\)</span> 은 <span class="math display">\[
 N_{k, m+1} = \dfrac{1}{4^{m} -1} \left[4^{m}N_{k+1, m}  - N_{k, m}\right] + O(h^{2m+2}), \qquad k = 1, \ldots k_M-m+1
 \]</span></p>
 <p>를 통해 얻을 수 있다.</p>
@@ -816,8 +944,8 @@ N_{k, m+1} = \dfrac{1}{4^{m} -1} \left[4^{m}N_{k+1, m}  - N_{k, m}\right] + O(h^
 <p><br></p>
 </section>
 </section>
-<section id="가우스-구적법" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="가우스-구적법"><span class="header-section-number">4</span> 가우스 구적법</h2>
+<section id="가우스-구적법" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="가우스-구적법"><span class="header-section-number">5</span> 가우스 구적법</h2>
 <p>함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([a,\,b]\)</span> 구간에서 적분 할 때 <span class="math inline">\([a,\,b]\)</span> 구간에서 <span class="math inline">\(n\)</span> 개의 점 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 을 선택하여</p>
 <p><span class="math display">\[
 \int_a^b f(x) \, dx \approx a_1 f(x_1)+ \cdots + a_n f(x_n)
@@ -827,11 +955,11 @@ N_{k, m+1} = \dfrac{1}{4^{m} -1} \left[4^{m}N_{k+1, m}  - N_{k, m}\right] + O(h^
 <p>본격적으로 들어가기 전에 이미 미적분학에서 배웠을 한가지를 확인하고 가자. 우리는 임의의 구간 <span class="math inline">\([a,\,b]\)</span> 에 대한 함수 <span class="math inline">\(f(x)\)</span> 의 적분을 <span class="math inline">\([-1,\,1]\)</span> 구간에 대한 적분으로 바꿀 수 있다. 즉,</p>
 <p><span id="eq-integra_variable_transform"><span class="math display">\[
 \int_{a}^b f(x)\, dx = \int_{-1}^1 f\left(\dfrac{(b-a)t+ (b+a)}{2}\right)\,\left(\dfrac{b-a}{2}\right) dt
-\tag{17}\]</span></span></p>
+\tag{25}\]</span></span></p>
 <p>이다.</p>
 <p><br></p>
-<section id="르장드르-다항식을-이용한-가우스-구적법" class="level3">
-<h3 class="anchored" data-anchor-id="르장드르-다항식을-이용한-가우스-구적법">르장드르 다항식을 이용한 가우스 구적법</h3>
+<section id="르장드르-다항식을-이용한-가우스-구적법" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="르장드르-다항식을-이용한-가우스-구적법"><span class="header-section-number">5.1</span> 르장드르 다항식을 이용한 가우스 구적법</h3>
 <p><span class="math inline">\(n\)</span> 차 르장드르 다항식 <span class="math inline">\(P_n(x)\)</span> 은 <span class="math inline">\([0,\,1]\)</span> 구간에서 정의된 다항식으로 다음과 같은 성질을 가진다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(P_n(x)\)</span> 는 <span class="math inline">\(n\)</span> 차 다항식으로 최고차항의 계수는 항상 <span class="math inline">\(1\)</span> 이다.</p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\displaystyle \int_{-1}^1 P_n (x) \, P_m (x)\, dx = \dfrac{\delta_{mn}}{2n+1}\)</span> 이다.</p>

@@ -351,13 +351,13 @@ window.Quarto = {
 </div>
 <div class="callout-body-container">
 <div id="def-linear_system" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 1 (선형 시스템)</strong></span> 어떤 시스템이 <span class="math inline">\(n\)</span> 개의 독립변수 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 에 대해 아래와 같은 방정식으로 기술될 때 이 시스템을 선형 시스템이라고 한다. <span class="math display">\[
+<p><span class="theorem-title"><strong>정의 1 (선형 시스템)</strong></span> 어떤 시스템이 <span class="math inline">\(n\)</span> 개의 독립변수 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 에 대해 아래와 같은 방정식으로 기술될 때 이 시스템을 선형 시스템이라고 한다. <span id="eq-def_linear_system"><span class="math display">\[
 \begin{aligned}
 f_1 (x_1,\ldots,\,x_n ) &amp;= A_{11}x_1 + \cdots + A_{1n}x_n \\
 &amp; \vdots \\
 f_m (x_1,\ldots,\,x_n ) &amp;= A_{m1}x_1 + \cdots + A_{mn}x_n \\
 \end{aligned}
-\]</span></p>
+\tag{1}\]</span></span></p>
 </div>
 </div>
 </div>
@@ -372,12 +372,12 @@ f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\bolds
 \]</span></p>
 <p>를 만족하기 때문이다.</p>
 <p>주어진 <span class="math inline">\(m \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}\)</span> 의 커널 <span class="math inline">\(\ker (\boldsymbol{A})\)</span> 와 이미지 <span class="math inline">\(\text{im}(\boldsymbol{A})\)</span> 를 다음과 같이 정의한다.</p>
-<p><span class="math display">\[
+<p><span id="eq-def_kernel_and_image_of_matrix"><span class="math display">\[
 \begin{aligned}
-\ker (\boldsymbol{A}) &amp;:= \left\{\boldsymbol{x}\in \mathbb{F}^n : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\
+\ker (\boldsymbol{A}) &amp;:= \left\{\boldsymbol{x}\in \mathbb{F}^n : \boldsymbol{Ax}=\boldsymbol{0} \right\}, \\[0.3em]
 \text{im}(\boldsymbol{A}) &amp;:= \left\{\boldsymbol{Ax}: \boldsymbol{x} \in \mathbb{F}^n\right\}
 \end{aligned}
-\]</span></p>
+\tag{2}\]</span></span></p>
 <p>만약 <span class="math inline">\(\boldsymbol{b}\in \text{im}(\boldsymbol{A})\)</span> 라면 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 가 존재하며 이 <span class="math inline">\(\boldsymbol{x}\)</span> 를 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해(solution) 라고 한다. <span class="math inline">\(\boldsymbol{x}_0 \in \ker (\boldsymbol{A})\)</span> 라면 <span class="math inline">\(\boldsymbol{A}(\boldsymbol{x}+\boldsymbol{x}_0) = \boldsymbol{Ax}\)</span> 이다.</p>
 <p><span class="math inline">\(\boldsymbol{A}\)</span> 가 <span class="math inline">\(n \times n\)</span> 정사각 행렬이며 <span class="math inline">\(\det (\boldsymbol{A}) \ne 0\)</span> 이면, 즉 <span class="math inline">\(\boldsymbol{A}\)</span> 의 역행렬이 존재한다면 선형방정식의 해는 유일하게 존재하며 <span class="math inline">\(\boldsymbol{x}=\boldsymbol{A}^{-1}\boldsymbol{b}\)</span> 를 통해 구할 수 있다. 역행렬이 존재하지 않는 정사각 행렬을 <strong>특이 행렬 (singular matrix)</strong> 라고 한다. <span class="math inline">\(\boldsymbol{A}\)</span> 가 특이행렬이라면 선형방정식의 해는 존재하지 않거나, 그 해가 무수히 많이 존재한다. 예를 들어</p>
 <p><span class="math display">\[
@@ -404,16 +404,18 @@ f_i(\boldsymbol{x}_1 + a \boldsymbol{x}_2) = f_i(\boldsymbol{x}_1) + af_i(\bolds
 \boldsymbol{U}=\left[\begin{array}{rrr} 1 &amp; 3 &amp; 4 \\ 0 &amp; 2 &amp; 1 \\ 0 &amp; 0 &amp; -1\end{array}\right], \qquad \boldsymbol{L}=\left[\begin{array}{rrr} 4 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ -1 &amp; 0 &amp; -3\end{array} \right]
 \]</span></p>
 <p>에서 <span class="math inline">\(\boldsymbol{U}\)</span> 는 상삼각행렬, <span class="math inline">\(\boldsymbol{L}\)</span> 은 하삼각행렬이다. 두 삼각행렬에 대해 다음이 성립한다.</p>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-properties_of_triangular_matrix" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 1</strong></span> 행렬 <span class="math inline">\(\boldsymbol{A} \in\mathcal{M}_{n\times n}(\mathbb{F})\)</span> 가 상삼각 행렬 혹은 하삼각 행렬일 때 다음은 동치이다.</p>
+<p><span class="theorem-title"><strong>명제 1</strong></span> 행렬 <span class="math inline">\(\boldsymbol{A} \in \mathbb{F}^{n\times n}\)</span> 가 상삼각 행렬 혹은 하삼각 행렬일 때 다음은 동치이다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\det (\boldsymbol{A}) = \prod_{i=1}^n A_{ii} \ne 0\)</span></p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 는 가역행렬이다.</p>
-<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{b}\in\mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 가 유일하게 정해진다.</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{b}\in\mathbb{F}^n\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 가 유일하게 정해진다.</p>
+</div>
 </div>
 <p><br></p>
 <section id="하삼각-행렬에서의-선형방정식의-풀이" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="하삼각-행렬에서의-선형방정식의-풀이"><span class="header-section-number">2.1</span> 하삼각 행렬에서의 선형방정식의 풀이</h3>
-<p><span class="math inline">\(\boldsymbol{L}\in \mathcal{M}_{n\times n}(\mathbb{F})\)</span> 과 <span class="math inline">\(\boldsymbol{b}\in \mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Lx}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})\)</span> 을 구해보자. 이 때 <span class="math inline">\(\boldsymbol{L}\)</span> 의 각각의 대각 성분은 <span class="math inline">\(0\)</span> 이 아니라고 하자.</p>
+<p><span class="math inline">\(\boldsymbol{L}\in \mathbb{F}^{n\times n}\)</span> 과 <span class="math inline">\(\boldsymbol{b}\in \mathbb{F}^n\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Lx}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\in \mathbb{F}^n\)</span> 을 구해보자. 이 때 <span class="math inline">\(\boldsymbol{L}\)</span> 의 각각의 대각 성분은 <span class="math inline">\(0\)</span> 이 아니라고 하자.</p>
 <p><span class="math display">\[
 \begin{bmatrix} L_{11} &amp; &amp; &amp; \\ L_{21} &amp; L_{22}  &amp; &amp; \\ \vdots &amp; &amp; \ddots &amp; \\ L_{n1} &amp; L_{n2} &amp; \cdots &amp; L_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
 \]</span></p>
@@ -427,17 +429,17 @@ L_{k1} x_k + L_{k2}x_2 + \cdots + L_{kk}x_k &amp;= b_k,\\
 \vdots \\
 L_{n1}x_1 + L_{n2}x_2 + \cdots + L_{nn}x_n &amp;= b_n
 \end{aligned}
-\]</span> 를 얻는다. 첫번째 식으로부터 <span class="math inline">\(x_1\)</span> 을 구할 수 있으며, 두번째 식에서는 이미 구한 <span class="math inline">\(x_1\)</span> 을 이용하여 <span class="math inline">\(x_2\)</span> 를 구할 수 있다. 즉 <span class="math inline">\(x_1,\ldots,\,x_k\)</span> 까지 구했다면 이미 알고 있는 <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{b}\)</span> 의 성분을 이용하여 <span class="math inline">\(x_{k+1}\)</span> 을 구할 수 있다. 이를 정리하면 다음과 같다. <span class="math display">\[
+\]</span> 를 얻는다. 첫번째 식으로부터 <span class="math inline">\(x_1\)</span> 을 구할 수 있으며, 두번째 식에서는 이미 구한 <span class="math inline">\(x_1\)</span> 을 이용하여 <span class="math inline">\(x_2\)</span> 를 구할 수 있다. 즉 <span class="math inline">\(x_1,\ldots,\,x_k\)</span> 까지 구했다면 이미 알고 있는 <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{b}\)</span> 의 성분을 이용하여 <span class="math inline">\(x_{k+1}\)</span> 을 구할 수 있다. 이를 정리하면 다음과 같다. <span id="eq-solution_of_lower_triangular_matrix"><span class="math display">\[
 \begin{aligned}
 x_1 &amp;= \dfrac{b_1}{L_{11}}, \\
 x_k &amp;= \dfrac{1}{L_{kk}} \left( b_k - \sum_{i=1}^{k-1} L_{ki}x_{i}\right),\,k=2,\ldots,\,n
 \end{aligned}
-\]</span></p>
+\tag{3}\]</span></span></p>
 <p><br></p>
 </section>
 <section id="상삼각-행렬의-선형방정식의-풀이" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="상삼각-행렬의-선형방정식의-풀이"><span class="header-section-number">2.2</span> 상삼각 행렬의 선형방정식의 풀이</h3>
-<p>상삼각 행렬 <span class="math inline">\(\boldsymbol{U}\in \mathcal{M}_{n\times n}(\mathbb{F})\)</span> 와 <span class="math inline">\(\boldsymbol{b}\in\mathcal{M}_n(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ux}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n(\mathbb{F})\)</span> 을 구해보자. 역시 <span class="math inline">\(\boldsymbol{U}\)</span> 의 각각의 대각성분은 <span class="math inline">\(0\)</span> 이 아니다.</p>
+<p>상삼각 행렬 <span class="math inline">\(\boldsymbol{U}\in \mathbb{F}^{n\times n}\)</span> 와 <span class="math inline">\(\boldsymbol{b}\in \mathbb{F}^n\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Ux}=\boldsymbol{b}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x} \mathbb{F}^n\)</span> 을 구해보자. 역시 <span class="math inline">\(\boldsymbol{U}\)</span> 의 각각의 대각성분은 <span class="math inline">\(0\)</span> 이 아니다.</p>
 <p><span class="math display">\[
 \begin{bmatrix} U_{11} &amp; U_{12} &amp;\cdots &amp; U_{11} \\  &amp; U_{22}  &amp;\cdots  &amp; U_{21} \\  &amp; &amp; \ddots &amp; \vdots\\  &amp; &amp;  &amp; U_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
 \]</span></p>
@@ -451,18 +453,17 @@ U_{kk} x_k + U_{k,k+1}x_{k+1} + \cdots + U_{kn}x_n &amp;= b_k,\\
 \vdots \\
 U_{11}x_1 + U_{12}x_2 + \cdots + U_{1n}x_1 &amp;= b_1
 \end{aligned}
-\]</span> 를 얻는다. 첫번째 식으로부터 <span class="math inline">\(x_n\)</span> 을 구할 수 있으며, 두번째 식에서는 이미 구한 <span class="math inline">\(x_{n}\)</span> 을 이용하여 <span class="math inline">\(x_{n-1}\)</span> 를 구할 수 있다. 즉 <span class="math inline">\(x_{n},\ldots,\,x_{k}\)</span> 까지 구했다면 이미 알고 있는 <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{b}\)</span> 의 성분을 이용하여 <span class="math inline">\(x_{k-1}\)</span> 을 구할 수 있다. 이를 정리하면 다음과 같다. <span class="math display">\[
+\]</span> 를 얻는다. 첫번째 식으로부터 <span class="math inline">\(x_n\)</span> 을 구할 수 있으며, 두번째 식에서는 이미 구한 <span class="math inline">\(x_{n}\)</span> 을 이용하여 <span class="math inline">\(x_{n-1}\)</span> 를 구할 수 있다. 즉 <span class="math inline">\(x_{n},\ldots,\,x_{k}\)</span> 까지 구했다면 이미 알고 있는 <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{b}\)</span> 의 성분을 이용하여 <span class="math inline">\(x_{k-1}\)</span> 을 구할 수 있다. 이를 정리하면 다음과 같다. <span id="eq-solution_of_upper_triangular_matrix"><span class="math display">\[
 \begin{aligned}
 x_n &amp;= \dfrac{b_n}{U_{nn}}, \\
 x_k &amp;= \dfrac{1}{U_{kk}} \left( b_k - \sum_{i=k+1}^{n} U_{ki}x_{i}\right),\,k=n-1,\,n-2,\ldots,\,1
 \end{aligned}
-\]</span></p>
+\tag{4}\]</span></span></p>
 <p>임을 안다.</p>
 <p><br></p>
 </section>
 <section id="코드-작성" class="level3" data-number="2.3">
 <h3 data-number="2.3" class="anchored" data-anchor-id="코드-작성"><span class="header-section-number">2.3</span> 코드 작성</h3>
-<p>Julia 의 장점중의 하나는 알고리즘을 코드로 구현 했을 때 코드에서 알고리즘을 명확히 표현할 수 있다는 것이다. 또한 Julia 의 코드 실행 속도가 빠르기 때문에 많은 경우 알고리즘을 그대로 코드화 한 경우라도 상당한 속도를 낸다는 것이다.</p>
 <p>상삼각행렬에 대해서는 <code>Us()</code>, 하삼각행렬에 대해서는 <code>Ls()</code> 함수로 선형방정식의 해를 구하는 코드를 작성해보자. 아래의 코드는 가능한 답중의 하나이다.</p>
 <div class="callout callout-style-simple callout-warning no-icon">
 <div class="callout-body d-flex">
@@ -512,7 +513,6 @@ x_k &amp;= \dfrac{1}{U_{kk}} \left( b_k - \sum_{i=k+1}^{n} U_{ki}x_{i}\right),\,
 <span id="cb1-36"><a href="#cb1-36"></a>    <span class="cf">end</span></span>
 <span id="cb1-37"><a href="#cb1-37"></a>    <span class="cf">return</span> x</span>
 <span id="cb1-38"><a href="#cb1-38"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>size(L)</code> 은 인자로 주어지는 배열(Array) <code>L</code> 의 차원을 튜플(tuple) 로 반환한다.</p>
 <p><br></p>
 <p>이제 <span class="math inline">\(\boldsymbol{L}=\begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \\ 2 &amp; 2 &amp; 0 &amp; 0 \\3 &amp; 1 &amp; -3 &amp; 0 \\5 &amp; -2 &amp; 3 &amp; 7 \end{bmatrix}\)</span> 와 <span class="math inline">\(\boldsymbol{b}= \begin{bmatrix} 3.1 \\  5.3 \\ -2.2 \\ 6.0 \end{bmatrix}\)</span> 에 대해 풀어보면</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> [<span class="fl">1</span>. <span class="fl">0</span>. <span class="fl">0</span>. <span class="fl">0</span>.; <span class="fl">2</span>. <span class="fl">2</span>. <span class="fl">0</span>. <span class="fl">0</span>.; <span class="fl">3</span>. <span class="fl">1</span>. <span class="op">-</span><span class="fl">3</span>. <span class="fl">0</span>.; <span class="fl">5</span>. <span class="op">-</span><span class="fl">2</span>. <span class="fl">3</span>. <span class="fl">7</span>.]</span>
@@ -527,7 +527,7 @@ x_k &amp;= \dfrac{1}{U_{kk}} \left( b_k - \sum_{i=k+1}^{n} U_{ki}x_{i}\right),\,
 <p>의 결과가 나오므로 <span class="math inline">\(\boldsymbol{b}\)</span> 를 잘 구했다.</p>
 <p><br></p>
 <section id="roundoff-에러의-예" class="level4">
-<h4 class="anchored" data-anchor-id="roundoff-에러의-예">Roundoff 에러의 예</h4>
+<h4 class="anchored" data-anchor-id="roundoff-에러의-예"><strong>Roundoff 에러의 예</strong></h4>
 <p>이제 약간 극단적인 경우를 살펴 보자. 하삼각 행렬에서 대각성분이 0 이 아닌 다른 성분에 비해 매우 작은 경우이다.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A1<span class="op">=</span> [<span class="fl">1.0</span> <span class="fl">0</span> <span class="fl">0</span>; <span class="fl">1.0e8</span> <span class="fl">1</span> <span class="fl">0</span>; <span class="fl">1.0e8</span> <span class="fl">1.0e8</span> <span class="fl">1</span>]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> [<span class="fl">1</span>; <span class="fl">1</span>; <span class="fl">1.0</span>]</span>
@@ -575,7 +575,7 @@ T(n) = 1 + \sum_{k=2}^n 2k = n^2 + n -1 = O(n^2)
 <section id="행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="행-사다리꼴-행렬-행-간소-사다리꼴-행렬과-행-기본-연산"><span class="header-section-number">3.1</span> 행 사다리꼴 행렬, 행 간소 사다리꼴 행렬과 행 기본 연산</h3>
 <section id="행-사다리꼴과-행-간소-사다리꼴" class="level4">
-<h4 class="anchored" data-anchor-id="행-사다리꼴과-행-간소-사다리꼴">행 사다리꼴과 행 간소 사다리꼴</h4>
+<h4 class="anchored" data-anchor-id="행-사다리꼴과-행-간소-사다리꼴"><strong>행 사다리꼴과 행 간소 사다리꼴</strong></h4>
 <p>행 사다리꼴 행렬(row echelon form matrix)은 다음의 조건을 만족하는 행렬이다.</p>
 <ol type="1">
 <li><p>영벡터가 존재할 경우 이 영벡터는 영벡터가 아닌 행벡터의 아래에 위치한다.</p></li>
@@ -597,7 +597,7 @@ T(n) = 1 + \sum_{k=2}^n 2k = n^2 + n -1 = O(n^2)
 <p><br></p>
 </section>
 <section id="기본-행-연산" class="level4">
-<h4 class="anchored" data-anchor-id="기본-행-연산">기본 행 연산</h4>
+<h4 class="anchored" data-anchor-id="기본-행-연산"><strong>기본 행 연산</strong></h4>
 <p>우리는 선형대수학으로부터 모든 행렬은 세가지의 기본 행 연산(elementary row operation)을 통해 행 사다리꼴과 행 간소 사다리꼴 행렬로 만들 수 있으며, 행렬의 행 간소 사다리꼴은 유일하다는 것을 안다. 이때의 기본 행 연산은 다음과 같다.</p>
 <ol type="1">
 <li><p>두 행의 위치를 서로 바꾼다. (<span class="math inline">\(\hat{L}_1\)</span> 연산)</p></li>
@@ -807,7 +807,7 @@ l_{21}u_{12} + l_{22}u_{22} &amp; = 3,
 </section>
 <section id="lu-분해를-이용한-선형방정식의-풀이-및-행렬식" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="lu-분해를-이용한-선형방정식의-풀이-및-행렬식"><span class="header-section-number">4.2</span> LU 분해를 이용한 선형방정식의 풀이 및 행렬식</h3>
-<p><span class="math inline">\(\boldsymbol{A}\)</span> 가 LU 분해 가능이고 <span class="math inline">\(\boldsymbol{PA}=\boldsymbol{LU}\)</span> 로 분해되었다고 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 가 가역행렬이 아니라면 분해가 의미가 없으므로 가역행렬일 때만 생각한다. <span class="math inline">\(\boldsymbol{P}\)</span> 치환행렬의 곱이며 각각의 치환행렬은 가역행렬이므로 <span class="math inline">\(\boldsymbol{P}\)</span> 도 가역행렬이다.</p>
+<p><span class="math inline">\(\boldsymbol{A}\)</span> 가 LU 분해 가능이고 <span class="math inline">\(\boldsymbol{PA}=\boldsymbol{LU}\)</span> 로 분해되었다고 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 가 가역행렬이 아니라면 분해가 의미가 없으므로 가역행렬일 때만 생각한다. <span class="math inline">\(\boldsymbol{P}\)</span> 는 치환행렬의 곱이며 각각의 치환행렬은 가역행렬이므로 <span class="math inline">\(\boldsymbol{P}\)</span> 도 가역행렬이다.</p>
 <p><span class="math display">\[
 \boldsymbol{Ax}=\boldsymbol{b} \iff \boldsymbol{PAx}=\boldsymbol{Pb} \iff \boldsymbol{LUx}=\boldsymbol{Pb}
 \]</span></p>
@@ -821,27 +821,24 @@ l_{21}u_{12} + l_{22}u_{22} &amp; = 3,
 </section>
 <section id="sec-plu_decomposition" class="level3" data-number="4.3">
 <h3 data-number="4.3" class="anchored" data-anchor-id="sec-plu_decomposition"><span class="header-section-number">4.3</span> PLU 분해</h3>
-<p><span class="math inline">\(n \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 가 어떤 행교환 행렬 <span class="math inline">\(\boldsymbol{P}\)</span> 와 하삼각 행렬 <span class="math inline">\(\boldsymbol{L}\)</span>, 상삼각 행렬 <span class="math inline">\(\boldsymbol{U}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{PA} = \boldsymbol{LU}\)</span> 라 하자. <span class="math inline">\(\boldsymbol{P}\)</span>, <span class="math inline">\(\boldsymbol{L}\)</span>, <span class="math inline">\(\boldsymbol{U}\)</span> 는 모두 <span class="math inline">\(n \times n\)</span> 행렬이다. <span class="math inline">\(\boldsymbol{A}\)</span> 의 첫번째 열벡터에서 절대값이 최대값인 행과 1행을 교환하는 행교환 행렬을 <span class="math inline">\(\boldsymbol{P}_1\)</span> 이라고 하고 <span class="math inline">\(\boldsymbol{B}_1=\boldsymbol{P}_1\boldsymbol{A}\)</span> 라 하자. 행렬 <span class="math inline">\(\boldsymbol{B}_1\)</span> 과 <span class="math inline">\(\boldsymbol{L},\,\boldsymbol{U}\)</span> 를 1행, 1열과 나머지 부분행렬로 아래와 같이 구분한다.</p>
+<p>첫번째 행에 대한 피보팅을 수행하는 치환행렬을 <span class="math inline">\(\boldsymbol{P}_1\)</span> 이라고 하자. 행렬의 <span class="math inline">\(k\)</span> 행에 대해 피보팅 할 때마다 <span class="math inline">\(\boldsymbol{L}\)</span> 의 <span class="math inline">\(k\)</span> 행과 <span class="math inline">\(\boldsymbol{U}\)</span> 의 <span class="math inline">\(k\)</span> 열을 결정할 수 있다는 것을 보이자. 여기서 <span class="math inline">\(\boldsymbol{L}\)</span> 의 대각 성분은 모두 <span class="math inline">\(1\)</span> 이다.</p>
 <p><span class="math display">\[
-\boldsymbol{B}_1=\left[\begin{array}{cc} b_1 &amp; \boldsymbol{r}_1^T \\ \boldsymbol{c}_1 &amp; \boldsymbol{C}_1\end{array}\right],\qquad \boldsymbol{L}=\begin{bmatrix} 1 &amp; 0 \\ \boldsymbol{l}_1 &amp; \boldsymbol{L}_1\end{bmatrix}, \qquad \boldsymbol{U} = \begin{bmatrix} v_1 &amp; \boldsymbol{u}_1^T \\ 0 &amp; \boldsymbol{U}_1\\\end{bmatrix}
+\boldsymbol{A}_1=\boldsymbol{P}_1\boldsymbol{A}= \boldsymbol{L}_1\boldsymbol{U}_1
 \]</span></p>
-<p><span class="math inline">\(\boldsymbol{P}_1\boldsymbol{A} =\boldsymbol{B}_1=\boldsymbol{LU}\)</span> 라 하면 다음을 얻는다. <span class="math display">\[
-\begin{aligned}
-v_1 &amp; = b_1, \\
-\boldsymbol{u}_1 &amp;= \boldsymbol{r}_1, \\
-u_1 \boldsymbol{l}_1 &amp;= \boldsymbol{c}_1, \\
-\boldsymbol{l}_1 \cdot \boldsymbol{u}_1^T + \boldsymbol{L}_1 \boldsymbol{U}_1 &amp;= \boldsymbol{C}_1
-\end{aligned}
-\]</span></p>
-<p>이를 통해 <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{U}\)</span> 의 1행과 1열이 결정되며, <span class="math inline">\((n-1)\times (n-1)\)</span> 행렬인 <span class="math inline">\(\boldsymbol{L}_1\boldsymbol{U}_1\)</span> 이 결정된다. <span class="math inline">\(\boldsymbol{A}\)</span> 의 첫번째 열벡터가 영벡터라면 <span class="math inline">\(b_1=0,\, \boldsymbol{c}_1=\boldsymbol{0}\)</span> 이며, 따라서 <span class="math inline">\(u_1=0\)</span> 으로 <span class="math inline">\(\boldsymbol{l}_1\)</span> 은 어떤 벡터를 놓아도 계산에 영향을 주지 않기 때문에 가장 간단하게 <span class="math inline">\(\boldsymbol{0}\)</span> 으로 놓는다.</p>
-<p>이제 <span class="math inline">\(\boldsymbol{A}_1=\boldsymbol{L}_1\boldsymbol{U}_1 = \boldsymbol{C}-\boldsymbol{l} \cdot \boldsymbol{u}^T\)</span> 이라 놓고, <span class="math inline">\(\boldsymbol{A}_1\)</span> 에 대해 행교환 행렬 <span class="math inline">\(\boldsymbol{Q}_2\)</span> 위의 과정을 똑같이 수행하여</p>
+<p>을 생각하자. <span class="math inline">\([\boldsymbol{L}_1]_j= \delta_{1j}\)</span> 이므로 <span class="math inline">\([\boldsymbol{P}_1\boldsymbol{A}]_{1j} = \sum_{k}[\boldsymbol{L}]_{1k} [\boldsymbol{U}_1]_{kj} = [\boldsymbol{U}]_{1j}\)</span> 이므로 <span class="math inline">\(\boldsymbol{U}_1\)</span> 의 첫번째 행이 정해진다.</p>
+<p>이제 두번째 행에 대한 피보팅을 수행한다.</p>
 <p><span class="math display">\[
-\boldsymbol{Q}_2\boldsymbol{A}_1=\boldsymbol{B}_2 = \left[\begin{array}{cc} b_2&amp; \boldsymbol{r}_2^T \\ \boldsymbol{c}_2 &amp; \boldsymbol{C}_2\end{array}\right] = \begin{bmatrix} 1 &amp; 0 \\ \boldsymbol{l}_2 &amp; \boldsymbol{L}_2\end{bmatrix}\begin{bmatrix} v_2 &amp; \boldsymbol{u}_2^T \\ 0 &amp; \boldsymbol{U}_2\\\end{bmatrix}
+\boldsymbol{P}_2\boldsymbol{A}_1=\boldsymbol{P}_2\boldsymbol{P}_1\boldsymbol{A}= \boldsymbol{L}_2\boldsymbol{U}_2
 \]</span></p>
-<p>을 얻는다. 여기서 <span class="math inline">\(\boldsymbol{l}_2,\, v_2,\, \boldsymbol{u}_2\)</span> 와 <span class="math inline">\(\boldsymbol{L_2}\boldsymbol{U}_2 = \boldsymbol{C}_2-\boldsymbol{l}_2 \cdot \boldsymbol{u}_2^T\)</span> 라는 것을 안다. <span class="math inline">\(\boldsymbol{P}_2 = \begin{bmatrix} 1 &amp; \boldsymbol{0}^T \\ \boldsymbol{0} &amp; \boldsymbol{Q}_2\end{bmatrix}\)</span> 라고 하면,</p>
+<p><span class="math inline">\(\boldsymbol{P}_2\)</span> 에 의해 앞서 정해진 <span class="math inline">\(\boldsymbol{L}_2\)</span> 의 첫번째 행은 영항을 받지 않는다. <span class="math inline">\(\boldsymbol{L}_2\)</span> 와 <span class="math inline">\(\boldsymbol{U}_2\)</span> 의 첫번째 행은 <span class="math inline">\(\boldsymbol{L}_1\)</span> 과 <span class="math inline">\(\boldsymbol{U}_1\)</span> 의 첫번째 행과 같고 여기서는 <span class="math inline">\(\boldsymbol{L}_2\)</span> 와 <span class="math inline">\(\boldsymbol{U}_2\)</span> 의 두번째 행을 결정한다.</p>
 <p><span class="math display">\[
-\boldsymbol{P}_2 \boldsymbol{P}_1 \boldsymbol{A} = \begin{bmatrix} 1 &amp;  &amp;  \\\vdots  &amp; 1 &amp;  \\ \boldsymbol{Q}_2 \boldsymbol{l}_1 &amp; \boldsymbol{l}_2 &amp; \boldsymbol{L}_2\end{bmatrix} \begin{bmatrix} v_1 &amp; \cdots &amp; \boldsymbol{u}_1^T \\  &amp; v_2 &amp; \boldsymbol{u}_2^T \\ &amp; &amp; \boldsymbol{U}_2 \end{bmatrix}
-\]</span> 이 된다. 여기서 행렬의 <span class="math inline">\(~\vdots~\)</span> 는 <span class="math inline">\(\boldsymbol{Q}_2 \boldsymbol{l}_2\)</span> 의 연장이며 , <span class="math inline">\(\cdots\)</span> 는 <span class="math inline">\(\boldsymbol{u}_1^T\)</span> 의 연장이다. <span class="math inline">\(\boldsymbol{L}_1\boldsymbol{U}_1\)</span> 에 대해 위의 과정을 반복적으로 수행하면, 결국 <span class="math inline">\(\boldsymbol{P}\)</span>, <span class="math inline">\(\boldsymbol{L}\)</span>, <span class="math inline">\(\boldsymbol{U}\)</span> 를 얻을 수 있다. 이것을 수행하는 코드는 다음과 같다.</p>
+[\boldsymbol{P}_2\boldsymbol{A}_1]_{2j} = \sum_{k=1}^n [\boldsymbol{L}_2]_{2k}[\boldsymbol{U}_2]_{kj} = [\boldsymbol{L}_2]_{21}[\boldsymbol{U}_2]_{1j} + [\boldsymbol{U}_2]_{2j}
+\]</span></p>
+<p>이다. <span class="math inline">\([\boldsymbol{U}_2]_{21}=0\)</span> 이므로 <span class="math inline">\([\boldsymbol{L}_2]_{21}=  [\boldsymbol{P}_2\boldsymbol{A}_1]_{21}/[\boldsymbol{U}_2]_{11}\)</span> 이며 <span class="math inline">\(j&gt;2\)</span> 에 대해 <span class="math inline">\([\boldsymbol{U}_2]_{2j} =  [\boldsymbol{P}_2\boldsymbol{A}_1]_{2j} - [\boldsymbol{L}]_{21}[\boldsymbol{U}_2]_{1j}\)</span> 이다. 이렇게 <span class="math inline">\(\boldsymbol{L}_2\)</span> 와 <span class="math inline">\(\boldsymbol{U}_2\)</span> 의 두번째 행을 구했다. 이 방법을 <span class="math inline">\(n\)</span> 행 까지 계속하면</p>
+<p><span class="math display">\[
+\boldsymbol{P}_n \cdots \boldsymbol{P}_1 \boldsymbol{A}= \boldsymbol{L}_n \boldsymbol{U}_n = \boldsymbol{LU}
+\]</span></p>
+<p>로 PLU 분해를 수행 할 수 있다.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">function</span> <span class="fu">PLU</span>(A<span class="op">::</span><span class="dt">Matrix{T}</span>; eptols <span class="op">=</span> <span class="fl">1.0e-10</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">Real</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>    M, N <span class="op">=</span> <span class="fu">size</span>(A)</span>
 <span id="cb8-3"><a href="#cb8-3"></a>    <span class="pp">@assert</span> M <span class="op">==</span> N</span>

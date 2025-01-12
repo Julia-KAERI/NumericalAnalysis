@@ -114,7 +114,7 @@ format:
     toc: true
     theme:
       light: [cosmo, theme.scss]
-    fontsize: 0.80em
+    fontsize: 0.90em
     code-copy: true
     code-block-bg: true
     code-block-background: true

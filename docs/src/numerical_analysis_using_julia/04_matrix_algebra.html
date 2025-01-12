@@ -279,18 +279,18 @@ window.Quarto = {
   <ul>
   <li><a href="#sec-norm_of_vector_and_matrix" id="toc-sec-norm_of_vector_and_matrix" class="nav-link active" data-scroll-target="#sec-norm_of_vector_and_matrix"><span class="header-section-number">1</span> 벡터와 행렬의 노름과 조건수</a>
   <ul class="collapse">
-  <li><a href="#벡터의-노름" id="toc-벡터의-노름" class="nav-link" data-scroll-target="#벡터의-노름">벡터의 노름</a></li>
-  <li><a href="#sec-norm_of_matrix" id="toc-sec-norm_of_matrix" class="nav-link" data-scroll-target="#sec-norm_of_matrix">행렬의 노름</a></li>
-  <li><a href="#sec-condition_number_of_matrix" id="toc-sec-condition_number_of_matrix" class="nav-link" data-scroll-target="#sec-condition_number_of_matrix">행렬의 조건수</a></li>
+  <li><a href="#벡터의-노름" id="toc-벡터의-노름" class="nav-link" data-scroll-target="#벡터의-노름"><span class="header-section-number">1.1</span> 벡터의 노름</a></li>
+  <li><a href="#sec-norm_of_matrix" id="toc-sec-norm_of_matrix" class="nav-link" data-scroll-target="#sec-norm_of_matrix"><span class="header-section-number">1.2</span> 행렬의 노름</a></li>
+  <li><a href="#sec-condition_number_of_matrix" id="toc-sec-condition_number_of_matrix" class="nav-link" data-scroll-target="#sec-condition_number_of_matrix"><span class="header-section-number">1.3</span> 행렬의 조건수</a></li>
   </ul></li>
   <li><a href="#다양한-행렬들" id="toc-다양한-행렬들" class="nav-link" data-scroll-target="#다양한-행렬들"><span class="header-section-number">2</span> 다양한 행렬들</a>
   <ul class="collapse">
-  <li><a href="#sec-sparse_matrix" id="toc-sec-sparse_matrix" class="nav-link" data-scroll-target="#sec-sparse_matrix">성긴행렬과 밀집행렬</a></li>
-  <li><a href="#타입으로-정의된-행렬" id="toc-타입으로-정의된-행렬" class="nav-link" data-scroll-target="#타입으로-정의된-행렬">타입으로 정의된 행렬</a></li>
+  <li><a href="#sec-sparse_matrix" id="toc-sec-sparse_matrix" class="nav-link" data-scroll-target="#sec-sparse_matrix"><span class="header-section-number">2.1</span> 성긴행렬과 밀집행렬</a></li>
+  <li><a href="#타입으로-정의된-행렬" id="toc-타입으로-정의된-행렬" class="nav-link" data-scroll-target="#타입으로-정의된-행렬"><span class="header-section-number">2.2</span> 타입으로 정의된 행렬</a></li>
   </ul></li>
   <li><a href="#linearalgebra.jl-의-기본-연산자와-함수" id="toc-linearalgebra.jl-의-기본-연산자와-함수" class="nav-link" data-scroll-target="#linearalgebra.jl-의-기본-연산자와-함수"><span class="header-section-number">3</span> <code>LinearAlgebra.jl</code> 의 기본 연산자와 함수</a>
   <ul class="collapse">
-  <li><a href="#기본-연산자와-함수" id="toc-기본-연산자와-함수" class="nav-link" data-scroll-target="#기본-연산자와-함수">기본 연산자와 함수</a></li>
+  <li><a href="#기본-연산자와-함수" id="toc-기본-연산자와-함수" class="nav-link" data-scroll-target="#기본-연산자와-함수"><span class="header-section-number">3.1</span> 기본 연산자와 함수</a></li>
   </ul></li>
   <li><a href="#선형-시스템" id="toc-선형-시스템" class="nav-link" data-scroll-target="#선형-시스템"><span class="header-section-number">4</span> 선형 시스템</a></li>
   </ul>
@@ -318,14 +318,24 @@ window.Quarto = {
 </header>
 
 
+<div class="hidden">
+<p>% %</p>
+%
+<p><span class="math display">\[
+\DeclarePairedDelimiters{\set}{\{}{\}}
+\DeclareMathOperator*{\argmax}{argmax}
+\]</span></p>
+</div>
+<p><br></p>
 <p>지금까지는 Julia 의 기본적인 벡터와 행렬, 그리고 연산을 이용하여 일반적인 행렬에 대한 가우스 소거법과 LU 분해, QR 분해를 구현하여 보았다. Julia 는 큰 벡터와 행렬을 다루기 위한 <code>SparseArrays</code> 모듈과 행렬 및 벡터 계산을 위한 <code>LinearAlgebra</code> 모듈을 기본으로 제공한다. 또한 다양한 형태의 행렬에 대한 특별한 연산도 제공한다. 이제 이런 기능들을 알아보도록 하자. 그 전에 벡터와 행렬의 크기 혹은 거리를 의미하는 노름을 먼저 알아보기로 하자.</p>
 <p><br></p>
 <section id="sec-norm_of_vector_and_matrix" class="level2 page-columns page-full" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="sec-norm_of_vector_and_matrix"><span class="header-section-number">1</span> 벡터와 행렬의 노름과 조건수</h2>
-<section id="벡터의-노름" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="벡터의-노름">벡터의 노름</h3>
+<section id="벡터의-노름" class="level3 page-columns page-full" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="벡터의-노름"><span class="header-section-number">1.1</span> 벡터의 노름</h3>
 <p><a href="../../src/numerical_analysis_using_julia/02_notations_and_propositions.html#def-innerproduct_space">벡터의 노름(norm)</a> 은 벡터의 크기에 대한 척도로서 실수, 혹은 복소수의 절대값과 비슷한 역할을 한다. 보통 <span class="math inline">\(n\)</span> 차원 유클리드 공간에서 사용하는 거리도 노름의 일종이다. 벡터공간에서의 노름은 특정한 성질을 만족하는 함수 가운데 선택된다. 내적벡터공간에서는 내적에 의해 자연스럽게 노름을 정의할 수 있지만 노름 자체는 집합에 부여되는 성질이며 내적과 관계 없이 노름을 정의할 수도 있다. 즉 어떤 집합에 위의 노름이 정의되면 노름공간이라고 한다. <br></p>
 <p>벡터의 노름에 대한 성질을 알기 위해 다음 부등식을 알 필요가 있다.</p>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-norm_inequality" class="theorem proposition">
 <p><span class="theorem-title"><strong>명제 1 (횔더부등식(Hölder’s inequality) 과 민코프스키 부등식(Minkowski’s ineqality))</strong></span> <span class="math inline">\(p\ge 1\)</span> 이며 <span class="math inline">\(1/p+1/q =1\)</span> 일 때 다음이 성립한다. <span class="math display">\[
 \begin{aligned}
@@ -334,6 +344,8 @@ window.Quarto = {
 \end{aligned}
 \]</span></p>
 </div>
+</div>
+<p><br></p>
 <div class="proof">
 <p><span class="proof-title"><em>(증명)</em>. </span><a href="../../src/numerical_analysis_using_julia/A_collection_of_proofs.html#sec-mathematical_proof">수학적 증명</a> 의 <a href="../../src/numerical_analysis_using_julia/A_collection_of_proofs.html#prp-hoelders_inequality">Hölder 부등식</a> 를 참고하라.</p>
 </div>
@@ -345,7 +357,7 @@ window.Quarto = {
 </div>
 <div class="callout-body-container">
 <div id="def-p_morm" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 1 (<span class="math inline">\(L_p\)</span>-노름 과 <span class="math inline">\(\infty\)</span>-노름)</strong></span> <span class="math inline">\(p&gt;1\)</span> 에 대해 아래와 같이 정의된 <span class="math inline">\(\| \cdot \|_p : \mathcal{M}_n(\mathbb{F}) \to [0, \infty)\)</span> 는 노름이며 이 노름을 <span class="math inline">\(L_p\)</span>-노름 이라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 1 (<span class="math inline">\(L_p\)</span>-노름 과 <span class="math inline">\(\infty\)</span>-노름)</strong></span> <span class="math inline">\(p&gt;1\)</span> 에 대해 아래와 같이 정의된 <span class="math inline">\(\| \cdot \|_p : \mathbb{R}^n \to [0, \infty)\)</span> 는 노름이며 이 노름을 <span class="math inline">\(L_p\)</span>-노름 이라고 한다.</p>
 <p><span class="math display">\[
 \|\boldsymbol{v}\|_p := \left( \sum_{i=1} |v_i|^p \right)^{1/p}.
 \]</span></p>
@@ -369,8 +381,11 @@ window.Quarto = {
 <p>이다. 혹은 단순히 <span class="math inline">\(L_1,\,L_2,\,L_\infty\)</span> 노름 이라고도 한다.</p>
 <p><br></p>
 <p>다음은 쉽게 증명 할 수 있다.</p>
+<br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-p_norm" class="theorem proposition">
 <p><span class="theorem-title"><strong>명제 2</strong></span> <span class="math inline">\(p=\infty\)</span> 를 포함하여 <span class="math inline">\(p \ge 1\)</span> 일 때, 유한차원 벡터공간에서의 <span class="math inline">\(L_p\)</span>-노름은 노름의 정의를 만족한다.</p>
+</div>
 </div>
 <p><br></p>
 <div class="callout callout-style-simple callout-note no-icon">
@@ -389,13 +404,16 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 </div>
 </div>
 </div>
-<p><br></p>
+<br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-magnitude_of_Lp_norms" class="theorem proposition">
 <p><span class="theorem-title"><strong>명제 3</strong></span> <span class="math inline">\(\boldsymbol{v}\in \mathcal{M}_n(\mathbb{F})\)</span> 에 대해 다음이 성립한다. 즉 <span class="math inline">\(\|\cdot \|_\infty\)</span> 와 <span class="math inline">\(\|\cdot \|_2\)</span> 는 동등하다.</p>
 <p><span class="math display">\[
 \|\boldsymbol{v}\|_{\infty} \le \|\boldsymbol{v}\|_2 \le \sqrt{n}\|\boldsymbol{v}\|_\infty
 \]</span></p>
 </div>
+</div>
+<p><br></p>
 <div class="proof">
 <p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(v_M = \max \{ |v_i|, i=1,\ldots,\,v_n\}\)</span> 이라고 하자. <span class="math display">\[
 \|\boldsymbol{v}\|_\infty = v_M \le \sqrt{\sum_{i=1}^n |v_i|^2} = \|\boldsymbol{v}\|_2 \le \sqrt{\sum_{i=1}^n {v_M}^2} = \sqrt{n} v_M = \sqrt{n} \|\boldsymbol{v}\|_\infty
@@ -423,8 +441,8 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a> 0.5345224838248488</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
-<section id="sec-norm_of_matrix" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="sec-norm_of_matrix">행렬의 노름</h3>
+<section id="sec-norm_of_matrix" class="level3 page-columns page-full" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="sec-norm_of_matrix"><span class="header-section-number">1.2</span> 행렬의 노름</h3>
 <p>행렬의 노름(norm) 역시 행렬의 크기에 대한 척도로서 특정한 성질을 만족하는 함수 가운데 선택된다.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
@@ -433,12 +451,12 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 </div>
 <div class="callout-body-container">
 <div id="def-matrix_norm" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 3</strong></span> 행렬의 노름 <span class="math inline">\(\|\cdot \|: \mathcal{M}_{m\times n}(\mathbb{F}) \to \mathbb{R}\)</span> 은 행렬 <span class="math inline">\(\boldsymbol{A},\, \boldsymbol{B}\)</span> 와 스칼라 <span class="math inline">\(\alpha\)</span> 에 대해 다음의 성질을 만족한다.</p>
+<p><span class="theorem-title"><strong>정의 3</strong></span> 행렬의 노름 <span class="math inline">\(\|\cdot \|: \mathbb{F}^{n\times n} \to \mathbb{R}\)</span> 은 행렬 <span class="math inline">\(\boldsymbol{A},\, \boldsymbol{B}\)</span> 와 스칼라 <span class="math inline">\(\alpha\)</span> 에 대해 다음의 성질을 만족한다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\|\boldsymbol{A}\| \ge 0\)</span>,</p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\|\boldsymbol{A}\| = 0 \iff \boldsymbol{A} = 0\)</span>,</p>
 <p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\|\alpha \boldsymbol{A}\| = |\alpha| \|\boldsymbol{A}\|\)</span>,</p>
 <p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\|\boldsymbol{A}+\boldsymbol{B}\| \le \|\boldsymbol{A}\|+\|\boldsymbol{B}\|\)</span>.</p>
-<p>또한 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{m\times n}(\mathbb{F}),\, \boldsymbol{B} \in \mathcal{M}_{n\times p}(\mathbb{F})\)</span> 에 대해 다음이 성립한다.</p>
+<p>또한 <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{m\times n},\, \boldsymbol{B} \in \mathbb{F}^{n\times p}\)</span> 에 대해 다음이 성립한다.</p>
 <p>  (<span class="math inline">\(5\)</span>) <span class="math inline">\(\|\boldsymbol{AB}\| \le \|\boldsymbol{A}\| \cdot\|\boldsymbol{B}\|\)</span>.</p>
 </div>
 </div>
@@ -448,9 +466,9 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 <p>위의 정의 중 5번을 제외한 나머지 성질은 벡터에 대해서 성립하며, 5번은 행렬의 노름에만 성립하는 고유한 성질이다.</p>
 <p><br></p>
 <section id="프로베니우스-노름" class="level4 page-columns page-full">
-<h4 class="anchored" data-anchor-id="프로베니우스-노름">프로베니우스 노름</h4>
+<h4 class="anchored" data-anchor-id="프로베니우스-노름"><strong>프로베니우스 노름</strong></h4>
 <div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class="margin-aside">프로베니우스 노름은 힐버트-슈미트 노름(Hilbert-Schmidt norm), 혹은 슈어 노름(Schur norm) 으로도 불린다.</span></div></div>
-<p>선형대수학에서 배웠다시피 <span class="math inline">\(\mathcal{M}_{m\times n}(\mathbb{F})\)</span> 은 벡터공간을 이루며 각각의 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{m\times n}(\mathbb{F})\)</span> 도 벡터므로, 벡터에 대한 노름 처럼 행렬에 대한 노름도 정의 할 수 있다. 대표적으로 프로베니우스 노름(Frobenius norm) <span class="math inline">\(\|\cdot \|_F\)</span> 은 행렬을 벡터처럼 간주했을 때의 <span class="math inline">\(L_2\)</span> 노름이다.</p>
+<p>선형대수학에서 배웠다시피 <span class="math inline">\(\mathbb{F}^{m\times n}\)</span> 은 벡터공간을 이루며 각각의 <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{m\times n}\)</span> 도 벡터므로, 벡터에 대한 노름 처럼 행렬에 대한 노름도 정의 할 수 있다. 대표적으로 프로베니우스 노름(Frobenius norm) <span class="math inline">\(\|\cdot \|_F\)</span> 은 행렬을 벡터처럼 간주했을 때의 <span class="math inline">\(L_2\)</span> 노름이다.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -465,13 +483,16 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 </div>
 </div>
 </div>
+<br>
+<div class="border" style="background-color:#F0FFFF  ;padding:5px;">
 <div id="exr-frobenius_norm" class="theorem exercise">
 <p><span class="theorem-title"><strong>연습문제 1</strong></span> 프로베니우스 노름이 행렬의 노름의 정의에 나열된 5가지의 성질을 만족한다는 것을 보여라.</p>
+</div>
 </div>
 <p><br></p>
 </section>
 <section id="sec-natural_norm" class="level4">
-<h4 class="anchored" data-anchor-id="sec-natural_norm">자연스러운 노름</h4>
+<h4 class="anchored" data-anchor-id="sec-natural_norm"><strong>자연스러운 노름</strong></h4>
 <p>행렬은 벡터공간에서 정의된 선형 함수로서의 의미가 중요하기 때문에, 벡터가 연산되었을 때 그 크기가 어떻게 되는지에 관심이 있는 경우가 많다. 이런 의미에서 행렬의 노름을 벡터와의 연산에 대해 정의할 수 있는데 이렇게 정의된 행렬의 노름은 <strong>유도된 행렬 노름 (induced matrix norm)</strong>, <strong>자연스러운 행렬 노름(natural matrix norm)</strong> 혹은 <strong>종속된 노름(subordinate norm)</strong> 이라고 하며 정사각 행렬의 경우는 <strong>연산자 노름(operator norm)</strong> 이라고도 한다. <u>앞으로 행렬의 노름을 이야기할 때는 별다른 언급이 없다면 자연스러운 노름을 의미한다.</u></p>
 <p><br></p>
 <div class="callout callout-style-simple callout-note no-icon">
@@ -481,7 +502,7 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 </div>
 <div class="callout-body-container">
 <div id="def-operator_norm" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 5 (행렬의 노름)</strong></span> <span class="math inline">\(\mathcal{M}_n(\mathbb{F})\)</span> 에서의 노름이 <span class="math inline">\(\|\cdot \|_\alpha\)</span>, <span class="math inline">\(\mathcal{M}_m(\mathbb{F})\)</span> 에서의 노름이 <span class="math inline">\(\| \cdot \|_\beta\)</span> 로 정의되었다고 하자. <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})\)</span> 에 대한 연산자 노름은 다음과 같이 정의된다.</p>
+<p><span class="theorem-title"><strong>정의 5 (행렬의 노름)</strong></span> <span class="math inline">\(\mathbb{F}^n\)</span> 에서의 노름이 <span class="math inline">\(\|\cdot \|_\alpha\)</span>, <span class="math inline">\(\mathbb{F}^m\)</span> 에서의 노름이 <span class="math inline">\(\| \cdot \|_\beta\)</span> 로 정의되었다고 하자. <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{m \times n}\)</span> 에 대한 연산자 노름은 다음과 같이 정의된다.</p>
 <p><span class="math display">\[
 \|\boldsymbol{A}\|_{\alpha,\,\beta} := \sup \{\|\boldsymbol{Av}\|_\beta : \|\boldsymbol{v}\|_\alpha=1\} = \sup_{\|\boldsymbol{v}\|_\alpha = 1} \|\boldsymbol{Av}\|_\beta
 \]</span></p>
@@ -492,10 +513,13 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 </div>
 </div>
 </div>
-<p><br></p>
+<br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-operator_norm" class="theorem proposition">
 <p><span class="theorem-title"><strong>명제 4</strong></span> 자연스러운 노름은 행렬의 노름의 정의에 나열된 5 가지 성질을 만족한다.</p>
 </div>
+</div>
+<p><br></p>
 <div class="proof">
 <p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(1\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(3\)</span>, <span class="math inline">\(4\)</span>는 쉽게 보일 수 있다. 각각의 벡터공간에서 노름을 상징하는 아래첨자는 생략해도 이해하는데 무리가 없을 것이다.</p>
 <p><span class="math inline">\(\text{5}\)</span>. 우선 <span class="math inline">\(\|\boldsymbol{Av}\| \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{v}\|\)</span> 임을 보이자. <span class="math inline">\(\boldsymbol{v}=\boldsymbol{0}\)</span> 일 때는 자명하다. <span class="math inline">\(\boldsymbol{v}\ne \boldsymbol{0}\)</span> 이라면,</p>
@@ -513,18 +537,23 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 </div>
 <p><br></p>
 <p>다음은 증명 과정에서 보였지만 별도로 언급할 가치가 있다.</p>
+<br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="cor-norm_of_matrix_and_vector" class="theorem corollary">
 <p><span class="theorem-title"><strong>따름정리 1</strong></span> <span class="math inline">\(\|\boldsymbol{Av}\|\le \|\boldsymbol{A}\|\cdot \|\boldsymbol{v}\|\)</span> 이다.</p>
 </div>
+</div>
+<p><br></p>
 <p>이것이 의미하는 것은 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 노름은 <span class="math inline">\(\boldsymbol{A}\)</span> 에 의해 변환되는 벡터의 노름이 변화하는 최대값을 규정한다는 것으로, 앞으로 매우 많이 나올 내용이다.</p>
 <p>행렬의 정의역(domain)과 공역(codomain)에서의 노름이 동일할 때 <span class="math inline">\(\|\boldsymbol{A}\|_\alpha\)</span> 와 같이 노름에 대한 첨자를 하나만 표기한다. 또한 노름을 계산할 때 <span class="math inline">\(L_p\)</span> 벡터 노름, 그중에서도 <span class="math inline">\(p=1, 2, \infty\)</span> 를 많이 사용한다. 즉</p>
 <p><span class="math display">\[
 \|\boldsymbol{A}\|_p = \sup \left\{ \dfrac{\|\boldsymbol{Av}\|_p}{\|\boldsymbol{v}\|_p}\right\}
 \]</span></p>
 <p>이다.</p>
-<p><br></p>
+<br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-special_matrix_norm" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 5</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})\)</span> 일 때, <span class="math display">\[
+<p><span class="theorem-title"><strong>명제 5</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{m \times n}\)</span> 일 때, <span class="math display">\[
 \begin{aligned}
 \|\boldsymbol{A}\|_\infty &amp;= \max_{i=1,\ldots,\,m} \sum_{j=1}^n |A_{ij}|,\\
 \|\boldsymbol{A}\|_1 &amp;= \max_{j=1,\ldots,\,n} \sum_{i=1}^m |A_{ij}|,\\
@@ -532,6 +561,8 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 \]</span></p>
 <p>이다.</p>
 </div>
+</div>
+<p><br></p>
 <div class="proof">
 <p><span class="proof-title"><em>(증명)</em>. </span>벡터 <span class="math inline">\(L_p\)</span>-노름의 정의로부터, <span class="math display">\[
 \|\boldsymbol{Av}\|_\infty = \sup \left\{ \left|\sum_{j=1}^n A_{ij}v_j\right| : i=1,\ldots,\,m,\, \|\boldsymbol{v}\|_\infty = 1 \right\}
@@ -563,8 +594,8 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 <p><br></p>
 </section>
 </section>
-<section id="sec-condition_number_of_matrix" class="level3">
-<h3 class="anchored" data-anchor-id="sec-condition_number_of_matrix">행렬의 조건수</h3>
+<section id="sec-condition_number_of_matrix" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="sec-condition_number_of_matrix"><span class="header-section-number">1.3</span> 행렬의 조건수</h3>
 <p>어떤 함수 <span class="math inline">\(f\)</span> 와 이를 구현하여 수치해석적으로 계산하는 함수 <span class="math inline">\(\overline{f}\)</span> 가 있다고 하자. 많은 경우 <span class="math inline">\(f(x)\)</span> 와 <span class="math inline">\(\overline{f}(x)\)</span> 는 차이가 나며 이 차이를 계량하기 위애 보통 아래의 세가지 오차를 사용한다.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
@@ -603,15 +634,17 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 <p><span class="math inline">\(\kappa_f(x_0) \ll 1\)</span> 이라면 <span class="math inline">\(\|f(x_0 + \delta x)\|\)</span> 가 <span class="math inline">\(\|f(x_0)\|\)</span> 와의 차이가 매우 작다. 즉 well-conditioned 이다. 반대로 <span class="math inline">\(\kappa_f(x_0) \gg 1\)</span> 이라면 <span class="math inline">\(\|f(x_0+\delta x)\|\)</span> 가 <span class="math inline">\(\|f(x_0)\|\)</span> 와의 차이가 매우 크기때문에 ill-conditioned 이다.</p>
 <p><br></p>
 <p>다음은 미분의 정의로부터 쉽게 보일 수 있다.</p>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-condition_number_for_differential_function" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 6</strong></span> <span class="math inline">\(\boldsymbol{f}:\mathbb{R}^m \to \mathbb{R}^n\)</span> 가 미분가능한 함수라면</p>
+<p><span class="theorem-title"><strong>명제 6</strong></span> <span class="math inline">\(F:\mathbb{R}^m \to \mathbb{R}^n\)</span> 가 미분가능한 함수라면</p>
 <p><span class="math display">\[
-\kappa_\boldsymbol{f}(\boldsymbol{x}_0) = \dfrac{\|D\boldsymbol{f}(\boldsymbol{x}_0) \| \cdot \|\boldsymbol{x}_0\|}{\|\boldsymbol{f}(\boldsymbol{x}_0)\|}
+\kappa_F(\boldsymbol{x}_0) = \dfrac{\|DF(\boldsymbol{x}_0) \| \cdot \|\boldsymbol{x}_0\|}{\|F(\boldsymbol{x}_0)\|}
 \]</span></p>
 <p>이다.</p>
 </div>
+</div>
 <p><br></p>
-<p>가역행렬인 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 을 생각하자. <span class="math inline">\(\boldsymbol{A}\)</span> 는 <span class="math inline">\(\mathbb{R}^n \mapsto \mathbb{R}^n\)</span> 함수이므로 조건수를 생각 할 수 있다. <span class="math inline">\(\boldsymbol{Ax}_0 = \boldsymbol{y}_0\)</span> 라고 하면 <span class="math inline">\(\boldsymbol{x}_0 = \boldsymbol{A}^{-1}\boldsymbol{y}_0\)</span> 이므로,</p>
+<p>가역행렬인 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\in \mathbb{R}^{n \times n}\)</span> 을 생각하자. <span class="math inline">\(\boldsymbol{A}\)</span> 는 <span class="math inline">\(\mathbb{R}^n \mapsto \mathbb{R}^n\)</span> 함수이므로 조건수를 생각 할 수 있다. <span class="math inline">\(\boldsymbol{Ax}_0 = \boldsymbol{y}_0\)</span> 라고 하면 <span class="math inline">\(\boldsymbol{x}_0 = \boldsymbol{A}^{-1}\boldsymbol{y}_0\)</span> 이므로,</p>
 <p><span class="math display">\[
 \dfrac{\|\boldsymbol{A}(\boldsymbol{x}_0 + \delta \boldsymbol{x}) - \boldsymbol{Ax}_0\|/\|\boldsymbol{Ax}_0\|}{\|\delta\boldsymbol{ \boldsymbol{x}}\|/\|\boldsymbol{x}_0\|} = \dfrac{\|\boldsymbol{A}\delta \boldsymbol{x}\|}{\|\delta \boldsymbol{x}\|} \dfrac{\|\boldsymbol{x}_0\|}{\|\boldsymbol{Ax}_0\|} =  \dfrac{\|\boldsymbol{A}\delta \boldsymbol{x}\|}{\|\delta \boldsymbol{x}\|} \dfrac{\|\boldsymbol{A}^{-1}\boldsymbol{y}_0\|}{\|\boldsymbol{y}_0\|} \le \|\boldsymbol{A}\| \cdot \|\boldsymbol{A}^{-1}\|
 \]</span></p>
@@ -635,23 +668,28 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 </div>
 </div>
 </div>
-<p><br></p>
+<br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-condition_number_for_types_of_matrix" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 7</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 가 정규행렬이며 <span class="math inline">\(\mathcal{M}_{n}(\mathbb{F})\)</span> 에 대해 <span class="math inline">\(L_2\)</span> 노름이 정의되어 있다고 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유값의 집합 <span class="math inline">\(\Lambda\)</span> 에 대해 <span class="math inline">\(\lambda_\max := \max \{|\lambda|: \lambda \in \Lambda\}\)</span>, <span class="math inline">\(\lambda_\min := \min \{|\lambda| :\lambda \in \Lambda \}\)</span> 일 때 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>명제 7</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n \times n}\)</span> 가 정규행렬이며 <span class="math inline">\(\mathbb{F}^n\)</span> 에 대해 <span class="math inline">\(L_2\)</span> 노름이 정의되어 있다고 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유값의 집합 <span class="math inline">\(\Lambda\)</span> 에 대해 <span class="math inline">\(\lambda_\max := \max \{|\lambda|: \lambda \in \Lambda\}\)</span>, <span class="math inline">\(\lambda_\min := \min \{|\lambda| :\lambda \in \Lambda \}\)</span> 일 때 다음이 성립한다.</p>
 <p><span class="math display">\[
 \kappa_\boldsymbol{A}= \dfrac{\lambda_{\max}}{\lambda_{\min}}
 \]</span></p>
 </div>
+</div>
+<p><br></p>
 <div class="proof">
-<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{A}\)</span> 가 정규행렬이면 고유벡터로 대각화가 가능하며, 가역이므로 고유값은 모두 <span class="math inline">\(0\)</span> 이 아니다. 이제 <span class="math inline">\(\boldsymbol{A}\)</span> 를 각각의 대각성분이 모두 <span class="math inline">\(0\)</span> 이 아닌 대각행렬로 간주해도 된다. <span class="math inline">\(\boldsymbol{v}\in \mathcal{M}_{n}(\mathbb{F})\)</span> 가 정규화된 벡터라고 하면</p>
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{A}\)</span> 가 정규행렬이면 고유벡터로 대각화가 가능하며, 가역이므로 고유값은 모두 <span class="math inline">\(0\)</span> 이 아니다. 이제 <span class="math inline">\(\boldsymbol{A}\)</span> 를 각각의 대각성분이 모두 <span class="math inline">\(0\)</span> 이 아닌 대각행렬로 간주해도 된다. <span class="math inline">\(\boldsymbol{v}\in \mathbb{F}^n\)</span> 가 정규화된 벡터라고 하면</p>
 <p><span class="math display">\[
 \|\boldsymbol{Av}\|_2  \le |\lambda_\max|
 \]</span></p>
 <p>이다. <span class="math inline">\(\boldsymbol{v}\)</span> 가 <span class="math inline">\(\lambda_\max\)</span> 에 대한 고유벡터일 때 등호가 성립하므로 <span class="math inline">\(\|\boldsymbol{A}\|_2 = \lambda_\max\)</span> 이다. 같은 방법으로 <span class="math inline">\(\|\boldsymbol{A}^{-1}\|_2 = \dfrac{1}{\lambda_\min}\)</span> 임을 보일 수 있다. <span class="math inline">\(\square\)</span></p>
 </div>
 <p><br></p>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="cor-condition_number_for_types_of_matrix" class="theorem corollary">
-<p><span class="theorem-title"><strong>따름정리 2</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 가 에르미트 행렬일 때도 <a href="#prp-condition_number_for_types_of_matrix" class="quarto-xref">명제&nbsp;7</a> 가 성립한다.</p>
+<p><span class="theorem-title"><strong>따름정리 2</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n \times n}\)</span> 가 에르미트 행렬일 때도 <a href="#prp-condition_number_for_types_of_matrix" class="quarto-xref">명제&nbsp;7</a> 가 성립한다.</p>
+</div>
 </div>
 <p><br></p>
 </section>
@@ -659,10 +697,11 @@ c_1 \|\boldsymbol{v}\|_\alpha \le \|\boldsymbol{v}\|_\beta \le c_2 \|\boldsymbol
 <section id="다양한-행렬들" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="다양한-행렬들"><span class="header-section-number">2</span> 다양한 행렬들</h2>
 <p>여기서는 julia 언어에서 다양한 벡터와 행렬을 어떻게 다루는 지를 배운다.</p>
-<section id="sec-sparse_matrix" class="level3">
-<h3 class="anchored" data-anchor-id="sec-sparse_matrix">성긴행렬과 밀집행렬</h3>
-<p>수학적으로 <strong>성긴행렬</strong>(혹은 <strong>희소행렬</strong>, <strong>sparse matrix</strong>) 은 행렬 성분의 대다수가 0 인 행렬을 의미하며, 반대의 경우를 <strong>밀집 행렬(dense matrix)</strong> 이라고 한다. 우리가 지금까지 다룬 행렬들은 행렬의 모든 성분을 컴퓨터가 저장하였다. 그러나 행렬이 매우 큰 경우, 예를 들면 <code>Float64</code> 타입의 <span class="math inline">\(100K \times 100K\)</span>(<span class="math inline">\(1K=1,000\)</span>) 행렬은 성분을 저장하는 데만 80 Gbytes 의 저장공간을 차지하므로 개인 컴퓨터에서는 처리가 거의 불가능하며, 실제로 많이 다루는 시스템은 이것보다 훨씬 클 수 가 있다. 다행히 우리가 관심있는 시스템 가운데 상당수는 행렬의 대부분의 성분이 <span class="math inline">\(0\)</span> 인데, 이 경우 행렬의 모든 성분을 저장하는 것이 아니라 <span class="math inline">\(0\)</span> 이 아닌 성분만을 그 인덱스와 함께 저장하여 더 작은 저장공간에서 더 빠르게 계산 할 수 있다. 수치해석에서는 이렇게 행렬의 인덱스와 값을 저장하고, 인덱스가 지정되지 않은 행렬을 <span class="math inline">\(0\)</span> 으로 간주하는 행렬을 성긴 행렬이라 하며, 우리가 지금 까지 다뤘던, 인덱스에 따라 순차적으로 성분을 저장하는 행렬을 밀집 행렬 (dense matrix) 이라 한다.</p>
-<p>다차원 배열에 대해서도 성긴 배열을 생각 할 수 있으며 Julia 의 표준 라이브러리에 포함된 <code>SparseArrays</code> 모듈을 이용하여 1차원 배열인 성긴 벡터와, 2차원 배열인 성긴 행렬을 지원한다. Julia 에서의 희소행렬은 내부적으로 아래와 같이 구현되어 있다. 5개의 멤버를 갖는 구조체이며 행렬의 크기와, 행, 열, 값을 갖는다. <code>SmarseMatrixCSC</code> 의 <code>CSC</code> 는 희소행렬을 내부적으로 저장할 때 쓰는 일종의 압축 방식을 표현한다.</p>
+<p><br></p>
+<section id="sec-sparse_matrix" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="sec-sparse_matrix"><span class="header-section-number">2.1</span> 성긴행렬과 밀집행렬</h3>
+<p>수학적으로 <strong>희소행렬</strong>(혹은 <strong>성긴행렬</strong>, <strong>sparse matrix</strong>) 은 행렬 성분의 대다수가 0 인 행렬을 의미하며, 반대의 경우를 <strong>밀집 행렬(dense matrix)</strong> 이라고 한다. 우리가 지금까지 다룬 행렬들은 행렬의 모든 성분을 컴퓨터가 저장하였다. 그러나 행렬이 매우 큰 경우, 예를 들면 <code>Float64</code> 타입의 <span class="math inline">\(100K \times 100K\)</span>(<span class="math inline">\(1K=1,000\)</span>) 행렬은 성분을 저장하는 데만 80 Gbytes 의 저장공간을 차지하므로 개인 컴퓨터에서는 처리가 거의 불가능하며, 실제로 많이 다루는 시스템은 이것보다 훨씬 클 수 가 있다. 다행히 우리가 관심있는 시스템 가운데 상당수는 행렬의 대부분의 성분이 <span class="math inline">\(0\)</span> 인데, 이 경우 행렬의 모든 성분을 저장하는 것이 아니라 <span class="math inline">\(0\)</span> 이 아닌 성분만을 그 인덱스와 함께 저장하여 더 작은 저장공간에서 더 빠르게 계산 할 수 있다. 수치해석에서는 이렇게 행렬의 인덱스와 값을 저장하고, 인덱스가 지정되지 않은 행렬을 <span class="math inline">\(0\)</span> 으로 간주하는 행렬을 희소 행렬이라 하며, 우리가 지금 까지 다뤘던, 인덱스에 따라 순차적으로 성분을 저장하는 행렬을 밀집 행렬 (dense matrix) 이라 한다.</p>
+<p>다차원 배열에 대해서도 희소배열을 생각 할 수 있으며 Julia 의 표준 라이브러리에 포함된 <code>SparseArrays</code> 모듈을 이용하여 1차원 배열인 희소벡터와, 2차원 배열인 희소행렬을 지원한다. Julia 에서의 희소행렬은 내부적으로 아래와 같이 구현되어 있다. 5개의 멤버를 갖는 구조체이며 행렬의 크기와, 행, 열, 값을 갖는다. <code>SmarseMatrixCSC</code> 의 <code>CSC</code> 는 희소행렬을 내부적으로 저장할 때 쓰는 일종의 압축 방식을 표현한다.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> <span class="dt">SparseMatrixCSC</span>{Tv,Ti<span class="op">&lt;:</span><span class="dt">Integer</span>} <span class="op">&lt;:</span><span class="dt"> AbstractSparseMatrixCSC{Tv,Ti}</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    m<span class="op">::</span><span class="dt">Int                  </span><span class="co"># Number of rows</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    n<span class="op">::</span><span class="dt">Int                  </span><span class="co"># Number of columns</span></span>
@@ -719,8 +758,8 @@ B_{I[i], J[i]}=V[i], \, i=1,\,2,\ldots
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>sI <span class="op">=</span> <span class="fu">sparse</span>(I, <span class="fl">4</span>, <span class="fl">4</span>) <span class="co"># 4xt 단위행렬</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
-<section id="타입으로-정의된-행렬" class="level3">
-<h3 class="anchored" data-anchor-id="타입으로-정의된-행렬">타입으로 정의된 행렬</h3>
+<section id="타입으로-정의된-행렬" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="타입으로-정의된-행렬"><span class="header-section-number">2.2</span> 타입으로 정의된 행렬</h3>
 <p><code>LinearAlgebra.jl</code> 은 선형대수학에서 사용되는 특별한 명칭이 붙은 행렬중 일부를 특별히 별도의 타입으로 지정하였다. 아주 단순한 예를 들자면 선형 시스템 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 를 풀 때, <span class="math inline">\(\boldsymbol{A}\)</span> 가 대각성분을 제외한 성분이 모두 <span class="math inline">\(0\)</span> 인 대각행렬이라면 쉽게 풀 수 있으며, 상삼각행렬이나, 하삼각행렬이라도 일반적인 행렬에 비해서도 훨씬 쉽게 풀 수 있다. 그러나 컴퓨터가 임의로 <span class="math inline">\(\boldsymbol{A}\)</span> 가 어떤 행렬인지 결정하게 하기는 힘들며, 때때로 바람직 하지 않은 오류를 낼 수 있다. Julia 에서는 다중 디스패치를 이용할 수 있으므로 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 를 각각의 형태에 맞는 타입으로(대각행렬이라든가, 상삼각행렬이라든가) 정해 줄 수 있다면 이에 맞춰서 선형 시스템을 푸는 함수를 공통적으로 정의 할 수 있다. 즉 <code>solve_linearsystem_diagonal</code>, <code>solve_linearsystem_uppertriangula</code> 등을 따로 정의 할 필요 없이 <code>solve_linearsystem(A::Diatonal)</code>, <code>solve_linearsystem(A::UpperTriangula)</code> 와 같이 할 수 있다는 뜻이다.</p>
 <p><code>LinearAlgebra.jl</code> 에 정의된 특수한 타입으로서의 행렬의 목록은 아래와 같다.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -733,7 +772,7 @@ B_{I[i], J[i]}=V[i], \, i=1,\,2,\ldots
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>아래의 목록에 정의된 행렬의 타입들 가운데 상당수는 성긴행렬이다. 굳이 밀집행렬로 바꾸고 싶다면 <code>Matrix(A)</code> 를 사용한다.</p>
+<p>아래의 목록에 정의된 행렬의 타입들 가운데 상당수는 희소행렬이다. 굳이 밀집행렬로 바꾸고 싶다면 <code>Matrix(A)</code> 를 사용한다.</p>
 </div>
 </div>
 <p><br></p>
@@ -1033,10 +1072,10 @@ B_{I[i], J[i]}=V[i], \, i=1,\,2,\ldots
 </section>
 <section id="linearalgebra.jl-의-기본-연산자와-함수" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="linearalgebra.jl-의-기본-연산자와-함수"><span class="header-section-number">3</span> <code>LinearAlgebra.jl</code> 의 기본 연산자와 함수</h2>
-<p>우리는 앞서 가우스 소거법과 LU 분해 그리고 그람-그람 슈미트 과정을 통한 QR 분해를 구현하였다. 그러나 앞으로는 이것을 버리고 Julia 에서 제공하는 <code>LinearAlgebra</code> 모듈을 사용하도록 하자. Julia 의 <code>LinearAlgebra</code> 모듈은 선형대수학에서 사용하는 많은 기능을 포함하고 있다. 여기서는 중요한 것만 설명할 것이며 자세한 것은 <a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/">LinearAlgbra.jl 공식 문서</a> 를 참고하자. <code>LinearAlgebra</code> 를 우리가 지금껏 작성한 함수와 그 속도를 비교해보면 <code>LinearAlgebra</code> 쪽이 훨씬 빠르다. 그리고 <code>LinearAlgebra</code> module 은 많은 프로그래밍 언어에서 사용중이며, 수십년의 역사를 가진 <a href="https://netlib.org/blas/">BLAS(Basic Linear Algebra Subprograms)</a> 과 <a href="https://netlib.org/lapack/">LAPACK(Linear Algebra PACKage)</a> 에 기반하여 만들어졌으므로 믿을만 하다. 많은 함수는 희소행렬과 밀집행렬에 대해 공통적으로 사용 할 수 있다.(<strong>다중 디스패치!!!</strong>)</p>
+<p>우리는 앞서 가우스 소거법과 LU 분해 그리고 그람-그람 슈미트 과정을 통한 QR 분해를 구현하였다. 그러나 앞으로는 이것을 버리고 Julia 에서 제공하는 <code>LinearAlgebra</code> 모듈을 사용하도록 하자. Julia 의 <code>LinearAlgebra</code> 모듈은 선형대수학에서 사용하는 많은 기능을 포함하고 있다. 여기서는 중요한 것만 설명할 것이며 자세한 것은 <a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/">LinearAlgbra.jl 공식 문서</a> 를 참고하자. <code>LinearAlgebra</code> 를 우리가 지금껏 작성한 함수와 그 속도를 비교해보면 <code>LinearAlgebra</code> 쪽이 훨씬 빠르다. 그리고 <code>LinearAlgebra</code> module 은 많은 프로그래밍 언어에서 사용중이며, 수십년의 역사를 가진 <a href="https://netlib.org/blas/">BLAS(Basic Linear Algebra Subprograms)</a> 과 <a href="https://netlib.org/lapack/">LAPACK(Linear Algebra PACKage)</a> 에 기반하여 만들어졌으므로 믿을만 하다. 많은 함수는 희소행렬과 밀집행렬에 대해 공통적으로 사용 할 수 있다.</p>
 <p><br></p>
-<section id="기본-연산자와-함수" class="level3">
-<h3 class="anchored" data-anchor-id="기본-연산자와-함수">기본 연산자와 함수</h3>
+<section id="기본-연산자와-함수" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="기본-연산자와-함수"><span class="header-section-number">3.1</span> 기본 연산자와 함수</h3>
 <p><code>LininearAlgebra.jl</code> 은 행렬 <code>A</code>(<span class="math inline">\(\boldsymbol{A}\)</span>), <code>B</code>(<span class="math inline">\(\boldsymbol{B}\)</span>) 와 벡터 <code>u</code>(<span class="math inline">\(\boldsymbol{u}\)</span>), <code>v</code>(<span class="math inline">\(\boldsymbol{v}\)</span>), 스칼라 <code>a</code>(<span class="math inline">\(a\)</span>), <code>b</code>(<span class="math inline">\(b\)</span>) 에 대해 다음과 같은 함수를 지원한다. (<code>LinearAlgebra.jl</code> 이 지원하는 함수중 일부이다.)</p>
 <section id="연산자" class="level4">
 <h4 class="anchored" data-anchor-id="연산자">연산자</h4>

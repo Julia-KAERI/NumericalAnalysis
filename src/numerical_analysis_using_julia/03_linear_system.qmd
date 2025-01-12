@@ -31,7 +31,7 @@ f_1 (x_1,\ldots,\,x_n ) &= A_{11}x_1 + \cdots + A_{1n}x_n \\
  & \vdots \\
 f_m (x_1,\ldots,\,x_n ) &= A_{m1}x_1 + \cdots + A_{mn}x_n \\
 \end{aligned}
-$$
+$$ {#eq-def_linear_system}
 :::
 :::
 
@@ -55,10 +55,10 @@ $$
 
 $$
 \begin{aligned}
-\ker (\bf{A}) &:= \left\{\bf{x}\in \F^n : \bf{Ax}=\bf{0} \right\}, \\
+\ker (\bf{A}) &:= \left\{\bf{x}\in \F^n : \bf{Ax}=\bf{0} \right\}, \\[0.3em]
 \text{im}(\bf{A}) &:= \left\{\bf{Ax}: \bf{x} \in \F^n\right\}
 \end{aligned}
-$$
+$$ {#eq-def_kernel_and_image_of_matrix}
 
 
 만약 $\bf{b}\in \text{im}(\bf{A})$ 라면 $\bf{Ax}=\bf{b}$ 를 만족하는 $\bf{x}$ 가 존재하며 이 $\bf{x}$ 를 선형방정식 $\bf{Ax}=\bf{b}$ 의 해(solution) 라고 한다. $\bf{x}_0 \in \ker (\bf{A})$ 라면 $\bf{A}(\bf{x}+\bf{x}_0) = \bf{Ax}$ 이다.
@@ -92,24 +92,25 @@ $$
 
 에서 $\bf{U}$ 는 상삼각행렬, $\bf{L}$ 은 하삼각행렬이다. 두 삼각행렬에 대해 다음이 성립한다.
 
-
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 
 ::: {#prp-properties_of_triangular_matrix}
 
-행렬 $\bf{A} \in\mathcal{M}_{n\times n}(\mathbb{F})$ 가 상삼각 행렬 혹은 하삼각 행렬일 때 다음은 동치이다.
+행렬 $\bf{A} \in \mathbb{F}^{n\times n}$ 가 상삼각 행렬 혹은 하삼각 행렬일 때 다음은 동치이다.
 
 &emsp; ($1$) $\det (\bf{A}) = \prod_{i=1}^n A_{ii} \ne 0$
 
 &emsp; ($2$) $\bf{A}$ 는 가역행렬이다.
 
-&emsp; ($3$) $\bf{b}\in\mathcal{M}_n(\mathbb{F})$ 에 대해 $\bf{Ax}=\bf{b}$ 를 만족하는 $\bf{x}$ 가 유일하게 정해진다.
+&emsp; ($3$) $\bf{b}\in\mathbb{F}^n$ 에 대해 $\bf{Ax}=\bf{b}$ 를 만족하는 $\bf{x}$ 가 유일하게 정해진다.
 :::
 
+</div>
 </br>
 
 ### 하삼각 행렬에서의 선형방정식의 풀이
 
-$\bf{L}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 과 $\bf{b}\in \mathcal{M}_n(\mathbb{F})$ 에 대해 $\bf{Lx}=\bf{b}$ 를 만족하는 $\bf{x}\in \mathcal{M}_n(\mathbb{F})$ 을 구해보자. 이 때 $\bf{L}$ 의 각각의 대각 성분은 $0$ 이 아니라고 하자.
+$\bf{L}\in \mathbb{F}^{n\times n}$ 과 $\bf{b}\in \mathbb{F}^n$ 에 대해 $\bf{Lx}=\bf{b}$ 를 만족하는 $\bf{x}\in \mathbb{F}^n$ 을 구해보자. 이 때 $\bf{L}$ 의 각각의 대각 성분은 $0$ 이 아니라고 하자.
 
 $$
 \begin{bmatrix} L_{11} & & & \\ L_{21} & L_{22}  & & \\ \vdots & & \ddots & \\ L_{n1} & L_{n2} & \cdots & L_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
@@ -133,14 +134,14 @@ $$
 x_1 &= \dfrac{b_1}{L_{11}}, \\
 x_k &= \dfrac{1}{L_{kk}} \left( b_k - \sum_{i=1}^{k-1} L_{ki}x_{i}\right),\,k=2,\ldots,\,n
 \end{aligned}
-$$
+$$ {#eq-solution_of_lower_triangular_matrix}
 
 
 </br>
 
 ### 상삼각 행렬의 선형방정식의 풀이
 
-상삼각 행렬 $\bf{U}\in \mathcal{M}_{n\times n}(\mathbb{F})$ 와 $\bf{b}\in\mathcal{M}_n(\mathbb{F})$ 에 대해 $\bf{Ux}=\bf{b}$ 를 만족하는 $\bf{x}\in \mathcal{M}_n(\mathbb{F})$ 을 구해보자. 역시 $\bf{U}$ 의 각각의 대각성분은 $0$ 이 아니다.
+상삼각 행렬 $\bf{U}\in \mathbb{F}^{n\times n}$ 와 $\bf{b}\in \mathbb{F}^n$ 에 대해 $\bf{Ux}=\bf{b}$ 를 만족하는 $\bf{x} \mathbb{F}^n$ 을 구해보자. 역시 $\bf{U}$ 의 각각의 대각성분은 $0$ 이 아니다.
 
 $$
 \begin{bmatrix} U_{11} & U_{12} &\cdots & U_{11} \\  & U_{22}  &\cdots  & U_{21} \\  & & \ddots & \vdots\\  & &  & U_{nn} \end{bmatrix} \begin{bmatrix} x_1\\ x_2 \\ \vdots \\x_n \end{bmatrix} = \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
@@ -164,16 +165,13 @@ $$
 x_n &= \dfrac{b_n}{U_{nn}}, \\
 x_k &= \dfrac{1}{U_{kk}} \left( b_k - \sum_{i=k+1}^{n} U_{ki}x_{i}\right),\,k=n-1,\,n-2,\ldots,\,1
 \end{aligned}
-$$
+$$ {#eq-solution_of_upper_triangular_matrix}
 
 임을 안다. 
 
 </br>
 
 ### 코드 작성
-
-Julia 의 장점중의 하나는 알고리즘을 코드로 구현 했을 때 코드에서 알고리즘을 명확히 표현할 수 있다는 것이다. 또한 Julia 의 코드 실행 속도가 빠르기 때문에 많은 경우 알고리즘을 그대로 코드화 한 경우라도 상당한 속도를 낸다는 것이다. 
-
 
 상삼각행렬에 대해서는 `Us()`, 하삼각행렬에 대해서는 `Ls()` 함수로 선형방정식의 해를 구하는 코드를 작성해보자. 아래의 코드는 가능한 답중의 하나이다.
 
@@ -223,10 +221,6 @@ function Us(U::Matrix, b::Vector)
 end
 ```
 
-`size(L)` 은 인자로 주어지는 배열(Array) `L` 의 차원을 튜플(tuple) 로 반환한다. 
-
-
-
 </br>
 
 이제 $\bf{L}=\begin{bmatrix} 1 & 0 & 0 & 0 \\ 2 & 2 & 0 & 0 \\3 & 1 & -3 & 0 \\5 & -2 & 3 & 7 \end{bmatrix}$  와 $\bf{b}= \begin{bmatrix} 3.1 \\  5.3 \\ -2.2 \\ 6.0 \end{bmatrix}$ 에 대해 풀어보면
@@ -251,7 +245,7 @@ x = Ls(L, b)
 
 </br>
 
-#### Roundoff 에러의 예
+#### **Roundoff 에러의 예**
 
 이제 약간 극단적인 경우를 살펴 보자. 하삼각 행렬에서 대각성분이 0 이 아닌 다른 성분에 비해 매우 작은 경우이다.
 
@@ -325,7 +319,7 @@ $$
 
 ### 행 사다리꼴 행렬, 행 간소 사다리꼴 행렬과 행 기본 연산
 
-#### 행 사다리꼴과  행 간소 사다리꼴
+#### **행 사다리꼴과  행 간소 사다리꼴**
 
 행 사다리꼴 행렬(row echelon form matrix)은 다음의 조건을 만족하는 행렬이다.
 
@@ -353,7 +347,7 @@ $$
 
 </br>
 
-#### 기본 행 연산
+#### **기본 행 연산**
 
 우리는 선형대수학으로부터 모든 행렬은 세가지의 기본 행 연산(elementary row operation)을 통해 행 사다리꼴과 행 간소 사다리꼴 행렬로 만들 수 있으며, 행렬의 행 간소 사다리꼴은 유일하다는 것을 안다. 이때의 기본 행 연산은 다음과 같다.
 
@@ -635,7 +629,7 @@ $$
 
 ### LU 분해를 이용한 선형방정식의 풀이 및 행렬식
 
-$\bf{A}$ 가 LU 분해 가능이고 $\bf{PA}=\bf{LU}$ 로 분해되었다고 하자. $\bf{A}$ 가 가역행렬이 아니라면 분해가 의미가 없으므로 가역행렬일 때만 생각한다. $\bf{P}$ 치환행렬의 곱이며 각각의 치환행렬은 가역행렬이므로 $\bf{P}$ 도 가역행렬이다.
+$\bf{A}$ 가 LU 분해 가능이고 $\bf{PA}=\bf{LU}$ 로 분해되었다고 하자. $\bf{A}$ 가 가역행렬이 아니라면 분해가 의미가 없으므로 가역행렬일 때만 생각한다. $\bf{P}$ 는 치환행렬의 곱이며 각각의 치환행렬은 가역행렬이므로 $\bf{P}$ 도 가역행렬이다.
 
 $$
 \bf{Ax}=\bf{b} \iff \bf{PAx}=\bf{Pb} \iff \bf{LUx}=\bf{Pb}
@@ -657,37 +651,34 @@ $$
 
 ### PLU 분해 {#sec-plu_decomposition}
 
-$n \times n$ 행렬 $\bf{A}$ 가 어떤 행교환 행렬 $\bf{P}$ 와 하삼각 행렬 $\bf{L}$, 상삼각 행렬 $\bf{U}$ 에 대해 $\bf{PA} = \bf{LU}$ 라 하자. $\bf{P}$, $\bf{L}$, $\bf{U}$ 는 모두 $n \times n$ 행렬이다. $\bf{A}$ 의 첫번째 열벡터에서 절대값이 최대값인 행과 1행을 교환하는 행교환 행렬을 $\bf{P}_1$ 이라고 하고  $\bf{B}_1=\bf{P}_1\bf{A}$ 라 하자. 행렬 $\bf{B}_1$ 과 $\bf{L},\,\bf{U}$ 를 1행, 1열과 나머지 부분행렬로 아래와 같이 구분한다.
+첫번째 행에 대한 피보팅을 수행하는 치환행렬을 $\bf{P}_1$ 이라고 하자. 행렬의 $k$ 행에 대해 피보팅 할 때마다 $\bf{L}$ 의 $k$ 행과 $\bf{U}$ 의 $k$ 열을 결정할 수 있다는 것을 보이자. 여기서 $\bf{L}$ 의 대각 성분은 모두 $1$ 이다. 
 
 $$
-\bf{B}_1=\left[\begin{array}{cc} b_1 & \bf{r}_1^T \\ \bf{c}_1 & \bf{C}_1\end{array}\right],\qquad \bf{L}=\begin{bmatrix} 1 & 0 \\ \bf{l}_1 & \bf{L}_1\end{bmatrix}, \qquad \bf{U} = \begin{bmatrix} v_1 & \bf{u}_1^T \\ 0 & \bf{U}_1\\\end{bmatrix}
+\bf{A}_1=\bf{P}_1\bf{A}= \bf{L}_1\bf{U}_1
 $$
 
-$\bf{P}_1\bf{A} =\bf{B}_1=\bf{LU}$ 라 하면 다음을 얻는다.
-$$
-\begin{aligned}
-v_1 & = b_1, \\
-\bf{u}_1 &= \bf{r}_1, \\
-u_1 \bf{l}_1 &= \bf{c}_1, \\
-\bf{l}_1 \cdot \bf{u}_1^T + \bf{L}_1 \bf{U}_1 &= \bf{C}_1
-\end{aligned}
-$$
+을 생각하자. $[\bf{L}_1]_j= \delta_{1j}$ 이므로 $[\bf{P}_1\bf{A}]_{1j} = \sum_{k}[\bf{L}]_{1k} [\bf{U}_1]_{kj} = [\bf{U}]_{1j}$ 이므로 $\bf{U}_1$ 의 첫번째 행이 정해진다.
 
-이를 통해 $\bf{L}$ 과 $\bf{U}$ 의 1행과 1열이 결정되며, $(n-1)\times (n-1)$ 행렬인 $\bf{L}_1\bf{U}_1$ 이 결정된다. $\bf{A}$ 의 첫번째 열벡터가 영벡터라면 $b_1=0,\, \bf{c}_1=\bf{0}$ 이며, 따라서 $u_1=0$ 으로 $\bf{l}_1$ 은 어떤 벡터를 놓아도 계산에 영향을 주지 않기 때문에 가장 간단하게 $\bf{0}$ 으로 놓는다.
-
-이제 $\bf{A}_1=\bf{L}_1\bf{U}_1 = \bf{C}-\bf{l} \cdot \bf{u}^T$ 이라 놓고, $\bf{A}_1$ 에 대해 행교환 행렬 $\bf{Q}_2$ 위의 과정을 똑같이 수행하여 
+이제 두번째 행에 대한 피보팅을 수행한다. 
 
 $$
-\bf{Q}_2\bf{A}_1=\bf{B}_2 = \left[\begin{array}{cc} b_2& \bf{r}_2^T \\ \bf{c}_2 & \bf{C}_2\end{array}\right] = \begin{bmatrix} 1 & 0 \\ \bf{l}_2 & \bf{L}_2\end{bmatrix}\begin{bmatrix} v_2 & \bf{u}_2^T \\ 0 & \bf{U}_2\\\end{bmatrix}
+\bf{P}_2\bf{A}_1=\bf{P}_2\bf{P}_1\bf{A}= \bf{L}_2\bf{U}_2
 $$
 
-을 얻는다. 여기서 $\bf{l}_2,\, v_2,\, \bf{u}_2$ 와 $\bf{L_2}\bf{U}_2 = \bf{C}_2-\bf{l}_2 \cdot \bf{u}_2^T$ 라는 것을 안다. $\bf{P}_2 = \begin{bmatrix} 1 & \bf{0}^T \\ \bf{0} & \bf{Q}_2\end{bmatrix}$ 라고 하면, 
-
+$\bf{P}_2$ 에 의해 앞서 정해진 $\bf{L}_2$ 의 첫번째 행은 영항을 받지 않는다. $\bf{L}_2$ 와 $\bf{U}_2$ 의 첫번째 행은 $\bf{L}_1$ 과 $\bf{U}_1$ 의 첫번째 행과 같고 여기서는 $\bf{L}_2$ 와 $\bf{U}_2$ 의 두번째 행을 결정한다.
 
 $$
-\bf{P}_2 \bf{P}_1 \bf{A} = \begin{bmatrix} 1 &  &  \\\vdots  & 1 &  \\ \bf{Q}_2 \bf{l}_1 & \bf{l}_2 & \bf{L}_2\end{bmatrix} \begin{bmatrix} v_1 & \cdots & \bf{u}_1^T \\  & v_2 & \bf{u}_2^T \\ & & \bf{U}_2 \end{bmatrix}
+[\bf{P}_2\bf{A}_1]_{2j} = \sum_{k=1}^n [\bf{L}_2]_{2k}[\bf{U}_2]_{kj} = [\bf{L}_2]_{21}[\bf{U}_2]_{1j} + [\bf{U}_2]_{2j}
 $$
-이 된다. 여기서 행렬의 $~\vdots~$ 는 $\bf{Q}_2 \bf{l}_2$ 의 연장이며 , $\cdots$ 는 $\bf{u}_1^T$ 의 연장이다. $\bf{L}_1\bf{U}_1$ 에 대해 위의 과정을 반복적으로 수행하면, 결국 $\bf{P}$, $\bf{L}$, $\bf{U}$ 를 얻을 수 있다. 이것을 수행하는 코드는 다음과 같다.
+
+이다. $[\bf{U}_2]_{21}=0$ 이므로 $[\bf{L}_2]_{21}=  [\bf{P}_2\bf{A}_1]_{21}/[\bf{U}_2]_{11}$ 이며 $j>2$ 에 대해 $[\bf{U}_2]_{2j} =  [\bf{P}_2\bf{A}_1]_{2j} - [\bf{L}]_{21}[\bf{U}_2]_{1j}$ 이다. 이렇게 $\bf{L}_2$ 와 $\bf{U}_2$ 의 두번째 행을 구했다. 이 방법을 $n$ 행 까지 계속하면
+
+$$
+\bf{P}_n \cdots \bf{P}_1 \bf{A}= \bf{L}_n \bf{U}_n = \bf{LU}
+$$
+
+로 PLU 분해를 수행 할 수 있다.
+
 
 ```{.julia code-line-numbers="true"}
 function PLU(A::Matrix{T}; eptols = 1.0e-10) where T<:Real

@@ -307,15 +307,6 @@ window.Quarto = {
 </header>
 
 
-<div class="hidden">
-<p>% %</p>
-%
-<p><span class="math display">\[
-\DeclarePairedDelimiters{\set}{\{}{\}}
-\DeclareMathOperator*{\argmax}{argmax}
-\]</span></p>
-</div>
-<p><br></p>
 <p>수치해석을 위해서는 기본적으로 미적분학/해석학과 선형대수학에 관련된 지식이 필요하다. 이 장은 문서에 걸쳐 사용될 표기법과 명제들을 확인하기 위한 것이다. 수학적 명제들은 학부 1-2 학년 수준의 미적분학과 선형대수학에 포함되는 내용이며 증명은 제시하지 않는다.</p>
 <p><br></p>
 <section id="sec-basic_notations" class="level2" data-number="1">
@@ -370,14 +361,14 @@ window.Quarto = {
 </div>
 <div class="callout-body-container">
 <div id="def-matrix" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 4 (행렬)</strong></span> 실수 성분을 갖는 <span class="math inline">\(m \times n\)</span> 행렬 전체의 집합을 <span class="math inline">\(\mathbb{R}^{m \times n}\)</span> 이라고 한다. 복소수 성분을 갖는 <span class="math inline">\(m \times n\)</span> 행렬 전체의 집합을 <span class="math inline">\(\mathbb{C}^{m \times n}\)</span> 라고 하며, 실수/복소수 여부가 일단 고정되기만 하면 상관 없는 경우 <span class="math inline">\(\mathbb{F}^{m \times n}\)</span> 라고 표기한다. 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 <span class="math inline">\(i\)</span> 행 <span class="math inline">\(j\)</span> 열 성분은 <span class="math inline">\((\boldsymbol{A})_{ij}\)</span> 혹은 <span class="math inline">\(A_{ij}\)</span> 와 같이 표기한다.</p>
-<p><span class="math inline">\(n\times 1\)</span> 행렬의 집합을 특히 <span class="math inline">\(\mathbb{F}^n\)</span> 라고 한다. 실수/복소수 여부가 정해져 있을 경우 <span class="math inline">\(\mathbb{F}\)</span> 는 <span class="math inline">\(\mathbb{R}\)</span> 이나 <span class="math inline">\(\mathbb{C}\)</span> 가 된다. <span class="math inline">\(\boldsymbol{v}\in \mathbb{F}^n\)</span> 의 <span class="math inline">\(j\)</span> 행 성분은 <span class="math inline">\(v_j\)</span> 로 표기한다. <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{m \times n}\)</span> 에 대해 <span class="math inline">\(B_{ij} = A_{ji}\)</span> 인 행렬 <span class="math inline">\(\boldsymbol{B}\in \mathbb{F}^{n \times n}\)</span> 를 <span class="math inline">\(\boldsymbol{A}\)</span> 의 <strong>전치 행렬 (transposed matrix)</strong> 이라고 하며 <span class="math inline">\(\boldsymbol{A}^T\)</span> 라고 쓴다. <span class="math inline">\(\boldsymbol{A}=\boldsymbol{A}^T\)</span> 일 때 <span class="math inline">\(\boldsymbol{A}\)</span> 를 <strong>대칭 행렬(symmetric matrix)</strong> 이라고 한다. <span class="math inline">\(\boldsymbol{A}\)</span> 가 복소행렬일 때 <span class="math inline">\(C_{ij} = \overline{A_{ji}}\)</span> 인 행렬 <span class="math inline">\(\boldsymbol{C}\)</span> 를 <strong>수반 행렬 (adjoint matrix)</strong> 라고 하며 <span class="math inline">\(\boldsymbol{A}^\ast\)</span> 라고 쓴다. <span class="math inline">\(\boldsymbol{A}=\boldsymbol{A}^T\)</span> 이면 <strong>대칭 행렬</strong> 이라고 하고 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{A}^\ast\)</span> 이면 <strong>에르미트 행렬(Hermitian matrix)</strong> 이라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 4 (행렬)</strong></span> 실수 성분을 갖는 <span class="math inline">\(m \times n\)</span> 행렬 전체의 집합을 <span class="math inline">\(\R^{m \times n}\)</span> 이라고 한다. 복소수 성분을 갖는 <span class="math inline">\(m \times n\)</span> 행렬 전체의 집합을 <span class="math inline">\(\C^{m \times n}\)</span> 라고 하며, 실수/복소수 여부가 일단 고정되기만 하면 상관 없는 경우 <span class="math inline">\(\F^{m \times n}\)</span> 라고 표기한다. 행렬 <span class="math inline">\(\bf{A}\)</span> 의 <span class="math inline">\(i\)</span> 행 <span class="math inline">\(j\)</span> 열 성분은 <span class="math inline">\((\bf{A})_{ij}\)</span> 혹은 <span class="math inline">\(A_{ij}\)</span> 와 같이 표기한다.</p>
+<p><span class="math inline">\(n\times 1\)</span> 행렬의 집합을 특히 <span class="math inline">\(\F^n\)</span> 라고 한다. 실수/복소수 여부가 정해져 있을 경우 <span class="math inline">\(\mathbb{F}\)</span> 는 <span class="math inline">\(\mathbb{R}\)</span> 이나 <span class="math inline">\(\mathbb{C}\)</span> 가 된다. <span class="math inline">\(\bf{v}\in \F^n\)</span> 의 <span class="math inline">\(j\)</span> 행 성분은 <span class="math inline">\(v_j\)</span> 로 표기한다. <span class="math inline">\(\bf{A}\in \F^{m \times n}\)</span> 에 대해 <span class="math inline">\(B_{ij} = A_{ji}\)</span> 인 행렬 <span class="math inline">\(\bf{B}\in \F^{n \times n}\)</span> 를 <span class="math inline">\(\bf{A}\)</span> 의 <strong>전치 행렬 (transposed matrix)</strong> 이라고 하며 <span class="math inline">\(\bf{A}^T\)</span> 라고 쓴다. <span class="math inline">\(\bf{A}=\bf{A}^T\)</span> 일 때 <span class="math inline">\(\bf{A}\)</span> 를 <strong>대칭 행렬(symmetric matrix)</strong> 이라고 한다. <span class="math inline">\(\bf{A}\)</span> 가 복소행렬일 때 <span class="math inline">\(C_{ij} = \overline{A_{ji}}\)</span> 인 행렬 <span class="math inline">\(\bf{C}\)</span> 를 <strong>수반 행렬 (adjoint matrix)</strong> 라고 하며 <span class="math inline">\(\bf{A}^\ast\)</span> 라고 쓴다. <span class="math inline">\(\bf{A}=\bf{A}^T\)</span> 이면 <strong>대칭 행렬</strong> 이라고 하고 <span class="math inline">\(\bf{A}=\bf{A}^\ast\)</span> 이면 <strong>에르미트 행렬(Hermitian matrix)</strong> 이라고 한다.</p>
 </div>
 </div>
 </div>
 </div>
 <p><br></p>
-<p>이미 사용했지만 행렬은 <span class="math inline">\(\boldsymbol{A}\)</span> 와 같이 기울어진 굵은 글씨체 대문자로 표현한다. 열벡터, 즉 벡터의 행렬표현의 경우 <span class="math inline">\(\boldsymbol{v}\)</span> 와 같이 기울어진 굵은 글씨체의 소문자로 표현한다. 집합의 경우는 <span class="math inline">\(X, A\)</span> 와 같이 대문자를, 집합의 원소의 경우는 소문자를 사용한다. 학문적인 관례에 따르거나, 혹은 특별한 필요가 있을 경우 언급과 함께 이 원칙에 어긋날 수 있다.</p>
+<p>이미 사용했지만 행렬은 <span class="math inline">\(\bf{A}\)</span> 와 같이 기울어진 굵은 글씨체 대문자로 표현한다. 열벡터, 즉 벡터의 행렬표현의 경우 <span class="math inline">\(\bf{v}\)</span> 와 같이 기울어진 굵은 글씨체의 소문자로 표현한다. 집합의 경우는 <span class="math inline">\(X, A\)</span> 와 같이 대문자를, 집합의 원소의 경우는 소문자를 사용한다. 학문적인 관례에 따르거나, 혹은 특별한 필요가 있을 경우 언급과 함께 이 원칙에 어긋날 수 있다.</p>
 <p><br></p>
 </section>
 <section id="sec-summary_of_linear_algebra" class="level2 page-columns page-full" data-number="2">
@@ -389,7 +380,7 @@ window.Quarto = {
 </div>
 <div class="callout-body-container">
 <div id="def-vector_space" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 5 (벡터공간과 벡터)</strong></span> 어떤 집합 <span class="math inline">\(V\)</span> 와 체 <span class="math inline">\(\mathbb{F}\)</span> 에 대해 <span class="math inline">\(V\)</span> 의 원소 사이의 덧셈과 <span class="math inline">\(\mathbb{F}\)</span> 와 <span class="math inline">\(V\)</span> 사이의 곱셈이 정의되어 있으며, 다음이 성립하면 <span class="math inline">\(V\)</span> 를 <strong><span class="math inline">\(\mathbb{F}\)</span> 위에서의 벡터공간</strong> 혹은 <strong><span class="math inline">\(\mathbb{F}\)</span>-벡터공간</strong> 이라 한다.</p>
+<p><span class="theorem-title"><strong>정의 5 (벡터공간과 벡터)</strong></span> 어떤 집합 <span class="math inline">\(V\)</span> 와 체 <span class="math inline">\(\F\)</span> 에 대해 <span class="math inline">\(V\)</span> 의 원소 사이의 덧셈과 <span class="math inline">\(\F\)</span> 와 <span class="math inline">\(V\)</span> 사이의 곱셈이 정의되어 있으며, 다음이 성립하면 <span class="math inline">\(V\)</span> 를 <strong><span class="math inline">\(\mathbb{F}\)</span> 위에서의 벡터공간</strong> 혹은 <strong><span class="math inline">\(\mathbb{F}\)</span>-벡터공간</strong> 이라 한다.</p>
 <ol type="1">
 <li><p><span class="math inline">\(u,\,v \in V ,\, a\in \mathbb{F} \implies u+v = v+u \in V\)</span>, <span class="math inline">\(av\in V\)</span>,</p></li>
 <li><p><span class="math inline">\(u,\,v,\,w \in V,\, a,\, b\in \mathbb{F} \implies (u + v) + w = u+(v+w)\)</span>, <span class="math inline">\((ab)v = a(bv)\)</span>,</p></li>
@@ -431,7 +422,7 @@ a_1v_1 + \cdots + a_m v_m = 0_V \implies a_1= \cdots =a_m=0
 </div>
 <p><br></p>
 <div id="prp-dimension_of_vector_space" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 1</strong></span> 벡터공간의 기저는 항상 찾을 수 있다. 또한 벡터공간의 기저는 유일하지 않다. 그러나 유한차원 벡터공간의 기저에 포함되는 벡터의 갯수는 정해져 있으며 이 갯수를 벡터공간의 <strong>차원(dimension)</strong> 이라고 한다. 벡터공간 <span class="math inline">\(V\)</span> 의 차원은 <span class="math inline">\(\dim (V)\)</span> 로 표기한다. <span class="math inline">\(\dim(\mathbb{F}^n) = n\)</span> 이다.</p>
+<p><span class="theorem-title"><strong>명제 1</strong></span> 벡터공간의 기저는 항상 찾을 수 있다. 또한 벡터공간의 기저는 유일하지 않다. 그러나 유한차원 벡터공간의 기저에 포함되는 벡터의 갯수는 정해져 있으며 이 갯수를 벡터공간의 <strong>차원(dimension)</strong> 이라고 한다. 벡터공간 <span class="math inline">\(V\)</span> 의 차원은 <span class="math inline">\(\dim (V)\)</span> 로 표기한다. <span class="math inline">\(\dim(\F^n) = n\)</span> 이다.</p>
 </div>
 <p><br></p>
 <div id="prp-uniqueness_of_coefficients" class="theorem proposition">
@@ -542,8 +533,8 @@ T(u_1+cu_2) = v &amp;\iff [T]_{\mathcal{B}_U,\mathcal{B}_V}[u_1]_{\mathcal{B}_U}
 <p><span class="math display">\[
 U \cong V \iff \dim(U) = \dim (V).
 \]</span></p>
-<p>(<span class="math inline">\(2\)</span>) <span class="math inline">\(n\)</span> 차원 <span class="math inline">\(\mathbb{F}\)</span>-벡터공간과 <span class="math inline">\(\mathbb{F}^n\)</span> 는 동형이다.</p>
-<p>(<span class="math inline">\(3\)</span>) <span class="math inline">\(n\)</span> 차원 <span class="math inline">\(\mathbb{F}\)</span>-벡터공간 <span class="math inline">\(U\)</span> 와 <span class="math inline">\(m\)</span> 차원 <span class="math inline">\(\mathbb{F}\)</span>-벡터공간 <span class="math inline">\(V\)</span> 사이의 선형사상의 집합 <span class="math inline">\(\mathcal{L}(U, V)\)</span> 와 <span class="math inline">\(\mathbb{F}^{m \times n}\)</span> 는 동형이다.</p>
+<p>(<span class="math inline">\(2\)</span>) <span class="math inline">\(n\)</span> 차원 <span class="math inline">\(\mathbb{F}\)</span>-벡터공간과 <span class="math inline">\(\F^n\)</span> 는 동형이다.</p>
+<p>(<span class="math inline">\(3\)</span>) <span class="math inline">\(n\)</span> 차원 <span class="math inline">\(\mathbb{F}\)</span>-벡터공간 <span class="math inline">\(U\)</span> 와 <span class="math inline">\(m\)</span> 차원 <span class="math inline">\(\mathbb{F}\)</span>-벡터공간 <span class="math inline">\(V\)</span> 사이의 선형사상의 집합 <span class="math inline">\(\mathcal{L}(U, V)\)</span> 와 <span class="math inline">\(\F^{m \times n}\)</span> 는 동형이다.</p>
 </div>
 <p><br></p>
 <div id="prp-fundamental_theorem_of_linear_algebra" class="theorem proposition">
@@ -557,13 +548,13 @@ U \cong V \iff \dim(U) = \dim (V).
 </div>
 <div class="callout-body-container">
 <div id="def-kernel_image_rank_nullity" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 10</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{m \times n}\)</span> 에 대해 <span class="math inline">\(\ker (\boldsymbol{A})\)</span>, <span class="math inline">\(\text{im}\, (\boldsymbol{A})\)</span>, <span class="math inline">\(\text{rank}\, (\boldsymbol{A})\)</span>, <span class="math inline">\(\text{nuliity}(\boldsymbol{A})\)</span> 는 다음과 같이 정의된다.</p>
+<p><span class="theorem-title"><strong>정의 10</strong></span> <span class="math inline">\(\bf{A}\in \F^{m \times n}\)</span> 에 대해 <span class="math inline">\(\ker (\bf{A})\)</span>, <span class="math inline">\(\text{im}\, (\bf{A})\)</span>, <span class="math inline">\(\text{rank}\, (\bf{A})\)</span>, <span class="math inline">\(\text{nuliity}(\bf{A})\)</span> 는 다음과 같이 정의된다.</p>
 <p><span class="math display">\[
 \begin{aligned}
-\ker (\boldsymbol{A}) &amp;= \{\boldsymbol{v}\in \mathbb{R}^n : \boldsymbol{Av}=\boldsymbol{0} \}, \\[0.3em]
-\text{im}\, (\boldsymbol{A}) &amp;= \{\boldsymbol{Av}: \boldsymbol{v}\in \mathbb{F}^n\}, \\[0.3em]
-\text{rank}\, (\boldsymbol{A}) &amp;= \dim (\text{im}\, (\boldsymbol{A})), \\[0.3em]
-\text{nullity}\, (\boldsymbol{A}) &amp; = \dim (\ker (\boldsymbol{A})).
+\ker (\bf{A}) &amp;= \{\bf{v}\in \R^n : \bf{Av}=\bf{0} \}, \\[0.3em]
+\text{im}\, (\bf{A}) &amp;= \{\bf{Av}: \bf{v}\in \F^n\}, \\[0.3em]
+\text{rank}\, (\bf{A}) &amp;= \dim (\text{im}\, (\bf{A})), \\[0.3em]
+\text{nullity}\, (\bf{A}) &amp; = \dim (\ker (\bf{A})).
 \end{aligned}
 \]</span></p>
 </div>
@@ -572,9 +563,9 @@ U \cong V \iff \dim(U) = \dim (V).
 </div>
 <p><br></p>
 <div id="prp-kernel_image_subspace" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 12</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{m \times n}\)</span> 에 대해 <span class="math inline">\(\ker (\boldsymbol{A})\)</span> 는 <span class="math inline">\(\mathbb{F}^n\)</span> 의 부분공간이며 <span class="math inline">\(\text{im}\, (\boldsymbol{A})\)</span> 는 <span class="math inline">\(\mathbb{F}^{m}\)</span> 의 부분공간이다. 또한 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>명제 12</strong></span> <span class="math inline">\(\bf{A}\in \F^{m \times n}\)</span> 에 대해 <span class="math inline">\(\ker (\bf{A})\)</span> 는 <span class="math inline">\(\F^n\)</span> 의 부분공간이며 <span class="math inline">\(\text{im}\, (\bf{A})\)</span> 는 <span class="math inline">\(\F^{m}\)</span> 의 부분공간이다. 또한 다음이 성립한다.</p>
 <p><span class="math display">\[
-\dim (\mathbb{F}^m) = \text{rank}\, (\boldsymbol{A}) + \text{nullity}\, (\boldsymbol{A}).
+\dim (\F^m) = \text{rank}\, (\bf{A}) + \text{nullity}\, (\bf{A}).
 \]</span></p>
 </div>
 <p><br></p>
@@ -585,9 +576,9 @@ U \cong V \iff \dim(U) = \dim (V).
 </div>
 <div class="callout-body-container">
 <div id="def-determinant" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 11 (행렬식)</strong></span> 행렬식 <span class="math inline">\(\det :\mathbb{F}^{n \times n} \to \mathbb{F}\)</span> 은 다음과 같이 정의된 함수이다. </p>
+<p><span class="theorem-title"><strong>정의 11 (행렬식)</strong></span> 행렬식 <span class="math inline">\(\det :\F^{n \times n} \to \mathbb{F}\)</span> 은 다음과 같이 정의된 함수이다. </p>
 <p><span id="eq-determinant_of_matrix"><span class="math display">\[
-\det(\boldsymbol{A}) = \sum_{\sigma \in S_n} \text{sgn}(\sigma)\left(\prod_{i=1}^n A_{i\sigma(i)}\right)
+\det(\bf{A}) = \sum_{\sigma \in S_n} \text{sgn}(\sigma)\left(\prod_{i=1}^n A_{i\sigma(i)}\right)
 \tag{4}\]</span></span></p>
 </div>
 </div>
@@ -595,12 +586,12 @@ U \cong V \iff \dim(U) = \dim (V).
 </div>
 <div class="no-row-height column-margin column-container"><span class="margin-aside callout-margin-content callout-margin-content-simple"><a href="#eq-determinant_of_matrix" class="quarto-xref">식&nbsp;4</a> 에 관한 사항들은 선형대수학 책을 참고하라</span></div><p><br></p>
 <div id="prp-properties_of_determinant" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 13</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n \times n}\)</span> 와 <span class="math inline">\(c\in \mathbb{F}\)</span> 에 대해 다음이 성립한다.</p>
-<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 의 서로 다른 두 행이나 두 열의 위치를 바꾼 행렬을 <span class="math inline">\(\boldsymbol{A}_1\)</span> 이라 할 때 <span class="math inline">\(\det(\boldsymbol{A}_1) = -\det (\boldsymbol{A})\)</span> 이다.</p>
-<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 의 한 행 혹은 한 열에 상수 <span class="math inline">\(c\)</span> 가 곱해진 행렬을 <span class="math inline">\(\boldsymbol{A}_2\)</span> 라 할 때 <span class="math inline">\(\det(\boldsymbol{A}_2) = c\det(\boldsymbol{A})\)</span> 이다.</p>
-<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 의 한 행이 다른 행의 상수곱이거나 한 열이 다른 열의 상수곱이면 <span class="math inline">\(\det (\boldsymbol{A}) = 0\)</span> 이다.</p>
-<p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\det(\boldsymbol{A}^T) = \det(\boldsymbol{A})\)</span> 이다.</p>
-<p>  (<span class="math inline">\(5\)</span>) <span class="math inline">\(\det(\boldsymbol{AB}) = \det(\boldsymbol{A}) \det(\boldsymbol{B})\)</span> 이다.</p>
+<p><span class="theorem-title"><strong>명제 13</strong></span> <span class="math inline">\(\bf{A}\in \F^{n \times n}\)</span> 와 <span class="math inline">\(c\in \mathbb{F}\)</span> 에 대해 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\bf{A}\)</span> 의 서로 다른 두 행이나 두 열의 위치를 바꾼 행렬을 <span class="math inline">\(\bf{A}_1\)</span> 이라 할 때 <span class="math inline">\(\det(\bf{A}_1) = -\det (\bf{A})\)</span> 이다.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\bf{A}\)</span> 의 한 행 혹은 한 열에 상수 <span class="math inline">\(c\)</span> 가 곱해진 행렬을 <span class="math inline">\(\bf{A}_2\)</span> 라 할 때 <span class="math inline">\(\det(\bf{A}_2) = c\det(\bf{A})\)</span> 이다.</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\bf{A}\)</span> 의 한 행이 다른 행의 상수곱이거나 한 열이 다른 열의 상수곱이면 <span class="math inline">\(\det (\bf{A}) = 0\)</span> 이다.</p>
+<p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\det(\bf{A}^T) = \det(\bf{A})\)</span> 이다.</p>
+<p>  (<span class="math inline">\(5\)</span>) <span class="math inline">\(\det(\bf{AB}) = \det(\bf{A}) \det(\bf{B})\)</span> 이다.</p>
 </div>
 <p><br></p>
 <div class="callout callout-style-simple callout-note no-icon">
@@ -610,34 +601,34 @@ U \cong V \iff \dim(U) = \dim (V).
 </div>
 <div class="callout-body-container">
 <div id="def-inverse_matrix" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 12 (항등행렬과 역행렬)</strong></span> <span class="math inline">\(n \times n\)</span> 행렬을 <strong>정사각 행렬(square matrix)</strong> 이라고 한다. <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n \times n}\)</span> 가 <span class="math inline">\(A_{ii}=1\)</span>, <span class="math inline">\((i=1,\ldots,\,n)\)</span> 이며 나머지 성분이 <span class="math inline">\(0\)</span> 일 때 <strong>항등 행렬 (Identity matrix)</strong> 라고 하며 <span class="math inline">\(\boldsymbol{I}_n\)</span> 으로 표기한다. 행렬의 크기를 구체적으로 표기할 필요가 없을 때는 <span class="math inline">\(\boldsymbol{I}\)</span> 라고 표기한다.</p>
-<p><span class="math inline">\(\boldsymbol{X}\in \mathbb{F}^{n\times n}\)</span> 에 대해 어떤 행렬 <span class="math inline">\(\boldsymbol{Y}\in \mathbb{F}^{n\times n}\)</span> 가 존재하여 <span class="math inline">\(\boldsymbol{XY}=\boldsymbol{YX}=\boldsymbol{I}_n\)</span> 일 때 <span class="math inline">\(\boldsymbol{Y}\)</span> 를 <span class="math inline">\(\boldsymbol{X}\)</span> 의 <strong>역행렬 (inverse matrix)</strong> 라고 하며 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 역행렬은 <span class="math inline">\(\boldsymbol{A}^{-1}\)</span> 로 표기한다. 역행렬이 존재하는 행렬을 <strong>가역 행렬</strong> 이라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 12 (항등행렬과 역행렬)</strong></span> <span class="math inline">\(n \times n\)</span> 행렬을 <strong>정사각 행렬(square matrix)</strong> 이라고 한다. <span class="math inline">\(\bf{A}\in \F^{n \times n}\)</span> 가 <span class="math inline">\(A_{ii}=1\)</span>, <span class="math inline">\((i=1,\ldots,\,n)\)</span> 이며 나머지 성분이 <span class="math inline">\(0\)</span> 일 때 <strong>항등 행렬 (Identity matrix)</strong> 라고 하며 <span class="math inline">\(\bf{I}_n\)</span> 으로 표기한다. 행렬의 크기를 구체적으로 표기할 필요가 없을 때는 <span class="math inline">\(\bf{I}\)</span> 라고 표기한다.</p>
+<p><span class="math inline">\(\bf{X}\in \F^{n\times n}\)</span> 에 대해 어떤 행렬 <span class="math inline">\(\bf{Y}\in \F^{n\times n}\)</span> 가 존재하여 <span class="math inline">\(\bf{XY}=\bf{YX}=\bf{I}_n\)</span> 일 때 <span class="math inline">\(\bf{Y}\)</span> 를 <span class="math inline">\(\bf{X}\)</span> 의 <strong>역행렬 (inverse matrix)</strong> 라고 하며 행렬 <span class="math inline">\(\bf{A}\)</span> 의 역행렬은 <span class="math inline">\(\bf{A}^{-1}\)</span> 로 표기한다. 역행렬이 존재하는 행렬을 <strong>가역 행렬</strong> 이라고 한다.</p>
 </div>
 </div>
 </div>
 </div>
 <p><br></p>
 <div id="prp-properties_of_inverse_matrix" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 14</strong></span> <span class="math inline">\(\boldsymbol{A},\,\boldsymbol{B}\in \mathbb{F}^{n\times n}\)</span> 와 <span class="math inline">\(c\in \mathbb{F}\)</span> 에 대해 다음이 성립한다.</p>
-<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\((\boldsymbol{A}^{-1})^{-1} =\boldsymbol{A}\)</span>,</p>
-<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\((c\boldsymbol{A})^{-1} = \dfrac{1}{c} \boldsymbol{A}^{-1}\)</span>,</p>
-<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\((\boldsymbol{AB}^{-1}) =\boldsymbol{B}^{-1}\boldsymbol{A}^{-1}\)</span>.</p>
-<p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\det(\boldsymbol{A}^{-1}) = \dfrac{1}{\det (\boldsymbol{A})}\)</span></p>
+<p><span class="theorem-title"><strong>명제 14</strong></span> <span class="math inline">\(\bf{A},\,\bf{B}\in \F^{n\times n}\)</span> 와 <span class="math inline">\(c\in \mathbb{F}\)</span> 에 대해 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\((\bf{A}^{-1})^{-1} =\bf{A}\)</span>,</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\((c\bf{A})^{-1} = \dfrac{1}{c} \bf{A}^{-1}\)</span>,</p>
+<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\((\bf{AB}^{-1}) =\bf{B}^{-1}\bf{A}^{-1}\)</span>.</p>
+<p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\det(\bf{A}^{-1}) = \dfrac{1}{\det (\bf{A})}\)</span></p>
 </div>
 <p><br></p>
 <div id="prp-determinant_and_inverse_matrix" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 15</strong></span> 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 가 가역행렬일 필요충분조건은 <span class="math inline">\(\det (\boldsymbol{A}) \ne 0\)</span> 이다.</p>
+<p><span class="theorem-title"><strong>명제 15</strong></span> 정사각 행렬 <span class="math inline">\(\bf{A}\)</span> 가 가역행렬일 필요충분조건은 <span class="math inline">\(\det (\bf{A}) \ne 0\)</span> 이다.</p>
 </div>
 <p><br></p>
 <div id="prp-similar_matrix" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 16</strong></span> <span class="math inline">\(\boldsymbol{A} \in \mathbb{F}^{m\times n}\)</span> 과 <span class="math inline">\(\boldsymbol{x}\in \mathbb{F}^n\)</span>, <span class="math inline">\(\boldsymbol{y} \in \mathbb{F}^m\)</span>, 그리고 가역행렬 <span class="math inline">\(\boldsymbol{S}\in \mathbb{F}^{m \times m}\)</span> 에 대해 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>명제 16</strong></span> <span class="math inline">\(\bf{A} \in \F^{m\times n}\)</span> 과 <span class="math inline">\(\bf{x}\in \F^n\)</span>, <span class="math inline">\(\bf{y} \in \F^m\)</span>, 그리고 가역행렬 <span class="math inline">\(\bf{S}\in \F^{m \times m}\)</span> 에 대해 다음이 성립한다.</p>
 <p><span class="math display">\[
-\boldsymbol{Ax}=\boldsymbol{y} \iff \boldsymbol{SAx} = \boldsymbol{Sy}
+\bf{Ax}=\bf{y} \iff \bf{SAx} = \bf{Sy}
 \]</span></p>
 </div>
 <p><br></p>
 <div id="prp-invertible_matrix_basis_transform" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 17</strong></span> <span class="math inline">\(\{\boldsymbol{v}_1,\ldots,\,\boldsymbol{v}_n \}\)</span> 가 <span class="math inline">\(\mathbb{F}^n\)</span> 의 기저이며 <span class="math inline">\(\boldsymbol{P}\in \mathbb{F}^{n \times n}\)</span> 가 가역이면 <span class="math inline">\(\{\boldsymbol{Pv}_i : i=1,\ldots,\,n\}\)</span> 도 <span class="math inline">\(\mathbb{F}^n\)</span> 의 기저이다.</p>
+<p><span class="theorem-title"><strong>명제 17</strong></span> <span class="math inline">\(\{\bf{v}_1,\ldots,\,\bf{v}_n \}\)</span> 가 <span class="math inline">\(\F^n\)</span> 의 기저이며 <span class="math inline">\(\bf{P}\in \F^{n \times n}\)</span> 가 가역이면 <span class="math inline">\(\{\bf{Pv}_i : i=1,\ldots,\,n\}\)</span> 도 <span class="math inline">\(\F^n\)</span> 의 기저이다.</p>
 </div>
 <p><br></p>
 <div class="callout callout-style-simple callout-note no-icon">
@@ -647,14 +638,14 @@ U \cong V \iff \dim(U) = \dim (V).
 </div>
 <div class="callout-body-container">
 <div id="def-similar_matrix" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 13</strong></span> 두 정사각 행렬 <span class="math inline">\(\boldsymbol{A},\, \boldsymbol{B}\in  \mathbb{F}^{n \times n}\)</span> 에 대해 어떤 가역 행렬 <span class="math inline">\(\boldsymbol{P}\in \mathbb{F}^{n \times n}\)</span> 가 존재하여 <span class="math inline">\(\boldsymbol{A}= \boldsymbol{PBP}^{-1}\)</span> 일 때 두 행렬을 <strong>닮은 행렬</strong> 이라고 한다. 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 와 가역행렬 <span class="math inline">\(\boldsymbol{P}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{PAP}^{-1}\)</span> 로 바꾸는 것을 <strong>닮음 변환 (similar transform)</strong> 이라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 13</strong></span> 두 정사각 행렬 <span class="math inline">\(\bf{A},\, \bf{B}\in  \F^{n \times n}\)</span> 에 대해 어떤 가역 행렬 <span class="math inline">\(\bf{P}\in \F^{n \times n}\)</span> 가 존재하여 <span class="math inline">\(\bf{A}= \bf{PBP}^{-1}\)</span> 일 때 두 행렬을 <strong>닮은 행렬</strong> 이라고 한다. 행렬 <span class="math inline">\(\bf{A}\)</span> 와 가역행렬 <span class="math inline">\(\bf{P}\)</span> 에 대해 <span class="math inline">\(\bf{PAP}^{-1}\)</span> 로 바꾸는 것을 <strong>닮음 변환 (similar transform)</strong> 이라고 한다.</p>
 </div>
 </div>
 </div>
 </div>
 <p><br></p>
 <div id="prp-similar_transform" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 18</strong></span> 닮음 변환은 기저의 변환이다. <span class="math inline">\(\mathcal{B} = \{u_1,\ldots,\,u_n\}\)</span>, 가 벡터공간 <span class="math inline">\(U\)</span> 의 기저라고 하고 <span class="math inline">\(T\in \mathcal{L}(U)\)</span> 에 대해 <span class="math inline">\([T]_{\mathcal{B}} = \boldsymbol{A}\)</span> 라고 하자. <span class="math inline">\([u_i]_{\mathcal{B}}= \hat{\boldsymbol{e}}_i\)</span> 이다. <span class="math inline">\(U\)</span> 의 다른 기저 <span class="math inline">\(\mathcal{B}' = \{u_1', \ldots,\, u_n'\}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{p}_i = [u'_i]_{\mathcal{B}}\)</span> 를 <span class="math inline">\(i\)</span> 번째 열벡터로 갖는 행렬을 <span class="math inline">\(\boldsymbol{P}\)</span> 라고 하자. 이 때 <span class="math inline">\(\boldsymbol{PAP}^{-1} = [T]_{\mathcal{B}'}\)</span> 이다.</p>
+<p><span class="theorem-title"><strong>명제 18</strong></span> 닮음 변환은 기저의 변환이다. <span class="math inline">\(\mathcal{B} = \{u_1,\ldots,\,u_n\}\)</span>, 가 벡터공간 <span class="math inline">\(U\)</span> 의 기저라고 하고 <span class="math inline">\(T\in \mathcal{L}(U)\)</span> 에 대해 <span class="math inline">\([T]_{\mathcal{B}} = \bf{A}\)</span> 라고 하자. <span class="math inline">\([u_i]_{\mathcal{B}}= \hat{\bf{e}}_i\)</span> 이다. <span class="math inline">\(U\)</span> 의 다른 기저 <span class="math inline">\(\mathcal{B}' = \{u_1', \ldots,\, u_n'\}\)</span> 에 대해 <span class="math inline">\(\bf{p}_i = [u'_i]_{\mathcal{B}}\)</span> 를 <span class="math inline">\(i\)</span> 번째 열벡터로 갖는 행렬을 <span class="math inline">\(\bf{P}\)</span> 라고 하자. 이 때 <span class="math inline">\(\bf{PAP}^{-1} = [T]_{\mathcal{B}'}\)</span> 이다.</p>
 </div>
 <p><br></p>
 <div class="callout callout-style-simple callout-note no-icon">
@@ -704,22 +695,22 @@ U \cong V \iff \dim(U) = \dim (V).
 </div>
 <div class="callout-body-container">
 <div id="def-eigenspace" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 15 (고유값, 고유벡터, 고유공간)</strong></span> 행렬 <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{m \times n}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Av}=\lambda \boldsymbol{v}\)</span> 를 만족하는 <span class="math inline">\(\lambda \in \mathbb{F}\)</span> 와 <span class="math inline">\(\boldsymbol{0}\)</span> 이 아닌 <span class="math inline">\(\boldsymbol{v}\in \mathbb{F}^n\)</span> 가 존재할 때 <span class="math inline">\(\lambda\)</span> 를 <span class="math inline">\(\boldsymbol{A}\)</span> 의 <strong>고유값 (eigen value)</strong> 이라고 하고 <span class="math inline">\(\boldsymbol{v}\)</span> 를 고유값 <span class="math inline">\(\lambda\)</span> 에 대한 <span class="math inline">\(\boldsymbol{A}\)</span> 의 <strong>고유 벡터 (eigne vector)</strong> 라고 한다. 고유값 <span class="math inline">\(\lambda\)</span> 를 갖는 고유벡터의 집합과 <span class="math inline">\(\{\boldsymbol{0}\}\)</span> 의 합집합을 고유값 <span class="math inline">\(\lambda\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}\)</span> 의 <strong>고유 공간 (eigenspace)</strong> 라고 하며, <span class="math inline">\(E(\lambda, \boldsymbol{A})\)</span> 라고 표기한다.</p>
+<p><span class="theorem-title"><strong>정의 15 (고유값, 고유벡터, 고유공간)</strong></span> 행렬 <span class="math inline">\(\bf{A}\in \F^{m \times n}\)</span> 에 대해 <span class="math inline">\(\bf{Av}=\lambda \bf{v}\)</span> 를 만족하는 <span class="math inline">\(\lambda \in \mathbb{F}\)</span> 와 <span class="math inline">\(\bf{0}\)</span> 이 아닌 <span class="math inline">\(\bf{v}\in \F^n\)</span> 가 존재할 때 <span class="math inline">\(\lambda\)</span> 를 <span class="math inline">\(\bf{A}\)</span> 의 <strong>고유값 (eigen value)</strong> 이라고 하고 <span class="math inline">\(\bf{v}\)</span> 를 고유값 <span class="math inline">\(\lambda\)</span> 에 대한 <span class="math inline">\(\bf{A}\)</span> 의 <strong>고유 벡터 (eigne vector)</strong> 라고 한다. 고유값 <span class="math inline">\(\lambda\)</span> 를 갖는 고유벡터의 집합과 <span class="math inline">\(\{\bf{0}\}\)</span> 의 합집합을 고유값 <span class="math inline">\(\lambda\)</span> 에 대해 <span class="math inline">\(\bf{A}\)</span> 의 <strong>고유 공간 (eigenspace)</strong> 라고 하며, <span class="math inline">\(E(\lambda, \bf{A})\)</span> 라고 표기한다.</p>
 </div>
 </div>
 </div>
 </div>
 <p><br></p>
 <div id="def-characteristic_polynomial" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 16 (특성다항식)</strong></span> 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n \times n}\)</span> 에 대해 <span class="math inline">\(p_\boldsymbol{A}(\lambda) = \det(\lambda \boldsymbol{I}_n -\boldsymbol{A})\)</span> 는 <span class="math inline">\(\lambda\)</span> 에 대한 <span class="math inline">\(n\)</span>-차 다항식으로 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 <strong>특성다항식 (characteristic polynomial)</strong> 이라 한다.</p>
+<p><span class="theorem-title"><strong>정의 16 (특성다항식)</strong></span> 정사각 행렬 <span class="math inline">\(\bf{A}\in \F^{n \times n}\)</span> 에 대해 <span class="math inline">\(p_\bf{A}(\lambda) = \det(\lambda \bf{I}_n -\bf{A})\)</span> 는 <span class="math inline">\(\lambda\)</span> 에 대한 <span class="math inline">\(n\)</span>-차 다항식으로 행렬 <span class="math inline">\(\bf{A}\)</span> 의 <strong>특성다항식 (characteristic polynomial)</strong> 이라 한다.</p>
 </div>
 <p><br></p>
 <div id="prp-characteristic_polynomial_and_eigenvalue" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 21</strong></span> <span class="math inline">\(\lambda \in \mathbb{F}\)</span> 가 <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n\times n}\)</span> 의 고유값이기 위한 필요충분조건은 <span class="math inline">\(p_{\boldsymbol{A}}(\lambda) =  0\)</span> 인 것이다.</p>
+<p><span class="theorem-title"><strong>명제 21</strong></span> <span class="math inline">\(\lambda \in \mathbb{F}\)</span> 가 <span class="math inline">\(\bf{A}\in \F^{n\times n}\)</span> 의 고유값이기 위한 필요충분조건은 <span class="math inline">\(p_{\bf{A}}(\lambda) =  0\)</span> 인 것이다.</p>
 </div>
 <p><br></p>
 <div id="prp-eigenvlaues_in_complex_field" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 22</strong></span> 복소수체에서 정의된 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\in \mathbb{C}^{n\times n}\)</span> 에 대한 고유값이 항상 존재한다.</p>
+<p><span class="theorem-title"><strong>명제 22</strong></span> 복소수체에서 정의된 정사각 행렬 <span class="math inline">\(\bf{A}\in \C^{n\times n}\)</span> 에 대한 고유값이 항상 존재한다.</p>
 </div>
 <p><br></p>
 <div id="prp-eigenvectors_with_different_eigenvalues_are_orthogonal" class="theorem proposition">
@@ -733,7 +724,7 @@ U \cong V \iff \dim(U) = \dim (V).
 </div>
 <div class="callout-body-container">
 <div id="def-orthonormal_basis" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 17 (정규직교기저와 표준기저)</strong></span> <span class="math inline">\(\mathcal{B}=\{v_1,\ldots,\,v_n\}\)</span> 이 내적벡터공간 <span class="math inline">\(V\)</span> 의 기저이며 <span class="math inline">\(\langle v_i,\,v_j\rangle = \delta_{ij}\)</span> 일 때 <span class="math inline">\(\mathcal{B}\)</span> 를 <span class="math inline">\(V\)</span> 의 <strong>정규직교기저 (orthonormal basis)</strong> 라고 한다. 벡터공간 <span class="math inline">\(\mathbb{F}^n\)</span> 에 대해 <span class="math inline">\(\hat{\boldsymbol{e}}_i \in \mathbb{F}^n\)</span> 를 <span class="math inline">\((\hat{\boldsymbol{e}}_i)_j = \delta_{ij}\)</span> 로 정의하자. 이 때 <span class="math inline">\(\{\hat{\boldsymbol{e}}_1, \ldots, \hat{\boldsymbol{e}}_n\}\)</span> 는 <span class="math inline">\(\mathbb{F}^n\)</span> 의 정규직교기저이며 특히 <strong>표준 기저 (standard basis)</strong> 라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 17 (정규직교기저와 표준기저)</strong></span> <span class="math inline">\(\mathcal{B}=\{v_1,\ldots,\,v_n\}\)</span> 이 내적벡터공간 <span class="math inline">\(V\)</span> 의 기저이며 <span class="math inline">\(\langle v_i,\,v_j\rangle = \delta_{ij}\)</span> 일 때 <span class="math inline">\(\mathcal{B}\)</span> 를 <span class="math inline">\(V\)</span> 의 <strong>정규직교기저 (orthonormal basis)</strong> 라고 한다. 벡터공간 <span class="math inline">\(\F^n\)</span> 에 대해 <span class="math inline">\(\hat{\bf{e}}_i \in \F^n\)</span> 를 <span class="math inline">\((\hat{\bf{e}}_i)_j = \delta_{ij}\)</span> 로 정의하자. 이 때 <span class="math inline">\(\{\hat{\bf{e}}_1, \ldots, \hat{\bf{e}}_n\}\)</span> 는 <span class="math inline">\(\F^n\)</span> 의 정규직교기저이며 특히 <strong>표준 기저 (standard basis)</strong> 라고 한다.</p>
 </div>
 </div>
 </div>
@@ -748,11 +739,11 @@ U \cong V \iff \dim(U) = \dim (V).
 <div id="def-euclidean_space" class="theorem definition">
 <p><span class="theorem-title"><strong>정의 18 (유클리드 공간)</strong></span> <span class="math inline">\(\mathbb{R}^n\)</span> 벡터공간에 대해 내적이</p>
 <p><span class="math display">\[
-\langle \boldsymbol{x},\, \boldsymbol{y} \rangle = \sum_{i=1}^n x_i y_i = \boldsymbol{x}^T\boldsymbol{y}
+\langle \bf{x},\, \bf{y} \rangle = \sum_{i=1}^n x_i y_i = \bf{x}^T\bf{y}
 \]</span></p>
 <p>로 정의되었을 때 이 <span class="math inline">\(\mathbb{R}^n\)</span> 을 <strong>유클리드 공간</strong> 이라고 한다.</p>
 <p><br></p>
-<p><span class="math inline">\(\boldsymbol{e}_i \in \mathbb{R}^n\)</span> 을 <span class="math inline">\(i\)</span> 번째 성분만 <span class="math inline">\(1\)</span> 이며 나머지 성분은 <span class="math inline">\(0\)</span> 인 유클리드 공간의 벡터라고 하자. 이 때 <span class="math inline">\(\mathcal{B}_S = \{\boldsymbol{e}_1,\ldots,\,\boldsymbol{e}_n\}\)</span> 을 유클리드 공간의 <strong>표준기저 (standard basis)</strong> 라고 한다.</p>
+<p><span class="math inline">\(\bf{e}_i \in \mathbb{R}^n\)</span> 을 <span class="math inline">\(i\)</span> 번째 성분만 <span class="math inline">\(1\)</span> 이며 나머지 성분은 <span class="math inline">\(0\)</span> 인 유클리드 공간의 벡터라고 하자. 이 때 <span class="math inline">\(\mathcal{B}_S = \{\bf{e}_1,\ldots,\,\bf{e}_n\}\)</span> 을 유클리드 공간의 <strong>표준기저 (standard basis)</strong> 라고 한다.</p>
 </div>
 </div>
 </div>
@@ -775,13 +766,13 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <p><br></p>
 <div id="prp-innerproduct_in_orthonormal_basis" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 27</strong></span> <span class="math inline">\(\mathbb{R}\)</span>-내적공간 <span class="math inline">\(V\)</span> 의 정규직교 기저 <span class="math inline">\(\mathcal{B}_V\)</span> 에 대한 벡터 <span class="math inline">\(u, v\)</span> 의 행렬표현 <span class="math inline">\(\boldsymbol{u} = [u]_{\mathcal{B}_V},\, \boldsymbol{v} = [v]_{\mathcal{B}_V}\)</span> 에 대해 <span class="math inline">\(\langle u, v\rangle = \boldsymbol{v}^T\boldsymbol{u}\)</span> 이다. <span class="math inline">\(V\)</span> 가 <span class="math inline">\(\mathbb{C}\)</span>-내적공간일 경우 <span class="math inline">\(\langle u, v\rangle = \boldsymbol{v}^\ast\boldsymbol{u}\)</span> 이다.</p>
+<p><span class="theorem-title"><strong>명제 27</strong></span> <span class="math inline">\(\mathbb{R}\)</span>-내적공간 <span class="math inline">\(V\)</span> 의 정규직교 기저 <span class="math inline">\(\mathcal{B}_V\)</span> 에 대한 벡터 <span class="math inline">\(u, v\)</span> 의 행렬표현 <span class="math inline">\(\bf{u} = [u]_{\mathcal{B}_V},\, \bf{v} = [v]_{\mathcal{B}_V}\)</span> 에 대해 <span class="math inline">\(\langle u, v\rangle = \bf{v}^T\bf{u}\)</span> 이다. <span class="math inline">\(V\)</span> 가 <span class="math inline">\(\mathbb{C}\)</span>-내적공간일 경우 <span class="math inline">\(\langle u, v\rangle = \bf{v}^\ast\bf{u}\)</span> 이다.</p>
 </div>
 <p><br></p>
 <div id="prp-inner_product_and_adjoint_matrix" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 28</strong></span> <span class="math inline">\(\boldsymbol{u},\,\boldsymbol{v}\in \mathbb{F}^n\)</span>, <span class="math inline">\(\boldsymbol{A} \in \mathbb{F}^{n \times n}\)</span> 와 <span class="math inline">\(\boldsymbol{A}\)</span> 의 수반행렬 <span class="math inline">\(\boldsymbol{A}^\ast\)</span> 에 대해 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>명제 28</strong></span> <span class="math inline">\(\bf{u},\,\bf{v}\in \F^n\)</span>, <span class="math inline">\(\bf{A} \in \F^{n \times n}\)</span> 와 <span class="math inline">\(\bf{A}\)</span> 의 수반행렬 <span class="math inline">\(\bf{A}^\ast\)</span> 에 대해 다음이 성립한다.</p>
 <p><span class="math display">\[
-\langle \boldsymbol{Au}, \boldsymbol{v}\rangle = \langle \boldsymbol{u}, \boldsymbol{A}^\ast \boldsymbol{v}\rangle
+\langle \bf{Au}, \bf{v}\rangle = \langle \bf{u}, \bf{A}^\ast \bf{v}\rangle
 \]</span></p>
 </div>
 <p><br></p>
@@ -792,16 +783,16 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <div class="callout-body-container">
 <div id="def-isometry" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 19</strong></span> <span class="math inline">\(\boldsymbol{S}\in \mathbb{F}^{n\times n}\)</span> 가 모든 <span class="math inline">\(\boldsymbol{v}\in \mathbb{F}^n\)</span> 에 대해 <span class="math inline">\(\|\boldsymbol{Sv}\| = \|\boldsymbol{v}\|\)</span> 이면 <span class="math inline">\(\boldsymbol{S}\)</span> 를 <strong>Isometry</strong> 라고 한다. <span class="math inline">\(\mathbb{F} =\mathbb{R}\)</span> 일 때 <strong>직교 행렬(orthogonal matrix)</strong> 이라고 하며 <span class="math inline">\(\mathbb{F}=\mathbb{C}\)</span> 일 때 <strong>유니타리 행렬(unitary matrix)</strong> 라고 한다. 직교 행렬에 의한 닮음변환을 <strong>직교 변환 (orthogonal transformation)</strong> 이라고 하며, 유니타리 행렬에 의한 닮음변환을 <strong>유니타리 변환 (unitary transformation)</strong> 이라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 19</strong></span> <span class="math inline">\(\bf{S}\in \F^{n\times n}\)</span> 가 모든 <span class="math inline">\(\bf{v}\in \F^n\)</span> 에 대해 <span class="math inline">\(\|\bf{Sv}\| = \|\bf{v}\|\)</span> 이면 <span class="math inline">\(\bf{S}\)</span> 를 <strong>Isometry</strong> 라고 한다. <span class="math inline">\(\mathbb{F} =\mathbb{R}\)</span> 일 때 <strong>직교 행렬(orthogonal matrix)</strong> 이라고 하며 <span class="math inline">\(\mathbb{F}=\mathbb{C}\)</span> 일 때 <strong>유니타리 행렬(unitary matrix)</strong> 라고 한다. 직교 행렬에 의한 닮음변환을 <strong>직교 변환 (orthogonal transformation)</strong> 이라고 하며, 유니타리 행렬에 의한 닮음변환을 <strong>유니타리 변환 (unitary transformation)</strong> 이라고 한다.</p>
 </div>
 </div>
 </div>
 </div>
 <p><br></p>
 <div id="prp-properties_of_isometry" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 29</strong></span> <span class="math inline">\(\boldsymbol{S}\)</span> 가 Isometry 일 때 다음이 성립한다.</p>
-<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\{\boldsymbol{v}_1,\ldots,\boldsymbol{v}_n\}\)</span> 이 정규직교기저일 때 <span class="math inline">\(\{\boldsymbol{Sv}_1,\ldots,\boldsymbol{Sv}_n\}\)</span> 도 정규직교기저이다.</p>
-<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{S}^{-1}= \boldsymbol{S}^\ast\)</span> 이다. 따라서 <span class="math inline">\(\boldsymbol{O}\)</span> 가 직교행렬이면 <span class="math inline">\(\boldsymbol{O}^{-1}=\boldsymbol{O}\)</span> 이다.</p>
+<p><span class="theorem-title"><strong>명제 29</strong></span> <span class="math inline">\(\bf{S}\)</span> 가 Isometry 일 때 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\{\bf{v}_1,\ldots,\bf{v}_n\}\)</span> 이 정규직교기저일 때 <span class="math inline">\(\{\bf{Sv}_1,\ldots,\bf{Sv}_n\}\)</span> 도 정규직교기저이다.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\bf{S}^{-1}= \bf{S}^\ast\)</span> 이다. 따라서 <span class="math inline">\(\bf{O}\)</span> 가 직교행렬이면 <span class="math inline">\(\bf{O}^{-1}=\bf{O}\)</span> 이다.</p>
 <p>  (<span class="math inline">\(3\)</span>) 두 isometry 의 곱은 isometry 이다.</p>
 </div>
 <p><br></p>
@@ -812,22 +803,22 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <div class="callout-body-container">
 <div id="def-normal_matrix" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 20</strong></span> 정사각 행렬 <span class="math inline">\(\boldsymbol{A} \in \mathbb{F}^{n \times n}\)</span> 가 <span class="math inline">\(\boldsymbol{AA}^\ast = \boldsymbol{A}^\ast\boldsymbol{A}\)</span> 일 때 이 행렬을 <strong>정규 행렬 (normal matrix)</strong> 라고 한다.</p>
+<p><span class="theorem-title"><strong>정의 20</strong></span> 정사각 행렬 <span class="math inline">\(\bf{A} \in \F^{n \times n}\)</span> 가 <span class="math inline">\(\bf{AA}^\ast = \bf{A}^\ast\bf{A}\)</span> 일 때 이 행렬을 <strong>정규 행렬 (normal matrix)</strong> 라고 한다.</p>
 </div>
 </div>
 </div>
 </div>
 <p><br></p>
 <div id="prp-properties_of_normal_matrix" class="theorem proposition page-columns page-full">
-<p><span class="theorem-title"><strong>명제 30</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n \times n}\)</span> 가 정규행렬일 때 다음이 성립한다.</p>
-<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 가 정규행렬일 필요충분조건은 모든 <span class="math inline">\(\boldsymbol{v}\in \mathbb{F}^n\)</span> 에 대해 <span class="math inline">\(\|\boldsymbol{Av}\|=\|\boldsymbol{A}^\ast\boldsymbol{v}\|\)</span> 이다.</p>
-<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{v}\)</span> 가 공유값 <span class="math inline">\(\lambda\)</span> 를 갖는 <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유벡터이면 고유값 <span class="math inline">\(\overline{\lambda}\)</span> 를 갖는 <span class="math inline">\(\boldsymbol{A}^\ast\)</span> 의 고유벡터이다.</p>
-<p>  (<span class="math inline">\(3\)</span>) 서로 다른 고유값을 갖는 <span class="math inline">\(\boldsymbol{A}\)</span> 의 고유벡터는 직교한다.</p>
-<div class="page-columns page-full"><p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 가 복소행렬일 때 상삼각행렬 꼴은 대각행렬이다.<span class="math inline">\(^\ast\)</span></p><div class="no-row-height column-margin column-container"><span class="margin-aside"><span class="math inline">\(^\ast\)</span> 슈어 정리 에 의해 항상 상삼각 행렬 꼴로 표현할 수 있음을 안다.</span></div></div>
+<p><span class="theorem-title"><strong>명제 30</strong></span> <span class="math inline">\(\bf{A}\in \F^{n \times n}\)</span> 가 정규행렬일 때 다음이 성립한다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\bf{A}\)</span> 가 정규행렬일 필요충분조건은 모든 <span class="math inline">\(\bf{v}\in \F^n\)</span> 에 대해 <span class="math inline">\(\|\bf{Av}\|=\|\bf{A}^\ast\bf{v}\|\)</span> 이다.</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\bf{v}\)</span> 가 공유값 <span class="math inline">\(\lambda\)</span> 를 갖는 <span class="math inline">\(\bf{A}\)</span> 의 고유벡터이면 고유값 <span class="math inline">\(\overline{\lambda}\)</span> 를 갖는 <span class="math inline">\(\bf{A}^\ast\)</span> 의 고유벡터이다.</p>
+<p>  (<span class="math inline">\(3\)</span>) 서로 다른 고유값을 갖는 <span class="math inline">\(\bf{A}\)</span> 의 고유벡터는 직교한다.</p>
+<div class="page-columns page-full"><p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(\bf{A}\)</span> 가 복소행렬일 때 상삼각행렬 꼴은 대각행렬이다.<span class="math inline">\(^\ast\)</span></p><div class="no-row-height column-margin column-container"><span class="margin-aside"><span class="math inline">\(^\ast\)</span> 슈어 정리 에 의해 항상 상삼각 행렬 꼴로 표현할 수 있음을 안다.</span></div></div>
 </div>
 <p><br></p>
 <div id="prp-properties_of_hermitian_matrix" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 31 (복소수체에서 정의된 행렬의 스펙트럼 정리)</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{C}^{n \times n}\)</span> 일 때 <span class="math inline">\(\boldsymbol{A}^\ast = \boldsymbol{A}\)</span> 인 행렬을 에르미트 행렬이라고 한다. 에르미트 행렬은 정규행렬이다. 에르미트 행렬에 대해 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>명제 31 (복소수체에서 정의된 행렬의 스펙트럼 정리)</strong></span> <span class="math inline">\(\bf{A}\in \C^{n \times n}\)</span> 일 때 <span class="math inline">\(\bf{A}^\ast = \bf{A}\)</span> 인 행렬을 에르미트 행렬이라고 한다. 에르미트 행렬은 정규행렬이다. 에르미트 행렬에 대해 다음이 성립한다.</p>
 <p>  (<span class="math inline">\(1\)</span>) 에르미트 행렬의 고유값은 실수이다.</p>
 <p>  (<span class="math inline">\(2\)</span>) 서로 다른 고유값을 갖는 에르미트 행렬의 고유벡터는 직교한다.</p>
 <p>  (<span class="math inline">\(3\)</span>) 에르미트 행렬의 고유벡터로 정규직교기저를 구성 할 수 있다.</p>
@@ -835,7 +826,7 @@ v = \sum_{i} \langle v,\, v_i\rangle v_i
 </div>
 <p><br></p>
 <div id="prp-properties_of_hermitian_matrix" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 32 (실수체에서 정의된 행렬의 스펙트럼 정리)</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{R}^{n \times n}\)</span> 일 때 <span class="math inline">\(\boldsymbol{A}^T= \boldsymbol{A}\)</span> 인 행렬을 대칭 행렬이라고 한다. 대칭행렬은 정규행렬이다. 대칭행렬에 대해 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>명제 32 (실수체에서 정의된 행렬의 스펙트럼 정리)</strong></span> <span class="math inline">\(\bf{A}\in \R^{n \times n}\)</span> 일 때 <span class="math inline">\(\bf{A}^T= \bf{A}\)</span> 인 행렬을 대칭 행렬이라고 한다. 대칭행렬은 정규행렬이다. 대칭행렬에 대해 다음이 성립한다.</p>
 <p>  (<span class="math inline">\(1\)</span>) 서로 다른 고유값을 갖는 대칭행렬의 고유벡터는 직교한다.</p>
 <p>  (<span class="math inline">\(3\)</span>) 대칭행렬의 고유벡터로 정규직교기저를 구성 할 수 있다.</p>
 <p>  (<span class="math inline">\(4\)</span>) 직교행렬은 직교 변환에 의해 대각행렬이 된다. 이 대각행렬의 대각성분이 고유값이다.</p>
@@ -1121,11 +1112,11 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <div class="callout-body-container">
 <div id="def-continuity_mv" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 31 (다변수 함수의 연속)</strong></span> <span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 이</p>
+<p><span class="theorem-title"><strong>정의 31 (다변수 함수의 연속)</strong></span> <span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\bf{F}:U \to \mathbb{R}^m\)</span> 이</p>
 <p><span class="math display">\[
-\lim_{\boldsymbol{h} \to \boldsymbol{0}} \|\boldsymbol{F}(\boldsymbol{p} + \boldsymbol{h}) - \boldsymbol{F}(\boldsymbol{p})\|  = 0
+\lim_{\bf{h} \to \bf{0}} \|\bf{F}(\bf{p} + \bf{h}) - \bf{F}(\bf{p})\|  = 0
 \]</span></p>
-<p>일 때 <span class="math inline">\(\boldsymbol{F}\)</span> 는 <span class="math inline">\(\boldsymbol{p}\)</span> 에서 <strong>연속</strong> 이라고 한다. <span class="math inline">\(\boldsymbol{F}\)</span> 가 모든 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 연속일 때 <span class="math inline">\(\boldsymbol{F}\)</span> 를 <span class="math inline">\(U\)</span> 에서 연속이라고 한다.</p>
+<p>일 때 <span class="math inline">\(\bf{F}\)</span> 는 <span class="math inline">\(\bf{p}\)</span> 에서 <strong>연속</strong> 이라고 한다. <span class="math inline">\(\bf{F}\)</span> 가 모든 <span class="math inline">\(\bf{p}\in U\)</span> 에서 연속일 때 <span class="math inline">\(\bf{F}\)</span> 를 <span class="math inline">\(U\)</span> 에서 연속이라고 한다.</p>
 </div>
 </div>
 </div>
@@ -1138,28 +1129,28 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <div class="callout-body-container">
 <div id="def-differentiation_mv" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 32 (다변수 함수의 미분과 자코비 행렬)</strong></span> <span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 어떤 행렬 <span class="math inline">\(M\in \mathbb{R}^{m \times n}\)</span> 에 대해</p>
+<p><span class="theorem-title"><strong>정의 32 (다변수 함수의 미분과 자코비 행렬)</strong></span> <span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\bf{F}:U \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\bf{p}\in U\)</span> 에서 어떤 행렬 <span class="math inline">\(M\in \R^{m \times n}\)</span> 에 대해</p>
 <p><span class="math display">\[
-\lim_{\boldsymbol{h} \to \boldsymbol{0}} \dfrac{\|\boldsymbol{F}(\boldsymbol{p} + \boldsymbol{h}) - \boldsymbol{F}(\boldsymbol{p}) - \boldsymbol{Mp}\|}{\|\boldsymbol{h}\|} = \boldsymbol{0}
+\lim_{\bf{h} \to \bf{0}} \dfrac{\|\bf{F}(\bf{p} + \bf{h}) - \bf{F}(\bf{p}) - \bf{Mp}\|}{\|\bf{h}\|} = \bf{0}
 \]</span></p>
-<p>를 만족 할 때 <span class="math inline">\(\boldsymbol{F}\)</span> 는 <span class="math inline">\(\boldsymbol{p}\)</span> 에서 미분가능하다 라고 한다. 이때 <span class="math inline">\(\boldsymbol{M}\)</span> 을 <span class="math inline">\(\boldsymbol{p}\)</span> 에서의 <span class="math inline">\(\boldsymbol{F}\)</span> 의 <strong>자코비 행렬(Jacobian matrix)</strong> 이라고 하며 <span class="math inline">\(D\boldsymbol{F}(\boldsymbol{p}),\, \boldsymbol{J}_\boldsymbol{F}(\boldsymbol{p})\)</span> 옥은 <span class="math inline">\(\boldsymbol{F}'(\boldsymbol{p})\)</span> 라고 표기한다. <span class="math inline">\(\boldsymbol{F}\)</span> 가 모든 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분 가능일 때 <span class="math inline">\(\boldsymbol{F}\)</span> 를 <span class="math inline">\(U\)</span> 에서 미분가능하다 라고 한다.</p>
+<p>를 만족 할 때 <span class="math inline">\(\bf{F}\)</span> 는 <span class="math inline">\(\bf{p}\)</span> 에서 미분가능하다 라고 한다. 이때 <span class="math inline">\(\bf{M}\)</span> 을 <span class="math inline">\(\bf{p}\)</span> 에서의 <span class="math inline">\(\bf{F}\)</span> 의 <strong>자코비 행렬(Jacobian matrix)</strong> 이라고 하며 <span class="math inline">\(D\bf{F}(\bf{p}),\, \bf{J}_\bf{F}(\bf{p})\)</span> 옥은 <span class="math inline">\(\bf{F}'(\bf{p})\)</span> 라고 표기한다. <span class="math inline">\(\bf{F}\)</span> 가 모든 <span class="math inline">\(\bf{p}\in U\)</span> 에서 미분 가능일 때 <span class="math inline">\(\bf{F}\)</span> 를 <span class="math inline">\(U\)</span> 에서 미분가능하다 라고 한다.</p>
 </div>
 </div>
 </div>
 </div>
 <p><br></p>
 <div id="prp-equivalence_of_differentiation_for_mv" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 46</strong></span> <span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\boldsymbol{F}:U \to \mathbb{R}^m\)</span> 에 대해 다음은 동치이다.</p>
-<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{F}\)</span> 는 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분가능하다.</p>
-<p>  (<span class="math inline">\(2\)</span>) 어떤 <span class="math inline">\(\boldsymbol{M}\in \mathbb{R}^{m \times n}\)</span> 과 <span class="math inline">\(\displaystyle \lim_{\boldsymbol{h}\to \boldsymbol{0}}\dfrac{\boldsymbol{R}(\boldsymbol{h})}{\|\boldsymbol{h}\|} = \boldsymbol{0}\)</span> 인 어떤 함수 <span class="math inline">\(\boldsymbol{R}:U \to \mathbb{R}^m\)</span> 에 대해 <span class="math display">\[
-\boldsymbol{F}(\boldsymbol{p}+\boldsymbol{h}) = \boldsymbol{Mp}+\boldsymbol{R}(\boldsymbol{v})
+<p><span class="theorem-title"><strong>명제 46</strong></span> <span class="math inline">\(\mathbb{R}^n\)</span> 에서의 열린 집합 <span class="math inline">\(U\)</span> 에서 정의된 함수 <span class="math inline">\(\bf{F}:U \to \mathbb{R}^m\)</span> 에 대해 다음은 동치이다.</p>
+<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\bf{F}\)</span> 는 <span class="math inline">\(\bf{p}\in U\)</span> 에서 미분가능하다.</p>
+<p>  (<span class="math inline">\(2\)</span>) 어떤 <span class="math inline">\(\bf{M}\in \R^{m \times n}\)</span> 과 <span class="math inline">\(\displaystyle \lim_{\bf{h}\to \bf{0}}\dfrac{\bf{R}(\bf{h})}{\|\bf{h}\|} = \bf{0}\)</span> 인 어떤 함수 <span class="math inline">\(\bf{R}:U \to \mathbb{R}^m\)</span> 에 대해 <span class="math display">\[
+\bf{F}(\bf{p}+\bf{h}) = \bf{Mp}+\bf{R}(\bf{v})
 \]</span>     이다.</p>
 </div>
 <p><br></p>
 <div id="thm-directional_derivative" class="theorem">
-<p><span class="theorem-title"><strong>정리 1</strong></span> <span class="math inline">\(\boldsymbol{F} : U\subset \mathbb{R}^n \to \mathbb{R}^m\)</span> 가 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분가능할 때 임의의 <span class="math inline">\(\boldsymbol{u}\in \mathbb{R}^n-\{\boldsymbol{0}\}\)</span> 에 대해 아래의 극한이 존재한다.</p>
+<p><span class="theorem-title"><strong>정리 1</strong></span> <span class="math inline">\(\bf{F} : U\subset \mathbb{R}^n \to \mathbb{R}^m\)</span> 가 <span class="math inline">\(\bf{p}\in U\)</span> 에서 미분가능할 때 임의의 <span class="math inline">\(\bf{u}\in \mathbb{R}^n-\{\bf{0}\}\)</span> 에 대해 아래의 극한이 존재한다.</p>
 <p><span id="eq-directional_derivative"><span class="math display">\[
-\lim_{t \to \infty} \dfrac{\boldsymbol{F}(\boldsymbol{p}+t\boldsymbol{u}) - \boldsymbol{F}(\boldsymbol{p})}{t}
+\lim_{t \to \infty} \dfrac{\bf{F}(\bf{p}+t\bf{u}) - \bf{F}(\bf{p})}{t}
 \tag{6}\]</span></span></p>
 </div>
 <p><br></p>
@@ -1170,14 +1161,14 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 </div>
 <div class="callout-body-container">
 <div id="def-partial_derivative" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 33 (방향미분과 편미분)</strong></span> <span class="math inline">\(\boldsymbol{u}\)</span> 가 단위벡터, 즉 <span class="math inline">\(\|\boldsymbol{u}\|=1\)</span> 일 때 <a href="#eq-directional_derivative" class="quarto-xref">식&nbsp;6</a> 의 극한을 <span class="math inline">\(\boldsymbol{F}\)</span> 의 <span class="math inline">\(\boldsymbol{p}\)</span> 에서의 <span class="math inline">\(\boldsymbol{u}\)</span> 방향으로의 <strong>방향미분 (directional derivative)</strong> 라고 하고 <span class="math inline">\(D_\boldsymbol{u}\boldsymbol{F}(\boldsymbol{p})\)</span> 라고 쓴다. <span class="math inline">\(\boldsymbol{u}\)</span> 가 어떤 표준기저 <span class="math inline">\(\hat{\boldsymbol{e}}_i\)</span> 일 때의 방향미분을 <strong>편미분 (partial derivative)</strong> 라고 하며 <span class="math inline">\(D_{\hat{\boldsymbol{e}}_i} \boldsymbol{F}(\boldsymbol{p})\)</span> 를 <span class="math inline">\(D_i \boldsymbol{F}(\boldsymbol{p})\)</span>, <span class="math inline">\(\dfrac{\partial \boldsymbol{F}}{\partial x_i}(\boldsymbol{p})\)</span>, 혹은 <span class="math inline">\(\partial_i \boldsymbol{F}(\boldsymbol{p})\)</span> 라고 표기한다.</p>
+<p><span class="theorem-title"><strong>정의 33 (방향미분과 편미분)</strong></span> <span class="math inline">\(\bf{u}\)</span> 가 단위벡터, 즉 <span class="math inline">\(\|\bf{u}\|=1\)</span> 일 때 <a href="#eq-directional_derivative" class="quarto-xref">식&nbsp;6</a> 의 극한을 <span class="math inline">\(\bf{F}\)</span> 의 <span class="math inline">\(\bf{p}\)</span> 에서의 <span class="math inline">\(\bf{u}\)</span> 방향으로의 <strong>방향미분 (directional derivative)</strong> 라고 하고 <span class="math inline">\(D_\bf{u}\bf{F}(\bf{p})\)</span> 라고 쓴다. <span class="math inline">\(\bf{u}\)</span> 가 어떤 표준기저 <span class="math inline">\(\hat{\bf{e}}_i\)</span> 일 때의 방향미분을 <strong>편미분 (partial derivative)</strong> 라고 하며 <span class="math inline">\(D_{\hat{\bf{e}}_i} \bf{F}(\bf{p})\)</span> 를 <span class="math inline">\(D_i \bf{F}(\bf{p})\)</span>, <span class="math inline">\(\dfrac{\partial \bf{F}}{\partial x_i}(\bf{p})\)</span>, 혹은 <span class="math inline">\(\partial_i \bf{F}(\bf{p})\)</span> 라고 표기한다.</p>
 </div>
 </div>
 </div>
 </div>
 <p><br></p>
 <div id="prp-differentiable_continuous" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 47</strong></span> <span class="math inline">\(\boldsymbol{F} : U \subset \mathbb{R}^n \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\boldsymbol{p}\in U\)</span> 에서 미분가능이면 <span class="math inline">\(\boldsymbol{p}\)</span> 에서 연속이다.</p>
+<p><span class="theorem-title"><strong>명제 47</strong></span> <span class="math inline">\(\bf{F} : U \subset \mathbb{R}^n \to \mathbb{R}^m\)</span> 이 <span class="math inline">\(\bf{p}\in U\)</span> 에서 미분가능이면 <span class="math inline">\(\bf{p}\)</span> 에서 연속이다.</p>
 </div>
 <p><br></p>
 </section>
@@ -1202,15 +1193,15 @@ f(c) = \dfrac{1}{b-a}\int_a^b f(x),\,dx
 <div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Matrix</span><span class="dt">{Int32}</span>(I, <span class="fl">3</span>, <span class="fl">3</span>)      <span class="co"># Int32 타입의 3x3 항등행렬</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Matrix</span><span class="dt">{Float64}</span>(I, <span class="fl">5</span>, <span class="fl">5</span>)    <span class="co"># Float64 타입의 5x5 항등행렬</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Matrix</span><span class="dt">{Bool}</span>(I, <span class="fl">4</span>, <span class="fl">4</span>)       <span class="co"># Bool 타입의 4x4 항등행렬</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><span class="math inline">\(\mathbb{R}^{5 \times 1}\)</span> 의 단위행렬 <span class="math inline">\(\boldsymbol{e}_3\)</span> 는 다음과 같이 얻을 수 있다.</p>
+<p><span class="math inline">\(\mathbb{R}^{5 \times 1}\)</span> 의 단위행렬 <span class="math inline">\(\bf{e}_3\)</span> 는 다음과 같이 얻을 수 있다.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>e_3 <span class="op">=</span> <span class="fu">Matrix</span><span class="dt">{Float64}</span>(I, <span class="fl">5</span>, <span class="fl">5</span>)[<span class="op">:</span>,<span class="fl">3</span>]</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>(M-6)</strong> <span class="math inline">\(m\times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 와 <span class="math inline">\(m \times k\)</span> 행렬 <span class="math inline">\(\boldsymbol{B}\)</span> 에 대해(두 행렬의 행의 갯수가 같음에 주의하라)) <span class="math inline">\([\boldsymbol{A}\; \boldsymbol{B}]\)</span> 는 <span class="math inline">\(\boldsymbol{A}\)</span> 행렬 옆에 <span class="math inline">\(\boldsymbol{B}\)</span> 행렬을 두는 <span class="math inline">\(m \times (n+k)\)</span> 행렬을 의미한다. <span class="math inline">\(m\times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 와 <span class="math inline">\(l \times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{C}\)</span> 에 대해 (두 행렬의 열의 갯수가 동일함에 유의하라) <span class="math inline">\([\boldsymbol{A} \,; \boldsymbol{C}]\)</span> 는 <span class="math inline">\(\boldsymbol{A}\)</span> 행렬 아래에 <span class="math inline">\(\boldsymbol{C}\)</span> 행렬을 두는 <span class="math inline">\((m+l)\times n\)</span> 행렬이다. 아마 <span class="math inline">\(\begin{bmatrix} \boldsymbol{A} \\ \boldsymbol{C} \end{bmatrix}\)</span> 와 동일하다고 하면 이해하기 쉬울 것이다. <code>;</code> 기호는 julia 에서 열바뀜을 나타내므로 julia 와 어느정도 유사성이 있다 하겠다. 여기에 <span class="math inline">\(l\times k\)</span> 행렬 <span class="math inline">\(\boldsymbol{D}\)</span> 에 대해 <span class="math inline">\(\begin{bmatrix} \boldsymbol{A} &amp; \boldsymbol{B} \\ \boldsymbol{C} &amp; \boldsymbol{D} \end{bmatrix}\)</span> 가 의미하는 것은 여러분이 쉽게 유추 할 수 있을 것이다.</p>
+<p><strong>(M-6)</strong> <span class="math inline">\(m\times n\)</span> 행렬 <span class="math inline">\(\bf{A}\)</span> 와 <span class="math inline">\(m \times k\)</span> 행렬 <span class="math inline">\(\bf{B}\)</span> 에 대해(두 행렬의 행의 갯수가 같음에 주의하라)) <span class="math inline">\([\bf{A}\; \bf{B}]\)</span> 는 <span class="math inline">\(\bf{A}\)</span> 행렬 옆에 <span class="math inline">\(\bf{B}\)</span> 행렬을 두는 <span class="math inline">\(m \times (n+k)\)</span> 행렬을 의미한다. <span class="math inline">\(m\times n\)</span> 행렬 <span class="math inline">\(\bf{A}\)</span> 와 <span class="math inline">\(l \times n\)</span> 행렬 <span class="math inline">\(\bf{C}\)</span> 에 대해 (두 행렬의 열의 갯수가 동일함에 유의하라) <span class="math inline">\([\bf{A} \,; \bf{C}]\)</span> 는 <span class="math inline">\(\bf{A}\)</span> 행렬 아래에 <span class="math inline">\(\bf{C}\)</span> 행렬을 두는 <span class="math inline">\((m+l)\times n\)</span> 행렬이다. 아마 <span class="math inline">\(\begin{bmatrix} \bf{A} \\ \bf{C} \end{bmatrix}\)</span> 와 동일하다고 하면 이해하기 쉬울 것이다. <code>;</code> 기호는 julia 에서 열바뀜을 나타내므로 julia 와 어느정도 유사성이 있다 하겠다. 여기에 <span class="math inline">\(l\times k\)</span> 행렬 <span class="math inline">\(\bf{D}\)</span> 에 대해 <span class="math inline">\(\begin{bmatrix} \bf{A} &amp; \bf{B} \\ \bf{C} &amp; \bf{D} \end{bmatrix}\)</span> 가 의미하는 것은 여러분이 쉽게 유추 할 수 있을 것이다.</p>
 <p><strong>(J-6)</strong> Julia 에서는 다음과 같이 사용 할 수 있다.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>In [26]: A = [1 3;2 4];B=[3 2; 4 3];[A B]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Out[26]: 2×4 Matrix{Int64}:</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> 1  3  3  2</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> 2  4  4  3</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>(M-7)</strong> <span class="math inline">\(m\times n\)</span> 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 와 <span class="math inline">\(m \times k\)</span> 행렬 <span class="math inline">\(\boldsymbol{B}\)</span> 혹은 <span class="math inline">\(m\)</span> 차원 벡터 <span class="math inline">\(\boldsymbol{b}\)</span> 에 대해 <span class="math inline">\([\boldsymbol{A} \mid \boldsymbol{B}]\)</span> 혹은 <span class="math inline">\([\boldsymbol{A} \mid \boldsymbol{b}]\)</span> 는 행렬에 대한 연산을 동시에 적용하기 위한 개념이다. 연산 <span class="math inline">\(\hat{L}[\boldsymbol{A} \mid \boldsymbol{B}] = [\hat{L}\boldsymbol{A} \mid \hat{L}\boldsymbol{B}]\)</span> 를 의미한다.</p>
+<p><strong>(M-7)</strong> <span class="math inline">\(m\times n\)</span> 행렬 <span class="math inline">\(\bf{A}\)</span> 와 <span class="math inline">\(m \times k\)</span> 행렬 <span class="math inline">\(\bf{B}\)</span> 혹은 <span class="math inline">\(m\)</span> 차원 벡터 <span class="math inline">\(\bf{b}\)</span> 에 대해 <span class="math inline">\([\bf{A} \mid \bf{B}]\)</span> 혹은 <span class="math inline">\([\bf{A} \mid \bf{b}]\)</span> 는 행렬에 대한 연산을 동시에 적용하기 위한 개념이다. 연산 <span class="math inline">\(\hat{L}[\bf{A} \mid \bf{B}] = [\hat{L}\bf{A} \mid \hat{L}\bf{B}]\)</span> 를 의미한다.</p>
 <p><br></p>
 
 
