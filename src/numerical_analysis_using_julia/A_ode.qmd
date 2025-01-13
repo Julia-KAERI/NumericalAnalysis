@@ -7,6 +7,9 @@ crossref:
   chapters: false
 ---
 
+{{< include ../../latexmacros.qmd >}}
+
+</br>
 
 ## 기본 개념
 

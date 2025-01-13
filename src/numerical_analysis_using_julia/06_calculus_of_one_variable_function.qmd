@@ -198,31 +198,31 @@ $$
 \dfrac{\partial f(\bf{a})}{\partial x_i} := \lim_{h \to 0}\dfrac{f(\bf{a}+h\bf{e}_i) - f(\bf{a})}{h}
 $$
 
-이것은 $\bf{x}$ 에 대해 $x_i$ 를 제외한 $x_j$ 에 대해 $x_j=a_j (j\ne i)$ 로 고정시킨 함수를 $\overline{f}$ 라 고 했을 때의 $\dfrac{d \overline{f}(a_j)}{dx}$ 와 같다. 즉 수치해석적으로 편미분을 구하는 것은 본질적으로 일변수 함수의 편미분을 구하는 것과 다르지 않다. 또 하나 중요한 값은 **헤시안(Hessian)** 이라 불리는 함수로 $f$ 에 대한 $\bf{a}$ 에서의 헤시안 $\bf{H}_f(\bf{a})$ 은 다음과 같이 정의된다.
+이것은 $\bf{x}$ 에 대해 $x_i$ 를 제외한 $x_j$ 에 대해 $x_j=a_j (j\ne i)$ 로 고정시킨 함수를 $\overline{f}$ 라 고 했을 때의 $\dfrac{d \overline{f}(a_j)}{dx}$ 와 같다. 즉 편미분을 구하는 것은 본질적으로 일변수 함수의 미분을 구하는 것과 다르지 않다. 또 하나 중요한 값은 **헤시안(Hessian)** 이라 불리는 함수로 $f$ 에 대한 $\bf{a}$ 에서의 헤시안 $\bf{H}_f(\bf{a})$ 은 다음과 같이 정의된다.
 
 $$
-\bf{H}_F(\bf{a}) = \begin{bmatrix} \dfrac{\partial^2 f(\bf{a})}{\partial x_1\partial x_1} & \cdots & \dfrac{\partial^2 f(\bf{a})}{\partial x_1 \partial x_n} \\ \vdots & & \vdots \\ \dfrac{\partial^2 f(\bf{a})}{\partial x_n \partial x_1} & \cdots & \dfrac{\partial^2 f(\bf{a})}{\partial x_n \partial x_n} \end{bmatrix}  
+\bf{H}_F(\bf{a}) = \begin{bmatrix} \dfrac{\partial^2 f(\bf{a})}{\partial x_1\partial x_1} & \cdots & \dfrac{\partial^2 f(\bf{a})}{\partial x_1 \partial x_n} \\ \vdots & \ddots & \vdots \\ \dfrac{\partial^2 f(\bf{a})}{\partial x_n \partial x_1} & \cdots & \dfrac{\partial^2 f(\bf{a})}{\partial x_n \partial x_n} \end{bmatrix}  
 $$ {#eq-hessian_matrix}
 
-$f(\bf{x})$ 가 $C^2$ 급 함수라면, 즉 2차 편미분이 모두 연속이라면 헤시안은 대칭행렬이다. 
+$f(\bf{x})$ 가 $C^2$ 급 함수라면, 즉 2차 편미분이 모든 독립변수에 대해 존재하며 모두 연속이라면 헤시안은 대칭행렬이다. 
 
 
 
 이제 다변수 함수의 경우를 보자. $F:\R^n \to \R^m$ 함수 $F(\bf{x}) = \begin{bmatrix} f_1(\bf{x}) & \cdots & f_m(\bf{x})\end{bmatrix}^T$ 에 대해 
 
 $$
-\dfrac{\partial F(\bf{x})}{\partial x_i} = \lim_{h \to 0} \dfrac{F(\bf{x} + h \bf{e}_i)- F(\bf{x})}{h} = \begin{bmatrix} \dfrac{\partial f_1(\bf{x})}{\partial x_i} \\ \vdots \\ \dfrac{\partial f_m(\bf{x})}{\partial x_i}\end{bmatrix}
+\dfrac{\partial F(\bf{a})}{\partial x_i} = \lim_{h \to 0} \dfrac{F(\bf{a} + h \bf{e}_i)- F(\bf{x})}{h} = \begin{bmatrix} \dfrac{\partial f_1(\bf{a})}{\partial x_i} \\ \vdots \\ \dfrac{\partial f_m(\bf{a})}{\partial x_i}\end{bmatrix}
 $$ {#eq-derivative_of_vector_valued_function}
 
-이며 야코비 행렬 $\bf{J}_F(\bf{x})$ 는
+이며 야코비 행렬 $\bf{J}_F(\bf{a})$ 는
 
 $$
-\bf{J}_F(\bf{x}) = \begin{bmatrix} \dfrac{\partial f_1(\bf{x})}{\partial x_1} & \cdots & \dfrac{\partial f_1(\bf{x})}{\partial x_1} \\ \vdots & \vdots \\ \dfrac{\partial f_m(\bf{x})}{\partial x_n} & \cdots & \dfrac{\partial f_m(\bf{x})}{\partial x_n}\end{bmatrix} 
+\bf{J}_F(\bf{a}) = \begin{bmatrix} \dfrac{\partial f_1(\bf{a})}{\partial x_1} & \cdots & \dfrac{\partial f_1(\bf{a})}{\partial x_1} \\ \vdots & \ddots &\vdots \\ \dfrac{\partial f_m(\bf{a})}{\partial x_n} & \cdots & \dfrac{\partial f_m(\bf{a})}{\partial x_n}\end{bmatrix} 
 $$ {#eq-jacobian_of_vector_valued_function}
 
 이다. 
 
-이제 함성함수를 생각해보자. $F=F^{(N)}(F^{(N-1)} \cdots F^{(2)}(F^{(1)}(\bf{x}))\cdots )$ 이며 $F^{(k)} = \begin{bmatrix} f^{(k)}_1 & \cdots f^{(k)}_{m_k}\end{bmatrix}^T$ 라고 하자. $\bf{z}^{(1)} = F^{(1)}(\bf{x})$, $\bf{z}^{(2)} = F^{(2)}(F^{(1)}(\bf{x})),\ldots$, $\bf{y}=F(\bf{x})$ 라고 하면
+이제 함성함수를 생각해보자. $F=F^{(N)}(F^{(N-1)} \cdots F^{(2)}(F^{(1)}(\bf{x}))\cdots )$ 이며 $F^{(k)} = \begin{bmatrix} f^{(k)}_1 & \cdots f^{(k)}_{m_k}\end{bmatrix}^T$ 라고 하자. $\bf{z}^{(1)} = F^{(1)}(\bf{a})$, $\bf{z}^{(2)} = F^{(2)}(F^{(1)}(\bf{a})),\ldots$, $\bf{y}=F(\bf{a})$ 라고 하면
 
 $$
 \dfrac{\partial y_j}{\partial x_i} = \dfrac{\partial f_j(\bf{x})}{\partial x_i} = \sum_{k_{N-1}=1}^{m_{N-1}}\sum_{k_{N-2}=1}^{m_{N-2}} \cdots \sum_{k_1=1}^{m_1}\dfrac{\partial f_j^{(N)}(\bf{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \dfrac{\partial f^{(N-1)}_{k_{N-1}}(\bf{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial f^{(1)}_{k_{1}}(\bf{x})}{\partial x_i}
@@ -232,7 +232,7 @@ $$ {#eq-jacobian_of_compositions}
 이며, 이로부터
 
 $$
-\bf{J}_F(\bf{x}) = \bf{J}_{F^{N}}(\bf{z}^{(N-1)}) \bf{J}_{F^{(N-1)}}(\bf{z}^{(N-2)}) \cdots \bf{J}_{F^{(1)}}(\bf{x})
+\bf{J}_F(\bf{a}) = \bf{J}_{F^{N}}(\bf{z}^{(N-1)}) \bf{J}_{F^{(N-1)}}(\bf{z}^{(N-2)}) \cdots \bf{J}_{F^{(1)}}(\bf{a})
 $${#eq-jacobian_of_compositions_matrix_form}
 
 임을 안다. 이것이 소위 **chain rule** 이다.
@@ -241,15 +241,15 @@ $${#eq-jacobian_of_compositions_matrix_form}
 
 ### 자동 미분 {#sec-automatic_differentiation}
 
-특히 현재의 인공지능의 발전에 있어 위에 언급한 대량의 미분 및 편미분에 대한 정확하고 빠른 계산이 중요해 졌다. 전통적으로 함수의 미분을 컴퓨터를 이용하여 계산하는 방법에는 세가지가 있었다.
+특히 현재의 인공지능의 발전에 있어 위에 언급한 대량의 함수와 변수를 사용하는 미분과 편미분을 정확하고 빠른게 계산하는 것이 중요해 졌다. 전통적으로 함수의 미분을 컴퓨터를 이용하여 계산하는 방법에는 세가지가 있었다.
 
 1. [**수동**] 미분/편미분 함수를 손으로 계산하고, 그 결과를 코딩한다.
 2. [**차분**] 앞서 배운 유한 차분법을 이용하여 수치해석적으로 계산한다.
 3. [**기호**] 메쓰메티카(Mathematica) 프로그램과 같이 기호를 이용하여 미분한다.
 
-이 방법은 모두 치명적인 단점이 존재한다. '수동' 방법은 시간이 오래 걸리고, 오류가 나기 쉽다. '차분' 법은 앞서 보았듯이 함수만 제대로 구현했다면 쉽고 빠르계 계산 할 수 있지만 truncation error 와 round-off error 는 항상 발생한다. 게다가 변수가 많고 여러 단계로 합성된 함수의 경우(인공지능의 신경망이 정확히 이런 경우이다) 그 오차가 계속 누적되기 때문에 오차가 필연적으로 커질 수 밖에 없다. '기호' 법은 느리며 함수가 복잡할 때 만족할 만한 깔끔한 결과를 낼 수 없고 컴퓨팅 파워를 많이 사용한다.
+이 방법은 모두 치명적인 단점이 존재한다. '수동' 방법은 일반적인 함수에 대해 사용 할 수 없고, 인적 오류가 나기 쉽다. '차분' 법은 항상 truncation error 와 round-off error 에 노출된다. 게다가 변수가 많고 여러 단계로 합성된 함수의 경우(인공지능의 신경망이 정확히 이런 경우이다) 그 오차가 계속 누적되기 때문에 오차가 필연적으로 커질 수 밖에 없다. '기호' 법은 느리며 함수가 복잡할 때 만족할 만한 깔끔한 결과를 낼 수 없고 컴퓨팅 파워를 많이 사용한다.
 
-이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 자명하다. 예를 들어 $x^n$ 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다. 
+이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 간단하다. 예를 들어 $x^n$ 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다. 
 
 여기서는 자동 미분의 구체적인 구현에 대해 설명하지 않고, 자동 미분은 어떻게 이루어 지는지, 전진법(forwared AD)과 후진법(backward AD) 는 어떻게 다른지에 대해 설명하기로 한다. 
 
@@ -262,12 +262,10 @@ $${#eq-jacobian_of_compositions_matrix_form}
 아래의 식을 사용한다.
 
 $$
-\dfrac{\partial z^{(m)}_i}{\partial x_j} = \sum_{k_1}\cdots \sum_{k_{m-1}}\dfrac{\partial z^{(1)}(\bf{x})}{\partial x_j} \cdots \dfrac{\partial z^{(m-1)}(\bf{z}^{(m-2)})}{\partial z^{(m-1)}_{k_{m-2}}}\dfrac{\partial z^{(m)}(\bf{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}}
+\dfrac{\partial z^{(m)}_i}{\partial x_j} = \sum_{k_1}\cdots \sum_{k_{m-1}}\dfrac{\partial z^{(1)}(\bf{a})}{\partial x_j} \cdots \dfrac{\partial z^{(m-1)}(\bf{z}^{(m-2)})}{\partial z^{(m-1)}_{k_{m-2}}}\dfrac{\partial z^{(m)}(\bf{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}}
 $$ {#eq-master_eq_of_forward_autodiff}
 
-$m=1$, 즉 $\dfrac{\partial z^{(1)}(\bf{x})}{\partial x_j}$ 부터 계산하기 시작하여 $m=2,\,3,\ldots,\,N$ 까지 증가시키면 $\bf{J}_F$ 를 계산 할 수 있다. 
-
-
+$m=1$, 즉 $\dfrac{\partial z^{(1)}(\bf{a})}{\partial x_j}$ 부터 계산하기 시작하여 $m=2,\,3,\ldots,\,N$ 까지 증가시키면 $\bf{J}_F$ 를 계산 할 수 있다. 
 
 </br>
 
@@ -278,7 +276,37 @@ $$
 \dfrac{\partial y_j}{\partial z^{(m)}_i} = \sum_{k_N}\cdots \sum_{k_{m+1}} \dfrac{\partial y_j(\bf{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}} \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\bf{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\bf{z}^{m})}{\partial z^{(m)}_i}
 $${#eq-master_eq_of_backward_autodiff}
 
-$m=(N-1)$, 즉 $\dfrac{\partial y_j(\bf{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}}$ 부터 계산한다. $m=N-2,\,N-3,\ldots,\,1$ 까지 감소시키면 $\bf{J}_F$ 를 계산 할 수 있다.
+$m=(N-1)$, 즉 $\dfrac{\partial y_j(\bf{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}}$ 부터 계산한다. $m=N-2,\,N-3,\ldots,\,1$ 까지 감소시키면 $\bf{J}_F$ 를 계산 할 수 있다... 고 쉽게 넘어 갈 수 있지만 우리는 아직 $\bf{z}^{(m)}= F^{(m)}\circ \cdots \circ F^{(1)}(\bf{a})$ 를 계산하지 않았다는 것을 기억하라. 후진법은 전진법과는 달리 두가지 과정으로 수행된다. 
+
+&emsp;($1$) 일단 $\bf{z}^{(1)}=F^{(1)}(\bf{a})$ 부터 $\bf{y} = F(\bf{a})= F^{N}\circ \cdots F^{(1)}(\bf{a})$ 까지 계산하며 이 값을 기억한다. 
+
+&emsp;($2$) ($1$) 에서 기억한 값을 이용하여 $m=N-1$ 부터 $m=1$ 까지의 편미분을 계산한다.
+
+즉 후진법은 전진법에 비해 과정이
+
+
+</br>
+
+$$
+F^{(1)}(x)= \begin{bmatrix} x \\ x^2\end{bmatrix},\, F^{(2)}(\bf{x})=\begin{bmatrix} x_1 \\ e^{x_1+2x_2}\end{bmatrix}
+$$
+
+에 대해 $F:\R \to \R^2$ 가 $F=F^{(2)}\circ F^{(1)}$ 으로 주어졌다고 하자. 
+
+$$
+\bf{J}_{F^{(1)}}(\bf{x})= \begin{bmatrix} 1 \\ 2x \end{bmatrix},\, \bf{J}_{F^{(1)}} = \begin{bmatrix} 1 & 0 \\ e^{x_1+2x_2} & 2e^{x_1+2x_2} \end{bmatrix}
+$$
+
+이다. 이 때 $\bf{J}_{F}(a)$ 를 두가지 방법으로 구해보자.
+
+우선 전진법으로는 $\bf{J}_{F^{(1)}}(a)$ 와 $\bf{z}^{(1)}=F^{(1)}(a)$ 을 구하고 난 뒤 $\bf{J}_{F^{(2)}}(\bf{z}^{(1)})$ 을 구하고, $\bf{J}_F(\bf{a}) = \bf{J}_{F^{(2)}}(\bf{z}^{(1)})  \bf{J}_{F^{(1)}}(\bf{a})$ 를 계산한다. 많은 함수의 합성의 경우 즉 $F=F^{(N)} \circ \cdots \circ F^{(1)}$ 과 같은 경우에도 전진법은 
+
+
+
+
+후진법으로는 $\bf{J}_{F^{(2)}}$ 
+
+
 
 
 

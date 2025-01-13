@@ -7,6 +7,9 @@ crossref:
   chapters: false
 ---
 
+{{< include ../../latexmacros.qmd >}}
+
+</br>
 
 
 수치해석을 위해서는 기본적으로 미적분학/해석학과 선형대수학에 관련된 지식이 필요하다. 이 장은 문서에 걸쳐 사용될 표기법과 명제들을 확인하기 위한 것이다. 수학적 명제들은 학부 1-2 학년 수준의 미적분학과 선형대수학에 포함되는 내용이며 증명은 제시하지 않는다.  
@@ -57,6 +60,18 @@ $$
 
 </br>
 
+
+::: {.callout-note appearance="simple" icon="false"}
+::: {#def-euclidean_space}
+
+#### 유클리드 공간의 표기
+
+$n$ 차원 유클리드 공간 $\R^n = \{(x_1,\ldots,\,x_n): x_i\in \R,\,i=1,\ldots,\,\}$ 을 $(a_1,\ldots,\,a_n)$ 형식으로 표현 하기도 하고 열벡터 형식, 즉 $\begin{bmatrix} a_1 &\ldots &a_n\end{bmatrix}^T$ 형식으로 로 표기하기로 하자. 즉 유클리드 공간상의 점으로서 사용될 때 두 표기는 동등하다.
+
+:::
+:::
+
+</br>
 
 ::: {.callout-note appearance="simple" icon="false"}
 ::: {#def-matrix}
@@ -1108,13 +1123,13 @@ $$
 
 #### 다변수 함수의 연속
 
-$\mathbb{R}^n$ 에서의 열린 집합 $U$ 에서 정의된 함수 $\bf{F}:U \to \mathbb{R}^m$ 이 
+$\mathbb{R}^n$ 에서의 열린 집합 $U$ 에서 정의된 함수 $F:U \to \mathbb{R}^m$ 이 
 
 $$
-\lim_{\bf{h} \to \bf{0}} \|\bf{F}(\bf{p} + \bf{h}) - \bf{F}(\bf{p})\|  = 0
+\lim_{\bf{h} \to \bf{0}} \|F(\bf{p} + \bf{h}) - F(\bf{p})\|  = 0
 $$
 
-일 때 $\bf{F}$ 는 $\bf{p}$ 에서 **연속** 이라고 한다. $\bf{F}$ 가 모든 $\bf{p}\in U$ 에서 연속일 때 $\bf{F}$ 를 $U$ 에서 연속이라고 한다.
+일 때 $F$ 는 $\bf{p}$ 에서 **연속** 이라고 한다. $F$ 가 모든 $\bf{p}\in U$ 에서 연속일 때 $F$ 를 $U$ 에서 연속이라고 한다.
 
 :::
 :::
@@ -1127,13 +1142,13 @@ $$
 
 #### 다변수 함수의 미분과 자코비 행렬
 
-$\mathbb{R}^n$ 에서의 열린 집합 $U$ 에서 정의된 함수 $\bf{F}:U \to \mathbb{R}^m$ 이 $\bf{p}\in U$ 에서 어떤 행렬 $M\in \R^{m \times n}$ 에 대해
+$\mathbb{R}^n$ 에서의 열린 집합 $U$ 에서 정의된 함수 $F:U \to \mathbb{R}^m$ 이 $\bf{p}\in U$ 에서 어떤 행렬 $M\in \R^{m \times n}$ 에 대해
 
 $$
-\lim_{\bf{h} \to \bf{0}} \dfrac{\|\bf{F}(\bf{p} + \bf{h}) - \bf{F}(\bf{p}) - \bf{Mp}\|}{\|\bf{h}\|} = \bf{0}
+\lim_{\bf{h} \to \bf{0}} \dfrac{\|F(\bf{p} + \bf{h}) - F(\bf{p}) - \bf{Mp}\|}{\|\bf{h}\|} = \bf{0}
 $$
 
-를 만족 할 때 $\bf{F}$ 는 $\bf{p}$ 에서 미분가능하다 라고 한다. 이때 $\bf{M}$ 을 $\bf{p}$ 에서의 $\bf{F}$ 의 **자코비 행렬(Jacobian matrix)** 이라고 하며 $D\bf{F}(\bf{p}),\, \bf{J}_\bf{F}(\bf{p})$ 옥은 $\bf{F}'(\bf{p})$ 라고 표기한다. $\bf{F}$ 가 모든 $\bf{p}\in U$ 에서 미분 가능일 때 $\bf{F}$ 를 $U$ 에서 미분가능하다 라고 한다.
+를 만족 할 때 $F$ 는 $\bf{p}$ 에서 미분가능하다 라고 한다. 이때 $\bf{M}$ 을 $\bf{p}$ 에서의 $F$ 의 **자코비 행렬(Jacobian matrix)** 이라고 하며 $DF(\bf{p}),\, \bf{J}_F(\bf{p})$ 옥은 $F'(\bf{p})$ 라고 표기한다. $F$ 가 모든 $\bf{p}\in U$ 에서 미분 가능일 때 $F$ 를 $U$ 에서 미분가능하다 라고 한다.
 
 :::
 :::
@@ -1142,13 +1157,13 @@ $$
 
 ::: {#prp-equivalence_of_differentiation_for_mv}
 
-$\mathbb{R}^n$ 에서의 열린 집합 $U$ 에서 정의된 함수 $\bf{F}:U \to \mathbb{R}^m$ 에 대해 다음은 동치이다.
+$\mathbb{R}^n$ 에서의 열린 집합 $U$ 에서 정의된 함수 $F:U \to \mathbb{R}^m$ 에 대해 다음은 동치이다.
 
-&emsp; ($1$) $\bf{F}$ 는 $\bf{p}\in U$ 에서 미분가능하다.
+&emsp; ($1$) $F$ 는 $\bf{p}\in U$ 에서 미분가능하다.
 
-&emsp; ($2$) 어떤 $\bf{M}\in \R^{m \times n}$ 과 $\displaystyle \lim_{\bf{h}\to \bf{0}}\dfrac{\bf{R}(\bf{h})}{\|\bf{h}\|} = \bf{0}$ 인 어떤 함수 $\bf{R}:U \to \mathbb{R}^m$ 에 대해 
+&emsp; ($2$) 어떤 $\bf{M}\in \R^{m \times n}$ 과 $\displaystyle \lim_{\bf{h}\to \bf{0}}\dfrac{R(\bf{h})}{\|\bf{h}\|} = \bf{0}$ 인 어떤 함수 $R:U \to \mathbb{R}^m$ 에 대해 
 $$
-\bf{F}(\bf{p}+\bf{h}) = \bf{Mp}+\bf{R}(\bf{v})
+F(\bf{p}+\bf{h}) = \bf{Mp}+R(\bf{v})
 $$ 
 &emsp; &emsp; 이다. 
 
@@ -1158,10 +1173,10 @@ $$
 
 ::: {#thm-directional_derivative}
 
-$\bf{F} : U\subset \mathbb{R}^n \to \mathbb{R}^m$ 가 $\bf{p}\in U$ 에서 미분가능할 때 임의의 $\bf{u}\in \mathbb{R}^n-\{\bf{0}\}$ 에 대해 아래의 극한이 존재한다.
+$F : U\subset \mathbb{R}^n \to \mathbb{R}^m$ 가 $\bf{p}\in U$ 에서 미분가능할 때 임의의 $\bf{u}\in \mathbb{R}^n-\{\bf{0}\}$ 에 대해 아래의 극한이 존재한다.
 
 $$
-\lim_{t \to \infty} \dfrac{\bf{F}(\bf{p}+t\bf{u}) - \bf{F}(\bf{p})}{t}
+\lim_{t \to \infty} \dfrac{F(\bf{p}+t\bf{u}) - F(\bf{p})}{t}
 $$ {#eq-directional_derivative}
 
 :::
@@ -1172,7 +1187,7 @@ $$ {#eq-directional_derivative}
 ::: {#def-partial_derivative}
 
 #### 방향미분과 편미분
-$\bf{u}$ 가 단위벡터, 즉 $\|\bf{u}\|=1$ 일 때 @eq-directional_derivative 의  극한을 $\bf{F}$ 의 $\bf{p}$ 에서의 $\bf{u}$ 방향으로의 **방향미분 (directional derivative)** 라고 하고 $D_\bf{u}\bf{F}(\bf{p})$ 라고 쓴다. $\bf{u}$ 가 어떤 표준기저 $\hat{\bf{e}}_i$ 일 때의 방향미분을 **편미분 (partial derivative)** 라고 하며 $D_{\hat{\bf{e}}_i} \bf{F}(\bf{p})$ 를 $D_i \bf{F}(\bf{p})$, $\dfrac{\partial \bf{F}}{\partial x_i}(\bf{p})$, 혹은 $\partial_i \bf{F}(\bf{p})$ 라고 표기한다. 
+$\bf{u}$ 가 단위벡터, 즉 $\|\bf{u}\|=1$ 일 때 @eq-directional_derivative 의  극한을 $F$ 의 $\bf{p}$ 에서의 $\bf{u}$ 방향으로의 **방향미분 (directional derivative)** 라고 하고 $D_\bf{u}F(\bf{p})$ 라고 쓴다. $\bf{u}$ 가 어떤 표준기저 $\hat{\bf{e}}_i$ 일 때의 방향미분을 **편미분 (partial derivative)** 라고 하며 $D_{\hat{\bf{e}}_i} F(\bf{p})$ 를 $D_i F(\bf{p})$, $\dfrac{\partial F}{\partial x_i}(\bf{p})$, 혹은 $\partial_i F(\bf{p})$ 라고 표기한다. 
 
 :::
 :::
@@ -1181,7 +1196,7 @@ $\bf{u}$ 가 단위벡터, 즉 $\|\bf{u}\|=1$ 일 때 @eq-directional_derivative
 
 ::: {#prp-differentiable_continuous}
 
-$\bf{F} : U \subset \mathbb{R}^n \to \mathbb{R}^m$ 이 $\bf{p}\in U$ 에서 미분가능이면 $\bf{p}$ 에서 연속이다.
+$F : U \subset \mathbb{R}^n \to \mathbb{R}^m$ 이 $\bf{p}\in U$ 에서 미분가능이면 $\bf{p}$ 에서 연속이다.
 
 :::
 

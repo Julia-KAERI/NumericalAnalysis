@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>일변수 방정식의 해 – 수치해석과 이미지 처리</title>
+<title>수치해석과 이미지 처리 - 일변수 방정식의 해</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -102,7 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -147,7 +147,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -178,18 +178,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/07_finding_root.html">일변수 방정식의 해</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -408,7 +408,8 @@ window.Quarto = {
 <h2 data-number="2" class="anchored" data-anchor-id="고정점-반복법-fixed-point-iteration"><span class="header-section-number">2</span> 고정점 반복법 (Fixed Point Iteration)</h2>
 <p>함수 <span class="math inline">\(f(x)\)</span> 에 대해 <span class="math inline">\(f(p)=p\)</span> 를 만족하는 점 <span class="math inline">\(p\)</span> 를 <span class="math inline">\(f\)</span> 의 고정점 (fixed point) 라 한다. 고정점 자체가 중요한 경우도 많으며, 방정식의 해를 찾는것과 밀접하게 연관되어 있다. <span class="math inline">\(g(x) = f(x)-x\)</span> 라 놓으면 <span class="math inline">\(f(x)\)</span> 의 고정점을 찾는 것은 <span class="math inline">\(g(x)\)</span> 의 해를 찾는 문제와 같은 문제라는 것을 쉽게 이해 할 수 있을 것이다. 역으로, 함수 <span class="math inline">\(g(x)=0\)</span> 의 해를 찾는 문제는 <span class="math inline">\(f(x) = g(x)  + x\)</span> 의 고정점을 찾는 문제와 동일한 문제이다.</p>
 <p>고정점 반복법이 가능한 이유는 아래의 고정점 정리 때문이다.</p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<p><br></p>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-fixed_point" class="theorem">
 <p><span class="theorem-title"><strong>정리 1 (고정점 정리)</strong></span> <span class="math inline">\(f\)</span> 가 <span class="math inline">\([a,\,b]\)</span> 구간에서 연속이며 <span class="math inline">\(f([a,\,b])\subset [a,\,b]\)</span> 이면,</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(f(p)=p\)</span> 를 만족하는 고정점 <span class="math inline">\(p\)</span> 가 <span class="math inline">\([a,\,b]\)</span> 구간에 존재한다.</p>
@@ -430,7 +431,7 @@ window.Quarto = {
 <p>이므로 <span class="math inline">\(\displaystyle \lim_{n \to \infty} p_n = p\)</span> 이다. <span class="math inline">\(\square\)</span></p>
 </div>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="cor-for_fixex_point_theorem" class="theorem corollary">
 <p><span class="theorem-title"><strong>따름정리 1</strong></span> <span class="math inline">\([a,\,b]\)</span> 구간에서 미분가능한 함수 <span class="math inline">\(f(x)\)</span> 가 <span class="math inline">\(f([a,\,b])\subset [a,\,b]\)</span> 이며, 어떤 양수 <span class="math inline">\(0&lt;\gamma&lt;1\)</span> 에 대해 <span class="math inline">\(x\in [a,\,b] \implies |f'(x)|&lt;\gamma\)</span> 이면, <span class="math inline">\([a,\,b]\)</span> 구간에서 유일한 고정점을 가진다.</p>
 </div>
@@ -555,7 +556,7 @@ f_1(x) = f(p_1) + f'(p_1)(x-p_1)
 <section id="뉴턴-방법의-단점과-수렴" class="level3">
 <h3 class="anchored" data-anchor-id="뉴턴-방법의-단점과-수렴">뉴턴 방법의 단점과 수렴</h3>
 <p>이분법은 두 시작점에서의 함수값의 곱이 음수이면 무조건 하나의 해를 원하는 오차 내에서 찾을 수 있다. 그러나, Newton method 는 해를 찾을 수 없는 경우도 생기는데 가장 대표적인 경우는 위의 과정중에 어떤 <span class="math inline">\(x_k\)</span> 에 에서 <span class="math inline">\(f'(x_k)=0\)</span> 인 경우이다. 또한 시작점이 해와 충분히 가깝지 않을 경우 발산 할 수 있다. 우리는 뉴턴 방법을 통해 무조건 해를 갖는 조건을 보일 수 있다.</p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-convergence_of_newton_method" class="theorem">
 <p><span class="theorem-title"><strong>정리 2 (뉴턴 방법의 수렴정리)</strong></span> <span class="math inline">\(f\in C^2_{[a,\,b]}\)</span> 인 실함수 <span class="math inline">\(f\)</span> 에 대해 <span class="math inline">\(f(p)=0\)</span> 이며 <span class="math inline">\(f'(p)\ne 0\)</span> 이라 하자. 그렇다면 어떤 <span class="math inline">\(\delta&gt;0\)</span> 이 존재하여 <span class="math inline">\(p_1\in [p-\delta,\, p+\delta]\)</span> 이라면 뉴턴 방법을 통해 얻은 수열 <span class="math inline">\(\langle p_n\rangle\)</span> 은 <span class="math inline">\(p\)</span> 로 수렴한다.</p>
 </div>
@@ -704,7 +705,7 @@ c = b-f(b) \cdot \dfrac{b-a}{f(b)-f(a)}
 </div>
 </div>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-linearly_convergent_sequence" class="theorem">
 <p><span class="theorem-title"><strong>정리 3</strong></span> 실함수 <span class="math inline">\(g\in C[a,\,b]\)</span> 가 <span class="math inline">\(g([a,\,b]) \subset [a,\, b]\)</span> 라 하자. <a href="#thm-fixed_point" class="quarto-xref">정리&nbsp;1</a> 에 의해 고정점 <span class="math inline">\(p\in [a,\,b]\)</span> 가 존재한다. 또한 어떤 양수 <span class="math inline">\(\lambda &lt;1\)</span> 가 존재하여 모든 <span class="math inline">\(x\in (a,\,b)\)</span> 에 대해 <span class="math inline">\(|g'(x)|&lt;\lambda\)</span> 라 하자. <span class="math inline">\(g'(p)\ne 0\)</span> 라면 <span class="math inline">\(p_0 \ne p\)</span> 에 대해 수열 <span class="math inline">\(\langle p_n \rangle\)</span> 을</p>
 <p><span class="math display">\[
@@ -771,7 +772,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -803,29 +815,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -833,7 +823,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

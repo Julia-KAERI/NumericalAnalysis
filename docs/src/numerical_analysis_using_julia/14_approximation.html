@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Approximation – 수치해석과 이미지 처리</title>
+<title>수치해석과 이미지 처리 - Approximation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -148,7 +148,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -179,18 +179,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/14_approximation.html">Approximation</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -255,6 +255,41 @@ window.Quarto = {
  <span class="menu-text">편미분 방정식</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">수학적 자료</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_collection_of_proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">수학적 증명</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_generalized_inverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">일반화된 역행렬과 의사 역행렬</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_ode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">상미분 방정식</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_pde.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">편미분 방정식의 이론적 배경</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -302,12 +337,21 @@ window.Quarto = {
 </header>
 
 
+<div class="hidden">
+<p>% %</p>
+%
+<p><span class="math display">\[
+\DeclarePairedDelimiters{\set}{\{}{\}}
+\DeclareMathOperator*{\argmax}{argmax}
+\]</span></p>
+</div>
+<p><br></p>
 <section id="최소-자승법" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="최소-자승법"><span class="header-section-number">1</span> 최소 자승법</h2>
 <section id="선형-최소-자승법" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="선형-최소-자승법"><span class="header-section-number">1.1</span> 선형 최소 자승법</h3>
 <p>아래 그림과 같이 <span class="math inline">\(\{(x_i,\,y_i) : i = 1,\ldots, N\}\)</span> 가 주어졌을 때 이 데이터에 가장 근접하는 선형 방정식 <span class="math inline">\(y=ax+b\)</span> 를 찾아야 할 때가 있다.</p>
-<div id="fig-linear_lieast_seuare" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-linear_lieast_seuare" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-linear_lieast_seuare-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/linear_approx/fig-linear_approximation-1.png" class="img-fluid figure-img" width="250">
@@ -401,11 +445,14 @@ X_{ij} = (x_i)^{j-1},\qquad \boldsymbol{a} = \begin{bmatrix} a_0 &amp; \cdots &a
 \boldsymbol{X}^T\boldsymbol{Xa} = \boldsymbol{X}^T\boldsymbol{y}
 \tag{2}\]</span></span></p>
 <p><br></p>
+<div class="border" style="background-color:#F0FFFF  ;padding:5px;">
 <div id="exr-nullity_of_X" class="theorem exercise">
 <p><span class="theorem-title"><strong>연습문제 1</strong></span> 위에서 정의된 <span class="math inline">\(\boldsymbol{X}\)</span> 에 대해 다음을 보여라.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\text{nullity} (\boldsymbol{X})=0\)</span>.</p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{X}^T\boldsymbol{X}\)</span> 는 가역행렬이다.</p>
 </div>
+</div>
+<p><br></p>
 <div class="proof solution">
 <p><span class="proof-title"><em>(해답)</em>. </span>(<span class="math inline">\(1\)</span>) <span class="math inline">\(\text{nullity} (\boldsymbol{x}) &gt; 0\)</span> 이라면 어떤 nontrivial 한 <span class="math inline">\(\boldsymbol{a}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{Xa}=\boldsymbol{0}\)</span> 이어야 한다. 그렇다면, <span class="math inline">\(\sum_{i=0}^n {x_k}^i a_i = 0\)</span> (<span class="math inline">\(i=1,\ldots,\,N\)</span>) 인데 <span class="math inline">\(N&gt;n+1\)</span> 조건에서 <span class="math inline">\(n\)</span> 차 방정식이 <span class="math inline">\(N &gt; n+1\)</span> 개의 근을 갖는다는 이야기이므로 모순이다. 우리는 이미 <span class="math inline">\(x_1 &lt; \cdots &lt; x_N\)</span> 을 가정했다. 따라서 <span class="math inline">\(\boldsymbol{Xa}=\boldsymbol{0}\)</span> 을 만족하는 <span class="math inline">\(\boldsymbol{a}\)</span> 는 <span class="math inline">\(\boldsymbol{0}\)</span> 뿐이다.</p>
 <p>(<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{X}^T\boldsymbol{X}\)</span> 는 대칭행렬이며 <span class="math inline">\(\text{nullity}(\boldsymbol{X})=0\)</span> 이므로 non-trivial 한 벡터 <span class="math inline">\(\boldsymbol{a}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{a}^T\boldsymbol{X}^T\boldsymbol{Xa} = \|\boldsymbol{Xa}\|^2&gt;0\)</span> 이다. 따라서 <span class="math inline">\(\boldsymbol{X}^T\boldsymbol{X}\)</span> 는 가역이다.</p>
@@ -431,7 +478,7 @@ X_{ij} = (x_i)^{j-1},\qquad \boldsymbol{a} = \begin{bmatrix} a_0 &amp; \cdots &a
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(x, y, label <span class="op">=</span> <span class="st">"Data"</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fu">least_square_poly</span>(x, y, <span class="fl">3</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(x, <span class="fu">p</span>.(x), label <span class="op">=</span> <span class="st">"LeastSquared Polynoimal"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_least_square_poly" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_least_square_poly" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_least_square_poly-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/linear_approx/least_square_poly.png" class="img-fluid figure-img" width="600">
@@ -452,10 +499,13 @@ X_{ij} = (x_i)^{j-1},\qquad \boldsymbol{a} = \begin{bmatrix} a_0 &amp; \cdots &a
 <li><p>필드 <span class="math inline">\(\mathbb{F}\)</span> 에서 정의된 <span class="math inline">\(x\)</span> 를 변수로 갖는 <span class="math inline">\(n\)</span> 차 이하의 다항식의 집합을 <span class="math inline">\(\mathbb{F}_n [x]\)</span> 라고 하자. 또한 <span class="math inline">\(x\)</span> 를 변수로 하는 다항식 전체의 집합을 <span class="math inline">\(\mathbb{F}[x]\)</span> 라고 하자. 실수에서 정의된 2차 이하의 다항식의 집합은 <span class="math inline">\(\mathbb{R}_2[x]\)</span> 로 쓸 수 있다.</p></li>
 <li><p><span class="math inline">\([a,\,b]\)</span> 구간에서 연속인 함수의 집합 <span class="math inline">\(C_{[a,\,b]}\)</span> 가 벡터공간이기 때문에 선형대수학에의 중요한 개념인 벡터, 선형독립, 기저와 같은 개념을 그대로 쓸 수 있다.</p></li>
 </ul>
-<p><br></p>
+<br>
+<div class="border" style="background-color:#F0FFFF  ;padding:5px;">
 <div id="exr-linearly_independency_of_different_order_polynomials" class="theorem exercise">
 <p><span class="theorem-title"><strong>연습문제 2</strong></span> <span class="math inline">\(p_k(x)\)</span> 가 각각 <span class="math inline">\(k\)</span> 차 다항식일 때 <span class="math inline">\(\{p_1(x),\ldots,\,p_n(x)\}\)</span> 은 선형독립이다.</p>
 </div>
+</div>
+<p><br></p>
 <div class="proof solution">
 <p><span class="proof-title"><em>(해답)</em>. </span><span class="math inline">\(c_1p_1(x) + \cdots + c_n p_n(x)=0\)</span> 이라고 하자. <span class="math inline">\(n\)</span> 차항은 <span class="math inline">\(p_n(x)\)</span> 밖에 없으므로 <span class="math inline">\(c_n=0\)</span> 이다. <span class="math inline">\(n-1\)</span> 차항은 <span class="math inline">\(p_{n-1}\)</span> 박에 없으므로 <span class="math inline">\(c_{n-1}=0\)</span> 이다. 이것을 반복하면 <span class="math inline">\(c_1= \cdots = c_n=0\)</span> 을 보인다.</p>
 </div>
@@ -503,7 +553,7 @@ nP_n(x) &amp; = (2n−1)xP_{n−1}(x)−(n−1)P_{n−2}(x).
 </div>
 </div>
 </div>
-<div id="fig-NA1_legendre_polynomials" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_legendre_polynomials" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_legendre_polynomials-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/linear_approx/fig-Legendre_polynoimal.png" class="img-fluid figure-img" width="300">
@@ -547,7 +597,7 @@ T_{n}(x) &amp; = 2xT_{n−1}(x) - T_{n-2}(x).
 </div>
 </div>
 </div>
-<div class="no-row-height column-margin column-container"><span class="margin-aside callout-margin-content callout-margin-content-simple">체비쇼프 다항식은 1형과 2형이 있지만 여기서는 1형만 사용한다.</span></div><div id="fig-NA1_chevyshev_polynomials" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div class="no-row-height column-margin column-container"><span class="margin-aside callout-margin-content callout-margin-content-simple">체비쇼프 다항식은 1형과 2형이 있지만 여기서는 1형만 사용한다.</span></div><div id="fig-NA1_chevyshev_polynomials" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_chevyshev_polynomials-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/linear_approx/fig-Chevyshev_polynoimal.png" class="img-fluid figure-img" width="350">
@@ -624,7 +674,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -656,29 +717,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -686,7 +725,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

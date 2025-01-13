@@ -7,6 +7,10 @@ crossref:
   chapters: false
 ---
 
+{{< include ../../latexmacros.qmd >}}
+
+</br>
+
 ## 최소 자승법
 
 ### 선형 최소 자승법
@@ -138,6 +142,9 @@ $$ {#eq-normal_equation}
 
 </br>
 
+<div class="border" style="background-color:#F0FFFF  ;padding:5px;">
+
+
 ::: {#exr-nullity_of_X}
 
 위에서 정의된 $\boldsymbol{X}$ 에 대해 다음을 보여라.
@@ -147,6 +154,9 @@ $$ {#eq-normal_equation}
 &emsp; ($2$) $\boldsymbol{X}^T\boldsymbol{X}$ 는 가역행렬이다.
 
 :::
+
+</div>
+</br>
 
 ::: {.solution}
 
@@ -204,6 +214,7 @@ plot!(x, p.(x), label = "LeastSquared Polynoimal")
 
 
 </br>
+<div class="border" style="background-color:#F0FFFF  ;padding:5px;">
 
 ::: {#exr-linearly_independency_of_different_order_polynomials}
 
@@ -211,6 +222,7 @@ $p_k(x)$ 가 각각 $k$ 차 다항식일 때 $\{p_1(x),\ldots,\,p_n(x)\}$ 은 �
 
 :::
 
+</div></br>
 
 ::: {.solution}
 

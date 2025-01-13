@@ -7,6 +7,10 @@ crossref:
   chapters: false
 ---
 
+{{< include ../../latexmacros.qmd >}}
+
+</br>
+
 ## 일반화된 역행렬
 
 ::: {.callout-note appearance="minimal" icon="false"}
@@ -15,7 +19,7 @@ crossref:
 
 #### 일반화된 역행렬
 
-행렬 $\boldsymbol{A} \in \mathcal{M}_{m \times n}(\mathbb{F})$ 에 대해 $\boldsymbol{AGA}=\boldsymbol{A}$ 를 만족하는 행렬 $\boldsymbol{G} \in \mathcal{M}_{n \times m}(\mathbb{F})$ 를 $\boldsymbol{A}$ 에 대한 **일반화된 역행렬(generalized inverse matrix)** 라고 한다. $\boldsymbol{A}$ 의 일반화된 역행렬을 $\boldsymbol{A}^{-}$ 로 표기한다. 
+행렬 $\bf{A} \in \F^{m \times n}$ 에 대해 $\bf{AGA}=\bf{A}$ 를 만족하는 행렬 $\bf{G} \in \F^{n\times m}$ 를 $\bf{A}$ 에 대한 **일반화된 역행렬(generalized inverse matrix)** 라고 한다. $\bf{A}$ 의 일반화된 역행렬을 $\bf{A}^{-}$ 로 표기한다. 
 
 :::
 :::
@@ -24,15 +28,15 @@ crossref:
 
 ::: {#prp-generalized_inverse_of_invertible_matrix}
 
-$\boldsymbol{A}$ 가 가역행렬이면 $\boldsymbol{G}=\boldsymbol{A}^{-1}$ 이다.
+$\bf{A}$ 가 가역행렬이면 $\bf{G}=\bf{A}^{-1}$ 이다.
 
 :::
 
 ::: {.proof}
 
-$\boldsymbol{A}$ 가 가역행렬이면 $m=n$ 이다.
+$\bf{A}$ 가 가역행렬이면 $m=n$ 이다.
 $$
-\boldsymbol{AGA} = \boldsymbol{A} \implies \boldsymbol{AGAA}^{-1} = \boldsymbol{AA}^{-1} \implies \boldsymbol{AG}= \boldsymbol{I}_n \qquad \square
+\bf{AGA} = \bf{A} \implies \bf{AGAA}^{-1} = \bf{AA}^{-1} \implies \bf{AG}= \bf{I}_n \qquad \square
 $$
 
 :::
@@ -40,13 +44,13 @@ $$
 
 ::: {#prp-generalized_inverse_of_invertible_matrix}
 
-$\boldsymbol{A}\in \mathcal{M}_{m \times n}(\mathbb{F})$ 와 $\boldsymbol{G}\in \mathcal{M}_{n \times n}$  에 대해 다음은 동치이다.
+$\bf{A}\in \F^{m \times n}$ 와 $\bf{G}\in \bf{G} \in \F^{n\times m}$  에 대해 다음은 동치이다.
 
-&emsp; ($1$) $\boldsymbol{G}$ 는 $\boldsymbol{A}$ 의 일반화된 역행렬이다.
+&emsp; ($1$) $\bf{G}$ 는 $\bf{A}$ 의 일반화된 역행렬이다.
 
-&emsp; ($2$) $\boldsymbol{AG}=\boldsymbol{I}_m$ 이고 $\operatorname{rank}(\boldsymbol{AG})= \operatorname{rank}(\boldsymbol{A})$ 이거나 $\boldsymbol{GA}= \boldsymbol{I}_n$ 이고 $\operatorname{rank}(\boldsymbol{GA})= \operatorname{rank}(\boldsymbol{G})$ 이다.
+&emsp; ($2$) $\bf{AG}=\bf{I}_m$ 이고 $\operatorname{rank}(\bf{AG})= \operatorname{rank}(\bf{A})$ 이거나 $\bf{GA}= \bf{I}_n$ 이고 $\operatorname{rank}(\bf{GA})= \operatorname{rank}(\bf{G})$ 이다.
 
-&emsp; ($3$) $\boldsymbol{Ay}=\boldsymbol{x}$ 의 해는 $\boldsymbol{x}=\boldsymbol{Gy}$ 이다.
+&emsp; ($3$) $\bf{Ay}=\bf{x}$ 의 해는 $\bf{x}=\bf{Gy}$ 이다.
 
 :::
 

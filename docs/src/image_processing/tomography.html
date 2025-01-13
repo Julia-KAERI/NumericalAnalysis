@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>토모그래피 – 수치해석과 이미지 처리</title>
+<title>수치해석과 이미지 처리 - 토모그래피</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -68,7 +68,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -113,7 +113,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -144,18 +144,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/tomography.html">주제별 처리</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/tomography.html">토모그래피</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -168,9 +168,9 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
  <span class="menu-text">영상 처리 기초</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -197,9 +197,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
  <span class="menu-text">푸리에 변환과 웨이블릿 변환</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="토글 섹션">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -238,9 +238,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
  <span class="menu-text">주제별 처리</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="토글 섹션">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -314,7 +314,7 @@ window.Quarto = {
 <h2 data-number="1" class="anchored" data-anchor-id="라돈-변환"><span class="header-section-number">1</span> 라돈 변환</h2>
 <p>다음의 그림을 보자. 이미지가 <span class="math inline">\(0\)</span> 에서 <span class="math inline">\(1\)</span> 사이의 값을 가지며 검은색이 <span class="math inline">\(0\)</span>, 흰색이 <span class="math inline">\(1\)</span> 이라고 하자. 이 그림은 실제로 회색조 <span class="math inline">\(1024 \times 1024\)</span> 크기의 이미지이다. 이 이미지는 <code>f</code> 라는 배열의 변수로 저장되었다고 하자. <span class="math inline">\(f(x, y)\)</span> 라는 함수 나 <code>f[i, j]</code> 라는 형식의 배열로 이해해도 상관 없다.</p>
 <center>
-<div id="fig-object" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-object" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-object-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/object.png" class="img-fluid figure-img" width="200">
@@ -327,7 +327,7 @@ window.Quarto = {
 </center>
 <p>이 이미지를 <span class="math inline">\(\theta\)</span> 만큼 회전 시킨 이미지를 <span class="math inline">\(\mathfrak{R}_\theta [f]\)</span> 라고 하자. 아래 그림은 <span class="math inline">\(\mathfrak{R}_{\pi/4}[f]\)</span> 이다. 회전방향은 시계방향이다.</p>
 <center>
-<div id="fig-rotate3d_object" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-rotate3d_object" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rotate3d_object-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/rotated_objects.png" class="img-fluid figure-img" width="200">
@@ -347,7 +347,7 @@ S(x, \theta) =  \int \mathfrak{R}_\theta [f](x, y) \, dy
 \]</span></p>
 <p>즉 sinogram 은 2 차원 이미지, 혹은 함수를 회전시켜가며 한 방향(여기서는 <span class="math inline">\(y\)</span> 방향) 에 대한 선적분을 구하였을때 나오는 다른 방향과 회전각도에 대한 2차원 함수를 의미한다. 위의 그림에 대한 Sinogram 은 다음과 같다.</p>
 <center>
-<div id="fig-sinogram" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-sinogram" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sinogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/object_sinogram.png" class="img-fluid figure-img" width="600">
@@ -371,7 +371,7 @@ S(x, \theta) =  \int \mathfrak{R}_\theta [f](x, y) \, dy
 <h2 data-number="2" class="anchored" data-anchor-id="토모그래피"><span class="header-section-number">2</span> 토모그래피</h2>
 <p>토모그래피의 기본적인 개념은 아래 그림과 같다. 중성자나 X 선과 같이 물질을 투과하는 성질이 강한 입자를 물질에 쐬어 주면 대부분의 입자가 물질을 투과하여 검출기에 검출된다. 하지만 모든 입자가 투과하지는 못하며 물질의 성질에 따라 일부 입자가 산란되거나 흡수되며 검출기에서는 산란되거나 흡수되지 않고 투과되는 빔의 강도를 검출기 위치별로 측정한다. 검출기는 1차원일수도 있고 2차원 일 수도 있다.</p>
 <center>
-<div id="fig-basic_concept_of_tomography" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-basic_concept_of_tomography" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-basic_concept_of_tomography-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/tomography.png" class="img-fluid figure-img" width="600">
@@ -408,7 +408,7 @@ I(x) = I_0 \exp \left[-\int_{y_i}^{y_f} \mu (x, y)\, dy\right]
 <p>토모그래피에 있어 물질은 <span class="math inline">\(\mu (x, y)\)</span> 를 의미한다. <span class="math inline">\(\mu\)</span> 는 선원, 물질의 종류 및 밀도에 따라 달라지는 값이며, 토모그래피는 projection들 을 모아 <span class="math inline">\(\mu(x, y)\)</span> (3차원 토모그래피의 경우는 <span class="math inline">\(\mu(x, y, z)\)</span>) 를 재구성(reconstruction) 하는 방법이다.</p>
 <p>이제 선원과 검출기를 반시계방향으로 <span class="math inline">\(\theta\)</span> 만큼 돌려서 찍었다고 하자. 이 데이터를 <span class="math inline">\(I_\theta (x)\)</span> 라고 한다. 이것은 앞서 라돈 변환에서의 projection <span class="math inline">\(p_\theta(t)\)</span> 와 같다.</p>
 <center>
-<div id="fig-projection" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-projection" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/projection.png" class="img-fluid figure-img" width="600">
@@ -452,7 +452,7 @@ S_\theta(\rho) = \int p_\theta(t) \,e^{-2\pi i\rho t}\, dt
 \begin{bmatrix} t \\ s \end{bmatrix} =  \begin{bmatrix} \cos \theta &amp; \sin \theta \\ - \sin \theta &amp; \cos \theta\end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}
 \]</span></p>
 <center>
-<div id="fig-new_coordinate_system" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-new_coordinate_system" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-new_coordinate_system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/fourier_slice_theorem_1.png" class="img-fluid figure-img" width="500">
@@ -481,7 +481,7 @@ S_\theta (\rho) = \iint f(x,  y) e^{-2\pi i (ux + vy)}\, dx\, dy = \mathfrak{F}[
 \tag{7}\]</span></span></p>
 <p>이다. 이것이 바로 <strong>Fourier Slice Theorem</strong> 이다. Fourier slice theorem 은 sinogram 으로부터 <span class="math inline">\(f(x, y)\)</span> 를 구할 수 있음을, 즉 역 라돈 변환이 가능함을 보장한다.</p>
 <center>
-<div id="fig-fourier_slice_theorem" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-fourier_slice_theorem" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fourier_slice_theorem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/Fourier_Slice_Theorem_2.png" class="img-fluid figure-img" width="600">
@@ -560,7 +560,7 @@ p_\theta (t) \longrightarrow S_\theta (\rho) \longrightarrow Q_\theta(t) \longri
 \]</span></p>
 <p>우리가 image 를 reconstruction 할 때는 영역을 선택한다. 이를 reconstruction region 이라고 하자. 이 영역에 대해 <span class="math inline">\(f(x,\,y)\)</span> 를 구해야 한다. 다음 그림을 보자</p>
 <center>
-<div id="fig-filtered_projection" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-filtered_projection" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-filtered_projection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/filtered_projection.png" class="img-fluid figure-img" width="600">
@@ -581,7 +581,7 @@ f(x, y) = C \cdot \left(\sum_\theta Q_\theta (t=x \cos \theta + y \sin \theta)\r
 <section id="low-frequency-window" class="level3" data-number="5.2">
 <h3 data-number="5.2" class="anchored" data-anchor-id="low-frequency-window"><span class="header-section-number">5.2</span> Low frequency window</h3>
 <p><a href="#eq-fourier_transform_of_slice_4" class="quarto-xref">식&nbsp;12</a> 의 <span class="math inline">\(|\rho|\)</span> 는 high-pass filter 역할을 하며(이를 <em>Lamp 필터</em> 혹은 <em>Ram-Lack 필터</em> 라고 한다) 이로인해 high frequency 영역에서의 노이즈에 매우 취약하게 된다. 이로인해 <span class="math inline">\(Q_\theta (t)\)</span> 를 계산할 때 window function 이라고 불리우는 high pass filter 를 곱하여 푸리에 변환을 수행한다. 각 필터의 모양은 아래 <a href="#fig-fbp_window" class="quarto-xref">그림&nbsp;9</a> 와 같다.</p>
-<div id="fig-fbp_window" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-fbp_window" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fbp_window-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/fbp_window.png" class="img-fluid figure-img" width="600">
@@ -596,7 +596,7 @@ f(x, y) = C \cdot \left(\sum_\theta Q_\theta (t=x \cos \theta + y \sin \theta)\r
 </section>
 <section id="대수적인-reconstruction" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="대수적인-reconstruction"><span class="header-section-number">6</span> 대수적인 Reconstruction</h2>
-<div id="fig-rec_algebraic_1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-rec_algebraic_1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-rec_algebraic_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="imgs/tomography/fig-algebraic_1.png" class="img-fluid figure-img" width="450">
@@ -678,7 +678,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -710,29 +721,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -740,7 +729,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

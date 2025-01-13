@@ -7,6 +7,10 @@ crossref:
   chapters: false
 ---
 
+{{< include ../../latexmacros.qmd >}}
+
+</br>
+
 지금까지 상미분 방정식의 초기값 문제에 대한 기본적인 지식을 쌓았다. 이제 좀 더 정교한 미분방정식의 수치해석적 풀이법을 알아보고자 한다.
 
 

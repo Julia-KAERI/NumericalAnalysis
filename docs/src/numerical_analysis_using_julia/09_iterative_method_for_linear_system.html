@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>선형방정식과 반복법 – 수치해석과 이미지 처리</title>
+<title>수치해석과 이미지 처리 - 선형방정식과 반복법</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -148,7 +148,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -179,18 +179,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/09_iterative_method_for_linear_system.html">선형방정식과 반복법</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -255,6 +255,41 @@ window.Quarto = {
  <span class="menu-text">편미분 방정식</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">수학적 자료</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_collection_of_proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">수학적 증명</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_generalized_inverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">일반화된 역행렬과 의사 역행렬</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_ode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">상미분 방정식</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_pde.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">편미분 방정식의 이론적 배경</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -308,6 +343,14 @@ window.Quarto = {
 </header>
 
 
+<div class="hidden">
+<p>% %</p>
+%
+<p><span class="math display">\[
+\DeclarePairedDelimiters{\set}{\{}{\}}
+\DeclareMathOperator*{\argmax}{argmax}
+\]</span></p>
+</div>
 <p><br></p>
 <section id="고유값-스펙트럼반경-반복법" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="고유값-스펙트럼반경-반복법"><span class="header-section-number">1</span> 고유값, 스펙트럼반경, 반복법</h2>
@@ -379,7 +422,8 @@ window.Quarto = {
 </div>
 <div class="callout-body-container">
 <div id="def-spectra_radius" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 1 (스펙트럼 반경(spectral radius))</strong></span>   (<span class="math inline">\(1\)</span>) 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 <span class="math inline">\(\lambda(\boldsymbol{A})\)</span> 는 <span class="math inline">\(\boldsymbol{A}\)</span> 의 모든 고유값들의 집합이다.</p>
+<p><span class="theorem-title"><strong>정의 1 (스펙트럼 반경(spectral radius))</strong></span> <br></p>
+<p>  (<span class="math inline">\(1\)</span>) 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 <span class="math inline">\(\lambda(\boldsymbol{A})\)</span> 는 <span class="math inline">\(\boldsymbol{A}\)</span> 의 모든 고유값들의 집합이다.</p>
 <p>  (<span class="math inline">\(2\)</span>) 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 스펙트럼 반경 <span class="math inline">\(\rho(\boldsymbol{A})\)</span> 는 <span class="math inline">\(\lambda(\boldsymbol{A})\)</span> 의 절대값의 상한으로 정의된다. 즉,</p>
 <p><span id="eq-iterative_spectral_radius"><span class="math display">\[
 \rho (\boldsymbol{A}) := \max \{ |\lambda| : \lambda \in \lambda(\boldsymbol{A})\}.
@@ -408,9 +452,9 @@ window.Quarto = {
 \]</span></p>
 <p>의 경우 <span class="math inline">\(\rho(\boldsymbol{A}) \approx 2.45\)</span>, <span class="math inline">\(\rho(\boldsymbol{B}) \approx 3.70\)</span>, <span class="math inline">\(\rho(\boldsymbol{A}+\boldsymbol{B}) \approx 6.44\)</span> 이므로 <span class="math inline">\(\rho(\boldsymbol{A}+\boldsymbol{B}) &gt; \rho(\boldsymbol{A}) + \rho (\boldsymbol{B})\)</span> 인데 이것은 행렬의 노름이 될 조건에 위배된다. 하지만 스펙트럼 반경과 노름은 아래와 같이 밀접한 관련이 있다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-spectral_radius" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 1</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{F})\)</span> 에 대해</p>
+<p><span class="theorem-title"><strong>명제 1</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{F}^{n \times n}\)</span> 에 대해</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\|\boldsymbol{A}\|_2 = \left[\rho (\boldsymbol{A}^T\boldsymbol{A})\right]^{1/2}\)</span> 이며,</p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\rho(\boldsymbol{A})\)</span> 는 모든 자연스러운 노름에 대해 <span class="math inline">\(\|\boldsymbol{A}\|\)</span> 보다 작거나 같다.</p>
 </div>
@@ -440,7 +484,7 @@ window.Quarto = {
 </div>
 </div>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-convergent_matrix" class="theorem proposition">
 <p><span class="theorem-title"><strong>명제 2</strong></span> 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 다음은 동치이다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{A}\)</span> 는 수렴한다.</p>
@@ -466,9 +510,9 @@ window.Quarto = {
 \]</span></p>
 <p>에서 생성되는 수열 <span class="math inline">\(\langle \boldsymbol{x}^{(k)}\rangle\)</span>, <span class="math inline">\(k=0,\,1,\ldots\)</span> 는 <span class="math inline">\(\boldsymbol{x} = \boldsymbol{Tx}+ \boldsymbol{c}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 로 수렴한다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="lem-iterative_method_1" class="theorem lemma">
-<p><span class="theorem-title"><strong>보조정리 1</strong></span> 행렬 <span class="math inline">\(\boldsymbol{T}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 의 스펙트럼 반경이 <span class="math inline">\(1\)</span> 보다 작다면 <span class="math inline">\(\boldsymbol{I}-\boldsymbol{T}\)</span> 는 가역행렬이며,</p>
+<p><span class="theorem-title"><strong>보조정리 1</strong></span> 행렬 <span class="math inline">\(\boldsymbol{T}\in \mathbb{F}^{n\times n}\)</span> 의 스펙트럼 반경이 <span class="math inline">\(1\)</span> 보다 작다면 <span class="math inline">\(\boldsymbol{I}-\boldsymbol{T}\)</span> 는 가역행렬이며,</p>
 <p><span class="math display">\[
 (\boldsymbol{I}-\boldsymbol{T})^{-1} = \sum_{j=0}^{\infty} \boldsymbol{T}^j
 \]</span></p>
@@ -484,9 +528,9 @@ window.Quarto = {
 <p>이므로 <a href="#prp-convergent_matrix" class="quarto-xref">명제&nbsp;2</a> 에 의해 <span class="math inline">\((\boldsymbol{I}-\boldsymbol{T})^{-1} = \displaystyle\sum_{j=0}^\infty \boldsymbol{T}^j\)</span> 이다. <span class="math inline">\(\square\)</span></p>
 </div>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-iterative_method" class="theorem">
-<p><span class="theorem-title"><strong>정리 1</strong></span> 임의의 <span class="math inline">\(\boldsymbol{x}^{(0)},\, \boldsymbol{c}\in \mathcal{M}_n(\mathbb{F})\)</span> 과 행렬 <span class="math inline">\(\boldsymbol{T}\in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 에 대해</p>
+<p><span class="theorem-title"><strong>정리 1</strong></span> 임의의 <span class="math inline">\(\boldsymbol{x}^{(0)},\, \boldsymbol{c}\in \mathbb{F}^n\)</span> 과 행렬 <span class="math inline">\(\boldsymbol{T}\in \mathbb{F}^{n \times n}\)</span> 에 대해</p>
 <p><span class="math display">\[
 \boldsymbol{x}^{(k+1)} =  \boldsymbol{Tx}^{(k)}+ \boldsymbol{c}
 \]</span></p>
@@ -516,7 +560,7 @@ window.Quarto = {
 <p>이다. <a href="#prp-convergent_matrix" class="quarto-xref">명제&nbsp;2</a> 에 따라 임의의 <span class="math inline">\(\boldsymbol{z}\)</span> 에 대해 <span class="math inline">\(\displaystyle \lim_{k \to \infty} \boldsymbol{T}^{(k+1)}\boldsymbol{z}=0\)</span> 이면 <span class="math inline">\(\rho(\boldsymbol{T})&lt;1\)</span> 이다. <span class="math inline">\(\square\)</span></p>
 </div>
 <br>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="cor-iterative_method" class="theorem corollary">
 <p><span class="theorem-title"><strong>따름정리 1</strong></span> 임의의 자연스러운 행렬 노름에 대해 <span class="math inline">\(\|\boldsymbol{T}\|&lt;1\)</span> 이면 임의의 벡터 <span class="math inline">\(\boldsymbol{c}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)}+\boldsymbol{c}\)</span> 에 의해 생성되는 수열 <span class="math inline">\(\langle \boldsymbol{x}^{(k)} \rangle\)</span> 은 초기값 <span class="math inline">\(\boldsymbol{x}^{(0)}\)</span> 에 무관하게 <span class="math inline">\(\boldsymbol{x}=\boldsymbol{Tx} + \boldsymbol{c}\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}\)</span> 로 수렴한다. 또한 다음을 만족한다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\| \boldsymbol{x}-\boldsymbol{x}^{(k)}\| \le \|\boldsymbol{T}\|^k \|\boldsymbol{x}-\boldsymbol{x}^{(0)}\|\)</span>,</p>
@@ -562,7 +606,7 @@ window.Quarto = {
 </div>
 <div class="callout-body-container">
 <div id="def-iteration_residual_vector" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 3 (오차벡터)</strong></span> <span class="math inline">\(\boldsymbol{A} \in \mathcal{M}_{n \times n}(\mathbb{F})\)</span> 를 이용한 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 이 주어졌을 때 <span class="math inline">\(\tilde{\boldsymbol{x}}\in \mathcal{M}_{n}(\mathbb{F})\)</span> 에 대한 <strong>오차벡터(residual vector)</strong> <span class="math inline">\(\boldsymbol{r}\)</span> 는 다음과 같이 정의된다.</p>
+<p><span class="theorem-title"><strong>정의 3 (오차벡터)</strong></span> <span class="math inline">\(\boldsymbol{A} \in \mathbb{F}^{n \times n}\)</span> 를 이용한 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 이 주어졌을 때 <span class="math inline">\(\tilde{\boldsymbol{x}}\in \mathcal{M}_{n}(\mathbb{F})\)</span> 에 대한 <strong>오차벡터(residual vector)</strong> <span class="math inline">\(\boldsymbol{r}\)</span> 는 다음과 같이 정의된다.</p>
 <p><span id="eq-iterative_residual_vector"><span class="math display">\[
 \boldsymbol{r} : = \boldsymbol{b} - \boldsymbol{A}\tilde{\boldsymbol{x}}
 \tag{2}\]</span></span></p>
@@ -592,7 +636,7 @@ window.Quarto = {
 <p><br></p>
 <section id="sec-iteration_jacobi" class="level3">
 <h3 class="anchored" data-anchor-id="sec-iteration_jacobi">야코비 방법</h3>
-<p><span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{D}\)</span> 를 <span class="math inline">\(\boldsymbol{A}\)</span> 의 대각행렬, <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{U}\)</span> 를 각각 <span class="math inline">\(\boldsymbol{A}\)</span> 의 하삼각 행렬부분과 상삼각 행렬에서 대각성분을 <span class="math inline">\(0\)</span> 으로 만든 행렬이라고 하자. 즉 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{D}+\boldsymbol{L}+\boldsymbol{U}\)</span> 이며, <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{U}\)</span> 는 대각성분이 모두 <span class="math inline">\(0\)</span> 인 하삼각행렬과 상삼각행렬이다. 이 때 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 는 <span class="math inline">\((\boldsymbol{D} + \boldsymbol{L} +\boldsymbol{U})\boldsymbol{x}=\boldsymbol{b}\)</span> 가 되며,</p>
+<p><span class="math inline">\(\boldsymbol{A}\in \mathbb{R}^{n \times n}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{D}\)</span> 를 <span class="math inline">\(\boldsymbol{A}\)</span> 의 대각행렬, <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{U}\)</span> 를 각각 <span class="math inline">\(\boldsymbol{A}\)</span> 의 하삼각 행렬부분과 상삼각 행렬에서 대각성분을 <span class="math inline">\(0\)</span> 으로 만든 행렬이라고 하자. 즉 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{D}+\boldsymbol{L}+\boldsymbol{U}\)</span> 이며, <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{U}\)</span> 는 대각성분이 모두 <span class="math inline">\(0\)</span> 인 하삼각행렬과 상삼각행렬이다. 이 때 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 는 <span class="math inline">\((\boldsymbol{D} + \boldsymbol{L} +\boldsymbol{U})\boldsymbol{x}=\boldsymbol{b}\)</span> 가 되며,</p>
 <p><span class="math display">\[
 \boldsymbol{Dx} = -(\boldsymbol{L}+\boldsymbol{U})\boldsymbol{x}+\boldsymbol{b}
 \]</span></p>
@@ -657,7 +701,7 @@ x_{i}^{(k+1)} = \sum_{j=1,\, j\ne i}^n \left(-\dfrac{A_{ij}}{A_{ii}}\right)x^{(k
 </section>
 <section id="sec-iteration_gauss_siedel" class="level3">
 <h3 class="anchored" data-anchor-id="sec-iteration_gauss_siedel">가우스-자이델 방법</h3>
-<p><span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 에 대한 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 에서 <span class="math inline">\(\boldsymbol{D}\)</span> 를 <span class="math inline">\(\boldsymbol{A}\)</span> 의 대각행렬, <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{U}\)</span> 를 각각 <span class="math inline">\(\boldsymbol{A}\)</span> 의 하삼각 행렬부분과 상삼각 행렬에서 대각성분을 <span class="math inline">\(0\)</span> 으로 만든 행렬이라고 하자. 선형 방정식을 다음과 같이 변화시킬 수 있다.</p>
+<p><span class="math inline">\(\boldsymbol{A}\in \mathbb{R}^{n \times n}\)</span> 에 대한 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 에서 <span class="math inline">\(\boldsymbol{D}\)</span> 를 <span class="math inline">\(\boldsymbol{A}\)</span> 의 대각행렬, <span class="math inline">\(\boldsymbol{L}\)</span> 과 <span class="math inline">\(\boldsymbol{U}\)</span> 를 각각 <span class="math inline">\(\boldsymbol{A}\)</span> 의 하삼각 행렬부분과 상삼각 행렬에서 대각성분을 <span class="math inline">\(0\)</span> 으로 만든 행렬이라고 하자. 선형 방정식을 다음과 같이 변화시킬 수 있다.</p>
 <p><span class="math display">\[
 \boldsymbol{x} = (\boldsymbol{D}+\boldsymbol{L})^{-1}(\boldsymbol{b}-\boldsymbol{Ux})
 \]</span></p>
@@ -710,9 +754,11 @@ x_{i}^{(k+1)} = \dfrac{1}{A_{ii}}\left[b_i - \sum_{j=1}^{i-1} A_{ij} x^{(k+1)}_j
 <span id="cb7-30"><a href="#cb7-30"></a>    <span class="cf">return</span> x</span>
 <span id="cb7-31"><a href="#cb7-31"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>야코비 방법과 가우스-지델 방법 모두 <span class="math inline">\(\boldsymbol{x}^{(k+1)} = \boldsymbol{Tx}^{(k)} + \boldsymbol{c}\)</span> 형태의 반복법을 사용한다. 우리는 <a href="#thm-iterative_method" class="quarto-xref">정리&nbsp;1</a> 로 부터 <span class="math inline">\(\rho(\boldsymbol{T})&lt;1\)</span> 일 경우에만 이 반복법에 의해 답을 얻을 수 있다는 것을 안다. 일반적으로 가우스-지델 방법이 야코비 방법보다 빠르게 원하는 정확도의 답을 얻지만 가우스-지델 방법이 이 조건을 충족하지 못하고 야코비 방법은 충족하는 경우 야코비 방법을 사용 할 수 있다. 물론 거꾸로 야코비 방법이 이 조건을 충족하지 못하고 가우스-지델 방법이 충족할 수 도 있다.</p>
-<p><br></p>
+<br>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 <div id="exm-spectral_radius" class="theorem example">
 <p><span class="theorem-title"><strong>예제 1</strong></span> <span class="math inline">\(\boldsymbol{A} = \left[\, \begin{array}{rr} 2 &amp; -1 &amp; 1 \\ 2 &amp; 2 &amp; 2 \\ -1 &amp; -1 &amp; 2\end{array}\,\right]\)</span> 의 경우 <span class="math inline">\(\rho(\boldsymbol{D}^{-1}(\boldsymbol{L}+ \boldsymbol{U}))=\dfrac{\sqrt{5}}{2}&gt;1\)</span> 이므로 야코비 방법으로는 답을 얻을 수 없지만. <span class="math inline">\(\rho((\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{U}) = \dfrac{1}{2}&lt;1\)</span> 이므로 가우스-지델 방법은 사용할 수 있다. 반대로 <span class="math inline">\(\boldsymbol{A} = \left[\, \begin{array}{rr} 1 &amp; 2 &amp; -2 \\ 1 &amp; 1 &amp; 1 \\ 2 &amp; 2 &amp; 1\end{array}\,\right]\)</span> 의 경우 <span class="math inline">\(\rho(\boldsymbol{D}^{-1}(\boldsymbol{L} + \boldsymbol{U})) = 0&lt;1\)</span> 이므로 야코비 방법을 사용 할 수 있지만 <span class="math inline">\(\rho((\boldsymbol{D}-\boldsymbol{L})^{-1}\boldsymbol{U}) = 2&gt;1\)</span> 이므로 가우스-지델 방법은 사용 할 수 없다.</p>
+</div>
 </div>
 <p><br></p>
 </section>
@@ -775,7 +821,7 @@ x^{(k+1)}_i = (1-\omega) x^{(k)}_i + \dfrac{1}{A_{ii}}\left[ \omega b_i - \sum_{
 <p><br></p>
 <p>다음의 결과를 증명 없이 사용하겠다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-kahan" class="theorem">
 <p><span class="theorem-title"><strong>정리 2 (Kahan 의 정리)</strong></span> 모든 대각 성분이 <span class="math inline">\(0\)</span> 이 아닌 정사각 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{T}_\omega\)</span> 를 다음과 같이 정의하자. <span class="math inline">\(\boldsymbol{D}\)</span> <span class="math inline">\(\boldsymbol{L}\)</span>, <span class="math inline">\(\boldsymbol{U}\)</span> 는 각각 <span class="math inline">\(\boldsymbol{A}\)</span> 의 대각성분, 대각성분을 제외한 하삼각행렬, 대각성분을 제외한 상삼각행렬이라고 하자.</p>
 <p><span class="math display">\[
@@ -791,14 +837,14 @@ x^{(k+1)}_i = (1-\omega) x^{(k)}_i + \dfrac{1}{A_{ii}}\left[ \omega b_i - \sum_{
 <p><br></p>
 <p><br></p>
 <p>즉 <span class="math inline">\(0 &lt;\omega &lt;2\)</span> 는 해를 구할 수 있는 필요조건이다.</p>
-<p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-ostrowski-reich" class="theorem">
-<p><span class="theorem-title"><strong>정리 3 (Ostrowski-Reich 정리)</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_n(\mathbb{R})\)</span> 이 positive definite 이고 <span class="math inline">\(0&lt;\omega &lt;2\)</span> 이면 SOR 에서의 <span class="math inline">\(\boldsymbol{x}^{(k)}\)</span> 는 수렴한다.</p>
+<p><span class="theorem-title"><strong>정리 3 (Ostrowski-Reich 정리)</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{R}^n\)</span> 이 positive definite 이고 <span class="math inline">\(0&lt;\omega &lt;2\)</span> 이면 SOR 에서의 <span class="math inline">\(\boldsymbol{x}^{(k)}\)</span> 는 수렴한다.</p>
 </div>
 </div>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-positive_definite_tridiagonal" class="theorem">
 <p><span class="theorem-title"><strong>정리 4</strong></span> 야코비 방법에서의 <span class="math inline">\(\boldsymbol{T}_J = -\boldsymbol{D}^{-1}(\boldsymbol{L} +\boldsymbol{U})\)</span> 와 가우스-자이델 방법에서의 <span class="math inline">\(\boldsymbol{T}_G = -(\boldsymbol{D}+\boldsymbol{L})^{-1}\boldsymbol{U}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이며 삼중대각행렬이라면 <span class="math inline">\(\rho(\boldsymbol{T}_G) = \left[\boldsymbol{T}_J\right]^2  &lt; 1\)</span> 이며, SOR 에서의 최적의 <span class="math inline">\(\omega\)</span> 는</p>
 <p><span class="math display">\[
@@ -813,9 +859,9 @@ x^{(k+1)}_i = (1-\omega) x^{(k)}_i + \dfrac{1}{A_{ii}}\left[ \omega b_i - \sum_{
 <h2 data-number="4" class="anchored" data-anchor-id="오차벡터와-조건수"><span class="header-section-number">4</span> 오차벡터와 조건수</h2>
 <p>선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 에 대해 우리가 임시로 구한 해를 <span class="math inline">\(\overline{\boldsymbol{x}}\)</span> 라고 할 때 <span class="math inline">\(\boldsymbol{r} = \boldsymbol{b}-\boldsymbol{A}\overline{\boldsymbol{x}}\)</span> 는 오차벡터(residual vector) 이다(<a href="#def-iteration_residual_vector" class="quarto-xref">정의&nbsp;3</a>). 우리는 앞서 선형방정식의 오차의 척도로 <span class="math inline">\(\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|\)</span> 나 <span class="math inline">\(\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|/\|\boldsymbol{x}\|\)</span> 를 사용하였다. 정해진 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 의 노름에 대해 <span class="math inline">\(\|\boldsymbol{r}\|\)</span> 이 작다면 <span class="math inline">\(\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|\)</span> 혹은 <span class="math inline">\(\|\boldsymbol{x}-\overline{\boldsymbol{x}}\|/\|\boldsymbol{x}\|\)</span> 가 작을 것이라고 예상 할 수 있지만 항상 그런것은 아니다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-condition_number" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 3</strong></span> 가역행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대한 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해 <span class="math inline">\(\boldsymbol{x}\in \mathcal{M}_n (\mathbb{R})\)</span> 과 어떤 <span class="math inline">\(\overline{\boldsymbol{x}} \in \mathcal{M}_n (\mathbb{R})\)</span>, 그리고 오차 벡터 <span class="math inline">\(\boldsymbol{r}= \boldsymbol{b}-\boldsymbol{A}\overline{\boldsymbol{x}}\)</span> 과 벡터공간에서의 자연스러운 노름 <span class="math inline">\(\|\cdot \|\)</span> 에 대해 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>명제 3</strong></span> 가역행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 에 대한 선형방정식 <span class="math inline">\(\boldsymbol{Ax}=\boldsymbol{b}\)</span> 의 해 <span class="math inline">\(\boldsymbol{x}\in \mathbb{R}^n\)</span> 과 어떤 <span class="math inline">\(\overline{\boldsymbol{x}} \in \mathbb{R}^n\)</span>, 그리고 오차 벡터 <span class="math inline">\(\boldsymbol{r}= \boldsymbol{b}-\boldsymbol{A}\overline{\boldsymbol{x}}\)</span> 과 벡터공간에서의 자연스러운 노름 <span class="math inline">\(\|\cdot \|\)</span> 에 대해 다음이 성립한다.</p>
 <p><span class="math display">\[
 \|\boldsymbol{x}-\overline{\boldsymbol{x}}\| \le \|\boldsymbol{r}\| \cdot \left\| \boldsymbol{A}^{-1}\right\|.
 \]</span></p>
@@ -843,16 +889,16 @@ x^{(k+1)}_i = (1-\omega) x^{(k)}_i + \dfrac{1}{A_{ii}}\left[ \omega b_i - \sum_{
 <h2 data-number="5" class="anchored" data-anchor-id="the-conjugate-gradient-방법"><span class="header-section-number">5</span> The Conjugate gradient 방법</h2>
 <p><span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이며 내적이 유클리드 내적, 즉 <span class="math inline">\(\langle \boldsymbol{x},\,\boldsymbol{y} \rangle = \boldsymbol{y}^T\boldsymbol{x}\)</span> 라고 하자. <span class="math inline">\(\boldsymbol{A}\)</span> 가 positive definite 이므로 <span class="math inline">\(\langle \boldsymbol{Ax},\,\boldsymbol{x} \rangle = \boldsymbol{x}^T\boldsymbol{Ax} &gt; 0\)</span> 이다. 이때 우리는 다음을 보일 수 있다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-congjugate_gradient" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 4</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_n (\mathbb{R})\)</span> 가 positive definite 이고 <span class="math inline">\(\boldsymbol{x}_0 \in \mathcal{M}_n(\mathbb{R})\)</span> 일 때 다음은 동치이다.</p>
+<p><span class="theorem-title"><strong>명제 4</strong></span> <span class="math inline">\(\boldsymbol{A}\in \mathbb{R}^n\)</span> 가 positive definite 이고 <span class="math inline">\(\boldsymbol{x}_0 \in \mathbb{R}^n\)</span> 일 때 다음은 동치이다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{Ax}_0=\boldsymbol{b}\)</span>,</p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(g(\boldsymbol{x})= \langle \boldsymbol{Ax},\,\boldsymbol{x}\rangle -2 \langle \boldsymbol{b}, \boldsymbol{x}\rangle\)</span> 의 최소값은 <span class="math inline">\(g(\boldsymbol{x}_0)\)</span> 이다.</p>
 </div>
 </div>
 <p><br></p>
 <div class="proof">
-<p><span class="proof-title"><em>(증명)</em>. </span>우선 <span class="math inline">\(t\in \mathbb{R},\, \boldsymbol{v}\in \mathcal{M}_n(\mathbb{R})\)</span> 에 대해,</p>
+<p><span class="proof-title"><em>(증명)</em>. </span>우선 <span class="math inline">\(t\in \mathbb{R},\, \boldsymbol{v}\in \mathbb{R}^n\)</span> 에 대해,</p>
 <p><span id="eq-conjugate_gradient"><span class="math display">\[
 \begin{aligned}
 g(\boldsymbol{x}+t\boldsymbol{v}) &amp;= \langle \boldsymbol{A}(\boldsymbol{x}+t\boldsymbol{v}), \, \boldsymbol{x}+t\boldsymbol{v} \rangle - 2\langle \boldsymbol{b},\, \boldsymbol{x}+t\boldsymbol{v}\rangle  \\
@@ -916,7 +962,7 @@ t_k = \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(k)}, \, \boldsymbol{v}^{(k
 <h3 class="anchored" data-anchor-id="boldsymbola-직교-조건"><span class="math inline">\(\boldsymbol{A}\)</span>-직교 조건</h3>
 <p>영벡터가 아닌 벡터의 집합 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\} \subset \mathcal{M}_{n}(\mathbb{R})\)</span> 이 <span class="math inline">\(i \ne j \implies \langle \boldsymbol{Av}^{(i)},\, \boldsymbol{v}^{(j)}\rangle = 0\)</span> 일 때 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}\)</span> 를 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터라고 한다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-A_orthogonal_vectors_are_linearly_independent" class="theorem proposition">
 <p><span class="theorem-title"><strong>명제 5</strong></span> Positive definite <span class="math inline">\(\boldsymbol{A}\)</span> 에 대해 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots, \boldsymbol{v}^{(m)}\}\)</span> 가 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터일 때 이 벡터들은 선형독립이다.</p>
 </div>
@@ -932,9 +978,9 @@ t_k = \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(k)}, \, \boldsymbol{v}^{(k
 <p><br></p>
 <p>즉 <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n\times n}(\mathbb{R})\)</span> 에 대해 <span class="math inline">\(\boldsymbol{A}\)</span>-직교인 <span class="math inline">\(n\)</span> 개의 벡터를 얻었다면 이 <span class="math inline">\(n\)</span> 개의 벡터는 <span class="math inline">\(\mathcal{M}_n(\mathbb{R})\)</span> 의 기저가 된다. 이제 <span class="math inline">\(\boldsymbol{A}\)</span>-직교인 <span class="math inline">\(\{\boldsymbol{v}^{(k)} : k=1,\ldots,\,n\}\)</span> 를 구해야 할 것 같지만 잠시 미뤄두자. 구하는 것은 복잡하거나 어렵지 않다. 일단 <span class="math inline">\(\boldsymbol{A}\)</span>-직교인 <span class="math inline">\(\{\boldsymbol{v}^{(k)} : k=1,\ldots,\,n\}\)</span> 를 안다면 우리는 최대 <span class="math inline">\(n\)</span> 번의 iteration 선형방정식의 해를 이론적으로 구할 수 있다는 것을 보일 수 있다. 여기서 이론적이라는 것은 roundoff-error 등으로 인한 오차를 생각하지 않는다는 조건이다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-A-orthogonal_method" class="theorem">
-<p><span class="theorem-title"><strong>정리 5</strong></span> Positive definite <span class="math inline">\(\boldsymbol{A}\in \mathcal{M}_{n \times n}(\mathbb{R})\)</span> 에 대해 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots,\,\boldsymbol{v}^{(n)}\}\)</span> 이 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터라고 하자. 임의의 <span class="math inline">\(\boldsymbol{x}^{(0)}\in \mathcal{M}\)</span> 과 <span class="math inline">\(k=1,\ldots,\,n\)</span> 에 대해</p>
+<p><span class="theorem-title"><strong>정리 5</strong></span> Positive definite <span class="math inline">\(\boldsymbol{A}\in \mathbb{R}^{n\times n}\)</span> 에 대해 <span class="math inline">\(\{\boldsymbol{v}^{(1)}, \ldots,\,\boldsymbol{v}^{(n)}\}\)</span> 이 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터라고 하자. 임의의 <span class="math inline">\(\boldsymbol{x}^{(0)}\in \mathbb{R}^n\)</span> 과 <span class="math inline">\(k=1,\ldots,\,n\)</span> 에 대해</p>
 <p><span class="math display">\[
 \begin{aligned}
 t_k &amp;= \dfrac{\langle \boldsymbol{b}-\boldsymbol{Ax}^{(k-1)}, \, \boldsymbol{v}^{(k)}\rangle }{\langle \boldsymbol{Av}^{(k)},\, \boldsymbol{v}^{(k)}\rangle}, \\
@@ -982,7 +1028,7 @@ t_k \langle \boldsymbol{Av}^{(k)},\, \, \boldsymbol{v}^{(k)}\rangle &amp;= \lang
 </div>
 <p><br></p>
 <p>이제 <span class="math inline">\(\boldsymbol{A}\)</span>-직교 벡터를 구하는 방법을 알아보기 전에 다음을 보자.</p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-A_orthogonal_vectors_1" class="theorem">
 <p><span class="theorem-title"><strong>정리 6</strong></span> <a href="#thm-A-orthogonal_method" class="quarto-xref">정리&nbsp;5</a> 의 조건에서 <span class="math inline">\(\boldsymbol{r}^{(k)}=\boldsymbol{b}-\boldsymbol{Ax}^{(k)}\)</span> 이라 하면 <span class="math inline">\(j=1,\ldots,\,k\)</span> 에 대해 <span class="math inline">\(\langle \boldsymbol{r}^{(k)}, \boldsymbol{v}^{(j)}\rangle=0\)</span> 이다.</p>
 </div>
@@ -1007,7 +1053,7 @@ t_k \langle \boldsymbol{Av}^{(k)},\, \, \boldsymbol{v}^{(k)}\rangle &amp;= \lang
 <p>이다. <span class="math inline">\(j\le k\)</span> 라면 <span class="math inline">\(\langle \boldsymbol{r}^{(k)},\, \boldsymbol{v}^{(j)}\rangle\)</span> 은 induction 의 가정에 의해 <span class="math inline">\(0\)</span> 이며 <span class="math inline">\(\langle \boldsymbol{Av}^{(k+1)},\, \boldsymbol{v}^{(j)}\rangle\)</span> 은 <span class="math inline">\(\boldsymbol{A}\)</span>-직교조건에 의해 <span class="math inline">\(0\)</span> 이다. <span class="math inline">\(j=k+1\)</span> 이라면 <span class="math inline">\(t_k\)</span> 와 <span class="math inline">\(\boldsymbol{r}^{(k)}\)</span> 의 정의에 의해 <span class="math inline">\(0\)</span> 이다. 따라서 명제가 성립한다. <span class="math inline">\(\square\)</span></p>
 </div>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-A_orthogonal_vectors_2" class="theorem">
 <p><span class="theorem-title"><strong>정리 7</strong></span> 임의의 <span class="math inline">\(\boldsymbol{x}^{(0)}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{v}^{(1)}=\boldsymbol{r}^{(0)}= \boldsymbol{b}-\boldsymbol{Ax}^{(0)}\)</span> 로 잡자. 그리고 <span class="math inline">\(\boldsymbol{x}^{(k-1)}\)</span> 와 <span class="math inline">\(\boldsymbol{v}^{(k)}\)</span> 이 주어졌을 때,</p>
 <p><span class="math display">\[
@@ -1081,7 +1127,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1113,29 +1170,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -1143,7 +1178,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>상미분 방정식의 경계값 문제 – 수치해석과 이미지 처리</title>
+<title>수치해석과 이미지 처리 - 상미분 방정식의 경계값 문제</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -148,7 +148,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -179,18 +179,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/13_ode_boundary_value_problem.html">상미분 방정식의 경계값 문제</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -255,6 +255,41 @@ window.Quarto = {
  <span class="menu-text">편미분 방정식</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">수학적 자료</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_collection_of_proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">수학적 증명</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_generalized_inverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">일반화된 역행렬과 의사 역행렬</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_ode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">상미분 방정식</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_pde.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">편미분 방정식의 이론적 배경</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -303,6 +338,15 @@ window.Quarto = {
 </header>
 
 
+<div class="hidden">
+<p>% %</p>
+%
+<p><span class="math display">\[
+\DeclarePairedDelimiters{\set}{\{}{\}}
+\DeclareMathOperator*{\argmax}{argmax}
+\]</span></p>
+</div>
+<p><br></p>
 <section id="경계값-문제" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="경계값-문제"><span class="header-section-number">1</span> 경계값 문제</h2>
 <p>상미분 방정식의 해에 대해 우리는 <span class="math inline">\([a,\,b]\)</span> 구간에만 관심이 있으며 <span class="math inline">\(\boldsymbol{x}(a)=\boldsymbol{x}_a,\, \boldsymbol{x}(b)= \boldsymbol{x}_b\)</span> 형식의 경계조건이 주어졌을 경우 이를 경계값 문제라고 한다.</p>
@@ -316,7 +360,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="sec-linear_shooting_method">선형 사격법</h3>
 <p>Linear shooting 방법은 경계값 문제를 두개의 초기값 문제로 바꾸어 푼다.</p>
 <p>다음은 잘 알려져 있다.</p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-linear_shooting" class="theorem">
 <p><span class="theorem-title"><strong>정리 1</strong></span> <span class="math inline">\([a,\,b]\)</span> 구간에서 정의된 미분방정식과 그 경계값이 다음과 같이 주어졌다고 하자. <span class="math display">\[
 x'' = f(t, x, x'),\qquad x(a)=\alpha,\, x(b) = \beta
@@ -331,7 +375,7 @@ x'' = f(t, x, x'),\qquad x(a)=\alpha,\, x(b) = \beta
 </div>
 <p><br></p>
 <p>우리가 <span class="math inline">\(x'' = p(t)x' +  q(t)x + r(t)\)</span> 형태의 미분방정식과 <span class="math inline">\(x(a)=\alpha,\, x(b)=\beta\)</span> 의 경계조건을 가진 미분방정식에 관심이 있다고 하자. 이 때 <a href="#thm-linear_shooting" class="quarto-xref">정리&nbsp;1</a> 으로부터 다음을 알 수 있다.</p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="cor-linear_shooting" class="theorem corollary">
 <p><span class="theorem-title"><strong>따름정리 1</strong></span> <a href="#thm-linear_shooting" class="quarto-xref">정리&nbsp;1</a> 의 조건을 만족하는 경계값 문제가 다음과 같이 주어졌다고 하자.</p>
 <p><span class="math display">\[
@@ -440,7 +484,7 @@ x''(t) &amp;= x_1''(t) + \dfrac{\beta-x_1(b)}{x_2(b)}x_2''(t) \\
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>ax.xlabel <span class="op">=</span> L<span class="st">"r"</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ax.ylabel <span class="op">=</span> L<span class="st">"</span><span class="sc">\v</span><span class="st">arphi"</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_potential_problem" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_potential_problem" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_potential_problem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/potential_problem.png" class="img-fluid figure-img" width="400">
@@ -627,7 +671,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -659,29 +714,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -689,7 +722,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>상미분 방정식의 초기값 문제-I – 수치해석과 이미지 처리</title>
+<title>수치해석과 이미지 처리 - 상미분 방정식의 초기값 문제-I</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -148,7 +148,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -179,18 +179,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/11_ode_initial_value_problem_1.html">상미분 방정식의 초기값 문제-I</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -255,6 +255,41 @@ window.Quarto = {
  <span class="menu-text">편미분 방정식</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">수학적 자료</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_collection_of_proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">수학적 증명</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_generalized_inverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">일반화된 역행렬과 의사 역행렬</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_ode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">상미분 방정식</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/numerical_analysis_using_julia/A_pde.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">편미분 방정식의 이론적 배경</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -325,6 +360,15 @@ window.Quarto = {
 </header>
 
 
+<div class="hidden">
+<p>% %</p>
+%
+<p><span class="math display">\[
+\DeclarePairedDelimiters{\set}{\{}{\}}
+\DeclareMathOperator*{\argmax}{argmax}
+\]</span></p>
+</div>
+<p><br></p>
 <section id="미분방정식" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="미분방정식"><span class="header-section-number">1</span> 미분방정식</h2>
 <div class="callout callout-style-simple callout-warning no-icon">
@@ -418,11 +462,11 @@ x_i(t)  = f_i (t,\,x_1(t),\,x_2(t),\ldots,\,x_n(t)),\qquad i=1,\ldots,n
 \]</span></p>
 <p>이 경우 우리는 <span class="math inline">\(\boldsymbol{x}(t) = \begin{bmatrix}x_1(t) &amp; \cdots &amp; x_n(t)\end{bmatrix}^T\)</span> 로 놓고 다음과 같이 표기 할 수 있다.</p>
 <p><span class="math display">\[
-\boldsymbol{x}'(t) = \begin{bmatrix} f_1 (t,\,\boldsymbol{x}) \\ \vdots \\ f_n (t,\, \boldsymbol{x}_n)\end{bmatrix} = \boldsymbol{f}(t,\,\boldsymbol{x})
+\boldsymbol{x}'(t) = \begin{bmatrix} f_1 (t,\,\boldsymbol{x}) \\ \vdots \\ f_n (t,\, \boldsymbol{x}_n)\end{bmatrix} = F(t,\,\boldsymbol{x})
 \]</span></p>
 <p>초기조건 <span class="math inline">\(\boldsymbol{x}(t_0) = \boldsymbol{x}_0\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{x}:[a,\,b] \to \mathbb{R}^m\)</span> 을 구한다고 하자. <span class="math inline">\(\boldsymbol{x} = \begin{bmatrix} x_1(t) &amp; \cdots &amp; x_m(t) \end{bmatrix}^T\)</span> 라 할 때 1변수의 경우와 마찬가지로</p>
 <p><span class="math display">\[
-\boldsymbol{x}(t_{i+1}) =  \boldsymbol{x}(t_i) +\tilde{\boldsymbol{f}}(t_i, h, \boldsymbol{x}, \ldots, \boldsymbol{x}^{(n-1)})
+\boldsymbol{x}(t_{i+1}) =  \boldsymbol{x}(t_i) +\tilde{F}(t_i, h, \boldsymbol{x}, \ldots, \boldsymbol{x}^{(n-1)})
 \]</span></p>
 <p>을 통해 구한다.</p>
 <p><br></p>
@@ -435,7 +479,7 @@ x^{(n)}(t) = f(t,\,x,\,x',\ldots,\, x^{n-1})
 \]</span></p>
 <p>이 주어졌을 경우, <span class="math inline">\(y_1(t) = x(t),\, y_2 (t) = x'(t) ,\ldots, y_n (t) = x^{(n-1)}(t)\)</span> 로 놓고 <span class="math inline">\(\boldsymbol{y}(t) = \begin{bmatrix} y_1(t) &amp; \cdots &amp; y_n(t)\end{bmatrix}^T\)</span> 라 하면 위의 미분 방정식은</p>
 <p><span class="math display">\[
-\boldsymbol{y'}(t) = \begin{bmatrix} y'_1(t) \\ \vdots \\ y'_{n-1}(t) \\ y'_n(t)\end{bmatrix} = \begin{bmatrix} y_2(t) \\ \vdots \\ y_{n}(t)  \\ f(t,\, y_1,\ldots,\, y_{n}(t))\end{bmatrix} = \boldsymbol{f}(t,\, \boldsymbol{y})
+\boldsymbol{y'}(t) = \begin{bmatrix} y'_1(t) \\ \vdots \\ y'_{n-1}(t) \\ y'_n(t)\end{bmatrix} = \begin{bmatrix} y_2(t) \\ \vdots \\ y_{n}(t)  \\ f(t,\, y_1,\ldots,\, y_{n}(t))\end{bmatrix} = F(t,\, \boldsymbol{y})
 \]</span></p>
 <p>가 된다. 다계 상미분 방정식 시스템의 경우도 같은 형태를 가진다는 것을 쉽게 예상 이해 할 수 있을 것이다.</p>
 <p><br></p>
@@ -452,31 +496,31 @@ x^{(n)}(t) = f(t,\,x,\,x',\ldots,\, x^{n-1})
 </div>
 <div class="callout-body-container">
 <div id="def-Lipschitz_condition" class="theorem definition">
-<p><span class="theorem-title"><strong>정의 1 (Lipschitz 조건)</strong></span> <span class="math inline">\(D = \{ t,\,\boldsymbol{x} : a \le t \le b,\, \boldsymbol{x}\in \mathbb{R}^n\}\)</span> 에서 연속인 함수 <span class="math inline">\(\boldsymbol{f}(t, \boldsymbol{x}) : D \to \mathbb{R}^n\)</span> 가 모든 <span class="math inline">\((t, \boldsymbol{x}_1),\, (t,\boldsymbol{x}_2)\in D\)</span> 에 대해 어떤 <span class="math inline">\(L&gt;0\)</span> 이 존재하여</p>
+<p><span class="theorem-title"><strong>정의 1 (Lipschitz 조건)</strong></span> <span class="math inline">\(D = \{ (t,\,\boldsymbol{x}): a \le t \le b,\, \boldsymbol{x}\in \mathbb{R}^n\}\)</span> 에서 연속인 함수 <span class="math inline">\(F(t, \boldsymbol{x}) : D \to \mathbb{R}^n\)</span> 가 모든 <span class="math inline">\((t, \boldsymbol{x}_1),\, (t,\boldsymbol{x}_2)\in D\)</span> 에 대해 어떤 <span class="math inline">\(L&gt;0\)</span> 이 존재하여</p>
 <p><span class="math display">\[
-\|\boldsymbol{f}(t, \boldsymbol{x}_1) - \boldsymbol{f}(t, \boldsymbol{x}_2)\| \le L\| \boldsymbol{x}_1-\boldsymbol{x}_2\|
+\|F(t, \boldsymbol{x}_1) - F(t, \boldsymbol{x}_2)\| \le L\| \boldsymbol{x}_1-\boldsymbol{x}_2\|
 \]</span></p>
-<p>를 만족할 때 이 함수 <span class="math inline">\(\boldsymbol{f}\)</span> 는 <span class="math inline">\(D\)</span> 에서 <strong>Lipschitz 조건</strong> 을 만족한다 라고 하며 이때의 <span class="math inline">\(L\)</span> 을 <span class="math inline">\(\boldsymbol{f}\)</span> 에 대한 <strong>Lipschitz 상수</strong> 라고 한다.</p>
+<p>를 만족할 때 이 함수 <span class="math inline">\(F\)</span> 는 <span class="math inline">\(D\)</span> 에서 <strong>Lipschitz 조건</strong> 을 만족한다 라고 하며 이때의 <span class="math inline">\(L\)</span> 을 <span class="math inline">\(F\)</span> 에 대한 <strong>Lipschitz 상수</strong> 라고 한다.</p>
 </div>
 </div>
 </div>
 </div>
 <p><br></p>
 <p>아래의 정리는 일계 선형 미분방정식의 초기값 문제의 해의 존재성과 유일성을 말한다. 증명은 꽤나 긴데 여기서는 생략한다. 관심이 있으면 Moris Tenenbaum, Harriy Poland 의 <em>Ordinary Differential Equations</em> 나 J. Store, R. Bulirsch 의 <em>Introduction to Numerical Analysis</em> 와 거기에서의 참고목록을 참고하라.</p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-lipschitz_condtion" class="theorem">
-<p><span class="theorem-title"><strong>정리 1</strong></span> <span class="math inline">\(D = \{ (t,\,\boldsymbol{x}) : a \le t \le b,\, \boldsymbol{x}\in \mathbb{R}^n\}\)</span> 에서 정의된 연속인 함수 <span class="math inline">\(\boldsymbol{f}:D \to \mathbb{R}^n\)</span> 이 Lipshitz 조건을 만족한다면 각각의 <span class="math inline">\((t_0,\, \boldsymbol{x}_0) \in D\)</span> 에 대해 다음을 만족하는 <span class="math inline">\(\boldsymbol{x}:\mathbb{R} \to \mathbb{R}^n\)</span> 이 항상 존재한다.</p>
+<p><span class="theorem-title"><strong>정리 1</strong></span> <span class="math inline">\(D = \{ (t,\,\boldsymbol{x}) : a \le t \le b,\, \boldsymbol{x}\in \mathbb{R}^n\}\)</span> 에서 정의된 연속인 함수 <span class="math inline">\(F:D \to \mathbb{R}^n\)</span> 이 Lipshitz 조건을 만족한다면 각각의 <span class="math inline">\((t_0,\, \boldsymbol{x}_0) \in D\)</span> 에 대해 다음을 만족하는 <span class="math inline">\(\boldsymbol{x}:\mathbb{R} \to \mathbb{R}^n\)</span> 이 항상 존재한다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(\boldsymbol{x}\in C^1_{[a,\,b]}\)</span>,</p>
-<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{x}'(t) = f(t,\, \boldsymbol{x}(t))\)</span>,</p>
+<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\boldsymbol{x}'(t) = F(t,\, \boldsymbol{x}(t))\)</span>,</p>
 <p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(\boldsymbol{x}(t_0) =\boldsymbol{x}_0\)</span>.</p>
 </div>
 </div>
 <p><br></p>
-<p>위의 정리는 <span class="math inline">\(\boldsymbol{f}(t,\,\boldsymbol{x})\)</span> 가 Lipschitz 조건을 만족한다면 어떠한 초기조건에 대해서도 <span class="math inline">\(\boldsymbol{x}'(t) = \boldsymbol{f}(t,\,\boldsymbol{x})\)</span> 를 만족하는 <span class="math inline">\(C^1\)</span> 급의 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 가 항상 존재함을 보장한다.</p>
+<p>위의 정리는 <span class="math inline">\(F(t,\,\boldsymbol{x})\)</span> 가 Lipschitz 조건을 만족한다면 어떠한 초기조건에 대해서도 <span class="math inline">\(\boldsymbol{x}'(t) = F(t,\,\boldsymbol{x})\)</span> 를 만족하는 <span class="math inline">\(C^1\)</span> 급의 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 가 항상 존재함을 보장한다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-ode_solution" class="theorem">
-<p><span class="theorem-title"><strong>정리 2</strong></span> <span class="math inline">\(\boldsymbol{f}:D \to \mathbb{R}\)</span> 이 <span class="math inline">\(D\)</span> 에서 연속이며 Lipschitz 상수 <span class="math inline">\(L\)</span> 에 대해 Lipschitz 조건을 만족한다고 하자. 미분방정식 <span class="math inline">\(\boldsymbol{x}' = \boldsymbol{f}(t,\,\boldsymbol{x})\)</span> 에 대해 초기조건이 <span class="math inline">\((t_0,\, \boldsymbol{x}_1)\)</span> 과 <span class="math inline">\((t_0,\, \boldsymbol{x}_2)\)</span> 로 주어졌을 때 각각의 미분방정식의 해를 <span class="math inline">\(\boldsymbol{x}(t;\boldsymbol{x}_1)\)</span>, <span class="math inline">\(\boldsymbol{x}(t,;\boldsymbol{x}_2)\)</span> 라고 하면 다음이 성립한다.</p>
+<p><span class="theorem-title"><strong>정리 2</strong></span> <span class="math inline">\(F:D \to \mathbb{R}\)</span> 이 <span class="math inline">\(D\)</span> 에서 연속이며 Lipschitz 상수 <span class="math inline">\(L\)</span> 에 대해 Lipschitz 조건을 만족한다고 하자. 미분방정식 <span class="math inline">\(\boldsymbol{x}' = F(t,\,\boldsymbol{x})\)</span> 에 대해 초기조건이 <span class="math inline">\((t_0,\, \boldsymbol{x}_1)\)</span> 과 <span class="math inline">\((t_0,\, \boldsymbol{x}_2)\)</span> 로 주어졌을 때 각각의 미분방정식의 해를 <span class="math inline">\(\boldsymbol{x}(t;\boldsymbol{x}_1)\)</span>, <span class="math inline">\(\boldsymbol{x}(t,;\boldsymbol{x}_2)\)</span> 라고 하면 다음이 성립한다.</p>
 <p><span class="math display">\[
 \|\boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t; \boldsymbol{x}_2)\| \le e^{L|t-t_0|} \|\boldsymbol{x}_1 -\boldsymbol{x}_2\| .
 \]</span></p>
@@ -484,12 +528,12 @@ x^{(n)}(t) = f(t,\,x,\,x',\ldots,\, x^{n-1})
 </div>
 <p><br></p>
 <div class="proof">
-<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{x}' = \boldsymbol{f}(t,\boldsymbol{x})\)</span> 이므로 <span class="math inline">\(\boldsymbol{x}(t) = \boldsymbol{x}_0 + \int_{t_0}^t \boldsymbol{f}(t,\boldsymbol{x})\, dt\)</span> 이다. 따라서 <span class="math display">\[
-\boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2) = \boldsymbol{x}_1 - \boldsymbol{x}_2 + \int_{t_0}^t \left[\boldsymbol{f}(t, \boldsymbol{x}(t,\,\boldsymbol{x}_1)) - \boldsymbol{f}(t, \boldsymbol{x}(t;\boldsymbol{x}_2))\right]\, dt
+<p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\boldsymbol{x}' = F(t,\boldsymbol{x})\)</span> 이므로 <span class="math inline">\(\boldsymbol{x}(t) = \boldsymbol{x}_0 + \int_{t_0}^t F(t,\boldsymbol{x})\, dt\)</span> 이다. 따라서 <span class="math display">\[
+\boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2) = \boldsymbol{x}_1 - \boldsymbol{x}_2 + \int_{t_0}^t \left[F(t, \boldsymbol{x}(t,\,\boldsymbol{x}_1)) - F(t, \boldsymbol{x}(t;\boldsymbol{x}_2))\right]\, dt
 \]</span></p>
 <p>이며,</p>
 <p><span id="eq-thm_ode_solution_0"><span class="math display">\[
-\| \boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|  \le \| \boldsymbol{x}_1 - \boldsymbol{x}_2 \| + \int_{t_0}^t \| \boldsymbol{f}(t, \boldsymbol{x}(t,\,\boldsymbol{x}_1)) - \boldsymbol{f}(t, \boldsymbol{x}(t;\boldsymbol{x}_2))\|\, dt
+\| \boldsymbol{x}(t;\boldsymbol{x}_1) - \boldsymbol{x}(t;\boldsymbol{x}_2)\|  \le \| \boldsymbol{x}_1 - \boldsymbol{x}_2 \| + \int_{t_0}^t \| F(t, \boldsymbol{x}(t,\,\boldsymbol{x}_1)) - F(t, \boldsymbol{x}(t;\boldsymbol{x}_2))\|\, dt
 \tag{1}\]</span></span></p>
 <p>이다. Lipschitz 조건을 이용하면</p>
 <p><span id="eq-thm_ode_solution_1"><span class="math display">\[
@@ -518,16 +562,15 @@ x^{(n)}(t) = f(t,\,x,\,x',\ldots,\, x^{n-1})
 <p>이다. <span class="math inline">\(\square\)</span></p>
 </div>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4  ;padding:20px;">
-<!-- <div class="border" style="background-color:#F2ECD0  ;padding:20px;"> -->
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-ode-solution_2" class="theorem">
-<p><span class="theorem-title"><strong>정리 3</strong></span> <a href="#thm-ode_solution" class="quarto-xref">정리&nbsp;2</a> 의 조건에 더해 <span class="math inline">\(\boldsymbol{f}\)</span> 의 <span class="math inline">\(\boldsymbol{x}\)</span> 에 대한 야코비 행렬 <span class="math inline">\(\nabla_\boldsymbol{x}\boldsymbol{f}\)</span> 가 <span class="math inline">\(D\)</span> 에서 존재하며 연속이고 유계라면 즉, 모든 <span class="math inline">\((t,\,\boldsymbol{x})\in D\)</span> 에 대해</p>
+<p><span class="theorem-title"><strong>정리 3</strong></span> <a href="#thm-ode_solution" class="quarto-xref">정리&nbsp;2</a> 의 조건에 더해 <span class="math inline">\(F\)</span> 의 <span class="math inline">\(\boldsymbol{x}\)</span> 에 대한 야코비 행렬 <span class="math inline">\(\boldsymbol{J}_F(\boldsymbol{x})\)</span> 가 <span class="math inline">\(D\)</span> 에서 존재하며 연속이고 유계라면 즉, 모든 <span class="math inline">\((t,\,\boldsymbol{x})\in D\)</span> 에 대해</p>
 <p><span class="math display">\[
-\|\nabla_{\boldsymbol{x}} \boldsymbol{f}(t,\,\boldsymbol{x})\| \le L
+\|\boldsymbol{J}_F(\boldsymbol{x}) F(t,\,\boldsymbol{x})\| \le L
 \]</span></p>
-<p>라면 임의의 초기조건 <span class="math inline">\((t_0,\,\boldsymbol{x}_0)\in D\)</span> 에서의 미분방정식 <span class="math inline">\(\boldsymbol{x}'=\boldsymbol{f}(t,\boldsymbol{x})\)</span> 의 해 <span class="math inline">\(\boldsymbol{x}(t;\boldsymbol{x}_0)\)</span> 는 <span class="math inline">\(D\)</span> 에서 연속이며 미분가능하다. 또한 그 도함수</p>
+<p>라면 임의의 초기조건 <span class="math inline">\((t_0,\,\boldsymbol{x}_0)\in D\)</span> 에서의 미분방정식 <span class="math inline">\(\boldsymbol{x}'=F(t,\boldsymbol{x})\)</span> 의 해 <span class="math inline">\(\boldsymbol{x}(t;\boldsymbol{x}_0)\)</span> 는 <span class="math inline">\(D\)</span> 에서 연속이며 미분가능하다. 또한 그 도함수</p>
 <p><span class="math display">\[
-\boldsymbol{Z}(t; \boldsymbol{x}_0) := \nabla_{\boldsymbol{x}_0} \boldsymbol{x}(t; \boldsymbol{x}_0)
+Z(t; \boldsymbol{x}_0) := \nabla_{\boldsymbol{x}_0} \boldsymbol{x}(t; \boldsymbol{x}_0)
 \]</span></p>
 <p>는 아래의 미분방정식의 초기값 문제의 해이다.</p>
 <p><span id="eq-ode_solution_2_1"><span class="math display">\[
@@ -575,9 +618,9 @@ x_{i+1} = x_i + f(t_{i+1},\,x_{i+1})h
 </section>
 <section id="다변수-일차-미분-방정식" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="다변수-일차-미분-방정식">다변수 일차 미분 방정식</h3>
-<p><span class="math inline">\(\boldsymbol{x}:\mathbb{R}\to \mathbb{R}^n\)</span> 이며 <span class="math inline">\(x_j(t)\)</span> 가 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 의 <span class="math inline">\(j\)</span> 번째 성분일 때 미분방정식이 <span class="math inline">\(\boldsymbol{f}:\mathbb{R}^{n+1}\to \mathbb{R}^n\)</span> 에 대해</p>
+<p><span class="math inline">\(\boldsymbol{x}:\mathbb{R}\to \mathbb{R}^n\)</span> 이며 <span class="math inline">\(x_j(t)\)</span> 가 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 의 <span class="math inline">\(j\)</span> 번째 성분일 때 미분방정식이 <span class="math inline">\(F:\mathbb{R}^{n+1}\to \mathbb{R}^n\)</span> 에 대해</p>
 <p><span class="math display">\[
-\boldsymbol{x}'(t)=\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
+\boldsymbol{x}'(t)=\dfrac{d\boldsymbol{x}}{dt} = F(t, \boldsymbol{x})
 \]</span></p>
 <p>로 주어지고, 초기값 <span class="math inline">\(t_0,\,\boldsymbol{x}(t_0)\)</span> 가 주어졌을 때 가장 간단하게 <span class="math inline">\(\boldsymbol{x}(t)\)</span> 를 구하는 방법이다. 테일러 전개를 이용하면,</p>
 <p><span class="math display">\[
@@ -590,7 +633,7 @@ x_j(t + h) \approx x_j(t) + x_i'(t)h
 <p>임을 이용하는 것이 오일러 방법이다.</p>
 <p><span class="math inline">\(t_{i+1}=t_i+h\)</span> 일 때,</p>
 <p><span class="math display">\[
-\boldsymbol{x}_{i+1} = \boldsymbol{x}_i + \boldsymbol{f}(t_i, \boldsymbol{x}_i) \, h
+\boldsymbol{x}_{i+1} = \boldsymbol{x}_i + F(t_i, \boldsymbol{x}_i) \, h
 \]</span></p>
 <p>를 이용하여 <span class="math inline">\(\boldsymbol{x}_{i+1}\)</span> 값을 구한다. 아래와 같이 julia 로 구현 할 수 있다.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 일변수에 대한 오일러 방법</span></span>
@@ -627,7 +670,7 @@ x_j(t + h) \approx x_j(t) + x_i'(t)h
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tn, xn</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><span class="math inline">\(f(x,\,y)\)</span> 가 변수 2개에 대한 함수일 때는 위의 함수를 약간 수정하여 구현 할 수 있을 것이다.</p>
+<p><span class="math inline">\(F(x,\,y)\)</span> 가 변수 2개에 대한 함수일 때는 위의 함수를 약간 수정하여 구현 할 수 있을 것이다.</p>
 <p>우리는 <span class="math inline">\(y'= e^x,\, y(0)=1\)</span> 일 때, <span class="math inline">\(y=e^x\)</span> 임을 알고 있다. 아래 그림은 위의 <code>ode_euler</code> 함수를 이용하여 미분방정식을 푼 값과, 실제 함수값을 비교해 보았다.</p>
 <p><br></p>
 <div class="page-columns page-full"><p></p><div class="no-row-height column-margin column-container"><span class="margin-aside"><code>LaTeXStrings</code> 는 <span class="math inline">\(\LaTeX\)</span> 의 수식을 사용 할 수 있도록 해 주는 패키지이다.</span></div></div>
@@ -635,7 +678,7 @@ x_j(t + h) \approx x_j(t) + x_i'(t)h
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, x)<span class="fu">-&gt;exp</span>(t), <span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">500</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn, lw <span class="op">=</span> <span class="fl">2</span>, frame <span class="op">=</span> <span class="op">:</span>box, label <span class="op">=</span> <span class="st">"Euler method"</span>)<span class="co">#, dpi=300)</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(tn, <span class="fu">exp</span>.(tn), lw<span class="op">=</span><span class="fl">2</span>, ls <span class="op">=</span> <span class="op">:</span>dash, label <span class="op">=</span> L<span class="st">"f(t) = e^t"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_euler_method" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_euler_method" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_euler_method-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/euler_method.png" class="img-fluid figure-img" width="600">
@@ -668,7 +711,7 @@ x_j(t + h) \approx x_j(t) + x_i'(t)h
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> <span class="fu">plot</span>(xn[<span class="fl">3</span>,<span class="op">:</span>], xn[<span class="fl">1</span>,<span class="op">:</span>], frame<span class="op">=:</span>box, aspect_ratio<span class="op">=</span><span class="fl">1.0</span>, label<span class="op">=</span>L<span class="st">"zx"</span>, color<span class="op">=:</span>blue)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(p0, p1, p2, p3, layout<span class="op">=</span><span class="fl">4</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_ode_lorentz" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_ode_lorentz" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_ode_lorentz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/lorentz.png" class="img-fluid figure-img" width="600">
@@ -704,7 +747,7 @@ x'(t) &amp;= y(t)
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_euler</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tn, xn[<span class="fl">1</span>,<span class="op">:</span> ], label <span class="op">=</span> <span class="op">:</span>none)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_euler_sho1d" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_euler_sho1d" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_euler_sho1d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/euler_sho1d.png" class="img-fluid figure-img" width="600">
@@ -719,10 +762,10 @@ x'(t) &amp;= y(t)
 </section>
 <section id="다변수-이차-미분-방정식" class="level3">
 <h3 class="anchored" data-anchor-id="다변수-이차-미분-방정식">다변수 이차 미분 방정식</h3>
-<p><span class="math inline">\(\dfrac{d^2\boldsymbol{x}}{dt^2} = \boldsymbol{f}(t, \boldsymbol{x}, \boldsymbol{x}')\)</span> 으로 주어진 미분방정식은,</p>
+<p><span class="math inline">\(\dfrac{d^2\boldsymbol{x}}{dt^2} = F(t, \boldsymbol{x}, \boldsymbol{x}')\)</span> 으로 주어진 미분방정식은,</p>
 <p><span class="math display">\[
 \begin{aligned}
-\boldsymbol{v}(t_{i}+h) &amp;=\boldsymbol{v}(t_i) + \boldsymbol{f}(t, \boldsymbol{x}(t_i), \boldsymbol{v}(t_i)) h,\\
+\boldsymbol{v}(t_{i}+h) &amp;=\boldsymbol{v}(t_i) + F(t, \boldsymbol{x}(t_i), \boldsymbol{v}(t_i)) h,\\
 \boldsymbol{x}(t_i+h) &amp;=\boldsymbol{x}(t_i) + \boldsymbol{v}(t_i)h
 \end{aligned}
 \]</span></p>
@@ -747,9 +790,9 @@ x(t_{i+1}) = x(t_i) + f(t_i,\, x_i)h + \dfrac{1}{2}\dfrac{df}{dt }(t_i,\,x_i)h^2
 <section id="차-룽게-쿠타-방법-rk2" class="level3">
 <h3 class="anchored" data-anchor-id="차-룽게-쿠타-방법-rk2">2차 룽게-쿠타 방법 (RK2)</h3>
 <p>역시 <span class="math display">\[
-\dfrac{d\boldsymbol{x}}{dt} = \boldsymbol{f}(t, \boldsymbol{x})
+\dfrac{d\boldsymbol{x}}{dt} = F(t, \boldsymbol{x})
 \]</span></p>
-<p>와 초기조건 <span class="math inline">\(\boldsymbol{x}_0 = \boldsymbol{f}(t_0)\)</span> 가 주어졌다고 하자. <span class="math inline">\(\boldsymbol{x}\)</span> 와 <span class="math inline">\(\boldsymbol{f}(t,\boldsymbol{x})\)</span> 의 <span class="math inline">\(j\)</span> 번째 성분을 각각 <span class="math inline">\(x_j,\, f_j(t,\,\boldsymbol{x})\)</span> 라고 하면,</p>
+<p>와 초기조건 <span class="math inline">\(\boldsymbol{x}_0 = \boldsymbol{x}(t_0)\)</span> 가 주어졌다고 하자. <span class="math inline">\(\boldsymbol{x}\)</span> 와 <span class="math inline">\(F(t,\boldsymbol{x})\)</span> 의 <span class="math inline">\(j\)</span> 번째 성분을 각각 <span class="math inline">\(x_j,\, f_j(t,\,\boldsymbol{x})\)</span> 라고 하면,</p>
 <p><span class="math display">\[
 \dfrac{d^2 x_j}{dt^2 } = \dfrac{d}{dt}f_j(t, \,\boldsymbol{x}) = \dfrac{\partial f_j}{\partial t} + \sum_k\dfrac{dx_k}{dt} \cdot \dfrac{\partial f_j}{\partial x_k}
 \]</span></p>
@@ -763,21 +806,21 @@ x_j(t+h) &amp; = x_j(t) + \dfrac{dx_j}{dt}h  + \dfrac{1}{2}\dfrac{d^2 x_j}{dt^2}
 <p>이다. 이 때,</p>
 <p><span class="math display">\[
 \begin{aligned}
-\boldsymbol{k}_1 &amp;= \boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \,,\\
-\boldsymbol{k}_2 &amp;= \boldsymbol{f}\left( t_i + \dfrac{h}{2},\, \boldsymbol{x}(t_i) + \dfrac{h}{2} \boldsymbol{k}_1\right)
+\boldsymbol{k}_1 &amp;= F(t_i, \boldsymbol{x}(t_i)) \,,\\
+\boldsymbol{k}_2 &amp;= F\left( t_i + \dfrac{h}{2},\, \boldsymbol{x}(t_i) + \dfrac{h}{2} \boldsymbol{k}_1\right)
 \end{aligned}
 \]</span></p>
-<p>라 하자. 그렇다면, 야코비 행렬 <span class="math inline">\(\left(\boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i))\right)_{jk} = \dfrac{\partial f_j}{\partial x_k}(t_i, \boldsymbol{x}(t_i))\)</span> 에 대해</p>
+<p>라 하자. 그렇다면, 야코비 행렬 <span class="math inline">\(\left(\boldsymbol{J}_F(t_i, \boldsymbol{x}(t_i))\right)_{jk} = \dfrac{\partial f_j}{\partial x_k}(t_i, \boldsymbol{x}(t_i))\)</span> 에 대해</p>
 <p><span class="math display">\[
 \begin{aligned}
-\boldsymbol{k}_2 &amp;= \boldsymbol{f}(t_i,\, \boldsymbol{x}(t_i)) +  \dfrac{h}{2} \dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_n)) + \dfrac{h}{2} \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \\
-&amp;= \boldsymbol{k}_1 + \dfrac{h}{2} \left(\dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \right)
+\boldsymbol{k}_2 &amp;= F(t_i,\, \boldsymbol{x}(t_i)) +  \dfrac{h}{2} \dfrac{\partial F}{\partial t}(t_i,\, \boldsymbol{x}(t_n)) + \dfrac{h}{2} \boldsymbol{J}_F(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \\
+&amp;= \boldsymbol{k}_1 + \dfrac{h}{2} \left(\dfrac{\partial F}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_F(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 \right)
 \end{aligned}
 \]</span></p>
 <p>이므로,</p>
 <p><span class="math display">\[
 \begin{aligned}
-\dfrac{\partial \boldsymbol{f}}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_\boldsymbol{f}(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 &amp; = \dfrac{2}{h}(\boldsymbol{k}_2-\boldsymbol{k}_1)
+\dfrac{\partial F}{\partial t}(t_i,\, \boldsymbol{x}(t_i))  + \boldsymbol{J}_F(t_i, \boldsymbol{x}(t_i)) \boldsymbol{k}_1 &amp; = \dfrac{2}{h}(\boldsymbol{k}_2-\boldsymbol{k}_1)
 \end{aligned}
 \]</span></p>
 <p>이다. 이를 이용하면,</p>
@@ -794,10 +837,10 @@ x_j(t+h) &amp; = x_j(t) + \dfrac{dx_j}{dt}h  + \dfrac{1}{2}\dfrac{d^2 x_j}{dt^2}
 \]</span></p>
 <p>아래와 같이 <span class="math inline">\(\boldsymbol{k}_1,\,\boldsymbol{k}_2,\,\boldsymbol{k}_3,\,\boldsymbol{k}_4\)</span> 를 정의하면, <span class="math display">\[
 \begin{aligned}
-\boldsymbol{k}_{1} &amp;= \boldsymbol{f}(t_{i},\, \boldsymbol{x}(t_{i})),\\
-\boldsymbol{k}_{2}&amp;=\ \boldsymbol{f}\!\left( t_{i}+{\frac {h}{2}},\, \boldsymbol{x}(t_{i})+ \frac{h}{2}\boldsymbol{k}_{1}\right),\\
-\boldsymbol{k}_{3}&amp;=\ \boldsymbol{f}\!\left(t_{i}+{\frac {h}{2}},\,  \boldsymbol{x}(t_{i})+\frac{h}{2} \boldsymbol{k}_{2}\right),\\
-\boldsymbol{k}_{4}&amp;=\ \boldsymbol{f}\!\left(t_{i}+h,\, \boldsymbol{x}(t_{i})+h\boldsymbol{k}_{3}\right).
+\boldsymbol{k}_{1} &amp;= F(t_{i},\, \boldsymbol{x}(t_{i})),\\
+\boldsymbol{k}_{2}&amp;=\ F\!\left( t_{i}+{\frac {h}{2}},\, \boldsymbol{x}(t_{i})+ \frac{h}{2}\boldsymbol{k}_{1}\right),\\
+\boldsymbol{k}_{3}&amp;=\ F\!\left(t_{i}+{\frac {h}{2}},\,  \boldsymbol{x}(t_{i})+\frac{h}{2} \boldsymbol{k}_{2}\right),\\
+\boldsymbol{k}_{4}&amp;=\ F\!\left(t_{i}+h,\, \boldsymbol{x}(t_{i})+h\boldsymbol{k}_{3}\right).
 \end{aligned}
 \]</span></p>
 <p>4차항까지의 테일러 전개가 아래와 같다는 것을 보일 수 있다. 아주 지루한 과정이므로 여기서는 생략한다. <span class="math display">\[
@@ -843,7 +886,7 @@ t_{i+1}&amp;=t_{i}+h, \\
 <p>오일러 방법에서 사용했던 로렌츠 방저식에 대한 사용법은 아래와 같다.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tn, xn <span class="op">=</span> <span class="fu">ode_rk2</span>((t, x)<span class="fu">-&gt;butterfly3d</span>(x, <span class="fl">10</span>, <span class="fl">28</span>, <span class="fl">8</span><span class="op">/</span><span class="fl">3</span>), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>], <span class="fl">50000</span>, <span class="fl">1.0e-3</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xn[<span class="fl">1</span>,<span class="op">:</span>], xn[<span class="fl">2</span>,<span class="op">:</span>], xn[<span class="fl">3</span>,<span class="op">:</span>], label<span class="op">=</span><span class="st">"RK2"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="fig-NA1_lorentz_rk2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_lorentz_rk2" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_lorentz_rk2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/lorentz_rk2.png" class="img-fluid figure-img" width="600">
@@ -853,7 +896,7 @@ t_{i+1}&amp;=t_{i}+h, \\
 </figcaption>
 </figure>
 </div>
-<div id="fig-NA1_lorentz_rk4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_lorentz_rk4" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_lorentz_rk4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/lorentz_rk4.png" class="img-fluid figure-img" width="600">
@@ -877,7 +920,7 @@ t_{i+1}&amp;=t_{i}+h, \\
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>tn1, xn1 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;sho1d</span>(y, <span class="fl">3</span>, <span class="fl">1.0</span>), <span class="fl">2.0</span>, [<span class="fl">1.1</span>, <span class="fl">0.0</span>], <span class="fl">10000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>그 결과를 그래프로 그리면 다음과 같다.</p>
-<div id="fig-NA1_sho1d_rk" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_sho1d_rk" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_sho1d_rk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/sho1d_rk.png" class="img-fluid figure-img" width="600">
@@ -913,7 +956,7 @@ x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \le
 <p><span class="math inline">\(\omega_0^2 &gt;0\)</span> 이면 <span class="math inline">\(x(t)\)</span> 의 <span class="math inline">\([\,\cdots]\)</span> 부분이 <span class="math inline">\(\cos\)</span> 함수 (혹은 <span class="math inline">\(\sin\)</span> 함수) 꼴로 나타날 수 있으므로 진폭이 점점 줄어드는 진동을 한다. 이를 <em>underdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 &lt;0\)</span> 이면 진동 없이 감쇄만 하게 되며 이를 <em>overdamping</em> 라 한다. <span class="math inline">\(\omega_0^2 = 0\)</span> 일 경우를 <em>critical damping</em> 이라 한다.</p>
 <p><span class="math inline">\(m=1,\, \gamma=1,\, k=1\)</span> 과 <span class="math inline">\(x(t=0)=0,\, \dot{x}(t=0)=1\)</span> 일 때에 대해 오일러 방법, 2차 및 4차 룽게 쿠타 방법과, 해석적 해를 같이 그려보자.</p>
 <p><br></p>
-<div id="fig-NA1_dho1d_rk" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_dho1d_rk" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_dho1d_rk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/dho1d_rk.png" class="img-fluid figure-img" width="600">
@@ -927,7 +970,7 @@ x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \le
 </section>
 <section id="진자pendulum-문제" class="level3">
 <h3 class="anchored" data-anchor-id="진자pendulum-문제">진자(Pendulum) 문제</h3>
-<div id="fig-NA1_pendulum" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_pendulum" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_pendulum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/simple pendulum.png" class="img-fluid figure-img" width="250">
@@ -960,7 +1003,7 @@ x(t) = \exp(-\lambda t) \left[ a \exp \left(\sqrt{-\omega^2} \right)+ b \exp \le
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>tn2, xn2 <span class="op">=</span> <span class="fu">ode_rk2</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>tn3, xn3 <span class="op">=</span> <span class="fu">ode_rk4</span>((t, y)<span class="fu">-&gt;pendulum</span>(y, g, l), <span class="fl">0.0</span>, [<span class="fl">0.0</span>, <span class="fl">0.04</span>], <span class="fl">20000</span>, <span class="fl">1.0e-2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
-<div id="fig-NA1_ode_pendulum" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-NA1_ode_pendulum" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NA1_ode_pendulum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/ode/ode_pendulum.png" class="img-fluid figure-img" width="400">
@@ -1084,7 +1127,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1116,29 +1170,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -1146,7 +1178,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

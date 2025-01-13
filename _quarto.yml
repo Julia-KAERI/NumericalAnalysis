@@ -63,13 +63,12 @@ website:
       - href: src/numerical_analysis_using_julia/14_approximation.qmd
       - href: src/numerical_analysis_using_julia/15_pde_1.qmd
     
-    - title : "수학 "
-      collapse-level: 2
-      contents :
-      - href: src/numerical_analysis_using_julia/A_collection_of_proofs.qmd
-      - href: src/numerical_analysis_using_julia/A_generalized_inverse.qmd
-      - href: src/numerical_analysis_using_julia/A_ode.qmd
-      - href: src/numerical_analysis_using_julia/A_pde.qmd
+      - section : 수학적 자료
+        contents:
+        - href: src/numerical_analysis_using_julia/A_collection_of_proofs.qmd
+        - href: src/numerical_analysis_using_julia/A_generalized_inverse.qmd
+        - href: src/numerical_analysis_using_julia/A_ode.qmd
+        - href: src/numerical_analysis_using_julia/A_pde.qmd
   
     
     - title : "영상 처리와 토모그래피"

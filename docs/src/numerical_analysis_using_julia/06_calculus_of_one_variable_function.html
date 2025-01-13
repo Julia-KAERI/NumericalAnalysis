@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>일변수 함수의 미분과 적분 – 수치해석과 이미지 처리</title>
+<title>수치해석과 이미지 처리 - 일변수 함수의 미분과 적분</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -123,7 +123,7 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -168,7 +168,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -199,18 +199,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html">일변수 함수의 미분과 적분</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -428,7 +428,7 @@ f''(x) &amp;=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h
 \end{aligned}
 \tag{6}\]</span></span></p>
 <p>이 때 수치해석적으로 계산한 미분의 오차는 <span class="math inline">\(h^2\)</span> 에 비례한다. 따라서 <span class="math inline">\(h\)</span> 을 작게 잡을 수록 오차가 작아지며 충분히 작을 때 전방차분이나 후방차분보다 오차가 작을 것을 기대 할 수 있다. 위의 식에 의해 구한 미분의 추정값을 <strong>중앙 차분 (central difference)</strong> 라고 한다. 아래 그림은 함수 <span class="math inline">\(f\)</span> 에 대한 전방 차분, 후방 차분, 중앙 차분값을 그림으로 표현하였다.</p>
-<div id="fig-comparision_of_differences" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-comparision_of_differences" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-comparision_of_differences-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/difference_01.png" class="img-fluid figure-img" width="500">
@@ -459,7 +459,7 @@ $$ {#eq-3points_forward_backward_difference} -->
 <section id="roundoff-에러" class="level3" data-number="1.4">
 <h3 data-number="1.4" class="anchored" data-anchor-id="roundoff-에러"><span class="header-section-number">1.4</span> Roundoff 에러</h3>
 <p><span class="math inline">\(h\)</span> 값이 작을 수록 오차가 작아지지만 <span class="math inline">\(h\)</span> 값이 어느 이하로 작아지면 에러가 발생한다. 아래는 쉬운 예를 보여준다. 우리는 <span class="math inline">\(f(x)=e^x\)</span> 의 도함수는 자기 자신과 같으며, <span class="math inline">\(f(0)=f'(0)=1\)</span> 임을 알고 있다. 앞의 전방, 후반 차분법과 보통의 차분법에 대해 <span class="math inline">\(h\)</span> 값을 변화시키며 <span class="math inline">\(f'(0)\)</span> 의 값을 계산하였다. <span class="math inline">\(h\)</span> 값이 충분히 작지 않을 때는 오차가 발생하였으나 어느 정도 작아지면 그 값이 정확하고 안정적이다. 그러나 <span class="math inline">\(h\)</span> 값이 <span class="math inline">\(10^{-13}\)</span> 보다 작아지면 roundoff 에러가 발생하여 불안정해지는 것을 알 수 있다.</p>
-<div id="fig-round_off_error_of_differnce" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-round_off_error_of_differnce" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-round_off_error_of_differnce-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/difference_02.png" class="img-fluid figure-img" width="500">
@@ -534,41 +534,41 @@ Verma, Arun. 2000. <span>“An Introduction to Automatic Differentiation.”</sp
 <p><span class="math display">\[
 \dfrac{\partial f(\boldsymbol{a})}{\partial x_i} := \lim_{h \to 0}\dfrac{f(\boldsymbol{a}+h\boldsymbol{e}_i) - f(\boldsymbol{a})}{h}
 \]</span></p>
-<p>이것은 <span class="math inline">\(\boldsymbol{x}\)</span> 에 대해 <span class="math inline">\(x_i\)</span> 를 제외한 <span class="math inline">\(x_j\)</span> 에 대해 <span class="math inline">\(x_j=a_j (j\ne i)\)</span> 로 고정시킨 함수를 <span class="math inline">\(\overline{f}\)</span> 라 고 했을 때의 <span class="math inline">\(\dfrac{d \overline{f}(a_j)}{dx}\)</span> 와 같다. 즉 수치해석적으로 편미분을 구하는 것은 본질적으로 일변수 함수의 편미분을 구하는 것과 다르지 않다. 또 하나 중요한 값은 <strong>헤시안(Hessian)</strong> 이라 불리는 함수로 <span class="math inline">\(f\)</span> 에 대한 <span class="math inline">\(\boldsymbol{a}\)</span> 에서의 헤시안 <span class="math inline">\(\boldsymbol{H}_f(\boldsymbol{a})\)</span> 은 다음과 같이 정의된다.</p>
+<p>이것은 <span class="math inline">\(\boldsymbol{x}\)</span> 에 대해 <span class="math inline">\(x_i\)</span> 를 제외한 <span class="math inline">\(x_j\)</span> 에 대해 <span class="math inline">\(x_j=a_j (j\ne i)\)</span> 로 고정시킨 함수를 <span class="math inline">\(\overline{f}\)</span> 라 고 했을 때의 <span class="math inline">\(\dfrac{d \overline{f}(a_j)}{dx}\)</span> 와 같다. 즉 편미분을 구하는 것은 본질적으로 일변수 함수의 미분을 구하는 것과 다르지 않다. 또 하나 중요한 값은 <strong>헤시안(Hessian)</strong> 이라 불리는 함수로 <span class="math inline">\(f\)</span> 에 대한 <span class="math inline">\(\boldsymbol{a}\)</span> 에서의 헤시안 <span class="math inline">\(\boldsymbol{H}_f(\boldsymbol{a})\)</span> 은 다음과 같이 정의된다.</p>
 <p><span id="eq-hessian_matrix"><span class="math display">\[
-\boldsymbol{H}_F(\boldsymbol{a}) = \begin{bmatrix} \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_1\partial x_1} &amp; \cdots &amp; \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_1 \partial x_n} \\ \vdots &amp; &amp; \vdots \\ \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_n \partial x_1} &amp; \cdots &amp; \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_n \partial x_n} \end{bmatrix}  
+\boldsymbol{H}_F(\boldsymbol{a}) = \begin{bmatrix} \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_1\partial x_1} &amp; \cdots &amp; \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_1 \partial x_n} \\ \vdots &amp; \ddots &amp; \vdots \\ \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_n \partial x_1} &amp; \cdots &amp; \dfrac{\partial^2 f(\boldsymbol{a})}{\partial x_n \partial x_n} \end{bmatrix}  
 \tag{9}\]</span></span></p>
-<p><span class="math inline">\(f(\boldsymbol{x})\)</span> 가 <span class="math inline">\(C^2\)</span> 급 함수라면, 즉 2차 편미분이 모두 연속이라면 헤시안은 대칭행렬이다.</p>
+<p><span class="math inline">\(f(\boldsymbol{x})\)</span> 가 <span class="math inline">\(C^2\)</span> 급 함수라면, 즉 2차 편미분이 모든 독립변수에 대해 존재하며 모두 연속이라면 헤시안은 대칭행렬이다.</p>
 <p>이제 다변수 함수의 경우를 보자. <span class="math inline">\(F:\mathbb{R}^n \to \mathbb{R}^m\)</span> 함수 <span class="math inline">\(F(\boldsymbol{x}) = \begin{bmatrix} f_1(\boldsymbol{x}) &amp; \cdots &amp; f_m(\boldsymbol{x})\end{bmatrix}^T\)</span> 에 대해</p>
 <p><span id="eq-derivative_of_vector_valued_function"><span class="math display">\[
-\dfrac{\partial F(\boldsymbol{x})}{\partial x_i} = \lim_{h \to 0} \dfrac{F(\boldsymbol{x} + h \boldsymbol{e}_i)- F(\boldsymbol{x})}{h} = \begin{bmatrix} \dfrac{\partial f_1(\boldsymbol{x})}{\partial x_i} \\ \vdots \\ \dfrac{\partial f_m(\boldsymbol{x})}{\partial x_i}\end{bmatrix}
+\dfrac{\partial F(\boldsymbol{a})}{\partial x_i} = \lim_{h \to 0} \dfrac{F(\boldsymbol{a} + h \boldsymbol{e}_i)- F(\boldsymbol{x})}{h} = \begin{bmatrix} \dfrac{\partial f_1(\boldsymbol{a})}{\partial x_i} \\ \vdots \\ \dfrac{\partial f_m(\boldsymbol{a})}{\partial x_i}\end{bmatrix}
 \tag{10}\]</span></span></p>
-<p>이며 야코비 행렬 <span class="math inline">\(\boldsymbol{J}_F(\boldsymbol{x})\)</span> 는</p>
+<p>이며 야코비 행렬 <span class="math inline">\(\boldsymbol{J}_F(\boldsymbol{a})\)</span> 는</p>
 <p><span id="eq-jacobian_of_vector_valued_function"><span class="math display">\[
-\boldsymbol{J}_F(\boldsymbol{x}) = \begin{bmatrix} \dfrac{\partial f_1(\boldsymbol{x})}{\partial x_1} &amp; \cdots &amp; \dfrac{\partial f_1(\boldsymbol{x})}{\partial x_1} \\ \vdots &amp; \vdots \\ \dfrac{\partial f_m(\boldsymbol{x})}{\partial x_n} &amp; \cdots &amp; \dfrac{\partial f_m(\boldsymbol{x})}{\partial x_n}\end{bmatrix}
+\boldsymbol{J}_F(\boldsymbol{a}) = \begin{bmatrix} \dfrac{\partial f_1(\boldsymbol{a})}{\partial x_1} &amp; \cdots &amp; \dfrac{\partial f_1(\boldsymbol{a})}{\partial x_1} \\ \vdots &amp; \ddots &amp;\vdots \\ \dfrac{\partial f_m(\boldsymbol{a})}{\partial x_n} &amp; \cdots &amp; \dfrac{\partial f_m(\boldsymbol{a})}{\partial x_n}\end{bmatrix}
 \tag{11}\]</span></span></p>
 <p>이다.</p>
-<p>이제 함성함수를 생각해보자. <span class="math inline">\(F=F^{(N)}(F^{(N-1)} \cdots F^{(2)}(F^{(1)}(\boldsymbol{x}))\cdots )\)</span> 이며 <span class="math inline">\(F^{(k)} = \begin{bmatrix} f^{(k)}_1 &amp; \cdots f^{(k)}_{m_k}\end{bmatrix}^T\)</span> 라고 하자. <span class="math inline">\(\boldsymbol{z}^{(1)} = F^{(1)}(\boldsymbol{x})\)</span>, <span class="math inline">\(\boldsymbol{z}^{(2)} = F^{(2)}(F^{(1)}(\boldsymbol{x})),\ldots\)</span>, <span class="math inline">\(\boldsymbol{y}=F(\boldsymbol{x})\)</span> 라고 하면</p>
+<p>이제 함성함수를 생각해보자. <span class="math inline">\(F=F^{(N)}(F^{(N-1)} \cdots F^{(2)}(F^{(1)}(\boldsymbol{x}))\cdots )\)</span> 이며 <span class="math inline">\(F^{(k)} = \begin{bmatrix} f^{(k)}_1 &amp; \cdots f^{(k)}_{m_k}\end{bmatrix}^T\)</span> 라고 하자. <span class="math inline">\(\boldsymbol{z}^{(1)} = F^{(1)}(\boldsymbol{a})\)</span>, <span class="math inline">\(\boldsymbol{z}^{(2)} = F^{(2)}(F^{(1)}(\boldsymbol{a})),\ldots\)</span>, <span class="math inline">\(\boldsymbol{y}=F(\boldsymbol{a})\)</span> 라고 하면</p>
 <p><span id="eq-jacobian_of_compositions"><span class="math display">\[
 \dfrac{\partial y_j}{\partial x_i} = \dfrac{\partial f_j(\boldsymbol{x})}{\partial x_i} = \sum_{k_{N-1}=1}^{m_{N-1}}\sum_{k_{N-2}=1}^{m_{N-2}} \cdots \sum_{k_1=1}^{m_1}\dfrac{\partial f_j^{(N)}(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \dfrac{\partial f^{(N-1)}_{k_{N-1}}(\boldsymbol{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial f^{(1)}_{k_{1}}(\boldsymbol{x})}{\partial x_i}
 \tag{12}\]</span></span></p>
 <p>이며, 이로부터</p>
 <p><span id="eq-jacobian_of_compositions_matrix_form"><span class="math display">\[
-\boldsymbol{J}_F(\boldsymbol{x}) = \boldsymbol{J}_{F^{N}}(\boldsymbol{z}^{(N-1)}) \boldsymbol{J}_{F^{(N-1)}}(\boldsymbol{z}^{(N-2)}) \cdots \boldsymbol{J}_{F^{(1)}}(\boldsymbol{x})
+\boldsymbol{J}_F(\boldsymbol{a}) = \boldsymbol{J}_{F^{N}}(\boldsymbol{z}^{(N-1)}) \boldsymbol{J}_{F^{(N-1)}}(\boldsymbol{z}^{(N-2)}) \cdots \boldsymbol{J}_{F^{(1)}}(\boldsymbol{a})
 \tag{13}\]</span></span></p>
 <p>임을 안다. 이것이 소위 <strong>chain rule</strong> 이다.</p>
 <p><br></p>
 </section>
 <section id="sec-automatic_differentiation" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="sec-automatic_differentiation"><span class="header-section-number">2.2</span> 자동 미분</h3>
-<p>특히 현재의 인공지능의 발전에 있어 위에 언급한 대량의 미분 및 편미분에 대한 정확하고 빠른 계산이 중요해 졌다. 전통적으로 함수의 미분을 컴퓨터를 이용하여 계산하는 방법에는 세가지가 있었다.</p>
+<p>특히 현재의 인공지능의 발전에 있어 위에 언급한 대량의 함수와 변수를 사용하는 미분과 편미분을 정확하고 빠른게 계산하는 것이 중요해 졌다. 전통적으로 함수의 미분을 컴퓨터를 이용하여 계산하는 방법에는 세가지가 있었다.</p>
 <ol type="1">
 <li>[<strong>수동</strong>] 미분/편미분 함수를 손으로 계산하고, 그 결과를 코딩한다.</li>
 <li>[<strong>차분</strong>] 앞서 배운 유한 차분법을 이용하여 수치해석적으로 계산한다.</li>
 <li>[<strong>기호</strong>] 메쓰메티카(Mathematica) 프로그램과 같이 기호를 이용하여 미분한다.</li>
 </ol>
-<p>이 방법은 모두 치명적인 단점이 존재한다. ‘수동’ 방법은 시간이 오래 걸리고, 오류가 나기 쉽다. ‘차분’ 법은 앞서 보았듯이 함수만 제대로 구현했다면 쉽고 빠르계 계산 할 수 있지만 truncation error 와 round-off error 는 항상 발생한다. 게다가 변수가 많고 여러 단계로 합성된 함수의 경우(인공지능의 신경망이 정확히 이런 경우이다) 그 오차가 계속 누적되기 때문에 오차가 필연적으로 커질 수 밖에 없다. ‘기호’ 법은 느리며 함수가 복잡할 때 만족할 만한 깔끔한 결과를 낼 수 없고 컴퓨팅 파워를 많이 사용한다.</p>
-<p>이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 자명하다. 예를 들어 <span class="math inline">\(x^n\)</span> 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다.</p>
+<p>이 방법은 모두 치명적인 단점이 존재한다. ‘수동’ 방법은 일반적인 함수에 대해 사용 할 수 없고, 인적 오류가 나기 쉽다. ‘차분’ 법은 항상 truncation error 와 round-off error 에 노출된다. 게다가 변수가 많고 여러 단계로 합성된 함수의 경우(인공지능의 신경망이 정확히 이런 경우이다) 그 오차가 계속 누적되기 때문에 오차가 필연적으로 커질 수 밖에 없다. ‘기호’ 법은 느리며 함수가 복잡할 때 만족할 만한 깔끔한 결과를 낼 수 없고 컴퓨팅 파워를 많이 사용한다.</p>
+<p>이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 간단하다. 예를 들어 <span class="math inline">\(x^n\)</span> 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다.</p>
 <p>여기서는 자동 미분의 구체적인 구현에 대해 설명하지 않고, 자동 미분은 어떻게 이루어 지는지, 전진법(forwared AD)과 후진법(backward AD) 는 어떻게 다른지에 대해 설명하기로 한다.</p>
 <p><br></p>
 </section>
@@ -578,9 +578,9 @@ Verma, Arun. 2000. <span>“An Introduction to Automatic Differentiation.”</sp
 <h4 class="anchored" data-anchor-id="전진법"><strong>전진법</strong></h4>
 <p>아래의 식을 사용한다.</p>
 <p><span id="eq-master_eq_of_forward_autodiff"><span class="math display">\[
-\dfrac{\partial z^{(m)}_i}{\partial x_j} = \sum_{k_1}\cdots \sum_{k_{m-1}}\dfrac{\partial z^{(1)}(\boldsymbol{x})}{\partial x_j} \cdots \dfrac{\partial z^{(m-1)}(\boldsymbol{z}^{(m-2)})}{\partial z^{(m-1)}_{k_{m-2}}}\dfrac{\partial z^{(m)}(\boldsymbol{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}}
+\dfrac{\partial z^{(m)}_i}{\partial x_j} = \sum_{k_1}\cdots \sum_{k_{m-1}}\dfrac{\partial z^{(1)}(\boldsymbol{a})}{\partial x_j} \cdots \dfrac{\partial z^{(m-1)}(\boldsymbol{z}^{(m-2)})}{\partial z^{(m-1)}_{k_{m-2}}}\dfrac{\partial z^{(m)}(\boldsymbol{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}}
 \tag{14}\]</span></span></p>
-<p><span class="math inline">\(m=1\)</span>, 즉 <span class="math inline">\(\dfrac{\partial z^{(1)}(\boldsymbol{x})}{\partial x_j}\)</span> 부터 계산하기 시작하여 <span class="math inline">\(m=2,\,3,\ldots,\,N\)</span> 까지 증가시키면 <span class="math inline">\(\boldsymbol{J}_F\)</span> 를 계산 할 수 있다.</p>
+<p><span class="math inline">\(m=1\)</span>, 즉 <span class="math inline">\(\dfrac{\partial z^{(1)}(\boldsymbol{a})}{\partial x_j}\)</span> 부터 계산하기 시작하여 <span class="math inline">\(m=2,\,3,\ldots,\,N\)</span> 까지 증가시키면 <span class="math inline">\(\boldsymbol{J}_F\)</span> 를 계산 할 수 있다.</p>
 <p><br></p>
 </section>
 <section id="후진법" class="level4">
@@ -589,7 +589,21 @@ Verma, Arun. 2000. <span>“An Introduction to Automatic Differentiation.”</sp
 <p><span id="eq-master_eq_of_backward_autodiff"><span class="math display">\[
 \dfrac{\partial y_j}{\partial z^{(m)}_i} = \sum_{k_N}\cdots \sum_{k_{m+1}} \dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}} \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\boldsymbol{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\boldsymbol{z}^{m})}{\partial z^{(m)}_i}
 \tag{15}\]</span></span></p>
-<p><span class="math inline">\(m=(N-1)\)</span>, 즉 <span class="math inline">\(\dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}}\)</span> 부터 계산한다. <span class="math inline">\(m=N-2,\,N-3,\ldots,\,1\)</span> 까지 감소시키면 <span class="math inline">\(\boldsymbol{J}_F\)</span> 를 계산 할 수 있다.</p>
+<p><span class="math inline">\(m=(N-1)\)</span>, 즉 <span class="math inline">\(\dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}}\)</span> 부터 계산한다. <span class="math inline">\(m=N-2,\,N-3,\ldots,\,1\)</span> 까지 감소시키면 <span class="math inline">\(\boldsymbol{J}_F\)</span> 를 계산 할 수 있다… 고 쉽게 넘어 갈 수 있지만 우리는 아직 <span class="math inline">\(\boldsymbol{z}^{(m)}= F^{(m)}\circ \cdots \circ F^{(1)}(\boldsymbol{a})\)</span> 를 계산하지 않았다는 것을 기억하라. 후진법은 전진법과는 달리 두가지 과정으로 수행된다.</p>
+<p> (<span class="math inline">\(1\)</span>) 일단 <span class="math inline">\(\boldsymbol{z}^{(1)}=F^{(1)}(\boldsymbol{a})\)</span> 부터 <span class="math inline">\(\boldsymbol{y} = F(\boldsymbol{a})= F^{N}\circ \cdots F^{(1)}(\boldsymbol{a})\)</span> 까지 계산하며 이 값을 기억한다.</p>
+<p> (<span class="math inline">\(2\)</span>) (<span class="math inline">\(1\)</span>) 에서 기억한 값을 이용하여 <span class="math inline">\(m=N-1\)</span> 부터 <span class="math inline">\(m=1\)</span> 까지의 편미분을 계산한다.</p>
+<p>즉 후진법은 전진법에 비해 과정이</p>
+<p><br></p>
+<p><span class="math display">\[
+F^{(1)}(x)= \begin{bmatrix} x \\ x^2\end{bmatrix},\, F^{(2)}(\boldsymbol{x})=\begin{bmatrix} x_1 \\ e^{x_1+2x_2}\end{bmatrix}
+\]</span></p>
+<p>에 대해 <span class="math inline">\(F:\mathbb{R}\to \mathbb{R}^2\)</span> 가 <span class="math inline">\(F=F^{(2)}\circ F^{(1)}\)</span> 으로 주어졌다고 하자.</p>
+<p><span class="math display">\[
+\boldsymbol{J}_{F^{(1)}}(\boldsymbol{x})= \begin{bmatrix} 1 \\ 2x \end{bmatrix},\, \boldsymbol{J}_{F^{(1)}} = \begin{bmatrix} 1 &amp; 0 \\ e^{x_1+2x_2} &amp; 2e^{x_1+2x_2} \end{bmatrix}
+\]</span></p>
+<p>이다. 이 때 <span class="math inline">\(\boldsymbol{J}_{F}(a)\)</span> 를 두가지 방법으로 구해보자.</p>
+<p>우선 전진법으로는 <span class="math inline">\(\boldsymbol{J}_{F^{(1)}}(a)\)</span> 와 <span class="math inline">\(\boldsymbol{z}^{(1)}=F^{(1)}(a)\)</span> 을 구하고 난 뒤 <span class="math inline">\(\boldsymbol{J}_{F^{(2)}}(\boldsymbol{z}^{(1)})\)</span> 을 구하고, <span class="math inline">\(\boldsymbol{J}_F(\boldsymbol{a}) = \boldsymbol{J}_{F^{(2)}}(\boldsymbol{z}^{(1)})  \boldsymbol{J}_{F^{(1)}}(\boldsymbol{a})\)</span> 를 계산한다. 많은 함수의 합성의 경우 즉 <span class="math inline">\(F=F^{(N)} \circ \cdots \circ F^{(1)}\)</span> 과 같은 경우에도 전진법은</p>
+<p>후진법으로는 <span class="math inline">\(\boldsymbol{J}_{F^{(2)}}\)</span></p>
 <p><br></p>
 </section>
 </section>
@@ -1008,7 +1022,7 @@ p(x_i) = r(x_i)
 <p>이다.</p>
 </div>
 <p>이제 <span class="math inline">\(P_n(x)\)</span> 에 대한 근을 통해 <span class="math inline">\(\displaystyle C_n^i = \left[\prod_{j=1,j\ne i}^n \int_{-1}^1 \dfrac{x-x_j}{x_i-x_j}\, dx \right]\)</span> 를 테이블로 가지고 있다면 우리는 적분을 쉽게 계산 할 수 있다. 아래는 <span class="math inline">\(n=2\)</span> 부터 <span class="math inline">\(n=7\)</span> 까지의 테이블이다.</p>
-<table class="caption-top table">
+<table class="table">
 <caption>르장드르 함수를 이요한 가우스 구적법 {#tbl-gauss_quadrature} <br></caption>
 <thead>
 <tr class="header">
@@ -1209,7 +1223,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1241,29 +1266,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -1271,7 +1274,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

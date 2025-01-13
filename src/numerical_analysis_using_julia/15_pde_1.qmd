@@ -7,6 +7,10 @@ crossref:
   chapters: false
 ---
 
+{{< include ../../latexmacros.qmd >}}
+
+</br>
+
 [편미분 방정식의 이론적 배경](A_pde.qmd) 를 참고하라. 여기서는 주로 1계와 2계 편미분 방정식에 대해 다룬다. 여기서 다루게 되는 2계 편미분 방정식은 아래와 같이 분류 될 수 있다.
 
 </br>

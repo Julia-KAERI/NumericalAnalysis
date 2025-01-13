@@ -7,6 +7,10 @@ crossref:
   chapters: false
 ---
 
+{{< include ../../latexmacros.qmd >}}
+
+</br>
+
 ## 경계값 문제
 
 상미분 방정식의 해에 대해 우리는 $[a,\,b]$ 구간에만 관심이 있으며 $\boldsymbol{x}(a)=\boldsymbol{x}_a,\, \boldsymbol{x}(b)= \boldsymbol{x}_b$ 형식의 경계조건이 주어졌을 경우 이를 경계값 문제라고 한다.
@@ -26,7 +30,7 @@ Linear shooting 방법은 경계값 문제를 두개의 초기값 문제로 바�
 다음은 잘 알려져 있다. 
 
 
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 
 ::: {#thm-linear_shooting}
 
@@ -56,7 +60,7 @@ $$
 우리가 $x'' = p(t)x' +  q(t)x + r(t)$ 형태의 미분방정식과 $x(a)=\alpha,\, x(b)=\beta$ 의 경계조건을 가진 미분방정식에 관심이 있다고 하자. 이 때 @thm-linear_shooting 으로부터 다음을 알 수 있다.
 
 
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 
 ::: {#cor-linear_shooting}
 
