@@ -86,13 +86,14 @@ $$
 
 </br>
 
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 ::: {#exm-ode_sho1}
 
 #### 단순조화진동자 
 LHODE $y'' + \omega^2 y = 0$ 을 보자. $y=e^{\lambda x}$ 라고 놓으면, $\lambda^2+\omega^2 = 0$ 이어야 하므로 $\lambda = \pm \omega i$ 이다. 임의의 $a,\,b \in \mathbb{C}$ 에 대해 $a e^{i\omega x} + be^{-i\omega x}$ 는 미분방정식의 해이다.
 :::
 
-
+</div>
 </br>
 
 ## 2계 선형 ODE
@@ -163,6 +164,7 @@ $$ {#eq-ode_expansion_about_zero}
 
 </br>
 
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 ::: {#exm-ode_frobenius_sho}
 
 #### 단순조화진동자의 경우
@@ -193,7 +195,10 @@ $$
 를 만족해야 한다. $s=0$ 일 경우, 
 
 $$
-y(x){\large\mid}_{s=0}= a_0 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k)!} x^{2k} \right] + a_1 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k+1)!} x^{2k+1} \right] = a_0 \cos (\omega x) + \dfrac{a_1}{\omega} \sin (\omega x)
+\begin{aligned}
+y(x){\large\mid}_{s=0} &= a_0 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k)!} x^{2k} \right] + a_1 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k+1)!} x^{2k+1} \right] \\
+&= a_0 \cos (\omega x) + \dfrac{a_1}{\omega} \sin (\omega x)
+\end{aligned}
 $$
 
 이다. $s=1$ 인 경우는 같은 방법으로
@@ -204,6 +209,8 @@ $$
 
 임을 알 수 있다. 
 :::
+
+</div>
 
 </br>
 
@@ -271,6 +278,8 @@ $$
 :::
 :::
 
+</br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 
 ::: {#prp-wronskian_1}
 
@@ -281,6 +290,8 @@ $$
 &emsp; ($2$) $W[\{\varphi_i\}] = 0$ 이면 $\{\varphi_i\}$ 는 선형종속이다.
 
 :::
+</div>
+</br>
 
 ::: {.proof} 
 
@@ -308,6 +319,8 @@ $$
 
 </br>
 
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+
 ::: {#exm-ode_dependency_sho}
 
 @exm-ode_frobenius_sho 에서 우리는 $y'' + \omega^2 y = 0$ 의 해  $\sin \omega x,\,\cos\omega x$ 를 구했다. 여기서
@@ -320,14 +333,18 @@ $$
 
 :::
 
-
+</div>
 </br>
+
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 
 ::: {#thm-number_of_solution_of_second_order_linear_ode}
 
 2계 LHODE 는 최대 두개의 독립적인 해를 가진다.
 
 :::
+
+</div></br>
 
 ::: {.proof}
 
@@ -400,6 +417,7 @@ $$
 만 생각해도 된다.
 
 <br>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 
 ::: {#exm-ode-anothor_solution_of_2nd_lhode}
 
@@ -413,7 +431,7 @@ $$
 
 :::
 
-
+</div>
 </br>
 
 ## Sturm-Liouville theory
@@ -536,7 +554,7 @@ $$
 이 된다. 즉 내적의 정의가 변하며 연산자 $\mathcal{L}$ 이 hermitian 이 된다.
 
 </br>
-
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 
 ::: {#exm-ode_legendre_function}
 
@@ -552,7 +570,10 @@ $$
 
 :::
 
+</div>
 </br>
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 
 ::: {#exm-ode_chevyshev_function}
 
@@ -574,7 +595,11 @@ $$
 
 :::
 
+</div>
+
 </br>
+
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 
 ::: {#exm-ode_laruerre_function}
 
@@ -602,6 +627,7 @@ $$
 
 :::
 
+</div>
 </br>
 
 ## 직교하는 다항식
@@ -635,6 +661,7 @@ $$
 을 만족해야 한다. 이것을 이용하여 아래의 @thm-rodrigues_fomula 를 증명 할 수 있다. Arfken 의 수리물리학에서 Rodriguess formular 를 찾아보면 지루한 증명을 찾아 볼 수 있으나 여기서는 생략하기로 한다.
 
 </br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 
 ::: {#thm-rodrigues_fomula}
 
@@ -644,6 +671,8 @@ y_n(x) = \dfrac{1}{w(x)} \left(\dfrac{d}{dx}\right)^n \left[w(x)p(x)^n\right].
 $$ {#eq-rodrigues_formula}
 
 :::
+
+</div></br>
 
 <!-- ::: {.proof}
 

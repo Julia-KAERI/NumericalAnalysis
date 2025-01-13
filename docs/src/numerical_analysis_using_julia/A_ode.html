@@ -382,8 +382,10 @@ window.Quarto = {
 \]</span></p>
 <p>이며 이를 만족 하는 <span class="math inline">\(m\)</span> 은 복소수에서 <span class="math inline">\(n\)</span> 개 존재한다.</p>
 <p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 <div id="exm-ode_sho1" class="theorem example">
 <p><span class="theorem-title"><strong>예제 1 (단순조화진동자)</strong></span> LHODE <span class="math inline">\(y'' + \omega^2 y = 0\)</span> 을 보자. <span class="math inline">\(y=e^{\lambda x}\)</span> 라고 놓으면, <span class="math inline">\(\lambda^2+\omega^2 = 0\)</span> 이어야 하므로 <span class="math inline">\(\lambda = \pm \omega i\)</span> 이다. 임의의 <span class="math inline">\(a,\,b \in \mathbb{C}\)</span> 에 대해 <span class="math inline">\(a e^{i\omega x} + be^{-i\omega x}\)</span> 는 미분방정식의 해이다.</p>
+</div>
 </div>
 <p><br></p>
 </section>
@@ -498,6 +500,7 @@ y(x) = \sum_{i=0}^\infty a_i x^{s+i} ,\qquad a_0 \ne 0
 \tag{5}\]</span></span></p>
 <p>로 놓고 미분방정식에 대입하여 계수 <span class="math inline">\(a_i\)</span> 와 <span class="math inline">\(s\)</span> 를 구한다. 이 때 <span class="math inline">\(a_0 \ne 0\)</span> 임에 유의하라.</p>
 <p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 <div id="exm-ode_frobenius_sho" class="theorem example">
 <p><span class="theorem-title"><strong>예제 2 (단순조화진동자의 경우)</strong></span> 예를 들어 <span class="math inline">\(y'' + \omega^2 y = 0\)</span> 의 경우,</p>
 <p><span class="math display">\[
@@ -516,13 +519,17 @@ a_{i+2} = \dfrac{-\omega^2}{(i+1)(i+2)}a_i \implies  a_{2k} = (-1)^n \dfrac{\ome
 \]</span></p>
 <p>를 만족해야 한다. <span class="math inline">\(s=0\)</span> 일 경우,</p>
 <p><span class="math display">\[
-y(x){\large\mid}_{s=0}= a_0 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k)!} x^{2k} \right] + a_1 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k+1)!} x^{2k+1} \right] = a_0 \cos (\omega x) + \dfrac{a_1}{\omega} \sin (\omega x)
+\begin{aligned}
+y(x){\large\mid}_{s=0} &amp;= a_0 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k)!} x^{2k} \right] + a_1 \left[ \sum_{k=0}^\infty \dfrac{(-1)^k (\omega)^{2k}}{(2k+1)!} x^{2k+1} \right] \\
+&amp;= a_0 \cos (\omega x) + \dfrac{a_1}{\omega} \sin (\omega x)
+\end{aligned}
 \]</span></p>
 <p>이다. <span class="math inline">\(s=1\)</span> 인 경우는 같은 방법으로</p>
 <p><span class="math display">\[
 y(x) {\large \mid}_{s=1} =  \dfrac{a_0}{\omega}\sin (\omega x)
 \]</span></p>
 <p>임을 알 수 있다.</p>
+</div>
 </div>
 <p><br></p>
 </section>
@@ -574,11 +581,15 @@ W[\varphi_1,\ldots,\,\varphi_n] = W[\{\varphi_i\}]:= \det \left(\begin{bmatrix} 
 </div>
 </div>
 </div>
+<br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-wronskian_1" class="theorem proposition">
 <p><span class="theorem-title"><strong>명제 1</strong></span> <a href="#def-ode_wronskian" class="quarto-xref">정의&nbsp;1</a> 의 Wronskian 에 대해 다음이 성립한다.</p>
 <p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(W[\{\varphi_i\}]\ne 0\)</span> 이면 <span class="math inline">\(\{\varphi_i\}\)</span> 는 선형독립이다.</p>
 <p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(W[\{\varphi_i\}] = 0\)</span> 이면 <span class="math inline">\(\{\varphi_i\}\)</span> 는 선형종속이다.</p>
 </div>
+</div>
+<p><br></p>
 <div class="proof">
 <p><span class="proof-title"><em>(증명)</em>. </span><span class="math inline">\(\{\varphi_i\}\)</span> 에 대해</p>
 <p><span class="math display">\[
@@ -595,6 +606,7 @@ a_1\varphi_1^{(k)} + \cdots + a_n \varphi_n^{(k)} = 0
 <p>즉 <span class="math inline">\(W[\{\varphi_i\}] = 0\)</span> 이면 nontrivial <span class="math inline">\(a_1,\ldots,\,a_n\)</span> 이 존재하며 따라서 <span class="math inline">\(\{\varphi_i\}\)</span> 는 선형 종속이다. <span class="math inline">\(W[\{\varphi_i\}] \ne 0\)</span> 이면 <span class="math inline">\(a_1=\cdots = a_n = 0\)</span> 이므로 <span class="math inline">\(\{\varphi_i\}\)</span> 는 선형 독립이다. <span class="math inline">\(\square\)</span></p>
 </div>
 <p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 <div id="exm-ode_dependency_sho" class="theorem example">
 <p><span class="theorem-title"><strong>예제 3</strong></span> <a href="#exm-ode_frobenius_sho" class="quarto-xref">예제&nbsp;2</a> 에서 우리는 <span class="math inline">\(y'' + \omega^2 y = 0\)</span> 의 해 <span class="math inline">\(\sin \omega x,\,\cos\omega x\)</span> 를 구했다. 여기서</p>
 <p><span class="math display">\[
@@ -602,10 +614,14 @@ W[\sin \omega x,\, \cos\omega x] = \det \left(\begin{bmatrix} \cos \omega x &amp
 \]</span></p>
 <p>이므로 두 해는 선형독립임을 안다.</p>
 </div>
+</div>
 <p><br></p>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-number_of_solution_of_second_order_linear_ode" class="theorem">
 <p><span class="theorem-title"><strong>정리 2</strong></span> 2계 LHODE 는 최대 두개의 독립적인 해를 가진다.</p>
 </div>
+</div>
+<p><br></p>
 <div class="proof">
 <p><span class="proof-title"><em>(증명)</em>. </span>2계 LHODE</p>
 <p><span id="eq-thm_nsos_1"><span class="math display">\[
@@ -653,12 +669,14 @@ y_2(x) &amp;= y_1(x) \int_b^x \dfrac{W(x')}{[y_1(x')]^2} \, dx' - \dfrac{y_2(b)}
 y_2(x) = y_1(x) W(a) \int_b^x \dfrac{\exp \left(-\int_a^{x'} p(t)\, dt\right)}{[y_1(x')]}\, dx'
 \]</span></p>
 <p>만 생각해도 된다.</p>
-<p><br></p>
+<br>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 <div id="exm-ode-anothor_solution_of_2nd_lhode" class="theorem example">
 <p><span class="theorem-title"><strong>예제 4 (단순조화진동자(SHO) 의 경우)</strong></span> 우리는 <span class="math inline">\(y'' + \omega^2 y=0\)</span> 의 한 해가 <span class="math inline">\(\cos \omega x\)</span> 임을 안다. <span class="math inline">\(p(x) = 0\)</span> 이므로 <span class="math inline">\(W(x) = W_0 = \text{const.}\)</span> 이다. 따라서,</p>
 <p><span class="math display">\[
 y_2 (x) = \cos(\omega x) W_0 \int_{0}^x \dfrac{1}{\cos ^2 \omega x'}\, dx' = \dfrac{W_0}{\omega} \cos (\omega x) \tan (\omega x) = \dfrac{W_0}{\omega} \sin (\omega x)
 \]</span></p>
+</div>
 </div>
 <p><br></p>
 </section>
@@ -740,7 +758,8 @@ w(x) = \dfrac{1}{p_0(x)} \exp \left(\int_a^x \dfrac{p_1(t)}{p_0(t)}\, dt\right)
 \langle \mathcal{L}u(x),\, v(x)\rangle =  {\large \left[ \right.} v^\ast \overline{p}_0 u' - (v^\ast)' \overline{p}_0 u {\large \left. \right]}_a^b  + \langle u,\, \mathcal{L}v(x)\rangle
 \]</span></p>
 <p>이 된다. 즉 내적의 정의가 변하며 연산자 <span class="math inline">\(\mathcal{L}\)</span> 이 hermitian 이 된다.</p>
-<p><br></p>
+<br>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 <div id="exm-ode_legendre_function" class="theorem example">
 <p><span class="theorem-title"><strong>예제 5 (르장드르 함수 (Legendre function))</strong></span> 르장드르 미분연산자</p>
 <p><span class="math display">\[
@@ -748,7 +767,9 @@ w(x) = \dfrac{1}{p_0(x)} \exp \left(\int_a^x \dfrac{p_1(t)}{p_0(t)}\, dt\right)
 \]</span></p>
 <p>에 대해 <span class="math inline">\(\mathcal{L}P_l(x) = -l(l+1)P_l(x)\)</span> 를 푸는 것이 <a href="#tbl-2nd_ode_singularity" class="quarto-xref">표&nbsp;1</a> 의 르장드르 미분방정식의 해이다. 자연수 <span class="math inline">\(l\)</span> 에 대한 미분방정식의 해는 <span class="math inline">\(l\)</span> 차 다항식임이 알려저 있다. <span class="math inline">\(\dfrac{d}{dx}(1-x^2)=-2x\)</span> 이므로 무게함수는 <span class="math inline">\(w(x)=1\)</span> 이다.</p>
 </div>
+</div>
 <p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 <div id="exm-ode_chevyshev_function" class="theorem example">
 <p><span class="theorem-title"><strong>예제 6 (체비쇼프 함수 (Legendre function))</strong></span> 체비쇼프 미분연산자</p>
 <p><span class="math display">\[
@@ -760,7 +781,9 @@ w(x) = \dfrac{1}{1-x^2} \exp \left(\int_{a}^x \dfrac{t}{1-t^2}\, dt \right)= \df
 \]</span></p>
 <p>이다. 적분시 <span class="math inline">\(a\)</span> 에 대한 항은 상수곱이 되므로 무시했다.</p>
 </div>
+</div>
 <p><br></p>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 <div id="exm-ode_laruerre_function" class="theorem example">
 <p><span class="theorem-title"><strong>예제 7 (라게르 함수(Laguerre function))</strong></span> 아래의 미분방정식 연산자 <span class="math inline">\(\mathcal{L}\)</span> 에 대한 고유값 문제 <span class="math inline">\(\mathcal{L}\psi =\lambda \psi\)</span> 를 풀고자 한다.</p>
 <p><span id="eq-ode-laguerre_operator"><span class="math display">\[
@@ -775,6 +798,7 @@ w(x) = \dfrac{1}{x} \exp \left(\int^x \dfrac{1-t}{t}\,dt\right) = \dfrac{1}{x} e
 0 = {\large \left[ \right.} v^\ast \overline{p}_0 u' - (v^\ast)' \overline{p}_0 u {\large \left. \right]}_a^b =  {\large \left[ \right.} xe^{-x} (v^\ast  u' - (v^\ast)'  u) {\large \left. \right]}_a^b
 \]</span></p>
 <p>을 만족해야 한다.</p>
+</div>
 </div>
 <p><br></p>
 </section>
@@ -800,12 +824,15 @@ p(x) = \alpha x^2 + \beta x + \gamma,\qquad q(x) = \mu x + \nu
 \dfrac{d}{dx}[w(x)p(x)y'] + \lambda w(x)y = 0
 \]</span></p>
 <p>을 만족해야 한다. 이것을 이용하여 아래의 <a href="#thm-rodrigues_fomula" class="quarto-xref">정리&nbsp;3</a> 를 증명 할 수 있다. Arfken 의 수리물리학에서 Rodriguess formular 를 찾아보면 지루한 증명을 찾아 볼 수 있으나 여기서는 생략하기로 한다.</p>
-<p><br></p>
+<br>
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="thm-rodrigues_fomula" class="theorem">
 <p><span class="theorem-title"><strong>정리 3</strong></span> 아래와 같이 정의된 <span class="math inline">\(y_n(x)\)</span> 는 <span class="math inline">\(\lambda\)</span> 가 <a href="#eq-eigenvalue_of_n_order_polynomial" class="quarto-xref">식&nbsp;15</a> 의 <span class="math inline">\(\lambda_n\)</span> 인 <a href="#eq-sturm_liourille_ode" class="quarto-xref">식&nbsp;14</a> 의 해이다. <span id="eq-rodrigues_formula"><span class="math display">\[
 y_n(x) = \dfrac{1}{w(x)} \left(\dfrac{d}{dx}\right)^n \left[w(x)p(x)^n\right].
 \tag{16}\]</span></span></p>
 </div>
+</div>
+<p><br></p>
 <!-- ::: {.proof}
 
 
