@@ -308,7 +308,7 @@ window.Quarto = {
   <li><a href="#자동-미분" id="toc-자동-미분" class="nav-link" data-scroll-target="#자동-미분"><span class="header-section-number">2</span> 자동 미분</a>
   <ul class="collapse">
   <li><a href="#편미분과-합성함수의-편미분" id="toc-편미분과-합성함수의-편미분" class="nav-link" data-scroll-target="#편미분과-합성함수의-편미분"><span class="header-section-number">2.1</span> 편미분과 합성함수의 편미분</a></li>
-  <li><a href="#sec-automatic_differentiation" id="toc-sec-automatic_differentiation" class="nav-link" data-scroll-target="#sec-automatic_differentiation"><span class="header-section-number">2.2</span> 자동 미분</a></li>
+  <li><a href="#sec-derivative_calculation" id="toc-sec-derivative_calculation" class="nav-link" data-scroll-target="#sec-derivative_calculation"><span class="header-section-number">2.2</span> 컴퓨터를 이용한 미분 계산</a></li>
   <li><a href="#전진법과-후진법" id="toc-전진법과-후진법" class="nav-link" data-scroll-target="#전진법과-후진법"><span class="header-section-number">2.3</span> 전진법과 후진법</a></li>
   </ul></li>
   <li><a href="#일변수-함수의-적분-뉴턴-코츠-방법" id="toc-일변수-함수의-적분-뉴턴-코츠-방법" class="nav-link" data-scroll-target="#일변수-함수의-적분-뉴턴-코츠-방법"><span class="header-section-number">3</span> 일변수 함수의 적분 : 뉴턴-코츠 방법</a>
@@ -438,22 +438,6 @@ f''(x) &amp;=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h
 </figcaption>
 </figure>
 </div>
-<!-- 
-양 끝점에서는 도함수를 구할 수 없는데 이때는 전방차분이나 후방차분과 비슷한 방법을 사용하여 구할 수 있다.
-
-$$
-\begin{aligned}
-f(x+2h) & = f(x) + f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 + \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4) \\
-f(x-2h) &= f(x) - f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 - \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4),
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-y'_1 &= \dfrac{-y_{3}+4y_{2}-3y_1}{2h} + O(h^2),\\
-y'_n &= \dfrac{3y_{n}-4x_{n-1}+y_{n-2}}{2h} + O(h^2).
-\end{aligned}
-$$ {#eq-3points_forward_backward_difference} -->
 <p><br></p>
 </section>
 <section id="roundoff-에러" class="level3" data-number="1.4">
@@ -562,8 +546,8 @@ Verma, Arun. 2000. <span>“An Introduction to Automatic Differentiation.”</sp
 <p>임을 안다. 이것이 소위 <strong>chain rule</strong> 이다.</p>
 <p><br></p>
 </section>
-<section id="sec-automatic_differentiation" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="sec-automatic_differentiation"><span class="header-section-number">2.2</span> 자동 미분</h3>
+<section id="sec-derivative_calculation" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="sec-derivative_calculation"><span class="header-section-number">2.2</span> 컴퓨터를 이용한 미분 계산</h3>
 <p>특히 현재의 인공지능의 발전에 있어 위에 언급한 대량의 함수와 변수를 사용하는 미분과 편미분을 정확하고 빠른게 계산하는 것이 중요해 졌다. 전통적으로 함수의 미분을 컴퓨터를 이용하여 계산하는 방법에는 세가지가 있었다.</p>
 <ol type="1">
 <li>[<strong>수동</strong>] 미분/편미분 함수를 손으로 계산하고, 그 결과를 코딩한다.</li>
@@ -571,23 +555,26 @@ Verma, Arun. 2000. <span>“An Introduction to Automatic Differentiation.”</sp
 <li>[<strong>기호</strong>] 메쓰메티카(Mathematica) 프로그램과 같이 기호를 이용하여 미분한다.</li>
 </ol>
 <p>이 방법은 모두 치명적인 단점이 존재한다. ‘수동’ 방법은 일반적인 함수에 대해 사용 할 수 없고, 인적 오류가 나기 쉽다. ‘차분’ 법은 항상 truncation error 와 round-off error 에 노출된다. 게다가 변수가 많고 여러 단계로 합성된 함수의 경우(인공지능의 신경망이 정확히 이런 경우이다) 그 오차가 계속 누적되기 때문에 오차가 필연적으로 커질 수 밖에 없다. ‘기호’ 법은 느리며 함수가 복잡할 때 만족할 만한 깔끔한 결과를 낼 수 없고 컴퓨팅 파워를 많이 사용한다.</p>
-<p>이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 간단하다. 예를 들어 <span class="math inline">\(x^n\)</span> 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다.</p>
-<p>여기서는 자동 미분의 구체적인 구현에 대해 설명하지 않고, 자동 미분은 어떻게 이루어 지는지, 전진법(forwared AD)과 후진법(backward AD) 는 어떻게 다른지에 대해 설명하기로 한다.</p>
+<p>이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 간단하다. 예를 들어 <span class="math inline">\(x^n\)</span> 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다. 자동 미분에서는 함수값과 미분값을 같이 계산하여 전달한다. 예를 들어 julia 에서</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(<span class="cn">π</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>는 <code>0.0</code> 을 반환하지만 자동미분에서 사용하는 함수는 함수값과 함께 미분값 <code>cos(π)</code> 도 같이 반환한다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">sin</span>(<span class="cn">π</span>), <span class="fu">cos</span>(<span class="cn">π</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>또한 함수간의 연산과 합성에 대해서도 그 chain rule 을 이용하여 자동으로 계산해준다.</p>
 <p><br></p>
 </section>
 <section id="전진법과-후진법" class="level3" data-number="2.3">
 <h3 data-number="2.3" class="anchored" data-anchor-id="전진법과-후진법"><span class="header-section-number">2.3</span> 전진법과 후진법</h3>
+<p>자동 미분의 chain rule 을 구현하는 방법에는 전진법(forwared AD)과 후진법(backward AD) 이 있다. (참고로 전진법, 후진법은 앞서 수치해석적 미분에서의 전방차분, 후방차분과는 아무 관계 없다.)</p>
 <section id="전진법" class="level4">
 <h4 class="anchored" data-anchor-id="전진법"><strong>전진법</strong></h4>
-<p>아래의 식을 사용한다.</p>
+<p>전진법은 <span class="math inline">\(F^{(1)}(\boldsymbol{a}),\, \boldsymbol{J}_{F^{(1)}}(\boldsymbol{a})\)</span> 부터 차근차근 <span class="math inline">\(i\)</span> 를 증가시켜 가면서 <span class="math inline">\(F^{(i)}(\boldsymbol{z}^{(i-1)})\)</span> 과 <span class="math inline">\(\boldsymbol{J}_{F^{(i)}}(\boldsymbol{z}^{i-1})\)</span> 을 계산한다. Chain rule 로 표현해 보면 다음과 같다.</p>
 <p><span id="eq-master_eq_of_forward_autodiff"><span class="math display">\[
 \begin{aligned}
-\dfrac{\partial z^{(m)}_i}{\partial x_j} &amp;= \sum_{k_1}\cdots \sum_{k_{m-1}}\dfrac{\partial z_{k_1}^{(1)}(\boldsymbol{a})}{\partial x_j} \cdots \dfrac{\partial z_{k_{m-1}}^{(m-1)}(\boldsymbol{z}^{(m-2)})}{\partial z^{(m-2)}_{k_{m-2}}}\dfrac{\partial z_i^{(m)}(\boldsymbol{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}} \\[0.3em]
-&amp;=\sum_{k_{m-1}} \cdots \sum_{k_1}  \dfrac{\partial z_i^{(m)}(\boldsymbol{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}} \dfrac{\partial z_{k_{m-1}}^{(m-1)}(\boldsymbol{z}^{(m-2)})}{\partial z^{(m-2)}_{k_{m-2}}} \cdots \dfrac{\partial z_{k_1}^{(1)}(\boldsymbol{a})}{\partial x_j} \\[0.3em]\\
+\dfrac{\partial z^{(m)}_i}{\partial x_j} &amp;= \sum_{k_{m-1}}\cdots \sum_{k_1}\dfrac{\partial z_{k_1}^{(1)}(\boldsymbol{a})}{\partial x_j} \cdots \dfrac{\partial z_{k_{m-1}}^{(m-1)}(\boldsymbol{z}^{(m-2)})}{\partial z^{(m-2)}_{k_{m-2}}}\dfrac{\partial z_i^{(m)}(\boldsymbol{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}} \\[0.3em]
+&amp;=\sum_{k_{1}} \cdots \sum_{k_{m-1}}  \dfrac{\partial z_i^{(m)}(\boldsymbol{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}} \dfrac{\partial z_{k_{m-1}}^{(m-1)}(\boldsymbol{z}^{(m-2)})}{\partial z^{(m-2)}_{k_{m-2}}} \cdots \dfrac{\partial z_{k_1}^{(1)}(\boldsymbol{a})}{\partial x_j} \\[0.3em]\\
 &amp;= \left[\boldsymbol{J}_{F^{(m)}}(\boldsymbol{z}^{(m-1)}) \cdots \boldsymbol{J}_{F^{(1)}}(\boldsymbol{a})\right]_{ij}
 \end{aligned}
 \tag{14}\]</span></span></p>
-<p><span class="math inline">\(m=1\)</span>, 즉 <span class="math inline">\(\dfrac{\partial z^{(1)}(\boldsymbol{a})}{\partial x_j}\)</span> 부터 계산하기 시작하여 <span class="math inline">\(m=2,\,3,\ldots,\,N\)</span> 까지 증가시키면 <span class="math inline">\(\boldsymbol{J}_F\)</span> 를 계산 할 수 있다.</p>
 <p><br></p>
 </section>
 <section id="후진법" class="level4">
@@ -595,21 +582,17 @@ Verma, Arun. 2000. <span>“An Introduction to Automatic Differentiation.”</sp
 <p>아래의 식을 사용한다.</p>
 <p><span id="eq-master_eq_of_backward_autodiff"><span class="math display">\[
 \begin{aligned}
-\dfrac{\partial y_j}{\partial z^{(m)}_i} &amp;= \sum_{k_{N-1}}\cdots \sum_{k_{m+1}} \dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\boldsymbol{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\boldsymbol{z}^{m})}{\partial z^{(m)}_i} \\[0.3em]
-&amp;=\sum_{k_{m+1}} \cdots\sum_{k_{N-1}} \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\boldsymbol{z}^{m})}{\partial z^{(m)}_i} \cdots  \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\boldsymbol{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}}\dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \\[0.3em]
-&amp;= \left[\boldsymbol{J}_{F^{(m+1)}}(\boldsymbol{z}^m)^T \cdots \boldsymbol{J}_{F^{(N-1)}}(\boldsymbol{z^{(N-1)}})^T \right]_{ij}
+\dfrac{\partial y_j}{\partial z^{(m)}_i} &amp;= \sum_{k_{m+1}}\cdots \sum_{k_{N-1}} \dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\boldsymbol{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\boldsymbol{z}^{m})}{\partial z^{(m)}_i} \\[0.3em]
+&amp;=\sum_{k_{N-1}} \cdots\sum_{k_{m+1}} \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\boldsymbol{z}^{m})}{\partial z^{(m)}_i} \cdots  \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\boldsymbol{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}}\dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \\[0.3em]
+&amp;= \left[\boldsymbol{J}_{F^{(m+1)}}(\boldsymbol{z}^m)^T \cdots \boldsymbol{J}_{F^{(N-1)}}(\boldsymbol{z}^{(N)})^T \right]_{ij}
 \end{aligned}
 \tag{15}\]</span></span></p>
 <p><span class="math inline">\(m=(N-1)\)</span>, 즉 <span class="math inline">\(\dfrac{\partial y_j(\boldsymbol{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}}\)</span> 부터 계산한다. <span class="math inline">\(m=N-2,\,N-3,\ldots,\,1\)</span> 까지 감소시키면 <span class="math inline">\(\boldsymbol{J}_F\)</span> 를 계산 할 수 있다… 고 쉽게 넘어 갈 수 있지만 우리는 아직 <span class="math inline">\(\boldsymbol{z}^{(m)}= F^{(m)}\circ \cdots \circ F^{(1)}(\boldsymbol{a})\)</span> 를 계산하지 않았다는 것을 기억하라. 후진법은 전진법과는 달리 두가지 과정으로 수행된다.</p>
 <p> (<span class="math inline">\(1\)</span>) 일단 <span class="math inline">\(\boldsymbol{z}^{(1)}=F^{(1)}(\boldsymbol{a})\)</span> 부터 <span class="math inline">\(\boldsymbol{y} = F(\boldsymbol{a})= F^{N}\circ \cdots F^{(1)}(\boldsymbol{a})\)</span> 까지 계산하며 이 값을 기억한다.</p>
 <p> (<span class="math inline">\(2\)</span>) (<span class="math inline">\(1\)</span>) 에서 기억한 값을 이용하여 <span class="math inline">\(m=N-1\)</span> 부터 <span class="math inline">\(m=1\)</span> 까지의 편미분을 계산한다.</p>
-<p>즉 후진법은 전진법에 비해 과정이 더 길고 함수값을 기억하고 있어야 한다는 단점이 있다. 일반적으로 <span class="math inline">\(F:\mathbb{R}^n \to \mathbb{R}^m\)</span> 에 대해 <span class="math inline">\(m&gt;n\)</span> 이면 전진법이 유리하며 <span class="math inline">\(n&gt;m\)</span> 이면 후진법이 유리하다는 것이 잘 알려져 있다. <span class="math inline">\(n\)</span> 이 <span class="math inline">\(m\)</span> 보다 많이 크다면 후진법이 훨씬 좋다는 것이 알려져 있으며, 기계학습이 전형적으로 이런 경우이므로 기계학습에서는 거의 후진법이 사용된다.</p>
+<p>즉 후진법은 전진하면서 함수값을 계산하고 후진하면서 앞서 계산한 함수값을 이용하여 편미분을 계산한다. 일반적으로 <span class="math inline">\(F:\mathbb{R}^n \to \mathbb{R}^m\)</span> 에 대해 <span class="math inline">\(m&gt;n\)</span> 이면 전진법이 유리하며 <span class="math inline">\(n&gt;m\)</span> 이면 후진법이 유리하다는 것이 잘 알려져 있으며 <span class="math inline">\(n\)</span> 이 <span class="math inline">\(m\)</span> 보다 더 클수록 더 유리하다는 것이 알려져 있다. 신경망과 같은 기계학습이 전형적으로 이런 경우이므로 기계학습에서는 거의 후진법이 사용된다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
-<div id="exm-forward_reverse_mode_comparision" class="theorem example">
-<p><span class="theorem-title"><strong>예제 1 (전진법과 후진법)</strong></span> <span class="math inline">\(F:\mathbb{R}^3 \to \mathbb{R}\)</span> 인 <span class="math inline">\(F(\boldsymbol{x}) = x_1^2 + e^{x_2 + 2x_3}\)</span> 에 대해 <span class="math inline">\(\boldsymbol{a} = (1, 0, 1)\)</span> 에서의 미분을 전진법과 후진법으로 구해보자.</p>
-</div>
-</div>
+<p>Julia 에서의 미분 관련 패키지에 대해서는 <a href="https://juliadiff.org/#computing_derivatives">JuliaDiff</a> 를 참고하라. 앞으로는 자동 미분을 사용 할 수 있을경우, 전진법에는 <code>ForwardDiff.jl</code> 을, 후진법에는 <code>ReverseDiff.jl</code> 을 사용하도록 한다.</p>
 <p><br></p>
 </section>
 </section>
@@ -624,18 +607,19 @@ Verma, Arun. 2000. <span>“An Introduction to Automatic Differentiation.”</sp
 <p><br></p>
 <section id="뉴턴-코츠-방법" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="뉴턴-코츠-방법"><span class="header-section-number">3.1</span> 뉴턴-코츠 방법</h3>
-<p>많은 경우 구간의 간격 <span class="math inline">\(x_{i+1}-x_i\)</span> 가 항상 같으며, 이런 구간에 대해 구적법으로 구하는 것을 뉴턴-코츠 방법(Newton-Cotes method) 이라고 한다. <span class="math inline">\([a,\,b]\)</span> 구간에서 뉴턴-방법으로 적분을 수행할 때 양 끝점을 포함하여 구간을 나눌 수도 있고, 양 끝점을 빼고 구간을 나눌 수도 있다. 양 끝점을 포함하는 것을 <strong>닫힌 Newton-Cotes 방법(closed Newton-Cotes method)</strong> 이라고 하고, 양 끝점을 빼는 것을 <strong>열린 Newton-Cotes 방법(open Newton-Cotes method)</strong> 이라고 한다. 여기서는 닫힌 Newton-Cotes 방법에 대해서 주로 다루기로 한다. 우선 <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(n\)</span> 개의 점 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 을 이용하여 <span class="math inline">\(n-1\)</span> 개의 등간격으로 분할하면 각 <span class="math inline">\(x_k\)</span> 는 간격 <span class="math inline">\(h=(b-a)/(n-1)\)</span> 에 대해 다음과 같다.</p>
+<p>함수 <span class="math inline">\(f:[a,\,b]\to\mathbb{R}\)</span> 과 <span class="math inline">\([a,\,b]\)</span> 구간을 같은 간경의 <span class="math inline">\(n\)</span> 개의 점으로 나눈 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 을 생각하자.</p>
 <p><span class="math display">\[
-x_k = a + (k-1)h = a+ (k-1)\dfrac{(b-a)}{n-1},\qquad k=1,\ldots,\,n.
+a=x_1 &lt;x_2&lt; \cdots &lt; x_{n-1}&lt;x_n=b,\qquad x_{k}-x_{k-1}= h=\dfrac{b-a}{n-1}=\text{constant}.
 \]</span></p>
-<p>이 때 적분값을 <span class="math inline">\(f(x_1), \ldots,\,f(x_n)\)</span> 의 선형결합으로 다음과 같이 표현하는 것이 Newton-Cotes 방법이다.</p>
+<p>여기에 대해 구적법으로 적분을 구하는 것을 뉴턴-코츠 방법(Newton-Cotes method) 이라고 한다. 구간에서 뉴턴-방법으로 적분을 수행할 때 양 끝점을 포함하여 구간을 나눌 수도 있고, 양 끝점을 빼고 구간을 나눌 수도 있다. 양 끝점을 포함하는 것을 <strong>닫힌 Newton-Cotes 방법(closed Newton-Cotes method)</strong> 이라고 하고, 양 끝점을 빼는 것을 <strong>열린 Newton-Cotes 방법(open Newton-Cotes method)</strong> 이라고 한다.</p>
+<p>뉴턴-코츠 방법은 적분값을 <span class="math inline">\(f(x_1), \ldots,\,f(x_n)\)</span> 의 선형결합으로 다음과 같이 표현한다.</p>
 <p><span class="math display">\[
 \begin{aligned}
 \int_{a}^b f(x)\, dx &amp;\approx \sum_{k=1}^n w_i f(x_i)\qquad &amp; &amp; \text{closed Newton-Cotes method}\\
 &amp;\approx \sum_{i=2}^{n-1} w_i f(x_i) \qquad &amp; &amp; \text{open Newton-Cotes method}
 \end{aligned}
 \]</span></p>
-<p>즉 우리가 여기서 구해야 할 것은 각 구간에서의 weight factor <span class="math inline">\(w_i\)</span> 이다. Newton-Cotes 방법을 이용한 대표적인 적분방법은 사다리꼴 방법과 Simpson 방법이다.</p>
+<p>즉 우리가 여기서 구해야 할 것은 각 구간에서의 weight factor <span class="math inline">\(w_i\)</span> 이다. 뉴턴-코츠 방법을 이용한 대표적인 적분 방법이 사다리꼴 방법과 Simpson 방법이다.</p>
 <p><br></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -649,48 +633,36 @@ x_k = a + (k-1)h = a+ (k-1)\dfrac{(b-a)}{n-1},\qquad k=1,\ldots,\,n.
 </section>
 <section id="중점을-이용한-적분" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="중점을-이용한-적분"><span class="header-section-number">3.2</span> 중점을 이용한 적분</h3>
-<p>중점을 이용한 적분은 기본적으로 뉴턴-코츠 방법은 아니지만 구간 <span class="math inline">\([a,\,b]\)</span> 와 함수 <span class="math inline">\(f(x)\)</span> 가 주어졌을 때 함수의 적분을 구하는 가장 간단하고 직관적인 방법이기 때문에 여기에 소개하기로 한다. <span class="math inline">\([a,\,b]\)</span> 구간을 <span class="math inline">\(n-1\)</span> 개의 구간으로 나누어,</p>
+<p><span class="math inline">\([x_{k},\, x_{k+1}]\)</span> 구간에 대한 적분을 구할 때 구간의 양 끝점에 대한 중점 <span class="math inline">\(z_k = \dfrac{x_{k+1}+x_{k}}{2}\)</span> 에서의 함수값을 사용하는 방법이다. 즉,</p>
 <p><span class="math display">\[
-a=x_1 &lt; x_2 &lt; \cdots &lt; x_n=b
-\]</span></p>
-<p>이며 <span class="math inline">\(k=1,\ldots,\,n-1\)</span> 에 대해 <span class="math inline">\(x_{k+1}-x_k = h\)</span> 라고 하자.</p>
-<p><span class="math display">\[
-\int_{a}^{b}f(x)\,dx = \sum_{k=1}^{n-1}\int_{x_k}^{x_{k+1}}f(x)\, dx
-\]</span></p>
-<p>임을 안다. <span class="math inline">\([x_{k},\, x_{k+1}]\)</span> 구간에 대한 적분을 구할 때 구간의 양 끝점에 대한 중점 <span class="math inline">\(x^{(m)}_k = \dfrac{x_{k+1}+x_{k}}{2}\)</span> 에서의 함수값을 사용하는 방법이다. 즉,</p>
-<p><span class="math display">\[
-\int_{x_{k}}^{x_{k+1}} f(x)\,dx\approx f\left(\dfrac{x_{k+1}+x_i}{2}\right) h = f(x^{(m)}_k) h
+\int_{x_{k}}^{x_{k+1}} f(x)\,dx\approx f\left(\dfrac{x_{k+1}+x_i}{2}\right) h = f(z_k) h
 \]</span></p>
 <p>로 근사하는 방법이다. 테일러 정리에 의해</p>
 <p><span class="math display">\[
-f(x) = f\left(x^{(m)}_k\right)+f'\left(x^{(m)}_i\right)\left(x-x^{(m)}_k\right) + \dfrac{1}{2}f^{(2)}(\xi_k) \left(x-x_k^{(m)}\right)^2
+f(x) = f\left(z_k\right)+f'\left(z_k\right)\left(x-z_k\right) + \dfrac{1}{2}f^{(2)}(\xi_k) \left(x-z_k\right)^2
 \]</span></p>
 <p>을 만족하는 <span class="math inline">\(\xi_k\in [x_{k},\, x_{k+1}]\)</span> 이 존재한다는 것을 안다. 위 식을 적분하면</p>
 <p><span class="math display">\[
-\int_{x_i}^{x_{i+1}} f(x)\, dx = f(x_i^m)h + \dfrac{1}{24}f^{(2)}(\xi_i)h^3
+\int_{x_k}^{x_{k+1}} f(x)\, dx = f(z_k)h + \dfrac{1}{24}f^{(2)}(\xi_k)h^3
 \]</span></p>
 <p>이며, 따라서 <span class="math inline">\([a,\,b]\)</span> 구간에서의 적분은</p>
 <p><span class="math display">\[
-\int_a^b f(x) \,dx= \sum_{i=1}^{n-1} f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h + \dfrac{h^3}{24} \sum_{i=1}^{n-1}f^{(2)}(\xi_i)
+\int_a^b f(x) \,dx= \sum_{k=1}^{n-1} f\left(\dfrac{x_{k}+x_{k+1}}{2}\right) h + \dfrac{h^3}{24} \sum_{k=1}^{n-1}f^{(2)}(\xi_k)
 \]</span></p>
-<p>이다. <span class="math inline">\(f\in C^2_{[a,\,b]}\)</span> 라면 <a href="../../src/numerical_analysis_using_julia/02_notations_and_propositions.html#prp-intermediate_value_for_many_points">따름정리 : 여러 점의 경우</a> 에 의해 <span class="math inline">\(\displaystyle \sum_{i=1}^{n-1}f^{(2)}(\xi_i) = (n-1)f^{(2)}(\xi)\)</span> 를 만족하는 <span class="math inline">\(\xi\in [a,\,b]\)</span> 가 존재하므로,</p>
+<p>이다. <span class="math inline">\(f\in C^2_{[a,\,b]}\)</span> 라면 <a href="../../src/numerical_analysis_using_julia/02_notations_and_propositions.html#prp-intermediate_value_for_many_points">따름정리 : 여러 점의 경우</a> 에 의해 <span class="math inline">\(\displaystyle \sum_{k=1}^{n-1}f^{(2)}(\xi_k) = (n-1)f^{(2)}(\xi)\)</span> 를 만족하는 <span class="math inline">\(\xi\in [a,\,b]\)</span> 가 존재하므로,</p>
 <p><span class="math display">\[
-\int_a^b f(x) \, dx =  \sum_{i=1}^{n-1} f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h + \dfrac{(n-1)h^3}{24} f^{(2)}(\xi)
+\int_a^b f(x) \, dx =  \sum_{k=1}^{n-1} f\left(\dfrac{x_{k}+x_{k+1}}{2}\right) h + \dfrac{(n-1)h^3}{24} f^{(2)}(\xi)
 \]</span></p>
 <p>를 만족한다. 중간값에 의한 적분 계산값을 <span class="math inline">\(I_M[a, b, n]\)</span> 라고 하면</p>
 <p><span class="math display">\[
-I_M [f,\,a,\,b,\,n] = \sum_{i=1}^{n-1}f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h
+I_M [f,\,a,\,b,\,n] = \sum_{k=1}^{n-1}f\left(\dfrac{x_{k}+x_{k+1}}{2}\right) h
 \]</span></p>
 <p>이라고 할 수 있으며, <span class="math inline">\(M=\max \{ |f^{(2)}(x)| : x\in [a,\,b] \}\)</span> 일 때 중점을 이용한 적분의 오차는 <span class="math inline">\(E_M [f,\,a,\,b,\,n]=\dfrac{(n-1)h^3}{24} M=\dfrac{(b-a)M}{24}h^2\)</span> 보다 작거나 같다. 즉 <span class="math inline">\(O(E_M) =h^2\)</span> 이다.</p>
 <p><br></p>
 </section>
 <section id="사다리꼴-방법-를-이용한-적분" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="사다리꼴-방법-를-이용한-적분"><span class="header-section-number">3.3</span> 사다리꼴 방법 를 이용한 적분</h3>
-<p>사다리꼴 방법은 <span class="math inline">\([a,\,b]\)</span> 구간에 대한 함수 <span class="math inline">\(f(x)\)</span> 가 주어졌거나 수열 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 과 <span class="math inline">\(f(x_k)= y_k\)</span> 가 주어졌을 때 사용할 수 있다. 여기서도</p>
-<p><span class="math display">\[
-a=x_1&lt;x_2&lt;\cdots &lt;x_n=b
-\]</span></p>
-<p>가 성립한다고 하자. 함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([x_k,\, x_{k+1}]\)</span> 구간에서 <span class="math inline">\((x_k,\, y_k)\)</span> 와 <span class="math inline">\((x_{k+1},\, y_{k+1})\)</span> 을 지나는 1차 다항식 <span class="math inline">\(\tilde{f}_k(x) = \dfrac{y_{k+1}-y_k}{x_{k+1}-x_k}(x-x_k)+y_k\)</span> 으로 근사하는 것을 <strong>사다리꼴 방법 (trapzoidal method)</strong> 이라고 한다. 이 근사에서는 <a href="../../src/numerical_analysis_using_julia/05_interpolation.html#sec-error_for_polynomial_interpolation">다항식을 이용한 보간법의 오차</a> 의 <strong>정리 1</strong> 에서 보았듯이 다음을 만족하는 <span class="math inline">\(\xi_k\in [x_{k-1},\, x_k]\)</span> 가 존재한다. <span class="math display">\[
+<p>함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([x_k,\, x_{k+1}]\)</span> 구간에서 <span class="math inline">\((x_k,\, y_k)\)</span> 와 <span class="math inline">\((x_{k+1},\, y_{k+1})\)</span> 을 지나는 1차 다항식 <span class="math inline">\(\tilde{f}_k(x) = \dfrac{y_{k+1}-y_k}{x_{k+1}-x_k}(x-x_k)+y_k\)</span> 으로 근사하여 적분하는 것을 <strong>사다리꼴 방법 (trapzoidal method)</strong> 이라고 한다. 이 근사에서는 <a href="../../src/numerical_analysis_using_julia/05_interpolation.html#sec-error_for_polynomial_interpolation">다항식을 이용한 보간법의 오차</a> 의 <strong>정리 1</strong> 에서 보았듯이 다음을 만족하는 <span class="math inline">\(\xi_k\in [x_{k-1},\, x_k]\)</span> 가 존재한다. <span class="math display">\[
 \begin{aligned}
 f(x) = \tilde{f}(x) + \dfrac{f^{(2)}(\xi_k)}{2}(x-x_{k-1})(x-x_k).\\
 \end{aligned}
@@ -794,56 +766,56 @@ f(x) = L_4 (x) + \dfrac{f^{(4)}(\xi_i)}{4!}\prod_{j=1}^4(x-x_{j-2})
 <figcaption>수치 적분</figcaption>
 </figure>
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">function</span> <span class="fu">integrate_trapzoidal</span>(</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    f<span class="op">::</span><span class="dt">Function</span>, </span>
-<span id="cb1-3"><a href="#cb1-3"></a>    a<span class="op">::</span><span class="dt">Number</span>, </span>
-<span id="cb1-4"><a href="#cb1-4"></a>    b<span class="op">::</span><span class="dt">Number</span>, </span>
-<span id="cb1-5"><a href="#cb1-5"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a>    </span>
-<span id="cb1-7"><a href="#cb1-7"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n)</span>
-<span id="cb1-10"><a href="#cb1-10"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
-<span id="cb1-11"><a href="#cb1-11"></a>    result <span class="op">=</span> <span class="fl">0.5</span><span class="fu">*</span>(ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
-<span id="cb1-12"><a href="#cb1-12"></a>    result <span class="op">+=</span> <span class="fu">sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
-<span id="cb1-13"><a href="#cb1-13"></a>    <span class="cf">return</span> result<span class="op">*</span>h</span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="kw">end</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="kw">function</span> <span class="fu">integrate_simpson_1_3</span>(</span>
-<span id="cb1-17"><a href="#cb1-17"></a>    f<span class="op">::</span><span class="dt">Function</span>, </span>
-<span id="cb1-18"><a href="#cb1-18"></a>    a<span class="op">::</span><span class="dt">Number</span>, </span>
-<span id="cb1-19"><a href="#cb1-19"></a>    b<span class="op">::</span><span class="dt">Number</span>, </span>
-<span id="cb1-20"><a href="#cb1-20"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb1-21"><a href="#cb1-21"></a>    </span>
-<span id="cb1-22"><a href="#cb1-22"></a>    <span class="pp">@assert</span> n <span class="op">%</span><span class="fl">2</span> <span class="op">==</span> <span class="fl">1</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
-<span id="cb1-24"><a href="#cb1-24"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
-<span id="cb1-25"><a href="#cb1-25"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n)</span>
-<span id="cb1-26"><a href="#cb1-26"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
-<span id="cb1-27"><a href="#cb1-27"></a>    result <span class="op">=</span> (ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
-<span id="cb1-28"><a href="#cb1-28"></a>    result <span class="op">+=</span> <span class="fl">4</span><span class="fu">*sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
-<span id="cb1-29"><a href="#cb1-29"></a>    result <span class="op">+=</span> <span class="fl">2</span><span class="fu">*sum</span>(ff[<span class="fl">3</span><span class="op">:</span><span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">2</span>])</span>
-<span id="cb1-30"><a href="#cb1-30"></a>    <span class="cf">return</span> result <span class="op">*</span> h<span class="op">/</span><span class="fl">3</span></span>
-<span id="cb1-31"><a href="#cb1-31"></a><span class="kw">end</span></span>
-<span id="cb1-32"><a href="#cb1-32"></a></span>
-<span id="cb1-33"><a href="#cb1-33"></a><span class="kw">function</span> <span class="fu">integrate_simpson_3_8</span>(</span>
-<span id="cb1-34"><a href="#cb1-34"></a>    f<span class="op">::</span><span class="dt">Function</span>, </span>
-<span id="cb1-35"><a href="#cb1-35"></a>    a<span class="op">::</span><span class="dt">Number</span>, </span>
-<span id="cb1-36"><a href="#cb1-36"></a>    b<span class="op">::</span><span class="dt">Number</span>, </span>
-<span id="cb1-37"><a href="#cb1-37"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
-<span id="cb1-38"><a href="#cb1-38"></a>    </span>
-<span id="cb1-39"><a href="#cb1-39"></a>    <span class="pp">@assert</span> n <span class="op">%</span><span class="fl">3</span> <span class="op">==</span> <span class="fl">1</span></span>
-<span id="cb1-40"><a href="#cb1-40"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
-<span id="cb1-41"><a href="#cb1-41"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
-<span id="cb1-42"><a href="#cb1-42"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n)</span>
-<span id="cb1-43"><a href="#cb1-43"></a>    <span class="fu">println</span>(<span class="st">"h=</span><span class="sc">$</span>h<span class="st">, dx=</span><span class="sc">$</span>(x[<span class="fl">10</span>]<span class="op">-</span>x[<span class="fl">9</span>])<span class="st">"</span>)</span>
-<span id="cb1-44"><a href="#cb1-44"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
-<span id="cb1-45"><a href="#cb1-45"></a>    result <span class="op">=</span> (ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
-<span id="cb1-46"><a href="#cb1-46"></a>    result <span class="op">+=</span> <span class="fl">3</span><span class="fu">*sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">2</span>])</span>
-<span id="cb1-47"><a href="#cb1-47"></a>    result <span class="op">+=</span> <span class="fl">3</span><span class="fu">*sum</span>(ff[<span class="fl">3</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
-<span id="cb1-48"><a href="#cb1-48"></a>    result <span class="op">+=</span> <span class="fl">2</span><span class="fu">*sum</span>(ff[<span class="fl">4</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">3</span>])</span>
-<span id="cb1-49"><a href="#cb1-49"></a>    <span class="cf">return</span> result <span class="op">*</span> h <span class="op">*</span> <span class="fl">3</span> <span class="op">/</span> <span class="fl">8</span></span>
-<span id="cb1-50"><a href="#cb1-50"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">function</span> <span class="fu">integrate_trapzoidal</span>(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    f<span class="op">::</span><span class="dt">Function</span>, </span>
+<span id="cb3-3"><a href="#cb3-3"></a>    a<span class="op">::</span><span class="dt">Number</span>, </span>
+<span id="cb3-4"><a href="#cb3-4"></a>    b<span class="op">::</span><span class="dt">Number</span>, </span>
+<span id="cb3-5"><a href="#cb3-5"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>    </span>
+<span id="cb3-7"><a href="#cb3-7"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
+<span id="cb3-8"><a href="#cb3-8"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n)</span>
+<span id="cb3-10"><a href="#cb3-10"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
+<span id="cb3-11"><a href="#cb3-11"></a>    result <span class="op">=</span> <span class="fl">0.5</span><span class="fu">*</span>(ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    result <span class="op">+=</span> <span class="fu">sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
+<span id="cb3-13"><a href="#cb3-13"></a>    <span class="cf">return</span> result<span class="op">*</span>h</span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="kw">end</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="kw">function</span> <span class="fu">integrate_simpson_1_3</span>(</span>
+<span id="cb3-17"><a href="#cb3-17"></a>    f<span class="op">::</span><span class="dt">Function</span>, </span>
+<span id="cb3-18"><a href="#cb3-18"></a>    a<span class="op">::</span><span class="dt">Number</span>, </span>
+<span id="cb3-19"><a href="#cb3-19"></a>    b<span class="op">::</span><span class="dt">Number</span>, </span>
+<span id="cb3-20"><a href="#cb3-20"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb3-21"><a href="#cb3-21"></a>    </span>
+<span id="cb3-22"><a href="#cb3-22"></a>    <span class="pp">@assert</span> n <span class="op">%</span><span class="fl">2</span> <span class="op">==</span> <span class="fl">1</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
+<span id="cb3-24"><a href="#cb3-24"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb3-25"><a href="#cb3-25"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n)</span>
+<span id="cb3-26"><a href="#cb3-26"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
+<span id="cb3-27"><a href="#cb3-27"></a>    result <span class="op">=</span> (ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
+<span id="cb3-28"><a href="#cb3-28"></a>    result <span class="op">+=</span> <span class="fl">4</span><span class="fu">*sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
+<span id="cb3-29"><a href="#cb3-29"></a>    result <span class="op">+=</span> <span class="fl">2</span><span class="fu">*sum</span>(ff[<span class="fl">3</span><span class="op">:</span><span class="fl">2</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">2</span>])</span>
+<span id="cb3-30"><a href="#cb3-30"></a>    <span class="cf">return</span> result <span class="op">*</span> h<span class="op">/</span><span class="fl">3</span></span>
+<span id="cb3-31"><a href="#cb3-31"></a><span class="kw">end</span></span>
+<span id="cb3-32"><a href="#cb3-32"></a></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="kw">function</span> <span class="fu">integrate_simpson_3_8</span>(</span>
+<span id="cb3-34"><a href="#cb3-34"></a>    f<span class="op">::</span><span class="dt">Function</span>, </span>
+<span id="cb3-35"><a href="#cb3-35"></a>    a<span class="op">::</span><span class="dt">Number</span>, </span>
+<span id="cb3-36"><a href="#cb3-36"></a>    b<span class="op">::</span><span class="dt">Number</span>, </span>
+<span id="cb3-37"><a href="#cb3-37"></a>    n<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb3-38"><a href="#cb3-38"></a>    </span>
+<span id="cb3-39"><a href="#cb3-39"></a>    <span class="pp">@assert</span> n <span class="op">%</span><span class="fl">3</span> <span class="op">==</span> <span class="fl">1</span></span>
+<span id="cb3-40"><a href="#cb3-40"></a>    a, b <span class="op">=</span> <span class="fu">minmax</span>(a, b)</span>
+<span id="cb3-41"><a href="#cb3-41"></a>    h <span class="op">=</span> (b<span class="op">-</span>a)<span class="op">/</span>(n<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb3-42"><a href="#cb3-42"></a>    x <span class="op">=</span> <span class="fu">range</span>(a, b, length <span class="op">=</span> n)</span>
+<span id="cb3-43"><a href="#cb3-43"></a>    <span class="fu">println</span>(<span class="st">"h=</span><span class="sc">$</span>h<span class="st">, dx=</span><span class="sc">$</span>(x[<span class="fl">10</span>]<span class="op">-</span>x[<span class="fl">9</span>])<span class="st">"</span>)</span>
+<span id="cb3-44"><a href="#cb3-44"></a>    ff <span class="op">=</span> <span class="fu">f</span>.(x)</span>
+<span id="cb3-45"><a href="#cb3-45"></a>    result <span class="op">=</span> (ff[<span class="fl">1</span>]<span class="op">+</span>ff[<span class="kw">end</span>])</span>
+<span id="cb3-46"><a href="#cb3-46"></a>    result <span class="op">+=</span> <span class="fl">3</span><span class="fu">*sum</span>(ff[<span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">2</span>])</span>
+<span id="cb3-47"><a href="#cb3-47"></a>    result <span class="op">+=</span> <span class="fl">3</span><span class="fu">*sum</span>(ff[<span class="fl">3</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">1</span>])</span>
+<span id="cb3-48"><a href="#cb3-48"></a>    result <span class="op">+=</span> <span class="fl">2</span><span class="fu">*sum</span>(ff[<span class="fl">4</span><span class="op">:</span><span class="fl">3</span><span class="op">:</span><span class="kw">end</span><span class="op">-</span><span class="fl">3</span>])</span>
+<span id="cb3-49"><a href="#cb3-49"></a>    <span class="cf">return</span> result <span class="op">*</span> h <span class="op">*</span> <span class="fl">3</span> <span class="op">/</span> <span class="fl">8</span></span>
+<span id="cb3-50"><a href="#cb3-50"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
 </section>
@@ -950,15 +922,15 @@ N_{k, 1} = I_T[f, a, b, 2^k] = \dfrac{h}{2}\left(f(x_1)+ f(x_{2^k}) + \sum_{i=2}
 N_{k, m+1} = \dfrac{1}{4^{m} -1} \left[4^{m}N_{k+1, m}  - N_{k, m}\right] + O(h^{2m+2}), \qquad k = 1, \ldots k_M-m+1
 \]</span></p>
 <p>를 통해 얻을 수 있다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">rhomberg</span>(f<span class="op">::</span><span class="dt">Function</span>, a<span class="op">::</span><span class="dt">Number</span>, b<span class="op">::</span><span class="dt">Number</span>, order<span class="op">::</span><span class="dt">Integer </span><span class="op">=</span> <span class="fl">4</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> order <span class="op">&gt;</span> <span class="fl">2</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="fu">zeros</span>(order, order) </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    N[<span class="op">:</span>, <span class="fl">1</span>]<span class="op">=</span> [<span class="fu">integrate_trapzoidal</span>(f, a, b, <span class="fl">2</span><span class="op">^</span>k) for k <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>order]</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>order, k <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>order<span class="op">-</span>m</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        N[k, m<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> <span class="fl">1.0</span><span class="op">/</span>(<span class="fl">4</span><span class="op">^</span>m<span class="op">-</span><span class="fl">1.0</span>) <span class="fu">*</span>(<span class="fl">4</span><span class="op">^</span>m <span class="op">*</span> N[k<span class="op">+</span><span class="fl">1</span>, m]<span class="op">-</span> N[k, m]) </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> N[<span class="fl">1</span>, <span class="kw">end</span>]</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">rhomberg</span>(f<span class="op">::</span><span class="dt">Function</span>, a<span class="op">::</span><span class="dt">Number</span>, b<span class="op">::</span><span class="dt">Number</span>, order<span class="op">::</span><span class="dt">Integer </span><span class="op">=</span> <span class="fl">4</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">@assert</span> order <span class="op">&gt;</span> <span class="fl">2</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="fu">zeros</span>(order, order) </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    N[<span class="op">:</span>, <span class="fl">1</span>]<span class="op">=</span> [<span class="fu">integrate_trapzoidal</span>(f, a, b, <span class="fl">2</span><span class="op">^</span>k) for k <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>order]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>order, k <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>order<span class="op">-</span>m</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        N[k, m<span class="op">+</span><span class="fl">1</span>] <span class="op">=</span> <span class="fl">1.0</span><span class="op">/</span>(<span class="fl">4</span><span class="op">^</span>m<span class="op">-</span><span class="fl">1.0</span>) <span class="fu">*</span>(<span class="fl">4</span><span class="op">^</span>m <span class="op">*</span> N[k<span class="op">+</span><span class="fl">1</span>, m]<span class="op">-</span> N[k, m]) </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> N[<span class="fl">1</span>, <span class="kw">end</span>]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([a,\,b]\)</span> 구간에서 <span class="math inline">\(n=2^{k_{M}}-1\)</span> 개의 구간, 즉 <span class="math inline">\(a=x_1 &lt; \cdots &lt; x_n=b\)</span> 의 구간에서의 사다리꼴 적분을 수행했다면 <span class="math inline">\(h= \dfrac{b-a}{n-1}\)</span> 에 대해 <span class="math inline">\(O(h^2)\)</span> 의 정확도를 갖는 적분이지만 롬버그 적분을 통해 <span class="math inline">\(O(h^{2{k_M}+2})\)</span> 의 정확도를 갖는 적분값을 구할 수 있다. 더구나. 실제로 계산하는 함수값의 갯수는 <span class="math inline">\(n\)</span> 개이며 나머지는 이미 계산된 값들에 대한 단순한 사칙연산이므로 훨씬 빠르게 계산 할 수 있다.</p>
 <p>예를 들어 우리는 <span class="math inline">\(\displaystyle \int_0^1 \sqrt{x}\, dx=\frac{2}{3}\)</span> 임을 안다. 롬버그 적분을 통해 <span class="math inline">\(k_M=4\)</span> 으로 계산한 결과는 <span class="math inline">\(0.665693\)</span> 이며 이것보보다 오차가 작은 사다리꼴 적분을 얻기 위해서는 구간을 35개의 구간으로, 즉 <span class="math inline">\(x_1=0,\, x_{36}=1\)</span> 로 나누어야 한다.</p>
 <p><br></p>
@@ -1176,8 +1148,8 @@ p(x_i) = r(x_i)
 </tbody>
 </table>
 <p>르장드르 함수를 이용한 가우스 구적법은 <code>NAJ.jl</code> 의 <code>integrate_gauss_quadrature</code> 함수로 구현되었다. 위의 테이블을 이용하여 쉽게 구한다. 간단한 예로 함수 <span class="math inline">\(f(x)=x^4\)</span> 의 <span class="math inline">\([0,\,1]\)</span> 구간에서의 적분을 <span class="math inline">\(n=3\)</span> 에서 구하는 방법은 아래와 같다. 답은 0.2 가 정확히 나온다.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NAJ</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate_gauss_quadrature</span>(x<span class="op">-&gt;</span>x<span class="op">^</span><span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">1</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">NAJ</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate_gauss_quadrature</span>(x<span class="op">-&gt;</span>x<span class="op">^</span><span class="fl">4</span>, <span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">1</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>르장드르 함수를 이용한 가우스 구적법은 적분하고자 하는 함수가 매끄럽고 적분 구간에서 발산하지 않을 때 사용할 수 있다.</p>
 
 

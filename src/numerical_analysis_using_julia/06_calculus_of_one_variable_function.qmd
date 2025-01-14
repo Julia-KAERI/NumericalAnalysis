@@ -104,25 +104,6 @@ $$ {#eq-difference_3points}
 
 ![Finite difference](figure/difference_01.png){#fig-comparision_of_differences width=500}
 
-
-<!-- 
-양 끝점에서는 도함수를 구할 수 없는데 이때는 전방차분이나 후방차분과 비슷한 방법을 사용하여 구할 수 있다.
-
-$$
-\begin{aligned}
-f(x+2h) & = f(x) + f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 + \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4) \\
-f(x-2h) &= f(x) - f'(x)(2h) + \dfrac{f''(x)}{2}(2h)^2 - \dfrac{f^{(3)}(x)}{6}(2h)^3 + O(h^4),
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-y'_1 &= \dfrac{-y_{3}+4y_{2}-3y_1}{2h} + O(h^2),\\
-y'_n &= \dfrac{3y_{n}-4x_{n-1}+y_{n-2}}{2h} + O(h^2).
-\end{aligned}
-$$ {#eq-3points_forward_backward_difference} -->
-
-
 </br>
 
 ### Roundoff 에러
@@ -242,7 +223,7 @@ $${#eq-jacobian_of_compositions_matrix_form}
 
 </br>
 
-### 자동 미분 {#sec-automatic_differentiation}
+### 컴퓨터를 이용한 미분 계산 {#sec-derivative_calculation}
 
 특히 현재의 인공지능의 발전에 있어 위에 언급한 대량의 함수와 변수를 사용하는 미분과 편미분을 정확하고 빠른게 계산하는 것이 중요해 졌다. 전통적으로 함수의 미분을 컴퓨터를 이용하여 계산하는 방법에는 세가지가 있었다.
 
@@ -252,27 +233,38 @@ $${#eq-jacobian_of_compositions_matrix_form}
 
 이 방법은 모두 치명적인 단점이 존재한다. '수동' 방법은 일반적인 함수에 대해 사용 할 수 없고, 인적 오류가 나기 쉽다. '차분' 법은 항상 truncation error 와 round-off error 에 노출된다. 게다가 변수가 많고 여러 단계로 합성된 함수의 경우(인공지능의 신경망이 정확히 이런 경우이다) 그 오차가 계속 누적되기 때문에 오차가 필연적으로 커질 수 밖에 없다. '기호' 법은 느리며 함수가 복잡할 때 만족할 만한 깔끔한 결과를 낼 수 없고 컴퓨팅 파워를 많이 사용한다.
 
-이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 간단하다. 예를 들어 $x^n$ 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다. 
+이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 간단하다. 예를 들어 $x^n$ 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다. 자동 미분에서는 함수값과 미분값을 같이 계산하여 전달한다. 예를 들어 julia 에서
 
-여기서는 자동 미분의 구체적인 구현에 대해 설명하지 않고, 자동 미분은 어떻게 이루어 지는지, 전진법(forwared AD)과 후진법(backward AD) 는 어떻게 다른지에 대해 설명하기로 한다. 
+```julia
+sin(π)
+```
+
+는 `0.0` 을 반환하지만 자동미분에서 사용하는 함수는 함수값과 함께 미분값 `cos(π)` 도 같이 반환한다.
+
+```julia
+(sin(π), cos(π))
+```
+
+또한 함수간의 연산과 합성에 대해서도 그 chain rule 을 이용하여 자동으로 계산해준다. 
 
 </br>
 
+
 ### 전진법과 후진법 
+
+자동 미분의 chain rule 을 구현하는 방법에는 전진법(forwared AD)과 후진법(backward AD) 이 있다. (참고로 전진법, 후진법은 앞서 수치해석적 미분에서의 전방차분, 후방차분과는 아무 관계 없다.)
 
 #### **전진법**
 
-아래의 식을 사용한다.
+전진법은 $F^{(1)}(\bf{a}),\, \bf{J}_{F^{(1)}}(\bf{a})$ 부터 차근차근 $i$ 를 증가시켜 가면서 $F^{(i)}(\bf{z}^{(i-1)})$ 과 $\bf{J}_{F^{(i)}}(\bf{z}^{i-1})$ 을 계산한다. Chain rule 로 표현해 보면 다음과 같다.
 
 $$
 \begin{aligned}
-\dfrac{\partial z^{(m)}_i}{\partial x_j} &= \sum_{k_1}\cdots \sum_{k_{m-1}}\dfrac{\partial z_{k_1}^{(1)}(\bf{a})}{\partial x_j} \cdots \dfrac{\partial z_{k_{m-1}}^{(m-1)}(\bf{z}^{(m-2)})}{\partial z^{(m-2)}_{k_{m-2}}}\dfrac{\partial z_i^{(m)}(\bf{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}} \\[0.3em]
-&=\sum_{k_{m-1}} \cdots \sum_{k_1}  \dfrac{\partial z_i^{(m)}(\bf{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}} \dfrac{\partial z_{k_{m-1}}^{(m-1)}(\bf{z}^{(m-2)})}{\partial z^{(m-2)}_{k_{m-2}}} \cdots \dfrac{\partial z_{k_1}^{(1)}(\bf{a})}{\partial x_j} \\[0.3em]\\
+\dfrac{\partial z^{(m)}_i}{\partial x_j} &= \sum_{k_{m-1}}\cdots \sum_{k_1}\dfrac{\partial z_{k_1}^{(1)}(\bf{a})}{\partial x_j} \cdots \dfrac{\partial z_{k_{m-1}}^{(m-1)}(\bf{z}^{(m-2)})}{\partial z^{(m-2)}_{k_{m-2}}}\dfrac{\partial z_i^{(m)}(\bf{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}} \\[0.3em]
+&=\sum_{k_{1}} \cdots \sum_{k_{m-1}}  \dfrac{\partial z_i^{(m)}(\bf{z}^{(m-1)})}{\partial z^{(m)}_{k_{m-1}}} \dfrac{\partial z_{k_{m-1}}^{(m-1)}(\bf{z}^{(m-2)})}{\partial z^{(m-2)}_{k_{m-2}}} \cdots \dfrac{\partial z_{k_1}^{(1)}(\bf{a})}{\partial x_j} \\[0.3em]\\
 &= \left[\bf{J}_{F^{(m)}}(\bf{z}^{(m-1)}) \cdots \bf{J}_{F^{(1)}}(\bf{a})\right]_{ij}
 \end{aligned}
 $$ {#eq-master_eq_of_forward_autodiff}
-
-$m=1$, 즉 $\dfrac{\partial z^{(1)}(\bf{a})}{\partial x_j}$ 부터 계산하기 시작하여 $m=2,\,3,\ldots,\,N$ 까지 증가시키면 $\bf{J}_F$ 를 계산 할 수 있다. 
 
 </br>
 
@@ -281,9 +273,9 @@ $m=1$, 즉 $\dfrac{\partial z^{(1)}(\bf{a})}{\partial x_j}$ 부터 계산하기 
 
 $$
 \begin{aligned}
-\dfrac{\partial y_j}{\partial z^{(m)}_i} &= \sum_{k_{N-1}}\cdots \sum_{k_{m+1}} \dfrac{\partial y_j(\bf{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\bf{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\bf{z}^{m})}{\partial z^{(m)}_i} \\[0.3em]
-&=\sum_{k_{m+1}} \cdots\sum_{k_{N-1}} \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\bf{z}^{m})}{\partial z^{(m)}_i} \cdots  \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\bf{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}}\dfrac{\partial y_j(\bf{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \\[0.3em]
-&= \left[\bf{J}_{F^{(m+1)}}(\bf{z}^m)^T \cdots \bf{J}_{F^{(N-1)}}(\bf{z^{(N-1)}})^T \right]_{ij}
+\dfrac{\partial y_j}{\partial z^{(m)}_i} &= \sum_{k_{m+1}}\cdots \sum_{k_{N-1}} \dfrac{\partial y_j(\bf{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\bf{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}} \cdots \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\bf{z}^{m})}{\partial z^{(m)}_i} \\[0.3em]
+&=\sum_{k_{N-1}} \cdots\sum_{k_{m+1}} \dfrac{\partial z^{(m+1)}_{k_{m+1}}(\bf{z}^{m})}{\partial z^{(m)}_i} \cdots  \dfrac{\partial z^{(N-1)}_{k_{N-1}}(\bf{z}^{(N-2)})}{\partial z^{(N-2)}_{k_{N-2}}}\dfrac{\partial y_j(\bf{z}^{(N-1)})}{\partial z^{(N-1)}_{k_{N-1}}} \\[0.3em]
+&= \left[\bf{J}_{F^{(m+1)}}(\bf{z}^m)^T \cdots \bf{J}_{F^{(N-1)}}(\bf{z}^{(N)})^T \right]_{ij}
 \end{aligned}
 $${#eq-master_eq_of_backward_autodiff}
 
@@ -293,35 +285,11 @@ $m=(N-1)$, 즉 $\dfrac{\partial y_j(\bf{z}^{(N-1)})}{\partial z^{(N-1)}_{k_N}}$ 
 
 &emsp;($2$) ($1$) 에서 기억한 값을 이용하여 $m=N-1$ 부터 $m=1$ 까지의 편미분을 계산한다.
 
-즉 후진법은 전진법에 비해 과정이 더 길고 함수값을 기억하고 있어야 한다는 단점이 있다. 일반적으로 $F:\R^n \to \R^m$ 에 대해 $m>n$ 이면 전진법이 유리하며 $n>m$ 이면 후진법이 유리하다는 것이 잘 알려져 있다. $n$ 이 $m$ 보다 많이 크다면 후진법이 훨씬 좋다는 것이 알려져 있으며, 기계학습이 전형적으로 이런 경우이므로 기계학습에서는 거의 후진법이 사용된다.
+즉 후진법은 전진하면서 함수값을 계산하고 후진하면서 앞서 계산한 함수값을 이용하여 편미분을 계산한다. 일반적으로 $F:\R^n \to \R^m$ 에 대해 $m>n$ 이면 전진법이 유리하며 $n>m$ 이면 후진법이 유리하다는 것이 잘 알려져 있으며 $n$ 이 $m$ 보다 더 클수록 더 유리하다는 것이 알려져 있다. 신경망과 같은 기계학습이 전형적으로 이런 경우이므로 기계학습에서는 거의 후진법이 사용된다.
 
 </br>
 
-
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
-
-::: {#exm-forward_reverse_mode_comparision}
-
-#### 전진법과 후진법
-
-$F:\R^3 \to \R$ 인 $F(\bf{x}) = x_1^2 + e^{x_2 + 2x_3}$ 에 대해 $\bf{a} = (1, 0, 1)$ 에서의 미분을 전진법과 후진법으로 구해보자. 
-
-
-
-
-:::
-
-</div>
-
-
-
-
-
-
- 
-
-
-
+Julia 에서의 미분 관련 패키지에 대해서는 [JuliaDiff](https://juliadiff.org/#computing_derivatives) 를 참고하라. 앞으로는 자동 미분을 사용 할 수 있을경우, 전진법에는 `ForwardDiff.jl` 을, 후진법에는 `ReverseDiff.jl` 을 사용하도록 한다.
 
 
 
@@ -342,13 +310,16 @@ $$
 
 ### 뉴턴-코츠 방법
 
-많은 경우 구간의 간격 $x_{i+1}-x_i$ 가 항상 같으며, 이런 구간에 대해 구적법으로 구하는 것을 뉴턴-코츠 방법(Newton-Cotes method) 이라고 한다. $[a,\,b]$ 구간에서 뉴턴-방법으로 적분을 수행할 때 양 끝점을 포함하여 구간을 나눌 수도 있고, 양 끝점을 빼고 구간을 나눌 수도 있다. 양 끝점을 포함하는 것을 **닫힌 Newton-Cotes 방법(closed Newton-Cotes method)** 이라고 하고, 양 끝점을 빼는 것을 **열린 Newton-Cotes 방법(open Newton-Cotes method)** 이라고 한다. 여기서는 닫힌 Newton-Cotes 방법에 대해서 주로 다루기로 한다. 우선 $[a,\,b]$ 구간을 $n$ 개의 점 $x_1,\ldots,\,x_n$ 을 이용하여 $n-1$ 개의 등간격으로 분할하면 각 $x_k$ 는 간격 $h=(b-a)/(n-1)$ 에 대해 다음과 같다.
+함수 $f:[a,\,b]\to\R$ 과 $[a,\,b]$ 구간을 같은 간경의 $n$ 개의 점으로 나눈 $x_1,\ldots,\,x_n$ 을 생각하자.
 
 $$
-x_k = a + (k-1)h = a+ (k-1)\dfrac{(b-a)}{n-1},\qquad k=1,\ldots,\,n.
+a=x_1 <x_2< \cdots < x_{n-1}<x_n=b,\qquad x_{k}-x_{k-1}= h=\dfrac{b-a}{n-1}=\text{constant}.
 $$
 
-이 때 적분값을 $f(x_1), \ldots,\,f(x_n)$ 의 선형결합으로 다음과 같이 표현하는 것이 Newton-Cotes 방법이다.
+
+여기에 대해 구적법으로 적분을 구하는 것을 뉴턴-코츠 방법(Newton-Cotes method) 이라고 한다. 구간에서 뉴턴-방법으로 적분을 수행할 때 양 끝점을 포함하여 구간을 나눌 수도 있고, 양 끝점을 빼고 구간을 나눌 수도 있다. 양 끝점을 포함하는 것을 **닫힌 Newton-Cotes 방법(closed Newton-Cotes method)** 이라고 하고, 양 끝점을 빼는 것을 **열린 Newton-Cotes 방법(open Newton-Cotes method)** 이라고 한다. 
+
+뉴턴-코츠 방법은 적분값을 $f(x_1), \ldots,\,f(x_n)$ 의 선형결합으로 다음과 같이 표현한다.
 
 $$
 \begin{aligned}
@@ -357,7 +328,7 @@ $$
 \end{aligned}
 $$
 
-즉 우리가 여기서 구해야 할 것은 각 구간에서의 weight factor $w_i$ 이다. Newton-Cotes 방법을 이용한 대표적인 적분방법은 사다리꼴 방법과 Simpson 방법이다. 
+즉 우리가 여기서 구해야 할 것은 각 구간에서의 weight factor $w_i$ 이다. 뉴턴-코츠 방법을 이용한 대표적인 적분 방법이 사다리꼴 방법과 Simpson 방법이다. 
 
 </br>
 
@@ -371,54 +342,42 @@ $$
 
 ### 중점을 이용한 적분
 
-중점을 이용한 적분은 기본적으로 뉴턴-코츠 방법은 아니지만 구간 $[a,\,b]$ 와 함수 $f(x)$ 가 주어졌을 때 함수의 적분을 구하는 가장 간단하고 직관적인 방법이기 때문에 여기에 소개하기로 한다. $[a,\,b]$ 구간을 $n-1$ 개의 구간으로 나누어, 
+
+$[x_{k},\, x_{k+1}]$ 구간에 대한 적분을 구할 때 구간의 양 끝점에 대한 중점 $z_k = \dfrac{x_{k+1}+x_{k}}{2}$ 에서의 함수값을 사용하는 방법이다. 즉,
 
 $$
-a=x_1 < x_2 < \cdots < x_n=b
-$$
-
-이며 $k=1,\ldots,\,n-1$ 에 대해 $x_{k+1}-x_k = h$ 라고 하자. 
-
-$$
-\int_{a}^{b}f(x)\,dx = \sum_{k=1}^{n-1}\int_{x_k}^{x_{k+1}}f(x)\, dx 
-$$
-
-
-임을 안다. $[x_{k},\, x_{k+1}]$ 구간에 대한 적분을 구할 때 구간의 양 끝점에 대한 중점 $x^{(m)}_k = \dfrac{x_{k+1}+x_{k}}{2}$ 에서의 함수값을 사용하는 방법이다. 즉,
-
-$$
-\int_{x_{k}}^{x_{k+1}} f(x)\,dx\approx f\left(\dfrac{x_{k+1}+x_i}{2}\right) h = f(x^{(m)}_k) h
+\int_{x_{k}}^{x_{k+1}} f(x)\,dx\approx f\left(\dfrac{x_{k+1}+x_i}{2}\right) h = f(z_k) h
 $$
 
 로 근사하는 방법이다. 테일러 정리에 의해 
 
 $$
-f(x) = f\left(x^{(m)}_k\right)+f'\left(x^{(m)}_i\right)\left(x-x^{(m)}_k\right) + \dfrac{1}{2}f^{(2)}(\xi_k) \left(x-x_k^{(m)}\right)^2
+f(x) = f\left(z_k\right)+f'\left(z_k\right)\left(x-z_k\right) + \dfrac{1}{2}f^{(2)}(\xi_k) \left(x-z_k\right)^2
 $$ 
 
 을 만족하는 $\xi_k\in [x_{k},\, x_{k+1}]$ 이 존재한다는 것을 안다. 위 식을 적분하면 
 
 $$
-\int_{x_i}^{x_{i+1}} f(x)\, dx = f(x_i^m)h + \dfrac{1}{24}f^{(2)}(\xi_i)h^3
+\int_{x_k}^{x_{k+1}} f(x)\, dx = f(z_k)h + \dfrac{1}{24}f^{(2)}(\xi_k)h^3
 $$
 
 
 이며, 따라서 $[a,\,b]$ 구간에서의 적분은
 
 $$
-\int_a^b f(x) \,dx= \sum_{i=1}^{n-1} f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h + \dfrac{h^3}{24} \sum_{i=1}^{n-1}f^{(2)}(\xi_i)
+\int_a^b f(x) \,dx= \sum_{k=1}^{n-1} f\left(\dfrac{x_{k}+x_{k+1}}{2}\right) h + \dfrac{h^3}{24} \sum_{k=1}^{n-1}f^{(2)}(\xi_k)
 $$
 
-이다. $f\in C^2_{[a,\,b]}$ 라면  [따름정리 : 여러 점의 경우](02_notations_and_propositions.qmd#prp-intermediate_value_for_many_points) 에 의해 $\displaystyle \sum_{i=1}^{n-1}f^{(2)}(\xi_i) = (n-1)f^{(2)}(\xi)$ 를 만족하는 $\xi\in [a,\,b]$ 가 존재하므로, 
+이다. $f\in C^2_{[a,\,b]}$ 라면  [따름정리 : 여러 점의 경우](02_notations_and_propositions.qmd#prp-intermediate_value_for_many_points) 에 의해 $\displaystyle \sum_{k=1}^{n-1}f^{(2)}(\xi_k) = (n-1)f^{(2)}(\xi)$ 를 만족하는 $\xi\in [a,\,b]$ 가 존재하므로, 
 
 $$
-\int_a^b f(x) \, dx =  \sum_{i=1}^{n-1} f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h + \dfrac{(n-1)h^3}{24} f^{(2)}(\xi)
+\int_a^b f(x) \, dx =  \sum_{k=1}^{n-1} f\left(\dfrac{x_{k}+x_{k+1}}{2}\right) h + \dfrac{(n-1)h^3}{24} f^{(2)}(\xi)
 $$
 
 를 만족한다. 중간값에 의한 적분 계산값을 $I_M[a, b, n]$ 라고 하면 
 
 $$
-I_M [f,\,a,\,b,\,n] = \sum_{i=1}^{n-1}f\left(\dfrac{x_{i}+x_{i+1}}{2}\right) h
+I_M [f,\,a,\,b,\,n] = \sum_{k=1}^{n-1}f\left(\dfrac{x_{k}+x_{k+1}}{2}\right) h
 $$
 
 이라고 할 수 있으며, $M=\max \{ |f^{(2)}(x)| : x\in [a,\,b] \}$ 일 때 중점을 이용한 적분의 오차는 $E_M [f,\,a,\,b,\,n]=\dfrac{(n-1)h^3}{24} M=\dfrac{(b-a)M}{24}h^2$ 보다 작거나 같다. 즉 $O(E_M) =h^2$ 이다.
@@ -428,13 +387,7 @@ $$
 
 ### 사다리꼴 방법 를 이용한 적분
 
-사다리꼴 방법은 $[a,\,b]$ 구간에 대한 함수 $f(x)$ 가 주어졌거나 수열 $x_1,\ldots,\,x_n$ 과 $f(x_k)= y_k$ 가 주어졌을 때 사용할 수 있다. 여기서도 
-
-$$
-a=x_1<x_2<\cdots <x_n=b
-$$
-
-가 성립한다고 하자. 함수 $f(x)$ 를 $[x_k,\, x_{k+1}]$ 구간에서 $(x_k,\, y_k)$ 와 $(x_{k+1},\, y_{k+1})$ 을 지나는 1차 다항식 $\tilde{f}_k(x) = \dfrac{y_{k+1}-y_k}{x_{k+1}-x_k}(x-x_k)+y_k$ 으로 근사하는 것을 **사다리꼴 방법 (trapzoidal method)** 이라고 한다. 이 근사에서는 [다항식을 이용한 보간법의 오차](05_interpolation.qmd#sec-error_for_polynomial_interpolation) 의 **정리 1** 에서 보았듯이 다음을 만족하는 $\xi_k\in [x_{k-1},\, x_k]$ 가 존재한다.
+함수 $f(x)$ 를 $[x_k,\, x_{k+1}]$ 구간에서 $(x_k,\, y_k)$ 와 $(x_{k+1},\, y_{k+1})$ 을 지나는 1차 다항식 $\tilde{f}_k(x) = \dfrac{y_{k+1}-y_k}{x_{k+1}-x_k}(x-x_k)+y_k$ 으로 근사하여 적분하는 것을 **사다리꼴 방법 (trapzoidal method)** 이라고 한다. 이 근사에서는 [다항식을 이용한 보간법의 오차](05_interpolation.qmd#sec-error_for_polynomial_interpolation) 의 **정리 1** 에서 보았듯이 다음을 만족하는 $\xi_k\in [x_{k-1},\, x_k]$ 가 존재한다.
 $$
 \begin{aligned} 
 f(x) = \tilde{f}(x) + \dfrac{f^{(2)}(\xi_k)}{2}(x-x_{k-1})(x-x_k).\\
