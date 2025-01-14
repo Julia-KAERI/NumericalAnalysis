@@ -663,7 +663,7 @@ $$ {#eq-richardson}
 
 </br>
 
-#### 짝수승 오차의 리차드슨 외삽법 {#sec-richardson_extrapolation_with_even_order_error}
+#### **짝수승 오차의 리차드슨 외삽법** {#sec-richardson_extrapolation_with_even_order_error}
 
 수치해석에서 많은 경우 truncation error 가 변수의 짝수승에만 관련이 있다. 즉,
 
@@ -744,13 +744,13 @@ end
 
 ## 가우스 구적법 
 
-함수 $f(x)$ 를 $[a,\,b]$ 구간에서 적분 할 때 $[a,\,b]$ 구간에서 $n$ 개의 점 $x_1,\ldots,\,x_n$ 을 선택하여 
+함수 $f(x)$ 를 $[a,\,b]$ 구간에서 적분 할 때 $[a,\,b]$ 구간에서 $n$ 개의 점 $x_1,\ldots,\,x_n$ 이 굳이 등간격이 아니더라도 선택하여 
 
 $$
 \int_a^b f(x) \, dx \approx a_1 f(x_1)+ \cdots + a_n f(x_n)
 $$
 
-로 근사하는 것을 **가우스 구적법 (Gaussian quadrature)** 라고 한다. 뉴턴 코츠 방법은 점 $x_1,\ldots,\,x_n$ 이 등간격인데 반해 가우스 구적법은 등간격일 필요가 없으며, 적분을 잘 근사하는 점을 찾아야 한다는 것이다. 이 $x_1,\ldots,\,x_n$ 을 **노드(nodes)** 라고 한다.
+로 근사하는 것을 **가우스 구적법 (Gaussian quadrature)** 라고 한다. 뉴턴-코츠 방법은 점 $x_1,\ldots,\,x_n$ 이 등간격인데 반해 가우스 구적법은 등간격일 필요가 없으며, 적분을 잘 근사하는 점을 찾아야 한다는 것이다. 이 $x_1,\ldots,\,x_n$ 을 **노드(nodes)** 라고 한다.
 
 </br>
 
@@ -760,7 +760,7 @@ $$
 \int_{a}^b f(x)\, dx = \int_{-1}^1 f\left(\dfrac{(b-a)t+ (b+a)}{2}\right)\,\left(\dfrac{b-a}{2}\right) dt
 $$ {#eq-integra_variable_transform}
 
-이다. 
+이다. 따라서 $[-1,\,1]$ 구간에서의 수치해석적 적분을 잘 정한다면 임의의 구간에서의 적분도 잘 계산 할 수 있다.
 
 </br>
 
@@ -768,25 +768,25 @@ $$ {#eq-integra_variable_transform}
 
 $n$ 차 르장드르 다항식 $P_n(x)$ 은 $[0,\,1]$ 구간에서 정의된 다항식으로 다음과 같은 성질을 가진다.
 
-&emsp; ($1$) $P_n(x)$ 는 $n$ 차 다항식으로 최고차항의 계수는 항상 $1$ 이다.
+&emsp;($1$) $P_n(x)$ 는 $n$ 차 다항식으로 최고차항의 계수는 항상 $1$ 이다.
 
-&emsp; ($2$) $\displaystyle \int_{-1}^1 P_n (x) \, P_m (x)\, dx = \dfrac{\delta_{mn}}{2n+1}$ 이다.
+&emsp;($2$) $\displaystyle \int_{-1}^1 P_n (x) \, P_m (x)\, dx = \dfrac{\delta_{mn}}{2n+1}$ 이다.
 
-&emsp; ($3$) $P_0(x) = 1,\, P_1(x) = x$ 이며 아래의 점화식으로 고차 다항식을 구할 수 있다. 
+&emsp;($3$) $P_0(x) = 1,\, P_1(x) = x$ 이며 아래의 점화식으로 고차 다항식을 구할 수 있다. 
 
 $$
 (n+1)P_{n+1}(x) - (2n+1)xP_{n}(x) + nP_{n-1}(x)=0
 $$
 
-&emsp; ($4$) $P_n(-x) = (-1)^nP_n(x)$, $P_n(1) = 1$.
+&emsp;($4$) $P_n(-x) = (-1)^nP_n(x)$, $P_n(1) = 1$.
 
-&emsp; ($5$) $n\ge 1$ 에 대한 $P_n(x)$ 는 $[-1,\,1]$ 구간에서 $n$ 개의 서로 다른 근을 갖는다.
+&emsp;($5$) $n\ge 1$ 에 대한 $P_n(x)$ 는 $[-1,\,1]$ 구간에서 $n$ 개의 서로 다른 근을 갖는다.
 
-&emsp; ($6$) 임의의 $n$ 차 다항식은 $P_1(x),\ldots,\,P_n(x)$ 의 선형결합으로 표현 할 수 있다.
+&emsp;($6$) 임의의 $n$ 차 다항식은 $P_1(x),\ldots,\,P_n(x)$ 의 선형결합으로 표현 할 수 있다.
 
 </br>
 
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 
 ::: {#prp-gaussian_quadrature_1}
 

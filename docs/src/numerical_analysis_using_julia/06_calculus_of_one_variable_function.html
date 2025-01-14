@@ -872,7 +872,7 @@ M &amp;= \dfrac{1}{2^m-1}\left[ 2^m N_m \left(\dfrac{h}{2}\right)-N_m (h)\right]
 <p>을 얻는다.</p>
 <p><br></p>
 <section id="sec-richardson_extrapolation_with_even_order_error" class="level4">
-<h4 class="anchored" data-anchor-id="sec-richardson_extrapolation_with_even_order_error">짝수승 오차의 리차드슨 외삽법</h4>
+<h4 class="anchored" data-anchor-id="sec-richardson_extrapolation_with_even_order_error"><strong>짝수승 오차의 리차드슨 외삽법</strong></h4>
 <p>수치해석에서 많은 경우 truncation error 가 변수의 짝수승에만 관련이 있다. 즉,</p>
 <p><span class="math display">\[
 M = N_1(h) + k_2h^2 + k_4 h^4 + k_6 h^6 + \cdots
@@ -938,32 +938,32 @@ N_{k, m+1} = \dfrac{1}{4^{m} -1} \left[4^{m}N_{k+1, m}  - N_{k, m}\right] + O(h^
 </section>
 <section id="가우스-구적법" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="가우스-구적법"><span class="header-section-number">5</span> 가우스 구적법</h2>
-<p>함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([a,\,b]\)</span> 구간에서 적분 할 때 <span class="math inline">\([a,\,b]\)</span> 구간에서 <span class="math inline">\(n\)</span> 개의 점 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 을 선택하여</p>
+<p>함수 <span class="math inline">\(f(x)\)</span> 를 <span class="math inline">\([a,\,b]\)</span> 구간에서 적분 할 때 <span class="math inline">\([a,\,b]\)</span> 구간에서 <span class="math inline">\(n\)</span> 개의 점 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 이 굳이 등간격이 아니더라도 선택하여</p>
 <p><span class="math display">\[
 \int_a^b f(x) \, dx \approx a_1 f(x_1)+ \cdots + a_n f(x_n)
 \]</span></p>
-<p>로 근사하는 것을 <strong>가우스 구적법 (Gaussian quadrature)</strong> 라고 한다. 뉴턴 코츠 방법은 점 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 이 등간격인데 반해 가우스 구적법은 등간격일 필요가 없으며, 적분을 잘 근사하는 점을 찾아야 한다는 것이다. 이 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 을 <strong>노드(nodes)</strong> 라고 한다.</p>
+<p>로 근사하는 것을 <strong>가우스 구적법 (Gaussian quadrature)</strong> 라고 한다. 뉴턴-코츠 방법은 점 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 이 등간격인데 반해 가우스 구적법은 등간격일 필요가 없으며, 적분을 잘 근사하는 점을 찾아야 한다는 것이다. 이 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 을 <strong>노드(nodes)</strong> 라고 한다.</p>
 <p><br></p>
 <p>본격적으로 들어가기 전에 이미 미적분학에서 배웠을 한가지를 확인하고 가자. 우리는 임의의 구간 <span class="math inline">\([a,\,b]\)</span> 에 대한 함수 <span class="math inline">\(f(x)\)</span> 의 적분을 <span class="math inline">\([-1,\,1]\)</span> 구간에 대한 적분으로 바꿀 수 있다. 즉,</p>
 <p><span id="eq-integra_variable_transform"><span class="math display">\[
 \int_{a}^b f(x)\, dx = \int_{-1}^1 f\left(\dfrac{(b-a)t+ (b+a)}{2}\right)\,\left(\dfrac{b-a}{2}\right) dt
 \tag{25}\]</span></span></p>
-<p>이다.</p>
+<p>이다. 따라서 <span class="math inline">\([-1,\,1]\)</span> 구간에서의 수치해석적 적분을 잘 정한다면 임의의 구간에서의 적분도 잘 계산 할 수 있다.</p>
 <p><br></p>
 <section id="르장드르-다항식을-이용한-가우스-구적법" class="level3" data-number="5.1">
 <h3 data-number="5.1" class="anchored" data-anchor-id="르장드르-다항식을-이용한-가우스-구적법"><span class="header-section-number">5.1</span> 르장드르 다항식을 이용한 가우스 구적법</h3>
 <p><span class="math inline">\(n\)</span> 차 르장드르 다항식 <span class="math inline">\(P_n(x)\)</span> 은 <span class="math inline">\([0,\,1]\)</span> 구간에서 정의된 다항식으로 다음과 같은 성질을 가진다.</p>
-<p>  (<span class="math inline">\(1\)</span>) <span class="math inline">\(P_n(x)\)</span> 는 <span class="math inline">\(n\)</span> 차 다항식으로 최고차항의 계수는 항상 <span class="math inline">\(1\)</span> 이다.</p>
-<p>  (<span class="math inline">\(2\)</span>) <span class="math inline">\(\displaystyle \int_{-1}^1 P_n (x) \, P_m (x)\, dx = \dfrac{\delta_{mn}}{2n+1}\)</span> 이다.</p>
-<p>  (<span class="math inline">\(3\)</span>) <span class="math inline">\(P_0(x) = 1,\, P_1(x) = x\)</span> 이며 아래의 점화식으로 고차 다항식을 구할 수 있다.</p>
+<p> (<span class="math inline">\(1\)</span>) <span class="math inline">\(P_n(x)\)</span> 는 <span class="math inline">\(n\)</span> 차 다항식으로 최고차항의 계수는 항상 <span class="math inline">\(1\)</span> 이다.</p>
+<p> (<span class="math inline">\(2\)</span>) <span class="math inline">\(\displaystyle \int_{-1}^1 P_n (x) \, P_m (x)\, dx = \dfrac{\delta_{mn}}{2n+1}\)</span> 이다.</p>
+<p> (<span class="math inline">\(3\)</span>) <span class="math inline">\(P_0(x) = 1,\, P_1(x) = x\)</span> 이며 아래의 점화식으로 고차 다항식을 구할 수 있다.</p>
 <p><span class="math display">\[
 (n+1)P_{n+1}(x) - (2n+1)xP_{n}(x) + nP_{n-1}(x)=0
 \]</span></p>
-<p>  (<span class="math inline">\(4\)</span>) <span class="math inline">\(P_n(-x) = (-1)^nP_n(x)\)</span>, <span class="math inline">\(P_n(1) = 1\)</span>.</p>
-<p>  (<span class="math inline">\(5\)</span>) <span class="math inline">\(n\ge 1\)</span> 에 대한 <span class="math inline">\(P_n(x)\)</span> 는 <span class="math inline">\([-1,\,1]\)</span> 구간에서 <span class="math inline">\(n\)</span> 개의 서로 다른 근을 갖는다.</p>
-<p>  (<span class="math inline">\(6\)</span>) 임의의 <span class="math inline">\(n\)</span> 차 다항식은 <span class="math inline">\(P_1(x),\ldots,\,P_n(x)\)</span> 의 선형결합으로 표현 할 수 있다.</p>
+<p> (<span class="math inline">\(4\)</span>) <span class="math inline">\(P_n(-x) = (-1)^nP_n(x)\)</span>, <span class="math inline">\(P_n(1) = 1\)</span>.</p>
+<p> (<span class="math inline">\(5\)</span>) <span class="math inline">\(n\ge 1\)</span> 에 대한 <span class="math inline">\(P_n(x)\)</span> 는 <span class="math inline">\([-1,\,1]\)</span> 구간에서 <span class="math inline">\(n\)</span> 개의 서로 다른 근을 갖는다.</p>
+<p> (<span class="math inline">\(6\)</span>) 임의의 <span class="math inline">\(n\)</span> 차 다항식은 <span class="math inline">\(P_1(x),\ldots,\,P_n(x)\)</span> 의 선형결합으로 표현 할 수 있다.</p>
 <p><br></p>
-<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-gaussian_quadrature_1" class="theorem proposition">
 <p><span class="theorem-title"><strong>명제 1</strong></span> <span class="math inline">\(P_n(x)\)</span> 에 대한 <span class="math inline">\(n\)</span> 개의 근을 <span class="math inline">\(x_1,\ldots,\,x_n\)</span> 이라고 하고 <span class="math inline">\(c_i = \displaystyle \int_{-1}^1 \prod_{j=1,\, j\ne i}^n \dfrac{x-x_j}{x_i-x_j}\, dx\)</span> 라고 하면 임의의 다항식 <span class="math inline">\(p(x)\)</span> 에 대해 다음이 성립한다.</p>
 <p><span class="math display">\[
