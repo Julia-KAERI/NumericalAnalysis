@@ -1,0 +1,13 @@
+---
+title: "허프 변환 및 거리 변환 (Hough & Distance Transform)"
+
+number-sections: true
+number-depth : 3
+crossref:
+  chapters: false
+---
+
+{{< include ../../latexmacros.qmd >}}
+
+</br>
+

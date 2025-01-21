@@ -1,0 +1,128 @@
+---
+title: "이미지 프로세싱의 기초"
+
+number-sections: true
+number-depth : 3
+crossref:
+  chapters: false
+---
+
+{{< include ../../latexmacros.qmd >}}
+
+</br>
+
+## 소개
+
+### 이미지
+
+- 우리의 시각에서 감지하는 바와 같은 2차원 이미지 일 수도 있지만, 측정에서 얻는 2차원 데이터 일 수 도 있다. 
+- 여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.
+- 2차원 배열을 $f[i,j]$ 혹은 $f(i, j)$ 로 표기하며, 행렬과 같이 $i$ 는 세로 방향의 인덱스, $j$ 는 가로 방향의 인덱스이다.
+
+</br>
+
+### 여기서
+
+- Julia 에는 `Images.jl` 이라는 이미지 처리 라이브러리가 있지만,
+  - 모든 데이터값을 $[0,\,1]$ 사이의 고정 소수(fixed point number) 로 처리하며, 원래 이미지가 가지고 있던 0 부터 255 사이의 부호 없는 정수값을 숨긴다. 
+  - [opencv](https://opencv.org/) 에 비해 기능이 부족하고 무엇보다 느리다.
+  - [OpenCV.jl](https://github.com/JuliaImages/OpenCV.jl) 이라는 `opencv` 의 julia 포팅이 있다.
+- 그런데 `OpenCV.jl` 은
+  - 기본 이미지 배열 타입은 `OpenCV.Mat` 이며 julia 의 `Array` 와 유사하지만 같지는 않다. `Array` 에서 사용하는 연산중 많은 것을 사용 할 수 없다. 파이썬의 경우는 `opencv2` 의 배열은 `numpy` 의 배열인데...
+  - 흑백 이미지라도 `OpenCV.Mat` 은 3차원 배열이다. 
+  - `OpenCV.Mat` 에 대한 연산 (배열간, 배열과 스칼라 사이의 사칙연산을 포함하여) 을 모두 다시 쓰느니 `OpenCV.Mat` 과 julia `Array` 사이의 변환 함수를 사용하겠다.
+  - `OpenCV.Mat` 의 배열의 저장 순서는 C++ 이나 파이썬 과 같이 행 우선 방식이지만 Julia 는 열 우선 방식이다. 따라서 변환시 이를 고려해야 한다.
+- Julia 의 [TestImages.jl](https://testimages.juliaimages.org/stable/) 은 다양한 무료 이미지를 다운로드 받을 수 있도록 해 준다. 여기서의 이미지 처리에 사용하는 이미지는 특별한 언급이 없는 한 여기로부터 얻는다.
+
+</br>
+
+`OpenCV.jl` 을 julia 에서 사용하기 위해 다음과 같은 함수를 사용한다. 앞으로의 모든 코드는 
+
+```julia
+using OpenCV, TestImages
+cv2 = OpenCV;
+
+# Julia Matrix to OpenCV.MAT 변환
+function arr2mat(arr::Matrix{T}) where T<:Real
+    cv2.Mat(permutedims(stack([arr, ]), [3,2,1]))
+end
+
+# Julia Image to Matrix 변환
+function img2arr(img)
+    T = typeof(img[1, 1].val.i)
+    broadcast(q->T(q.val.i),img)
+end
+
+# Julia Image to OpenCV.Mat 변환
+function img2mat(img) 
+    T = typeof(img[1, 1].val.i)
+    tm = broadcast(q->T(q.val.i),img)
+    cv2.Mat(permutedims(stack([tm, ]), [3,2,1]))
+end
+
+# OpenCV.Mat to Julia Matrix 변환
+function mat2arr(mat::OpenCV.Mat)
+    return permutedims(mat.data, [3,2,1])
+end
+```
+
+</br>
+
+## 점 기준 이미지 가공
+
+- 각 픽셀 단위의 이미지 처리를 의미한다. 즉 픽셀에 대한 연신이 다른 픽셀의 정보와 독립적으로 이루어진다.
+
+- Gray scale image $f[i, j]$ 를 생각하자. $0\le f[i,\,j] \le 255$ 이다.
+
+</br>
+
+### 픽셀 반전법에 의한 이미지 가공
+
+상수 $a$ 와 $b>0$ 에 대해 
+$$
+T_i[f](i, j) = a-b f(i, j),\qquad 0 \le T[f] \le 255
+$$
+
+인 이미지 연산을 픽셀 반전법 이라고 한다. $a=255,\, b=1$ 일 경우 완전한 흑백 반전이다. `TestImages.jl` 로부터 테스트 이미지를 다운받아 처리하였다.
+
+```julia
+img0= testimage_dip3e("Fig0108(a) (corn-fluorescence).tif")
+img1 = img2arr(img0)
+img2 = (UInt8(255) .- img1)
+r = arr2mat(cat(img1, img2;dims=2))
+```
+![원본 이미지(좌) 와 반전된 이미지](notebooks/inversion.jpg){#fig-ImageProcessing_inversion}
+
+</br>
+
+### $\gamma$-correction (or $\gamma$-encoding)
+
+- $\gamma>0$ 에 대해 다음과 같이 변환한다.
+$$
+T_\gamma [f](i, j)  = f(i, j)^\gamma 
+$$
+
+- $\gamma$ 값이 $1$ 보다 상당히 크면 픽셀 값이 클수록, $\gamma$ 값이 $1$ 보다 상당히 작으면 픽셀값이 작을수록 대조가 현저해진다.
+- $0\le f\le 255$ 일 때 $\gamma<1$ 이면 $f^\gamma < 255$ 이며 $\gamma>1$ 이면 $f^\gamma>255$ 일 수 있으므로 최대값이 255가 넘지 않도록 해 준다.
+- 원본 이미지가 1024x1024 로 크기 때문에 그 크기를 줄여주었다.
+
+```julia
+img0= testimage_dip3e("Fig0227(a)(washington_infrared).tif")
+img1 = cv2.resize(img2mat(img0), cv2.Size{Int32}(256, 256))
+img2 = arr2mat(round.(UInt8, ((img1./255).^0.5)*255))
+img3 = arr2mat(round.(UInt8, ((img1./255).^2)*255))
+img4 = arr2mat(round.(UInt8, ((img1./255).^5)*255));
+arr2mat(cat(img1, img2, img3, img4; dims=2))
+```
+
+![맨 왼쪽부터 $\gamma=1$, $\gamma=0.5$, $\gamma=2$, $\gamma=5$](notebooks/gamma_correction.png){#fig-ImageProcessing_gamma_correction}
+
+- $x\in (0,\,1)$ 에 대해 $\gamma<1$ 이면 $x^\gamma > x$ 이므로 화소 값이 높은 쪽으로 몰린다. 반대로 $\gamma>1$ 이면 $x^\gamma < x$ 이므로 화소 값이 낮은 쪽으로 몰린다.
+
+
+
+</br>
+
+### 히스토그램 처리
+
+이미지의 각 픽셀은 0 에서 255 사이의 정수값을 가진다. 그 값의 빈도는 이미지의 성질을 파악하는데 중요하다. 

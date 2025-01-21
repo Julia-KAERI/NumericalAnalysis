@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -30,7 +50,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../src/image_processing/introduction_to_signal_processing.html" rel="next">
+<link href="../../src/image_processing/image_processing_01.html" rel="next">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -125,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리와 토모그래피</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -149,7 +169,49 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/image_processing/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">영상 처리와 토모그래피</span></a>
+ <span class="menu-text">영상 처리</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/image_processing_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">이미지 프로세싱의 기초</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/image_processing_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">공간적 이미지 필터링</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/image_processing_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">푸리에 변환을 이용한 이미지 처리</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/image_processing_04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/image_processing_05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">이미지 복원 및 재구성</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/image_processing_06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">이미지 분할</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../src/image_processing/image_processing_07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">칼라 이미지 처리</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -234,7 +296,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#영상-처리와-토모그래피" id="toc-영상-처리와-토모그래피" class="nav-link active" data-scroll-target="#영상-처리와-토모그래피">영상 처리와 토모그래피</a></li>
+  <li><a href="#영상-처리" id="toc-영상-처리" class="nav-link active" data-scroll-target="#영상-처리">영상 처리</a></li>
   </ul>
 </nav>
     </div>
@@ -244,10 +306,21 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="영상-처리와-토모그래피" class="level1">
-<h1>영상 처리와 토모그래피</h1>
+<section id="영상-처리" class="level1">
+<h1>영상 처리</h1>
+<section id="참고자료" class="level4">
+<h4 class="anchored" data-anchor-id="참고자료"><strong>참고자료</strong></h4>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Gonzalez2018digital" class="csl-entry" role="listitem">
+Gonzalez, R. C., and R. E. Woods. 2018. <em>Digital Image Processing</em>. Pearson. <a href="https://books.google.co.kr/books?id=0F05vgAACAAJ">https://books.google.co.kr/books?id=0F05vgAACAAJ</a>.
+</div>
+<div id="ref-Kwon2021" class="csl-entry" role="listitem">
+권석준. 2021. <span>“이미지 분석 &amp; 처리 개론.”</span> unpublished.
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -664,8 +737,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../src/image_processing/introduction_to_signal_processing.html" class="pagination-link" aria-label="디지털 신호처리의 기초">
-        <span class="nav-page-text">디지털 신호처리의 기초</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../src/image_processing/image_processing_01.html" class="pagination-link" aria-label="이미지 프로세싱의 기초">
+        <span class="nav-page-text">이미지 프로세싱의 기초</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

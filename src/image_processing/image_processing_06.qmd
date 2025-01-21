@@ -1,0 +1,36 @@
+---
+title: "이미지 분할"
+
+number-sections: true
+number-depth : 3
+crossref:
+  chapters: false
+---
+
+{{< include ../../latexmacros.qmd >}}
+
+</br>
+
+## 이미지 분할
+
+이미지의 어떤 영역 $R$ 을 서로 겹치지 않으며 그 합집합이 영역 $R$ 이 되는 부분집합 $R_1,\ldots,\,R_n$ 으로 나누는 것. 즉, 
+1. $R_i \ne \varnothing$ for all $i=1,\ldots,\,n$
+2. $\displaystyle \bigcup_{i=1}^n = R$
+3. 각각의 $R_i$ 는 연결된 집합.
+4. $i \ne j \implies R_i \cap R_j = \varnothing$ 
+
+</br>
+
+## 이미지 이진화
+
+## 오츠 방법으로 처리된 이진화 (Thresholding by Otsu’s algorithm)
+
+
+
+</br>
+
+## 이미지 영역 찾기 
+
+</br>
+
+## 미분기를 활용한 이미지 분할 방법

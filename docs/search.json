@@ -724,6 +724,255 @@
     ]
   },
   {
+    "objectID": "src/image_processing/image_processing_07.html",
+    "href": "src/image_processing/image_processing_07.html",
+    "title": "칼라 이미지 처리",
+    "section": "",
+    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "칼라 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_07.html#색의-구분",
+    "href": "src/image_processing/image_processing_07.html#색의-구분",
+    "title": "칼라 이미지 처리",
+    "section": "1 색의 구분",
+    "text": "1 색의 구분\n\n1.1 색상 (hue, H), 채도 (saturation, S), 그리고 명 도 (brightness or value, V)\n\n색상은 여러 파장의 빛이 섞여 있을 때 관찰자 입장 에서 가장 눈에 띄는 대표적인 파장으로 나타나는 색을 의미하며,\n채도는 색상에 얼마나 높은 비율로 하얀색의 빛 (백색광)이 섞여 있는지를 의미하고 (즉, 하얀색은 채도가 0, 삼 원색이나 2차색 (CMY)은 채도가 1),\n명도는 색상 정보와 상관 없이 명암 이미지에서 말 하는 픽셀 값 (강도)를 의미합니다.\n\n\n\n\n1.2 CIE가 20세기 초반에 했던 실험\n\nCIE는 인간의 원추 세포가 적어도 단파장, 중파장, 장파장 의 세 가지 빛을 구분할 수 있다는 것을 알고 있었으므로, 원칙적으로 세 개의 변수 만 으로 인간이 인지할 수 있는 색감을 전부 표현할 수 있을 것이라는 가설을 세웠습니다.\n이를 기반으로, CIE는 XYZ 색 공간이라는 개념을 도입하였는데, X, Y, Z는 각 파장 (즉, 각 색깔)에 대응하는 삼색 자극값 (tristimulus values)을 의미합니다. 예를 들어, X 빨강, Y는 초록, Z는 파랑과 비슷한 색깔에 대응합니다. 인간의 색상 인지 특성 중 하나는 다양한 파장을 가진 두 가지 다른 색깔을 섞으면, 다른 색과 비슷하게 보일 수 있다는 것입니다. 이러한 현상을 조건등색 (metamerism) 이라고도 하는데, 두 개의 색깔이 가진 삼색 자극 값의 합은 두 개의 색깔이 갖는 파장과 상관 없이, 똑같아 보이는 다른 색의 삼색 자극 값과 동일함을 의미합니다.\n\n\n\n\n1.3 삼색자극갑과 RGB\n삼색 자극값 좌표 \\(\\begin{bmatrix} X &Y &Z \\end{bmatrix}\\) 를 인간이 인지하는 좌표인 \\(\\begin{bmatrix} R & G &B \\end{bmatrix}\\) 로 바꾸는 것 (혹은 역변환은)은 다음의 행렬 연산 과정을 거치면 됩니다.\n\\[\n\\begin{aligned}\n\\begin{bmatrix} R \\\\ G \\\\ B \\end{bmatrix} & = \\begin{bmatrix} 3.063  & -1.393  & -0.476 \\\\ -0.969 & 1.876 &  0.042 \\\\ 0.068  & -0.229 & 1.069 \\end{bmatrix} \\begin{bmatrix} X \\\\ Y \\\\ Z \\end{bmatrix} \\\\\n{}\\\\\n\\begin {bmatrix} X\\\\ Y \\\\ Z \\end{bmatrix} &=\\begin{bmatrix} 0.431  & 1.342  & 0.178 \\\\ 0.222 & 0.797 &  0.071 \\\\ 0.020  & 0.130 & 0.939 \\end{bmatrix} \\begin{bmatrix} R \\\\ G \\\\ B \\end{bmatrix}\n\\end{aligned}\n\\]\n참고로 \\(C,\\,M,\\,Y\\) 는 다음과 같이 계산된다. (C=청록, M=분홍, Y= 노랑 으로 색소의 삼원색이다.)\n\\[\n\\begin{bmatrix} C\\\\ M \\\\ Y \\end{bmatrix} = \\begin{bmatrix} 1\\\\ 1 \\\\ 1 \\end{bmatrix} - \\begin{bmatrix} R\\\\ G \\\\ B \\end{bmatrix}\n\\]\n\n\n\n1.4 RGB to HSV\n\\[\n\\begin{aligned}\nV &= \\max(R,G,B),\\,\\\\\n\\delta &= V -\\min (R,G,B) ,\\,\\\\\nS &= \\dfrac{\\delta}{V} \\\\\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nH &= \\left \\{ \\begin{array}{ll}\n\\dfrac{G-B}{6\\delta} \\qquad&\\text{when } V=R \\\\\n\\dfrac{1}{6} \\left( 2 + \\dfrac{B-R}{\\delta} \\right) & \\text{when } V=G \\\\\n\\dfrac{1}{6} \\left(4 + \\dfrac{R-G}{\\delta} \\right) & \\text{when } V=B\n\\end{array}\n\\right.\n\\end{aligned}\n\\]\n만약 \\(H\\) 가 음수이면 \\(1+H\\) 값이 대신한다. 또한 다음과 같이 정의한다. \\[\n\\begin{bmatrix} R & G & B \\end{bmatrix} = \\begin{bmatrix} 0 & 0 & 0 \\end{bmatrix} \\implies \\begin{bmatrix} H & S & V \\end{bmatrix} = \\begin{bmatrix} 0 & 0 & 0 \\end{bmatrix}\n\\]\n\n\n1.5 HSV to RGB\n\\[\n\\begin{aligned}\nH' & =  [6H ], \\\\\nF &= 6H - H', \\\\\nP &= V (1 -S) , \\\\\nQ &= V (1- SF) ,\\\\\nT &= V(1-S(1-F)).\n\\end{aligned}\n\\]\n여기서 \\([6H]\\) 는 소위 가우스 기호로 \\(6H\\) 에 가장 가까운 정수값을 의미한다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "칼라 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_07.html#가상-칼라-이미징-pseudocoloring",
+    "href": "src/image_processing/image_processing_07.html#가상-칼라-이미징-pseudocoloring",
+    "title": "칼라 이미지 처리",
+    "section": "2 가상 칼라 이미징 (Pseudocoloring)",
+    "text": "2 가상 칼라 이미징 (Pseudocoloring)",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "칼라 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_05.html",
+    "href": "src/image_processing/image_processing_05.html",
+    "title": "이미지 복원 및 재구성",
+    "section": "",
+    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 복원 및 재구성"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_05.html#이미지-복원",
+    "href": "src/image_processing/image_processing_05.html#이미지-복원",
+    "title": "이미지 복원 및 재구성",
+    "section": "1 이미지 복원",
+    "text": "1 이미지 복원\n\n1.1 이미지 정보의 열화, 왜곡 원인\n\n보통 환경적인 요인,\n잡음 (noise),\n이미지 센서의 열화 (degradation),\n화각의 불균형으로 인한 기하학적 왜곡 (distortion)\n\n\n\n\n1.2 수학적 가정\n\n이미지 열화 (degradation)의 원인을 이미지에 작용하는 어떤 선형이고 위치불변인 ’연산자 (operator)’로 표현 할 수 있음.\n\n\n\n선형성 (Linearity)\n행렬에 대한 연산자 \\(\\hat{H}\\) 가 두 행렬 \\(f_1(x,\\,y),\\,f_2 (x,\\,y)\\) 와 임의의 스칼라 \\(a,\\,b\\) 에 대해 다음을 만족시킬 때 \\(\\hat{H}\\) 을 선형연산자라 한다.\n\\[\n\\hat{H} [af_1(x,\\,y)+bf_2(x,\\,y)]= a\\hat{H} [f_1(x,\\,y)] + b\\hat{H}[f_2 (x,\\,y)]\n\\]\n\n\n\n위치불변성 (Position invariance)\n연산자 \\(\\hat{H}\\) 가 이미지 행렬 \\(f(x,\\,y)\\) 에 대해 다음을 만족하면 \\(\\hat{H}\\) 를 위치불변 (position -invariant) 라 한다.\n\\[\ng(x,\\,y) = \\hat{H}[f(x,\\,y)] \\implies \\hat{H}[f(x-a,\\,y-b)] = g(x-a,\\,y-b)\n\\]\n\n이제 선형이고 위치불변인 연산자를 LPI (Linear and Position-Invariant) 연산자라 하자.\n\n\n\n\n\n1.3 역공간에서의 표현\n\n\\(f(x,\\,y) = \\mathfrak{I}^{-1}[F(u,\\,v)]\\) : 원본 이미지\n\\(h(x,\\,y) = \\mathfrak{I}^{-1}[H(u,\\,v)]\\) : 열화 원인 연산자\n\\(\\eta (x,\\,y) = \\mathfrak{I}^{-1} [N(u,\\,v)]\\) : 노이즈 행렬\n\\(g(x,\\,y) = \\mathfrak{I}^{-1}[G (u,\\,v)]\\) : 최종 이미지\n\n라 할 때 실공간과 역공간에서 표현하면 다음과 같은 관계식을 만족한다.\n\\[\n\\begin{aligned}\ng(x,\\,y) &= h(x,\\,y) \\ast f(x,\\,y) + \\eta(x,\\,y)\\\\\nG(u, v) &= H (u, v)  F (u, v) + N (u, v)\n\\end{aligned}\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 복원 및 재구성"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_05.html#노이즈-행렬",
+    "href": "src/image_processing/image_processing_05.html#노이즈-행렬",
+    "title": "이미지 복원 및 재구성",
+    "section": "2 노이즈 행렬",
+    "text": "2 노이즈 행렬\n\n2.1 노이즈의 원인에 따른 분류\n\n백색 잡음 (white noise) : 역공간에서 잡음 행렬의 분포가 일정\n가우시안 잡음 (Gaussian noise) : 온도 분포의 불균일성, 광량의 불균일성 등으로 인해 전자 회로의 노이즈, 센서의 노이즈 때문에 주로 발생\n레일리 잡음 (Rayleigh noise) : 레인지 이미징 (range imaging, High Dynamic Range imaging ,HDRI)에서 주로 발생\n\n\n레인지 이미징 : 주로 피사체의 광량 분포가 불균일할 때, 그것을 균일하게 만들어 주는 이미징을 의미합니다.\n\n\n\n\n2.2 많이 사용되는 노이즈 확률 분포\n\n가우시안 잡음(Gaussian noise)\n레일리 잡음 (Rayleigh noise),\n에를랑 잡음 (Erlang noise or gamma noise),\n지수적 잡음 (exponential noise),\n균일 잡음 (uniform noise),\n임펄스 잡음 (impulse noise)\n\n\n\n가우시안 잡음의 확률분표\n\\[\np(z) =  \\dfrac{1}{\\sqrt{2\\pi \\sigma}} e^{(z - \\langle z \\rangle)^2/2\\sigma^2 }\n\\]\n여기서 \\(\\langle z \\rangle, \\, \\sigma^2\\) 는 가우시안 잡음의 평균과 분산\n\n\n\n레일리 잡음의 확률분포\n\\[\np(z) = \\left\\{\\begin{array}{ll} \\dfrac{2}{b}(z-a)^2 e^{-(z-a)^2/b} \\qquad & \\text{for }z \\ge a \\\\ 0 & \\text{for }z&lt;a \\end{array} \\right.\n\\]\n이 때, \\(z\\) 는 픽셀 값, \\(a\\) 는 픽셀값의 문턱 값이다. 이 확률분포의 평균과 분산은 다음과 같다.\n\\[\n\\langle z \\rangle = a+ \\left(\\dfrac{\\pi b}{4}\\right)^{1/2}, \\qquad \\sigma^2 = \\dfrac{b(4-\\pi)}{4}\n\\]\n\n\n\n에를랑 잡음의 확률 분포\n\\[\np(z) = \\left\\{\\begin{array}{ll}\n\\dfrac{a^bz^{b-1}}{(b-1)!}e^{-az} \\qquad & \\text{for }z \\ge 0 \\\\\n0 & \\text{for } z&lt;0\n\\end{array} \\right.\n\\]\n이 확률분포의 평균과 분산은 다음과 같다.\n\\[\n\\langle z \\rangle = \\dfrac{b}{a},\\qquad \\sigma^2 = \\dfrac{b}{a^2}\n\\]\n\n\n\n지수적 잡음\n\\[\np(z) = \\left\\{\\begin{array}{ll}\nae^{-az} \\qquad & \\text{for }z \\ge 0 \\\\\n0 & \\text{for } z&lt;0\n\\end{array} \\right.\n\\]\n이 확률분포의 평균과 분산은 다음과 같다.\n\\[\n\\langle z \\rangle = \\dfrac{1}{a},\\qquad \\sigma^2 = \\dfrac{1}{a^2}\n\\]\n\n\n\n균일 잡음\n\\[\np(z) = \\left\\{\\begin{array}{ll}\n\\dfrac{1}{b-a} \\qquad & \\text{for } a\\le z \\le  b \\\\\n0 & \\text{otherwise }\n\\end{array} \\right.\n\\]\n이 확률분포의 평균과 분산은 다음과 같다.\n\\[\n\\langle z \\rangle = \\dfrac{a+b}{2},\\qquad \\sigma^2 = \\dfrac{(b-a)^2}{12}\n\\]\n\n\n\n임펄스 잡음\n\\[\np(z) = \\left\\{\\begin{array}{ll} P_a \\qquad & \\text{for }z=a \\\\\nP_b & \\text{for } z=b \\\\ 0 &\\text{otherwise} \\end{array} \\right.\n\\]\n\nSalt-and-Pepper (S&P) 노이즈가 대표적",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 복원 및 재구성"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_05.html#임펄스-신호-와-lpi-연산자",
+    "href": "src/image_processing/image_processing_05.html#임펄스-신호-와-lpi-연산자",
+    "title": "이미지 복원 및 재구성",
+    "section": "3 임펄스 신호 와 LPI 연산자",
+    "text": "3 임펄스 신호 와 LPI 연산자\n임펄스 신호 \\(\\delta (x-\\alpha,\\,y-\\beta)\\) 를 LPI 연산자 \\(\\hat{H}\\) 에 적용한 것을 \\(h(x,\\,\\alpha,\\,y,\\,\\beta)\\) 라 하자. 즉\n\\[\nh(x,\\,\\alpha,\\,y,\\,\\beta) = \\hat{H}[\\delta (x-\\alpha,\\,y-\\beta)]\n\\]\n이다. \\(\\delta\\) 함수의 성질에 의해 다음이 성립함을 안다.\n\\[\nf(x,\\,y) = \\iint f(\\alpha,\\, \\beta) \\,\\delta(x-\\alpha,\\, y-\\beta)\\, d\\alpha\\,d\\beta\n\\]\n이제 이미지 \\(f(x,\\,y)\\) 에 \\(\\hat{H}\\) 를 적용하면,\n\\[\n\\begin{aligned}\ng(x,\\,y) &= \\hat{H}[f(x,\\,y)] \\\\\n&= \\hat{H} \\left[ \\iint f(\\alpha,\\, \\beta) \\,\\delta(x-\\alpha,\\, y-\\beta)\\, d\\alpha\\,d\\beta \\right] \\\\\n&= \\iint \\hat{H} [f(\\alpha,\\, \\beta) \\,\\delta(x-\\alpha,\\, y-\\beta)] \\, d\\alpha\\,d\\beta \\\\\n&= \\iint f(\\alpha,\\, \\beta) \\,\\hat{H} [\\delta(x-\\alpha,\\, y-\\beta)] \\, d\\alpha\\,d\\beta \\\\\n&= \\iint f(\\alpha,\\, \\beta) \\,h(x,\\,\\alpha,\\, y,\\,\\beta)] \\, d\\alpha\\,d\\beta \\\\\n&= \\iint f(\\alpha,\\,\\beta) \\,h(x-\\alpha,\\, y-\\beta)\\, d\\alpha\\, d\\beta\\\\\n&= h (x,\\,y) * f(x,\\,y)\n\\end{aligned}\n\\]\n위 식에서 적분 내에서 \\(h(x,\\,\\alpha,\\, y,\\,\\beta) \\to h(x-\\alpha,\\, y-\\beta)\\) 로 변환되는 데는 Fredholm integral of the first kind 를 사용하였다. \\(h(x-\\alpha,\\, y-\\beta) = h(x,\\,\\alpha,\\,y,\\,\\beta)\\) 를 점 확산 함수 (point spread function, PSF) 이라 한다.\n\n푸리에 변환의 성질에 의해 역공간에서는\n\\[\nG(u,\\,v) = H(u,\\,v) F(u,\\,v)\n\\]\n가 성립한다.\n\n이를 조금 더 알기 쉽게 설명하자면 이렇습니다. 어떤 이미지가 열화된 것처럼 보인다면, 그 원인에 해당하는 특정한 LPI(라고가정할수있는) 열화연산자 \\(\\hat{H}\\)가 있을것입니다.그리고 또 그것에 해당하는 고유의 점확산함수 \\(h(x,y)\\)가 있을 것이고요. 점,즉 픽셀값이 확산되는 경향 (강도, 방향 등)이 바로 이미지가 열화되는 정도를 결정하는데, 그 정도는 점 확산 함수와 원본 이미지 행렬의 합성곱으로 결정됩니다. 다시 말해, 이미지에 있는 모든 픽셀 (즉, ‘점’)이 얼마나 퍼질 수 있는지 그래서 얼마나 왜곡이 되고 열화되는지가 결과적으로 LPI 연산자의 함수 특성에 의해 결정되는 것입니다.\n\n\n이제 이미지의 열화를 야기한 연산자에 대한 사전 정보가 없을 때, 연산자 정보를 어떻게 추정할 수 있을지 생각해 봅시다. 열화과정은 이미지를 관찰하거나, 실험해 보거나, 수학적으로 모델링함으로써 추정할 수 있습니다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 복원 및 재구성"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_05.html#열화-연산자-모델",
+    "href": "src/image_processing/image_processing_05.html#열화-연산자-모델",
+    "title": "이미지 복원 및 재구성",
+    "section": "4 열화 연산자 모델",
+    "text": "4 열화 연산자 모델\n\n\n4.1 공기의 흔들림 (가우시안) 에 의한 이미지 열화\n흔들림 연산자는 수학적으로 다음과 같은 식이 많이 쓰인다. \\[\nH(u,\\,v) = e^{-k(u^2+v^2)^{5/6}}\n\\]\n\n\n4.2 피사체의 흔들림에 의한 열화 (motion blur)\n피사체가 \\(T\\) 의 시간동안 카메라에 노출되어 \\(x,\\,y\\) 방향으로 각각 \\(x_0(t),\\, y_0(t)\\) 만큼 움직이는 이미지는 다음과 같이 표현된다.\n\\[\ng(x,\\,y) = \\int_0^T f[x-x_0(t),\\, y-y_0(t)]\\, dt\n\\]\n이에 대한 푸리에 변환은 다음과 같다.\n\\[\n\\begin{aligned}\nG(u,\\,v) &= \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} g(x,\\,y)\\, e^{-2i\\pi (ux+vy)}\\,dx\\,dy \\\\\n&=\\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} \\left[ \\int_0^Tf(x,\\,y) e^{-2i\\pi(ux+vy)}e^{-2i\\pi(ux_0(t)+vy_0(t))}\\,\\, dt\\right] dx\\,dy \\\\\n&=F(u,\\,v) \\int_0^T e^{-2i\\pi(ux_0(t)+vy_0(t))}\\, dt = F(u,\\,v) H(u,\\,v) \\\\\n&\\qquad \\qquad \\qquad \\text{where }H(u,\\,v) =\\int_0^T e^{-2i\\pi(ux_0(t)+vy_0(t))}\\, dt\n\\end{aligned}\n\\]\n즉 피사체 움직임에 의한 열화 LPI 연산자는 위 식의 \\(H(u,\\,v)\\) 이다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 복원 및 재구성"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_05.html#motion-bluring",
+    "href": "src/image_processing/image_processing_05.html#motion-bluring",
+    "title": "이미지 복원 및 재구성",
+    "section": "5 Motion Bluring",
+    "text": "5 Motion Bluring\n카메라에 \\(T\\) 의 시간만큼 노출되며 이 시간동안의 피사체의 움직임을 \\(x_0(t),\\,y_0(t)\\) 로 기술 할 수 있다고 하자. \\(f(x,\\,y)\\) 를 정지상태의 이상적인 피사체의 이미지라 하면, 이 때 피사체의 이미지 \\(g(x,\\,y)\\) 는 다음과 같이 기술된다.\n\\[\ng(x,\\,y) = \\int_0^T f(x-x_0(t),\\, y-y_0(t))\\, dt\n\\] 이를 푸리에 변환하면,\n\\[\n\\begin{aligned}\nG(u,\\,v) &= \\mathfrak{I}[g(x\\,y)] = \\iint g(x,\\,y) e^{-2i\\pi (ux+vy)}\\,dxdy\\\\\n&= \\iint \\left[ \\int_0^T f(x-x_0(t),\\, y-y_0(t))\\, dt\\right] e^{-2i\\pi (ux+vy)}\\,dxdy\\\\\n&= \\int_0^T \\left[\\iint f(x-x_0(t),\\, y-y_0(t)  e^{-2i\\pi (ux+vy)}\\,dxdy\\right] \\, dt\\\\\n&= \\int_0^T F(u,\\,v)  e^{-2i\\pi (ux_0(t)+vy_0(t))}\\,dxdy \\\\\n&= \\int F(u,\\,v) H(u,\\,v),\\qquad \\text{where}\\quad H(u,\\,v) = \\int_0^T e^{-2i\\pi (ux_0(t)+vy_0(t))}\\,dxdy\n\\end{aligned}\n\\]\n즉 피사체의 열화 LPI 연산자 $H(u,,v) = _0^T e^{-2i(ux_0(t)+vy_0(t))},dxdy $ 를 알 수 있다. 만약 피사체가 속도 \\((a/T,\\, b/T)\\) 의 단순선형등속은동을 한다면, \\(x_0(t) = at/T,\\, y_0(t) =bt/T\\) 이므로,\n\\[\nH(u,\\,v) = \\int_0^T e^{-2i\\pi(au+bv)t/T}\\, dt=\\dfrac{T}{au+bv} \\sin \\left[\\pi(au+bv)\\right]e^{-2i\\pi(au+bv)}\n\\]\n가 된다. 이로부터,\n\\[\nf(x,\\,y) = \\mathfrak{I}^{-1}[F(u,\\,v)] = \\mathfrak{I}^{-1}\\left[G(u,\\,v)/H(u,\\,v)\\right]\n\\]\n의 관계를 통해 \\(f(x,\\,y)\\) 를 복원 할 수 있다.\n\n\n5.1 Inverse filtering 을 통한 motion blur 복원\n피사체의 움직임을 단순한 선형 등속 움직임 즉, \\(x_0(t) = \\dfrac{at}{T},\\, y_0(t) = \\dfrac{bt}{T}\\) 라고 표현 할 수 있다고 가정하면,\n\\[\nH(u,\\,v) = \\int_0^T e^{-2i\\pi (ux_0(t)+vy_0(t))} \\, dt = \\dfrac{T}{\\pi (ua+vb)} \\sin (\\pi (ua+vb)) e^{-i\\pi (ua+bv)}\n\\]\n이다.\n\n\n\n5.2 노이즈가 있는 이미지의 복원\n\n사실 노이즈를 처리한 후 열화 연산자를 추정하여 이미지를 복원하는 것은 이상적인 시나리오에 가깝다. 왜냐하면 노이즈의 종류와 열화 연산자의 정체를 미리 알고 있어야만 이러한 처리가 깔끔하게 이루어질 것이기 때문이다. 노이즈의 정체를 모르는 상황이라면 노이즈만 따로 전처리 (pre-treatment)하기 어려울 것이다.\n노이즈가 없는 이미지 \\(f(x,y)\\) 와 노이즈 \\(n(x,y)\\) 를 생각하자. 이미지는 \\(g(x,\\,y)= f(x,\\,y)+n(x,\\,y)\\) 가 될 것이다. 이 때\n\n\\[\n\\begin{aligned}\nF(u,v) &= \\mathfrak{I} [f(x,y)]\\\\\nN(u,v) &= \\mathfrak{I} [n(x,y)]\\\\\nG(u,v) &= \\mathfrak{I}[g(x,y)] = F(u,v)+N(u,v)\n\\end{aligned}\n\\]\n라 하자\n\n노이즈를 처리하지 않은 상황이라면 \\(H\\) 연산에 대해 처리된 결과는 \\(F(u,v)\\) 가 아닌 \\(\\hat{F}(u,\\,v) = F(u,v) +\\dfrac{N(u,v)}{H(u,v)}=\\dfrac{G(u,v)}{H(u,v)}\\) 가 될 것이다.\n\\(\\hat{F}(u,v)\\) 에서 \\(H(u,v)\\) 가 매우 작거나 어떤 노이즈에 의해 \\(N(u,v)\\) 가 매우 크다면 결과적으로 \\(F(u,v)\\) 보다 \\(\\dfrac{N(u,v)}{H(u,v)}\\) 가 더 지배적일 수 있다. 이를 막기 위한 방밥중에는 전에 배웠던 버터워스 필터링, 위너 필터링이 있다.\n\n\n\n\n5.3 계수조절 비너 필터링 (Parametric Wiener filtering)\n\n\n\n5.4 제한된 최소자승법 필터링 (Constrained least squarefiltering, CLSF)\n\n\n\n5.5 기하평균 필터링 (Geometric mean filtering)",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 복원 및 재구성"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_05.html#이미지-재구성-image-reconstruction",
+    "href": "src/image_processing/image_processing_05.html#이미지-재구성-image-reconstruction",
+    "title": "이미지 복원 및 재구성",
+    "section": "6 이미지 재구성 (Image Reconstruction)",
+    "text": "6 이미지 재구성 (Image Reconstruction)\n\n\n6.1 이미지 복원과 이미지 재구성\n\n이미지 복원은 열화된 이미지를 최대한 품질을 개선시키는 방법 에 초점을 맞췄다면, 이미지 재구성은 여러 장의 이미지 혹은 여러 방향에서 찍은 이미 지를 하나의 이미지로 재구축하는 과정에 초점을 맞춥니다.\n이미지 재구성은 CT (computer tomography) 같은 첨단 의료영상정보 처리에 활발하게 활용되는 매우 중요 한 이미지 처리 방법입니다.\n\n\n\n\n6.2 후방 사영법 (Backprojection)\n\n피사체 앞에서 빔을 나란히 쏜 후, 피사체를 통과한 빔의 강도를 후 방에서 모아서 하나의 이미지로 만드는 방법.\n피사체의 부분마다 빔에 대한 투과도 (transmission coefficient)나 흡광도 (absorption coefficient)가 다르다는 것에 착안한 방법.\n예를 들어 암세포는 다른 세포에 비해 X-ray를 더 잘 흡수하는 경향이 있는데, 그 세포를 향해 X-ray를 쏜다면, 세포 뒤에 건판에는 서로 다른 강도의 X-ray 신호가 나타날 것이다. 그리고 그 세포를 향해 쏘는 X-ray의 방향을 계속 돌려 보면, 그 세포의 상대적 위치에 대해 모든 정보를 얻을 수 있을 것이다.\n후방 사영법은 단순하지만 후방 사영하는 각도 단위가 작아질수록 (즉, 해상력 이 높아질수록) 재구축되는 이미지가 더 정교해진다는 장점이 있다.\n그럼에도 불구하고, 후방 사영법만으로는 피사체의 디테일을 전부 다 살리기 어려운데, 그 이유는 후방 사영법의 특징 상, 사영된 이미지의 겹침 과정에서 피사체의 경계 부분이 블러링되는 것을 피할 수 없기 때문. 이 때문에, 후방 사영법을 필터링하는 알고리듬이 필요하다.\n\n\n\n\n6.3 라돈 변환 (Radon Transform)\npython 에서는 opencv 에서는 제공하지 않는 것 같고, skimage 에서 제공한다. 역변환인\nfrom skimage.transform import radon\n# get sinogram by radon transform\nsinogram = radon(img1, theta)\n\n# reconstruct by iradon\nreconstruction_img = iradon(sinogram, theta=theta, filter='ramp')\n으로 사용 할 수 있다.\n아래 radon transform 은 아래 사이트를 참고하라\nhttps://scikit-image.org/docs/dev/auto_examples/transform/plot_radon_transform.html",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 복원 및 재구성"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_03.html",
+    "href": "src/image_processing/image_processing_03.html",
+    "title": "푸리에 변환을 이용한 이미지 처리",
+    "section": "",
+    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "푸리에 변환을 이용한 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_03.html#푸리에-급수와-푸리에-변환의-수학적-성질",
+    "href": "src/image_processing/image_processing_03.html#푸리에-급수와-푸리에-변환의-수학적-성질",
+    "title": "푸리에 변환을 이용한 이미지 처리",
+    "section": "1 푸리에 급수와 푸리에 변환의 수학적 성질",
+    "text": "1 푸리에 급수와 푸리에 변환의 수학적 성질\n\n1.1 푸리에 급수\n주기 \\(T\\) 를 갖는 연속함수 \\(f(t)\\) 는 다음과 같은 푸리에 급수로 표현 할 수 있다.\n\\[\n\\begin{aligned}\nf(t) &= \\sum_{n=-\\infty}^{\\infty} F_n \\exp \\left(\\dfrac{i 2\\pi n}{T}t\\right)\\,,\\\\\nF_n &= \\dfrac{1}{T}\\int_{-T/2}^{T/2} f(t) \\exp \\left(-\\dfrac{i2\\pi n }{T}t \\right)\\, dt\\,, \\qquad n\\in \\mathbb{Z}\n\\end{aligned}\n\\]\n\n\n\n1.2 기저함수의 직교성\n\\[\n\\int_{-T/2}^{T/2} \\exp \\left( \\dfrac{i 2\\pi m}{T}t\\right) \\exp \\left(-\\dfrac{i 2\\pi n}{T}t \\right)\\, dt = \\delta_{nm}\n\\]\n\n\n\n1.3 주기함수와 푸리에 급수\n\n모든 주기성을 갖는 연속함수는 푸리에 급수로 표현 할 수 있다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "푸리에 변환을 이용한 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_03.html#푸리에-변환",
+    "href": "src/image_processing/image_processing_03.html#푸리에-변환",
+    "title": "푸리에 변환을 이용한 이미지 처리",
+    "section": "2 푸리에 변환",
+    "text": "2 푸리에 변환\n\n2.1 1차원 푸리에 변환\n\\[\n\\begin{aligned}\nF(\\mu) &= \\mathfrak{I} \\left[f(t)\\right]=\\int_{-\\infty}^{\\infty} f(t)e^{-2i\\pi \\mu t}\\, dt\\,, \\\\\nf (t) &= \\mathfrak{I}^{-1} \\left[F(\\mu)\\right] = \\int_{-\\infty}^{\\infty} F(\\mu) e^{2i \\pi \\mu t} \\, d\\mu\n\\end{aligned}\n\\]\n\n\n2.2 2차원 푸리에 변환\n\\[\n\\begin{aligned}\nF(u,\\,v) &= \\mathfrak{I} \\left[f(x,\\,y)\\right]=\\int_{-\\infty}^{\\infty}\\int_{-\\infty}^{\\infty} f(x,\\,y)e^{-2i\\pi (ux+vy)}\\, dxdy\\,, \\\\\nf (x,\\,y) &= \\mathfrak{I}^{-1} \\left[F(u,\\,v)\\right] = \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} F(\\mu) e^{2i \\pi (ux+vy)} \\, dudv\n\\end{aligned}\n\\]\n\n\n\n2.3 푸리에 변환의 몇가지 수학적 성질\n\n1. Similarity\n\\[\nf (x,\\,y) \\iff F(u,\\,v) \\implies f(ax,\\,by) =\\dfrac{1}{ab} F\\left(\\dfrac{u}{a},\\, \\dfrac{v}{b}\\right)\n\\]\n\n\\[\n\\begin{aligned}\n\\mathfrak{I}[f(ax,\\,by)] &= \\iint f(ax,\\, by) e^{-2i\\pi (ux+vy)}\\,dxdy \\qquad & t=ax,\\, s=by\\\\\n&= \\dfrac{1}{ab} \\iint f(s,\\,t) e^{-2i \\pi (ut/a+vs/b)}\\, dtds \\\\\n&= \\dfrac{1}{ab} F \\left(\\dfrac{u}{a},\\, \\dfrac{v}{b} \\right)\n\\end{aligned}\n\\]\n\n\n\n2. Shift Theorem\n\\[\nf(x,\\,y) \\iff F(u,\\,v) \\implies f(x-a,\\, y-b) \\iff \\exp (i2\\pi (au+bv)) F(u,\\,v)\n\\]\n\n\\[\n\\begin{aligned}\n\\mathfrak{I}[f(x-a,\\, y-b) ]&= \\iint f(x-a,\\, y-b) e^{-2i\\pi (ux+vy)} \\,dxdy \\qquad & t=x-a,\\, s=y-b\\\\\n&=\\iint f(t,\\,s) e^{-2i\\pi (ux+vy)} e^{2i\\pi (au+bv)} \\, dxdy \\\\\n&= e^{2i\\pi (au+bv)}F(u,\\,v)\n\\end{aligned}\n\\]\n\n\n\n3. 도함수의 푸리에 변환\n\\[\n\\mathfrak{I}[f(x)] = F(u)   \\implies \\mathfrak{I}\\left[ \\dfrac{d^kf}{dx^k} \\right] =( 2i\\pi u)^k F(u)\n\\]\n\n\\(k=1\\) 인 경우만 보이면 나머지는 쉽게 일반화 된다. \\(\\mathfrak{I}[f(x)]=F(u)\\) 이면 \\(f(x)=\\displaystyle \\int_{-\\infty}^{\\infty} F(u)e^{2i\\pi ux}\\, du\\) 이므로\n\\[\nf'(x) =  \\int_{-\\infty}^{\\infty}(2i\\pi u) F(u)e^{2i \\pi ux} \\, du\n\\]\n이다. 따라서\n\\[\n\\mathfrak{I}[f'(x)] = (2i\\pi u) F(u)\n\\] 이다.\n\n\n\n\n2.4 Fourier Spectrum, Phase, Fourier Power Spectrum\n\\(F(u,\\,v)\\) 를 극좌표 형태로 다음과 같이 표현 할 수 있다.\n\\[\nF(u,\\,v) = |F(u,\\,v)| e^{i\\Phi(u,\\,v)}\n\\]\n이 때 \\(|F(u,\\,v)|\\) 를 푸리에 스펙트럼 (Fourier spectrum) 이라 하고, \\(\\Phi(u,\\,v)\\) 를 위상 (phase) 이라 한다. 또한 \\(P(u,\\,v) =|F(u,\\,v)|^2\\) 를 푸리에 파워 스펙트럼 (Fourier power spectrum) 이라 한다.\n\n\n\n2.5 평행이동과 회전변환의 푸리에 변환\n\n\n\n2.6 주기적 임펄스 함수의 푸리에 변환\n단위 임펄스 함수(디렉 델타 함수)가 \\(T\\) 를 주기로 반복되는 함수를 주기적 임펄스 함수라 하며 이를 \\(S_T(t)\\) 라 하자. 이는 주기함수이므로 푸리에 급수로 표현 할 수 있으며 다음과 같다.\n\\[\n\\begin{aligned}\nS_T(t) &= \\sum_{n=-\\infty}^{\\infty} \\delta \\left(t-nT \\right) \\,, \\\\\n&=\\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\exp \\left( \\dfrac{-i2n\\pi t}{T}\\right)\n\\end{aligned}\n\\]\n단일 임펄스 함수 \\(\\delta(\\mu-\\mu_0)\\) 에 대한 푸리에 변환은 다음과 같다.\n\\[\n\\mathfrak{I}[\\delta (\\mu-\\mu_0)] = \\int_{-\\infty}^{\\infty} \\delta (\\mu-\\mu_0) e^{2i\\pi \\mu t}\\, d\\mu = e^{2i\\pi \\mu_0 t}\n\\]\n따라서,\n\\[\n\\mathfrak{I}^{-1} \\left[ \\delta \\left( \\mu-\\dfrac{n}{T} \\right) \\right] = \\exp \\left( \\dfrac{2in\\pi t}{t} \\right) \\iff \\mathfrak{I}\\left[  \\exp \\left( \\dfrac{2in\\pi t}{t} \\right) \\right] =  \\delta \\left( \\mu-\\dfrac{n}{T} \\right)\n\\]\n이다. 이를 이용하면 \\(s_T(t)\\) 의 푸리에 변환식 \\(S(\\mu)=\\mathfrak{I}[s_N(t)]\\) 를 계산 할 수 있으며 다음과 같다.\n\\[\nS (\\mu) = \\mathfrak{I}\\left[\\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\exp \\left( \\dfrac{-i2n\\pi t}{T}\\right)\\right] = \\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\mathfrak{I}\\left[ \\exp \\left( \\dfrac{-i2n\\pi t}{T}\\right) \\right] = \\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\delta \\left(\\mu - \\dfrac{n}{T}\\right)\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "푸리에 변환을 이용한 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_03.html#convolution-의-푸리에-변환",
+    "href": "src/image_processing/image_processing_03.html#convolution-의-푸리에-변환",
+    "title": "푸리에 변환을 이용한 이미지 처리",
+    "section": "3 Convolution 의 푸리에 변환",
+    "text": "3 Convolution 의 푸리에 변환\n두 함수 \\(f(t),\\, g(t)\\) 의 convolution \\(f(t) \\ast g(t)\\) 은 다음과 같이 정의된다.\n\\[\nf(t) \\ast g(t) \\equiv \\int_{-\\infty}^{\\infty} f(\\tau) g(t-\\tau) \\, d\\tau\n\\]\n\\(F(\\mu)= \\mathfrak{I}[f(t)],\\, G(\\mu)=\\mathfrak{I}[g(t)]\\) 라 할 때, \\(f(t)\\ast g(t)\\) 의 푸리에 변환을 구하면,\n\\[\n\\begin{aligned}\n\\mathfrak{I}[f(t) \\ast g(t)] &= \\int_{-\\infty}^{\\infty} \\left[ \\int_{-\\infty}^{\\infty} f(\\tau)g(t-\\tau) d\\tau\\right] e^{-2in\\pi \\mu t}\\, dt \\\\\n&= \\int_{-\\infty}^{\\infty}f(\\tau) \\left[  \\int_{-\\infty}^{\\infty} g(t-\\tau)e^{-2in \\pi \\mu t}\\, dt\\right] \\,d\\tau \\\\\n&= \\int_{-\\infty}^{\\infty} f(\\tau) G(\\mu)e^{-2in \\pi \\mu \\tau} \\, d\\tau \\\\\n&= F(\\mu)G(\\mu)\n\\end{aligned}\n\\]\n즉 합성곱의 푸리에 변환은 푸리에 변환의 곱이다. 이를 응용하면 두 함수의 곱의 푸리에변환은 합성곱이 됨을 보일 수 있다. 즉,\n\\[\n\\mathfrak{I}[f(t)g(t)]=F(\\mu)\\ast G(\\mu)\n\\]\n가 된다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "푸리에 변환을 이용한 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_03.html#푸리에-변환과-샘플링-sampling",
+    "href": "src/image_processing/image_processing_03.html#푸리에-변환과-샘플링-sampling",
+    "title": "푸리에 변환을 이용한 이미지 처리",
+    "section": "4 푸리에 변환과 샘플링 (sampling)",
+    "text": "4 푸리에 변환과 샘플링 (sampling)\n\n4.1 샘플링\n임의의 연속함수 \\(f(t)\\) 를 \\(T\\) 를 주기로 샘플링 하였다고 하자. 그렇다면 이 샘플링 \\(\\tilde{f}(t)\\) 은 다음과 같은 식으로 표현 할 수 있다.\n\\[\n\\tilde{f}(t) = f(t)S_T(t)\\sum_{n=-\\infty}^{\\infty} f(t) \\delta (t-nT)\n\\]\n즉 연속 신호에 대해 주기적으로 신호를 뽑아 불연속 신호로 만드는 것을 sampling 이라 한다.\n\n\n\n4.2 샘플링 된 신호의 푸리에 변환\n이 때 \\(\\mathfrak{I}[f(t)]= F(\\mu),\\, \\mathfrak{I}[s_T(t)]= S(\\mu)\\) 라 하자 \\(\\displaystyle S(\\mu)=\\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\delta \\left( \\mu - \\dfrac{n}{T}\\right)\\) 임은 알고 있다. 그렇다면 \\(\\tilde{F}(\\mu)=\\mathfrak{I}\\left[\\tilde{f}(t) \\right]\\) 를 구하면,\n\\[\n\\begin{aligned}\n\\tilde{F}(\\mu) & = F(\\mu)\\ast S(\\mu) = \\int_{-\\infty}^{\\infty} F(\\tau)S(\\mu-\\tau)\\, d\\tau \\\\\n&= \\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty}\\int_{-\\infty} F(\\tau) \\delta \\left(\\mu-\\tau-\\dfrac{n}{T}\\right)\\, d\\tau \\\\\n&= \\dfrac{1}{T}\\sum_{n=-\\infty}^{\\infty} F\\left( \\mu - \\dfrac{n}{T} \\right)\n\\end{aligned}\n\\]\n이다. 즉, 주기 \\(T\\) 로 샘플링된 연속 함수 \\(f(t)\\)의 함수의 푸리에 변환은 원래 함수의 푸리에 변환 \\(F(\\mu)\\) 를 주기 \\(1/T\\) 를 갖는 임펄스 함수로 바꾼 형태임을 알 수 있다.\n\n\n\n4.3 밴드-한계 신호 (band-limited signal), Over-sampling, under-sampling, critical-sampling, aliasing\n\n위의 그림을 보자. 원본연속함수(연속신호) \\(f(t)\\) 를 푸리에 변환한 함수 중, 그래프 (a) 와 같이 일부 구간 \\([-\\mu_M,\\,\\mu_M]\\)에 대한 변환 신호 \\(F(\\mu)\\) 만을 알고 있는 상황이라고 가정하자. 이렇계 특정 구간을 제외하고 \\(F(\\mu)=0\\) 일 때 이를 밴드한계신호라 한다.\n\\(f (t)\\) 를 주기 \\(T\\) 를 조절해 가며 샘플링한 함수를 푸리에 변환한다고 하자. 만약, 주기를 \\(1/T&gt;2\\mu_M\\) 이 되도록 샘플링하면 \\(F(\\mu)\\) 가 주기적으로 배열되며 그간격은 \\(1/T\\) 가 이되겠지만, \\(1/T&gt;2\\mu_M\\) 이므로, 결과는 그림 (b) 와 같이 띄엄띄엄 배열된 삼각형 신호가 될 것이다. 즉 \\(\\tilde{F}(\\mu)\\) 가 불연속 함수가 된다. 그러나 원래 \\(F(\\mu)\\) 가 가지고 있던 함수정보가 고스란히 남아 있으므로, 결과물로 부터 다시 역변환을 취하면 원래 함수 (신호값) 을 복원 할 수 있다. 이러한 결과를 오버-샘플링 (over-sampling) 이라 한다.\n만약, 주기 조건이 \\(1/T &lt; 2\\mu_M\\) 이라면 이번에도 \\(F(\\mu)\\) 가 주기적으로 배열되겠지만, \\(1/T &lt; 2\\mu_M\\) 이므로, 결과는 그래프 (d) 처럼 삼각형 신호 중 일부가 파묻힌 결과가 될 것이다. 비록 \\(F(\\mu)\\) 는 연속 함수가 되었지만, 원래의 정보를 잃어 버리게 되며, 이러한 결과를 언더-샘플링 (under-sampling) 이라 한다.\n만약 주기가 \\(1/T= 2\\mu_M\\) 로서 딱 맞다면, 그림 (c) 처럼, \\(F(\\mu)\\) 는 삼각형 신호가 제대로 연속 배열된 결과가 된다. 이러한 결과를 critical-sampling 이라 한다.\n따라서 원래 함수의 신호를 복원하기 위한 샘플링 충분 조건은 \\(1/T\\ge 2\\mu_M\\) 이 될 것이다. 이것은 소위 나이퀴스트-샤논 샘플링 정리의 결과이다.\n이 정리에 따르면, 어떤 신호든 밴드-한계 함수가 그 함수의 샘플들로부터 복원되기 위해서는, 샘플링 주기의 역수\\(1/T\\) 가 샘플링된 밴드의 최대값의 두 배보다 커야 한다. 만약, 주기의 역수가 이 조건을 만족시키지 못한다면 (즉, 언더-샘플링된 상황), 복원된 신호는 완벽하지 않을 것이며, 이러한 상황을 주파수 앨리어싱 (frequency aliasing) 혹은 그냥 앨리어싱 이라고 한다.\n앨리어싱은 주로 원래 이미지의 해상도보다 낮은 해상도로 이미지를 샘플링하거나, 이미지 획득 장치의 샘플링 간격이 피사체 자체의 고유 구조 특징보다 더 클 때 발생합니다.\n\n # 4.3 이산 푸리에 변환 (Discrete Fourier Transformation, DFT)\n1차원 공간상의 함수 \\(f\\) 에 대해 \\(k\\) 번째 에서의 값을 \\(f_k\\) 라 하자. 그리고 이 수열을 \\(\\mathbf{f}\\) 라 하자. 즉, \\[\n\\mathbf{f}=(f_0,\\ldots,\\,f_{N-1})\n\\]\n이다.\n우리는 여기서 한가지 가정을 하게 되는데 \\(f\\) 이 주기 \\(N\\) 을 갖는다는 것이다. 즉 \\(f_{k+N}=f_k\\) 이다. 이 때 \\(\\mathfrak{I}[\\mathbf{f}]=\\mathbf{F}=[F_1,\\ldots,\\,F_{N-1}]\\) 의 \\(F_\\mu\\) 는 다음과 같이 구할 수 있다.\n\\[\nF_\\mu = \\dfrac{1}{N}\\int_{0}^{N-1} f(t) \\exp \\left(-\\dfrac{i2\\pi \\mu }{N}t \\right)\\, dt = \\dfrac{1}{N} \\sum_{k=0}^{N-1} f_i \\exp\\left(-\\dfrac{i2\\pi \\mu }{N} k \\right)\n\\]\n또한 \\(f_k\\) 는 다음과 같이 표현 할 수 있다.\n\\[\nf_k = \\sum_{\\mu=0}^{N-1} F_\\mu \\exp \\left(-\\dfrac{i2\\pi k\\mu }{N} \\right)\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "푸리에 변환을 이용한 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_03.html#이차원-이산-푸리에-변환",
+    "href": "src/image_processing/image_processing_03.html#이차원-이산-푸리에-변환",
+    "title": "푸리에 변환을 이용한 이미지 처리",
+    "section": "5 이차원 이산 푸리에 변환",
+    "text": "5 이차원 이산 푸리에 변환\n\\[\n\\begin{aligned}\nF_{uv} &= \\dfrac{1}{MN} \\sum_{j=0}^{M-1}\\sum_{k=0}^{N-1} f_{jk} \\exp \\left[-2i\\pi \\left(\\dfrac{ju}{M}+\\dfrac{kv}{N}\\right)\\right] \\\\\nf_{jk} &=  \\sum_{j=0}^{M-1}\\sum_{k=0}^{N-1} F_{uv} \\exp \\left[2i\\pi \\left(\\dfrac{ju}{M}+\\dfrac{kv}{N}\\right)\\right]\n\\end{aligned}\n\\]\n\n\n5.1 연속 푸리에 변환과의 관계에서 보는 DFT 의 성질.\n\n\n주기성\n연속 푸리에 변환은 앞서 보았듯이 아래와 같다.\n\\[\n\\begin{aligned}\nF(u,\\,v) &= \\mathfrak{I} \\left[f(x,\\,y)\\right]=\\int_{-\\infty}^{\\infty}\\int_{-\\infty}^{\\infty} f(x,\\,y)e^{-2i\\pi (ux+vy)}\\, dxdy\\,, \\\\\nf (x,\\,y) &= \\mathfrak{I}^{-1} \\left[F(u,\\,v)\\right] = \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} F(\\mu) e^{2i \\pi (ux+vy)} \\, dudv\n\\end{aligned}\n\\]\n불연속 푸리에 변환쌍 에서는 \\(x, y\\) 대신 \\(x/N, y/M\\)가,그리고 \\(u,v\\) 대신 \\(u/N, v/M\\) 가 쓰였다. 이는 원본 함수가 정해진 구간 \\(x = 0,\\,1,\\ldots,\\,N-1\\) 혹은 \\(y=1,\\ldots,\\,M-1\\) 을 벗어나면 다시 주기 \\(N, M\\) 을 가지고 모든 1차원 공간에서 반복된다는 가정이 내포되어 있다. 즉, 정수 \\(p,\\,q\\) 에 대해\n\\[\n\\begin{aligned}\nf(x+pN,\\, y+qN) &= f(x,\\, y) \\\\\nF(u+pN,\\, v+qN) &= F(u,\\, v)\n\\end{aligned}\n\\] 가 성립한다는 뜻이다.\n\n\n\n정규화 인자 (normalization factor)\n또한, \\(F(u,\\,v)\\) 의 계수에 연속 푸리에 변환에는 없던 \\(\\dfrac{1}{NM}\\) 가 생긴것을 볼 수 있다.우리가 다루는 이미지 같은 신호는 공간상에서 제약이 있고 (즉, 가로와 세로의 길이가 정해져 있고), 또한 신호들은 불연속적으로 나열되어 있으므로, 이를 푸리에 변환 과정에서 보상하기 위해, \\(F (u,\\,v)\\) 의 계수에 \\(\\dfrac{1}{MN}\\) 가 정규화 인자 (normalization factor)로서 생긴 것이다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "푸리에 변환을 이용한 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_03.html#차원-불연속-푸리에-변환-2d-dft을-이용한-이미지-처리",
+    "href": "src/image_processing/image_processing_03.html#차원-불연속-푸리에-변환-2d-dft을-이용한-이미지-처리",
+    "title": "푸리에 변환을 이용한 이미지 처리",
+    "section": "6 2차원 불연속 푸리에 변환 (2D DFT)을 이용한 이미지 처리",
+    "text": "6 2차원 불연속 푸리에 변환 (2D DFT)을 이용한 이미지 처리\n\n\n6.1 Ideal Low Pass Filtering\n2D DFT 행렬을 DC 인자를 중앙에 배치하여 재배열했을 경우, 원본 이미지에서 낮은 픽셀 빈도를 갖는 성분은 중앙 (즉, \\((u,v) \\approx (0,0)\\)) 근처 에 모이게 된다. 낮은 빈도를 갖는다는 것은 공간 상에서 신호 주기가 크다는 의미고, 역공간에서는 ’1/주기’가 작은 값으로 대응이 될 것이므로, \\((u, v)\\) 가 중앙 부분으로 몰리게 되는 것이다. 따라서, 원본 이미지의 로우-패스 필터링을 하고 싶다면, 푸리에 변환 된 행렬의 중앙 부분만 따로 골라내어 다시 역변환하면 될 것이다.\n가장 간단히 생각 할 수 있는 방법은 원점 주위의 특정 반경 안에 들어오는 2D DFT 이미지만 뽑아 역변환 해주는 것이며 이를 ideal low pass filtering 이라 한다.\n\n\n\n6.2 Ideal High Pass Filtering\nIdeal low pass filtering 과 반대로 생각해 주면 된다.\n\n\n\n6.3 버터워스 필터링 (Butterworth filtering)\nIdeal low/high pass filter 는 계단 함수 형태로, 그 과정에서 물결무늬 같은 원하지 않는 패턴이 생성된 것도 확인할 수 있었다. 이러한 부작용을 방지하기 위해 컷오프 거리를 기준으로 로우-패스 혹은 하이-패스 영역을 설정하는 방식을 계단 함수가 아닌, 조금 더 부드러운 연속 함수로 바꿀 수 있다. 그중 하나가 버터위스 필터링으로 다음과 같이 정의된다.\n\\[\n\\begin{aligned}\n\\text{Low pass filter } h(u,\\,v) &= \\dfrac{1}{1+\\left( 1+\\dfrac{(u^2+d^2)^{1/2}}{D} \\right)^{2n}} \\\\\n\\text{High pass filter } h(u,\\,v) &= \\dfrac{1}{1+\\left(1+\\dfrac{D}{(u^2+d^2)^{1/2}}\\right)^{2n}}\n\\end{aligned}\n\\]\n\n\n\n6.4 Gaussian Filtering\n\n\n\n6.5 위상 보존 필터 (zero-phase-shift filter), 위상 비보존 필터 (Nonzero-phase-shift filter)\n우리는 지금까지 원본 이미지 \\(f(x,\\,y)\\)의 역공간 \\(F(u,\\,v)\\) 에서 작업해 왔다. \\(F(u,\\,v)\\) 는 복소함수로 실수부 \\(R(u,\\,v)\\) 와 허수부 \\(I(u,\\,v)\\) 가 존재하여 \\(F(u,\\,v) = R(u,\\,v) +iI(u,\\,v)\\) 이다. 이 때 \\(\\arctan \\left( \\dfrac{I(u,\\,v)}{R(u,\\,v)}\\right)\\) 를 \\(F(u,\\,v)\\) 의 위상이라고 한다.\n만약 어떤 필터에 의해 위상이 변하지 않는다면 이를 위상 보존 필터라 하고, 그렇지 않다면 위상 비보존 필터 라 한다.\n\n\n\n6.6 밴드삭제 필터링, 놋치 필터링.\n\n\n\n6.7 Periodic noise reduction - Bragg filtering\n\n\n\n6.8 Deblurring using inverse filtering\n잘 안됨… 더 알아 봐야 할 듯..",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "푸리에 변환을 이용한 이미지 처리"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html",
+    "href": "src/image_processing/image_processing_01.html",
+    "title": "이미지 프로세싱의 기초",
+    "section": "",
+    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html#점-기준-이미지-가공",
+    "href": "src/image_processing/image_processing_01.html#점-기준-이미지-가공",
+    "title": "이미지 프로세싱의 기초",
+    "section": "2 점 기준 이미지 가공",
+    "text": "2 점 기준 이미지 가공\n\n각 픽셀 단위의 이미지 처리를 의미한다. 즉 픽셀에 대한 연신이 다른 픽셀의 정보와 독립적으로 이루어진다.\nGray scale image \\(f[i, j]\\) 를 생각하자. \\(0\\le f[i,\\,j] \\le 255\\) 이다.\n\n\n\n2.1 픽셀 반전법에 의한 이미지 가공\n상수 \\(a\\) 와 \\(b&gt;0\\) 에 대해 \\[\nT_i[f](i, j) = a-b f(i, j),\\qquad 0 \\le T[f] \\le 255\n\\]\n인 이미지 연산을 픽셀 반전법 이라고 한다. \\(a=255,\\, b=1\\) 일 경우 완전한 흑백 반전이다. TestImages.jl 로부터 테스트 이미지를 다운받아 처리하였다.\nimg0= testimage_dip3e(\"Fig0108(a) (corn-fluorescence).tif\")\nimg1 = img2arr(img0)\nimg2 = (UInt8(255) .- img1)\nr = arr2mat(cat(img1, img2;dims=2))\n\n\n\n\n\n\n그림 1: 원본 이미지(좌) 와 반전된 이미지\n\n\n\n\n\n\n2.2 \\(\\gamma\\)-correction (or \\(\\gamma\\)-encoding)\n\n\\(\\gamma&gt;0\\) 에 대해 다음과 같이 변환한다. \\[\nT_\\gamma [f](i, j)  = f(i, j)^\\gamma\n\\]\n\\(\\gamma\\) 값이 \\(1\\) 보다 상당히 크면 픽셀 값이 클수록, \\(\\gamma\\) 값이 \\(1\\) 보다 상당히 작으면 픽셀값이 작을수록 대조가 현저해진다.\n\\(0\\le f\\le 255\\) 일 때 \\(\\gamma&lt;1\\) 이면 \\(f^\\gamma &lt; 255\\) 이며 \\(\\gamma&gt;1\\) 이면 \\(f^\\gamma&gt;255\\) 일 수 있으므로 최대값이 255가 넘지 않도록 해 준다.\n원본 이미지가 1024x1024 로 크기 때문에 그 크기를 줄여주었다.\n\nimg0= testimage_dip3e(\"Fig0227(a)(washington_infrared).tif\")\nimg1 = cv2.resize(img2mat(img0), cv2.Size{Int32}(256, 256))\nimg2 = arr2mat(round.(UInt8, ((img1./255).^0.5)*255))\nimg3 = arr2mat(round.(UInt8, ((img1./255).^2)*255))\nimg4 = arr2mat(round.(UInt8, ((img1./255).^5)*255));\narr2mat(cat(img1, img2, img3, img4; dims=2))\n\n\n\n\n\n\n그림 2: 맨 왼쪽부터 \\(\\gamma=1\\), \\(\\gamma=0.5\\), \\(\\gamma=2\\), \\(\\gamma=5\\)\n\n\n\n\n\\(x\\in (0,\\,1)\\) 에 대해 \\(\\gamma&lt;1\\) 이면 \\(x^\\gamma &gt; x\\) 이므로 화소 값이 높은 쪽으로 몰린다. 반대로 \\(\\gamma&gt;1\\) 이면 \\(x^\\gamma &lt; x\\) 이므로 화소 값이 낮은 쪽으로 몰린다.\n\n\n\n\n2.3 히스토그램 처리\n이미지의 각 픽셀은 0 에서 255 사이의 정수값을 가진다. 그 값의 빈도는 이미지의 성질을 파악하는데 중요하다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
+    ]
+  },
+  {
+    "objectID": "latexmacros.html",
+    "href": "latexmacros.html",
+    "title": "수치해석과 이미지 처리",
+    "section": "",
+    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Julia 언어와 수치해석",
+    "section": "",
+    "text": "이 사이트는 수치해석과 이미지 처리를 다룹니다. 실제 구현되는 코드는 julia 언어로 작성되었습니다. Julia 언어에 대해서는 Introduction to Julia 를 참고하시기 바랍니다.\n이곳의 목적은 numpy 나 scipy, opencv 와 같이 이미 구현된 라이브러리를 사용하는 방법을 배우는 것이 아니라, 이 라이브러리의 함수나 기능들이 어떤 원리와 알고리즘으로 구현되는지를 알아보는 것입니다. 따라서 바닥부터 하나하나 쌓아 올리고자 합니다.\n수치해석에 많이 사용되는 언어는 Fortran, C/C++, Python, Matlab, Julia 가 있습니다. 여기서는 수치 해석을 julia 언어로 구현하려고 하는데 수치해석을 julia 언어로 배우는 장점은 다음과 같습니다.\n\nJulia 는 속도가 빠릅니다. 다른 무엇보다 for 나 while 루프가 빠릅니다. 가장 바람직한 경우에는 C/C++ 이나 fortran 에 비견할만한 속도가 나오며 Python 이나 Matlab 의 루프보다는 훨씬 빠릅니다. 멀티스레딩도 쉽게 사용 할 수 있습니다. 즉 여기서 구현된 코드가 어느 정도는 사용할 만큼의 속도가 나온다는 것입니다. 물론 많은 라이브러리들은 여러가지 최적화 기법을 사용하여 여기서 제시한 코드보다 훨씬 빠르게 동작합니다.\nC/C++ 보다 알고리즘의 표현력이 좋습니다. 보통 알고리즘은 언어 독립적인 유사 코드(pseudo code) 로 제시되는데 julia 의 코드와 이 유사 코드는 상당히 비슷하며 많은 경우 1-1 대응이 됩니다.\nJuia 는 Interpreter 언어입니다. 코드를 작성한 후 즉각적으로 테스트하고 확인할 수 있습니다. 물론 Python 이나 Matlab 으로도 수치 해석을 배울 수 있습니다. 그러나 numpy/scipy 나 cython, numba 등의 도움을 받지 않은 순수 파이썬 코드는 대부분의 경우 속도가 매우 느리며, numpy 등을 사용하는 경우는 수치해석을 배우는 것이 아니라 numpy 의 사용법을 배우게 됩니다. Matlab 의 경우도 유사합니다.\n\n물론 실전에서는 다릅니다. Julia 의 대표적인 이미지 처리 패키지인 Images.jl 과 OpenCV 를 비교해보면 비룍 OpenCV 는 C++ 언어로 작성되었지만 Python 에서 구동시키는 OpenCV 보다 Images.jl 이 좋다고 말하기는 매우 힘들것입니다."
+  },
+  {
     "objectID": "src/image_processing/fourier_transform_for_image_processing.html",
     "href": "src/image_processing/fourier_transform_for_image_processing.html",
     "title": "푸리에 변환",
@@ -760,36 +1009,171 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Julia 언어와 수치해석",
+    "objectID": "src/image_processing/image_processing_02.html",
+    "href": "src/image_processing/image_processing_02.html",
+    "title": "공간적 이미지 필터링",
     "section": "",
-    "text": "이 사이트는 수치해석과 이미지 처리를 다룹니다. 실제 구현되는 코드는 julia 언어로 작성되었습니다. Julia 언어에 대해서는 Introduction to Julia 를 참고하시기 바랍니다.\n이곳의 목적은 numpy 나 scipy, opencv 와 같이 이미 구현된 라이브러리를 사용하는 방법을 배우는 것이 아니라, 이 라이브러리의 함수나 기능들이 어떤 원리와 알고리즘으로 구현되는지를 알아보는 것입니다. 따라서 바닥부터 하나하나 쌓아 올리고자 합니다.\n수치해석에 많이 사용되는 언어는 Fortran, C/C++, Python, Matlab, Julia 가 있습니다. 여기서는 수치 해석을 julia 언어로 구현하려고 하는데 수치해석을 julia 언어로 배우는 장점은 다음과 같습니다.\n\nJulia 는 속도가 빠릅니다. 다른 무엇보다 for 나 while 루프가 빠릅니다. 가장 바람직한 경우에는 C/C++ 이나 fortran 에 비견할만한 속도가 나오며 Python 이나 Matlab 의 루프보다는 훨씬 빠릅니다. 멀티스레딩도 쉽게 사용 할 수 있습니다. 즉 여기서 구현된 코드가 어느 정도는 사용할 만큼의 속도가 나온다는 것입니다. 물론 많은 라이브러리들은 여러가지 최적화 기법을 사용하여 여기서 제시한 코드보다 훨씬 빠르게 동작합니다.\nC/C++ 보다 알고리즘의 표현력이 좋습니다. 보통 알고리즘은 언어 독립적인 유사 코드(pseudo code) 로 제시되는데 julia 의 코드와 이 유사 코드는 상당히 비슷하며 많은 경우 1-1 대응이 됩니다.\nJuia 는 Interpreter 언어입니다. 코드를 작성한 후 즉각적으로 테스트하고 확인할 수 있습니다. 물론 Python 이나 Matlab 으로도 수치 해석을 배울 수 있습니다. 그러나 numpy/scipy 나 cython, numba 등의 도움을 받지 않은 순수 파이썬 코드는 대부분의 경우 속도가 매우 느리며, numpy 등을 사용하는 경우는 수치해석을 배우는 것이 아니라 numpy 의 사용법을 배우게 됩니다. Matlab 의 경우도 유사합니다.\n\n물론 실전에서는 다릅니다. Julia 의 대표적인 이미지 처리 패키지인 Images.jl 과 OpenCV 를 비교해보면 비룍 OpenCV 는 C++ 언어로 작성되었지만 Python 에서 구동시키는 OpenCV 보다 Images.jl 이 좋다고 말하기는 매우 힘들것입니다."
+    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "공간적 이미지 필터링"
+    ]
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
+    "objectID": "src/image_processing/image_processing_02.html#커널과-필터",
+    "href": "src/image_processing/image_processing_02.html#커널과-필터",
+    "title": "공간적 이미지 필터링",
+    "section": "1 커널과 필터",
+    "text": "1 커널과 필터\n\n커널 : 이미지의 처리를 위해 특정한 기능을 수행하는 2차원 배열. 마스크 라고도 한다.\n필터 : 커널+기능의 조합을 필터 (filter)라 한다.\n\n\n\n1.1 공간적 필터링 (Spatial filtering)\n공간적 필터링이라 함은 동일한 공 간에 어떤 필터 행렬을 생성시켜서, 그 필터 행렬과 원본 이미지 행렬 사이의 연산을 수 행하는 것",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "공간적 이미지 필터링"
+    ]
   },
   {
-    "objectID": "latexmacros.html",
-    "href": "latexmacros.html",
-    "title": "수치해석과 이미지 처리",
+    "objectID": "src/image_processing/image_processing_02.html#선형-필터-linear-filter",
+    "href": "src/image_processing/image_processing_02.html#선형-필터-linear-filter",
+    "title": "공간적 이미지 필터링",
+    "section": "2 선형 필터 (linear filter)",
+    "text": "2 선형 필터 (linear filter)\n\n필터링 연산이 선형성을 갖는 경우를 이 필터에 의한 연산을 선형 필터라 한다.\n\n\\(\\ast\\) 이후 원본 이미지 \\(I\\) 에 대해 필터링된 이미지를 \\(J\\) 라 하자. \\(I\\) 의 \\((i,\\,j)\\) 위치의 필셀값을 \\(I[i,\\,j]\\) 라 하자.\n\n\n2.1 평균값 필터 (Averaging filter)\n이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터. 당연히 커널은 아래와 같은 모양을 띈다.\n\\[\n\\frac{1}{9}\\begin{bmatrix} 1 & 1 & 1 \\\\ 1 & 1 & 1 \\\\1 & 1 & 1 \\end{bmatrix}\n\\] 이 때 픽셀의 값은 자신을 중심으로 한 \\(3\\times 3\\) 배열의 평균으로 대체된다. 즉\n\\[\nJ[i,\\,j]=\\frac{1}{9} \\sum_{p=-1,\\,0,\\,1} \\sum_{q=-1,\\,0,\\,1} I[i-p,\\,j-q]\n\\]\n이다.\npython에서는 cv2 라이브러리를 사용하여 다음과 같이 이용한다\nimport cv2\nkernel = np.ones((5,5),np.float32)/25\nfiltered_image = cv2.filter2D(original_image, -1, kernel)\nkernel 은 \\(5 \\times 5\\) 행렬을 사용하였다. cv2.filter2D 함수에서의 -1 은 일단 original image 와 같은 자료형으로 filtered image 가 생성된다고 알아 두자.\n\n\n가장자리 처리\n이 경우 가장자리면, 즉 \\(i=0\\) 이면 \\(i-1\\) 픽셀이 없으므로 문제가 된다. 이렇게 필터를 쓸 경우 경계값이 문제가 되는데 이에 대한 방법은 원본 이미지를 커널을 고려하여 사이즈를 키운 다음에 새로 키워진 행렬을 특정한 값으로 채우는 것이다. \\(0\\) 으로 채울수도 있고 가까운 경계값으로 채울 수도 있으며 다른 여려 방법이 존재한다. 각각의 경우에 맞춰 적절하게 사용할 수 밖에 없다.\n\n\n\n\n2.2 가우시안 필터 (Gaussian filter)\n\\(I[i,j]\\) 를 필터링 할 때 주변 값과 정규분포 관계가 있다고 가정한다. 즉 멀수록 관계가 더 적다고 간주한다. 2차원 가우시안 함수는 다음과 같다.\n\\[\nG(x,\\,y | x',\\,y') = \\dfrac{1}{\\sqrt{2 \\pi \\sigma^2}} \\exp \\left( -\\dfrac{(x-x')^2+(y-y')^2}{2\\sigma^2}\\right)\n\\]\n\\(J[i,\\,j]\\) 는 \\(I[i,\\,j]\\) 를 중심으로 주변값에 2차원 가우시안 함수에 비례하는 가중치를 두고 그 평균을 계산한 값이 된다.\npython의 cv2 라이브러리에서는 다음과 같이 사용한다.\nfiltered_image = cv2.GaussianBlur(original_image, (3, 3), 1.5)\n여기서 (3, 3) 은 \\(3 \\times 3\\) 크기의 커널을 사용한다는 뜻이고 1.5 는 가우시안 분포의 표준편차이다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "공간적 이미지 필터링"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_02.html#비선형-필터-nonlinear-filter",
+    "href": "src/image_processing/image_processing_02.html#비선형-필터-nonlinear-filter",
+    "title": "공간적 이미지 필터링",
+    "section": "3 비선형 필터 (nonlinear filter)",
+    "text": "3 비선형 필터 (nonlinear filter)\n\n3.1 비선형 필터\n\n중앙값 필터 (median filter) : 노이즈 처리에 좋다.\n표준편차 필터(standard deviation filter) : 엣지 검출에 좋다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "공간적 이미지 필터링"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_02.html#합성곱-개념으로서의-이미지-필터링",
+    "href": "src/image_processing/image_processing_02.html#합성곱-개념으로서의-이미지-필터링",
+    "title": "공간적 이미지 필터링",
+    "section": "4 합성곱 개념으로서의 이미지 필터링",
+    "text": "4 합성곱 개념으로서의 이미지 필터링\n\n4.1 합성곱과 상관값\n원본 이미지 \\(I[i,\\,j]\\) 와 kernel \\(k[i,\\,j]\\) 사이의 합성곱 \\(g=k \\ast I\\) 와 상관값 \\(c=k \\otimes I\\) 는 각각 다음과 같이 정의된다.\n\\[\n\\begin{aligned}\ng[i,\\,j] &= k \\ast I = \\sum_{s=-a}^{a} \\sum_{t=-b}^b k[s,\\,t] \\,I[i-s,\\, j-t]\\\\\nc[i,\\,j] &= k \\otimes I = \\sum_{s=-a}^{a} \\sum_{t=-b}^b k[s,\\,t]\\, I[i+s,\\, j+t]\n\\end{aligned}\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "공간적 이미지 필터링"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_02.html#빈도-필터",
+    "href": "src/image_processing/image_processing_02.html#빈도-필터",
+    "title": "공간적 이미지 필터링",
+    "section": "5 빈도 필터",
+    "text": "5 빈도 필터\n\n5.1 이미지에 있어 ‘빈도 (frequency)’\n\n이미지에서 어떤 픽셀과 바로 이웃한 픽셀의 값이 매우 큰 차이를 보일 때 그 픽셀을 중심으로 픽셀 값의 ’변화’는 매우 크다고 할 수 있다. 이렇게 픽셀 값의 변화가 매우 짧은 픽셀 간격에서 나타날 때, 그 픽셀은 높은 주파수 성분, 반대의 경우를 낮은 주파수 성분이라고 부른다.\n\n\n\n하이패스 필터 (high-pass filter), 로우패스 필터 (low-pass filter)\n\n필터가 낮은 빈도를 나타내는 성분만 제거하거나 픽셀 값을 줄이는 기능을 갖는다면 하이패스 필터라 하고, 그 반대의 경우를 로우패스 필터라 한다.\n사실 하이패스 필터는 이미지에서 가장자리 (엣지, edge)를 찾아 내거나 가장자리 신호를 선택적으로 강화하는 기능으로 자주 사용된다.\n앞서 살펴 본 평균값, 중간값, 가우시안 필터 등이 로우패스 필터이다.\n\n\n\n\n\n5.2 Unsharp masking & highboost filtering\n\n\nUnsharp mask\n\n원본 이미지를 일단 평균값 필터링 같은 로우패스 필터로 블러링 (blurring) 처리한 후, 원본 이미지에서 처리된 이미지를 빼서 차이 값으로 이루어진 행렬을 ‘Unsharp mask’ 라 한다. 원본이미지를 \\(I[i,j]\\), 블러링 된 이미지를 \\(\\overline{I}[i,j]\\) 라 하면 unsharp mask \\(M[i,j]\\) 는 다음과 같다.\n\n\\[\nM[i,j]=I[i,j]-\\overline{I}[i,j]\n\\]\n\n\n\nHighboost filtering\n\n이 때 어떤 1보다 큰 양의 실수 \\(k\\) 를 \\(M[i,j]\\) 에 곱해서 원본에 더해준다면 가장자리신호가 더 현저해지며 이것을 highboost filtering 이라 한다. 즉\n\n\\[\nJ[i,j]=I[i,j]+k\\,M[i,j] = I[i,j]+k(I[i,j]-\\overline{I}[i,j])\n\\]\n\n\n\n\n5.3 Differential High-pass Filter\n픽셀에 미분을 적용한다면 일단 간단하게 생각하면, \\(x\\) 방향 편미분은 \\(\\partial_x I [i,j]=I[i,j]-I[i-1,j]\\) or \\(\\partial_x I[i,j]=I[i+1,j]-I[i,j]\\) 이며 \\(y\\) 방향 편미분은 \\(\\partial_y I[i,j]=I[i,j]-I[i,j-1]\\) 혹은 \\(\\partial_y I[i,j]=I[i,j+1]-I[i,j]\\) 가 될 것이다.\n\n\n로버츠 커널 (Roberts kernel)\n대각선 방향의 편미분에 해당하는 2차원 배열을 로버츠 마스크라 하며 아래와 같다.\n\\[\nG_x = \\begin{bmatrix} +1&0&0 \\\\ 0&-1&0 \\\\ 0&0&0 \\end{bmatrix}, \\quad G_y=\\begin{bmatrix}0&+1&0\\\\-1&0&0\\\\0&0&0 \\end{bmatrix}\n\\]\n\n\n\nPrewitt kernel\n\\[\nG_x = \\begin{bmatrix}+1&0&-1\\\\+1&0&-1\\\\+1&0&-1\\end{bmatrix}, \\qquad\nG_y = \\begin{bmatrix}+1&+1&+1\\\\0&0&0\\\\-1&-1&-1\\end{bmatrix}\n\\]\n\n\n\nSobel kernel\n\\[\nG_x = \\begin{bmatrix}+1&0&-1\\\\+2&0&-2\\\\+1&0&-1\\end{bmatrix},\\qquad\nG_y = \\begin{bmatrix}+1&+2&+1\\\\0&0&0\\\\-1&-2&-1\\end{bmatrix}\n\\]\n\n\n\n\n5.4 Laplaician filter\n\n1차 미분 필터들은 한 번만 차분 값을 계산하기 때문에, 차 분의 크기도 작고, 이로 인해서 경계가 확실한 부분만 추출할 수 있는 반면, 노이즈가 있거나 엣지 (edge)의 강도가 약한 부분에는 불완전한 추출을 보이는 한계가 있다.\n이를 극복하기 위해 개발된 필터가 2차 미분형, 즉, 라플라시안 필터 (Laplacian filter) 이다. 라플라시안 필터는 말 그대로, 연속 함수 f(x,y)의 이계 도함수를 의미하는 라플라시안으로부터 유래한 것으로, 디지털 이미지에 대해, 아래와 같은 근사 공식을 활용하여 만들 수 있다.\n\n\\[\n\\begin{aligned}\n\\nabla^2 f &= \\partial_x^2 f + \\partial_y^2 f \\\\\n\\partial_x^2 I[i,j] & = I[i-1,j]+I[i+1,j]-2I[i,j] \\\\\n\\partial_y^2 I[i,j] & = I[i,j-1]+I[i,k+1]-2I[i,j] \\\\\n\\nabla^2 I[i,j] &= \\partial_x^2 I[i,j]+ \\partial_y^2 I[i,j] =I[i-1,j]+I[i+1,j]+I[i,j-1]+I[i,k+1]-4I[i,j]\n\\end{aligned}\n\\]\n\n라플라시안 필터는, 앞서 살펴 본 1차 미분형 필터보다, 더 넓은 범위에서 그리고 모든 방향을 고려하여 차분 값을 계산할 수 있기 때문에, 경계선에서 픽셀 값이 변화하는 것 을 훨씬 강한 강도로 잡아낼 수 있으며, 이로 인해, 잡음에도 강하고, 엣지 정보를 더 잘 추출할 수 있다는 장점이 있다. 다만, 계산 시간은 1차 미분형 필터보다는 늘어나게 된다.\nMatlab 에서는 fspecial(‘laplacian’,alpha) 의 명령어로 laplacian kernel 을 만드는데 이는 보통의 laplacian kernel을 약간 수정한 것으로 다음과 같이 정의된다. \\[\n\\dfrac{1}{1+\\alpha} \\begin{bmatrix} \\alpha & 1-\\alpha & \\alpha  \\\\ - \\alpha & 4 & - \\alpha \\\\ \\alpha & 1-\\alpha & \\alpha\\end{bmatrix}\n\\]\nMatlab 에서는 \\(\\alpha\\) 값을 \\([0,\\,1)\\) 에서 조정한다고 하는데, cv2 에서는 이러한 함수를 찾을 수 없어서 직접 만들어 사용하였다.\n\n\n\n\n5.5 Laplacian of Gaussian Filter (LoG filter)\n\n원본 이미지에 가우시안 블러링을 한 후 라플라시안 필터를 적용한다.\n이 때 LoG filter 는 다음과 같은 꼴을 띈다.\n\n\\[\n\\nabla^2 \\left( G_{\\sigma} (x,\\,y) \\right) = \\dfrac{x^2+y^2-2\\sigma^2}{\\sigma^4} \\exp \\left(- \\dfrac{x^2+y^2}{2\\sigma^2}\\right)\n\\]\n\n라플라시안 필터와 유사하게, LoG 필터도 이미지에서 엣지 부분의 정보를 효과적으로 추출할 수 있다. 특히, 라플라시안 필터보다 더 넓은 범위에서 이미지 합성 곱을 하기 때문에, 이미지 추출 과정에서 왜곡 가능성을 줄일 수 있다는 장점이 있다.\n\n\n\n\n5.6 위너 필터 (Wiener filter)\n원본 이미지 I 와 노이즈 처리된 이미지 J 사이의 차이를 통계적 관점에서 (혹은 확률적 관점에서) 정량화 하는 방법으로는 평균제곱편차 mean square error (MSE) 가 있다. MSE의 정의는 아래와 같다.\n\\[\n\\text{MSE} = \\dfrac{1}{N} \\sum_{i,\\,j} \\left[ I[i,\\,j]-J[i,\\,j]\\right]^2\n\\]\n위너 필터는 이러한 이미지 간 차이를 최소화하는 모든 종류의 비선형 필터를 의미한다.\n\n\n위너 필터의 노이즈 감소 기능\n\n원본 이미지 I에 노이즈 N 이 낀 이미지 I’ 를 생각하자. 즉 다음과 같은 식을 생각하자.\n\n\\[\nI'[i,j]=I[i,j]+N[i,j]\n\\]\n\n노이즈의 경우 특별한 언급이 없으면 가우시안 노이즈를 생각한다. 그렇다면 노이즈의 평균은 \\(0\\) 이 될 것이며 노이즈의 분산 \\(\\sigma_N^2\\) 는 \\(0\\) 이 아닌 값을 갖는다. 어떤 픽셀을 중심으로 커널 배열을 덮어서 움직인다고 하자. 커널은 보통 원본 배열보다 아주 작기때문에 커널에 덮이는 영역의 평균은 \\(0\\) 될 확률이 매우 낮으므로 그 평균값을 \\(m_{ij}\\), 분산을 \\(\\sigma^2_{ij}\\) 라 하자. 이 때 해당 영역의 노이즈를 최소화하는 방식으로 노이즈를 처리하면 다음과 같은 관계식을 얻는다.\n\n\\[\nJ[i,j]=m_{ij} + \\dfrac{\\sigma^2_{ij}}{\\sigma^2_{ij} + \\sigma^2_N} {\\big(} I[i,j]-m_{ij}{\\big)}\n\\]\n\n그런데 많은 경우 우리는 원본 이미지가 없이 노이즈가 낀 이미지만 있으므로 노이즈의 분산 \\(\\sigma_N^2\\) 를 모른다. 여기에 괜찮은 방법이 있는데, 그것은 바로 \\(\\sigma_N^2\\) 를 모든 로컬 분산 \\(\\sigma_{ij}^2\\) 의 평균으로 잡는 것이다.\n\n\\[\n\\sigma_N^2 = \\dfrac{1}{N} \\sum_{i,j} \\sigma^2_{i,j}\n\\]\n\n\n파이썬에서의 위너 필터\n파이썬에서는 scipy 에서 wiener filter를 사용한다. Library refence 를 보면 대놓고 matlab의 wiener2 함수를 implementation 했다고 나온다. 사용법은 다음과 같다.\nfrom scipy.signal.signaltools import wiener\n\nfiltered_img = wiener(original_img, mysize=3)\n여기서 mysize 는 kernel size 이다. 자세한 것은 library reference 참고. 이 때 주의할 것은 original_img 가 0 에서 255 사이의 정수값을 갖는, 보통 gray scale image 에서 많이 사용되는 uint8 형식의 정수형이면 안된다. 이 경우 다음과 같이 사용하는 것이 좋다.\nfiltered_img = wiener(original_img.astype(np.float64), ksize)",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "공간적 이미지 필터링"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_04.html",
+    "href": "src/image_processing/image_processing_04.html",
+    "title": "허프 변환 및 거리 변환 (Hough & Distance Transform)",
     "section": "",
-    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]"
+    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "허프 변환 및 거리 변환 (Hough & Distance Transform)"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_06.html",
+    "href": "src/image_processing/image_processing_06.html",
+    "title": "이미지 분할",
+    "section": "",
+    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 분할"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_06.html#이미지-분할",
+    "href": "src/image_processing/image_processing_06.html#이미지-분할",
+    "title": "이미지 분할",
+    "section": "1 이미지 분할",
+    "text": "1 이미지 분할\n이미지의 어떤 영역 \\(R\\) 을 서로 겹치지 않으며 그 합집합이 영역 \\(R\\) 이 되는 부분집합 \\(R_1,\\ldots,\\,R_n\\) 으로 나누는 것. 즉, 1. \\(R_i \\ne \\varnothing\\) for all \\(i=1,\\ldots,\\,n\\) 2. \\(\\displaystyle \\bigcup_{i=1}^n = R\\) 3. 각각의 \\(R_i\\) 는 연결된 집합. 4. \\(i \\ne j \\implies R_i \\cap R_j = \\varnothing\\)",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 분할"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_06.html#이미지-이진화",
+    "href": "src/image_processing/image_processing_06.html#이미지-이진화",
+    "title": "이미지 분할",
+    "section": "2 이미지 이진화",
+    "text": "2 이미지 이진화",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 분할"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_06.html#오츠-방법으로-처리된-이진화-thresholding-by-otsus-algorithm",
+    "href": "src/image_processing/image_processing_06.html#오츠-방법으로-처리된-이진화-thresholding-by-otsus-algorithm",
+    "title": "이미지 분할",
+    "section": "3 오츠 방법으로 처리된 이진화 (Thresholding by Otsu’s algorithm)",
+    "text": "3 오츠 방법으로 처리된 이진화 (Thresholding by Otsu’s algorithm)",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 분할"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_06.html#이미지-영역-찾기",
+    "href": "src/image_processing/image_processing_06.html#이미지-영역-찾기",
+    "title": "이미지 분할",
+    "section": "4 이미지 영역 찾기",
+    "text": "4 이미지 영역 찾기",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 분할"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_06.html#미분기를-활용한-이미지-분할-방법",
+    "href": "src/image_processing/image_processing_06.html#미분기를-활용한-이미지-분할-방법",
+    "title": "이미지 분할",
+    "section": "5 미분기를 활용한 이미지 분할 방법",
+    "text": "5 미분기를 활용한 이미지 분할 방법",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 분할"
+    ]
   },
   {
     "objectID": "src/image_processing/index.html",
     "href": "src/image_processing/index.html",
-    "title": "영상 처리와 토모그래피",
+    "title": "영상 처리",
     "section": "",
-    "text": "영상 처리와 토모그래피",
+    "text": "영상 처리\n\n참고자료\n\n\nGonzalez, R. C., and R. E. Woods. 2018. Digital Image Processing. Pearson. https://books.google.co.kr/books?id=0F05vgAACAAJ.\n\n\n권석준. 2021. “이미지 분석 & 처리 개론.” unpublished.",
     "crumbs": [
       "영상 처리/토모그래피",
       "영상 처리 기초",
-      "영상 처리와 토모그래피"
+      "영상 처리"
     ]
   },
   {
@@ -1202,8 +1586,8 @@
     ]
   },
   {
-    "objectID": "src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html#자동-미분",
-    "href": "src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html#자동-미분",
+    "objectID": "src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html#sec-Autodiff",
+    "href": "src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html#sec-Autodiff",
     "title": "일변수 함수의 미분과 적분",
     "section": "2 자동 미분",
     "text": "2 자동 미분\n\n참고자료\n\n\nBaydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul, and Jeffrey Mark Siskind. 2018. “Automatic Differentiation in Machine Learning: A Survey.” Journal of Machine Learning Research 18 (153): 1–43. http://jmlr.org/papers/v18/17-468.html.\n\n\nMargossian, Charles C. 2019. “A Review of Automatic Differentiation and Its Efficient Implementation.” WIREs Data Mining and Knowledge Discovery 9 (4). https://doi.org/10.1002/widm.1305.\n\n\nVerma, Arun. 2000. “An Introduction to Automatic Differentiation.” Current Science 78 (7): 804–7. http://www.jstor.org/stable/24103956.\n\n\n\n\n2.1 편미분과 합성함수의 편미분\n\\(f:\\mathbb{R}^n \\to \\mathbb{R}\\) 에 대해 \\(f(\\boldsymbol{x})\\) 의 \\(\\boldsymbol{a}\\in \\mathbb{R}^n\\) 에서의 \\(i\\) 번째 변수에 대한 편미분 \\(\\dfrac{\\partial f(\\boldsymbol{a})}{\\partial x_i}\\) 은 다음과 같이 정의된다.\n\\[\n\\dfrac{\\partial f(\\boldsymbol{a})}{\\partial x_i} := \\lim_{h \\to 0}\\dfrac{f(\\boldsymbol{a}+h\\boldsymbol{e}_i) - f(\\boldsymbol{a})}{h}\n\\]\n이것은 \\(\\boldsymbol{x}\\) 에 대해 \\(x_i\\) 를 제외한 \\(x_j\\) 에 대해 \\(x_j=a_j (j\\ne i)\\) 로 고정시킨 함수를 \\(\\overline{f}\\) 라 고 했을 때의 \\(\\dfrac{d \\overline{f}(a_j)}{dx}\\) 와 같다. 즉 편미분을 구하는 것은 본질적으로 일변수 함수의 미분을 구하는 것과 다르지 않다. 또 하나 중요한 값은 헤시안(Hessian) 이라 불리는 함수로 \\(f\\) 에 대한 \\(\\boldsymbol{a}\\) 에서의 헤시안 \\(\\boldsymbol{H}_f(\\boldsymbol{a})\\) 은 다음과 같이 정의된다.\n\\[\n\\boldsymbol{H}_F(\\boldsymbol{a}) = \\begin{bmatrix} \\dfrac{\\partial^2 f(\\boldsymbol{a})}{\\partial x_1\\partial x_1} & \\cdots & \\dfrac{\\partial^2 f(\\boldsymbol{a})}{\\partial x_1 \\partial x_n} \\\\ \\vdots & \\ddots & \\vdots \\\\ \\dfrac{\\partial^2 f(\\boldsymbol{a})}{\\partial x_n \\partial x_1} & \\cdots & \\dfrac{\\partial^2 f(\\boldsymbol{a})}{\\partial x_n \\partial x_n} \\end{bmatrix}  \n\\tag{9}\\]\n\\(f(\\boldsymbol{x})\\) 가 \\(C^2\\) 급 함수라면, 즉 2차 편미분이 모든 독립변수에 대해 존재하며 모두 연속이라면 헤시안은 대칭행렬이다.\n이제 다변수 함수의 경우를 보자. \\(F:\\mathbb{R}^n \\to \\mathbb{R}^m\\) 함수 \\(F(\\boldsymbol{x}) = \\begin{bmatrix} f_1(\\boldsymbol{x}) & \\cdots & f_m(\\boldsymbol{x})\\end{bmatrix}^T\\) 에 대해\n\\[\n\\dfrac{\\partial F(\\boldsymbol{a})}{\\partial x_i} = \\lim_{h \\to 0} \\dfrac{F(\\boldsymbol{a} + h \\boldsymbol{e}_i)- F(\\boldsymbol{x})}{h} = \\begin{bmatrix} \\dfrac{\\partial f_1(\\boldsymbol{a})}{\\partial x_i} \\\\ \\vdots \\\\ \\dfrac{\\partial f_m(\\boldsymbol{a})}{\\partial x_i}\\end{bmatrix}\n\\tag{10}\\]\n이며 야코비 행렬 \\(\\boldsymbol{J}_F(\\boldsymbol{a})\\) 는\n\\[\n\\boldsymbol{J}_F(\\boldsymbol{a}) = \\begin{bmatrix} \\dfrac{\\partial f_1(\\boldsymbol{a})}{\\partial x_1} & \\cdots & \\dfrac{\\partial f_1(\\boldsymbol{a})}{\\partial x_1} \\\\ \\vdots & \\ddots &\\vdots \\\\ \\dfrac{\\partial f_m(\\boldsymbol{a})}{\\partial x_n} & \\cdots & \\dfrac{\\partial f_m(\\boldsymbol{a})}{\\partial x_n}\\end{bmatrix}\n\\tag{11}\\]\n이다.\n이제 함성함수를 생각해보자. \\(F=F^{(N)}(F^{(N-1)} \\cdots F^{(2)}(F^{(1)}(\\boldsymbol{x}))\\cdots )\\) 이며 \\(F^{(k)} = \\begin{bmatrix} f^{(k)}_1 & \\cdots f^{(k)}_{m_k}\\end{bmatrix}^T\\) 라고 하자. \\(\\boldsymbol{z}^{(1)} = F^{(1)}(\\boldsymbol{a})\\), \\(\\boldsymbol{z}^{(2)} = F^{(2)}(F^{(1)}(\\boldsymbol{a})),\\ldots\\), \\(\\boldsymbol{y}=F(\\boldsymbol{a})\\) 라고 하면\n\\[\n\\begin{aligned}\n\\dfrac{\\partial y_j}{\\partial x_i} = \\dfrac{\\partial f_j(\\boldsymbol{x})}{\\partial x_i} &= \\sum_{k_{N-1}=1}^{m_{N-1}}\\sum_{k_{N-2}=1}^{m_{N-2}} \\cdots \\sum_{k_1=1}^{m_1}\\dfrac{\\partial f_j^{(N)}(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_{N-1}}} \\dfrac{\\partial f^{(N-1)}_{k_{N-1}}(\\boldsymbol{z}^{(N-2)})}{\\partial z^{(N-2)}_{k_{N-2}}} \\cdots \\dfrac{\\partial f^{(1)}_{k_{1}}(\\boldsymbol{x})}{\\partial x_i} \\\\\n&=\\sum_{k_{N-1}=1}^{m_{N-1}}\\sum_{k_{N-2}=1}^{m_{N-2}} \\cdots \\sum_{k_1=1}^{m_1}\\dfrac{\\partial z_j^{(N)}(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_{N-1}}} \\dfrac{\\partial a^{(N-1)}_{k_{N-1}}(\\boldsymbol{z}^{(N-2)})}{\\partial z^{(N-2)}_{k_{N-2}}} \\cdots \\dfrac{\\partial z^{(1)}_{k_{1}}(\\boldsymbol{x})}{\\partial x_i}\n\\end{aligned}\n\\tag{12}\\]\n이며, 이로부터\n\\[\n\\boldsymbol{J}_F(\\boldsymbol{a}) = \\boldsymbol{J}_{F^{(N)}}(\\boldsymbol{z}^{(N-1)}) \\boldsymbol{J}_{F^{(N-1)}}(\\boldsymbol{z}^{(N-2)}) \\cdots \\boldsymbol{J}_{F^{(1)}}(\\boldsymbol{a})\n\\tag{13}\\]\n임을 안다. 이것이 소위 chain rule 이다.\n\n\n\n2.2 컴퓨터를 이용한 미분 계산\n특히 현재의 인공지능의 발전에 있어 위에 언급한 대량의 함수와 변수를 사용하는 미분과 편미분을 정확하고 빠른게 계산하는 것이 중요해 졌다. 전통적으로 함수의 미분을 컴퓨터를 이용하여 계산하는 방법에는 세가지가 있었다.\n\n[수동] 미분/편미분 함수를 손으로 계산하고, 그 결과를 코딩한다.\n[차분] 앞서 배운 유한 차분법을 이용하여 수치해석적으로 계산한다.\n[기호] 메쓰메티카(Mathematica) 프로그램과 같이 기호를 이용하여 미분한다.\n\n이 방법은 모두 치명적인 단점이 존재한다. ‘수동’ 방법은 일반적인 함수에 대해 사용 할 수 없고, 인적 오류가 나기 쉽다. ‘차분’ 법은 항상 truncation error 와 round-off error 에 노출된다. 게다가 변수가 많고 여러 단계로 합성된 함수의 경우(인공지능의 신경망이 정확히 이런 경우이다) 그 오차가 계속 누적되기 때문에 오차가 필연적으로 커질 수 밖에 없다. ‘기호’ 법은 느리며 함수가 복잡할 때 만족할 만한 깔끔한 결과를 낼 수 없고 컴퓨팅 파워를 많이 사용한다.\n이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 간단하다. 예를 들어 \\(x^n\\) 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다. 자동 미분에서는 함수값과 미분값을 같이 계산하여 전달한다. 예를 들어 julia 에서\nsin(π)\n는 0.0 을 반환하지만 자동미분에서 사용하는 함수는 함수값과 함께 미분값 cos(π) 도 같이 반환한다.\n(sin(π), cos(π))\n또한 함수간의 연산과 합성에 대해서도 그 chain rule 을 이용하여 자동으로 계산해준다.\n\n\n\n2.3 전진법과 후진법\n자동 미분의 chain rule 을 구현하는 방법에는 전진법(forwared AD)과 후진법(backward AD) 이 있다. (참고로 전진법, 후진법은 앞서 수치해석적 미분에서의 전방차분, 후방차분과는 아무 관계 없다.)\n\n전진법\n전진법은 \\(F^{(1)}(\\boldsymbol{a}),\\, \\boldsymbol{J}_{F^{(1)}}(\\boldsymbol{a})\\) 부터 차근차근 \\(i\\) 를 증가시켜 가면서 \\(F^{(i)}(\\boldsymbol{z}^{(i-1)})\\) 과 \\(\\boldsymbol{J}_{F^{(i)}}(\\boldsymbol{z}^{i-1})\\) 을 계산한다. Chain rule 로 표현해 보면 다음과 같다.\n\\[\n\\begin{aligned}\n\\dfrac{\\partial z^{(m)}_i}{\\partial x_j} &= \\sum_{k_{m-1}}\\cdots \\sum_{k_1}\\dfrac{\\partial z_{k_1}^{(1)}(\\boldsymbol{a})}{\\partial x_j} \\cdots \\dfrac{\\partial z_{k_{m-1}}^{(m-1)}(\\boldsymbol{z}^{(m-2)})}{\\partial z^{(m-2)}_{k_{m-2}}}\\dfrac{\\partial z_i^{(m)}(\\boldsymbol{z}^{(m-1)})}{\\partial z^{(m)}_{k_{m-1}}} \\\\[0.3em]\n&=\\sum_{k_{1}} \\cdots \\sum_{k_{m-1}}  \\dfrac{\\partial z_i^{(m)}(\\boldsymbol{z}^{(m-1)})}{\\partial z^{(m)}_{k_{m-1}}} \\dfrac{\\partial z_{k_{m-1}}^{(m-1)}(\\boldsymbol{z}^{(m-2)})}{\\partial z^{(m-2)}_{k_{m-2}}} \\cdots \\dfrac{\\partial z_{k_1}^{(1)}(\\boldsymbol{a})}{\\partial x_j} \\\\[0.3em]\\\\\n&= \\left[\\boldsymbol{J}_{F^{(m)}}(\\boldsymbol{z}^{(m-1)}) \\cdots \\boldsymbol{J}_{F^{(1)}}(\\boldsymbol{a})\\right]_{ij}\n\\end{aligned}\n\\tag{14}\\]\n\n\n\n후진법\n아래의 식을 사용한다.\n\\[\n\\begin{aligned}\n\\dfrac{\\partial y_j}{\\partial z^{(m)}_i} &= \\sum_{k_{m+1}}\\cdots \\sum_{k_{N-1}} \\dfrac{\\partial y_j(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_{N-1}}} \\dfrac{\\partial z^{(N-1)}_{k_{N-1}}(\\boldsymbol{z}^{(N-2)})}{\\partial z^{(N-2)}_{k_{N-2}}} \\cdots \\dfrac{\\partial z^{(m+1)}_{k_{m+1}}(\\boldsymbol{z}^{m})}{\\partial z^{(m)}_i} \\\\[0.3em]\n&=\\sum_{k_{N-1}} \\cdots\\sum_{k_{m+1}} \\dfrac{\\partial z^{(m+1)}_{k_{m+1}}(\\boldsymbol{z}^{m})}{\\partial z^{(m)}_i} \\cdots  \\dfrac{\\partial z^{(N-1)}_{k_{N-1}}(\\boldsymbol{z}^{(N-2)})}{\\partial z^{(N-2)}_{k_{N-2}}}\\dfrac{\\partial y_j(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_{N-1}}} \\\\[0.3em]\n&= \\left[\\boldsymbol{J}_{F^{(m+1)}}(\\boldsymbol{z}^m)^T \\cdots \\boldsymbol{J}_{F^{(N-1)}}(\\boldsymbol{z}^{(N)})^T \\right]_{ij}\n\\end{aligned}\n\\tag{15}\\]\n\\(m=(N-1)\\), 즉 \\(\\dfrac{\\partial y_j(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_N}}\\) 부터 계산한다. \\(m=N-2,\\,N-3,\\ldots,\\,1\\) 까지 감소시키면 \\(\\boldsymbol{J}_F\\) 를 계산 할 수 있다… 고 쉽게 넘어 갈 수 있지만 우리는 아직 \\(\\boldsymbol{z}^{(m)}= F^{(m)}\\circ \\cdots \\circ F^{(1)}(\\boldsymbol{a})\\) 를 계산하지 않았다는 것을 기억하라. 후진법은 전진법과는 달리 두가지 과정으로 수행된다.\n (\\(1\\)) 일단 \\(\\boldsymbol{z}^{(1)}=F^{(1)}(\\boldsymbol{a})\\) 부터 \\(\\boldsymbol{y} = F(\\boldsymbol{a})= F^{N}\\circ \\cdots F^{(1)}(\\boldsymbol{a})\\) 까지 계산하며 이 값을 기억한다.\n (\\(2\\)) (\\(1\\)) 에서 기억한 값을 이용하여 \\(m=N-1\\) 부터 \\(m=1\\) 까지의 편미분을 계산한다.\n즉 후진법은 전진하면서 함수값을 계산하고 후진하면서 앞서 계산한 함수값을 이용하여 편미분을 계산한다. 일반적으로 \\(F:\\mathbb{R}^n \\to \\mathbb{R}^m\\) 에 대해 \\(m&gt;n\\) 이면 전진법이 유리하며 \\(n&gt;m\\) 이면 후진법이 유리하다는 것이 잘 알려져 있으며 \\(n\\) 이 \\(m\\) 보다 더 클수록 더 유리하다는 것이 알려져 있다. 신경망과 같은 기계학습이 전형적으로 이런 경우이므로 기계학습에서는 거의 후진법이 사용된다.\n\nJulia 에서의 미분 관련 패키지에 대해서는 JuliaDiff 를 참고하라. 앞으로는 자동 미분을 사용 할 수 있을경우, 전진법에는 ForwardDiff.jl 을, 후진법에는 ReverseDiff.jl 을 사용하도록 한다.",
@@ -1584,14 +1968,51 @@
     ]
   },
   {
-    "objectID": "src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html#sec-Autodiff",
-    "href": "src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html#sec-Autodiff",
-    "title": "일변수 함수의 미분과 적분",
-    "section": "2 자동 미분",
-    "text": "2 자동 미분\n\n참고자료\n\n\nBaydin, Atilim Gunes, Barak A. Pearlmutter, Alexey Andreyevich Radul, and Jeffrey Mark Siskind. 2018. “Automatic Differentiation in Machine Learning: A Survey.” Journal of Machine Learning Research 18 (153): 1–43. http://jmlr.org/papers/v18/17-468.html.\n\n\nMargossian, Charles C. 2019. “A Review of Automatic Differentiation and Its Efficient Implementation.” WIREs Data Mining and Knowledge Discovery 9 (4). https://doi.org/10.1002/widm.1305.\n\n\nVerma, Arun. 2000. “An Introduction to Automatic Differentiation.” Current Science 78 (7): 804–7. http://www.jstor.org/stable/24103956.\n\n\n\n\n2.1 편미분과 합성함수의 편미분\n\\(f:\\mathbb{R}^n \\to \\mathbb{R}\\) 에 대해 \\(f(\\boldsymbol{x})\\) 의 \\(\\boldsymbol{a}\\in \\mathbb{R}^n\\) 에서의 \\(i\\) 번째 변수에 대한 편미분 \\(\\dfrac{\\partial f(\\boldsymbol{a})}{\\partial x_i}\\) 은 다음과 같이 정의된다.\n\\[\n\\dfrac{\\partial f(\\boldsymbol{a})}{\\partial x_i} := \\lim_{h \\to 0}\\dfrac{f(\\boldsymbol{a}+h\\boldsymbol{e}_i) - f(\\boldsymbol{a})}{h}\n\\]\n이것은 \\(\\boldsymbol{x}\\) 에 대해 \\(x_i\\) 를 제외한 \\(x_j\\) 에 대해 \\(x_j=a_j (j\\ne i)\\) 로 고정시킨 함수를 \\(\\overline{f}\\) 라 고 했을 때의 \\(\\dfrac{d \\overline{f}(a_j)}{dx}\\) 와 같다. 즉 편미분을 구하는 것은 본질적으로 일변수 함수의 미분을 구하는 것과 다르지 않다. 또 하나 중요한 값은 헤시안(Hessian) 이라 불리는 함수로 \\(f\\) 에 대한 \\(\\boldsymbol{a}\\) 에서의 헤시안 \\(\\boldsymbol{H}_f(\\boldsymbol{a})\\) 은 다음과 같이 정의된다.\n\\[\n\\boldsymbol{H}_F(\\boldsymbol{a}) = \\begin{bmatrix} \\dfrac{\\partial^2 f(\\boldsymbol{a})}{\\partial x_1\\partial x_1} & \\cdots & \\dfrac{\\partial^2 f(\\boldsymbol{a})}{\\partial x_1 \\partial x_n} \\\\ \\vdots & \\ddots & \\vdots \\\\ \\dfrac{\\partial^2 f(\\boldsymbol{a})}{\\partial x_n \\partial x_1} & \\cdots & \\dfrac{\\partial^2 f(\\boldsymbol{a})}{\\partial x_n \\partial x_n} \\end{bmatrix}  \n\\tag{9}\\]\n\\(f(\\boldsymbol{x})\\) 가 \\(C^2\\) 급 함수라면, 즉 2차 편미분이 모든 독립변수에 대해 존재하며 모두 연속이라면 헤시안은 대칭행렬이다.\n이제 다변수 함수의 경우를 보자. \\(F:\\mathbb{R}^n \\to \\mathbb{R}^m\\) 함수 \\(F(\\boldsymbol{x}) = \\begin{bmatrix} f_1(\\boldsymbol{x}) & \\cdots & f_m(\\boldsymbol{x})\\end{bmatrix}^T\\) 에 대해\n\\[\n\\dfrac{\\partial F(\\boldsymbol{a})}{\\partial x_i} = \\lim_{h \\to 0} \\dfrac{F(\\boldsymbol{a} + h \\boldsymbol{e}_i)- F(\\boldsymbol{x})}{h} = \\begin{bmatrix} \\dfrac{\\partial f_1(\\boldsymbol{a})}{\\partial x_i} \\\\ \\vdots \\\\ \\dfrac{\\partial f_m(\\boldsymbol{a})}{\\partial x_i}\\end{bmatrix}\n\\tag{10}\\]\n이며 야코비 행렬 \\(\\boldsymbol{J}_F(\\boldsymbol{a})\\) 는\n\\[\n\\boldsymbol{J}_F(\\boldsymbol{a}) = \\begin{bmatrix} \\dfrac{\\partial f_1(\\boldsymbol{a})}{\\partial x_1} & \\cdots & \\dfrac{\\partial f_1(\\boldsymbol{a})}{\\partial x_1} \\\\ \\vdots & \\ddots &\\vdots \\\\ \\dfrac{\\partial f_m(\\boldsymbol{a})}{\\partial x_n} & \\cdots & \\dfrac{\\partial f_m(\\boldsymbol{a})}{\\partial x_n}\\end{bmatrix}\n\\tag{11}\\]\n이다.\n이제 함성함수를 생각해보자. \\(F=F^{(N)}(F^{(N-1)} \\cdots F^{(2)}(F^{(1)}(\\boldsymbol{x}))\\cdots )\\) 이며 \\(F^{(k)} = \\begin{bmatrix} f^{(k)}_1 & \\cdots f^{(k)}_{m_k}\\end{bmatrix}^T\\) 라고 하자. \\(\\boldsymbol{z}^{(1)} = F^{(1)}(\\boldsymbol{a})\\), \\(\\boldsymbol{z}^{(2)} = F^{(2)}(F^{(1)}(\\boldsymbol{a})),\\ldots\\), \\(\\boldsymbol{y}=F(\\boldsymbol{a})\\) 라고 하면\n\\[\n\\begin{aligned}\n\\dfrac{\\partial y_j}{\\partial x_i} = \\dfrac{\\partial f_j(\\boldsymbol{x})}{\\partial x_i} &= \\sum_{k_{N-1}=1}^{m_{N-1}}\\sum_{k_{N-2}=1}^{m_{N-2}} \\cdots \\sum_{k_1=1}^{m_1}\\dfrac{\\partial f_j^{(N)}(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_{N-1}}} \\dfrac{\\partial f^{(N-1)}_{k_{N-1}}(\\boldsymbol{z}^{(N-2)})}{\\partial z^{(N-2)}_{k_{N-2}}} \\cdots \\dfrac{\\partial f^{(1)}_{k_{1}}(\\boldsymbol{x})}{\\partial x_i} \\\\\n&=\\sum_{k_{N-1}=1}^{m_{N-1}}\\sum_{k_{N-2}=1}^{m_{N-2}} \\cdots \\sum_{k_1=1}^{m_1}\\dfrac{\\partial z_j^{(N)}(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_{N-1}}} \\dfrac{\\partial a^{(N-1)}_{k_{N-1}}(\\boldsymbol{z}^{(N-2)})}{\\partial z^{(N-2)}_{k_{N-2}}} \\cdots \\dfrac{\\partial z^{(1)}_{k_{1}}(\\boldsymbol{x})}{\\partial x_i}\n\\end{aligned}\n\\tag{12}\\]\n이며, 이로부터\n\\[\n\\boldsymbol{J}_F(\\boldsymbol{a}) = \\boldsymbol{J}_{F^{(N)}}(\\boldsymbol{z}^{(N-1)}) \\boldsymbol{J}_{F^{(N-1)}}(\\boldsymbol{z}^{(N-2)}) \\cdots \\boldsymbol{J}_{F^{(1)}}(\\boldsymbol{a})\n\\tag{13}\\]\n임을 안다. 이것이 소위 chain rule 이다.\n\n\n\n2.2 컴퓨터를 이용한 미분 계산\n특히 현재의 인공지능의 발전에 있어 위에 언급한 대량의 함수와 변수를 사용하는 미분과 편미분을 정확하고 빠른게 계산하는 것이 중요해 졌다. 전통적으로 함수의 미분을 컴퓨터를 이용하여 계산하는 방법에는 세가지가 있었다.\n\n[수동] 미분/편미분 함수를 손으로 계산하고, 그 결과를 코딩한다.\n[차분] 앞서 배운 유한 차분법을 이용하여 수치해석적으로 계산한다.\n[기호] 메쓰메티카(Mathematica) 프로그램과 같이 기호를 이용하여 미분한다.\n\n이 방법은 모두 치명적인 단점이 존재한다. ‘수동’ 방법은 일반적인 함수에 대해 사용 할 수 없고, 인적 오류가 나기 쉽다. ‘차분’ 법은 항상 truncation error 와 round-off error 에 노출된다. 게다가 변수가 많고 여러 단계로 합성된 함수의 경우(인공지능의 신경망이 정확히 이런 경우이다) 그 오차가 계속 누적되기 때문에 오차가 필연적으로 커질 수 밖에 없다. ‘기호’ 법은 느리며 함수가 복잡할 때 만족할 만한 깔끔한 결과를 낼 수 없고 컴퓨팅 파워를 많이 사용한다.\n이를 극복할 수 있는 방법이 자동미분이다. 어떤 함수는 그 도함수가 간단하다. 예를 들어 \\(x^n\\) 이나 삼각함수, 지수-로그 함수 같은 경우이다. 그리고 함수간의 사칙연산과 합성에 대해 그 도함수는 간단한 규칙, 즉 chain rule 로 계산된다. 자동 미분에서는 함수값과 미분값을 같이 계산하여 전달한다. 예를 들어 julia 에서\nsin(π)\n는 0.0 을 반환하지만 자동미분에서 사용하는 함수는 함수값과 함께 미분값 cos(π) 도 같이 반환한다.\n(sin(π), cos(π))\n또한 함수간의 연산과 합성에 대해서도 그 chain rule 을 이용하여 자동으로 계산해준다.\n\n\n\n2.3 전진법과 후진법\n자동 미분의 chain rule 을 구현하는 방법에는 전진법(forwared AD)과 후진법(backward AD) 이 있다. (참고로 전진법, 후진법은 앞서 수치해석적 미분에서의 전방차분, 후방차분과는 아무 관계 없다.)\n\n전진법\n전진법은 \\(F^{(1)}(\\boldsymbol{a}),\\, \\boldsymbol{J}_{F^{(1)}}(\\boldsymbol{a})\\) 부터 차근차근 \\(i\\) 를 증가시켜 가면서 \\(F^{(i)}(\\boldsymbol{z}^{(i-1)})\\) 과 \\(\\boldsymbol{J}_{F^{(i)}}(\\boldsymbol{z}^{i-1})\\) 을 계산한다. Chain rule 로 표현해 보면 다음과 같다.\n\\[\n\\begin{aligned}\n\\dfrac{\\partial z^{(m)}_i}{\\partial x_j} &= \\sum_{k_{m-1}}\\cdots \\sum_{k_1}\\dfrac{\\partial z_{k_1}^{(1)}(\\boldsymbol{a})}{\\partial x_j} \\cdots \\dfrac{\\partial z_{k_{m-1}}^{(m-1)}(\\boldsymbol{z}^{(m-2)})}{\\partial z^{(m-2)}_{k_{m-2}}}\\dfrac{\\partial z_i^{(m)}(\\boldsymbol{z}^{(m-1)})}{\\partial z^{(m)}_{k_{m-1}}} \\\\[0.3em]\n&=\\sum_{k_{1}} \\cdots \\sum_{k_{m-1}}  \\dfrac{\\partial z_i^{(m)}(\\boldsymbol{z}^{(m-1)})}{\\partial z^{(m)}_{k_{m-1}}} \\dfrac{\\partial z_{k_{m-1}}^{(m-1)}(\\boldsymbol{z}^{(m-2)})}{\\partial z^{(m-2)}_{k_{m-2}}} \\cdots \\dfrac{\\partial z_{k_1}^{(1)}(\\boldsymbol{a})}{\\partial x_j} \\\\[0.3em]\\\\\n&= \\left[\\boldsymbol{J}_{F^{(m)}}(\\boldsymbol{z}^{(m-1)}) \\cdots \\boldsymbol{J}_{F^{(1)}}(\\boldsymbol{a})\\right]_{ij}\n\\end{aligned}\n\\tag{14}\\]\n\n\n\n후진법\n아래의 식을 사용한다.\n\\[\n\\begin{aligned}\n\\dfrac{\\partial y_j}{\\partial z^{(m)}_i} &= \\sum_{k_{m+1}}\\cdots \\sum_{k_{N-1}} \\dfrac{\\partial y_j(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_{N-1}}} \\dfrac{\\partial z^{(N-1)}_{k_{N-1}}(\\boldsymbol{z}^{(N-2)})}{\\partial z^{(N-2)}_{k_{N-2}}} \\cdots \\dfrac{\\partial z^{(m+1)}_{k_{m+1}}(\\boldsymbol{z}^{m})}{\\partial z^{(m)}_i} \\\\[0.3em]\n&=\\sum_{k_{N-1}} \\cdots\\sum_{k_{m+1}} \\dfrac{\\partial z^{(m+1)}_{k_{m+1}}(\\boldsymbol{z}^{m})}{\\partial z^{(m)}_i} \\cdots  \\dfrac{\\partial z^{(N-1)}_{k_{N-1}}(\\boldsymbol{z}^{(N-2)})}{\\partial z^{(N-2)}_{k_{N-2}}}\\dfrac{\\partial y_j(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_{N-1}}} \\\\[0.3em]\n&= \\left[\\boldsymbol{J}_{F^{(m+1)}}(\\boldsymbol{z}^m)^T \\cdots \\boldsymbol{J}_{F^{(N-1)}}(\\boldsymbol{z}^{(N)})^T \\right]_{ij}\n\\end{aligned}\n\\tag{15}\\]\n\\(m=(N-1)\\), 즉 \\(\\dfrac{\\partial y_j(\\boldsymbol{z}^{(N-1)})}{\\partial z^{(N-1)}_{k_N}}\\) 부터 계산한다. \\(m=N-2,\\,N-3,\\ldots,\\,1\\) 까지 감소시키면 \\(\\boldsymbol{J}_F\\) 를 계산 할 수 있다… 고 쉽게 넘어 갈 수 있지만 우리는 아직 \\(\\boldsymbol{z}^{(m)}= F^{(m)}\\circ \\cdots \\circ F^{(1)}(\\boldsymbol{a})\\) 를 계산하지 않았다는 것을 기억하라. 후진법은 전진법과는 달리 두가지 과정으로 수행된다.\n (\\(1\\)) 일단 \\(\\boldsymbol{z}^{(1)}=F^{(1)}(\\boldsymbol{a})\\) 부터 \\(\\boldsymbol{y} = F(\\boldsymbol{a})= F^{N}\\circ \\cdots F^{(1)}(\\boldsymbol{a})\\) 까지 계산하며 이 값을 기억한다.\n (\\(2\\)) (\\(1\\)) 에서 기억한 값을 이용하여 \\(m=N-1\\) 부터 \\(m=1\\) 까지의 편미분을 계산한다.\n즉 후진법은 전진하면서 함수값을 계산하고 후진하면서 앞서 계산한 함수값을 이용하여 편미분을 계산한다. 일반적으로 \\(F:\\mathbb{R}^n \\to \\mathbb{R}^m\\) 에 대해 \\(m&gt;n\\) 이면 전진법이 유리하며 \\(n&gt;m\\) 이면 후진법이 유리하다는 것이 잘 알려져 있으며 \\(n\\) 이 \\(m\\) 보다 더 클수록 더 유리하다는 것이 알려져 있다. 신경망과 같은 기계학습이 전형적으로 이런 경우이므로 기계학습에서는 거의 후진법이 사용된다.\n\nJulia 에서의 미분 관련 패키지에 대해서는 JuliaDiff 를 참고하라. 앞으로는 자동 미분을 사용 할 수 있을경우, 전진법에는 ForwardDiff.jl 을, 후진법에는 ReverseDiff.jl 을 사용하도록 한다.",
+    "objectID": "src/image_processing/image_processing_01.html#이미지",
+    "href": "src/image_processing/image_processing_01.html#이미지",
+    "title": "이미지 프로세싱의 기초",
+    "section": "1 이미지",
+    "text": "1 이미지\n\n우리의 시각에서 감지하는 바와 같은 2차원 이미지 일 수도 있지만, 측정에서 얻는 2차원 데이터 일 수 도 있다.\n여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.\n2차원 배열을 \\(f[i,j]\\) 혹은 \\(f(i, j)\\) 로 표기하며, 행렬과 같이 \\(i\\) 는 세로 방향의 인덱스, \\(j\\) 는 가로 방향의 인덱스이다.",
     "crumbs": [
-      "수치해석 I",
-      "일변수 함수의 미분과 적분"
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html#section",
+    "href": "src/image_processing/image_processing_01.html#section",
+    "title": "이미지 프로세싱의 기초",
+    "section": "2 ",
+    "text": "2",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html#소개",
+    "href": "src/image_processing/image_processing_01.html#소개",
+    "title": "이미지 프로세싱의 기초",
+    "section": "1 소개",
+    "text": "1 소개\n\n1.1 이미지\n\n우리의 시각에서 감지하는 바와 같은 2차원 이미지 일 수도 있지만, 측정에서 얻는 2차원 데이터 일 수 도 있다.\n여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.\n2차원 배열을 \\(f[i,j]\\) 혹은 \\(f(i, j)\\) 로 표기하며, 행렬과 같이 \\(i\\) 는 세로 방향의 인덱스, \\(j\\) 는 가로 방향의 인덱스이다.\n\n\n\n\n1.2 여기서\n\nJulia 에는 Images.jl 이라는 이미지 처리 라이브러리가 있지만,\n\n모든 데이터값을 \\([0,\\,1]\\) 사이의 고정 소수(fixed point number) 로 처리하며, 원래 이미지가 가지고 있던 0 부터 255 사이의 부호 없는 정수값을 숨긴다.\nopencv 에 비해 기능이 부족하고 무엇보다 느리다.\nOpenCV.jl 이라는 opencv 의 julia 포팅이 있다.\n\n그런데 OpenCV.jl 은\n\n기본 이미지 배열 타입은 OpenCV.Mat 이며 julia 의 Array 와 유사하지만 같지는 않다. Array 에서 사용하는 연산중 많은 것을 사용 할 수 없다. 파이썬의 경우는 opencv2 의 배열은 numpy 의 배열인데…\n흑백 이미지라도 OpenCV.Mat 은 3차원 배열이다.\nOpenCV.Mat 에 대한 연산 (배열간, 배열과 스칼라 사이의 사칙연산을 포함하여) 을 모두 다시 쓰느니 OpenCV.Mat 과 julia Array 사이의 변환 함수를 사용하겠다.\nOpenCV.Mat 의 배열의 저장 순서는 C++ 이나 파이썬 과 같이 행 우선 방식이지만 Julia 는 열 우선 방식이다. 따라서 변환시 이를 고려해야 한다.\n\nJulia 의 TestImages.jl 은 다양한 무료 이미지를 다운로드 받을 수 있도록 해 준다. 여기서의 이미지 처리에 사용하는 이미지는 특별한 언급이 없는 한 여기로부터 얻는다.\n\n\nOpenCV.jl 을 julia 에서 사용하기 위해 다음과 같은 함수를 사용한다. 앞으로의 모든 코드는\nusing OpenCV, TestImages\ncv2 = OpenCV;\n\n# Julia Matrix to OpenCV.MAT 변환\nfunction arr2mat(arr::Matrix{T}) where T&lt;:Real\n    cv2.Mat(permutedims(stack([arr, ]), [3,2,1]))\nend\n\n# Julia Image to Matrix 변환\nfunction img2arr(img)\n    T = typeof(img[1, 1].val.i)\n    broadcast(q-&gt;T(q.val.i),img)\nend\n\n# Julia Image to OpenCV.Mat 변환\nfunction img2mat(img) \n    T = typeof(img[1, 1].val.i)\n    tm = broadcast(q-&gt;T(q.val.i),img)\n    cv2.Mat(permutedims(stack([tm, ]), [3,2,1]))\nend\n\n# OpenCV.Mat to Julia Matrix 변환\nfunction mat2arr(mat::OpenCV.Mat)\n    return permutedims(mat.data, [3,2,1])\nend",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html#여기서",
+    "href": "src/image_processing/image_processing_01.html#여기서",
+    "title": "이미지 프로세싱의 기초",
+    "section": "2 ### 여기서",
+    "text": "2 ### 여기서",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
     ]
   }
 ]

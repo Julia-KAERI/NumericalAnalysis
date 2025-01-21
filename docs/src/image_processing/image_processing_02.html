@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>수치해석과 이미지 처리 - 웨이블릿 변환을 이용한 이미지 처리</title>
+<title>수치해석과 이미지 처리 - 공간적 이미지 필터링</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../src/image_processing/wavelet/wavelets_julia.html" rel="next">
-<link href="../../src/image_processing/wavelet/descrete_wavelet_transform.html" rel="prev">
+<link href="../../src/image_processing/image_processing_03.html" rel="next">
+<link href="../../src/image_processing/image_processing_01.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -155,7 +189,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/wavelet/fourier_transform.html">푸리에 변환과 웨이블릿 변환</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/wavelet_and_image.html">웨이블릿 변환을 이용한 이미지 처리</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_02.html">공간적 이미지 필터링</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -190,7 +224,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../src/image_processing/image_processing_02.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">공간적 이미지 필터링</span></a>
   </div>
 </li>
@@ -267,7 +301,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/wavelet_and_image.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../src/image_processing/wavelet_and_image.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">웨이블릿 변환을 이용한 이미지 처리</span></a>
   </div>
 </li>
@@ -306,17 +340,31 @@ window.Quarto = {
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#행렬-기반-변환" id="toc-행렬-기반-변환" class="nav-link active" data-scroll-target="#행렬-기반-변환"><span class="header-section-number">1</span> 행렬 기반 변환</a>
+  <li><a href="#커널과-필터" id="toc-커널과-필터" class="nav-link active" data-scroll-target="#커널과-필터"><span class="header-section-number">1</span> 커널과 필터</a>
   <ul class="collapse">
-  <li><a href="#차원-변환" id="toc-차원-변환" class="nav-link" data-scroll-target="#차원-변환">1차원 변환</a></li>
-  <li><a href="#차원-변환-1" id="toc-차원-변환-1" class="nav-link" data-scroll-target="#차원-변환-1">2차원 변환</a></li>
-  <li><a href="#mathbbcn-에서의-2차원-변환" id="toc-mathbbcn-에서의-2차원-변환" class="nav-link" data-scroll-target="#mathbbcn-에서의-2차원-변환"><span class="math inline">\(\mathbb{C}^n\)</span> 에서의 2차원 변환</a></li>
-  <li><a href="#이중직교성" id="toc-이중직교성" class="nav-link" data-scroll-target="#이중직교성">이중직교성</a></li>
-  <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation">Correlation</a></li>
+  <li><a href="#공간적-필터링-spatial-filtering" id="toc-공간적-필터링-spatial-filtering" class="nav-link" data-scroll-target="#공간적-필터링-spatial-filtering"><span class="header-section-number">1.1</span> 공간적 필터링 (Spatial filtering)</a></li>
   </ul></li>
-  <li><a href="#wavelet-변환" id="toc-wavelet-변환" class="nav-link" data-scroll-target="#wavelet-변환"><span class="header-section-number">2</span> Wavelet 변환</a>
+  <li><a href="#선형-필터-linear-filter" id="toc-선형-필터-linear-filter" class="nav-link" data-scroll-target="#선형-필터-linear-filter"><span class="header-section-number">2</span> 선형 필터 (linear filter)</a>
   <ul class="collapse">
-  <li><a href="#scaling-functions" id="toc-scaling-functions" class="nav-link" data-scroll-target="#scaling-functions">Scaling functions</a></li>
+  <li><a href="#평균값-필터-averaging-filter" id="toc-평균값-필터-averaging-filter" class="nav-link" data-scroll-target="#평균값-필터-averaging-filter"><span class="header-section-number">2.1</span> 평균값 필터 (Averaging filter)</a></li>
+  <li><a href="#가우시안-필터-gaussian-filter" id="toc-가우시안-필터-gaussian-filter" class="nav-link" data-scroll-target="#가우시안-필터-gaussian-filter"><span class="header-section-number">2.2</span> 가우시안 필터 (Gaussian filter)</a></li>
+  </ul></li>
+  <li><a href="#비선형-필터-nonlinear-filter" id="toc-비선형-필터-nonlinear-filter" class="nav-link" data-scroll-target="#비선형-필터-nonlinear-filter"><span class="header-section-number">3</span> 비선형 필터 (nonlinear filter)</a>
+  <ul class="collapse">
+  <li><a href="#비선형-필터" id="toc-비선형-필터" class="nav-link" data-scroll-target="#비선형-필터"><span class="header-section-number">3.1</span> 비선형 필터</a></li>
+  </ul></li>
+  <li><a href="#합성곱-개념으로서의-이미지-필터링" id="toc-합성곱-개념으로서의-이미지-필터링" class="nav-link" data-scroll-target="#합성곱-개념으로서의-이미지-필터링"><span class="header-section-number">4</span> 합성곱 개념으로서의 이미지 필터링</a>
+  <ul class="collapse">
+  <li><a href="#합성곱과-상관값" id="toc-합성곱과-상관값" class="nav-link" data-scroll-target="#합성곱과-상관값"><span class="header-section-number">4.1</span> 합성곱과 상관값</a></li>
+  </ul></li>
+  <li><a href="#빈도-필터" id="toc-빈도-필터" class="nav-link" data-scroll-target="#빈도-필터"><span class="header-section-number">5</span> 빈도 필터</a>
+  <ul class="collapse">
+  <li><a href="#이미지에-있어-빈도-frequency" id="toc-이미지에-있어-빈도-frequency" class="nav-link" data-scroll-target="#이미지에-있어-빈도-frequency"><span class="header-section-number">5.1</span> 이미지에 있어 ‘빈도 (frequency)’</a></li>
+  <li><a href="#unsharp-masking-highboost-filtering" id="toc-unsharp-masking-highboost-filtering" class="nav-link" data-scroll-target="#unsharp-masking-highboost-filtering"><span class="header-section-number">5.2</span> Unsharp masking &amp; highboost filtering</a></li>
+  <li><a href="#differential-high-pass-filter" id="toc-differential-high-pass-filter" class="nav-link" data-scroll-target="#differential-high-pass-filter"><span class="header-section-number">5.3</span> Differential High-pass Filter</a></li>
+  <li><a href="#laplaician-filter" id="toc-laplaician-filter" class="nav-link" data-scroll-target="#laplaician-filter"><span class="header-section-number">5.4</span> Laplaician filter</a></li>
+  <li><a href="#laplacian-of-gaussian-filter-log-filter" id="toc-laplacian-of-gaussian-filter-log-filter" class="nav-link" data-scroll-target="#laplacian-of-gaussian-filter-log-filter"><span class="header-section-number">5.5</span> Laplacian of Gaussian Filter (LoG filter)</a></li>
+  <li><a href="#위너-필터-wiener-filter" id="toc-위너-필터-wiener-filter" class="nav-link" data-scroll-target="#위너-필터-wiener-filter"><span class="header-section-number">5.6</span> 위너 필터 (Wiener filter)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -324,9 +372,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/wavelet/fourier_transform.html">푸리에 변환과 웨이블릿 변환</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/wavelet_and_image.html">웨이블릿 변환을 이용한 이미지 처리</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_02.html">공간적 이미지 필터링</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">웨이블릿 변환을 이용한 이미지 처리</h1>
+<h1 class="title">공간적 이미지 필터링</h1>
 </div>
 
 
@@ -343,104 +391,243 @@ window.Quarto = {
 </header>
 
 
+<div class="hidden">
+<p>% %</p>
+%
+<p><span class="math display">\[
+\DeclarePairedDelimiters{\set}{\{}{\}}
+\DeclareMathOperator*{\argmax}{argmax}
+\]</span></p>
+</div>
 <p><br></p>
-<section id="행렬-기반-변환" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="행렬-기반-변환"><span class="header-section-number">1</span> 행렬 기반 변환</h2>
-<section id="차원-변환" class="level3">
-<h3 class="anchored" data-anchor-id="차원-변환">1차원 변환</h3>
-<p>일차원 데이터 <span class="math inline">\(\boldsymbol{f} = \begin{bmatrix} f_1 &amp; \cdots &amp; f_N\end{bmatrix}^N\)</span> 를 다음과 같이 변환하여 <span class="math inline">\(\boldsymbol{t}=\begin{bmatrix} t_1 &amp; \cdots &amp; t_N\end{bmatrix}^T\)</span> 로 변환한다고 하자.</p>
-<p><span class="math display">\[
-t_u = \sum_{i=1}^N r(u,\,i) f_i
-\]</span></p>
-<p>1차원 푸리에 변환도 위와 같은 형태의 변환이며, 이 때 <span class="math inline">\((u,\,i)\)</span> 성분이 <span class="math inline">\(r(u,\,i)\)</span> 인 행렬 <span class="math inline">\(\boldsymbol{A}\)</span> 를 생각 할 수 있으며,</p>
-<p><span class="math display">\[
-\boldsymbol{t}=\boldsymbol{Af}
-\]</span></p>
-<p>이다. 많은 경우 <span class="math inline">\(\boldsymbol{A}\)</span> 가 직교 행렬, 즉 <span class="math inline">\(\boldsymbol{AA}^T=\boldsymbol{I}\)</span> 인데 이 경우 역변환은 다음과 같다.</p>
-<p><span class="math display">\[
-\boldsymbol{f} = \boldsymbol{A}^{-1}\boldsymbol{t} = \boldsymbol{A}^T\boldsymbol{t}
-\]</span></p>
+<section id="커널과-필터" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="커널과-필터"><span class="header-section-number">1</span> 커널과 필터</h2>
+<ul>
+<li><strong>커널</strong> : 이미지의 처리를 위해 특정한 기능을 수행하는 2차원 배열. 마스크 라고도 한다.</li>
+<li><strong>필터</strong> : 커널+기능의 조합을 필터 (filter)라 한다.</li>
+</ul>
+<p><br></p>
+<section id="공간적-필터링-spatial-filtering" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="공간적-필터링-spatial-filtering"><span class="header-section-number">1.1</span> 공간적 필터링 (Spatial filtering)</h3>
+<p>공간적 필터링이라 함은 동일한 공 간에 어떤 필터 행렬을 생성시켜서, 그 필터 행렬과 원본 이미지 행렬 사이의 연산을 수 행하는 것</p>
 <p><br></p>
 </section>
-<section id="차원-변환-1" class="level3">
-<h3 class="anchored" data-anchor-id="차원-변환-1">2차원 변환</h3>
-<p>이미지를 이미지로 변환하는 경우 원본 <span class="math inline">\(f[i,\,j]\)</span> 와 변환된 <span class="math inline">\(t[u,\,v]\)</span> 사이에 다음의 관계가 성립한다고 하자.</p>
+</section>
+<section id="선형-필터-linear-filter" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="선형-필터-linear-filter"><span class="header-section-number">2</span> 선형 필터 (linear filter)</h2>
+<ul>
+<li>필터링 연산이 선형성을 갖는 경우를 이 필터에 의한 연산을 선형 필터라 한다.</li>
+</ul>
+<p><span class="math inline">\(\ast\)</span> 이후 원본 이미지 <span class="math inline">\(I\)</span> 에 대해 필터링된 이미지를 <span class="math inline">\(J\)</span> 라 하자. <span class="math inline">\(I\)</span> 의 <span class="math inline">\((i,\,j)\)</span> 위치의 필셀값을 <span class="math inline">\(I[i,\,j]\)</span> 라 하자.</p>
+<p><br></p>
+<section id="평균값-필터-averaging-filter" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="평균값-필터-averaging-filter"><span class="header-section-number">2.1</span> 평균값 필터 (Averaging filter)</h3>
+<p>이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터. 당연히 커널은 아래와 같은 모양을 띈다.</p>
 <p><span class="math display">\[
-\begin{aligned}
-t[u,\,v] = \sum_{i=1}^N \sum_{j=1}^N r(u, v, i, j)\,  f[i, j], \\
-f[i,\,j] = \sum_{u=1}^N \sum_{v=1}^N s(u, v, i, j) \, t[u, v].
-\end{aligned}
-\]</span></p>
-<p>이 경우 <span class="math inline">\(s(u, v, i, j)\)</span> 는 <span class="math inline">\(r(u, v, i, j)\)</span> 의 역변환이다. <span class="math inline">\(r(u, v, i, j)\)</span> 가 두 1차원 변환의 곱으로 다음과 같이 표현될 수 있을 때 <span class="math inline">\(r\)</span> 을 분리가능하다고 한다.</p>
+\frac{1}{9}\begin{bmatrix} 1 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; 1 \\1 &amp; 1 &amp; 1 \end{bmatrix}
+\]</span> 이 때 픽셀의 값은 자신을 중심으로 한 <span class="math inline">\(3\times 3\)</span> 배열의 평균으로 대체된다. 즉</p>
 <p><span class="math display">\[
-r(u, v, i, j) = r_1(u, i)\, r_2(v, j)
-\]</span></p>
-<p>또한 <span class="math inline">\(r_1=r_2\)</span> 이면 <span class="math inline">\(r\)</span> 을 대칭변환 이라고 한다. <span class="math inline">\(t[u,\,v]=\boldsymbol{T}\)</span>, <span class="math inline">\(r_1[i, u]=\boldsymbol{A}\)</span>, <span class="math inline">\(f[i,\,j]=\boldsymbol{F}\)</span> 라고 표현하면,</p>
-<p><span class="math display">\[
-t[u,\,v] = \sum_{i, j} r_1[u, i] r_1[v, j] f[i, j]
-\]</span></p>
-<p>이므로</p>
-<p><span class="math display">\[
-\boldsymbol{T}=\boldsymbol{AFA}^T
-\]</span></p>
-<p>이다. <span class="math inline">\(\boldsymbol{A}\)</span> 가 직교행렬이라면</p>
-<p><span class="math display">\[
-\boldsymbol{F} = \boldsymbol{A}^T\boldsymbol{TA}
+J[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} I[i-p,\,j-q]
 \]</span></p>
 <p>이다.</p>
+<p>python에서는 cv2 라이브러리를 사용하여 다음과 같이 이용한다</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>kernel <span class="op">=</span> np.ones((<span class="dv">5</span>,<span class="dv">5</span>),np.float32)<span class="op">/</span><span class="dv">25</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>filtered_image <span class="op">=</span> cv2.filter2D(original_image, <span class="op">-</span><span class="dv">1</span>, kernel)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>kernel 은 <span class="math inline">\(5 \times 5\)</span> 행렬을 사용하였다. <code>cv2.filter2D</code> 함수에서의 -1 은 일단 original image 와 같은 자료형으로 filtered image 가 생성된다고 알아 두자.</p>
 <p><br></p>
-</section>
-<section id="mathbbcn-에서의-2차원-변환" class="level3">
-<h3 class="anchored" data-anchor-id="mathbbcn-에서의-2차원-변환"><span class="math inline">\(\mathbb{C}^n\)</span> 에서의 2차원 변환</h3>
-<p><span class="math inline">\(\boldsymbol{s}_k,\,\boldsymbol{s}_l\in \mathcal{M}_{N}(\mathbb{C})\)</span> 의 내적은</p>
-<p><span class="math display">\[
-\langle \boldsymbol{s}_k,\,\boldsymbol{s}_l\rangle = \overline{\langle \boldsymbol{s}_l,\, \boldsymbol{s}_k\rangle} = \boldsymbol{s}_l^\ast \boldsymbol{s}_k
-\]</span></p>
-<p>이다. 복소벡터공간에서 거리를 보존하는 변환은 유니타리 변환이며 유니타리 변환에 대한 행렬은 유니타리 행렬로 <span class="math inline">\(\boldsymbol{A}^{-1} = \boldsymbol{A}^\ast\)</span> 인 행렬을 의미한다. 따라서 두 정사각 이미지 <span class="math inline">\(\boldsymbol{T}\)</span> 와 <span class="math inline">\(\boldsymbol{F}\)</span> 사이에</p>
-<p><span class="math display">\[
-\boldsymbol{T}= \boldsymbol{AFA}^T
-\]</span></p>
-<p>의 관계가 성립하며 <span class="math inline">\(\boldsymbol{A}\)</span> 가 유니타리라면</p>
-<p><span class="math display">\[
-\boldsymbol{F} = \boldsymbol{A}^{\ast} \boldsymbol{TA}^{\ast T}
-\]</span></p>
-<p>가 성립한다.</p>
-<p><br></p>
-</section>
-<section id="이중직교성" class="level3">
-<h3 class="anchored" data-anchor-id="이중직교성">이중직교성</h3>
-<p>내적벡터공간의 기저 <span class="math inline">\(\{v_1,\, v_2,\ldots\}\)</span> 의 각각의 <span class="math inline">\(v_i\)</span> 에 대해 어떤 <span class="math inline">\(\widetilde{v}_i\)</span> 가 존재하여 <span class="math inline">\(i\ne j\)</span> 이면 <span class="math inline">\(\langle v_i,\, \widetilde{v}_j\rangle = 0\)</span> 일 때 <span class="math inline">\(\{v_1,\,v_2,\ldots\}\)</span> 를 이중직교기저 라고 한다. 만약</p>
-<p><span class="math display">\[
-\langle v_i,\, \widetilde{v}_j\rangle = \delta_{ij}
-\]</span></p>
-<p>이면 이중정규직교기저 라고 한다. <span class="math inline">\(\widetilde{v}_i = v_i,\, i=1,\,2,\ldots\)</span> 이면 우리가 아는 정규직교기저이다.</p>
-<p><br></p>
-</section>
-<section id="correlation" class="level3">
-<h3 class="anchored" data-anchor-id="correlation">Correlation</h3>
-<p>이미 <a href="../../src/image_processing/introduction_to_signal_processing.html#sec-image_convolution_correlation">Convolution 과 Corellation</a> 에서 정의한 correlation 은 복소함수 공간이나 복소벡터공간에서 다음과 같다.</p>
-<p><span class="math display">\[
-(f \otimes g)(x) = \int_{-\infty}^\infty f^\ast (t)\, g(t+x)\, dt
-\]</span></p>
-<p>이로부터</p>
-<p><span class="math display">\[
-(f \otimes g)(0) = \int_{-\infty}^\infty f^\ast (t)\, g(t)\, dt = \langle g,\, f\rangle = \overline{\langle f,\, g\rangle}
-\]</span></p>
-<p>임을 안다. 즉 두 벡터 사이의</p>
+<section id="가장자리-처리" class="level4">
+<h4 class="anchored" data-anchor-id="가장자리-처리">가장자리 처리</h4>
+<p>이 경우 가장자리면, 즉 <span class="math inline">\(i=0\)</span> 이면 <span class="math inline">\(i-1\)</span> 픽셀이 없으므로 문제가 된다. 이렇게 필터를 쓸 경우 경계값이 문제가 되는데 이에 대한 방법은 원본 이미지를 커널을 고려하여 사이즈를 키운 다음에 새로 키워진 행렬을 특정한 값으로 채우는 것이다. <span class="math inline">\(0\)</span> 으로 채울수도 있고 가까운 경계값으로 채울 수도 있으며 다른 여려 방법이 존재한다. 각각의 경우에 맞춰 적절하게 사용할 수 밖에 없다.</p>
 <p><br></p>
 </section>
 </section>
-<section id="wavelet-변환" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="wavelet-변환"><span class="header-section-number">2</span> Wavelet 변환</h2>
-<section id="scaling-functions" class="level3">
-<h3 class="anchored" data-anchor-id="scaling-functions">Scaling functions</h3>
-<p>father scaling function <span class="math inline">\(\varphi(x)\)</span> 에 대해</p>
+<section id="가우시안-필터-gaussian-filter" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="가우시안-필터-gaussian-filter"><span class="header-section-number">2.2</span> 가우시안 필터 (Gaussian filter)</h3>
+<p><span class="math inline">\(I[i,j]\)</span> 를 필터링 할 때 주변 값과 정규분포 관계가 있다고 가정한다. 즉 멀수록 관계가 더 적다고 간주한다. 2차원 가우시안 함수는 다음과 같다.</p>
 <p><span class="math display">\[
-\varphi_{j,\,k} (x) = 2^{j/2} \varphi(2^j x-k)
+G(x,\,y | x',\,y') = \dfrac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\dfrac{(x-x')^2+(y-y')^2}{2\sigma^2}\right)
 \]</span></p>
-<p>를 생각하자. 이 함수는 <span class="math inline">\(\varphi(x)\)</span> 에 대해 <span class="math inline">\(x\)</span> 축으로 <span class="math inline">\(2^j\)</span> 만큼 축소되어 있으며 <span class="math inline">\(k\)</span> 만큼 이동되어 있다. 고정된 <span class="math inline">\(j=j_0\)</span> 에 대해</p>
+<p><span class="math inline">\(J[i,\,j]\)</span> 는 <span class="math inline">\(I[i,\,j]\)</span> 를 중심으로 주변값에 2차원 가우시안 함수에 비례하는 가중치를 두고 그 평균을 계산한 값이 된다.</p>
+<p>python의 cv2 라이브러리에서는 다음과 같이 사용한다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>filtered_image <span class="op">=</span> cv2.GaussianBlur(original_image, (<span class="dv">3</span>, <span class="dv">3</span>), <span class="fl">1.5</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>여기서 <code>(3, 3)</code> 은 <span class="math inline">\(3 \times 3\)</span> 크기의 커널을 사용한다는 뜻이고 1.5 는 가우시안 분포의 표준편차이다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="비선형-필터-nonlinear-filter" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="비선형-필터-nonlinear-filter"><span class="header-section-number">3</span> 비선형 필터 (nonlinear filter)</h2>
+<section id="비선형-필터" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="비선형-필터"><span class="header-section-number">3.1</span> 비선형 필터</h3>
+<ul>
+<li><p>중앙값 필터 (median filter) : 노이즈 처리에 좋다.</p></li>
+<li><p>표준편차 필터(standard deviation filter) : 엣지 검출에 좋다.</p></li>
+</ul>
+<p><br></p>
+</section>
+</section>
+<section id="합성곱-개념으로서의-이미지-필터링" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="합성곱-개념으로서의-이미지-필터링"><span class="header-section-number">4</span> 합성곱 개념으로서의 이미지 필터링</h2>
+<section id="합성곱과-상관값" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="합성곱과-상관값"><span class="header-section-number">4.1</span> 합성곱과 상관값</h3>
+<p>원본 이미지 <span class="math inline">\(I[i,\,j]\)</span> 와 kernel <span class="math inline">\(k[i,\,j]\)</span> 사이의 합성곱 <span class="math inline">\(g=k \ast I\)</span> 와 상관값 <span class="math inline">\(c=k \otimes I\)</span> 는 각각 다음과 같이 정의된다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+g[i,\,j] &amp;= k \ast I = \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t] \,I[i-s,\, j-t]\\
+c[i,\,j] &amp;= k \otimes I = \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t]\, I[i+s,\, j+t]
+\end{aligned}
+\]</span></p>
+<p><br></p>
+</section>
+</section>
+<section id="빈도-필터" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="빈도-필터"><span class="header-section-number">5</span> 빈도 필터</h2>
+<section id="이미지에-있어-빈도-frequency" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="이미지에-있어-빈도-frequency"><span class="header-section-number">5.1</span> 이미지에 있어 ‘빈도 (frequency)’</h3>
+<ul>
+<li>이미지에서 어떤 픽셀과 바로 이웃한 픽셀의 값이 매우 큰 차이를 보일 때 그 픽셀을 중심으로 픽셀 값의 ’변화’는 매우 크다고 할 수 있다. 이렇게 픽셀 값의 변화가 매우 짧은 픽셀 간격에서 나타날 때, 그 픽셀은 <b>높은 주파수 성분</b>, 반대의 경우를 <b>낮은 주파수 성분</b>이라고 부른다.</li>
+</ul>
+<p><br></p>
+<section id="하이패스-필터-high-pass-filter-로우패스-필터-low-pass-filter" class="level4">
+<h4 class="anchored" data-anchor-id="하이패스-필터-high-pass-filter-로우패스-필터-low-pass-filter">하이패스 필터 (high-pass filter), 로우패스 필터 (low-pass filter)</h4>
+<ul>
+<li>필터가 낮은 빈도를 나타내는 성분만 제거하거나 픽셀 값을 줄이는 기능을 갖는다면 하이패스 필터라 하고, 그 반대의 경우를 로우패스 필터라 한다.</li>
+<li>사실 하이패스 필터는 이미지에서 가장자리 (엣지, edge)를 찾아 내거나 가장자리 신호를 선택적으로 강화하는 기능으로 자주 사용된다.</li>
+<li>앞서 살펴 본 평균값, 중간값, 가우시안 필터 등이 로우패스 필터이다.</li>
+</ul>
+<p><br></p>
+</section>
+</section>
+<section id="unsharp-masking-highboost-filtering" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="unsharp-masking-highboost-filtering"><span class="header-section-number">5.2</span> Unsharp masking &amp; highboost filtering</h3>
+<p><br></p>
+<section id="unsharp-mask" class="level4">
+<h4 class="anchored" data-anchor-id="unsharp-mask"><strong>Unsharp mask</strong></h4>
+<ul>
+<li>원본 이미지를 일단 평균값 필터링 같은 로우패스 필터로 블러링 (blurring) 처리한 후, 원본 이미지에서 처리된 이미지를 빼서 차이 값으로 이루어진 행렬을 ‘Unsharp mask’ 라 한다. 원본이미지를 <span class="math inline">\(I[i,j]\)</span>, 블러링 된 이미지를 <span class="math inline">\(\overline{I}[i,j]\)</span> 라 하면 unsharp mask <span class="math inline">\(M[i,j]\)</span> 는 다음과 같다.</li>
+</ul>
+<p><span class="math display">\[
+M[i,j]=I[i,j]-\overline{I}[i,j]
+\]</span></p>
+<p><br></p>
+</section>
+<section id="highboost-filtering" class="level4">
+<h4 class="anchored" data-anchor-id="highboost-filtering"><strong>Highboost filtering</strong></h4>
+<ul>
+<li>이 때 어떤 1보다 큰 양의 실수 <span class="math inline">\(k\)</span> 를 <span class="math inline">\(M[i,j]\)</span> 에 곱해서 원본에 더해준다면 가장자리신호가 더 현저해지며 이것을 highboost filtering 이라 한다. 즉</li>
+</ul>
+<p><span class="math display">\[
+J[i,j]=I[i,j]+k\,M[i,j] = I[i,j]+k(I[i,j]-\overline{I}[i,j])
+\]</span></p>
+<p><br></p>
+</section>
+</section>
+<section id="differential-high-pass-filter" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="differential-high-pass-filter"><span class="header-section-number">5.3</span> Differential High-pass Filter</h3>
+<p>픽셀에 미분을 적용한다면 일단 간단하게 생각하면, <span class="math inline">\(x\)</span> 방향 편미분은 <span class="math inline">\(\partial_x I [i,j]=I[i,j]-I[i-1,j]\)</span> or <span class="math inline">\(\partial_x I[i,j]=I[i+1,j]-I[i,j]\)</span> 이며 <span class="math inline">\(y\)</span> 방향 편미분은 <span class="math inline">\(\partial_y I[i,j]=I[i,j]-I[i,j-1]\)</span> 혹은 <span class="math inline">\(\partial_y I[i,j]=I[i,j+1]-I[i,j]\)</span> 가 될 것이다.</p>
+<p><br></p>
+<section id="로버츠-커널-roberts-kernel" class="level4">
+<h4 class="anchored" data-anchor-id="로버츠-커널-roberts-kernel"><strong>로버츠 커널 (Roberts kernel)</strong></h4>
+<p>대각선 방향의 편미분에 해당하는 2차원 배열을 로버츠 마스크라 하며 아래와 같다.</p>
+<p><span class="math display">\[
+G_x = \begin{bmatrix} +1&amp;0&amp;0 \\ 0&amp;-1&amp;0 \\ 0&amp;0&amp;0 \end{bmatrix}, \quad G_y=\begin{bmatrix}0&amp;+1&amp;0\\-1&amp;0&amp;0\\0&amp;0&amp;0 \end{bmatrix}
+\]</span></p>
+<p><br></p>
+</section>
+<section id="prewitt-kernel" class="level4">
+<h4 class="anchored" data-anchor-id="prewitt-kernel"><strong>Prewitt kernel</strong></h4>
+<p><span class="math display">\[
+G_x = \begin{bmatrix}+1&amp;0&amp;-1\\+1&amp;0&amp;-1\\+1&amp;0&amp;-1\end{bmatrix}, \qquad
+G_y = \begin{bmatrix}+1&amp;+1&amp;+1\\0&amp;0&amp;0\\-1&amp;-1&amp;-1\end{bmatrix}
+\]</span></p>
+<p><br></p>
+</section>
+<section id="sobel-kernel" class="level4">
+<h4 class="anchored" data-anchor-id="sobel-kernel"><strong>Sobel kernel</strong></h4>
+<p><span class="math display">\[
+G_x = \begin{bmatrix}+1&amp;0&amp;-1\\+2&amp;0&amp;-2\\+1&amp;0&amp;-1\end{bmatrix},\qquad
+G_y = \begin{bmatrix}+1&amp;+2&amp;+1\\0&amp;0&amp;0\\-1&amp;-2&amp;-1\end{bmatrix}
+\]</span></p>
+<p><br></p>
+</section>
+</section>
+<section id="laplaician-filter" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="laplaician-filter"><span class="header-section-number">5.4</span> Laplaician filter</h3>
+<ul>
+<li>1차 미분 필터들은 한 번만 차분 값을 계산하기 때문에, 차 분의 크기도 작고, 이로 인해서 경계가 확실한 부분만 추출할 수 있는 반면, 노이즈가 있거나 엣지 (edge)의 강도가 약한 부분에는 불완전한 추출을 보이는 한계가 있다.</li>
+<li>이를 극복하기 위해 개발된 필터가 2차 미분형, 즉, 라플라시안 필터 (Laplacian filter) 이다. 라플라시안 필터는 말 그대로, 연속 함수 f(x,y)의 이계 도함수를 의미하는 라플라시안으로부터 유래한 것으로, 디지털 이미지에 대해, 아래와 같은 근사 공식을 활용하여 만들 수 있다.</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\nabla^2 f &amp;= \partial_x^2 f + \partial_y^2 f \\
+\partial_x^2 I[i,j] &amp; = I[i-1,j]+I[i+1,j]-2I[i,j] \\
+\partial_y^2 I[i,j] &amp; = I[i,j-1]+I[i,k+1]-2I[i,j] \\
+\nabla^2 I[i,j] &amp;= \partial_x^2 I[i,j]+ \partial_y^2 I[i,j] =I[i-1,j]+I[i+1,j]+I[i,j-1]+I[i,k+1]-4I[i,j]
+\end{aligned}
+\]</span></p>
+<ul>
+<li><p>라플라시안 필터는, 앞서 살펴 본 1차 미분형 필터보다, 더 넓은 범위에서 그리고 모든 방향을 고려하여 차분 값을 계산할 수 있기 때문에, 경계선에서 픽셀 값이 변화하는 것 을 훨씬 강한 강도로 잡아낼 수 있으며, 이로 인해, 잡음에도 강하고, 엣지 정보를 더 잘 추출할 수 있다는 장점이 있다. 다만, 계산 시간은 1차 미분형 필터보다는 늘어나게 된다.</p></li>
+<li><p>Matlab 에서는 <code>fspecial(‘laplacian’,alpha)</code> 의 명령어로 laplacian kernel 을 만드는데 이는 보통의 laplacian kernel을 약간 수정한 것으로 다음과 같이 정의된다. <span class="math display">\[
+\dfrac{1}{1+\alpha} \begin{bmatrix} \alpha &amp; 1-\alpha &amp; \alpha  \\ - \alpha &amp; 4 &amp; - \alpha \\ \alpha &amp; 1-\alpha &amp; \alpha\end{bmatrix}
+\]</span></p>
+<p>Matlab 에서는 <span class="math inline">\(\alpha\)</span> 값을 <span class="math inline">\([0,\,1)\)</span> 에서 조정한다고 하는데, cv2 에서는 이러한 함수를 찾을 수 없어서 직접 만들어 사용하였다.</p></li>
+</ul>
+<p><br></p>
+</section>
+<section id="laplacian-of-gaussian-filter-log-filter" class="level3" data-number="5.5">
+<h3 data-number="5.5" class="anchored" data-anchor-id="laplacian-of-gaussian-filter-log-filter"><span class="header-section-number">5.5</span> Laplacian of Gaussian Filter (LoG filter)</h3>
+<ul>
+<li><p>원본 이미지에 가우시안 블러링을 한 후 라플라시안 필터를 적용한다.</p></li>
+<li><p>이 때 LoG filter 는 다음과 같은 꼴을 띈다.</p></li>
+</ul>
+<p><span class="math display">\[
+\nabla^2 \left( G_{\sigma} (x,\,y) \right) = \dfrac{x^2+y^2-2\sigma^2}{\sigma^4} \exp \left(- \dfrac{x^2+y^2}{2\sigma^2}\right)
+\]</span></p>
+<ul>
+<li>라플라시안 필터와 유사하게, LoG 필터도 이미지에서 엣지 부분의 정보를 효과적으로 추출할 수 있다. 특히, 라플라시안 필터보다 더 넓은 범위에서 이미지 합성 곱을 하기 때문에, 이미지 추출 과정에서 왜곡 가능성을 줄일 수 있다는 장점이 있다.</li>
+</ul>
+<p><br></p>
+</section>
+<section id="위너-필터-wiener-filter" class="level3" data-number="5.6">
+<h3 data-number="5.6" class="anchored" data-anchor-id="위너-필터-wiener-filter"><span class="header-section-number">5.6</span> 위너 필터 (Wiener filter)</h3>
+<p>원본 이미지 I 와 노이즈 처리된 이미지 J 사이의 차이를 통계적 관점에서 (혹은 확률적 관점에서) 정량화 하는 방법으로는 평균제곱편차 mean square error (MSE) 가 있다. MSE의 정의는 아래와 같다.</p>
+<p><span class="math display">\[
+\text{MSE} = \dfrac{1}{N} \sum_{i,\,j} \left[ I[i,\,j]-J[i,\,j]\right]^2
+\]</span></p>
+<p>위너 필터는 이러한 이미지 간 차이를 최소화하는 모든 종류의 비선형 필터를 의미한다.</p>
+<p><br></p>
+<section id="위너-필터의-노이즈-감소-기능" class="level4">
+<h4 class="anchored" data-anchor-id="위너-필터의-노이즈-감소-기능">위너 필터의 노이즈 감소 기능</h4>
+<ul>
+<li>원본 이미지 I에 노이즈 N 이 낀 이미지 I’ 를 생각하자. 즉 다음과 같은 식을 생각하자.</li>
+</ul>
+<p><span class="math display">\[
+I'[i,j]=I[i,j]+N[i,j]
+\]</span></p>
+<ul>
+<li>노이즈의 경우 특별한 언급이 없으면 가우시안 노이즈를 생각한다. 그렇다면 노이즈의 평균은 <span class="math inline">\(0\)</span> 이 될 것이며 노이즈의 분산 <span class="math inline">\(\sigma_N^2\)</span> 는 <span class="math inline">\(0\)</span> 이 아닌 값을 갖는다. 어떤 픽셀을 중심으로 커널 배열을 덮어서 움직인다고 하자. 커널은 보통 원본 배열보다 아주 작기때문에 커널에 덮이는 영역의 평균은 <span class="math inline">\(0\)</span> 될 확률이 매우 낮으므로 그 평균값을 <span class="math inline">\(m_{ij}\)</span>, 분산을 <span class="math inline">\(\sigma^2_{ij}\)</span> 라 하자. 이 때 해당 영역의 노이즈를 최소화하는 방식으로 노이즈를 처리하면 다음과 같은 관계식을 얻는다.</li>
+</ul>
+<p><span class="math display">\[
+J[i,j]=m_{ij} + \dfrac{\sigma^2_{ij}}{\sigma^2_{ij} + \sigma^2_N} {\big(} I[i,j]-m_{ij}{\big)}
+\]</span></p>
+<ul>
+<li>그런데 많은 경우 우리는 원본 이미지가 없이 노이즈가 낀 이미지만 있으므로 노이즈의 분산 <span class="math inline">\(\sigma_N^2\)</span> 를 모른다. 여기에 괜찮은 방법이 있는데, 그것은 바로 <span class="math inline">\(\sigma_N^2\)</span> 를 모든 로컬 분산 <span class="math inline">\(\sigma_{ij}^2\)</span> 의 평균으로 잡는 것이다.</li>
+</ul>
+<p><span class="math display">\[
+\sigma_N^2 = \dfrac{1}{N} \sum_{i,j} \sigma^2_{i,j}
+\]</span></p>
+</section>
+<section id="파이썬에서의-위너-필터" class="level4">
+<h4 class="anchored" data-anchor-id="파이썬에서의-위너-필터">파이썬에서의 위너 필터</h4>
+<p>파이썬에서는 scipy 에서 wiener filter를 사용한다. Library refence 를 보면 대놓고 matlab의 wiener2 함수를 implementation 했다고 나온다. 사용법은 다음과 같다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.signal.signaltools <span class="im">import</span> wiener</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img, mysize<span class="op">=</span><span class="dv">3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>여기서 mysize 는 kernel size 이다. 자세한 것은 library reference 참고. 이 때 주의할 것은 original_img 가 0 에서 255 사이의 정수값을 갖는, 보통 gray scale image 에서 많이 사용되는 uint8 형식의 정수형이면 안된다. 이 경우 다음과 같이 사용하는 것이 좋다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img.astype(np.float64), ksize)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 </section>
 </section>
 
@@ -856,13 +1043,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../src/image_processing/wavelet/descrete_wavelet_transform.html" class="pagination-link" aria-label="이산 웨이블릿 변환">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">이산 웨이블릿 변환</span>
+      <a href="../../src/image_processing/image_processing_01.html" class="pagination-link" aria-label="이미지 프로세싱의 기초">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">이미지 프로세싱의 기초</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../src/image_processing/wavelet/wavelets_julia.html" class="pagination-link" aria-label="Wavelets.jl">
-        <span class="nav-page-text">Wavelets.jl</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../src/image_processing/image_processing_03.html" class="pagination-link" aria-label="푸리에 변환을 이용한 이미지 처리">
+        <span class="nav-page-text">푸리에 변환을 이용한 이미지 처리</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
