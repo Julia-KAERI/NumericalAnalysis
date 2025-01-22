@@ -940,11 +940,35 @@
     ]
   },
   {
+    "objectID": "src/image_processing/image_processing_01.html#소개",
+    "href": "src/image_processing/image_processing_01.html#소개",
+    "title": "이미지 프로세싱의 기초",
+    "section": "1 소개",
+    "text": "1 소개\n\n1.1 이미지\n\n우리의 시각에서 감지하는 바와 같은 2차원 이미지 일 수도 있지만, 측정에서 얻는 2차원 데이터 일 수 도 있다.\n여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.\n2차원 배열을 \\(f[i,j]\\) 혹은 \\(f(i, j)\\) 로 표기하며, 행렬과 같이 \\(i\\) 는 세로 방향의 인덱스, \\(j\\) 는 가로 방향의 인덱스이다.\n\n\n\n\n1.2 여기서\n\nJulia 에는 Images.jl 이라는 이미지 처리 라이브러리가 있지만,\n\n모든 데이터값을 \\([0,\\,1]\\) 사이의 고정 소수(fixed point number) 로 처리하며, 원래 이미지가 가지고 있던 0 부터 255 사이의 부호 없는 정수값을 숨긴다.\nopencv 에 비해 기능이 부족하고 무엇보다 느리다.\nOpenCV.jl 이라는 opencv 의 julia 포팅이 있다.\n\n그런데 OpenCV.jl 은\n\n기본 이미지 배열 타입은 OpenCV.Mat 이며 julia 의 Array 와 유사하지만 같지는 않다. Array 에서 사용하는 연산중 많은 것을 사용 할 수 없다. 파이썬의 경우는 opencv2 의 배열은 numpy 의 배열인데…\n흑백 이미지라도 OpenCV.Mat 은 3차원 배열이다.\nOpenCV.Mat 에 대한 연산 (배열간, 배열과 스칼라 사이의 사칙연산을 포함하여) 을 모두 다시 쓰느니 OpenCV.Mat 과 julia Array 사이의 변환 함수를 사용하겠다.\nOpenCV.Mat 의 배열의 저장 순서는 C++ 이나 파이썬 과 같이 행 우선 방식이지만 Julia 는 열 우선 방식이다. 따라서 변환시 이를 고려해야 한다.\n\nJulia 의 TestImages.jl 은 다양한 무료 이미지를 다운로드 받을 수 있도록 해 준다. 여기서의 이미지 처리에 사용하는 이미지는 특별한 언급이 없는 한 여기로부터 얻는다.\n\n\nOpenCV.jl 을 julia 에서 사용하기 위해 다음과 같은 함수를 사용한다. 앞으로의 모든 코드는\nusing OpenCV, TestImages\ncv = OpenCV;\n\n# Julia Matrix to OpenCV.MAT 변환\nfunction arr2mat(arr::Matrix{T}) where T&lt;:Real\n    cv.Mat(permutedims(stack([arr, ]), [3,2,1]))\nend\n\n# Julia Image to Matrix 변환\nfunction img2arr(img)\n    T = typeof(img[1, 1].val.i)\n    broadcast(q-&gt;T(q.val.i),img)\nend\n\n# Julia Image to OpenCV.Mat 변환\nfunction img2mat(img) \n    T = typeof(img[1, 1].val.i)\n    tm = broadcast(q-&gt;T(q.val.i),img)\n    cv.Mat(permutedims(stack([tm, ]), [3,2,1]))\nend\n\n# OpenCV.Mat to Julia Matrix 변환\nfunction mat2arr(mat::OpenCV.Mat)\n    return permutedims(mat.data, [3,2,1])\nend",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
+    ]
+  },
+  {
     "objectID": "src/image_processing/image_processing_01.html#점-기준-이미지-가공",
     "href": "src/image_processing/image_processing_01.html#점-기준-이미지-가공",
     "title": "이미지 프로세싱의 기초",
     "section": "2 점 기준 이미지 가공",
     "text": "2 점 기준 이미지 가공\n\n각 픽셀 단위의 이미지 처리를 의미한다. 즉 픽셀에 대한 연신이 다른 픽셀의 정보와 독립적으로 이루어진다.\nGray scale image \\(f[i, j]\\) 를 생각하자. \\(0\\le f[i,\\,j] \\le 255\\) 이다.\n\n\n\n2.1 픽셀 반전법에 의한 이미지 가공\n상수 \\(a\\) 와 \\(b&gt;0\\) 에 대해 \\[\nT_i[f](i, j) = a-b f(i, j),\\qquad 0 \\le T[f] \\le 255\n\\]\n인 이미지 연산을 픽셀 반전법 이라고 한다. \\(a=255,\\, b=1\\) 일 경우 완전한 흑백 반전이다. TestImages.jl 로부터 테스트 이미지를 다운받아 처리하였다.\nimg0= testimage_dip3e(\"Fig0108(a) (corn-fluorescence).tif\")\nimg1 = img2arr(img0)\nimg2 = (UInt8(255) .- img1)\nr = arr2mat(cat(img1, img2;dims=2))\n\n\n\n\n\n\n그림 1: 원본 이미지(좌) 와 반전된 이미지\n\n\n\n\n\n\n2.2 \\(\\gamma\\)-correction (or \\(\\gamma\\)-encoding)\n\n\\(\\gamma&gt;0\\) 에 대해 다음과 같이 변환한다. \\[\nT_\\gamma [f](i, j)  = f(i, j)^\\gamma\n\\]\n\\(\\gamma\\) 값이 \\(1\\) 보다 상당히 크면 픽셀 값이 클수록, \\(\\gamma\\) 값이 \\(1\\) 보다 상당히 작으면 픽셀값이 작을수록 대조가 현저해진다.\n\\(0\\le f\\le 255\\) 일 때 \\(\\gamma&lt;1\\) 이면 \\(f^\\gamma &lt; 255\\) 이며 \\(\\gamma&gt;1\\) 이면 \\(f^\\gamma&gt;255\\) 일 수 있으므로 최대값이 255가 넘지 않도록 해 준다.\n원본 이미지가 1024x1024 로 크기 때문에 그 크기를 줄여주었다.\n\nimg0= testimage_dip3e(\"Fig0227(a)(washington_infrared).tif\")\nimg1 = cv.resize(img2mat(img0), cv.Size{Int32}(256, 256))\nimg2 = arr2mat(round.(UInt8, ((img1./255).^0.5)*255))\nimg3 = arr2mat(round.(UInt8, ((img1./255).^2)*255))\nimg4 = arr2mat(round.(UInt8, ((img1./255).^5)*255));\narr2mat(cat(img1, img2, img3, img4; dims=2))\n\n\n\n\n\n\n그림 2: 맨 왼쪽부터 \\(\\gamma=1\\), \\(\\gamma=0.5\\), \\(\\gamma=2\\), \\(\\gamma=5\\)\n\n\n\n\n\\(x\\in (0,\\,1)\\) 에 대해 \\(\\gamma&lt;1\\) 이면 \\(x^\\gamma &gt; x\\) 이므로 화소 값이 높은 쪽으로 몰린다. 반대로 \\(\\gamma&gt;1\\) 이면 \\(x^\\gamma &lt; x\\) 이므로 화소 값이 낮은 쪽으로 몰린다.\n\n\n\n\n2.3 히스토그램 균등화\n이미지의 각 픽셀은 0 에서 255 사이의 정수값을 가진다. 그 값의 빈도는 이미지의 성질을 파악하는데 중요하다. 예를 들어 그림 2 의 \\(\\gamma\\) 에 대한 히스토그램은 다음과 같다.\n\n# opencv 의 calcHist 함수를 julia 에서 쓰기 편하게 변환함.\nfunction histogram1d(mat::OpenCV.Mat{T}) where T&lt;:Union{UInt8, UInt16}\n    tm = Int32(typemax(T))\n    v = cv.calcHist(cv.InputArray[mat,], Int32[0], fill(UInt8(1), size(img1)), Int32[tm+1], Float32[0, tm+1])\n    return (0:1:tm, Int64.(v[1,1,:]))    \nend\n\nfig = Figure()\nax = Axis(fig[1,1])\nfor (img, g) in zip([img1, img2, img3, img4], [1.0, 0.5, 2, 5])\n    b, v = histogram1d(img)\n    lines!(ax, b, v, label = L\"\\gamma = %$g\")\nend\naxislegend()\nfig\n\n\n\n\n\n\n그림 3: 그림 2 의 \\(\\gamma\\) 값에 따른 히스토그램\n\n\n\n\n위의 그림에서 \\(\\gamma=5\\) 일 때의 히스토그램은 낮은 값으로 몰려 있다. 혹은 이미지 중에는 전체 256 의 채널 갑 중에 어떤 값을 중심으로 몰려 있을 수 있다. 이런 경우 컨트라스트를 조절 하기 위해 앞서의 \\(\\gamma\\)-correction 방법으로는 개선이 크게 되지 않는다. 이 때 사용하는 방법이 히스토그램 균등화이다. 한 채널을 중심으로 몰려 있는 히스토그램을 균등화 한다.\n원래의 히스토그램을 변수 \\(r\\) 에 대해 \\(h(r)\\) 이며 \\(r\\) 은 \\(0\\) 부터 \\(L-1\\) (여기서는 255) 까지 가질 수 있고 \\(h(r)\\) 확률 별수 \\(r\\) 에 대한 확률 밀도에 비례하는 값이라고 가정하자. \\(p_r(r)\\) 을 확률밀도라고 하면\n\\[\np_r(r) = \\dfrac{h(r)}{\\int_0^L h(r')\\,dr'}\n\\tag{1}\\]\n이며 이 때 새로운 변수 \\(s\\) 를 다음과 같이 정의한다.\n\\[\ns=(L-1)\\int_{0}^r p_r(r')\\,dr'.\n\\tag{2}\\]\n그렇다면\n\\[\n\\dfrac{ds}{dr} = (L-1)p_r(r)\n\\tag{3}\\]\n이며 새로운 변수 \\(s\\) 로 변환된 \\(p_r(r)\\) 은\n\\[\np_s(s) = p_r(r)\\left|\\dfrac{ds}{dr}\\right| = \\dfrac{1}{L-1}\n\\tag{4}\\]\n이다. 즉 새로운 변수 \\(s\\) 에 대해 \\(p_s(s)\\) 는 항상 같은 값을 갖게 된다.\n즉 어떤 픽셀의 강도가 \\(r\\) 이라면 새로운 강도는 \\(s\\) 가 된다. \\(r=0,\\,1,\\ldots,\\,L-1\\) 의 값을 가지므로 이에 대한 \\(s\\) 값을\n\\[\ns(r) = \\text{round}\\left[(L-1)\\sum_{i=1}^r \\dfrac{h(i)}{\\sum_{j=1}^{L-1} h(j)}\\right]\n\\tag{5}\\]\n를 이용혜 계산한다. \\(\\text{round}(t)\\) 는 \\(t\\) 를 반올림 하는 함수이다. OpenCV 에서는 equalizeHist() 함수로 구현되었으며 여기서는 이 함수를 사용한다.\n\n\n\n\n원본, \\(\\gamma=5\\) 처리된 이미지, 히스토그램 균등화 된 이미지\n\n\nimg5 = cv.equalizeHist(img4)\narr2mat(cat(img1, img4, img5; dims=2))\n\n\n\n원본, \\(\\gamma=5\\) 처리된 이미지, 히스토그램 균등화 된 이미지의 히스토그램",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html#아핀-변환과-보간법",
+    "href": "src/image_processing/image_processing_01.html#아핀-변환과-보간법",
+    "title": "이미지 프로세싱의 기초",
+    "section": "3 아핀 변환과 보간법",
+    "text": "3 아핀 변환과 보간법\n\n3.1 아핀 변환\n이미지를 이용해 흔히 하는 작업이 확대, 축소, 회전, 직선이동이 있으며 이를 아핀 변환(Affine transformation) 이라고 한다. 아핀 변환은 \\(3\\times 3\\) 가역행렬 \\(\\boldsymbol{T}\\) 에 의해 정해지는 다음과 같은 변환을 의미한다.\n\\[\n\\begin{bmatrix} x' \\\\ y' \\\\t'\\end{bmatrix} = \\boldsymbol{T} \\begin{bmatrix} x \\\\ y \\\\ 1\\end{bmatrix}\n\\]\n예를 들어 \\(\\theta\\) 만큼의 반시계 방향 회전 변환 \\(\\boldsymbol{T}_\\theta\\) 는\n\\[\n\\boldsymbol{T}_\\theta = \\begin{bmatrix} \\cos \\theta & \\sin \\theta & 0 \\\\ -\\sin \\theta & \\cos \\theta & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이며 \\(x\\) 방향으로 \\(d_x\\) \\(y\\) 방향으로 \\(d_y\\) 만큼의 회전 변환 \\(\\boldsymbol{T}_\\boldsymbol{d}\\) 는\n\\[\n\\boldsymbol{T}_\\boldsymbol{d} = \\begin{bmatrix}  1 & 0 & d_x \\\\ 0 & 1 & d_y \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 혹은 \\(y\\) 축 방향으로 기울이는 전단 변환(shear tranformation) \\(\\boldsymbol{T}_{Sx},\\, \\boldsymbol{T}_{Sy}\\) 은 각각\n\\[\n\\boldsymbol{T}_{Sx} = \\begin{bmatrix} 1 & s_x & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix},\\qquad \\boldsymbol{T}_{Sy} = \\begin{bmatrix} 1 & 1 & s_y \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 방향으로 \\(a_x\\) 배 만큼, \\(y\\) 축 방향으로 \\(a_y\\) 배 만큼 키우거나 줄이는 변환 \\(\\boldsymbol{T}_c\\) 는\n\\[\n\\boldsymbol{T}_c = \\begin{bmatrix} a_x & 0 & 0 \\\\ 0 & a_y & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다.\n아핀 변환 \\(T\\) 에 대해 이미지 \\(f\\) 를 변환시킬 때 \\(g=T[f]\\) 인 이미지를 얻고자 한다고 하자. 그렇다면 \\(g[i, j]\\) 는 어떻게 얻을 것인가? \\(g\\) 는 이미지 이므로 \\(i,\\,j\\) 는 정수이다. 아핀 변환의 역변환 \\(T^{-1}\\) 을 생각하자. 아핀변환은 선형 가역변환이므로 항상 역변환이 존재한다. 즉\n\\[\n\\begin{bmatrix}x \\\\ y \\\\ t\\end{bmatrix} = T^{-1}\\begin{bmatrix} x' \\\\ y' \\\\ 1\\end{bmatrix}\n\\]\n이다. 우리는 \\(g(j,\\,i)\\) 값을 알고 싶지만 아핀 역변환에 의한 \\(x,\\,y\\) 는 정수가 아니므로 정확한 값을 얻을 수 없다. 이 때 인터폴레이션을 사용한다.\n\n\n\n3.2 보간법\n이미지 \\(f[i,\\,j]=f(j,\\,i)\\) 는 자연수인 \\(i,\\,j\\) 에 대해 정해져 있다. \\(x,\\,y\\) 가 자연수가 아닐 때 \\(f(x,\\,y)\\) 값은 보간법(interpolation) 으로 정한다.\n\n\n최근접 이웃 보간\n\\((x,\\,y)\\) 에 가장 가까운 정수 값으로 보간하는 것이다. 즉 \\[\nf(x,\\,y) \\mapsto f(\\text{round}(x),\\, \\text{round}(y))\n\\tag{6}\\]\n를 사용한다. 가장 간단하면서도 빠르지만 변환된 이미지의 품질이 좋지 못하다.\n\n\n\n이중 선형 보간\n\\(x,\\,y\\) 에 대해\n\\[\ni\\le y &lt; i+1,\\, j\\le x&lt;j+1\n\\]\n인 정수 \\(i,\\,j\\) 를 찾아 \\(f[i,j]\\), \\(f[i,j+1]\\), \\(f[i+1, j]\\), \\(f[i+1, j+1]\\) 인 네 점을 이용한다.\n\\[\n\\begin{aligned}\nf(x,\\,y) &= (1-x+j)(1-y+i)f(j, i) + (1-x+j)(y-i)f(j,\\,i+1) \\\\[0.3em]\n&+ (x-j)(1-y+i)f(j+1, i) + (x-j)(y-i)f(j+1, i+1).\n\\end{aligned}\n\\tag{7}\\]\n앞서의 최근접 이웃 보간보다는 계산량이 많고 이미지 품질이 좋다.\n\n\n\n이중 큐빅 보간\n\\(x,\\,y\\) 에 대해 \\[\ni\\le y &lt; i+1,\\, j\\le x&lt;j+1\n\\]\n인 정수 \\(i,\\,j\\) 를 찾아 \\(f[i+k,j+m]\\), \\(k,\\,m = -1,\\,0,\\,1,\\,2\\) 인 16개의 점을 이용한다.\n\\[\nd(s) = \\left\\{\\begin{array}{ll} \\dfrac{3|s|^3}{2}-\\dfrac{5|s|^2}{2}+1, & 0 \\le |s| &lt; 1, \\\\ -\\dfrac{|s|^3}{2}+\\dfrac{5|s|^2}{2}-4|s|+2, \\qquad & 1\\le |s|&lt;2 , \\\\ 0 & |s|&gt;2 \\end{array}\\right.\n\\]\n에 대해 다음 함수를 이용하여 계산한다. \\[\nf(x,\\,y) = \\sum_{k=-1}^2 \\sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)\n\\]\n\nTestImages.jl 로 부터 \\(256\\times 256\\) 이미지 lena_gray_256 을 다운 받은 후 \\(100 \\times  100\\) 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 극 ㅕㄹ과는 아래와 같다.\nimg0= cv.resize(img2mat(testimage(\"lena_gray_256.tif\")), cv.Size{Int32}(100, 100))\nimg1 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_NEAREST)\nimg2 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_LINEAR)\nimg3 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_CUBIC)\ns = arr2mat(cat(img1, img2, img3; dims=2))\n\n\n\n왼쪽부터 최근접 이웃 보간, 이중 선형 보간, 이중 큐빅 보간",
     "crumbs": [
       "영상 처리/토모그래피",
       "영상 처리 기초",
@@ -1965,90 +1989,6 @@
     "crumbs": [
       "다양한 주제들",
       "Levenberg-Marquardt 방법"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#이미지",
-    "href": "src/image_processing/image_processing_01.html#이미지",
-    "title": "이미지 프로세싱의 기초",
-    "section": "1 이미지",
-    "text": "1 이미지\n\n우리의 시각에서 감지하는 바와 같은 2차원 이미지 일 수도 있지만, 측정에서 얻는 2차원 데이터 일 수 도 있다.\n여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.\n2차원 배열을 \\(f[i,j]\\) 혹은 \\(f(i, j)\\) 로 표기하며, 행렬과 같이 \\(i\\) 는 세로 방향의 인덱스, \\(j\\) 는 가로 방향의 인덱스이다.",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#section",
-    "href": "src/image_processing/image_processing_01.html#section",
-    "title": "이미지 프로세싱의 기초",
-    "section": "2 ",
-    "text": "2",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#소개",
-    "href": "src/image_processing/image_processing_01.html#소개",
-    "title": "이미지 프로세싱의 기초",
-    "section": "1 소개",
-    "text": "1 소개\n\n1.1 이미지\n\n우리의 시각에서 감지하는 바와 같은 2차원 이미지 일 수도 있지만, 측정에서 얻는 2차원 데이터 일 수 도 있다.\n여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.\n2차원 배열을 \\(f[i,j]\\) 혹은 \\(f(i, j)\\) 로 표기하며, 행렬과 같이 \\(i\\) 는 세로 방향의 인덱스, \\(j\\) 는 가로 방향의 인덱스이다.\n\n\n\n\n1.2 여기서\n\nJulia 에는 Images.jl 이라는 이미지 처리 라이브러리가 있지만,\n\n모든 데이터값을 \\([0,\\,1]\\) 사이의 고정 소수(fixed point number) 로 처리하며, 원래 이미지가 가지고 있던 0 부터 255 사이의 부호 없는 정수값을 숨긴다.\nopencv 에 비해 기능이 부족하고 무엇보다 느리다.\nOpenCV.jl 이라는 opencv 의 julia 포팅이 있다.\n\n그런데 OpenCV.jl 은\n\n기본 이미지 배열 타입은 OpenCV.Mat 이며 julia 의 Array 와 유사하지만 같지는 않다. Array 에서 사용하는 연산중 많은 것을 사용 할 수 없다. 파이썬의 경우는 opencv2 의 배열은 numpy 의 배열인데…\n흑백 이미지라도 OpenCV.Mat 은 3차원 배열이다.\nOpenCV.Mat 에 대한 연산 (배열간, 배열과 스칼라 사이의 사칙연산을 포함하여) 을 모두 다시 쓰느니 OpenCV.Mat 과 julia Array 사이의 변환 함수를 사용하겠다.\nOpenCV.Mat 의 배열의 저장 순서는 C++ 이나 파이썬 과 같이 행 우선 방식이지만 Julia 는 열 우선 방식이다. 따라서 변환시 이를 고려해야 한다.\n\nJulia 의 TestImages.jl 은 다양한 무료 이미지를 다운로드 받을 수 있도록 해 준다. 여기서의 이미지 처리에 사용하는 이미지는 특별한 언급이 없는 한 여기로부터 얻는다.\n\n\nOpenCV.jl 을 julia 에서 사용하기 위해 다음과 같은 함수를 사용한다. 앞으로의 모든 코드는\nusing OpenCV, TestImages\ncv = OpenCV;\n\n# Julia Matrix to OpenCV.MAT 변환\nfunction arr2mat(arr::Matrix{T}) where T&lt;:Real\n    cv.Mat(permutedims(stack([arr, ]), [3,2,1]))\nend\n\n# Julia Image to Matrix 변환\nfunction img2arr(img)\n    T = typeof(img[1, 1].val.i)\n    broadcast(q-&gt;T(q.val.i),img)\nend\n\n# Julia Image to OpenCV.Mat 변환\nfunction img2mat(img) \n    T = typeof(img[1, 1].val.i)\n    tm = broadcast(q-&gt;T(q.val.i),img)\n    cv.Mat(permutedims(stack([tm, ]), [3,2,1]))\nend\n\n# OpenCV.Mat to Julia Matrix 변환\nfunction mat2arr(mat::OpenCV.Mat)\n    return permutedims(mat.data, [3,2,1])\nend",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#여기서",
-    "href": "src/image_processing/image_processing_01.html#여기서",
-    "title": "이미지 프로세싱의 기초",
-    "section": "2 ### 여기서",
-    "text": "2 ### 여기서",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#이미지-변환과-인터폴레이션",
-    "href": "src/image_processing/image_processing_01.html#이미지-변환과-인터폴레이션",
-    "title": "이미지 프로세싱의 기초",
-    "section": "3 이미지 변환과 인터폴레이션",
-    "text": "3 이미지 변환과 인터폴레이션\n이미지를 이용해 흔히 하는 작업이 확대, 축소, 회전, 직선이동이 있으며 이를 아핀 변환(Affine transformation) 이라고 한다.",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#아핀-변환과-인터폴레이션",
-    "href": "src/image_processing/image_processing_01.html#아핀-변환과-인터폴레이션",
-    "title": "이미지 프로세싱의 기초",
-    "section": "3 아핀 변환과 인터폴레이션",
-    "text": "3 아핀 변환과 인터폴레이션\n\n3.1 아핀 변환\n이미지를 이용해 흔히 하는 작업이 확대, 축소, 회전, 직선이동이 있으며 이를 아핀 변환(Affine transformation) 이라고 한다. 아핀 변환은 \\(3\\times 3\\) 가역행렬 \\(\\boldsymbol{T}\\) 에 의해 정해지는 다음과 같은 변환을 의미한다.\n\\[\n\\begin{bmatrix} x' \\\\ y' \\\\t'\\end{bmatrix} = \\boldsymbol{T} \\begin{bmatrix} x \\\\ y \\\\ 1\\end{bmatrix}\n\\]\n예를 들어 \\(\\theta\\) 만큼의 반시계 방향 회전 변환 \\(\\boldsymbol{T}_\\theta\\) 는\n\\[\n\\boldsymbol{T}_\\theta = \\begin{bmatrix} \\cos \\theta & \\sin \\theta & 0 \\\\ -\\sin \\theta & \\cos \\theta & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이며 \\(x\\) 방향으로 \\(d_x\\) \\(y\\) 방향으로 \\(d_y\\) 만큼의 회전 변환 \\(\\boldsymbol{T}_\\boldsymbol{d}\\) 는\n\\[\n\\boldsymbol{T}_\\boldsymbol{d} = \\begin{bmatrix}  1 & 0 & d_x \\\\ 0 & 1 & d_y \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 혹은 \\(y\\) 축 방향으로 기울이는 전단 변환(shear tranformation) \\(\\boldsymbol{T}_{Sx},\\, \\boldsymbol{T}_{Sy}\\) 은 각각\n\\[\n\\boldsymbol{T}_{Sx} = \\begin{bmatrix} 1 & s_x & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix},\\qquad \\boldsymbol{T}_{Sy} = \\begin{bmatrix} 1 & 1 & s_y \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 방향으로 \\(a_x\\) 배 만큼, \\(y\\) 축 방향으로 \\(a_y\\) 배 만큼 키우거나 줄이는 변환 \\(\\boldsymbol{T}_c\\) 는\n\\[\n\\boldsymbol{T}_c = \\begin{bmatrix} a_x & 0 & 0 \\\\ 0 & a_y & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다.\n아핀 변환 \\(T\\) 에 대해 이미지 \\(f\\) 를 변환시킬 때 \\(g=T[f]\\) 인 이미지를 얻고자 한다고 하자. 그렇다면 \\(g[i, j]\\) 는 어떻게 얻을 것인가? \\(g\\) 는 이미지 이므로 \\(i,\\,j\\) 는 정수이다. 아핀 변환의 역변환 \\(T^{-1}\\) 을 생각하자. 아핀변환은 선형 가역변환이므로 항상 역변환이 존재한다. 즉\n\\[\n\\begin{bmatrix}x \\\\ y \\\\ t\\end{bmatrix} = T^{-1}\\begin{bmatrix} x' \\\\ y' \\\\ 1\\end{bmatrix}\n\\]\n이다. 우리는 \\(g(j,\\,i)\\) 값을 알고 싶지만 아핀 역변환에 의한 \\(x,\\,y\\) 는 정수가 아니므로 정확한 값을 얻을 수 없다. 이 때 인터폴레이션을 사용한다.\n\n\n\n3.2 인터폴레이션\n이미지 \\(f[i,\\,j]=f(j,\\,i)\\) 는 자연수인 \\(i,\\,j\\) 에 대해 정해져 있다. \\(x,\\,y\\) 가 자연수가 아닐 때 \\(f(x,\\,y)\\) 값은 인터폴레이션으로 정한다.",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#아핀-변환과-보간법",
-    "href": "src/image_processing/image_processing_01.html#아핀-변환과-보간법",
-    "title": "이미지 프로세싱의 기초",
-    "section": "3 아핀 변환과 보간법",
-    "text": "3 아핀 변환과 보간법\n\n3.1 아핀 변환\n이미지를 이용해 흔히 하는 작업이 확대, 축소, 회전, 직선이동이 있으며 이를 아핀 변환(Affine transformation) 이라고 한다. 아핀 변환은 \\(3\\times 3\\) 가역행렬 \\(\\boldsymbol{T}\\) 에 의해 정해지는 다음과 같은 변환을 의미한다.\n\\[\n\\begin{bmatrix} x' \\\\ y' \\\\t'\\end{bmatrix} = \\boldsymbol{T} \\begin{bmatrix} x \\\\ y \\\\ 1\\end{bmatrix}\n\\]\n예를 들어 \\(\\theta\\) 만큼의 반시계 방향 회전 변환 \\(\\boldsymbol{T}_\\theta\\) 는\n\\[\n\\boldsymbol{T}_\\theta = \\begin{bmatrix} \\cos \\theta & \\sin \\theta & 0 \\\\ -\\sin \\theta & \\cos \\theta & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이며 \\(x\\) 방향으로 \\(d_x\\) \\(y\\) 방향으로 \\(d_y\\) 만큼의 회전 변환 \\(\\boldsymbol{T}_\\boldsymbol{d}\\) 는\n\\[\n\\boldsymbol{T}_\\boldsymbol{d} = \\begin{bmatrix}  1 & 0 & d_x \\\\ 0 & 1 & d_y \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 혹은 \\(y\\) 축 방향으로 기울이는 전단 변환(shear tranformation) \\(\\boldsymbol{T}_{Sx},\\, \\boldsymbol{T}_{Sy}\\) 은 각각\n\\[\n\\boldsymbol{T}_{Sx} = \\begin{bmatrix} 1 & s_x & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix},\\qquad \\boldsymbol{T}_{Sy} = \\begin{bmatrix} 1 & 1 & s_y \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 방향으로 \\(a_x\\) 배 만큼, \\(y\\) 축 방향으로 \\(a_y\\) 배 만큼 키우거나 줄이는 변환 \\(\\boldsymbol{T}_c\\) 는\n\\[\n\\boldsymbol{T}_c = \\begin{bmatrix} a_x & 0 & 0 \\\\ 0 & a_y & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다.\n아핀 변환 \\(T\\) 에 대해 이미지 \\(f\\) 를 변환시킬 때 \\(g=T[f]\\) 인 이미지를 얻고자 한다고 하자. 그렇다면 \\(g[i, j]\\) 는 어떻게 얻을 것인가? \\(g\\) 는 이미지 이므로 \\(i,\\,j\\) 는 정수이다. 아핀 변환의 역변환 \\(T^{-1}\\) 을 생각하자. 아핀변환은 선형 가역변환이므로 항상 역변환이 존재한다. 즉\n\\[\n\\begin{bmatrix}x \\\\ y \\\\ t\\end{bmatrix} = T^{-1}\\begin{bmatrix} x' \\\\ y' \\\\ 1\\end{bmatrix}\n\\]\n이다. 우리는 \\(g(j,\\,i)\\) 값을 알고 싶지만 아핀 역변환에 의한 \\(x,\\,y\\) 는 정수가 아니므로 정확한 값을 얻을 수 없다. 이 때 인터폴레이션을 사용한다.\n\n\n\n3.2 보간법\n이미지 \\(f[i,\\,j]=f(j,\\,i)\\) 는 자연수인 \\(i,\\,j\\) 에 대해 정해져 있다. \\(x,\\,y\\) 가 자연수가 아닐 때 \\(f(x,\\,y)\\) 값은 보간법(interpolation) 으로 정한다.\n\n\n최근접 이웃 보간\n\\((x,\\,y)\\) 에 가장 가까운 정수 값으로 보간하는 것이다. 즉 \\[\nf(x,\\,y) \\mapsto f(\\text{round}(x),\\, \\text{round}(y))\n\\tag{6}\\]\n를 사용한다. 가장 간단하면서도 빠르지만 변환된 이미지의 품질이 좋지 못하다.\n\n\n\n이중 선형 보간\n\\(x,\\,y\\) 에 대해\n\\[\ni\\le y &lt; i+1,\\, j\\le x&lt;j+1\n\\]\n인 정수 \\(i,\\,j\\) 를 찾아 \\(f[i,j]\\), \\(f[i,j+1]\\), \\(f[i+1, j]\\), \\(f[i+1, j+1]\\) 인 네 점을 이용한다.\n\\[\n\\begin{aligned}\nf(x,\\,y) &= (1-x+j)(1-y+i)f(j, i) + (1-x+j)(y-i)f(j,\\,i+1) \\\\[0.3em]\n&+ (x-j)(1-y+i)f(j+1, i) + (x-j)(y-i)f(j+1, i+1).\n\\end{aligned}\n\\tag{7}\\]\n앞서의 최근접 이웃 보간보다는 계산량이 많고 이미지 품질이 좋다.\n\n\n\n이중 큐빅 보간\n\\(x,\\,y\\) 에 대해 \\[\ni\\le y &lt; i+1,\\, j\\le x&lt;j+1\n\\]\n인 정수 \\(i,\\,j\\) 를 찾아 \\(f[i+k,j+m]\\), \\(k,\\,m = -1,\\,0,\\,1,\\,2\\) 인 16개의 점을 이용한다.\n\\[\nd(s) = \\left\\{\\begin{array}{ll} \\dfrac{3|s|^3}{2}-\\dfrac{5|s|^2}{2}+1, & 0 \\le |s| &lt; 1, \\\\ -\\dfrac{|s|^3}{2}+\\dfrac{5|s|^2}{2}-4|s|+2, \\qquad & 1\\le |s|&lt;2 , \\\\ 0 & |s|&gt;2 \\end{array}\\right.\n\\]\n에 대해 다음 함수를 이용하여 계산한다. \\[\nf(x,\\,y) = \\sum_{k=-1}^2 \\sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)\n\\]\n\nTestImages.jl 로 부터 \\(256\\times 256\\) 이미지 lena_gray_256 을 다운 받은 후 \\(100 \\times  100\\) 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 극 ㅕㄹ과는 아래와 같다.\nimg0= cv.resize(img2mat(testimage(\"lena_gray_256.tif\")), cv.Size{Int32}(100, 100))\nimg1 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_NEAREST)\nimg2 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_LINEAR)\nimg3 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_CUBIC)\ns = arr2mat(cat(img1, img2, img3; dims=2))\n\n\n\n왼쪽부터 최근접 이웃 보간, 이중 선형 보간, 이중 큐빅 보간",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
     ]
   }
 ]
