@@ -315,5 +315,4 @@ s = arr2mat(cat(img1, img2, img3; dims=2))
 ```
 
 
-
 ![왼쪽부터 최근접 이웃 보간, 이중 선형 보간, 이중 큐빅 보간](notebooks/interpolation.png)
