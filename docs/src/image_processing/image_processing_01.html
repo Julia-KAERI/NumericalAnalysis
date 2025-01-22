@@ -349,7 +349,12 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#픽셀-반전법에-의한-이미지-가공" id="toc-픽셀-반전법에-의한-이미지-가공" class="nav-link" data-scroll-target="#픽셀-반전법에-의한-이미지-가공"><span class="header-section-number">2.1</span> 픽셀 반전법에 의한 이미지 가공</a></li>
   <li><a href="#gamma-correction-or-gamma-encoding" id="toc-gamma-correction-or-gamma-encoding" class="nav-link" data-scroll-target="#gamma-correction-or-gamma-encoding"><span class="header-section-number">2.2</span> <span class="math inline">\(\gamma\)</span>-correction (or <span class="math inline">\(\gamma\)</span>-encoding)</a></li>
-  <li><a href="#히스토그램-처리" id="toc-히스토그램-처리" class="nav-link" data-scroll-target="#히스토그램-처리"><span class="header-section-number">2.3</span> 히스토그램 처리</a></li>
+  <li><a href="#히스토그램-균등화" id="toc-히스토그램-균등화" class="nav-link" data-scroll-target="#히스토그램-균등화"><span class="header-section-number">2.3</span> 히스토그램 균등화</a></li>
+  </ul></li>
+  <li><a href="#아핀-변환과-보간법" id="toc-아핀-변환과-보간법" class="nav-link" data-scroll-target="#아핀-변환과-보간법"><span class="header-section-number">3</span> 아핀 변환과 보간법</a>
+  <ul class="collapse">
+  <li><a href="#아핀-변환" id="toc-아핀-변환" class="nav-link" data-scroll-target="#아핀-변환"><span class="header-section-number">3.1</span> 아핀 변환</a></li>
+  <li><a href="#보간법" id="toc-보간법" class="nav-link" data-scroll-target="#보간법"><span class="header-section-number">3.2</span> 보간법</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -417,11 +422,11 @@ window.Quarto = {
 <p><br></p>
 <p><code>OpenCV.jl</code> 을 julia 에서 사용하기 위해 다음과 같은 함수를 사용한다. 앞으로의 모든 코드는</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OpenCV</span>, <span class="bu">TestImages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cv2 <span class="op">=</span> OpenCV;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cv <span class="op">=</span> OpenCV;</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Julia Matrix to OpenCV.MAT 변환</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">arr2mat</span>(arr<span class="op">::</span><span class="dt">Matrix{T}</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">Real</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    cv2.<span class="fu">Mat</span>(<span class="fu">permutedims</span>(<span class="fu">stack</span>([arr, ]), [<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">1</span>]))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    cv.<span class="fu">Mat</span>(<span class="fu">permutedims</span>(<span class="fu">stack</span>([arr, ]), [<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">1</span>]))</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Julia Image to Matrix 변환</span></span>
@@ -434,7 +439,7 @@ window.Quarto = {
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">img2mat</span>(img) </span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">typeof</span>(img[<span class="fl">1</span>, <span class="fl">1</span>].val.i)</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    tm <span class="op">=</span> <span class="fu">broadcast</span>(<span class="fu">q-&gt;T</span>(q.val.i),img)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    cv2.<span class="fu">Mat</span>(<span class="fu">permutedims</span>(<span class="fu">stack</span>([tm, ]), [<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">1</span>]))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    cv.<span class="fu">Mat</span>(<span class="fu">permutedims</span>(<span class="fu">stack</span>([tm, ]), [<span class="fl">3</span>,<span class="fl">2</span>,<span class="fl">1</span>]))</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># OpenCV.Mat to Julia Matrix 변환</span></span>
@@ -484,7 +489,7 @@ T_\gamma [f](i, j)  = f(i, j)^\gamma
 <li><p>원본 이미지가 1024x1024 로 크기 때문에 그 크기를 줄여주었다.</p></li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>img0<span class="op">=</span> <span class="fu">testimage_dip3e</span>(<span class="st">"Fig0227(a)(washington_infrared).tif"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>img1 <span class="op">=</span> cv2.<span class="fu">resize</span>(<span class="fu">img2mat</span>(img0), cv2.<span class="fu">Size</span><span class="dt">{Int32}</span>(<span class="fl">256</span>, <span class="fl">256</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>img1 <span class="op">=</span> cv.<span class="fu">resize</span>(<span class="fu">img2mat</span>(img0), cv.<span class="fu">Size</span><span class="dt">{Int32}</span>(<span class="fl">256</span>, <span class="fl">256</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>img2 <span class="op">=</span> <span class="fu">arr2mat</span>(<span class="fu">round</span>.(<span class="dt">UInt8</span>, ((img1<span class="op">./</span><span class="fl">255</span>)<span class="op">.^</span><span class="fl">0.5</span>)<span class="op">*</span><span class="fl">255</span>))</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>img3 <span class="op">=</span> <span class="fu">arr2mat</span>(<span class="fu">round</span>.(<span class="dt">UInt8</span>, ((img1<span class="op">./</span><span class="fl">255</span>)<span class="op">.^</span><span class="fl">2</span>)<span class="op">*</span><span class="fl">255</span>))</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>img4 <span class="op">=</span> <span class="fu">arr2mat</span>(<span class="fu">round</span>.(<span class="dt">UInt8</span>, ((img1<span class="op">./</span><span class="fl">255</span>)<span class="op">.^</span><span class="fl">5</span>)<span class="op">*</span><span class="fl">255</span>));</span>
@@ -504,11 +509,165 @@ T_\gamma [f](i, j)  = f(i, j)^\gamma
 </ul>
 <p><br></p>
 </section>
-<section id="히스토그램-처리" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="히스토그램-처리"><span class="header-section-number">2.3</span> 히스토그램 처리</h3>
-<p>이미지의 각 픽셀은 0 에서 255 사이의 정수값을 가진다. 그 값의 빈도는 이미지의 성질을 파악하는데 중요하다.</p>
+<section id="히스토그램-균등화" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="히스토그램-균등화"><span class="header-section-number">2.3</span> 히스토그램 균등화</h3>
+<p>이미지의 각 픽셀은 0 에서 255 사이의 정수값을 가진다. 그 값의 빈도는 이미지의 성질을 파악하는데 중요하다. 예를 들어 <a href="#fig-ImageProcessing_gamma_correction" class="quarto-xref">그림&nbsp;2</a> 의 <span class="math inline">\(\gamma\)</span> 에 대한 히스토그램은 다음과 같다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># opencv 의 calcHist 함수를 julia 에서 쓰기 편하게 변환함.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">histogram1d</span>(mat<span class="op">::</span><span class="dt">OpenCV.Mat{T}</span>) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">Union{UInt8, UInt16}</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    tm <span class="op">=</span> <span class="fu">Int32</span>(<span class="fu">typemax</span>(T))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> cv.<span class="fu">calcHist</span>(cv.InputArray[mat,], <span class="dt">Int32</span>[<span class="fl">0</span>], <span class="fu">fill</span>(<span class="fu">UInt8</span>(<span class="fl">1</span>), <span class="fu">size</span>(img1)), <span class="dt">Int32</span>[tm<span class="op">+</span><span class="fl">1</span>], <span class="dt">Float32</span>[<span class="fl">0</span>, tm<span class="op">+</span><span class="fl">1</span>])</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (<span class="fl">0</span><span class="op">:</span><span class="fl">1</span><span class="op">:</span>tm, <span class="fu">Int64</span>.(v[<span class="fl">1</span>,<span class="fl">1</span>,<span class="op">:</span>]))    </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>,<span class="fl">1</span>])</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (img, g) <span class="kw">in</span> <span class="fu">zip</span>([img1, img2, img3, img4], [<span class="fl">1.0</span>, <span class="fl">0.5</span>, <span class="fl">2</span>, <span class="fl">5</span>])</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    b, v <span class="op">=</span> <span class="fu">histogram1d</span>(img)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(ax, b, v, label <span class="op">=</span> L<span class="st">"\gamma = %</span><span class="sc">$</span>g<span class="st">"</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">axislegend</span>()</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-ImageProcessing_histogram_gamma_correction" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_histogram_gamma_correction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="notebooks/histogram_gamma.png" class="img-fluid figure-img" width="400">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_histogram_gamma_correction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;3: <a href="#fig-ImageProcessing_gamma_correction" class="quarto-xref">그림&nbsp;2</a> 의 <span class="math inline">\(\gamma\)</span> 값에 따른 히스토그램
+</figcaption>
+</figure>
+</div>
+<p><br></p>
+<p>위의 그림에서 <span class="math inline">\(\gamma=5\)</span> 일 때의 히스토그램은 낮은 값으로 몰려 있다. 혹은 이미지 중에는 전체 256 의 채널 갑 중에 어떤 값을 중심으로 몰려 있을 수 있다. 이런 경우 컨트라스트를 조절 하기 위해 앞서의 <span class="math inline">\(\gamma\)</span>-correction 방법으로는 개선이 크게 되지 않는다. 이 때 사용하는 방법이 히스토그램 균등화이다. 한 채널을 중심으로 몰려 있는 히스토그램을 균등화 한다.</p>
+<p>원래의 히스토그램을 변수 <span class="math inline">\(r\)</span> 에 대해 <span class="math inline">\(h(r)\)</span> 이며 <span class="math inline">\(r\)</span> 은 <span class="math inline">\(0\)</span> 부터 <span class="math inline">\(L-1\)</span> (여기서는 255) 까지 가질 수 있고 <span class="math inline">\(h(r)\)</span> 확률 별수 <span class="math inline">\(r\)</span> 에 대한 확률 밀도에 비례하는 값이라고 가정하자. <span class="math inline">\(p_r(r)\)</span> 을 확률밀도라고 하면</p>
+<p><span id="eq-ImageProcessing_histogram_equalization_1"><span class="math display">\[
+p_r(r) = \dfrac{h(r)}{\int_0^L h(r')\,dr'}
+\tag{1}\]</span></span></p>
+<p>이며 이 때 새로운 변수 <span class="math inline">\(s\)</span> 를 다음과 같이 정의한다.</p>
+<p><span id="eq-ImageProcessing_histogram_equalization_2"><span class="math display">\[
+s=(L-1)\int_{0}^r p_r(r')\,dr'.
+\tag{2}\]</span></span></p>
+<p>그렇다면</p>
+<p><span id="eq-ImageProcessing_histogram_equalization_3"><span class="math display">\[
+\dfrac{ds}{dr} = (L-1)p_r(r)
+\tag{3}\]</span></span></p>
+<p>이며 새로운 변수 <span class="math inline">\(s\)</span> 로 변환된 <span class="math inline">\(p_r(r)\)</span> 은</p>
+<p><span id="eq-ImageProcessing_histogram_equalization_4"><span class="math display">\[
+p_s(s) = p_r(r)\left|\dfrac{ds}{dr}\right| = \dfrac{1}{L-1}
+\tag{4}\]</span></span></p>
+<p>이다. 즉 새로운 변수 <span class="math inline">\(s\)</span> 에 대해 <span class="math inline">\(p_s(s)\)</span> 는 항상 같은 값을 갖게 된다.</p>
+<p>즉 어떤 픽셀의 강도가 <span class="math inline">\(r\)</span> 이라면 새로운 강도는 <span class="math inline">\(s\)</span> 가 된다. <span class="math inline">\(r=0,\,1,\ldots,\,L-1\)</span> 의 값을 가지므로 이에 대한 <span class="math inline">\(s\)</span> 값을</p>
+<p><span id="eq-ImageProcessing_histogram_equalization_4"><span class="math display">\[
+s(r) = \text{round}\left[(L-1)\sum_{i=1}^r \dfrac{h(i)}{\sum_{j=1}^{L-1} h(j)}\right]
+\tag{5}\]</span></span></p>
+<p>를 이용혜 계산한다. <span class="math inline">\(\text{round}(t)\)</span> 는 <span class="math inline">\(t\)</span> 를 반올림 하는 함수이다. <code>OpenCV</code> 에서는 <code>equalizeHist()</code> 함수로 구현되었으며 여기서는 이 함수를 사용한다.</p>
+<p><br></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="notebooks/equalize_histogram_1.png" class="img-fluid figure-img"></p>
+<figcaption>원본, <span class="math inline">\(\gamma=5\)</span> 처리된 이미지, 히스토그램 균등화 된 이미지</figcaption>
+</figure>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>img5 <span class="op">=</span> cv.<span class="fu">equalizeHist</span>(img4)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">arr2mat</span>(<span class="fu">cat</span>(img1, img4, img5; dims<span class="op">=</span><span class="fl">2</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="notebooks/equalize_histogram.png" class="img-fluid figure-img"></p>
+<figcaption>원본, <span class="math inline">\(\gamma=5\)</span> 처리된 이미지, 히스토그램 균등화 된 이미지의 히스토그램</figcaption>
+</figure>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="아핀-변환과-보간법" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="아핀-변환과-보간법"><span class="header-section-number">3</span> 아핀 변환과 보간법</h2>
+<section id="아핀-변환" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="아핀-변환"><span class="header-section-number">3.1</span> 아핀 변환</h3>
+<p>이미지를 이용해 흔히 하는 작업이 확대, 축소, 회전, 직선이동이 있으며 이를 <strong>아핀 변환(Affine transformation)</strong> 이라고 한다. 아핀 변환은 <span class="math inline">\(3\times 3\)</span> 가역행렬 <span class="math inline">\(\boldsymbol{T}\)</span> 에 의해 정해지는 다음과 같은 변환을 의미한다.</p>
+<p><span class="math display">\[
+\begin{bmatrix} x' \\ y' \\t'\end{bmatrix} = \boldsymbol{T} \begin{bmatrix} x \\ y \\ 1\end{bmatrix}
+\]</span></p>
+<p>예를 들어 <span class="math inline">\(\theta\)</span> 만큼의 반시계 방향 회전 변환 <span class="math inline">\(\boldsymbol{T}_\theta\)</span> 는</p>
+<p><span class="math display">\[
+\boldsymbol{T}_\theta = \begin{bmatrix} \cos \theta &amp; \sin \theta &amp; 0 \\ -\sin \theta &amp; \cos \theta &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix}
+\]</span></p>
+<p>이며 <span class="math inline">\(x\)</span> 방향으로 <span class="math inline">\(d_x\)</span> <span class="math inline">\(y\)</span> 방향으로 <span class="math inline">\(d_y\)</span> 만큼의 회전 변환 <span class="math inline">\(\boldsymbol{T}_\boldsymbol{d}\)</span> 는</p>
+<p><span class="math display">\[
+\boldsymbol{T}_\boldsymbol{d} = \begin{bmatrix}  1 &amp; 0 &amp; d_x \\ 0 &amp; 1 &amp; d_y \\ 0 &amp; 0 &amp; 1\end{bmatrix}
+\]</span></p>
+<p>이다. 또한 <span class="math inline">\(x\)</span> 축 혹은 <span class="math inline">\(y\)</span> 축 방향으로 기울이는 <a href="https://en.wikipedia.org/wiki/Shear_mapping">전단 변환(shear tranformation)</a> <span class="math inline">\(\boldsymbol{T}_{Sx},\, \boldsymbol{T}_{Sy}\)</span> 은 각각</p>
+<p><span class="math display">\[
+\boldsymbol{T}_{Sx} = \begin{bmatrix} 1 &amp; s_x &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix},\qquad \boldsymbol{T}_{Sy} = \begin{bmatrix} 1 &amp; 1 &amp; s_y \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix}
+\]</span></p>
+<p>이다. 또한 <span class="math inline">\(x\)</span> 축 방향으로 <span class="math inline">\(a_x\)</span> 배 만큼, <span class="math inline">\(y\)</span> 축 방향으로 <span class="math inline">\(a_y\)</span> 배 만큼 키우거나 줄이는 변환 <span class="math inline">\(\boldsymbol{T}_c\)</span> 는</p>
+<p><span class="math display">\[
+\boldsymbol{T}_c = \begin{bmatrix} a_x &amp; 0 &amp; 0 \\ 0 &amp; a_y &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix}
+\]</span></p>
+<p>이다.</p>
+<p>아핀 변환 <span class="math inline">\(T\)</span> 에 대해 이미지 <span class="math inline">\(f\)</span> 를 변환시킬 때 <span class="math inline">\(g=T[f]\)</span> 인 이미지를 얻고자 한다고 하자. 그렇다면 <span class="math inline">\(g[i, j]\)</span> 는 어떻게 얻을 것인가? <span class="math inline">\(g\)</span> 는 이미지 이므로 <span class="math inline">\(i,\,j\)</span> 는 정수이다. 아핀 변환의 역변환 <span class="math inline">\(T^{-1}\)</span> 을 생각하자. 아핀변환은 선형 가역변환이므로 항상 역변환이 존재한다. 즉</p>
+<p><span class="math display">\[
+\begin{bmatrix}x \\ y \\ t\end{bmatrix} = T^{-1}\begin{bmatrix} x' \\ y' \\ 1\end{bmatrix}
+\]</span></p>
+<p>이다. 우리는 <span class="math inline">\(g(j,\,i)\)</span> 값을 알고 싶지만 아핀 역변환에 의한 <span class="math inline">\(x,\,y\)</span> 는 정수가 아니므로 정확한 값을 얻을 수 없다. 이 때 인터폴레이션을 사용한다.</p>
+<p><br></p>
+</section>
+<section id="보간법" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="보간법"><span class="header-section-number">3.2</span> 보간법</h3>
+<p>이미지 <span class="math inline">\(f[i,\,j]=f(j,\,i)\)</span> 는 자연수인 <span class="math inline">\(i,\,j\)</span> 에 대해 정해져 있다. <span class="math inline">\(x,\,y\)</span> 가 자연수가 아닐 때 <span class="math inline">\(f(x,\,y)\)</span> 값은 <strong>보간법(interpolation)</strong> 으로 정한다.</p>
+<p><br></p>
+<section id="최근접-이웃-보간" class="level4">
+<h4 class="anchored" data-anchor-id="최근접-이웃-보간"><strong>최근접 이웃 보간</strong></h4>
+<p><span class="math inline">\((x,\,y)\)</span> 에 가장 가까운 정수 값으로 보간하는 것이다. 즉 <span id="eq-ImageProcessing_nearest_neighbor_interpolation"><span class="math display">\[
+f(x,\,y) \mapsto f(\text{round}(x),\, \text{round}(y))
+\tag{6}\]</span></span></p>
+<p>를 사용한다. 가장 간단하면서도 빠르지만 변환된 이미지의 품질이 좋지 못하다.</p>
+<p><br></p>
+</section>
+<section id="이중-선형-보간" class="level4">
+<h4 class="anchored" data-anchor-id="이중-선형-보간"><strong>이중 선형 보간</strong></h4>
+<p><span class="math inline">\(x,\,y\)</span> 에 대해</p>
+<p><span class="math display">\[
+i\le y &lt; i+1,\, j\le x&lt;j+1
+\]</span></p>
+<p>인 정수 <span class="math inline">\(i,\,j\)</span> 를 찾아 <span class="math inline">\(f[i,j]\)</span>, <span class="math inline">\(f[i,j+1]\)</span>, <span class="math inline">\(f[i+1, j]\)</span>, <span class="math inline">\(f[i+1, j+1]\)</span> 인 네 점을 이용한다.</p>
+<p><span id="eq-ImageProcessing_bilinear_interpolation"><span class="math display">\[
+\begin{aligned}
+f(x,\,y) &amp;= (1-x+j)(1-y+i)f(j, i) + (1-x+j)(y-i)f(j,\,i+1) \\[0.3em]
+&amp;+ (x-j)(1-y+i)f(j+1, i) + (x-j)(y-i)f(j+1, i+1).
+\end{aligned}
+\tag{7}\]</span></span></p>
+<p>앞서의 최근접 이웃 보간보다는 계산량이 많고 이미지 품질이 좋다.</p>
+<p><br></p>
+</section>
+<section id="이중-큐빅-보간" class="level4">
+<h4 class="anchored" data-anchor-id="이중-큐빅-보간"><strong>이중 큐빅 보간</strong></h4>
+<p><span class="math inline">\(x,\,y\)</span> 에 대해 <span class="math display">\[
+i\le y &lt; i+1,\, j\le x&lt;j+1
+\]</span></p>
+<p>인 정수 <span class="math inline">\(i,\,j\)</span> 를 찾아 <span class="math inline">\(f[i+k,j+m]\)</span>, <span class="math inline">\(k,\,m = -1,\,0,\,1,\,2\)</span> 인 16개의 점을 이용한다.</p>
+<p><span class="math display">\[
+d(s) = \left\{\begin{array}{ll} \dfrac{3|s|^3}{2}-\dfrac{5|s|^2}{2}+1, &amp; 0 \le |s| &lt; 1, \\ -\dfrac{|s|^3}{2}+\dfrac{5|s|^2}{2}-4|s|+2, \qquad &amp; 1\le |s|&lt;2 , \\ 0 &amp; |s|&gt;2 \end{array}\right.
+\]</span></p>
+<p>에 대해 다음 함수를 이용하여 계산한다. <span class="math display">\[
+f(x,\,y) = \sum_{k=-1}^2 \sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)
+\]</span></p>
+<p><br></p>
+<p><code>TestImages.jl</code> 로 부터 <span class="math inline">\(256\times 256\)</span> 이미지 <code>lena_gray_256</code> 을 다운 받은 후 <span class="math inline">\(100 \times  100\)</span> 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 극 ㅕㄹ과는 아래와 같다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>img0<span class="op">=</span> cv.<span class="fu">resize</span>(<span class="fu">img2mat</span>(<span class="fu">testimage</span>(<span class="st">"lena_gray_256.tif"</span>)), cv.<span class="fu">Size</span><span class="dt">{Int32}</span>(<span class="fl">100</span>, <span class="fl">100</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>img1 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_NEAREST)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>img2 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_LINEAR)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>img3 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_CUBIC)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="fu">arr2mat</span>(<span class="fu">cat</span>(img1, img2, img3; dims<span class="op">=</span><span class="fl">2</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="notebooks/interpolation.png" class="img-fluid figure-img"></p>
+<figcaption>왼쪽부터 최근접 이웃 보간, 이중 선형 보간, 이중 큐빅 보간</figcaption>
+</figure>
+</div>
 
 
+</section>
 </section>
 </section>
 
