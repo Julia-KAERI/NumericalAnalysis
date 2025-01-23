@@ -844,8 +844,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_03.html",
-    "href": "src/image_processing/image_processing_03.html",
+    "objectID": "src/image_processing/image_processing_02.html",
+    "href": "src/image_processing/image_processing_02.html",
     "title": "푸리에 변환을 이용한 이미지 처리",
     "section": "",
     "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
@@ -856,8 +856,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_03.html#푸리에-급수와-푸리에-변환의-수학적-성질",
-    "href": "src/image_processing/image_processing_03.html#푸리에-급수와-푸리에-변환의-수학적-성질",
+    "objectID": "src/image_processing/image_processing_02.html#푸리에-급수와-푸리에-변환의-수학적-성질",
+    "href": "src/image_processing/image_processing_02.html#푸리에-급수와-푸리에-변환의-수학적-성질",
     "title": "푸리에 변환을 이용한 이미지 처리",
     "section": "1 푸리에 급수와 푸리에 변환의 수학적 성질",
     "text": "1 푸리에 급수와 푸리에 변환의 수학적 성질\n\n1.1 푸리에 급수\n주기 \\(T\\) 를 갖는 연속함수 \\(f(t)\\) 는 다음과 같은 푸리에 급수로 표현 할 수 있다.\n\\[\n\\begin{aligned}\nf(t) &= \\sum_{n=-\\infty}^{\\infty} F_n \\exp \\left(\\dfrac{i 2\\pi n}{T}t\\right)\\,,\\\\\nF_n &= \\dfrac{1}{T}\\int_{-T/2}^{T/2} f(t) \\exp \\left(-\\dfrac{i2\\pi n }{T}t \\right)\\, dt\\,, \\qquad n\\in \\mathbb{Z}\n\\end{aligned}\n\\]\n\n\n\n1.2 기저함수의 직교성\n\\[\n\\int_{-T/2}^{T/2} \\exp \\left( \\dfrac{i 2\\pi m}{T}t\\right) \\exp \\left(-\\dfrac{i 2\\pi n}{T}t \\right)\\, dt = \\delta_{nm}\n\\]\n\n\n\n1.3 주기함수와 푸리에 급수\n\n모든 주기성을 갖는 연속함수는 푸리에 급수로 표현 할 수 있다.",
@@ -868,8 +868,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_03.html#푸리에-변환",
-    "href": "src/image_processing/image_processing_03.html#푸리에-변환",
+    "objectID": "src/image_processing/image_processing_02.html#푸리에-변환",
+    "href": "src/image_processing/image_processing_02.html#푸리에-변환",
     "title": "푸리에 변환을 이용한 이미지 처리",
     "section": "2 푸리에 변환",
     "text": "2 푸리에 변환\n\n2.1 1차원 푸리에 변환\n\\[\n\\begin{aligned}\nF(\\mu) &= \\mathfrak{I} \\left[f(t)\\right]=\\int_{-\\infty}^{\\infty} f(t)e^{-2i\\pi \\mu t}\\, dt\\,, \\\\\nf (t) &= \\mathfrak{I}^{-1} \\left[F(\\mu)\\right] = \\int_{-\\infty}^{\\infty} F(\\mu) e^{2i \\pi \\mu t} \\, d\\mu\n\\end{aligned}\n\\]\n\n\n2.2 2차원 푸리에 변환\n\\[\n\\begin{aligned}\nF(u,\\,v) &= \\mathfrak{I} \\left[f(x,\\,y)\\right]=\\int_{-\\infty}^{\\infty}\\int_{-\\infty}^{\\infty} f(x,\\,y)e^{-2i\\pi (ux+vy)}\\, dxdy\\,, \\\\\nf (x,\\,y) &= \\mathfrak{I}^{-1} \\left[F(u,\\,v)\\right] = \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} F(\\mu) e^{2i \\pi (ux+vy)} \\, dudv\n\\end{aligned}\n\\]\n\n\n\n2.3 푸리에 변환의 몇가지 수학적 성질\n\n1. Similarity\n\\[\nf (x,\\,y) \\iff F(u,\\,v) \\implies f(ax,\\,by) =\\dfrac{1}{ab} F\\left(\\dfrac{u}{a},\\, \\dfrac{v}{b}\\right)\n\\]\n\n\\[\n\\begin{aligned}\n\\mathfrak{I}[f(ax,\\,by)] &= \\iint f(ax,\\, by) e^{-2i\\pi (ux+vy)}\\,dxdy \\qquad & t=ax,\\, s=by\\\\\n&= \\dfrac{1}{ab} \\iint f(s,\\,t) e^{-2i \\pi (ut/a+vs/b)}\\, dtds \\\\\n&= \\dfrac{1}{ab} F \\left(\\dfrac{u}{a},\\, \\dfrac{v}{b} \\right)\n\\end{aligned}\n\\]\n\n\n\n2. Shift Theorem\n\\[\nf(x,\\,y) \\iff F(u,\\,v) \\implies f(x-a,\\, y-b) \\iff \\exp (i2\\pi (au+bv)) F(u,\\,v)\n\\]\n\n\\[\n\\begin{aligned}\n\\mathfrak{I}[f(x-a,\\, y-b) ]&= \\iint f(x-a,\\, y-b) e^{-2i\\pi (ux+vy)} \\,dxdy \\qquad & t=x-a,\\, s=y-b\\\\\n&=\\iint f(t,\\,s) e^{-2i\\pi (ux+vy)} e^{2i\\pi (au+bv)} \\, dxdy \\\\\n&= e^{2i\\pi (au+bv)}F(u,\\,v)\n\\end{aligned}\n\\]\n\n\n\n3. 도함수의 푸리에 변환\n\\[\n\\mathfrak{I}[f(x)] = F(u)   \\implies \\mathfrak{I}\\left[ \\dfrac{d^kf}{dx^k} \\right] =( 2i\\pi u)^k F(u)\n\\]\n\n\\(k=1\\) 인 경우만 보이면 나머지는 쉽게 일반화 된다. \\(\\mathfrak{I}[f(x)]=F(u)\\) 이면 \\(f(x)=\\displaystyle \\int_{-\\infty}^{\\infty} F(u)e^{2i\\pi ux}\\, du\\) 이므로\n\\[\nf'(x) =  \\int_{-\\infty}^{\\infty}(2i\\pi u) F(u)e^{2i \\pi ux} \\, du\n\\]\n이다. 따라서\n\\[\n\\mathfrak{I}[f'(x)] = (2i\\pi u) F(u)\n\\] 이다.\n\n\n\n\n2.4 Fourier Spectrum, Phase, Fourier Power Spectrum\n\\(F(u,\\,v)\\) 를 극좌표 형태로 다음과 같이 표현 할 수 있다.\n\\[\nF(u,\\,v) = |F(u,\\,v)| e^{i\\Phi(u,\\,v)}\n\\]\n이 때 \\(|F(u,\\,v)|\\) 를 푸리에 스펙트럼 (Fourier spectrum) 이라 하고, \\(\\Phi(u,\\,v)\\) 를 위상 (phase) 이라 한다. 또한 \\(P(u,\\,v) =|F(u,\\,v)|^2\\) 를 푸리에 파워 스펙트럼 (Fourier power spectrum) 이라 한다.\n\n\n\n2.5 평행이동과 회전변환의 푸리에 변환\n\n\n\n2.6 주기적 임펄스 함수의 푸리에 변환\n단위 임펄스 함수(디렉 델타 함수)가 \\(T\\) 를 주기로 반복되는 함수를 주기적 임펄스 함수라 하며 이를 \\(S_T(t)\\) 라 하자. 이는 주기함수이므로 푸리에 급수로 표현 할 수 있으며 다음과 같다.\n\\[\n\\begin{aligned}\nS_T(t) &= \\sum_{n=-\\infty}^{\\infty} \\delta \\left(t-nT \\right) \\,, \\\\\n&=\\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\exp \\left( \\dfrac{-i2n\\pi t}{T}\\right)\n\\end{aligned}\n\\]\n단일 임펄스 함수 \\(\\delta(\\mu-\\mu_0)\\) 에 대한 푸리에 변환은 다음과 같다.\n\\[\n\\mathfrak{I}[\\delta (\\mu-\\mu_0)] = \\int_{-\\infty}^{\\infty} \\delta (\\mu-\\mu_0) e^{2i\\pi \\mu t}\\, d\\mu = e^{2i\\pi \\mu_0 t}\n\\]\n따라서,\n\\[\n\\mathfrak{I}^{-1} \\left[ \\delta \\left( \\mu-\\dfrac{n}{T} \\right) \\right] = \\exp \\left( \\dfrac{2in\\pi t}{t} \\right) \\iff \\mathfrak{I}\\left[  \\exp \\left( \\dfrac{2in\\pi t}{t} \\right) \\right] =  \\delta \\left( \\mu-\\dfrac{n}{T} \\right)\n\\]\n이다. 이를 이용하면 \\(s_T(t)\\) 의 푸리에 변환식 \\(S(\\mu)=\\mathfrak{I}[s_N(t)]\\) 를 계산 할 수 있으며 다음과 같다.\n\\[\nS (\\mu) = \\mathfrak{I}\\left[\\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\exp \\left( \\dfrac{-i2n\\pi t}{T}\\right)\\right] = \\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\mathfrak{I}\\left[ \\exp \\left( \\dfrac{-i2n\\pi t}{T}\\right) \\right] = \\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\delta \\left(\\mu - \\dfrac{n}{T}\\right)\n\\]",
@@ -880,8 +880,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_03.html#convolution-의-푸리에-변환",
-    "href": "src/image_processing/image_processing_03.html#convolution-의-푸리에-변환",
+    "objectID": "src/image_processing/image_processing_02.html#convolution-의-푸리에-변환",
+    "href": "src/image_processing/image_processing_02.html#convolution-의-푸리에-변환",
     "title": "푸리에 변환을 이용한 이미지 처리",
     "section": "3 Convolution 의 푸리에 변환",
     "text": "3 Convolution 의 푸리에 변환\n두 함수 \\(f(t),\\, g(t)\\) 의 convolution \\(f(t) \\ast g(t)\\) 은 다음과 같이 정의된다.\n\\[\nf(t) \\ast g(t) \\equiv \\int_{-\\infty}^{\\infty} f(\\tau) g(t-\\tau) \\, d\\tau\n\\]\n\\(F(\\mu)= \\mathfrak{I}[f(t)],\\, G(\\mu)=\\mathfrak{I}[g(t)]\\) 라 할 때, \\(f(t)\\ast g(t)\\) 의 푸리에 변환을 구하면,\n\\[\n\\begin{aligned}\n\\mathfrak{I}[f(t) \\ast g(t)] &= \\int_{-\\infty}^{\\infty} \\left[ \\int_{-\\infty}^{\\infty} f(\\tau)g(t-\\tau) d\\tau\\right] e^{-2in\\pi \\mu t}\\, dt \\\\\n&= \\int_{-\\infty}^{\\infty}f(\\tau) \\left[  \\int_{-\\infty}^{\\infty} g(t-\\tau)e^{-2in \\pi \\mu t}\\, dt\\right] \\,d\\tau \\\\\n&= \\int_{-\\infty}^{\\infty} f(\\tau) G(\\mu)e^{-2in \\pi \\mu \\tau} \\, d\\tau \\\\\n&= F(\\mu)G(\\mu)\n\\end{aligned}\n\\]\n즉 합성곱의 푸리에 변환은 푸리에 변환의 곱이다. 이를 응용하면 두 함수의 곱의 푸리에변환은 합성곱이 됨을 보일 수 있다. 즉,\n\\[\n\\mathfrak{I}[f(t)g(t)]=F(\\mu)\\ast G(\\mu)\n\\]\n가 된다.",
@@ -892,8 +892,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_03.html#푸리에-변환과-샘플링-sampling",
-    "href": "src/image_processing/image_processing_03.html#푸리에-변환과-샘플링-sampling",
+    "objectID": "src/image_processing/image_processing_02.html#푸리에-변환과-샘플링-sampling",
+    "href": "src/image_processing/image_processing_02.html#푸리에-변환과-샘플링-sampling",
     "title": "푸리에 변환을 이용한 이미지 처리",
     "section": "4 푸리에 변환과 샘플링 (sampling)",
     "text": "4 푸리에 변환과 샘플링 (sampling)\n\n4.1 샘플링\n임의의 연속함수 \\(f(t)\\) 를 \\(T\\) 를 주기로 샘플링 하였다고 하자. 그렇다면 이 샘플링 \\(\\tilde{f}(t)\\) 은 다음과 같은 식으로 표현 할 수 있다.\n\\[\n\\tilde{f}(t) = f(t)S_T(t)\\sum_{n=-\\infty}^{\\infty} f(t) \\delta (t-nT)\n\\]\n즉 연속 신호에 대해 주기적으로 신호를 뽑아 불연속 신호로 만드는 것을 sampling 이라 한다.\n\n\n\n4.2 샘플링 된 신호의 푸리에 변환\n이 때 \\(\\mathfrak{I}[f(t)]= F(\\mu),\\, \\mathfrak{I}[s_T(t)]= S(\\mu)\\) 라 하자 \\(\\displaystyle S(\\mu)=\\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty} \\delta \\left( \\mu - \\dfrac{n}{T}\\right)\\) 임은 알고 있다. 그렇다면 \\(\\tilde{F}(\\mu)=\\mathfrak{I}\\left[\\tilde{f}(t) \\right]\\) 를 구하면,\n\\[\n\\begin{aligned}\n\\tilde{F}(\\mu) & = F(\\mu)\\ast S(\\mu) = \\int_{-\\infty}^{\\infty} F(\\tau)S(\\mu-\\tau)\\, d\\tau \\\\\n&= \\dfrac{1}{T} \\sum_{n=-\\infty}^{\\infty}\\int_{-\\infty} F(\\tau) \\delta \\left(\\mu-\\tau-\\dfrac{n}{T}\\right)\\, d\\tau \\\\\n&= \\dfrac{1}{T}\\sum_{n=-\\infty}^{\\infty} F\\left( \\mu - \\dfrac{n}{T} \\right)\n\\end{aligned}\n\\]\n이다. 즉, 주기 \\(T\\) 로 샘플링된 연속 함수 \\(f(t)\\)의 함수의 푸리에 변환은 원래 함수의 푸리에 변환 \\(F(\\mu)\\) 를 주기 \\(1/T\\) 를 갖는 임펄스 함수로 바꾼 형태임을 알 수 있다.\n\n\n\n4.3 밴드-한계 신호 (band-limited signal), Over-sampling, under-sampling, critical-sampling, aliasing\n\n위의 그림을 보자. 원본연속함수(연속신호) \\(f(t)\\) 를 푸리에 변환한 함수 중, 그래프 (a) 와 같이 일부 구간 \\([-\\mu_M,\\,\\mu_M]\\)에 대한 변환 신호 \\(F(\\mu)\\) 만을 알고 있는 상황이라고 가정하자. 이렇계 특정 구간을 제외하고 \\(F(\\mu)=0\\) 일 때 이를 밴드한계신호라 한다.\n\\(f (t)\\) 를 주기 \\(T\\) 를 조절해 가며 샘플링한 함수를 푸리에 변환한다고 하자. 만약, 주기를 \\(1/T&gt;2\\mu_M\\) 이 되도록 샘플링하면 \\(F(\\mu)\\) 가 주기적으로 배열되며 그간격은 \\(1/T\\) 가 이되겠지만, \\(1/T&gt;2\\mu_M\\) 이므로, 결과는 그림 (b) 와 같이 띄엄띄엄 배열된 삼각형 신호가 될 것이다. 즉 \\(\\tilde{F}(\\mu)\\) 가 불연속 함수가 된다. 그러나 원래 \\(F(\\mu)\\) 가 가지고 있던 함수정보가 고스란히 남아 있으므로, 결과물로 부터 다시 역변환을 취하면 원래 함수 (신호값) 을 복원 할 수 있다. 이러한 결과를 오버-샘플링 (over-sampling) 이라 한다.\n만약, 주기 조건이 \\(1/T &lt; 2\\mu_M\\) 이라면 이번에도 \\(F(\\mu)\\) 가 주기적으로 배열되겠지만, \\(1/T &lt; 2\\mu_M\\) 이므로, 결과는 그래프 (d) 처럼 삼각형 신호 중 일부가 파묻힌 결과가 될 것이다. 비록 \\(F(\\mu)\\) 는 연속 함수가 되었지만, 원래의 정보를 잃어 버리게 되며, 이러한 결과를 언더-샘플링 (under-sampling) 이라 한다.\n만약 주기가 \\(1/T= 2\\mu_M\\) 로서 딱 맞다면, 그림 (c) 처럼, \\(F(\\mu)\\) 는 삼각형 신호가 제대로 연속 배열된 결과가 된다. 이러한 결과를 critical-sampling 이라 한다.\n따라서 원래 함수의 신호를 복원하기 위한 샘플링 충분 조건은 \\(1/T\\ge 2\\mu_M\\) 이 될 것이다. 이것은 소위 나이퀴스트-샤논 샘플링 정리의 결과이다.\n이 정리에 따르면, 어떤 신호든 밴드-한계 함수가 그 함수의 샘플들로부터 복원되기 위해서는, 샘플링 주기의 역수\\(1/T\\) 가 샘플링된 밴드의 최대값의 두 배보다 커야 한다. 만약, 주기의 역수가 이 조건을 만족시키지 못한다면 (즉, 언더-샘플링된 상황), 복원된 신호는 완벽하지 않을 것이며, 이러한 상황을 주파수 앨리어싱 (frequency aliasing) 혹은 그냥 앨리어싱 이라고 한다.\n앨리어싱은 주로 원래 이미지의 해상도보다 낮은 해상도로 이미지를 샘플링하거나, 이미지 획득 장치의 샘플링 간격이 피사체 자체의 고유 구조 특징보다 더 클 때 발생합니다.\n\n # 4.3 이산 푸리에 변환 (Discrete Fourier Transformation, DFT)\n1차원 공간상의 함수 \\(f\\) 에 대해 \\(k\\) 번째 에서의 값을 \\(f_k\\) 라 하자. 그리고 이 수열을 \\(\\mathbf{f}\\) 라 하자. 즉, \\[\n\\mathbf{f}=(f_0,\\ldots,\\,f_{N-1})\n\\]\n이다.\n우리는 여기서 한가지 가정을 하게 되는데 \\(f\\) 이 주기 \\(N\\) 을 갖는다는 것이다. 즉 \\(f_{k+N}=f_k\\) 이다. 이 때 \\(\\mathfrak{I}[\\mathbf{f}]=\\mathbf{F}=[F_1,\\ldots,\\,F_{N-1}]\\) 의 \\(F_\\mu\\) 는 다음과 같이 구할 수 있다.\n\\[\nF_\\mu = \\dfrac{1}{N}\\int_{0}^{N-1} f(t) \\exp \\left(-\\dfrac{i2\\pi \\mu }{N}t \\right)\\, dt = \\dfrac{1}{N} \\sum_{k=0}^{N-1} f_i \\exp\\left(-\\dfrac{i2\\pi \\mu }{N} k \\right)\n\\]\n또한 \\(f_k\\) 는 다음과 같이 표현 할 수 있다.\n\\[\nf_k = \\sum_{\\mu=0}^{N-1} F_\\mu \\exp \\left(-\\dfrac{i2\\pi k\\mu }{N} \\right)\n\\]",
@@ -904,8 +904,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_03.html#이차원-이산-푸리에-변환",
-    "href": "src/image_processing/image_processing_03.html#이차원-이산-푸리에-변환",
+    "objectID": "src/image_processing/image_processing_02.html#이차원-이산-푸리에-변환",
+    "href": "src/image_processing/image_processing_02.html#이차원-이산-푸리에-변환",
     "title": "푸리에 변환을 이용한 이미지 처리",
     "section": "5 이차원 이산 푸리에 변환",
     "text": "5 이차원 이산 푸리에 변환\n\\[\n\\begin{aligned}\nF_{uv} &= \\dfrac{1}{MN} \\sum_{j=0}^{M-1}\\sum_{k=0}^{N-1} f_{jk} \\exp \\left[-2i\\pi \\left(\\dfrac{ju}{M}+\\dfrac{kv}{N}\\right)\\right] \\\\\nf_{jk} &=  \\sum_{j=0}^{M-1}\\sum_{k=0}^{N-1} F_{uv} \\exp \\left[2i\\pi \\left(\\dfrac{ju}{M}+\\dfrac{kv}{N}\\right)\\right]\n\\end{aligned}\n\\]\n\n\n5.1 연속 푸리에 변환과의 관계에서 보는 DFT 의 성질.\n\n\n주기성\n연속 푸리에 변환은 앞서 보았듯이 아래와 같다.\n\\[\n\\begin{aligned}\nF(u,\\,v) &= \\mathfrak{I} \\left[f(x,\\,y)\\right]=\\int_{-\\infty}^{\\infty}\\int_{-\\infty}^{\\infty} f(x,\\,y)e^{-2i\\pi (ux+vy)}\\, dxdy\\,, \\\\\nf (x,\\,y) &= \\mathfrak{I}^{-1} \\left[F(u,\\,v)\\right] = \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} F(\\mu) e^{2i \\pi (ux+vy)} \\, dudv\n\\end{aligned}\n\\]\n불연속 푸리에 변환쌍 에서는 \\(x, y\\) 대신 \\(x/N, y/M\\)가,그리고 \\(u,v\\) 대신 \\(u/N, v/M\\) 가 쓰였다. 이는 원본 함수가 정해진 구간 \\(x = 0,\\,1,\\ldots,\\,N-1\\) 혹은 \\(y=1,\\ldots,\\,M-1\\) 을 벗어나면 다시 주기 \\(N, M\\) 을 가지고 모든 1차원 공간에서 반복된다는 가정이 내포되어 있다. 즉, 정수 \\(p,\\,q\\) 에 대해\n\\[\n\\begin{aligned}\nf(x+pN,\\, y+qN) &= f(x,\\, y) \\\\\nF(u+pN,\\, v+qN) &= F(u,\\, v)\n\\end{aligned}\n\\] 가 성립한다는 뜻이다.\n\n\n\n정규화 인자 (normalization factor)\n또한, \\(F(u,\\,v)\\) 의 계수에 연속 푸리에 변환에는 없던 \\(\\dfrac{1}{NM}\\) 가 생긴것을 볼 수 있다.우리가 다루는 이미지 같은 신호는 공간상에서 제약이 있고 (즉, 가로와 세로의 길이가 정해져 있고), 또한 신호들은 불연속적으로 나열되어 있으므로, 이를 푸리에 변환 과정에서 보상하기 위해, \\(F (u,\\,v)\\) 의 계수에 \\(\\dfrac{1}{MN}\\) 가 정규화 인자 (normalization factor)로서 생긴 것이다.",
@@ -916,8 +916,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_03.html#차원-불연속-푸리에-변환-2d-dft을-이용한-이미지-처리",
-    "href": "src/image_processing/image_processing_03.html#차원-불연속-푸리에-변환-2d-dft을-이용한-이미지-처리",
+    "objectID": "src/image_processing/image_processing_02.html#차원-불연속-푸리에-변환-2d-dft을-이용한-이미지-처리",
+    "href": "src/image_processing/image_processing_02.html#차원-불연속-푸리에-변환-2d-dft을-이용한-이미지-처리",
     "title": "푸리에 변환을 이용한 이미지 처리",
     "section": "6 2차원 불연속 푸리에 변환 (2D DFT)을 이용한 이미지 처리",
     "text": "6 2차원 불연속 푸리에 변환 (2D DFT)을 이용한 이미지 처리\n\n\n6.1 Ideal Low Pass Filtering\n2D DFT 행렬을 DC 인자를 중앙에 배치하여 재배열했을 경우, 원본 이미지에서 낮은 픽셀 빈도를 갖는 성분은 중앙 (즉, \\((u,v) \\approx (0,0)\\)) 근처 에 모이게 된다. 낮은 빈도를 갖는다는 것은 공간 상에서 신호 주기가 크다는 의미고, 역공간에서는 ’1/주기’가 작은 값으로 대응이 될 것이므로, \\((u, v)\\) 가 중앙 부분으로 몰리게 되는 것이다. 따라서, 원본 이미지의 로우-패스 필터링을 하고 싶다면, 푸리에 변환 된 행렬의 중앙 부분만 따로 골라내어 다시 역변환하면 될 것이다.\n가장 간단히 생각 할 수 있는 방법은 원점 주위의 특정 반경 안에 들어오는 2D DFT 이미지만 뽑아 역변환 해주는 것이며 이를 ideal low pass filtering 이라 한다.\n\n\n\n6.2 Ideal High Pass Filtering\nIdeal low pass filtering 과 반대로 생각해 주면 된다.\n\n\n\n6.3 버터워스 필터링 (Butterworth filtering)\nIdeal low/high pass filter 는 계단 함수 형태로, 그 과정에서 물결무늬 같은 원하지 않는 패턴이 생성된 것도 확인할 수 있었다. 이러한 부작용을 방지하기 위해 컷오프 거리를 기준으로 로우-패스 혹은 하이-패스 영역을 설정하는 방식을 계단 함수가 아닌, 조금 더 부드러운 연속 함수로 바꿀 수 있다. 그중 하나가 버터위스 필터링으로 다음과 같이 정의된다.\n\\[\n\\begin{aligned}\n\\text{Low pass filter } h(u,\\,v) &= \\dfrac{1}{1+\\left( 1+\\dfrac{(u^2+d^2)^{1/2}}{D} \\right)^{2n}} \\\\\n\\text{High pass filter } h(u,\\,v) &= \\dfrac{1}{1+\\left(1+\\dfrac{D}{(u^2+d^2)^{1/2}}\\right)^{2n}}\n\\end{aligned}\n\\]\n\n\n\n6.4 Gaussian Filtering\n\n\n\n6.5 위상 보존 필터 (zero-phase-shift filter), 위상 비보존 필터 (Nonzero-phase-shift filter)\n우리는 지금까지 원본 이미지 \\(f(x,\\,y)\\)의 역공간 \\(F(u,\\,v)\\) 에서 작업해 왔다. \\(F(u,\\,v)\\) 는 복소함수로 실수부 \\(R(u,\\,v)\\) 와 허수부 \\(I(u,\\,v)\\) 가 존재하여 \\(F(u,\\,v) = R(u,\\,v) +iI(u,\\,v)\\) 이다. 이 때 \\(\\arctan \\left( \\dfrac{I(u,\\,v)}{R(u,\\,v)}\\right)\\) 를 \\(F(u,\\,v)\\) 의 위상이라고 한다.\n만약 어떤 필터에 의해 위상이 변하지 않는다면 이를 위상 보존 필터라 하고, 그렇지 않다면 위상 비보존 필터 라 한다.\n\n\n\n6.6 밴드삭제 필터링, 놋치 필터링.\n\n\n\n6.7 Periodic noise reduction - Bragg filtering\n\n\n\n6.8 Deblurring using inverse filtering\n잘 안됨… 더 알아 봐야 할 듯..",
@@ -926,75 +926,6 @@
       "영상 처리 기초",
       "푸리에 변환을 이용한 이미지 처리"
     ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html",
-    "href": "src/image_processing/image_processing_01.html",
-    "title": "이미지 프로세싱의 기초",
-    "section": "",
-    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#소개",
-    "href": "src/image_processing/image_processing_01.html#소개",
-    "title": "이미지 프로세싱의 기초",
-    "section": "1 소개",
-    "text": "1 소개\n\n1.1 이미지\n\n우리의 시각에서 감지하는 바와 같은 2차원 이미지 일 수도 있지만, 측정에서 얻는 2차원 데이터 일 수 도 있다.\n여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.\n2차원 배열을 \\(f[i,j]\\) 혹은 \\(f(i, j)\\) 로 표기하며, 행렬과 같이 \\(i\\) 는 세로 방향의 인덱스, \\(j\\) 는 가로 방향의 인덱스이다.\n\n\n\n\n1.2 여기서\n\nJulia 에는 Images.jl 이라는 이미지 처리 라이브러리가 있지만,\n\n모든 데이터값을 \\([0,\\,1]\\) 사이의 고정 소수(fixed point number) 로 처리하며, 원래 이미지가 가지고 있던 0 부터 255 사이의 부호 없는 정수값을 숨긴다.\nopencv 에 비해 기능이 부족하고 무엇보다 느리다.\nOpenCV.jl 이라는 opencv 의 julia 포팅이 있다.\n\n그런데 OpenCV.jl 은\n\n기본 이미지 배열 타입은 OpenCV.Mat 이며 julia 의 Array 와 유사하지만 같지는 않다. Array 에서 사용하는 연산중 많은 것을 사용 할 수 없다. 파이썬의 경우는 opencv2 의 배열은 numpy 의 배열인데…\n흑백 이미지라도 OpenCV.Mat 은 3차원 배열이다.\nOpenCV.Mat 에 대한 연산 (배열간, 배열과 스칼라 사이의 사칙연산을 포함하여) 을 모두 다시 쓰느니 OpenCV.Mat 과 julia Array 사이의 변환 함수를 사용하겠다.\nOpenCV.Mat 의 배열의 저장 순서는 C++ 이나 파이썬 과 같이 행 우선 방식이지만 Julia 는 열 우선 방식이다. 따라서 변환시 이를 고려해야 한다.\n\nJulia 의 TestImages.jl 은 다양한 무료 이미지를 다운로드 받을 수 있도록 해 준다. 여기서의 이미지 처리에 사용하는 이미지는 특별한 언급이 없는 한 여기로부터 얻는다.\n\n\nOpenCV.jl 을 julia 에서 사용하기 위해 다음과 같은 함수를 사용한다. 앞으로의 모든 코드는\nusing OpenCV, TestImages\ncv = OpenCV;\n\n# Julia Matrix to OpenCV.MAT 변환\nfunction arr2mat(arr::Matrix{T}) where T&lt;:Real\n    cv.Mat(permutedims(stack([arr, ]), [3,2,1]))\nend\n\n# Julia Image to Matrix 변환\nfunction img2arr(img)\n    T = typeof(img[1, 1].val.i)\n    broadcast(q-&gt;T(q.val.i),img)\nend\n\n# Julia Image to OpenCV.Mat 변환\nfunction img2mat(img) \n    T = typeof(img[1, 1].val.i)\n    tm = broadcast(q-&gt;T(q.val.i),img)\n    cv.Mat(permutedims(stack([tm, ]), [3,2,1]))\nend\n\n# OpenCV.Mat to Julia Matrix 변환\nfunction mat2arr(mat::OpenCV.Mat)\n    return permutedims(mat.data, [3,2,1])\nend",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#점-기준-이미지-가공",
-    "href": "src/image_processing/image_processing_01.html#점-기준-이미지-가공",
-    "title": "이미지 프로세싱의 기초",
-    "section": "2 점 기준 이미지 가공",
-    "text": "2 점 기준 이미지 가공\n\n각 픽셀 단위의 이미지 처리를 의미한다. 즉 픽셀에 대한 연신이 다른 픽셀의 정보와 독립적으로 이루어진다.\nGray scale image \\(f[i, j]\\) 를 생각하자. \\(0\\le f[i,\\,j] \\le 255\\) 이다.\n\n\n\n2.1 픽셀 반전법에 의한 이미지 가공\n상수 \\(a\\) 와 \\(b&gt;0\\) 에 대해 \\[\nT_i[f](i, j) = a-b f(i, j),\\qquad 0 \\le T[f] \\le 255\n\\]\n인 이미지 연산을 픽셀 반전법 이라고 한다. \\(a=255,\\, b=1\\) 일 경우 완전한 흑백 반전이다. TestImages.jl 로부터 테스트 이미지를 다운받아 처리하였다.\nimg0= testimage_dip3e(\"Fig0108(a) (corn-fluorescence).tif\")\nimg1 = img2arr(img0)\nimg2 = (UInt8(255) .- img1)\nr = arr2mat(cat(img1, img2;dims=2))\n\n\n\n\n\n\n그림 1: 원본 이미지(좌) 와 반전된 이미지\n\n\n\n\n\n\n2.2 \\(\\gamma\\)-correction (or \\(\\gamma\\)-encoding)\n\n\\(\\gamma&gt;0\\) 에 대해 다음과 같이 변환한다. \\[\nT_\\gamma [f](i, j)  = f(i, j)^\\gamma\n\\]\n\\(\\gamma\\) 값이 \\(1\\) 보다 상당히 크면 픽셀 값이 클수록, \\(\\gamma\\) 값이 \\(1\\) 보다 상당히 작으면 픽셀값이 작을수록 대조가 현저해진다.\n\\(0\\le f\\le 255\\) 일 때 \\(\\gamma&lt;1\\) 이면 \\(f^\\gamma &lt; 255\\) 이며 \\(\\gamma&gt;1\\) 이면 \\(f^\\gamma&gt;255\\) 일 수 있으므로 최대값이 255가 넘지 않도록 해 준다.\n원본 이미지가 1024x1024 로 크기 때문에 그 크기를 줄여주었다.\n\nimg0= testimage_dip3e(\"Fig0227(a)(washington_infrared).tif\")\nimg1 = cv.resize(img2mat(img0), cv.Size{Int32}(256, 256))\nimg2 = arr2mat(round.(UInt8, ((img1./255).^0.5)*255))\nimg3 = arr2mat(round.(UInt8, ((img1./255).^2)*255))\nimg4 = arr2mat(round.(UInt8, ((img1./255).^5)*255));\narr2mat(cat(img1, img2, img3, img4; dims=2))\n\n\n\n\n\n\n그림 2: 맨 왼쪽부터 \\(\\gamma=1\\), \\(\\gamma=0.5\\), \\(\\gamma=2\\), \\(\\gamma=5\\)\n\n\n\n\n\\(x\\in (0,\\,1)\\) 에 대해 \\(\\gamma&lt;1\\) 이면 \\(x^\\gamma &gt; x\\) 이므로 화소 값이 높은 쪽으로 몰린다. 반대로 \\(\\gamma&gt;1\\) 이면 \\(x^\\gamma &lt; x\\) 이므로 화소 값이 낮은 쪽으로 몰린다.\n\n\n\n\n2.3 히스토그램 균등화\n이미지의 각 픽셀은 0 에서 255 사이의 정수값을 가진다. 그 값의 빈도는 이미지의 성질을 파악하는데 중요하다. 예를 들어 그림 2 의 \\(\\gamma\\) 에 대한 히스토그램은 다음과 같다.\n\n# opencv 의 calcHist 함수를 julia 에서 쓰기 편하게 변환함.\nfunction histogram1d(mat::OpenCV.Mat{T}) where T&lt;:Union{UInt8, UInt16}\n    tm = Int32(typemax(T))\n    v = cv.calcHist(cv.InputArray[mat,], Int32[0], fill(UInt8(1), size(img1)), Int32[tm+1], Float32[0, tm+1])\n    return (0:1:tm, Int64.(v[1,1,:]))    \nend\n\nfig = Figure()\nax = Axis(fig[1,1])\nfor (img, g) in zip([img1, img2, img3, img4], [1.0, 0.5, 2, 5])\n    b, v = histogram1d(img)\n    lines!(ax, b, v, label = L\"\\gamma = %$g\")\nend\naxislegend()\nfig\n\n\n\n\n\n\n그림 3: 그림 2 의 \\(\\gamma\\) 값에 따른 히스토그램\n\n\n\n\n위의 그림에서 \\(\\gamma=5\\) 일 때의 히스토그램은 낮은 값으로 몰려 있다. 혹은 이미지 중에는 전체 256 의 채널 갑 중에 어떤 값을 중심으로 몰려 있을 수 있다. 이런 경우 컨트라스트를 조절 하기 위해 앞서의 \\(\\gamma\\)-correction 방법으로는 개선이 크게 되지 않는다. 이 때 사용하는 방법이 히스토그램 균등화이다. 한 채널을 중심으로 몰려 있는 히스토그램을 균등화 한다.\n원래의 히스토그램을 변수 \\(r\\) 에 대해 \\(h(r)\\) 이며 \\(r\\) 은 \\(0\\) 부터 \\(L-1\\) (여기서는 255) 까지 가질 수 있고 \\(h(r)\\) 확률 별수 \\(r\\) 에 대한 확률 밀도에 비례하는 값이라고 가정하자. \\(p_r(r)\\) 을 확률밀도라고 하면\n\\[\np_r(r) = \\dfrac{h(r)}{\\int_0^L h(r')\\,dr'}\n\\tag{1}\\]\n이며 이 때 새로운 변수 \\(s\\) 를 다음과 같이 정의한다.\n\\[\ns=(L-1)\\int_{0}^r p_r(r')\\,dr'.\n\\tag{2}\\]\n그렇다면\n\\[\n\\dfrac{ds}{dr} = (L-1)p_r(r)\n\\tag{3}\\]\n이며 새로운 변수 \\(s\\) 로 변환된 \\(p_r(r)\\) 은\n\\[\np_s(s) = p_r(r)\\left|\\dfrac{ds}{dr}\\right| = \\dfrac{1}{L-1}\n\\tag{4}\\]\n이다. 즉 새로운 변수 \\(s\\) 에 대해 \\(p_s(s)\\) 는 항상 같은 값을 갖게 된다.\n즉 어떤 픽셀의 강도가 \\(r\\) 이라면 새로운 강도는 \\(s\\) 가 된다. \\(r=0,\\,1,\\ldots,\\,L-1\\) 의 값을 가지므로 이에 대한 \\(s\\) 값을\n\\[\ns(r) = \\text{round}\\left[(L-1)\\sum_{i=1}^r \\dfrac{h(i)}{\\sum_{j=1}^{L-1} h(j)}\\right]\n\\tag{5}\\]\n를 이용혜 계산한다. \\(\\text{round}(t)\\) 는 \\(t\\) 를 반올림 하는 함수이다. OpenCV 에서는 equalizeHist() 함수로 구현되었으며 여기서는 이 함수를 사용한다.\n\n\n\n\n원본, \\(\\gamma=5\\) 처리된 이미지, 히스토그램 균등화 된 이미지\n\n\nimg5 = cv.equalizeHist(img4)\narr2mat(cat(img1, img4, img5; dims=2))\n\n\n\n원본, \\(\\gamma=5\\) 처리된 이미지, 히스토그램 균등화 된 이미지의 히스토그램",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "src/image_processing/image_processing_01.html#아핀-변환과-보간법",
-    "href": "src/image_processing/image_processing_01.html#아핀-변환과-보간법",
-    "title": "이미지 프로세싱의 기초",
-    "section": "3 아핀 변환과 보간법",
-    "text": "3 아핀 변환과 보간법\n\n3.1 아핀 변환\n이미지를 이용해 흔히 하는 작업이 확대, 축소, 회전, 직선이동이 있으며 이를 아핀 변환(Affine transformation) 이라고 한다. 아핀 변환은 \\(3\\times 3\\) 가역행렬 \\(\\boldsymbol{T}\\) 에 의해 정해지는 다음과 같은 변환을 의미한다.\n\\[\n\\begin{bmatrix} x' \\\\ y' \\\\t'\\end{bmatrix} = \\boldsymbol{T} \\begin{bmatrix} x \\\\ y \\\\ 1\\end{bmatrix}\n\\]\n예를 들어 \\(\\theta\\) 만큼의 반시계 방향 회전 변환 \\(\\boldsymbol{T}_\\theta\\) 는\n\\[\n\\boldsymbol{T}_\\theta = \\begin{bmatrix} \\cos \\theta & \\sin \\theta & 0 \\\\ -\\sin \\theta & \\cos \\theta & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이며 \\(x\\) 방향으로 \\(d_x\\) \\(y\\) 방향으로 \\(d_y\\) 만큼의 회전 변환 \\(\\boldsymbol{T}_\\boldsymbol{d}\\) 는\n\\[\n\\boldsymbol{T}_\\boldsymbol{d} = \\begin{bmatrix}  1 & 0 & d_x \\\\ 0 & 1 & d_y \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 혹은 \\(y\\) 축 방향으로 기울이는 전단 변환(shear tranformation) \\(\\boldsymbol{T}_{Sx},\\, \\boldsymbol{T}_{Sy}\\) 은 각각\n\\[\n\\boldsymbol{T}_{Sx} = \\begin{bmatrix} 1 & s_x & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix},\\qquad \\boldsymbol{T}_{Sy} = \\begin{bmatrix} 1 & 1 & s_y \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 방향으로 \\(a_x\\) 배 만큼, \\(y\\) 축 방향으로 \\(a_y\\) 배 만큼 키우거나 줄이는 변환 \\(\\boldsymbol{T}_c\\) 는\n\\[\n\\boldsymbol{T}_c = \\begin{bmatrix} a_x & 0 & 0 \\\\ 0 & a_y & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다.\n아핀 변환 \\(T\\) 에 대해 이미지 \\(f\\) 를 변환시킬 때 \\(g=T[f]\\) 인 이미지를 얻고자 한다고 하자. 그렇다면 \\(g[i, j]\\) 는 어떻게 얻을 것인가? \\(g\\) 는 이미지 이므로 \\(i,\\,j\\) 는 정수이다. 아핀 변환의 역변환 \\(T^{-1}\\) 을 생각하자. 아핀변환은 선형 가역변환이므로 항상 역변환이 존재한다. 즉\n\\[\n\\begin{bmatrix}x \\\\ y \\\\ t\\end{bmatrix} = T^{-1}\\begin{bmatrix} x' \\\\ y' \\\\ 1\\end{bmatrix}\n\\]\n이다. 우리는 \\(g(j,\\,i)\\) 값을 알고 싶지만 아핀 역변환에 의한 \\(x,\\,y\\) 는 정수가 아니므로 정확한 값을 얻을 수 없다. 이 때 인터폴레이션을 사용한다.\n\n\n\n3.2 보간법\n이미지 \\(f[i,\\,j]=f(j,\\,i)\\) 는 자연수인 \\(i,\\,j\\) 에 대해 정해져 있다. \\(x,\\,y\\) 가 자연수가 아닐 때 \\(f(x,\\,y)\\) 값은 보간법(interpolation) 으로 정한다.\n\n\n최근접 이웃 보간\n\\((x,\\,y)\\) 에 가장 가까운 정수 값으로 보간하는 것이다. 즉 \\[\nf(x,\\,y) \\mapsto f(\\text{round}(x),\\, \\text{round}(y))\n\\tag{6}\\]\n를 사용한다. 가장 간단하면서도 빠르지만 변환된 이미지의 품질이 좋지 못하다.\n\n\n\n이중 선형 보간\n\\(x,\\,y\\) 에 대해\n\\[\ni\\le y &lt; i+1,\\, j\\le x&lt;j+1\n\\]\n인 정수 \\(i,\\,j\\) 를 찾아 \\(f[i,j]\\), \\(f[i,j+1]\\), \\(f[i+1, j]\\), \\(f[i+1, j+1]\\) 인 네 점을 이용한다.\n\\[\n\\begin{aligned}\nf(x,\\,y) &= (1-x+j)(1-y+i)f(j, i) + (1-x+j)(y-i)f(j,\\,i+1) \\\\[0.3em]\n&+ (x-j)(1-y+i)f(j+1, i) + (x-j)(y-i)f(j+1, i+1).\n\\end{aligned}\n\\tag{7}\\]\n앞서의 최근접 이웃 보간보다는 계산량이 많고 이미지 품질이 좋다.\n\n\n\n이중 큐빅 보간\n\\(x,\\,y\\) 에 대해 \\[\ni\\le y &lt; i+1,\\, j\\le x&lt;j+1\n\\]\n인 정수 \\(i,\\,j\\) 를 찾아 \\(f[i+k,j+m]\\), \\(k,\\,m = -1,\\,0,\\,1,\\,2\\) 인 16개의 점을 이용한다.\n\\[\nd(s) = \\left\\{\\begin{array}{ll} \\dfrac{3|s|^3}{2}-\\dfrac{5|s|^2}{2}+1, & 0 \\le |s| &lt; 1, \\\\ -\\dfrac{|s|^3}{2}+\\dfrac{5|s|^2}{2}-4|s|+2, \\qquad & 1\\le |s|&lt;2 , \\\\ 0 & |s|&gt;2 \\end{array}\\right.\n\\]\n에 대해 다음 함수를 이용하여 계산한다. \\[\nf(x,\\,y) = \\sum_{k=-1}^2 \\sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)\n\\]\n\nTestImages.jl 로 부터 \\(256\\times 256\\) 이미지 lena_gray_256 을 다운 받은 후 \\(100 \\times  100\\) 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 극 ㅕㄹ과는 아래와 같다.\nimg0= cv.resize(img2mat(testimage(\"lena_gray_256.tif\")), cv.Size{Int32}(100, 100))\nimg1 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_NEAREST)\nimg2 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_LINEAR)\nimg3 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_CUBIC)\ns = arr2mat(cat(img1, img2, img3; dims=2))\n\n\n\n왼쪽부터 최근접 이웃 보간, 이중 선형 보간, 이중 큐빅 보간",
-    "crumbs": [
-      "영상 처리/토모그래피",
-      "영상 처리 기초",
-      "이미지 프로세싱의 기초"
-    ]
-  },
-  {
-    "objectID": "latexmacros.html",
-    "href": "latexmacros.html",
-    "title": "수치해석과 이미지 처리",
-    "section": "",
-    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Julia 언어와 수치해석",
-    "section": "",
-    "text": "이 사이트는 수치해석과 이미지 처리를 다룹니다. 실제 구현되는 코드는 julia 언어로 작성되었습니다. Julia 언어에 대해서는 Introduction to Julia 를 참고하시기 바랍니다.\n이곳의 목적은 numpy 나 scipy, opencv 와 같이 이미 구현된 라이브러리를 사용하는 방법을 배우는 것이 아니라, 이 라이브러리의 함수나 기능들이 어떤 원리와 알고리즘으로 구현되는지를 알아보는 것입니다. 따라서 바닥부터 하나하나 쌓아 올리고자 합니다.\n수치해석에 많이 사용되는 언어는 Fortran, C/C++, Python, Matlab, Julia 가 있습니다. 여기서는 수치 해석을 julia 언어로 구현하려고 하는데 수치해석을 julia 언어로 배우는 장점은 다음과 같습니다.\n\nJulia 는 속도가 빠릅니다. 다른 무엇보다 for 나 while 루프가 빠릅니다. 가장 바람직한 경우에는 C/C++ 이나 fortran 에 비견할만한 속도가 나오며 Python 이나 Matlab 의 루프보다는 훨씬 빠릅니다. 멀티스레딩도 쉽게 사용 할 수 있습니다. 즉 여기서 구현된 코드가 어느 정도는 사용할 만큼의 속도가 나온다는 것입니다. 물론 많은 라이브러리들은 여러가지 최적화 기법을 사용하여 여기서 제시한 코드보다 훨씬 빠르게 동작합니다.\nC/C++ 보다 알고리즘의 표현력이 좋습니다. 보통 알고리즘은 언어 독립적인 유사 코드(pseudo code) 로 제시되는데 julia 의 코드와 이 유사 코드는 상당히 비슷하며 많은 경우 1-1 대응이 됩니다.\nJuia 는 Interpreter 언어입니다. 코드를 작성한 후 즉각적으로 테스트하고 확인할 수 있습니다. 물론 Python 이나 Matlab 으로도 수치 해석을 배울 수 있습니다. 그러나 numpy/scipy 나 cython, numba 등의 도움을 받지 않은 순수 파이썬 코드는 대부분의 경우 속도가 매우 느리며, numpy 등을 사용하는 경우는 수치해석을 배우는 것이 아니라 numpy 의 사용법을 배우게 됩니다. Matlab 의 경우도 유사합니다.\n\n물론 실전에서는 다릅니다. Julia 의 대표적인 이미지 처리 패키지인 Images.jl 과 OpenCV 를 비교해보면 비룍 OpenCV 는 C++ 언어로 작성되었지만 Python 에서 구동시키는 OpenCV 보다 Images.jl 이 좋다고 말하기는 매우 힘들것입니다."
   },
   {
     "objectID": "src/image_processing/fourier_transform_for_image_processing.html",
@@ -1033,75 +964,108 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_02.html",
-    "href": "src/image_processing/image_processing_02.html",
-    "title": "공간적 이미지 필터링",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Julia 언어와 수치해석",
+    "section": "",
+    "text": "이 사이트는 수치해석과 이미지 처리를 다룹니다. 실제 구현되는 코드는 julia 언어로 작성되었습니다. Julia 언어에 대해서는 Introduction to Julia 를 참고하시기 바랍니다.\n이곳의 목적은 numpy 나 scipy, opencv 와 같이 이미 구현된 라이브러리를 사용하는 방법을 배우는 것이 아니라, 이 라이브러리의 함수나 기능들이 어떤 원리와 알고리즘으로 구현되는지를 알아보는 것입니다. 따라서 바닥부터 하나하나 쌓아 올리고자 합니다.\n수치해석에 많이 사용되는 언어는 Fortran, C/C++, Python, Matlab, Julia 가 있습니다. 여기서는 수치 해석을 julia 언어로 구현하려고 하는데 수치해석을 julia 언어로 배우는 장점은 다음과 같습니다.\n\nJulia 는 속도가 빠릅니다. 다른 무엇보다 for 나 while 루프가 빠릅니다. 가장 바람직한 경우에는 C/C++ 이나 fortran 에 비견할만한 속도가 나오며 Python 이나 Matlab 의 루프보다는 훨씬 빠릅니다. 멀티스레딩도 쉽게 사용 할 수 있습니다. 즉 여기서 구현된 코드가 어느 정도는 사용할 만큼의 속도가 나온다는 것입니다. 물론 많은 라이브러리들은 여러가지 최적화 기법을 사용하여 여기서 제시한 코드보다 훨씬 빠르게 동작합니다.\nC/C++ 보다 알고리즘의 표현력이 좋습니다. 보통 알고리즘은 언어 독립적인 유사 코드(pseudo code) 로 제시되는데 julia 의 코드와 이 유사 코드는 상당히 비슷하며 많은 경우 1-1 대응이 됩니다.\nJuia 는 Interpreter 언어입니다. 코드를 작성한 후 즉각적으로 테스트하고 확인할 수 있습니다. 물론 Python 이나 Matlab 으로도 수치 해석을 배울 수 있습니다. 그러나 numpy/scipy 나 cython, numba 등의 도움을 받지 않은 순수 파이썬 코드는 대부분의 경우 속도가 매우 느리며, numpy 등을 사용하는 경우는 수치해석을 배우는 것이 아니라 numpy 의 사용법을 배우게 됩니다. Matlab 의 경우도 유사합니다.\n\n물론 실전에서는 다릅니다. Julia 의 대표적인 이미지 처리 패키지인 Images.jl 과 OpenCV 를 비교해보면 비룍 OpenCV 는 C++ 언어로 작성되었지만 Python 에서 구동시키는 OpenCV 보다 Images.jl 이 좋다고 말하기는 매우 힘들것입니다."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "latexmacros.html",
+    "href": "latexmacros.html",
+    "title": "수치해석과 이미지 처리",
+    "section": "",
+    "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]"
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html",
+    "href": "src/image_processing/image_processing_01.html",
+    "title": "이미지 프로세싱의 기초",
     "section": "",
     "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
     "crumbs": [
       "영상 처리/토모그래피",
       "영상 처리 기초",
-      "공간적 이미지 필터링"
+      "이미지 프로세싱의 기초"
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_02.html#커널과-필터",
-    "href": "src/image_processing/image_processing_02.html#커널과-필터",
-    "title": "공간적 이미지 필터링",
-    "section": "1 커널과 필터",
-    "text": "1 커널과 필터\n\n커널 : 이미지의 처리를 위해 특정한 기능을 수행하는 2차원 배열. 마스크 라고도 한다.\n필터 : 커널+기능의 조합을 필터 (filter)라 한다.\n\n\n\n1.1 공간적 필터링 (Spatial filtering)\n공간적 필터링이라 함은 동일한 공 간에 어떤 필터 행렬을 생성시켜서, 그 필터 행렬과 원본 이미지 행렬 사이의 연산을 수 행하는 것",
+    "objectID": "src/image_processing/image_processing_01.html#소개",
+    "href": "src/image_processing/image_processing_01.html#소개",
+    "title": "이미지 프로세싱의 기초",
+    "section": "1 소개",
+    "text": "1 소개\n\n1.1 이미지\n\n우리의 시각에서 감지하는 바와 같은 2차원 이미지 일 수도 있지만, 측정에서 얻는 2차원 데이터 일 수 도 있다.\n여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.\n2차원 배열을 \\(f[i,j]\\) 로 표기하며, 행렬과 같이 \\(i\\) 는 세로 방향의 인덱스, \\(j\\) 는 가로 방향의 인덱스이다.\n\n프로그래밍에서 2차원 배열의 인덱스는 관례적으로 세로축-가로축 순서이지만, 수학에서 함수로서 표현할 때는 관례적으로 가로축-세로축 순서이다. 이것이 매우 혼동을 일으키지만 이 관례를 계속 사용하기로 한다. 즉\n\\[\n\\boxed{\n    f[i,\\,j]= f(j, i)\n}\n\\]\n이다.\n\n\n\n1.2 여기서\n\nJulia 에는 Images.jl 이라는 이미지 처리 라이브러리가 있지만,\n\n모든 데이터값을 \\([0,\\,1]\\) 사이의 고정 소수(fixed point number) 로 처리하며, 원래 이미지가 가지고 있던 0 부터 255 사이의 부호 없는 정수값을 숨긴다.\nopencv 에 비해 기능이 부족하고 무엇보다 느리다.\nOpenCV.jl 이라는 opencv 의 julia 포팅이 있다.\n\n그런데 OpenCV.jl 은\n\n기본 이미지 배열 타입은 OpenCV.Mat 이며 julia 의 Array 와 유사하지만 같지는 않다. Array 에서 사용하는 연산중 많은 것을 사용 할 수 없다. 파이썬의 경우는 opencv2 의 배열은 numpy 의 배열인데…\n흑백 이미지라도 OpenCV.Mat 은 3차원 배열이다.\nOpenCV.Mat 에 대한 연산 (배열간, 배열과 스칼라 사이의 사칙연산을 포함하여) 을 모두 다시 쓰느니 OpenCV.Mat 과 julia Array 사이의 변환 함수를 사용하겠다.\nOpenCV.Mat 의 배열의 저장 순서는 C++ 이나 파이썬 과 같이 행 우선 방식이지만 Julia 는 열 우선 방식이다. 따라서 변환시 이를 고려해야 한다.\n\nJulia 의 TestImages.jl 은 다양한 무료 이미지를 다운로드 받을 수 있도록 해 준다. 여기서의 이미지 처리에 사용하는 이미지는 특별한 언급이 없는 한 여기로부터 얻는다.\n\n\nOpenCV.jl 을 julia 에서 사용하기 위해 다음과 같은 함수를 사용한다. 앞으로의 모든 코드는\nusing OpenCV, TestImages\ncv = OpenCV;\n\n# Julia Matrix to OpenCV.MAT 변환\nfunction arr2mat(arr::Matrix{T}) where T&lt;:Real\n    cv.Mat(permutedims(stack([arr, ]), [3,2,1]))\nend\n\n# Julia Image to Matrix 변환\nfunction img2arr(img)\n    T = typeof(img[1, 1].val.i)\n    broadcast(q-&gt;T(q.val.i),img)\nend\n\n# Julia Image to OpenCV.Mat 변환\nfunction img2mat(img) \n    T = typeof(img[1, 1].val.i)\n    tm = broadcast(q-&gt;T(q.val.i),img)\n    cv.Mat(permutedims(stack([tm, ]), [3,2,1]))\nend\n\n# OpenCV.Mat to Julia Matrix 변환\nfunction mat2arr(mat::OpenCV.Mat)\n    return permutedims(mat.data, [3,2,1])\nend",
     "crumbs": [
       "영상 처리/토모그래피",
       "영상 처리 기초",
-      "공간적 이미지 필터링"
+      "이미지 프로세싱의 기초"
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_02.html#선형-필터-linear-filter",
-    "href": "src/image_processing/image_processing_02.html#선형-필터-linear-filter",
-    "title": "공간적 이미지 필터링",
-    "section": "2 선형 필터 (linear filter)",
-    "text": "2 선형 필터 (linear filter)\n\n필터링 연산이 선형성을 갖는 경우를 이 필터에 의한 연산을 선형 필터라 한다.\n\n\\(\\ast\\) 이후 원본 이미지 \\(I\\) 에 대해 필터링된 이미지를 \\(J\\) 라 하자. \\(I\\) 의 \\((i,\\,j)\\) 위치의 필셀값을 \\(I[i,\\,j]\\) 라 하자.\n\n\n2.1 평균값 필터 (Averaging filter)\n이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터. 당연히 커널은 아래와 같은 모양을 띈다.\n\\[\n\\frac{1}{9}\\begin{bmatrix} 1 & 1 & 1 \\\\ 1 & 1 & 1 \\\\1 & 1 & 1 \\end{bmatrix}\n\\] 이 때 픽셀의 값은 자신을 중심으로 한 \\(3\\times 3\\) 배열의 평균으로 대체된다. 즉\n\\[\nJ[i,\\,j]=\\frac{1}{9} \\sum_{p=-1,\\,0,\\,1} \\sum_{q=-1,\\,0,\\,1} I[i-p,\\,j-q]\n\\]\n이다.\npython에서는 cv2 라이브러리를 사용하여 다음과 같이 이용한다\nimport cv2\nkernel = np.ones((5,5),np.float32)/25\nfiltered_image = cv2.filter2D(original_image, -1, kernel)\nkernel 은 \\(5 \\times 5\\) 행렬을 사용하였다. cv2.filter2D 함수에서의 -1 은 일단 original image 와 같은 자료형으로 filtered image 가 생성된다고 알아 두자.\n\n\n가장자리 처리\n이 경우 가장자리면, 즉 \\(i=0\\) 이면 \\(i-1\\) 픽셀이 없으므로 문제가 된다. 이렇게 필터를 쓸 경우 경계값이 문제가 되는데 이에 대한 방법은 원본 이미지를 커널을 고려하여 사이즈를 키운 다음에 새로 키워진 행렬을 특정한 값으로 채우는 것이다. \\(0\\) 으로 채울수도 있고 가까운 경계값으로 채울 수도 있으며 다른 여려 방법이 존재한다. 각각의 경우에 맞춰 적절하게 사용할 수 밖에 없다.\n\n\n\n\n2.2 가우시안 필터 (Gaussian filter)\n\\(I[i,j]\\) 를 필터링 할 때 주변 값과 정규분포 관계가 있다고 가정한다. 즉 멀수록 관계가 더 적다고 간주한다. 2차원 가우시안 함수는 다음과 같다.\n\\[\nG(x,\\,y | x',\\,y') = \\dfrac{1}{\\sqrt{2 \\pi \\sigma^2}} \\exp \\left( -\\dfrac{(x-x')^2+(y-y')^2}{2\\sigma^2}\\right)\n\\]\n\\(J[i,\\,j]\\) 는 \\(I[i,\\,j]\\) 를 중심으로 주변값에 2차원 가우시안 함수에 비례하는 가중치를 두고 그 평균을 계산한 값이 된다.\npython의 cv2 라이브러리에서는 다음과 같이 사용한다.\nfiltered_image = cv2.GaussianBlur(original_image, (3, 3), 1.5)\n여기서 (3, 3) 은 \\(3 \\times 3\\) 크기의 커널을 사용한다는 뜻이고 1.5 는 가우시안 분포의 표준편차이다.",
+    "objectID": "src/image_processing/image_processing_01.html#점-기준-이미지-가공",
+    "href": "src/image_processing/image_processing_01.html#점-기준-이미지-가공",
+    "title": "이미지 프로세싱의 기초",
+    "section": "2 점 기준 이미지 가공",
+    "text": "2 점 기준 이미지 가공\n\n각 픽셀 단위의 이미지 처리를 의미한다. 즉 픽셀에 대한 연신이 다른 픽셀의 정보와 독립적으로 이루어진다.\nGray scale image \\(f[i, j]\\) 를 생각하자. \\(0\\le f[i,\\,j] \\le 255\\) 이다.\n\n\n\n2.1 픽셀 반전법에 의한 이미지 가공\n상수 \\(a\\) 와 \\(b&gt;0\\) 에 대해 \\[\nT_i[f](i, j) = a-b f(i, j),\\qquad 0 \\le T[f] \\le 255\n\\]\n인 이미지 연산을 픽셀 반전법 이라고 한다. \\(a=255,\\, b=1\\) 일 경우 완전한 흑백 반전이다. TestImages.jl 로부터 테스트 이미지를 다운받아 처리하였다.\nimg0= testimage_dip3e(\"Fig0108(a) (corn-fluorescence).tif\")\nimg1 = img2arr(img0)\nimg2 = (UInt8(255) .- img1)\nr = arr2mat(cat(img1, img2;dims=2))\n\n\n\n\n\n\n그림 1: 원본 이미지(좌) 와 반전된 이미지\n\n\n\n\n\n\n2.2 \\(\\gamma\\)-correction (or \\(\\gamma\\)-encoding)\n\n\\(\\gamma&gt;0\\) 에 대해 다음과 같이 변환한다. \\[\nT_\\gamma [f](i, j)  = f(i, j)^\\gamma\n\\]\n\\(\\gamma\\) 값이 \\(1\\) 보다 상당히 크면 픽셀 값이 클수록, \\(\\gamma\\) 값이 \\(1\\) 보다 상당히 작으면 픽셀값이 작을수록 대조가 현저해진다.\n\\(0\\le f\\le 255\\) 일 때 \\(\\gamma&lt;1\\) 이면 \\(f^\\gamma &lt; 255\\) 이며 \\(\\gamma&gt;1\\) 이면 \\(f^\\gamma&gt;255\\) 일 수 있으므로 최대값이 255가 넘지 않도록 해 준다.\n원본 이미지가 1024x1024 로 크기 때문에 그 크기를 줄여주었다.\n\nimg0= testimage_dip3e(\"Fig0227(a)(washington_infrared).tif\")\nimg1 = cv.resize(img2mat(img0), cv.Size{Int32}(256, 256))\nimg2 = arr2mat(round.(UInt8, ((img1./255).^0.5)*255))\nimg3 = arr2mat(round.(UInt8, ((img1./255).^2)*255))\nimg4 = arr2mat(round.(UInt8, ((img1./255).^5)*255));\narr2mat(cat(img1, img2, img3, img4; dims=2))\n\n\n\n\n\n\n그림 2: 맨 왼쪽부터 \\(\\gamma=1\\), \\(\\gamma=0.5\\), \\(\\gamma=2\\), \\(\\gamma=5\\)\n\n\n\n\n\\(x\\in (0,\\,1)\\) 에 대해 \\(\\gamma&lt;1\\) 이면 \\(x^\\gamma &gt; x\\) 이므로 화소 값이 높은 쪽으로 몰린다. 반대로 \\(\\gamma&gt;1\\) 이면 \\(x^\\gamma &lt; x\\) 이므로 화소 값이 낮은 쪽으로 몰린다.\n\n\n\n\n2.3 히스토그램 균등화\n이미지의 각 픽셀은 0 에서 255 사이의 정수값을 가진다. 그 값의 빈도는 이미지의 성질을 파악하는데 중요하다. 예를 들어 그림 2 의 \\(\\gamma\\) 에 대한 히스토그램은 다음과 같다.\n\n# opencv 의 calcHist 함수를 julia 에서 쓰기 편하게 변환함.\nfunction histogram1d(mat::OpenCV.Mat{T}) where T&lt;:Union{UInt8, UInt16}\n    tm = Int32(typemax(T))\n    v = cv.calcHist(cv.InputArray[mat,], Int32[0], fill(UInt8(1), size(img1)), Int32[tm+1], Float32[0, tm+1])\n    return (0:1:tm, Int64.(v[1,1,:]))    \nend\n\nfig = Figure()\nax = Axis(fig[1,1])\nfor (img, g) in zip([img1, img2, img3, img4], [1.0, 0.5, 2, 5])\n    b, v = histogram1d(img)\n    lines!(ax, b, v, label = L\"\\gamma = %$g\")\nend\naxislegend()\nfig\n\n\n\n\n\n\n그림 3: 그림 2 의 \\(\\gamma\\) 값에 따른 히스토그램\n\n\n\n\n위의 그림에서 \\(\\gamma=5\\) 일 때의 히스토그램은 낮은 값으로 몰려 있다. 혹은 이미지 중에는 전체 256 의 채널 갑 중에 어떤 값을 중심으로 몰려 있을 수 있다. 이런 경우 컨트라스트를 조절 하기 위해 앞서의 \\(\\gamma\\)-correction 방법으로는 개선이 크게 되지 않는다. 이 때 사용하는 방법이 히스토그램 균등화이다. 한 채널을 중심으로 몰려 있는 히스토그램을 균등화 한다.\n원래의 히스토그램을 변수 \\(r\\) 에 대해 \\(h(r)\\) 이며 \\(r\\) 은 \\(0\\) 부터 \\(L-1\\) (여기서는 255) 까지 가질 수 있고 \\(h(r)\\) 확률 별수 \\(r\\) 에 대한 확률 밀도에 비례하는 값이라고 가정하자. \\(p_r(r)\\) 을 확률밀도라고 하면\n\\[\np_r(r) = \\dfrac{h(r)}{\\int_0^L h(r')\\,dr'}\n\\tag{1}\\]\n이며 이 때 새로운 변수 \\(s\\) 를 다음과 같이 정의한다.\n\\[\ns=(L-1)\\int_{0}^r p_r(r')\\,dr'.\n\\tag{2}\\]\n그렇다면\n\\[\n\\dfrac{ds}{dr} = (L-1)p_r(r)\n\\tag{3}\\]\n이며 새로운 변수 \\(s\\) 로 변환된 \\(p_r(r)\\) 은\n\\[\np_s(s) = p_r(r)\\left|\\dfrac{ds}{dr}\\right| = \\dfrac{1}{L-1}\n\\tag{4}\\]\n이다. 즉 새로운 변수 \\(s\\) 에 대해 \\(p_s(s)\\) 는 항상 같은 값을 갖게 된다.\n즉 어떤 픽셀의 강도가 \\(r\\) 이라면 새로운 강도는 \\(s\\) 가 된다. \\(r=0,\\,1,\\ldots,\\,L-1\\) 의 값을 가지므로 이에 대한 \\(s\\) 값을\n\\[\ns(r) = \\text{round}\\left[(L-1)\\sum_{i=1}^r \\dfrac{h(i)}{\\sum_{j=1}^{L-1} h(j)}\\right]\n\\tag{5}\\]\n를 이용혜 계산한다. \\(\\text{round}(t)\\) 는 \\(t\\) 를 반올림 하는 함수이다. OpenCV 에서는 equalizeHist() 함수로 구현되었으며 여기서는 이 함수를 사용한다.\n\n\n\n\n원본, \\(\\gamma=5\\) 처리된 이미지, 히스토그램 균등화 된 이미지\n\n\nimg5 = cv.equalizeHist(img4)\narr2mat(cat(img1, img4, img5; dims=2))\n\n\n\n원본, \\(\\gamma=5\\) 처리된 이미지, 히스토그램 균등화 된 이미지의 히스토그램",
     "crumbs": [
       "영상 처리/토모그래피",
       "영상 처리 기초",
-      "공간적 이미지 필터링"
+      "이미지 프로세싱의 기초"
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_02.html#비선형-필터-nonlinear-filter",
-    "href": "src/image_processing/image_processing_02.html#비선형-필터-nonlinear-filter",
-    "title": "공간적 이미지 필터링",
-    "section": "3 비선형 필터 (nonlinear filter)",
-    "text": "3 비선형 필터 (nonlinear filter)\n\n3.1 비선형 필터\n\n중앙값 필터 (median filter) : 노이즈 처리에 좋다.\n표준편차 필터(standard deviation filter) : 엣지 검출에 좋다.",
+    "objectID": "src/image_processing/image_processing_01.html#아핀-변환과-보간법",
+    "href": "src/image_processing/image_processing_01.html#아핀-변환과-보간법",
+    "title": "이미지 프로세싱의 기초",
+    "section": "4 아핀 변환과 보간법",
+    "text": "4 아핀 변환과 보간법\n\n4.1 아핀 변환\n이미지를 이용해 흔히 하는 작업이 확대, 축소, 회전, 직선이동이 있으며 이를 아핀 변환(Affine transformation) 이라고 한다. 아핀 변환은 \\(3\\times 3\\) 가역행렬 \\(\\boldsymbol{T}\\) 에 의해 정해지는 다음과 같은 변환을 의미한다.\n\\[\n\\begin{bmatrix} x' \\\\ y' \\\\1\\end{bmatrix} = \\boldsymbol{T} \\begin{bmatrix} x \\\\ y \\\\ 1\\end{bmatrix}\n\\]\n예를 들어 \\(\\theta\\) 만큼의 반시계 방향 회전 변환 \\(\\boldsymbol{T}_\\theta\\) 는\n\\[\n\\boldsymbol{T}_\\theta = \\begin{bmatrix} \\cos \\theta & \\sin \\theta & 0 \\\\ -\\sin \\theta & \\cos \\theta & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이며 \\(x\\) 방향으로 \\(d_x\\) \\(y\\) 방향으로 \\(d_y\\) 만큼의 회전 변환 \\(\\boldsymbol{T}_\\boldsymbol{d}\\) 는\n\\[\n\\boldsymbol{T}_\\boldsymbol{d} = \\begin{bmatrix}  1 & 0 & d_x \\\\ 0 & 1 & d_y \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 혹은 \\(y\\) 축 방향으로 기울이는 전단 변환(shear tranformation) \\(\\boldsymbol{T}_{Sx},\\, \\boldsymbol{T}_{Sy}\\) 은 각각\n\\[\n\\boldsymbol{T}_{Sx} = \\begin{bmatrix} 1 & s_x & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix},\\qquad \\boldsymbol{T}_{Sy} = \\begin{bmatrix} 1 & 1 & s_y \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다. 또한 \\(x\\) 축 방향으로 \\(a_x\\) 배 만큼, \\(y\\) 축 방향으로 \\(a_y\\) 배 만큼 키우거나 줄이는 변환 \\(\\boldsymbol{T}_c\\) 는\n\\[\n\\boldsymbol{T}_c = \\begin{bmatrix} a_x & 0 & 0 \\\\ 0 & a_y & 0 \\\\ 0 & 0 & 1\\end{bmatrix}\n\\]\n이다.\n아핀 변환 \\(T\\) 에 대해 이미지 \\(f\\) 를 변환시킬 때 \\(g=T[f]\\) 인 이미지를 얻고자 한다고 하자. 그렇다면 \\(g[i, j]\\) 는 어떻게 얻을 것인가? \\(g\\) 는 이미지 이므로 \\(i,\\,j\\) 는 정수이다. 아핀 변환의 역변환 \\(T^{-1}\\) 을 생각하자. 아핀변환은 선형 가역변환이므로 항상 역변환이 존재한다. 즉\n\\[\n\\begin{bmatrix}x \\\\ y \\\\ 1\\end{bmatrix} = T^{-1}\\begin{bmatrix} x' \\\\ y' \\\\ 1\\end{bmatrix}\n\\]\n이다. 우리는 \\(g(j,\\,i)\\) 값을 알고 싶지만 아핀 역변환에 의한 \\(x,\\,y\\) 는 정수가 아니므로 정확한 값을 얻을 수 없다. 이 때 보간법(interpolation)을 사용한다.\n\n\n\n4.2 보간법\n이미지 \\(f[i,\\,j]=f(j,\\,i)\\) 는 자연수인 \\(i,\\,j\\) 에 대해 정해져 있다. \\(x,\\,y\\) 가 자연수가 아닐 때 \\(f(x,\\,y)\\) 값은 보간법(interpolation) 으로 정한다.\n\n\n최근접 이웃 보간\n\\((x,\\,y)\\) 에 가장 가까운 정수 값으로 보간하는 것이다. 즉 \\[\nf(x,\\,y) \\mapsto f(\\text{round}(x),\\, \\text{round}(y))\n\\tag{6}\\]\n를 사용한다. 가장 간단하면서도 빠르지만 변환된 이미지의 품질이 좋지 못하다.\n\n\n\n이중 선형 보간\n\\(x,\\,y\\) 에 대해\n\\[\ni\\le y &lt; i+1,\\, j\\le x&lt;j+1\n\\]\n인 정수 \\(i,\\,j\\) 를 찾아 \\(f[i,j]\\), \\(f[i,j+1]\\), \\(f[i+1, j]\\), \\(f[i+1, j+1]\\) 인 네 점을 이용한다.\n\\[\n\\begin{aligned}\nf(x,\\,y) &= (1-x+j)(1-y+i)f(j, i) + (1-x+j)(y-i)f(j,\\,i+1) \\\\[0.3em]\n&+ (x-j)(1-y+i)f(j+1, i) + (x-j)(y-i)f(j+1, i+1).\n\\end{aligned}\n\\tag{7}\\]\n앞서의 최근접 이웃 보간보다는 계산량이 많고 이미지 품질이 좋다.\n\n\n\n이중 큐빅 보간\n\\(x,\\,y\\) 에 대해 \\[\ni\\le y &lt; i+1,\\, j\\le x&lt;j+1\n\\]\n인 정수 \\(i,\\,j\\) 를 찾아 \\(f[i+k,j+m]\\), \\(k,\\,m = -1,\\,0,\\,1,\\,2\\) 인 16개의 점을 이용한다.\n\\[\nd(s) = \\left\\{\\begin{array}{ll} \\dfrac{3|s|^3}{2}-\\dfrac{5|s|^2}{2}+1, & 0 \\le |s| &lt; 1, \\\\ -\\dfrac{|s|^3}{2}+\\dfrac{5|s|^2}{2}-4|s|+2, \\qquad & 1\\le |s|&lt;2 , \\\\ 0 & |s|&gt;2 \\end{array}\\right.\n\\]\n에 대해 다음 함수를 이용하여 계산한다. \\[\nf(x,\\,y) = \\sum_{k=-1}^2 \\sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)\n\\]\n\n아래 그림은 1차원 데이터의 보간법과 2차원 이미지의 보간법을 설명하는 그림이다.\n\n\n\n\n\n\n그림 4: 1차원 및 2차원 보간법(출처 : https://en.wikipedia.org/wiki/Bicubic_interpolation) By Cmglee - Own work, CC BY-SA 4.0, Link\n\n\n\n\nTestImages.jl 로 부터 \\(256\\times 256\\) 이미지 lena_gray_256 을 다운 받은 후 \\(100 \\times  100\\) 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 결과는 아래와 같다.\nimg0= cv.resize(img2mat(testimage(\"lena_gray_256.tif\")), cv.Size{Int32}(100, 100))\nimg1 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_NEAREST)\nimg2 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_LINEAR)\nimg3 = cv.resize(img0, cv.Size(Int32(256), Int32(256));interpolation= cv.INTER_CUBIC)\ns = arr2mat(cat(img1, img2, img3; dims=2))\n\n\n\n왼쪽부터 최근접 이웃 보간, 이중 선형 보간, 이중 큐빅 보간",
     "crumbs": [
       "영상 처리/토모그래피",
       "영상 처리 기초",
-      "공간적 이미지 필터링"
+      "이미지 프로세싱의 기초"
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_02.html#합성곱-개념으로서의-이미지-필터링",
-    "href": "src/image_processing/image_processing_02.html#합성곱-개념으로서의-이미지-필터링",
-    "title": "공간적 이미지 필터링",
-    "section": "4 합성곱 개념으로서의 이미지 필터링",
-    "text": "4 합성곱 개념으로서의 이미지 필터링\n\n4.1 합성곱과 상관값\n원본 이미지 \\(I[i,\\,j]\\) 와 kernel \\(k[i,\\,j]\\) 사이의 합성곱 \\(g=k \\ast I\\) 와 상관값 \\(c=k \\otimes I\\) 는 각각 다음과 같이 정의된다.\n\\[\n\\begin{aligned}\ng[i,\\,j] &= k \\ast I = \\sum_{s=-a}^{a} \\sum_{t=-b}^b k[s,\\,t] \\,I[i-s,\\, j-t]\\\\\nc[i,\\,j] &= k \\otimes I = \\sum_{s=-a}^{a} \\sum_{t=-b}^b k[s,\\,t]\\, I[i+s,\\, j+t]\n\\end{aligned}\n\\]",
+    "objectID": "src/image_processing/image_processing_01.html#공간적-이미지-필터링",
+    "href": "src/image_processing/image_processing_01.html#공간적-이미지-필터링",
+    "title": "이미지 프로세싱의 기초",
+    "section": "4 공간적 이미지 필터링",
+    "text": "4 공간적 이미지 필터링\n공간적 필터링은 이미지를 2차원 공간으로 간주한다. 어떤 픽셀의 값을 그 주변값의 연산을 통해 바꿔서 원하는 목적을 달성하는 것을 공간적 이미지 필터링 이라고 한다. 많은 경우 2차원 배열을 사용하며 이 배열을 커널(kernel) 혹은 마스크(mask) 라고 한다. 즉 원본 이미지 \\(I\\) 의 픽셀 \\([i,\\,j]\\) 에 대해 부근의 픽셀의 집합 \\(A_[i,j]\\) 을 사용하는 어떤 연산 \\(F\\) 가 정의되어 연산된 이미지 \\(J\\) 가 만들어 진다면, 즉\n\\[\nJ[i,j] = F\\left(A_{[i,j]}\\right)\n\\]\n일 때 이 과정을 공간적 이미지 필터링 이라고 한다.\n필터링 연산이 선형성을 갖는 경우를 이 필터에 의한 연산을 선형 필터라고 하며 대표적으로 평균값 필터와 가우시안 필터가 있다. 선형 필터가 아닌 필터를 비선형 필터라고 한다.\n\n\n4.1 가장저리 처리\n뒤에 나오겠지만 평균값 필터는 이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터이다. 예를 들어 이미지 \\(I\\) 의 \\([i, j]\\) 픽셀 주위의 9개의 평균값으로 필터링 한다면\n\\[\nJ[i,\\,j]=\\frac{1}{9} \\sum_{p=-1,\\,0,\\,1} \\sum_{q=-1,\\,0,\\,1} I[i-p,\\,j-q]\n\\]\n일 것이다. 노이즈 처리에 사용 될 수 있다. 이 경우 가장자리 라면, 예를 들어 \\(i=0\\) 이면 \\(i-1\\) 픽셀이 없으므로 문제가 된다. 일반적으로 필터링의 범위를 고려하여 필터링에 방해가 되지 않도록 이미지의 크기를 일시적으로 키우고 원본 이미지에 없던 부분을 적당한 값으로 채운 후(이를 패딩(padding) 이라고 한다) 그 이미지 \\(\\overline{I}\\) 에 대해 필터링을 하고, 필터링된 이미지 \\(\\overline{J}\\) 를 원본 이미지에 맞게 크기를 줄이게 된다. 패딩을 할 때 특정한 값으로 채울 수도 있고(상수 패딩(constant padding)), 가장 가까운 원본 이미지 픽셀값을 복사할 수도 있으며(복제 패딩(replication padding)), 패딩되는 픽셀에 가장 가까운 원본 이미지 픽셀을 중심으로 대칭이 되도록 원본 픽셀 값을 복사할 수도 있다(반사 패딩(reflection padding)).\n\n\n\n\n\n\n\n그림 5: 이미지 패딩\n\n\n\n\n이후로는 이미지 필터를 다룰 때 사용자가 적절한 패딩을 선택했다고 가정한다.\n\n\n\n4.2 비선형 필터 (nonlinear filter)\n\n중앙값 필터 (median filter) : 노이즈 처리에 좋다.\n표준편차 필터(standard deviation filter) : 엣지 검출에 좋다.\n\n\n\n\n\n4.3 가우시안 필터 (Gaussian filter)\n\\(I[i,j]\\) 를 필터링 할 때 주변 값과 정규분포 관계가 있다고 가정한다. 즉 멀수록 관계가 더 적다고 간주한다. 2차원 가우시안 함수는 다음과 같다.\n\\[\nG(x,\\,y | x',\\,y') = \\dfrac{1}{\\sqrt{2 \\pi \\sigma^2}} \\exp \\left( -\\dfrac{(x-x')^2+(y-y')^2}{2\\sigma^2}\\right)\n\\]\n\\(J[i,\\,j]\\) 는 \\(I[i,\\,j]\\) 를 중심으로 주변값에 2차원 가우시안 함수에 비례하는 가중치를 두고 그 평균을 계산한 값이 된다.\npython의 cv2 라이브러리에서는 다음과 같이 사용한다.\nfiltered_image = cv2.GaussianBlur(original_image, (3, 3), 1.5)\n여기서 (3, 3) 은 \\(3 \\times 3\\) 크기의 커널을 사용한다는 뜻이고 1.5 는 가우시안 분포의 표준편차이다.",
     "crumbs": [
       "영상 처리/토모그래피",
       "영상 처리 기초",
-      "공간적 이미지 필터링"
+      "이미지 프로세싱의 기초"
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_02.html#빈도-필터",
-    "href": "src/image_processing/image_processing_02.html#빈도-필터",
-    "title": "공간적 이미지 필터링",
-    "section": "5 빈도 필터",
-    "text": "5 빈도 필터\n\n5.1 이미지에 있어 ‘빈도 (frequency)’\n\n이미지에서 어떤 픽셀과 바로 이웃한 픽셀의 값이 매우 큰 차이를 보일 때 그 픽셀을 중심으로 픽셀 값의 ’변화’는 매우 크다고 할 수 있다. 이렇게 픽셀 값의 변화가 매우 짧은 픽셀 간격에서 나타날 때, 그 픽셀은 높은 주파수 성분, 반대의 경우를 낮은 주파수 성분이라고 부른다.\n\n\n\n하이패스 필터 (high-pass filter), 로우패스 필터 (low-pass filter)\n\n필터가 낮은 빈도를 나타내는 성분만 제거하거나 픽셀 값을 줄이는 기능을 갖는다면 하이패스 필터라 하고, 그 반대의 경우를 로우패스 필터라 한다.\n사실 하이패스 필터는 이미지에서 가장자리 (엣지, edge)를 찾아 내거나 가장자리 신호를 선택적으로 강화하는 기능으로 자주 사용된다.\n앞서 살펴 본 평균값, 중간값, 가우시안 필터 등이 로우패스 필터이다.\n\n\n\n\n\n5.2 Unsharp masking & highboost filtering\n\n\nUnsharp mask\n\n원본 이미지를 일단 평균값 필터링 같은 로우패스 필터로 블러링 (blurring) 처리한 후, 원본 이미지에서 처리된 이미지를 빼서 차이 값으로 이루어진 행렬을 ‘Unsharp mask’ 라 한다. 원본이미지를 \\(I[i,j]\\), 블러링 된 이미지를 \\(\\overline{I}[i,j]\\) 라 하면 unsharp mask \\(M[i,j]\\) 는 다음과 같다.\n\n\\[\nM[i,j]=I[i,j]-\\overline{I}[i,j]\n\\]\n\n\n\nHighboost filtering\n\n이 때 어떤 1보다 큰 양의 실수 \\(k\\) 를 \\(M[i,j]\\) 에 곱해서 원본에 더해준다면 가장자리신호가 더 현저해지며 이것을 highboost filtering 이라 한다. 즉\n\n\\[\nJ[i,j]=I[i,j]+k\\,M[i,j] = I[i,j]+k(I[i,j]-\\overline{I}[i,j])\n\\]\n\n\n\n\n5.3 Differential High-pass Filter\n픽셀에 미분을 적용한다면 일단 간단하게 생각하면, \\(x\\) 방향 편미분은 \\(\\partial_x I [i,j]=I[i,j]-I[i-1,j]\\) or \\(\\partial_x I[i,j]=I[i+1,j]-I[i,j]\\) 이며 \\(y\\) 방향 편미분은 \\(\\partial_y I[i,j]=I[i,j]-I[i,j-1]\\) 혹은 \\(\\partial_y I[i,j]=I[i,j+1]-I[i,j]\\) 가 될 것이다.\n\n\n로버츠 커널 (Roberts kernel)\n대각선 방향의 편미분에 해당하는 2차원 배열을 로버츠 마스크라 하며 아래와 같다.\n\\[\nG_x = \\begin{bmatrix} +1&0&0 \\\\ 0&-1&0 \\\\ 0&0&0 \\end{bmatrix}, \\quad G_y=\\begin{bmatrix}0&+1&0\\\\-1&0&0\\\\0&0&0 \\end{bmatrix}\n\\]\n\n\n\nPrewitt kernel\n\\[\nG_x = \\begin{bmatrix}+1&0&-1\\\\+1&0&-1\\\\+1&0&-1\\end{bmatrix}, \\qquad\nG_y = \\begin{bmatrix}+1&+1&+1\\\\0&0&0\\\\-1&-1&-1\\end{bmatrix}\n\\]\n\n\n\nSobel kernel\n\\[\nG_x = \\begin{bmatrix}+1&0&-1\\\\+2&0&-2\\\\+1&0&-1\\end{bmatrix},\\qquad\nG_y = \\begin{bmatrix}+1&+2&+1\\\\0&0&0\\\\-1&-2&-1\\end{bmatrix}\n\\]\n\n\n\n\n5.4 Laplaician filter\n\n1차 미분 필터들은 한 번만 차분 값을 계산하기 때문에, 차 분의 크기도 작고, 이로 인해서 경계가 확실한 부분만 추출할 수 있는 반면, 노이즈가 있거나 엣지 (edge)의 강도가 약한 부분에는 불완전한 추출을 보이는 한계가 있다.\n이를 극복하기 위해 개발된 필터가 2차 미분형, 즉, 라플라시안 필터 (Laplacian filter) 이다. 라플라시안 필터는 말 그대로, 연속 함수 f(x,y)의 이계 도함수를 의미하는 라플라시안으로부터 유래한 것으로, 디지털 이미지에 대해, 아래와 같은 근사 공식을 활용하여 만들 수 있다.\n\n\\[\n\\begin{aligned}\n\\nabla^2 f &= \\partial_x^2 f + \\partial_y^2 f \\\\\n\\partial_x^2 I[i,j] & = I[i-1,j]+I[i+1,j]-2I[i,j] \\\\\n\\partial_y^2 I[i,j] & = I[i,j-1]+I[i,k+1]-2I[i,j] \\\\\n\\nabla^2 I[i,j] &= \\partial_x^2 I[i,j]+ \\partial_y^2 I[i,j] =I[i-1,j]+I[i+1,j]+I[i,j-1]+I[i,k+1]-4I[i,j]\n\\end{aligned}\n\\]\n\n라플라시안 필터는, 앞서 살펴 본 1차 미분형 필터보다, 더 넓은 범위에서 그리고 모든 방향을 고려하여 차분 값을 계산할 수 있기 때문에, 경계선에서 픽셀 값이 변화하는 것 을 훨씬 강한 강도로 잡아낼 수 있으며, 이로 인해, 잡음에도 강하고, 엣지 정보를 더 잘 추출할 수 있다는 장점이 있다. 다만, 계산 시간은 1차 미분형 필터보다는 늘어나게 된다.\nMatlab 에서는 fspecial(‘laplacian’,alpha) 의 명령어로 laplacian kernel 을 만드는데 이는 보통의 laplacian kernel을 약간 수정한 것으로 다음과 같이 정의된다. \\[\n\\dfrac{1}{1+\\alpha} \\begin{bmatrix} \\alpha & 1-\\alpha & \\alpha  \\\\ - \\alpha & 4 & - \\alpha \\\\ \\alpha & 1-\\alpha & \\alpha\\end{bmatrix}\n\\]\nMatlab 에서는 \\(\\alpha\\) 값을 \\([0,\\,1)\\) 에서 조정한다고 하는데, cv2 에서는 이러한 함수를 찾을 수 없어서 직접 만들어 사용하였다.\n\n\n\n\n5.5 Laplacian of Gaussian Filter (LoG filter)\n\n원본 이미지에 가우시안 블러링을 한 후 라플라시안 필터를 적용한다.\n이 때 LoG filter 는 다음과 같은 꼴을 띈다.\n\n\\[\n\\nabla^2 \\left( G_{\\sigma} (x,\\,y) \\right) = \\dfrac{x^2+y^2-2\\sigma^2}{\\sigma^4} \\exp \\left(- \\dfrac{x^2+y^2}{2\\sigma^2}\\right)\n\\]\n\n라플라시안 필터와 유사하게, LoG 필터도 이미지에서 엣지 부분의 정보를 효과적으로 추출할 수 있다. 특히, 라플라시안 필터보다 더 넓은 범위에서 이미지 합성 곱을 하기 때문에, 이미지 추출 과정에서 왜곡 가능성을 줄일 수 있다는 장점이 있다.\n\n\n\n\n5.6 위너 필터 (Wiener filter)\n원본 이미지 I 와 노이즈 처리된 이미지 J 사이의 차이를 통계적 관점에서 (혹은 확률적 관점에서) 정량화 하는 방법으로는 평균제곱편차 mean square error (MSE) 가 있다. MSE의 정의는 아래와 같다.\n\\[\n\\text{MSE} = \\dfrac{1}{N} \\sum_{i,\\,j} \\left[ I[i,\\,j]-J[i,\\,j]\\right]^2\n\\]\n위너 필터는 이러한 이미지 간 차이를 최소화하는 모든 종류의 비선형 필터를 의미한다.\n\n\n위너 필터의 노이즈 감소 기능\n\n원본 이미지 I에 노이즈 N 이 낀 이미지 I’ 를 생각하자. 즉 다음과 같은 식을 생각하자.\n\n\\[\nI'[i,j]=I[i,j]+N[i,j]\n\\]\n\n노이즈의 경우 특별한 언급이 없으면 가우시안 노이즈를 생각한다. 그렇다면 노이즈의 평균은 \\(0\\) 이 될 것이며 노이즈의 분산 \\(\\sigma_N^2\\) 는 \\(0\\) 이 아닌 값을 갖는다. 어떤 픽셀을 중심으로 커널 배열을 덮어서 움직인다고 하자. 커널은 보통 원본 배열보다 아주 작기때문에 커널에 덮이는 영역의 평균은 \\(0\\) 될 확률이 매우 낮으므로 그 평균값을 \\(m_{ij}\\), 분산을 \\(\\sigma^2_{ij}\\) 라 하자. 이 때 해당 영역의 노이즈를 최소화하는 방식으로 노이즈를 처리하면 다음과 같은 관계식을 얻는다.\n\n\\[\nJ[i,j]=m_{ij} + \\dfrac{\\sigma^2_{ij}}{\\sigma^2_{ij} + \\sigma^2_N} {\\big(} I[i,j]-m_{ij}{\\big)}\n\\]\n\n그런데 많은 경우 우리는 원본 이미지가 없이 노이즈가 낀 이미지만 있으므로 노이즈의 분산 \\(\\sigma_N^2\\) 를 모른다. 여기에 괜찮은 방법이 있는데, 그것은 바로 \\(\\sigma_N^2\\) 를 모든 로컬 분산 \\(\\sigma_{ij}^2\\) 의 평균으로 잡는 것이다.\n\n\\[\n\\sigma_N^2 = \\dfrac{1}{N} \\sum_{i,j} \\sigma^2_{i,j}\n\\]\n\n\n파이썬에서의 위너 필터\n파이썬에서는 scipy 에서 wiener filter를 사용한다. Library refence 를 보면 대놓고 matlab의 wiener2 함수를 implementation 했다고 나온다. 사용법은 다음과 같다.\nfrom scipy.signal.signaltools import wiener\n\nfiltered_img = wiener(original_img, mysize=3)\n여기서 mysize 는 kernel size 이다. 자세한 것은 library reference 참고. 이 때 주의할 것은 original_img 가 0 에서 255 사이의 정수값을 갖는, 보통 gray scale image 에서 많이 사용되는 uint8 형식의 정수형이면 안된다. 이 경우 다음과 같이 사용하는 것이 좋다.\nfiltered_img = wiener(original_img.astype(np.float64), ksize)",
+    "objectID": "src/image_processing/image_processing_01.html#합성곱-개념으로서의-이미지-필터링",
+    "href": "src/image_processing/image_processing_01.html#합성곱-개념으로서의-이미지-필터링",
+    "title": "이미지 프로세싱의 기초",
+    "section": "6 합성곱 개념으로서의 이미지 필터링",
+    "text": "6 합성곱 개념으로서의 이미지 필터링\n\n6.1 합성곱과 상관값\n\n\n\n\n\n\n\n정의 1 (합성곱과 상관값) 원본 이미지 \\(I[i,\\,j]\\) 와 커널 \\(k[s,\\,t]\\) 을 생각하자. 이 때 커널은 \\((2a+1)\\times (2b+1)\\) 크기의 2차원 배열이며 커널 배열의 인덱스는\n\\[\n\\begin{aligned}\ns:& -a,\\, -(a-1),\\ldots,\\, -1,\\,0,\\,1,\\ldots,\\,a-1,\\,a, \\\\\nt:&-b,\\, -(b-1),\\ldots,\\, -1,\\,0,\\,1,\\ldots,\\,b-1,\\,b,\n\\end{aligned}\n\\]\n로 잡는다. 이미지와 커널 사이의 합성곱(convolution) \\(k \\ast I\\) 와 상관값(correlation) \\(k \\otimes I\\) 는 각각 다음과 같이 정의된다.\n\\[\n\\begin{aligned}\n(k \\ast I)[i, j] &:= \\sum_{s=-a}^{a} \\sum_{t=-b}^b k[s,\\,t] \\,I[i-s,\\, j-t],\\\\[0.3em]\n(k \\otimes I)[i,j] &:= \\sum_{s=-a}^{a} \\sum_{t=-b}^b k[s,\\,t]\\, I[i+s,\\, j+t].\n\\end{aligned}\n\\tag{8}\\]\n\n\n\n\n\n우선 상관값을 살펴 보자. 커널이\n\\[\nk = \\begin{bmatrix} 1 & 0 & -1 \\\\ 1 & 0 & -1 \\\\ 1 & 0 & -1\\end{bmatrix}\n\\]\n이고 원본 이미지의 \\(I[i, j]\\) 를 중심으로 한 \\(3\\times 3\\) 배열이\n\\[\n\\tilde{I}_{[i, j]}= I[i-1:i+1, j-1:j+1]= \\begin{bmatrix} 4 & 0 & 2 \\\\ 1 & 0 & 3 \\\\ 2 & 3 & 1\\end{bmatrix}\n\\]\n이라면 \\((k\\otimes I)[i, j]\\) 는 \\(k\\) 와 \\(\\tilde{I}_{[i, j]}\\) 의 성분별 곱의 합으로 정의된다. 즉\n\\[\n(k\\otimes I)[i, j] = 1\\times 4 + (-1)* 2 + 1 * 1 + (-1)\\times 3 + 1 \\times 2 + (-1)\\times 1 = 1\n\\]\n이다. 그러나 합성곱은 식 8 에서 알 수 있듯이 \\(k\\) 의 성분과 대각 위치에 있는 \\(\\tilde{I}_{[i, j]}\\) 의 성분의 모든 곱의 합이다. 즉, \\[\n(k\\otimes I)[i, j] = 1\\times 2 + (-1)* 4 + 1 * 3 + (-1)\\times 1 + 1 \\times 1 + (-1)\\times 2 = -1\n\\]\n이다. 혹은 합성곱은 커널을 180 도 회전시킨 행렬과의 상관값이라고 생각 할 수도 있다. 또 커널과 합성곱의 중요한 차이는 아래 표와 같다.\n\n\n\n표 1: 합성곱과 상관값의 수학적 성질\n\n\n\n\n\n\n\n\n\n\n성질\n합성곱\n상관값\n\n\n\n\ncommtative\n\\(f\\ast g = g \\ast f\\)\n\\(-\\)\n\n\nassociative\n\\(f\\ast(g \\ast h) = (f \\ast g)\\ast h\\)\n\\(-\\)\n\n\ndistributive\n\\(f\\ast(g+h)= f\\ast g + f \\ast h\\)\n\\(f\\otimes (g + h) = f\\otimes g + f \\otimes h\\)\n\n\n\n\n\n\n\n일반적으로 상관값이 계산량이 적고 직관적인데 비해 합성곱이 수학적으로 좋은 성질을 많이 가지고 있다. 또한 커널이 중심에 대해 대칭이라면 합성곱과 상관값은 동일하다.\n\n\n\n예제 1 정의 1 의 커널 인덱스 표기법을 사용하자. 커널이 \\(k[-s,\\,-t] = k[s,\\,t]\\) 라면 \\(k\\ast I = k \\otimes I\\) 임을 보일 수 있다.\n\\[\n\\begin{aligned}\n(k \\ast I)[i,\\,j] &= \\sum_{s=-a}^{a} \\sum_{t=-b}^b k[s,\\,t] \\,I[i-s,\\, j-t] &&; s\\to -s,\\, t\\to -t \\\\\n&=\\sum_{s=-a}^{a} \\sum_{t=-b}^b k[-s,\\, -t] I[i+s,\\, j+t] &&;k[-s,\\,-t] = k[s,\\,t]\\\\\n&= \\sum_{s=-a}^{a} \\sum_{t=-b}^b k[s,\\, t] I[i+s,\\, j+t] \\\\\n&= (k\\otimes I)[i, j]\n\\end{aligned}\n\\]\n\n\n\n가끔 합성곱과 상관값이 서로 혼용되기도 한다. 예를 들어 신경망의 합성곱 신경망(convolutional neural network, CNN) 에서는 실제로 이름에 나온 합성곱 연산이 아닌 상관 연산을 사용한다. 그러나 역사적, 관례적 이유로 합성곱 신경망이라는 이름을 사용한다.",
     "crumbs": [
       "영상 처리/토모그래피",
       "영상 처리 기초",
-      "공간적 이미지 필터링"
+      "이미지 프로세싱의 기초"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html#빈도-필터",
+    "href": "src/image_processing/image_processing_01.html#빈도-필터",
+    "title": "이미지 프로세싱의 기초",
+    "section": "7 빈도 필터",
+    "text": "7 빈도 필터\n\n7.1 이미지에 있어 ‘빈도 (frequency)’\n\n이미지에서 어떤 픽셀과 바로 이웃한 픽셀의 값이 매우 큰 차이를 보일 때 그 픽셀을 중심으로 픽셀 값의 ’변화’는 매우 크다고 할 수 있다. 이렇게 픽셀 값의 변화가 매우 짧은 픽셀 간격에서 나타날 때, 그 픽셀은 높은 주파수 성분, 반대의 경우를 낮은 주파수 성분이라고 부른다.\n\n\n\n하이패스 필터 (high-pass filter), 로우패스 필터 (low-pass filter)\n\n필터가 낮은 빈도를 나타내는 성분만 제거하거나 픽셀 값을 줄이는 기능을 갖는다면 하이패스 필터라 하고, 그 반대의 경우를 로우패스 필터라 한다.\n사실 하이패스 필터는 이미지에서 가장자리 (엣지, edge)를 찾아 내거나 가장자리 신호를 선택적으로 강화하는 기능으로 자주 사용된다.\n앞서 살펴 본 평균값, 중간값, 가우시안 필터 등이 로우패스 필터이다.\n\n\n\n\n\n7.2 Unsharp masking & highboost filtering\n\n\nUnsharp mask\n\n원본 이미지를 일단 평균값 필터링 같은 로우패스 필터로 블러링 (blurring) 처리한 후, 원본 이미지에서 처리된 이미지를 빼서 차이 값으로 이루어진 행렬을 ‘Unsharp mask’ 라 한다. 원본이미지를 \\(I[i,j]\\), 블러링 된 이미지를 \\(\\overline{I}[i,j]\\) 라 하면 unsharp mask \\(M[i,j]\\) 는 다음과 같다.\n\n\\[\nM[i,j]=I[i,j]-\\overline{I}[i,j]\n\\]\n\n\n\nHighboost filtering\n\n이 때 어떤 1보다 큰 양의 실수 \\(k\\) 를 \\(M[i,j]\\) 에 곱해서 원본에 더해준다면 가장자리신호가 더 현저해지며 이것을 highboost filtering 이라 한다. 즉\n\n\\[\nJ[i,j]=I[i,j]+k\\,M[i,j] = I[i,j]+k(I[i,j]-\\overline{I}[i,j])\n\\]\n\n\n\n\n7.3 Differential High-pass Filter\n픽셀에 미분을 적용한다면 일단 간단하게 생각하면, \\(x\\) 방향 편미분은 \\(\\partial_x I [i,j]=I[i,j]-I[i-1,j]\\) or \\(\\partial_x I[i,j]=I[i+1,j]-I[i,j]\\) 이며 \\(y\\) 방향 편미분은 \\(\\partial_y I[i,j]=I[i,j]-I[i,j-1]\\) 혹은 \\(\\partial_y I[i,j]=I[i,j+1]-I[i,j]\\) 가 될 것이다.\n\n\n로버츠 커널 (Roberts kernel)\n대각선 방향의 편미분에 해당하는 2차원 배열을 로버츠 마스크라 하며 아래와 같다.\n\\[\nG_x = \\begin{bmatrix} +1&0&0 \\\\ 0&-1&0 \\\\ 0&0&0 \\end{bmatrix}, \\quad G_y=\\begin{bmatrix}0&+1&0\\\\-1&0&0\\\\0&0&0 \\end{bmatrix}\n\\]\n\n\n\nPrewitt kernel\n\\[\nG_x = \\begin{bmatrix}+1&0&-1\\\\+1&0&-1\\\\+1&0&-1\\end{bmatrix}, \\qquad\nG_y = \\begin{bmatrix}+1&+1&+1\\\\0&0&0\\\\-1&-1&-1\\end{bmatrix}\n\\]\n\n\n\nSobel kernel\n\\[\nG_x = \\begin{bmatrix}+1&0&-1\\\\+2&0&-2\\\\+1&0&-1\\end{bmatrix},\\qquad\nG_y = \\begin{bmatrix}+1&+2&+1\\\\0&0&0\\\\-1&-2&-1\\end{bmatrix}\n\\]\n\n\n\n\n7.4 Laplaician filter\n\n1차 미분 필터들은 한 번만 차분 값을 계산하기 때문에, 차 분의 크기도 작고, 이로 인해서 경계가 확실한 부분만 추출할 수 있는 반면, 노이즈가 있거나 엣지 (edge)의 강도가 약한 부분에는 불완전한 추출을 보이는 한계가 있다.\n이를 극복하기 위해 개발된 필터가 2차 미분형, 즉, 라플라시안 필터 (Laplacian filter) 이다. 라플라시안 필터는 말 그대로, 연속 함수 f(x,y)의 이계 도함수를 의미하는 라플라시안으로부터 유래한 것으로, 디지털 이미지에 대해, 아래와 같은 근사 공식을 활용하여 만들 수 있다.\n\n\\[\n\\begin{aligned}\n\\nabla^2 f &= \\partial_x^2 f + \\partial_y^2 f \\\\\n\\partial_x^2 I[i,j] & = I[i-1,j]+I[i+1,j]-2I[i,j] \\\\\n\\partial_y^2 I[i,j] & = I[i,j-1]+I[i,k+1]-2I[i,j] \\\\\n\\nabla^2 I[i,j] &= \\partial_x^2 I[i,j]+ \\partial_y^2 I[i,j] =I[i-1,j]+I[i+1,j]+I[i,j-1]+I[i,k+1]-4I[i,j]\n\\end{aligned}\n\\]\n\n라플라시안 필터는, 앞서 살펴 본 1차 미분형 필터보다, 더 넓은 범위에서 그리고 모든 방향을 고려하여 차분 값을 계산할 수 있기 때문에, 경계선에서 픽셀 값이 변화하는 것 을 훨씬 강한 강도로 잡아낼 수 있으며, 이로 인해, 잡음에도 강하고, 엣지 정보를 더 잘 추출할 수 있다는 장점이 있다. 다만, 계산 시간은 1차 미분형 필터보다는 늘어나게 된다.\nMatlab 에서는 fspecial(‘laplacian’,alpha) 의 명령어로 laplacian kernel 을 만드는데 이는 보통의 laplacian kernel을 약간 수정한 것으로 다음과 같이 정의된다. \\[\n\\dfrac{1}{1+\\alpha} \\begin{bmatrix} \\alpha & 1-\\alpha & \\alpha  \\\\ - \\alpha & 4 & - \\alpha \\\\ \\alpha & 1-\\alpha & \\alpha\\end{bmatrix}\n\\]\nMatlab 에서는 \\(\\alpha\\) 값을 \\([0,\\,1)\\) 에서 조정한다고 하는데, cv2 에서는 이러한 함수를 찾을 수 없어서 직접 만들어 사용하였다.\n\n\n\n\n7.5 Laplacian of Gaussian Filter (LoG filter)\n\n원본 이미지에 가우시안 블러링을 한 후 라플라시안 필터를 적용한다.\n이 때 LoG filter 는 다음과 같은 꼴을 띈다.\n\n\\[\n\\nabla^2 \\left( G_{\\sigma} (x,\\,y) \\right) = \\dfrac{x^2+y^2-2\\sigma^2}{\\sigma^4} \\exp \\left(- \\dfrac{x^2+y^2}{2\\sigma^2}\\right)\n\\]\n\n라플라시안 필터와 유사하게, LoG 필터도 이미지에서 엣지 부분의 정보를 효과적으로 추출할 수 있다. 특히, 라플라시안 필터보다 더 넓은 범위에서 이미지 합성 곱을 하기 때문에, 이미지 추출 과정에서 왜곡 가능성을 줄일 수 있다는 장점이 있다.\n\n\n\n\n7.6 위너 필터 (Wiener filter)\n원본 이미지 I 와 노이즈 처리된 이미지 J 사이의 차이를 통계적 관점에서 (혹은 확률적 관점에서) 정량화 하는 방법으로는 평균제곱편차 mean square error (MSE) 가 있다. MSE의 정의는 아래와 같다.\n\\[\n\\text{MSE} = \\dfrac{1}{N} \\sum_{i,\\,j} \\left[ I[i,\\,j]-J[i,\\,j]\\right]^2\n\\]\n위너 필터는 이러한 이미지 간 차이를 최소화하는 모든 종류의 비선형 필터를 의미한다.\n\n\n위너 필터의 노이즈 감소 기능\n\n원본 이미지 I에 노이즈 N 이 낀 이미지 I’ 를 생각하자. 즉 다음과 같은 식을 생각하자.\n\n\\[\nI'[i,j]=I[i,j]+N[i,j]\n\\]\n\n노이즈의 경우 특별한 언급이 없으면 가우시안 노이즈를 생각한다. 그렇다면 노이즈의 평균은 \\(0\\) 이 될 것이며 노이즈의 분산 \\(\\sigma_N^2\\) 는 \\(0\\) 이 아닌 값을 갖는다. 어떤 픽셀을 중심으로 커널 배열을 덮어서 움직인다고 하자. 커널은 보통 원본 배열보다 아주 작기때문에 커널에 덮이는 영역의 평균은 \\(0\\) 될 확률이 매우 낮으므로 그 평균값을 \\(m_{ij}\\), 분산을 \\(\\sigma^2_{ij}\\) 라 하자. 이 때 해당 영역의 노이즈를 최소화하는 방식으로 노이즈를 처리하면 다음과 같은 관계식을 얻는다.\n\n\\[\nJ[i,j]=m_{ij} + \\dfrac{\\sigma^2_{ij}}{\\sigma^2_{ij} + \\sigma^2_N} {\\big(} I[i,j]-m_{ij}{\\big)}\n\\]\n\n그런데 많은 경우 우리는 원본 이미지가 없이 노이즈가 낀 이미지만 있으므로 노이즈의 분산 \\(\\sigma_N^2\\) 를 모른다. 여기에 괜찮은 방법이 있는데, 그것은 바로 \\(\\sigma_N^2\\) 를 모든 로컬 분산 \\(\\sigma_{ij}^2\\) 의 평균으로 잡는 것이다.\n\n\\[\n\\sigma_N^2 = \\dfrac{1}{N} \\sum_{i,j} \\sigma^2_{i,j}\n\\]\n\n\n파이썬에서의 위너 필터\n파이썬에서는 scipy 에서 wiener filter를 사용한다. Library refence 를 보면 대놓고 matlab의 wiener2 함수를 implementation 했다고 나온다. 사용법은 다음과 같다.\nfrom scipy.signal.signaltools import wiener\n\nfiltered_img = wiener(original_img, mysize=3)\n여기서 mysize 는 kernel size 이다. 자세한 것은 library reference 참고. 이 때 주의할 것은 original_img 가 0 에서 255 사이의 정수값을 갖는, 보통 gray scale image 에서 많이 사용되는 uint8 형식의 정수형이면 안된다. 이 경우 다음과 같이 사용하는 것이 좋다.\nfiltered_img = wiener(original_img.astype(np.float64), ksize)",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
     ]
   },
   {
@@ -1989,6 +1953,30 @@
     "crumbs": [
       "다양한 주제들",
       "Levenberg-Marquardt 방법"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html#sec-ImageProcessing_spatial_image_filtering",
+    "href": "src/image_processing/image_processing_01.html#sec-ImageProcessing_spatial_image_filtering",
+    "title": "이미지 프로세싱의 기초",
+    "section": "5 공간적 이미지 필터링",
+    "text": "5 공간적 이미지 필터링\n공간적 필터링은 이미지를 2차원 공간으로 간주한다. 어떤 픽셀의 값을 그 주변값의 연산을 통해 바꿔서 원하는 목적을 달성하는 것을 공간적 이미지 필터링 이라고 한다. 많은 경우 2차원 배열을 사용하며 이 배열을 커널(kernel) 혹은 마스크(mask) 라고 한다. 즉 원본 이미지 \\(I\\) 의 픽셀 \\([i,\\,j]\\) 에 대해 부근의 픽셀의 집합 \\(A_[i,j]\\) 을 사용하는 어떤 연산 \\(F\\) 가 정의되어 연산된 이미지 \\(J\\) 가 만들어 진다면, 즉\n\\[\nJ[i,j] = F\\left(A_{[i,j]}\\right)\n\\]\n일 때 이 과정을 공간적 이미지 필터링 이라고 한다.\n필터링 연산이 선형성을 갖는 경우를 이 필터에 의한 연산을 선형 필터라고 하며 대표적으로 평균값 필터와 가우시안 필터가 있다. 선형 필터가 아닌 필터를 비선형 필터라고 한다.\n\n\n5.1 가장저리 처리\n뒤에 나오겠지만 평균값 필터는 이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터이다. 예를 들어 이미지 \\(I\\) 의 \\([i, j]\\) 픽셀 주위의 9개의 평균값으로 필터링 한다면\n\\[\nJ[i,\\,j]=\\frac{1}{9} \\sum_{p=-1,\\,0,\\,1} \\sum_{q=-1,\\,0,\\,1} I[i-p,\\,j-q]\n\\]\n일 것이다. 노이즈 처리에 사용 될 수 있다. 이 경우 가장자리 라면, 예를 들어 \\(i=0\\) 이면 \\(i-1\\) 픽셀이 없으므로 문제가 된다. 일반적으로 필터링의 범위를 고려하여 필터링에 방해가 되지 않도록 이미지의 크기를 일시적으로 키우고 원본 이미지에 없던 부분을 적당한 값으로 채운 후(이를 패딩(padding) 이라고 한다) 그 이미지 \\(\\overline{I}\\) 에 대해 필터링을 하고, 필터링된 이미지 \\(\\overline{J}\\) 를 원본 이미지에 맞게 크기를 줄이게 된다. 패딩을 할 때 특정한 값으로 채울 수도 있고(상수 패딩(constant padding)), 가장 가까운 원본 이미지 픽셀값을 복사할 수도 있으며(복제 패딩(replication padding)), 패딩되는 픽셀에 가장 가까운 원본 이미지 픽셀을 중심으로 대칭이 되도록 원본 픽셀 값을 복사할 수도 있다(반사 패딩(reflection padding)).\n\n\n\n\n\n\n\n그림 5: 이미지 패딩\n\n\n\n\n이후로는 이미지 필터를 다룰 때 사용자가 적절한 패딩을 선택했다고 가정한다.\n\n\n\n5.2 비선형 필터 (nonlinear filter)\n\n중앙값 필터 (median filter) : 노이즈 처리에 좋다.\n표준편차 필터(standard deviation filter) : 엣지 검출에 좋다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
+    ]
+  },
+  {
+    "objectID": "src/image_processing/image_processing_01.html#노이즈-생성",
+    "href": "src/image_processing/image_processing_01.html#노이즈-생성",
+    "title": "이미지 프로세싱의 기초",
+    "section": "3 노이즈 생성",
+    "text": "3 노이즈 생성\n노이즈의 원인은 다양하며, 노이즈에 대한 처리 방법도 다양하고 매우 중요하다. 노이즈 처리에 대해 알아야 하는데 우리가 일반적으로 얻는 영상은 노이지그 이미 제거된 것이 많으며, 노이즈 제거 기법을 알아보기 위해 임의로 노이즈를 생성할 수 있어야 한다. 여기서는 가장 대표적인 가우시안 노이즈와 흑백 노이즈(salt-pepper noise) 에 대해 간락히 알아보기로 한다.\n\n\n3.1 가우시안 노이즈\n가우시안 노이즈는 어떤 평균에 대해 가우시안 분포를 갖는 노이즈이다. 즉 노이즈를 생성시키려면 평균값과 표준편차로 정의되는 가우시안 분포에 따라 임의의 점에 대해 생성해야 한다.",
+    "crumbs": [
+      "영상 처리/토모그래피",
+      "영상 처리 기초",
+      "이미지 프로세싱의 기초"
     ]
   }
 ]

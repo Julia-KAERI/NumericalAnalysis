@@ -230,12 +230,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">푸리에 변환을 이용한 이미지 처리</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../src/image_processing/image_processing_04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</span></a>
   </div>
@@ -347,14 +341,36 @@ window.Quarto = {
   </ul></li>
   <li><a href="#점-기준-이미지-가공" id="toc-점-기준-이미지-가공" class="nav-link" data-scroll-target="#점-기준-이미지-가공"><span class="header-section-number">2</span> 점 기준 이미지 가공</a>
   <ul class="collapse">
-  <li><a href="#픽셀-반전법에-의한-이미지-가공" id="toc-픽셀-반전법에-의한-이미지-가공" class="nav-link" data-scroll-target="#픽셀-반전법에-의한-이미지-가공"><span class="header-section-number">2.1</span> 픽셀 반전법에 의한 이미지 가공</a></li>
-  <li><a href="#gamma-correction-or-gamma-encoding" id="toc-gamma-correction-or-gamma-encoding" class="nav-link" data-scroll-target="#gamma-correction-or-gamma-encoding"><span class="header-section-number">2.2</span> <span class="math inline">\(\gamma\)</span>-correction (or <span class="math inline">\(\gamma\)</span>-encoding)</a></li>
-  <li><a href="#히스토그램-균등화" id="toc-히스토그램-균등화" class="nav-link" data-scroll-target="#히스토그램-균등화"><span class="header-section-number">2.3</span> 히스토그램 균등화</a></li>
+  <li><a href="#sec-ImageProcessing_pixel_inversion" id="toc-sec-ImageProcessing_pixel_inversion" class="nav-link" data-scroll-target="#sec-ImageProcessing_pixel_inversion"><span class="header-section-number">2.1</span> 픽셀 반전법에 의한 이미지 가공</a></li>
+  <li><a href="#sec-ImageProcessing-gamma_correction" id="toc-sec-ImageProcessing-gamma_correction" class="nav-link" data-scroll-target="#sec-ImageProcessing-gamma_correction"><span class="header-section-number">2.2</span> <span class="math inline">\(\gamma\)</span>-correction (or <span class="math inline">\(\gamma\)</span>-encoding)</a></li>
+  <li><a href="#sec-ImageProcessing_histogram_equalization" id="toc-sec-ImageProcessing_histogram_equalization" class="nav-link" data-scroll-target="#sec-ImageProcessing_histogram_equalization"><span class="header-section-number">2.3</span> 히스토그램 균등화</a></li>
   </ul></li>
-  <li><a href="#아핀-변환과-보간법" id="toc-아핀-변환과-보간법" class="nav-link" data-scroll-target="#아핀-변환과-보간법"><span class="header-section-number">3</span> 아핀 변환과 보간법</a>
+  <li><a href="#노이즈-생성" id="toc-노이즈-생성" class="nav-link" data-scroll-target="#노이즈-생성"><span class="header-section-number">3</span> 노이즈 생성</a>
   <ul class="collapse">
-  <li><a href="#아핀-변환" id="toc-아핀-변환" class="nav-link" data-scroll-target="#아핀-변환"><span class="header-section-number">3.1</span> 아핀 변환</a></li>
-  <li><a href="#보간법" id="toc-보간법" class="nav-link" data-scroll-target="#보간법"><span class="header-section-number">3.2</span> 보간법</a></li>
+  <li><a href="#가우시안-노이즈" id="toc-가우시안-노이즈" class="nav-link" data-scroll-target="#가우시안-노이즈"><span class="header-section-number">3.1</span> 가우시안 노이즈</a></li>
+  </ul></li>
+  <li><a href="#아핀-변환과-보간법" id="toc-아핀-변환과-보간법" class="nav-link" data-scroll-target="#아핀-변환과-보간법"><span class="header-section-number">4</span> 아핀 변환과 보간법</a>
+  <ul class="collapse">
+  <li><a href="#sec-ImageProcessing_Affine_transform" id="toc-sec-ImageProcessing_Affine_transform" class="nav-link" data-scroll-target="#sec-ImageProcessing_Affine_transform"><span class="header-section-number">4.1</span> 아핀 변환</a></li>
+  <li><a href="#보간법" id="toc-보간법" class="nav-link" data-scroll-target="#보간법"><span class="header-section-number">4.2</span> 보간법</a></li>
+  </ul></li>
+  <li><a href="#sec-ImageProcessing_spatial_image_filtering" id="toc-sec-ImageProcessing_spatial_image_filtering" class="nav-link" data-scroll-target="#sec-ImageProcessing_spatial_image_filtering"><span class="header-section-number">5</span> 공간적 이미지 필터링</a>
+  <ul class="collapse">
+  <li><a href="#sec-ImageProcessing_padding" id="toc-sec-ImageProcessing_padding" class="nav-link" data-scroll-target="#sec-ImageProcessing_padding"><span class="header-section-number">5.1</span> 가장저리 처리</a></li>
+  <li><a href="#비선형-필터-nonlinear-filter" id="toc-비선형-필터-nonlinear-filter" class="nav-link" data-scroll-target="#비선형-필터-nonlinear-filter"><span class="header-section-number">5.2</span> 비선형 필터 (nonlinear filter)</a></li>
+  </ul></li>
+  <li><a href="#합성곱-개념으로서의-이미지-필터링" id="toc-합성곱-개념으로서의-이미지-필터링" class="nav-link" data-scroll-target="#합성곱-개념으로서의-이미지-필터링"><span class="header-section-number">6</span> 합성곱 개념으로서의 이미지 필터링</a>
+  <ul class="collapse">
+  <li><a href="#합성곱과-상관값" id="toc-합성곱과-상관값" class="nav-link" data-scroll-target="#합성곱과-상관값"><span class="header-section-number">6.1</span> 합성곱과 상관값</a></li>
+  </ul></li>
+  <li><a href="#빈도-필터" id="toc-빈도-필터" class="nav-link" data-scroll-target="#빈도-필터"><span class="header-section-number">7</span> 빈도 필터</a>
+  <ul class="collapse">
+  <li><a href="#이미지에-있어-빈도-frequency" id="toc-이미지에-있어-빈도-frequency" class="nav-link" data-scroll-target="#이미지에-있어-빈도-frequency"><span class="header-section-number">7.1</span> 이미지에 있어 ‘빈도 (frequency)’</a></li>
+  <li><a href="#unsharp-masking-highboost-filtering" id="toc-unsharp-masking-highboost-filtering" class="nav-link" data-scroll-target="#unsharp-masking-highboost-filtering"><span class="header-section-number">7.2</span> Unsharp masking &amp; highboost filtering</a></li>
+  <li><a href="#differential-high-pass-filter" id="toc-differential-high-pass-filter" class="nav-link" data-scroll-target="#differential-high-pass-filter"><span class="header-section-number">7.3</span> Differential High-pass Filter</a></li>
+  <li><a href="#laplaician-filter" id="toc-laplaician-filter" class="nav-link" data-scroll-target="#laplaician-filter"><span class="header-section-number">7.4</span> Laplaician filter</a></li>
+  <li><a href="#laplacian-of-gaussian-filter-log-filter" id="toc-laplacian-of-gaussian-filter-log-filter" class="nav-link" data-scroll-target="#laplacian-of-gaussian-filter-log-filter"><span class="header-section-number">7.5</span> Laplacian of Gaussian Filter (LoG filter)</a></li>
+  <li><a href="#위너-필터-wiener-filter" id="toc-위너-필터-wiener-filter" class="nav-link" data-scroll-target="#위너-필터-wiener-filter"><span class="header-section-number">7.6</span> 위너 필터 (Wiener filter)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -397,8 +413,15 @@ window.Quarto = {
 <ul>
 <li>우리의 시각에서 감지하는 바와 같은 2차원 이미지 일 수도 있지만, 측정에서 얻는 2차원 데이터 일 수 도 있다.</li>
 <li>여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.</li>
-<li>2차원 배열을 <span class="math inline">\(f[i,j]\)</span> 혹은 <span class="math inline">\(f(i, j)\)</span> 로 표기하며, 행렬과 같이 <span class="math inline">\(i\)</span> 는 세로 방향의 인덱스, <span class="math inline">\(j\)</span> 는 가로 방향의 인덱스이다.</li>
+<li>2차원 배열을 <span class="math inline">\(f[i,j]\)</span> 로 표기하며, 행렬과 같이 <span class="math inline">\(i\)</span> 는 세로 방향의 인덱스, <span class="math inline">\(j\)</span> 는 가로 방향의 인덱스이다.</li>
 </ul>
+<p>프로그래밍에서 2차원 배열의 인덱스는 관례적으로 세로축-가로축 순서이지만, 수학에서 함수로서 표현할 때는 관례적으로 가로축-세로축 순서이다. 이것이 매우 혼동을 일으키지만 이 관례를 계속 사용하기로 한다. 즉</p>
+<p><span class="math display">\[
+\boxed{
+    f[i,\,j]= f(j, i)
+}
+\]</span></p>
+<p>이다.</p>
 <p><br></p>
 </section>
 <section id="여기서" class="level3" data-number="1.2">
@@ -456,8 +479,8 @@ window.Quarto = {
 <li><p>Gray scale image <span class="math inline">\(f[i, j]\)</span> 를 생각하자. <span class="math inline">\(0\le f[i,\,j] \le 255\)</span> 이다.</p></li>
 </ul>
 <p><br></p>
-<section id="픽셀-반전법에-의한-이미지-가공" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="픽셀-반전법에-의한-이미지-가공"><span class="header-section-number">2.1</span> 픽셀 반전법에 의한 이미지 가공</h3>
+<section id="sec-ImageProcessing_pixel_inversion" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="sec-ImageProcessing_pixel_inversion"><span class="header-section-number">2.1</span> 픽셀 반전법에 의한 이미지 가공</h3>
 <p>상수 <span class="math inline">\(a\)</span> 와 <span class="math inline">\(b&gt;0\)</span> 에 대해 <span class="math display">\[
 T_i[f](i, j) = a-b f(i, j),\qquad 0 \le T[f] \le 255
 \]</span></p>
@@ -478,8 +501,8 @@ T_i[f](i, j) = a-b f(i, j),\qquad 0 \le T[f] \le 255
 </div>
 <p><br></p>
 </section>
-<section id="gamma-correction-or-gamma-encoding" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="gamma-correction-or-gamma-encoding"><span class="header-section-number">2.2</span> <span class="math inline">\(\gamma\)</span>-correction (or <span class="math inline">\(\gamma\)</span>-encoding)</h3>
+<section id="sec-ImageProcessing-gamma_correction" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="sec-ImageProcessing-gamma_correction"><span class="header-section-number">2.2</span> <span class="math inline">\(\gamma\)</span>-correction (or <span class="math inline">\(\gamma\)</span>-encoding)</h3>
 <ul>
 <li><p><span class="math inline">\(\gamma&gt;0\)</span> 에 대해 다음과 같이 변환한다. <span class="math display">\[
 T_\gamma [f](i, j)  = f(i, j)^\gamma
@@ -509,8 +532,8 @@ T_\gamma [f](i, j)  = f(i, j)^\gamma
 </ul>
 <p><br></p>
 </section>
-<section id="히스토그램-균등화" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="히스토그램-균등화"><span class="header-section-number">2.3</span> 히스토그램 균등화</h3>
+<section id="sec-ImageProcessing_histogram_equalization" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="sec-ImageProcessing_histogram_equalization"><span class="header-section-number">2.3</span> 히스토그램 균등화</h3>
 <p>이미지의 각 픽셀은 0 에서 255 사이의 정수값을 가진다. 그 값의 빈도는 이미지의 성질을 파악하는데 중요하다. 예를 들어 <a href="#fig-ImageProcessing_gamma_correction" class="quarto-xref">그림&nbsp;2</a> 의 <span class="math inline">\(\gamma\)</span> 에 대한 히스토그램은 다음과 같다.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># opencv 의 calcHist 함수를 julia 에서 쓰기 편하게 변환함.</span></span>
@@ -580,13 +603,23 @@ s(r) = \text{round}\left[(L-1)\sum_{i=1}^r \dfrac{h(i)}{\sum_{j=1}^{L-1} h(j)}\r
 <p><br></p>
 </section>
 </section>
-<section id="아핀-변환과-보간법" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="아핀-변환과-보간법"><span class="header-section-number">3</span> 아핀 변환과 보간법</h2>
-<section id="아핀-변환" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="아핀-변환"><span class="header-section-number">3.1</span> 아핀 변환</h3>
+<section id="노이즈-생성" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="노이즈-생성"><span class="header-section-number">3</span> 노이즈 생성</h2>
+<p>노이즈의 원인은 다양하며, 노이즈에 대한 처리 방법도 다양하고 매우 중요하다. 노이즈 처리에 대해 알아야 하는데 우리가 일반적으로 얻는 영상은 노이지그 이미 제거된 것이 많으며, 노이즈 제거 기법을 알아보기 위해 임의로 노이즈를 생성할 수 있어야 한다. 여기서는 가장 대표적인 가우시안 노이즈와 흑백 노이즈(salt-pepper noise) 에 대해 간락히 알아보기로 한다.</p>
+<p><br></p>
+<section id="가우시안-노이즈" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="가우시안-노이즈"><span class="header-section-number">3.1</span> 가우시안 노이즈</h3>
+<p>가우시안 노이즈는 어떤 평균에 대해 가우시안 분포를 갖는 노이즈이다. 즉 노이즈를 생성시키려면 평균값과 표준편차로 정의되는 가우시안 분포에 따라 임의의 점에 대해 생성해야 한다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="아핀-변환과-보간법" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="아핀-변환과-보간법"><span class="header-section-number">4</span> 아핀 변환과 보간법</h2>
+<section id="sec-ImageProcessing_Affine_transform" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="sec-ImageProcessing_Affine_transform"><span class="header-section-number">4.1</span> 아핀 변환</h3>
 <p>이미지를 이용해 흔히 하는 작업이 확대, 축소, 회전, 직선이동이 있으며 이를 <strong>아핀 변환(Affine transformation)</strong> 이라고 한다. 아핀 변환은 <span class="math inline">\(3\times 3\)</span> 가역행렬 <span class="math inline">\(\boldsymbol{T}\)</span> 에 의해 정해지는 다음과 같은 변환을 의미한다.</p>
 <p><span class="math display">\[
-\begin{bmatrix} x' \\ y' \\t'\end{bmatrix} = \boldsymbol{T} \begin{bmatrix} x \\ y \\ 1\end{bmatrix}
+\begin{bmatrix} x' \\ y' \\1\end{bmatrix} = \boldsymbol{T} \begin{bmatrix} x \\ y \\ 1\end{bmatrix}
 \]</span></p>
 <p>예를 들어 <span class="math inline">\(\theta\)</span> 만큼의 반시계 방향 회전 변환 <span class="math inline">\(\boldsymbol{T}_\theta\)</span> 는</p>
 <p><span class="math display">\[
@@ -607,13 +640,13 @@ s(r) = \text{round}\left[(L-1)\sum_{i=1}^r \dfrac{h(i)}{\sum_{j=1}^{L-1} h(j)}\r
 <p>이다.</p>
 <p>아핀 변환 <span class="math inline">\(T\)</span> 에 대해 이미지 <span class="math inline">\(f\)</span> 를 변환시킬 때 <span class="math inline">\(g=T[f]\)</span> 인 이미지를 얻고자 한다고 하자. 그렇다면 <span class="math inline">\(g[i, j]\)</span> 는 어떻게 얻을 것인가? <span class="math inline">\(g\)</span> 는 이미지 이므로 <span class="math inline">\(i,\,j\)</span> 는 정수이다. 아핀 변환의 역변환 <span class="math inline">\(T^{-1}\)</span> 을 생각하자. 아핀변환은 선형 가역변환이므로 항상 역변환이 존재한다. 즉</p>
 <p><span class="math display">\[
-\begin{bmatrix}x \\ y \\ t\end{bmatrix} = T^{-1}\begin{bmatrix} x' \\ y' \\ 1\end{bmatrix}
+\begin{bmatrix}x \\ y \\ 1\end{bmatrix} = T^{-1}\begin{bmatrix} x' \\ y' \\ 1\end{bmatrix}
 \]</span></p>
-<p>이다. 우리는 <span class="math inline">\(g(j,\,i)\)</span> 값을 알고 싶지만 아핀 역변환에 의한 <span class="math inline">\(x,\,y\)</span> 는 정수가 아니므로 정확한 값을 얻을 수 없다. 이 때 인터폴레이션을 사용한다.</p>
+<p>이다. 우리는 <span class="math inline">\(g(j,\,i)\)</span> 값을 알고 싶지만 아핀 역변환에 의한 <span class="math inline">\(x,\,y\)</span> 는 정수가 아니므로 정확한 값을 얻을 수 없다. 이 때 보간법(interpolation)을 사용한다.</p>
 <p><br></p>
 </section>
-<section id="보간법" class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="보간법"><span class="header-section-number">3.2</span> 보간법</h3>
+<section id="보간법" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="보간법"><span class="header-section-number">4.2</span> 보간법</h3>
 <p>이미지 <span class="math inline">\(f[i,\,j]=f(j,\,i)\)</span> 는 자연수인 <span class="math inline">\(i,\,j\)</span> 에 대해 정해져 있다. <span class="math inline">\(x,\,y\)</span> 가 자연수가 아닐 때 <span class="math inline">\(f(x,\,y)\)</span> 값은 <strong>보간법(interpolation)</strong> 으로 정한다.</p>
 <p><br></p>
 <section id="최근접-이웃-보간" class="level4">
@@ -653,7 +686,19 @@ d(s) = \left\{\begin{array}{ll} \dfrac{3|s|^3}{2}-\dfrac{5|s|^2}{2}+1, &amp; 0 \
 f(x,\,y) = \sum_{k=-1}^2 \sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)
 \]</span></p>
 <p><br></p>
-<p><code>TestImages.jl</code> 로 부터 <span class="math inline">\(256\times 256\)</span> 이미지 <code>lena_gray_256</code> 을 다운 받은 후 <span class="math inline">\(100 \times  100\)</span> 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 극 ㅕㄹ과는 아래와 같다.</p>
+<p>아래 그림은 1차원 데이터의 보간법과 2차원 이미지의 보간법을 설명하는 그림이다.</p>
+<div id="fig-ImageProcessing_interpolations" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_interpolations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Comparison_of_1D_and_2D_interpolation.svg/2880px-Comparison_of_1D_and_2D_interpolation.svg.png" class="img-fluid figure-img" width="500">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_interpolations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;4: 1차원 및 2차원 보간법(출처 : https://en.wikipedia.org/wiki/Bicubic_interpolation) By <a href="//commons.wikimedia.org/wiki/User:Cmglee" title="User:Cmglee">Cmglee</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=53064904">Link</a>
+</figcaption>
+</figure>
+</div>
+<p><br></p>
+<p><code>TestImages.jl</code> 로 부터 <span class="math inline">\(256\times 256\)</span> 이미지 <code>lena_gray_256</code> 을 다운 받은 후 <span class="math inline">\(100 \times  100\)</span> 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 결과는 아래와 같다.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>img0<span class="op">=</span> cv.<span class="fu">resize</span>(<span class="fu">img2mat</span>(<span class="fu">testimage</span>(<span class="st">"lena_gray_256.tif"</span>)), cv.<span class="fu">Size</span><span class="dt">{Int32}</span>(<span class="fl">100</span>, <span class="fl">100</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>img1 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_NEAREST)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>img2 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_LINEAR)</span>
@@ -665,6 +710,321 @@ f(x,\,y) = \sum_{k=-1}^2 \sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)
 <figcaption>왼쪽부터 최근접 이웃 보간, 이중 선형 보간, 이중 큐빅 보간</figcaption>
 </figure>
 </div>
+<p><br></p>
+</section>
+</section>
+</section>
+<section id="sec-ImageProcessing_spatial_image_filtering" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="sec-ImageProcessing_spatial_image_filtering"><span class="header-section-number">5</span> 공간적 이미지 필터링</h2>
+<p>공간적 필터링은 이미지를 2차원 공간으로 간주한다. 어떤 픽셀의 값을 그 주변값의 연산을 통해 바꿔서 원하는 목적을 달성하는 것을 공간적 이미지 필터링 이라고 한다. 많은 경우 2차원 배열을 사용하며 이 배열을 <strong>커널(kernel)</strong> 혹은 <strong>마스크(mask)</strong> 라고 한다. 즉 원본 이미지 <span class="math inline">\(I\)</span> 의 픽셀 <span class="math inline">\([i,\,j]\)</span> 에 대해 부근의 픽셀의 집합 <span class="math inline">\(A_[i,j]\)</span> 을 사용하는 어떤 연산 <span class="math inline">\(F\)</span> 가 정의되어 연산된 이미지 <span class="math inline">\(J\)</span> 가 만들어 진다면, 즉</p>
+<p><span class="math display">\[
+J[i,j] = F\left(A_{[i,j]}\right)
+\]</span></p>
+<p>일 때 이 과정을 공간적 이미지 필터링 이라고 한다.</p>
+<p>필터링 연산이 선형성을 갖는 경우를 이 필터에 의한 연산을 선형 필터라고 하며 대표적으로 평균값 필터와 가우시안 필터가 있다. 선형 필터가 아닌 필터를 비선형 필터라고 한다.</p>
+<p><br></p>
+<section id="sec-ImageProcessing_padding" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="sec-ImageProcessing_padding"><span class="header-section-number">5.1</span> 가장저리 처리</h3>
+<p>뒤에 나오겠지만 평균값 필터는 이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터이다. 예를 들어 이미지 <span class="math inline">\(I\)</span> 의 <span class="math inline">\([i, j]\)</span> 픽셀 주위의 9개의 평균값으로 필터링 한다면</p>
+<p><span class="math display">\[
+J[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} I[i-p,\,j-q]
+\]</span></p>
+<p>일 것이다. 노이즈 처리에 사용 될 수 있다. 이 경우 가장자리 라면, 예를 들어 <span class="math inline">\(i=0\)</span> 이면 <span class="math inline">\(i-1\)</span> 픽셀이 없으므로 문제가 된다. 일반적으로 필터링의 범위를 고려하여 필터링에 방해가 되지 않도록 이미지의 크기를 일시적으로 키우고 원본 이미지에 없던 부분을 적당한 값으로 채운 후(이를 <strong>패딩(padding)</strong> 이라고 한다) 그 이미지 <span class="math inline">\(\overline{I}\)</span> 에 대해 필터링을 하고, 필터링된 이미지 <span class="math inline">\(\overline{J}\)</span> 를 원본 이미지에 맞게 크기를 줄이게 된다. 패딩을 할 때 특정한 값으로 채울 수도 있고(<strong>상수 패딩(constant padding)</strong>), 가장 가까운 원본 이미지 픽셀값을 복사할 수도 있으며(<strong>복제 패딩(replication padding)</strong>), 패딩되는 픽셀에 가장 가까운 원본 이미지 픽셀을 중심으로 대칭이 되도록 원본 픽셀 값을 복사할 수도 있다(<strong>반사 패딩(reflection padding)</strong>).</p>
+<p><br></p>
+<div id="fig-ImageProcessing_padding" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_padding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/padding.png" class="img-fluid figure-img" width="550">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_padding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;5: 이미지 패딩
+</figcaption>
+</figure>
+</div>
+<p><br></p>
+<p>이후로는 이미지 필터를 다룰 때 사용자가 적절한 패딩을 선택했다고 가정한다.</p>
+<p><br></p>
+</section>
+<section id="비선형-필터-nonlinear-filter" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="비선형-필터-nonlinear-filter"><span class="header-section-number">5.2</span> 비선형 필터 (nonlinear filter)</h3>
+<ul>
+<li><p>중앙값 필터 (median filter) : 노이즈 처리에 좋다.</p></li>
+<li><p>표준편차 필터(standard deviation filter) : 엣지 검출에 좋다.</p></li>
+</ul>
+<p><br></p>
+<!-- 
+### 가우시안 필터 (Gaussian filter)
+$I[i,j]$ 를 필터링 할 때 주변 값과 정규분포 관계가 있다고 가정한다. 즉 멀수록 관계가 더 적다고 간주한다. 2차원 가우시안 함수는 다음과 같다.
+
+$$
+G(x,\,y | x',\,y') = \dfrac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\dfrac{(x-x')^2+(y-y')^2}{2\sigma^2}\right)
+$$
+
+$J[i,\,j]$ 는 $I[i,\,j]$ 를 중심으로 주변값에 2차원 가우시안 함수에 비례하는 가중치를 두고 그 평균을 계산한 값이 된다. 
+
+python의 cv2 라이브러리에서는 다음과 같이 사용한다.
+
+```python
+filtered_image = cv2.GaussianBlur(original_image, (3, 3), 1.5)
+```
+
+여기서 `(3, 3)` 은 $3 \times 3$ 크기의 커널을 사용한다는 뜻이고 1.5 는 가우시안 분포의 표준편차이다.
+
+</br> -->
+</section>
+</section>
+<section id="합성곱-개념으로서의-이미지-필터링" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="합성곱-개념으로서의-이미지-필터링"><span class="header-section-number">6</span> 합성곱 개념으로서의 이미지 필터링</h2>
+<section id="합성곱과-상관값" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="합성곱과-상관값"><span class="header-section-number">6.1</span> 합성곱과 상관값</h3>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<div id="def-ImageProcessing_convolution_and_correlation" class="theorem definition">
+<p><span class="theorem-title"><strong>정의 1 (합성곱과 상관값)</strong></span> 원본 이미지 <span class="math inline">\(I[i,\,j]\)</span> 와 커널 <span class="math inline">\(k[s,\,t]\)</span> 을 생각하자. 이 때 커널은 <span class="math inline">\((2a+1)\times (2b+1)\)</span> 크기의 2차원 배열이며 커널 배열의 인덱스는</p>
+<p><span class="math display">\[
+\begin{aligned}
+s:&amp; -a,\, -(a-1),\ldots,\, -1,\,0,\,1,\ldots,\,a-1,\,a, \\
+t:&amp;-b,\, -(b-1),\ldots,\, -1,\,0,\,1,\ldots,\,b-1,\,b,
+\end{aligned}
+\]</span></p>
+<p>로 잡는다. 이미지와 커널 사이의 <strong>합성곱(convolution)</strong> <span class="math inline">\(k \ast I\)</span> 와 <strong>상관값(correlation)</strong> <span class="math inline">\(k \otimes I\)</span> 는 각각 다음과 같이 정의된다.</p>
+<p><span id="eq-ImageProcessing_definition_of_convolution_and_correlation"><span class="math display">\[
+\begin{aligned}
+(k \ast I)[i, j] &amp;:= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t] \,I[i-s,\, j-t],\\[0.3em]
+(k \otimes I)[i,j] &amp;:= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t]\, I[i+s,\, j+t].
+\end{aligned}
+\tag{8}\]</span></span></p>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>우선 상관값을 살펴 보자. 커널이</p>
+<p><span class="math display">\[
+k = \begin{bmatrix} 1 &amp; 0 &amp; -1 \\ 1 &amp; 0 &amp; -1 \\ 1 &amp; 0 &amp; -1\end{bmatrix}
+\]</span></p>
+<p>이고 원본 이미지의 <span class="math inline">\(I[i, j]\)</span> 를 중심으로 한 <span class="math inline">\(3\times 3\)</span> 배열이</p>
+<p><span class="math display">\[
+\tilde{I}_{[i, j]}= I[i-1:i+1, j-1:j+1]= \begin{bmatrix} 4 &amp; 0 &amp; 2 \\ 1 &amp; 0 &amp; 3 \\ 2 &amp; 3 &amp; 1\end{bmatrix}
+\]</span></p>
+<p>이라면 <span class="math inline">\((k\otimes I)[i, j]\)</span> 는 <span class="math inline">\(k\)</span> 와 <span class="math inline">\(\tilde{I}_{[i, j]}\)</span> 의 성분별 곱의 합으로 정의된다. 즉</p>
+<p><span class="math display">\[
+(k\otimes I)[i, j] = 1\times 4 + (-1)* 2 + 1 * 1 + (-1)\times 3 + 1 \times 2 + (-1)\times 1 = 1
+\]</span></p>
+<p>이다. 그러나 합성곱은 <a href="#eq-ImageProcessing_definition_of_convolution_and_correlation" class="quarto-xref">식&nbsp;8</a> 에서 알 수 있듯이 <span class="math inline">\(k\)</span> 의 성분과 대각 위치에 있는 <span class="math inline">\(\tilde{I}_{[i, j]}\)</span> 의 성분의 모든 곱의 합이다. 즉, <span class="math display">\[
+(k\otimes I)[i, j] = 1\times 2 + (-1)* 4 + 1 * 3 + (-1)\times 1 + 1 \times 1 + (-1)\times 2 = -1
+\]</span></p>
+<p>이다. 혹은 합성곱은 커널을 180 도 회전시킨 행렬과의 상관값이라고 생각 할 수도 있다. 또 커널과 합성곱의 중요한 차이는 아래 표와 같다.</p>
+<div id="tbl-ImageProcessing_convolution_and_correlation" class="quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ImageProcessing_convolution_and_correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;1: 합성곱과 상관값의 수학적 성질
+</figcaption>
+<div aria-describedby="tbl-ImageProcessing_convolution_and_correlation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 40%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">성질</th>
+<th style="text-align: center;">합성곱</th>
+<th style="text-align: center;">상관값</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">commtative</td>
+<td style="text-align: center;"><span class="math inline">\(f\ast g = g \ast f\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">associative</td>
+<td style="text-align: center;"><span class="math inline">\(f\ast(g \ast h) = (f \ast g)\ast h\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">distributive</td>
+<td style="text-align: center;"><span class="math inline">\(f\ast(g+h)= f\ast g + f \ast h\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(f\otimes (g + h) = f\otimes g + f \otimes h\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><br></p>
+<p>일반적으로 상관값이 계산량이 적고 직관적인데 비해 합성곱이 수학적으로 좋은 성질을 많이 가지고 있다. 또한 커널이 중심에 대해 대칭이라면 합성곱과 상관값은 동일하다.</p>
+<br>
+<div class="border" style="background-color:#F2F4F4  ;padding:5px;">
+<div id="exm-ImageProcessing_convolution_and_correlation" class="theorem example">
+<p><span class="theorem-title"><strong>예제 1</strong></span> <a href="#def-ImageProcessing_convolution_and_correlation" class="quarto-xref">정의&nbsp;1</a> 의 커널 인덱스 표기법을 사용하자. 커널이 <span class="math inline">\(k[-s,\,-t] = k[s,\,t]\)</span> 라면 <span class="math inline">\(k\ast I = k \otimes I\)</span> 임을 보일 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+(k \ast I)[i,\,j] &amp;= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t] \,I[i-s,\, j-t] &amp;&amp;; s\to -s,\, t\to -t \\
+&amp;=\sum_{s=-a}^{a} \sum_{t=-b}^b k[-s,\, -t] I[i+s,\, j+t] &amp;&amp;;k[-s,\,-t] = k[s,\,t]\\
+&amp;= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\, t] I[i+s,\, j+t] \\
+&amp;= (k\otimes I)[i, j]
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+<p><br></p>
+<p>가끔 합성곱과 상관값이 서로 혼용되기도 한다. 예를 들어 신경망의 합성곱 신경망(convolutional neural network, CNN) 에서는 실제로 이름에 나온 합성곱 연산이 아닌 상관 연산을 사용한다. 그러나 역사적, 관례적 이유로 합성곱 신경망이라는 이름을 사용한다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="빈도-필터" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="빈도-필터"><span class="header-section-number">7</span> 빈도 필터</h2>
+<section id="이미지에-있어-빈도-frequency" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="이미지에-있어-빈도-frequency"><span class="header-section-number">7.1</span> 이미지에 있어 ‘빈도 (frequency)’</h3>
+<ul>
+<li>이미지에서 어떤 픽셀과 바로 이웃한 픽셀의 값이 매우 큰 차이를 보일 때 그 픽셀을 중심으로 픽셀 값의 ’변화’는 매우 크다고 할 수 있다. 이렇게 픽셀 값의 변화가 매우 짧은 픽셀 간격에서 나타날 때, 그 픽셀은 <b>높은 주파수 성분</b>, 반대의 경우를 <b>낮은 주파수 성분</b>이라고 부른다.</li>
+</ul>
+<p><br></p>
+<section id="하이패스-필터-high-pass-filter-로우패스-필터-low-pass-filter" class="level4">
+<h4 class="anchored" data-anchor-id="하이패스-필터-high-pass-filter-로우패스-필터-low-pass-filter">하이패스 필터 (high-pass filter), 로우패스 필터 (low-pass filter)</h4>
+<ul>
+<li>필터가 낮은 빈도를 나타내는 성분만 제거하거나 픽셀 값을 줄이는 기능을 갖는다면 하이패스 필터라 하고, 그 반대의 경우를 로우패스 필터라 한다.</li>
+<li>사실 하이패스 필터는 이미지에서 가장자리 (엣지, edge)를 찾아 내거나 가장자리 신호를 선택적으로 강화하는 기능으로 자주 사용된다.</li>
+<li>앞서 살펴 본 평균값, 중간값, 가우시안 필터 등이 로우패스 필터이다.</li>
+</ul>
+<p><br></p>
+</section>
+</section>
+<section id="unsharp-masking-highboost-filtering" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="unsharp-masking-highboost-filtering"><span class="header-section-number">7.2</span> Unsharp masking &amp; highboost filtering</h3>
+<p><br></p>
+<section id="unsharp-mask" class="level4">
+<h4 class="anchored" data-anchor-id="unsharp-mask"><strong>Unsharp mask</strong></h4>
+<ul>
+<li>원본 이미지를 일단 평균값 필터링 같은 로우패스 필터로 블러링 (blurring) 처리한 후, 원본 이미지에서 처리된 이미지를 빼서 차이 값으로 이루어진 행렬을 ‘Unsharp mask’ 라 한다. 원본이미지를 <span class="math inline">\(I[i,j]\)</span>, 블러링 된 이미지를 <span class="math inline">\(\overline{I}[i,j]\)</span> 라 하면 unsharp mask <span class="math inline">\(M[i,j]\)</span> 는 다음과 같다.</li>
+</ul>
+<p><span class="math display">\[
+M[i,j]=I[i,j]-\overline{I}[i,j]
+\]</span></p>
+<p><br></p>
+</section>
+<section id="highboost-filtering" class="level4">
+<h4 class="anchored" data-anchor-id="highboost-filtering"><strong>Highboost filtering</strong></h4>
+<ul>
+<li>이 때 어떤 1보다 큰 양의 실수 <span class="math inline">\(k\)</span> 를 <span class="math inline">\(M[i,j]\)</span> 에 곱해서 원본에 더해준다면 가장자리신호가 더 현저해지며 이것을 highboost filtering 이라 한다. 즉</li>
+</ul>
+<p><span class="math display">\[
+J[i,j]=I[i,j]+k\,M[i,j] = I[i,j]+k(I[i,j]-\overline{I}[i,j])
+\]</span></p>
+<p><br></p>
+</section>
+</section>
+<section id="differential-high-pass-filter" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="differential-high-pass-filter"><span class="header-section-number">7.3</span> Differential High-pass Filter</h3>
+<p>픽셀에 미분을 적용한다면 일단 간단하게 생각하면, <span class="math inline">\(x\)</span> 방향 편미분은 <span class="math inline">\(\partial_x I [i,j]=I[i,j]-I[i-1,j]\)</span> or <span class="math inline">\(\partial_x I[i,j]=I[i+1,j]-I[i,j]\)</span> 이며 <span class="math inline">\(y\)</span> 방향 편미분은 <span class="math inline">\(\partial_y I[i,j]=I[i,j]-I[i,j-1]\)</span> 혹은 <span class="math inline">\(\partial_y I[i,j]=I[i,j+1]-I[i,j]\)</span> 가 될 것이다.</p>
+<p><br></p>
+<section id="로버츠-커널-roberts-kernel" class="level4">
+<h4 class="anchored" data-anchor-id="로버츠-커널-roberts-kernel"><strong>로버츠 커널 (Roberts kernel)</strong></h4>
+<p>대각선 방향의 편미분에 해당하는 2차원 배열을 로버츠 마스크라 하며 아래와 같다.</p>
+<p><span class="math display">\[
+G_x = \begin{bmatrix} +1&amp;0&amp;0 \\ 0&amp;-1&amp;0 \\ 0&amp;0&amp;0 \end{bmatrix}, \quad G_y=\begin{bmatrix}0&amp;+1&amp;0\\-1&amp;0&amp;0\\0&amp;0&amp;0 \end{bmatrix}
+\]</span></p>
+<p><br></p>
+</section>
+<section id="prewitt-kernel" class="level4">
+<h4 class="anchored" data-anchor-id="prewitt-kernel"><strong>Prewitt kernel</strong></h4>
+<p><span class="math display">\[
+G_x = \begin{bmatrix}+1&amp;0&amp;-1\\+1&amp;0&amp;-1\\+1&amp;0&amp;-1\end{bmatrix}, \qquad
+G_y = \begin{bmatrix}+1&amp;+1&amp;+1\\0&amp;0&amp;0\\-1&amp;-1&amp;-1\end{bmatrix}
+\]</span></p>
+<p><br></p>
+</section>
+<section id="sobel-kernel" class="level4">
+<h4 class="anchored" data-anchor-id="sobel-kernel"><strong>Sobel kernel</strong></h4>
+<p><span class="math display">\[
+G_x = \begin{bmatrix}+1&amp;0&amp;-1\\+2&amp;0&amp;-2\\+1&amp;0&amp;-1\end{bmatrix},\qquad
+G_y = \begin{bmatrix}+1&amp;+2&amp;+1\\0&amp;0&amp;0\\-1&amp;-2&amp;-1\end{bmatrix}
+\]</span></p>
+<p><br></p>
+</section>
+</section>
+<section id="laplaician-filter" class="level3" data-number="7.4">
+<h3 data-number="7.4" class="anchored" data-anchor-id="laplaician-filter"><span class="header-section-number">7.4</span> Laplaician filter</h3>
+<ul>
+<li>1차 미분 필터들은 한 번만 차분 값을 계산하기 때문에, 차 분의 크기도 작고, 이로 인해서 경계가 확실한 부분만 추출할 수 있는 반면, 노이즈가 있거나 엣지 (edge)의 강도가 약한 부분에는 불완전한 추출을 보이는 한계가 있다.</li>
+<li>이를 극복하기 위해 개발된 필터가 2차 미분형, 즉, 라플라시안 필터 (Laplacian filter) 이다. 라플라시안 필터는 말 그대로, 연속 함수 f(x,y)의 이계 도함수를 의미하는 라플라시안으로부터 유래한 것으로, 디지털 이미지에 대해, 아래와 같은 근사 공식을 활용하여 만들 수 있다.</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\nabla^2 f &amp;= \partial_x^2 f + \partial_y^2 f \\
+\partial_x^2 I[i,j] &amp; = I[i-1,j]+I[i+1,j]-2I[i,j] \\
+\partial_y^2 I[i,j] &amp; = I[i,j-1]+I[i,k+1]-2I[i,j] \\
+\nabla^2 I[i,j] &amp;= \partial_x^2 I[i,j]+ \partial_y^2 I[i,j] =I[i-1,j]+I[i+1,j]+I[i,j-1]+I[i,k+1]-4I[i,j]
+\end{aligned}
+\]</span></p>
+<ul>
+<li><p>라플라시안 필터는, 앞서 살펴 본 1차 미분형 필터보다, 더 넓은 범위에서 그리고 모든 방향을 고려하여 차분 값을 계산할 수 있기 때문에, 경계선에서 픽셀 값이 변화하는 것 을 훨씬 강한 강도로 잡아낼 수 있으며, 이로 인해, 잡음에도 강하고, 엣지 정보를 더 잘 추출할 수 있다는 장점이 있다. 다만, 계산 시간은 1차 미분형 필터보다는 늘어나게 된다.</p></li>
+<li><p>Matlab 에서는 <code>fspecial(‘laplacian’,alpha)</code> 의 명령어로 laplacian kernel 을 만드는데 이는 보통의 laplacian kernel을 약간 수정한 것으로 다음과 같이 정의된다. <span class="math display">\[
+\dfrac{1}{1+\alpha} \begin{bmatrix} \alpha &amp; 1-\alpha &amp; \alpha  \\ - \alpha &amp; 4 &amp; - \alpha \\ \alpha &amp; 1-\alpha &amp; \alpha\end{bmatrix}
+\]</span></p>
+<p>Matlab 에서는 <span class="math inline">\(\alpha\)</span> 값을 <span class="math inline">\([0,\,1)\)</span> 에서 조정한다고 하는데, cv2 에서는 이러한 함수를 찾을 수 없어서 직접 만들어 사용하였다.</p></li>
+</ul>
+<p><br></p>
+</section>
+<section id="laplacian-of-gaussian-filter-log-filter" class="level3" data-number="7.5">
+<h3 data-number="7.5" class="anchored" data-anchor-id="laplacian-of-gaussian-filter-log-filter"><span class="header-section-number">7.5</span> Laplacian of Gaussian Filter (LoG filter)</h3>
+<ul>
+<li><p>원본 이미지에 가우시안 블러링을 한 후 라플라시안 필터를 적용한다.</p></li>
+<li><p>이 때 LoG filter 는 다음과 같은 꼴을 띈다.</p></li>
+</ul>
+<p><span class="math display">\[
+\nabla^2 \left( G_{\sigma} (x,\,y) \right) = \dfrac{x^2+y^2-2\sigma^2}{\sigma^4} \exp \left(- \dfrac{x^2+y^2}{2\sigma^2}\right)
+\]</span></p>
+<ul>
+<li>라플라시안 필터와 유사하게, LoG 필터도 이미지에서 엣지 부분의 정보를 효과적으로 추출할 수 있다. 특히, 라플라시안 필터보다 더 넓은 범위에서 이미지 합성 곱을 하기 때문에, 이미지 추출 과정에서 왜곡 가능성을 줄일 수 있다는 장점이 있다.</li>
+</ul>
+<p><br></p>
+</section>
+<section id="위너-필터-wiener-filter" class="level3" data-number="7.6">
+<h3 data-number="7.6" class="anchored" data-anchor-id="위너-필터-wiener-filter"><span class="header-section-number">7.6</span> 위너 필터 (Wiener filter)</h3>
+<p>원본 이미지 I 와 노이즈 처리된 이미지 J 사이의 차이를 통계적 관점에서 (혹은 확률적 관점에서) 정량화 하는 방법으로는 평균제곱편차 mean square error (MSE) 가 있다. MSE의 정의는 아래와 같다.</p>
+<p><span class="math display">\[
+\text{MSE} = \dfrac{1}{N} \sum_{i,\,j} \left[ I[i,\,j]-J[i,\,j]\right]^2
+\]</span></p>
+<p>위너 필터는 이러한 이미지 간 차이를 최소화하는 모든 종류의 비선형 필터를 의미한다.</p>
+<p><br></p>
+<section id="위너-필터의-노이즈-감소-기능" class="level4">
+<h4 class="anchored" data-anchor-id="위너-필터의-노이즈-감소-기능">위너 필터의 노이즈 감소 기능</h4>
+<ul>
+<li>원본 이미지 I에 노이즈 N 이 낀 이미지 I’ 를 생각하자. 즉 다음과 같은 식을 생각하자.</li>
+</ul>
+<p><span class="math display">\[
+I'[i,j]=I[i,j]+N[i,j]
+\]</span></p>
+<ul>
+<li>노이즈의 경우 특별한 언급이 없으면 가우시안 노이즈를 생각한다. 그렇다면 노이즈의 평균은 <span class="math inline">\(0\)</span> 이 될 것이며 노이즈의 분산 <span class="math inline">\(\sigma_N^2\)</span> 는 <span class="math inline">\(0\)</span> 이 아닌 값을 갖는다. 어떤 픽셀을 중심으로 커널 배열을 덮어서 움직인다고 하자. 커널은 보통 원본 배열보다 아주 작기때문에 커널에 덮이는 영역의 평균은 <span class="math inline">\(0\)</span> 될 확률이 매우 낮으므로 그 평균값을 <span class="math inline">\(m_{ij}\)</span>, 분산을 <span class="math inline">\(\sigma^2_{ij}\)</span> 라 하자. 이 때 해당 영역의 노이즈를 최소화하는 방식으로 노이즈를 처리하면 다음과 같은 관계식을 얻는다.</li>
+</ul>
+<p><span class="math display">\[
+J[i,j]=m_{ij} + \dfrac{\sigma^2_{ij}}{\sigma^2_{ij} + \sigma^2_N} {\big(} I[i,j]-m_{ij}{\big)}
+\]</span></p>
+<ul>
+<li>그런데 많은 경우 우리는 원본 이미지가 없이 노이즈가 낀 이미지만 있으므로 노이즈의 분산 <span class="math inline">\(\sigma_N^2\)</span> 를 모른다. 여기에 괜찮은 방법이 있는데, 그것은 바로 <span class="math inline">\(\sigma_N^2\)</span> 를 모든 로컬 분산 <span class="math inline">\(\sigma_{ij}^2\)</span> 의 평균으로 잡는 것이다.</li>
+</ul>
+<p><span class="math display">\[
+\sigma_N^2 = \dfrac{1}{N} \sum_{i,j} \sigma^2_{i,j}
+\]</span></p>
+</section>
+<section id="파이썬에서의-위너-필터" class="level4">
+<h4 class="anchored" data-anchor-id="파이썬에서의-위너-필터">파이썬에서의 위너 필터</h4>
+<p>파이썬에서는 scipy 에서 wiener filter를 사용한다. Library refence 를 보면 대놓고 matlab의 wiener2 함수를 implementation 했다고 나온다. 사용법은 다음과 같다.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.signal.signaltools <span class="im">import</span> wiener</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img, mysize<span class="op">=</span><span class="dv">3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>여기서 mysize 는 kernel size 이다. 자세한 것은 library reference 참고. 이 때 주의할 것은 original_img 가 0 에서 255 사이의 정수값을 갖는, 보통 gray scale image 에서 많이 사용되는 uint8 형식의 정수형이면 안된다. 이 경우 다음과 같이 사용하는 것이 좋다.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img.astype(np.float64), ksize)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
