@@ -225,7 +225,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../src/image_processing/image_processing_02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">공간적 이미지 필터링</span></a>
+ <span class="menu-text">푸리에 변환을 이용한 이미지 처리</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -347,12 +347,13 @@ window.Quarto = {
   </ul></li>
   <li><a href="#노이즈-생성" id="toc-노이즈-생성" class="nav-link" data-scroll-target="#노이즈-생성"><span class="header-section-number">3</span> 노이즈 생성</a>
   <ul class="collapse">
-  <li><a href="#가우시안-노이즈" id="toc-가우시안-노이즈" class="nav-link" data-scroll-target="#가우시안-노이즈"><span class="header-section-number">3.1</span> 가우시안 노이즈</a></li>
+  <li><a href="#노이즈-생성-코드" id="toc-노이즈-생성-코드" class="nav-link" data-scroll-target="#노이즈-생성-코드"><span class="header-section-number">3.1</span> 노이즈 생성 코드</a></li>
   </ul></li>
-  <li><a href="#아핀-변환과-보간법" id="toc-아핀-변환과-보간법" class="nav-link" data-scroll-target="#아핀-변환과-보간법"><span class="header-section-number">4</span> 아핀 변환과 보간법</a>
+  <li><a href="#기하학적-변환과-보간법" id="toc-기하학적-변환과-보간법" class="nav-link" data-scroll-target="#기하학적-변환과-보간법"><span class="header-section-number">4</span> 기하학적 변환과 보간법</a>
   <ul class="collapse">
-  <li><a href="#sec-ImageProcessing_Affine_transform" id="toc-sec-ImageProcessing_Affine_transform" class="nav-link" data-scroll-target="#sec-ImageProcessing_Affine_transform"><span class="header-section-number">4.1</span> 아핀 변환</a></li>
-  <li><a href="#보간법" id="toc-보간법" class="nav-link" data-scroll-target="#보간법"><span class="header-section-number">4.2</span> 보간법</a></li>
+  <li><a href="#sec-ImageProcessing_Affine_transform" id="toc-sec-ImageProcessing_Affine_transform" class="nav-link" data-scroll-target="#sec-ImageProcessing_Affine_transform"><span class="header-section-number">4.1</span> 아핀 변환 (Affine transformation)</a></li>
+  <li><a href="#원근-변환-perspective-transformation" id="toc-원근-변환-perspective-transformation" class="nav-link" data-scroll-target="#원근-변환-perspective-transformation"><span class="header-section-number">4.2</span> 원근 변환 (Perspective transformation)</a></li>
+  <li><a href="#보간법" id="toc-보간법" class="nav-link" data-scroll-target="#보간법"><span class="header-section-number">4.3</span> 보간법</a></li>
   </ul></li>
   <li><a href="#sec-ImageProcessing_spatial_image_filtering" id="toc-sec-ImageProcessing_spatial_image_filtering" class="nav-link" data-scroll-target="#sec-ImageProcessing_spatial_image_filtering"><span class="header-section-number">5</span> 공간적 이미지 필터링</a>
   <ul class="collapse">
@@ -482,7 +483,7 @@ window.Quarto = {
 <section id="sec-ImageProcessing_pixel_inversion" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="sec-ImageProcessing_pixel_inversion"><span class="header-section-number">2.1</span> 픽셀 반전법에 의한 이미지 가공</h3>
 <p>상수 <span class="math inline">\(a\)</span> 와 <span class="math inline">\(b&gt;0\)</span> 에 대해 <span class="math display">\[
-T_i[f](i, j) = a-b f(i, j),\qquad 0 \le T[f] \le 255
+T_i[f][i, j] = a-b f[i, j],\qquad 0 \le T_i[f] \le 255
 \]</span></p>
 <p>인 이미지 연산을 픽셀 반전법 이라고 한다. <span class="math inline">\(a=255,\, b=1\)</span> 일 경우 완전한 흑백 반전이다. <code>TestImages.jl</code> 로부터 테스트 이미지를 다운받아 처리하였다.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>img0<span class="op">=</span> <span class="fu">testimage_dip3e</span>(<span class="st">"Fig0108(a) (corn-fluorescence).tif"</span>)</span>
@@ -505,7 +506,7 @@ T_i[f](i, j) = a-b f(i, j),\qquad 0 \le T[f] \le 255
 <h3 data-number="2.2" class="anchored" data-anchor-id="sec-ImageProcessing-gamma_correction"><span class="header-section-number">2.2</span> <span class="math inline">\(\gamma\)</span>-correction (or <span class="math inline">\(\gamma\)</span>-encoding)</h3>
 <ul>
 <li><p><span class="math inline">\(\gamma&gt;0\)</span> 에 대해 다음과 같이 변환한다. <span class="math display">\[
-T_\gamma [f](i, j)  = f(i, j)^\gamma
+T_\gamma [f][i, j]  = f[i, j]^\gamma
 \]</span></p></li>
 <li><p><span class="math inline">\(\gamma\)</span> 값이 <span class="math inline">\(1\)</span> 보다 상당히 크면 픽셀 값이 클수록, <span class="math inline">\(\gamma\)</span> 값이 <span class="math inline">\(1\)</span> 보다 상당히 작으면 픽셀값이 작을수록 대조가 현저해진다.</p></li>
 <li><p><span class="math inline">\(0\le f\le 255\)</span> 일 때 <span class="math inline">\(\gamma&lt;1\)</span> 이면 <span class="math inline">\(f^\gamma &lt; 255\)</span> 이며 <span class="math inline">\(\gamma&gt;1\)</span> 이면 <span class="math inline">\(f^\gamma&gt;255\)</span> 일 수 있으므로 최대값이 255가 넘지 않도록 해 준다.</p></li>
@@ -605,48 +606,123 @@ s(r) = \text{round}\left[(L-1)\sum_{i=1}^r \dfrac{h(i)}{\sum_{j=1}^{L-1} h(j)}\r
 </section>
 <section id="노이즈-생성" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="노이즈-생성"><span class="header-section-number">3</span> 노이즈 생성</h2>
-<p>노이즈의 원인은 다양하며, 노이즈에 대한 처리 방법도 다양하고 매우 중요하다. 노이즈 처리에 대해 알아야 하는데 우리가 일반적으로 얻는 영상은 노이지그 이미 제거된 것이 많으며, 노이즈 제거 기법을 알아보기 위해 임의로 노이즈를 생성할 수 있어야 한다. 여기서는 가장 대표적인 가우시안 노이즈와 흑백 노이즈(salt-pepper noise) 에 대해 간락히 알아보기로 한다.</p>
-<p><br></p>
-<section id="가우시안-노이즈" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="가우시안-노이즈"><span class="header-section-number">3.1</span> 가우시안 노이즈</h3>
+<p>노이즈의 원인은 다양하며, 노이즈에 대한 처리 방법도 다양하고 매우 중요하다. 일단 가장 빈번하고 다루기 쉬우며 보편적인 두가지 노이즈에 대해 알아보자. 노이즈의 원인은 생각하지 않고 실제 나타나는 양상으로만 분류한다. 또한 한 픽셀에서의 노이즈 발생 확률은 다른 픽셀의 노이즈 발셩 여부와 독립적이라고 가정하자. <br></p>
+<section id="가우시안-노이즈" class="level4">
+<h4 class="anchored" data-anchor-id="가우시안-노이즈"><strong>1. 가우시안 노이즈</strong></h4>
 <p>가우시안 노이즈는 어떤 평균에 대해 가우시안 분포를 갖는 노이즈이다. 즉 노이즈를 생성시키려면 평균값과 표준편차로 정의되는 가우시안 분포에 따라 임의의 점에 대해 생성해야 한다.</p>
 <p><br></p>
 </section>
+<section id="소금-후추-노이즈" class="level4">
+<h4 class="anchored" data-anchor-id="소금-후추-노이즈"><strong>2. 소금-후추 노이즈</strong></h4>
+<p>소금은 흰색이고 후추는 검은색이다. 소금-후추 노이즈는 보통 픽셀마다 최저값(0) 혹은 최고값 (<code>UInt8</code> 의 경우는 255) 에 가까운 노이즈가 발생하도록 한다. 흑백 이미지 상에서 최저값은 검은색, 최고값은 흰색으로 관례적으로 표현하기 때문에 노이즈가 마치 이미지에 소금과 후추를 뿌린 것 같다는 의미에서 소금-후추 노이즈라고 불린다.</p>
+<p><br></p>
 </section>
-<section id="아핀-변환과-보간법" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="아핀-변환과-보간법"><span class="header-section-number">4</span> 아핀 변환과 보간법</h2>
+<section id="노이즈-생성-코드" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="노이즈-생성-코드"><span class="header-section-number">3.1</span> 노이즈 생성 코드</h3>
+<p>흑백 이미지에 대한 노이즈 생성 코드는 다음과 같다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">gaussian_noise</span>(img<span class="op">::</span><span class="dt">OpenCV.Mat{T}</span>, μ, σ, N) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">Union{UInt8, UInt16}</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    m, n <span class="op">=</span> <span class="fu">size</span>(img)[<span class="fl">2</span><span class="op">:</span><span class="fl">3</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    MM <span class="op">=</span> <span class="fu">typemax</span>(T)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    Y, X, V <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span>m, N), <span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span>n, N), <span class="fu">round</span>.(T, <span class="fu">rand</span>(<span class="fu">truncated</span>(<span class="fu">Normal</span>(μ, σ), <span class="fl">0</span>, MM), N))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    img2 <span class="op">=</span> <span class="fu">copy</span>(img)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (y, x, v) <span class="op">∈</span> <span class="fu">zip</span>(Y, X, V)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        img2[<span class="fl">1</span>, y, x] <span class="op">=</span> v</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> img2</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">salt_pepper_noise</span>(img<span class="op">::</span><span class="dt">OpenCV.Mat{T}</span>, N) <span class="kw">where</span> T<span class="op">&lt;:</span><span class="dt">Union{UInt8, UInt16}</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    m, n <span class="op">=</span> <span class="fu">size</span>(img)[<span class="fl">2</span><span class="op">:</span><span class="fl">3</span>]</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    MM <span class="op">=</span> <span class="fu">typemax</span>(T)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    Y, X, V <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span>m, N), <span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span>n, N), <span class="fu">sample</span>([<span class="fl">0</span>, MM], N)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    img2 <span class="op">=</span> <span class="fu">copy</span>(img)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (y, x, v) <span class="op">∈</span> <span class="fu">zip</span>(Y, X, V)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        img2[<span class="fl">1</span>, y, x] <span class="op">=</span> v</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> img2</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>아래 그림은 원본 이미지 <code>testimage("cameraman.tif")</code> 에 대해 가우시안 노이즈와 소금-후추 노이즈를 생성시킨 결과이다.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>img0<span class="op">=</span> <span class="fu">img2mat</span>(<span class="fu">testimage</span>(<span class="st">"cameraman.tif"</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>img_gn <span class="op">=</span> <span class="fu">gaussian_noise</span>(img0, <span class="fl">100</span>, <span class="fl">10</span>, <span class="fl">10000</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>img_sp <span class="op">=</span> <span class="fu">salt_pepper_noise</span>(img0, <span class="fl">10000</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>img2<span class="op">=</span><span class="fu">arr2mat</span>(<span class="fu">cat</span>([img_gn img_sp]; dims<span class="op">=</span><span class="fl">2</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-ImageProcessing_noise" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_noise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/noise.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_noise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;4: 가우시안 노이즈(왼쪽) 과 소금-후추 노이즈(오른쪽)
+</figcaption>
+</figure>
+</div>
+<p>두 이미지의 히스토그램은 다음과 같다. 가우시안 노이즈는 지정한 대로 픽셀값 100 근처에서 가우스 분포를 가지며, 소금-후추 노이즈는 최소값과 최대값에서 발생한다.</p>
+<div id="fig-ImageProcessing_noise" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_noise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="notebooks/noise_histogram.png" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_noise-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;5: 가우시안 노이즈(왼쪽) 과 소금-후추 노이즈(오른쪽)
+</figcaption>
+</figure>
+</div>
+<p><br></p>
+<p><br></p>
+</section>
+</section>
+<section id="기하학적-변환과-보간법" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="기하학적-변환과-보간법"><span class="header-section-number">4</span> 기하학적 변환과 보간법</h2>
+<p>영상에서 널리 이용되는 기하학적인 변환에는 아핀 변환(Affine transformation) 과 원근 변환(perspective transformation) 이 있다. 아핀 변환과 투시 변환은 모두 2차원 상의 직선이 직선으로 변환되는 공통점을 가지고 있다. 그러나 서로 평행한 두 직선이 변환 될 때 아핀 변환은 그 평행함이 유지되지만 투시 변환에서는 평행함이 유지되지 않는다.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imgs/geometric_transform.png" class="img-fluid figure-img"></p>
+<figcaption>이미지의 기하학적 변환</figcaption>
+</figure>
+</div>
+<p><br></p>
 <section id="sec-ImageProcessing_Affine_transform" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="sec-ImageProcessing_Affine_transform"><span class="header-section-number">4.1</span> 아핀 변환</h3>
-<p>이미지를 이용해 흔히 하는 작업이 확대, 축소, 회전, 직선이동이 있으며 이를 <strong>아핀 변환(Affine transformation)</strong> 이라고 한다. 아핀 변환은 <span class="math inline">\(3\times 3\)</span> 가역행렬 <span class="math inline">\(\boldsymbol{T}\)</span> 에 의해 정해지는 다음과 같은 변환을 의미한다.</p>
+<h3 data-number="4.1" class="anchored" data-anchor-id="sec-ImageProcessing_Affine_transform"><span class="header-section-number">4.1</span> 아핀 변환 (Affine transformation)</h3>
+<p>대표적인 아핀 변환으로는 확대, 축소, 회전, 평행이동과 전단 변환등이 있으며, 아핀 변환의 합성도 아핀 변환이다. 아핀 변환은 <span class="math inline">\(3\times 3\)</span> 가역행렬 <span class="math inline">\(\boldsymbol{T}\)</span> 에 의해 정해지는 다음과 같은 변환으로 표현된다.</p>
 <p><span class="math display">\[
-\begin{bmatrix} x' \\ y' \\1\end{bmatrix} = \boldsymbol{T} \begin{bmatrix} x \\ y \\ 1\end{bmatrix}
+\begin{bmatrix} x' \\ y' \\1\end{bmatrix} = \boldsymbol{T} \begin{bmatrix} x \\ y \\ 1\end{bmatrix}.
 \]</span></p>
 <p>예를 들어 <span class="math inline">\(\theta\)</span> 만큼의 반시계 방향 회전 변환 <span class="math inline">\(\boldsymbol{T}_\theta\)</span> 는</p>
 <p><span class="math display">\[
-\boldsymbol{T}_\theta = \begin{bmatrix} \cos \theta &amp; \sin \theta &amp; 0 \\ -\sin \theta &amp; \cos \theta &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix}
+\boldsymbol{T}_\theta = \begin{bmatrix} \cos \theta &amp; -\sin \theta &amp; 0 \\ \sin \theta &amp; \cos \theta &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix}
 \]</span></p>
-<p>이며 <span class="math inline">\(x\)</span> 방향으로 <span class="math inline">\(d_x\)</span> <span class="math inline">\(y\)</span> 방향으로 <span class="math inline">\(d_y\)</span> 만큼의 회전 변환 <span class="math inline">\(\boldsymbol{T}_\boldsymbol{d}\)</span> 는</p>
+<p>이며 <span class="math inline">\(x\)</span> 방향으로 <span class="math inline">\(d_x\)</span> <span class="math inline">\(y\)</span> 방향으로 <span class="math inline">\(d_y\)</span> 만큼의 이동 변환 <span class="math inline">\(\boldsymbol{T}_\boldsymbol{d}\)</span> 는</p>
 <p><span class="math display">\[
 \boldsymbol{T}_\boldsymbol{d} = \begin{bmatrix}  1 &amp; 0 &amp; d_x \\ 0 &amp; 1 &amp; d_y \\ 0 &amp; 0 &amp; 1\end{bmatrix}
 \]</span></p>
 <p>이다. 또한 <span class="math inline">\(x\)</span> 축 혹은 <span class="math inline">\(y\)</span> 축 방향으로 기울이는 <a href="https://en.wikipedia.org/wiki/Shear_mapping">전단 변환(shear tranformation)</a> <span class="math inline">\(\boldsymbol{T}_{Sx},\, \boldsymbol{T}_{Sy}\)</span> 은 각각</p>
 <p><span class="math display">\[
-\boldsymbol{T}_{Sx} = \begin{bmatrix} 1 &amp; s_x &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix},\qquad \boldsymbol{T}_{Sy} = \begin{bmatrix} 1 &amp; 1 &amp; s_y \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix}
+\boldsymbol{T}_{Sx} = \begin{bmatrix} 1 &amp; s_x &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix},\qquad \boldsymbol{T}_{Sy} = \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ s_y &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix}
 \]</span></p>
 <p>이다. 또한 <span class="math inline">\(x\)</span> 축 방향으로 <span class="math inline">\(a_x\)</span> 배 만큼, <span class="math inline">\(y\)</span> 축 방향으로 <span class="math inline">\(a_y\)</span> 배 만큼 키우거나 줄이는 변환 <span class="math inline">\(\boldsymbol{T}_c\)</span> 는</p>
 <p><span class="math display">\[
 \boldsymbol{T}_c = \begin{bmatrix} a_x &amp; 0 &amp; 0 \\ 0 &amp; a_y &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix}
 \]</span></p>
 <p>이다.</p>
-<p>아핀 변환 <span class="math inline">\(T\)</span> 에 대해 이미지 <span class="math inline">\(f\)</span> 를 변환시킬 때 <span class="math inline">\(g=T[f]\)</span> 인 이미지를 얻고자 한다고 하자. 그렇다면 <span class="math inline">\(g[i, j]\)</span> 는 어떻게 얻을 것인가? <span class="math inline">\(g\)</span> 는 이미지 이므로 <span class="math inline">\(i,\,j\)</span> 는 정수이다. 아핀 변환의 역변환 <span class="math inline">\(T^{-1}\)</span> 을 생각하자. 아핀변환은 선형 가역변환이므로 항상 역변환이 존재한다. 즉</p>
+<p>아핀 변환 행렬 <span class="math inline">\(\boldsymbol{T}\)</span> 는 <span class="math inline">\(2 \times 2\)</span> 행렬 <span class="math inline">\(\boldsymbol{R}\)</span> 과 <span class="math inline">\(2 \times 1\)</span> 행렬 <span class="math inline">\(\boldsymbol{t}\)</span> 에 대해</p>
 <p><span class="math display">\[
-\begin{bmatrix}x \\ y \\ 1\end{bmatrix} = T^{-1}\begin{bmatrix} x' \\ y' \\ 1\end{bmatrix}
+\boldsymbol{T}=\begin{bmatrix} \boldsymbol{R} &amp; \boldsymbol{t} \\ \boldsymbol{0}^T &amp; 1\end{bmatrix}
 \]</span></p>
-<p>이다. 우리는 <span class="math inline">\(g(j,\,i)\)</span> 값을 알고 싶지만 아핀 역변환에 의한 <span class="math inline">\(x,\,y\)</span> 는 정수가 아니므로 정확한 값을 얻을 수 없다. 이 때 보간법(interpolation)을 사용한다.</p>
+<p>로 나타 낼 수 있다. <span class="math inline">\(\boldsymbol{R}\)</span> 은 회전이나 전단 변화 같은 기하학적 변형을 나타내는 행렬이고 <span class="math inline">\(\boldsymbol{t}\)</span> 는 평행이동을 나타내는 행렬이다. <span class="math inline">\(\boldsymbol{T}\)</span> 의 역행렬은</p>
+<p><span class="math display">\[
+\boldsymbol{T}^{-1} = \begin{bmatrix}\boldsymbol{R}^{-1} &amp; -\boldsymbol{R}^{-1}\boldsymbol{t}\\ \boldsymbol{0}^T &amp; 1\end{bmatrix}
+\]</span></p>
+<p>이다. <span class="math inline">\(\boldsymbol{T}\)</span> 와 <span class="math inline">\(\boldsymbol{T}^{-1}\)</span> 에서 보듯이 <span class="math inline">\(\boldsymbol{T}\)</span> 를 이루는 <span class="math inline">\(\boldsymbol{R}\)</span> 과 <span class="math inline">\(\boldsymbol{t}\)</span> 만으로 아핀 변환과 역변환을 모두 나타낼 수 있으며, OpenCV 의 경우 <span class="math inline">\(2\times 3\)</span> 행렬 <span class="math inline">\(\begin{bmatrix} \boldsymbol{R} &amp; \boldsymbol{t}\end{bmatrix}\)</span> 만으로 2차원 아핀 변환을 나타낸다. 아핀 변환의 미지수는 <span class="math inline">\(\boldsymbol{R}\)</span> 의 행렬 성분 <span class="math inline">\(4\)</span> 개와 <span class="math inline">\(\boldsymbol{t}\)</span> 의 행렬 성분 <span class="math inline">\(2\)</span> 개이며 따라서 6개의 파라미터가 결정되어야 한다. 즉 서로 한 직선상에 위치하지 않은 좌표상의 세 점과 그 점들이 변환되는 점을 안다면 아핀 변환을 결정 할 수 있다.</p>
+<p><br></p>
+<p>아핀 변환 <span class="math inline">\(T\)</span> 에 대해 이미지 <span class="math inline">\(f\)</span> 를 변환시킬 때 <span class="math inline">\(g=T[f]\)</span> 인 이미지를 얻고자 한다고 하자. 즉 정해진 <span class="math inline">\(i,\,j\)</span> 의 범위에 대해 <span class="math inline">\(g[i,j]\)</span> 전체를 얻어야 한다. <span class="math inline">\(T\)</span> 가 가역변환이므로 <span class="math inline">\(f=T^{-1}[g]\)</span> 이므로 <span class="math inline">\(f[i',\,j'] = T^{-1}[g][i, j]\)</span> 를 통해 <span class="math inline">\(f[i',\,j']\)</span> 의 값으로 <span class="math inline">\(g[i,\,j]\)</span> 를 채울 수 있으면 좋겠지만 <span class="math inline">\(i',\,j'\)</span> 은 대부분 정수가 아니다. 이 때 보간법(interpolation)을 사용하여, <span class="math inline">\(T[g]^{-1}[i,\,j]\)</span> 로 정해지는 <span class="math inline">\((x,\,y)\)</span> 근처의 <span class="math inline">\(f[i,j]\)</span> 값을 이용하여 <span class="math inline">\(g[i,\,j]\)</span> 값을 구한다.</p>
 <p><br></p>
 </section>
-<section id="보간법" class="level3" data-number="4.2">
-<h3 data-number="4.2" class="anchored" data-anchor-id="보간법"><span class="header-section-number">4.2</span> 보간법</h3>
+<section id="원근-변환-perspective-transformation" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="원근-변환-perspective-transformation"><span class="header-section-number">4.2</span> 원근 변환 (Perspective transformation)</h3>
+</section>
+<section id="보간법" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="보간법"><span class="header-section-number">4.3</span> 보간법</h3>
 <p>이미지 <span class="math inline">\(f[i,\,j]=f(j,\,i)\)</span> 는 자연수인 <span class="math inline">\(i,\,j\)</span> 에 대해 정해져 있다. <span class="math inline">\(x,\,y\)</span> 가 자연수가 아닐 때 <span class="math inline">\(f(x,\,y)\)</span> 값은 <strong>보간법(interpolation)</strong> 으로 정한다.</p>
 <p><br></p>
 <section id="최근접-이웃-보간" class="level4">
@@ -693,17 +769,18 @@ f(x,\,y) = \sum_{k=-1}^2 \sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Comparison_of_1D_and_2D_interpolation.svg/2880px-Comparison_of_1D_and_2D_interpolation.svg.png" class="img-fluid figure-img" width="500">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_interpolations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-그림&nbsp;4: 1차원 및 2차원 보간법(출처 : https://en.wikipedia.org/wiki/Bicubic_interpolation) By <a href="//commons.wikimedia.org/wiki/User:Cmglee" title="User:Cmglee">Cmglee</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=53064904">Link</a>
+그림&nbsp;6: 1차원 및 2차원 보간법(출처 : https://en.wikipedia.org/wiki/Bicubic_interpolation) By <a href="//commons.wikimedia.org/wiki/User:Cmglee" title="User:Cmglee">Cmglee</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=53064904">Link</a>
 </figcaption>
 </figure>
 </div>
 <p><br></p>
+<p>아핀 변환 행렬과 보간법으로부터 이제 이미지를 변환시킬 수 있다.</p>
 <p><code>TestImages.jl</code> 로 부터 <span class="math inline">\(256\times 256\)</span> 이미지 <code>lena_gray_256</code> 을 다운 받은 후 <span class="math inline">\(100 \times  100\)</span> 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 결과는 아래와 같다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>img0<span class="op">=</span> cv.<span class="fu">resize</span>(<span class="fu">img2mat</span>(<span class="fu">testimage</span>(<span class="st">"lena_gray_256.tif"</span>)), cv.<span class="fu">Size</span><span class="dt">{Int32}</span>(<span class="fl">100</span>, <span class="fl">100</span>))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>img1 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_NEAREST)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>img2 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_LINEAR)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>img3 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_CUBIC)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="fu">arr2mat</span>(<span class="fu">cat</span>(img1, img2, img3; dims<span class="op">=</span><span class="fl">2</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>img0<span class="op">=</span> cv.<span class="fu">resize</span>(<span class="fu">img2mat</span>(<span class="fu">testimage</span>(<span class="st">"cameraman.tif"</span>)), cv.<span class="fu">Size</span><span class="dt">{Int32}</span>(<span class="fl">100</span>, <span class="fl">100</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>img1 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_NEAREST)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>img2 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_LINEAR)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>img3 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_CUBIC)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="fu">arr2mat</span>(<span class="fu">cat</span>(img1, img2, img3; dims<span class="op">=</span><span class="fl">2</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="notebooks/interpolation.png" class="img-fluid figure-img"></p>
@@ -737,7 +814,7 @@ J[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} I[i-p,\,j-q]
 <img src="imgs/padding.png" class="img-fluid figure-img" width="550">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_padding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-그림&nbsp;5: 이미지 패딩
+그림&nbsp;7: 이미지 패딩
 </figcaption>
 </figure>
 </div>
@@ -1020,11 +1097,11 @@ J[i,j]=m_{ij} + \dfrac{\sigma^2_{ij}}{\sigma^2_{ij} + \sigma^2_N} {\big(} I[i,j]
 <section id="파이썬에서의-위너-필터" class="level4">
 <h4 class="anchored" data-anchor-id="파이썬에서의-위너-필터">파이썬에서의 위너 필터</h4>
 <p>파이썬에서는 scipy 에서 wiener filter를 사용한다. Library refence 를 보면 대놓고 matlab의 wiener2 함수를 implementation 했다고 나온다. 사용법은 다음과 같다.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.signal.signaltools <span class="im">import</span> wiener</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img, mysize<span class="op">=</span><span class="dv">3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.signal.signaltools <span class="im">import</span> wiener</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img, mysize<span class="op">=</span><span class="dv">3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>여기서 mysize 는 kernel size 이다. 자세한 것은 library reference 참고. 이 때 주의할 것은 original_img 가 0 에서 255 사이의 정수값을 갖는, 보통 gray scale image 에서 많이 사용되는 uint8 형식의 정수형이면 안된다. 이 경우 다음과 같이 사용하는 것이 좋다.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img.astype(np.float64), ksize)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img.astype(np.float64), ksize)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -1448,8 +1525,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../src/image_processing/image_processing_02.html" class="pagination-link" aria-label="공간적 이미지 필터링">
-        <span class="nav-page-text">공간적 이미지 필터링</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../src/image_processing/image_processing_02.html" class="pagination-link" aria-label="푸리에 변환을 이용한 이미지 처리">
+        <span class="nav-page-text">푸리에 변환을 이용한 이미지 처리</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
