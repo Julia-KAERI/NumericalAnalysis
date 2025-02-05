@@ -22,7 +22,7 @@ $$
 f(t) &= \sum_{n=-\infty}^{\infty} F_n \exp \left(\dfrac{i 2\pi n}{T}t\right)\,,\\
 F_n &= \dfrac{1}{T}\int_{-T/2}^{T/2} f(t) \exp \left(-\dfrac{i2\pi n }{T}t \right)\, dt\,, \qquad n\in \mathbb{Z}
 \end{aligned}
-$$
+$$ {#eq-ImageProcessing_fourier_expansion}
 
 <br>
 
@@ -30,7 +30,7 @@ $$
 
 $$
 \int_{-T/2}^{T/2} \exp \left( \dfrac{i 2\pi m}{T}t\right) \exp \left(-\dfrac{i 2\pi n}{T}t \right)\, dt = \delta_{nm}
-$$
+$$ {#eq-ImageProcessing_orthogonality_of_fourier_expansion}
 
 <br>
 

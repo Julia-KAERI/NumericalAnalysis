@@ -376,19 +376,19 @@ window.Quarto = {
 <section id="푸리에-급수" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="푸리에-급수"><span class="header-section-number">1.1</span> 푸리에 급수</h3>
 <p>주기 <span class="math inline">\(T\)</span> 를 갖는 연속함수 <span class="math inline">\(f(t)\)</span> 는 다음과 같은 푸리에 급수로 표현 할 수 있다.</p>
-<p><span class="math display">\[
+<p><span id="eq-ImageProcessing_fourier_expansion"><span class="math display">\[
 \begin{aligned}
 f(t) &amp;= \sum_{n=-\infty}^{\infty} F_n \exp \left(\dfrac{i 2\pi n}{T}t\right)\,,\\
 F_n &amp;= \dfrac{1}{T}\int_{-T/2}^{T/2} f(t) \exp \left(-\dfrac{i2\pi n }{T}t \right)\, dt\,, \qquad n\in \mathbb{Z}
 \end{aligned}
-\]</span></p>
+\tag{1}\]</span></span></p>
 <p><br></p>
 </section>
 <section id="기저함수의-직교성" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="기저함수의-직교성"><span class="header-section-number">1.2</span> 기저함수의 직교성</h3>
-<p><span class="math display">\[
+<p><span id="eq-ImageProcessing_orthogonality_of_fourier_expansion"><span class="math display">\[
 \int_{-T/2}^{T/2} \exp \left( \dfrac{i 2\pi m}{T}t\right) \exp \left(-\dfrac{i 2\pi n}{T}t \right)\, dt = \delta_{nm}
-\]</span></p>
+\tag{2}\]</span></span></p>
 <p><br></p>
 </section>
 <section id="주기함수와-푸리에-급수" class="level3" data-number="1.3">

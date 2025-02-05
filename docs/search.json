@@ -860,7 +860,7 @@
     "href": "src/image_processing/image_processing_02.html#푸리에-급수와-푸리에-변환의-수학적-성질",
     "title": "푸리에 변환을 이용한 이미지 처리",
     "section": "1 푸리에 급수와 푸리에 변환의 수학적 성질",
-    "text": "1 푸리에 급수와 푸리에 변환의 수학적 성질\n\n1.1 푸리에 급수\n주기 \\(T\\) 를 갖는 연속함수 \\(f(t)\\) 는 다음과 같은 푸리에 급수로 표현 할 수 있다.\n\\[\n\\begin{aligned}\nf(t) &= \\sum_{n=-\\infty}^{\\infty} F_n \\exp \\left(\\dfrac{i 2\\pi n}{T}t\\right)\\,,\\\\\nF_n &= \\dfrac{1}{T}\\int_{-T/2}^{T/2} f(t) \\exp \\left(-\\dfrac{i2\\pi n }{T}t \\right)\\, dt\\,, \\qquad n\\in \\mathbb{Z}\n\\end{aligned}\n\\]\n\n\n\n1.2 기저함수의 직교성\n\\[\n\\int_{-T/2}^{T/2} \\exp \\left( \\dfrac{i 2\\pi m}{T}t\\right) \\exp \\left(-\\dfrac{i 2\\pi n}{T}t \\right)\\, dt = \\delta_{nm}\n\\]\n\n\n\n1.3 주기함수와 푸리에 급수\n\n모든 주기성을 갖는 연속함수는 푸리에 급수로 표현 할 수 있다.",
+    "text": "1 푸리에 급수와 푸리에 변환의 수학적 성질\n\n1.1 푸리에 급수\n주기 \\(T\\) 를 갖는 연속함수 \\(f(t)\\) 는 다음과 같은 푸리에 급수로 표현 할 수 있다.\n\\[\n\\begin{aligned}\nf(t) &= \\sum_{n=-\\infty}^{\\infty} F_n \\exp \\left(\\dfrac{i 2\\pi n}{T}t\\right)\\,,\\\\\nF_n &= \\dfrac{1}{T}\\int_{-T/2}^{T/2} f(t) \\exp \\left(-\\dfrac{i2\\pi n }{T}t \\right)\\, dt\\,, \\qquad n\\in \\mathbb{Z}\n\\end{aligned}\n\\tag{1}\\]\n\n\n\n1.2 기저함수의 직교성\n\\[\n\\int_{-T/2}^{T/2} \\exp \\left( \\dfrac{i 2\\pi m}{T}t\\right) \\exp \\left(-\\dfrac{i 2\\pi n}{T}t \\right)\\, dt = \\delta_{nm}\n\\tag{2}\\]\n\n\n\n1.3 주기함수와 푸리에 급수\n\n모든 주기성을 갖는 연속함수는 푸리에 급수로 표현 할 수 있다.",
     "crumbs": [
       "영상 처리/토모그래피",
       "영상 처리 기초",
