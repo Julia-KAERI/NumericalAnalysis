@@ -26,11 +26,11 @@ $$ {#eq-ImageProcessing_fourier_expansion}
 
 <br>
 
-### 기저함수의 직교성
+### 기저함수의 직교성 {#sec-ImageProcessing_orthogonality_of_fourier_basis}
 
 $$
 \int_{-T/2}^{T/2} \exp \left( \dfrac{i 2\pi m}{T}t\right) \exp \left(-\dfrac{i 2\pi n}{T}t \right)\, dt = \delta_{nm}
-$$ {#eq-ImageProcessing_orthogonality_of_fourier_expansion}
+$$ {#eq-ImageProcessing_orthogonality_of_fourier_basis}
 
 <br>
 
