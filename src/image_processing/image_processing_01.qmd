@@ -212,18 +212,13 @@ arr2mat(cat(img1, img4, img5; dims=2))
 
 ## 노이즈 생성
 
-노이즈의 원인은 다양하며, 노이즈에 대한 처리 방법도 다양하고 매우 중요하다. 일단 가장 빈번하고 다루기 쉬우며 보편적인 두가지 노이즈에 대해 알아보자. 노이즈의 원인은 생각하지 않고 실제 나타나는 양상으로만 분류한다. 또한 한 픽셀에서의 노이즈 발생 확률은 다른 픽셀의 노이즈 발셩 여부와 독립적이라고 가정하자.
-</br>
-
-#### **1. 가우시안 노이즈** 
-
-가우시안 노이즈는 어떤 평균에 대해 가우시안 분포를 갖는 노이즈이다. 즉 노이즈를 생성시키려면 평균값과 표준편차로 정의되는 가우시안 분포에 따라 임의의 점에 대해 생성해야 한다.
+노이즈의 원인은 다양하며, 노이즈에 대한 처리 방법도 다양하고 매우 중요하다. 일단 가장 빈번하고 다루기 쉬우며 보편적인 두가지 노이즈, 가우시안 노이즈 와 소금-후추 노이즈에 대해 알아보자. 노이즈의 원인은 생각하지 않고 실제 나타나는 양상으로만 분류한다. 또한 한 픽셀에서의 노이즈 발생 확률은 다른 픽셀의 노이즈 발셩 여부와 독립적이라고 가정하자.
 
 </br>
 
-#### **2. 소금-후추 노이즈**
-
-소금은 흰색이고 후추는 검은색이다. 소금-후추 노이즈는 보통 픽셀마다 최저값(0) 혹은 최고값 (`UInt8` 의 경우는 255) 에 가까운 노이즈가 발생하도록 한다. 흑백 이미지 상에서 최저값은 검은색, 최고값은 흰색으로 관례적으로 표현하기 때문에 노이즈가 마치 이미지에 소금과 후추를 뿌린 것 같다는 의미에서 소금-후추 노이즈라고 불린다. 
+**1. 가우시안 노이즈**  : 가우시안 노이즈는 어떤 평균에 대해 가우시안 분포를 갖는 노이즈이다. 즉 노이즈를 생성시키려면 평균값과 표준편차로 정의되는 가우시안 분포에 따라 임의의 점에 대해 생성해야 한다.
+ 
+**2. 소금-후추 노이즈** : 소금은 흰색이고 후추는 검은색이다. 소금-후추 노이즈는 보통 픽셀마다 최저값(0) 혹은 최고값 (`UInt8` 의 경우는 255) 에 가까운 노이즈가 발생하도록 한다. 흑백 이미지 상에서 최저값은 검은색, 최고값은 흰색으로 관례적으로 표현하기 때문에 노이즈가 마치 이미지에 소금과 후추를 뿌린 것 같다는 의미에서 소금-후추 노이즈라고 불린다. 
 
 
 </br>
@@ -277,20 +272,17 @@ img2=arr2mat(cat([img_gn img_sp]; dims=2))
 
 </br>
 
-
-</br>
-
 ## 기하학적 변환과 보간법
 
 영상에서 널리 이용되는 기하학적인 변환에는 아핀 변환(Affine transformation) 과 원근 변환(perspective transformation) 이 있다. 아핀 변환과 투시 변환은 모두 2차원 상의 직선이 직선으로 변환되는 공통점을 가지고 있다. 그러나 서로 평행한 두 직선이 변환 될 때 아핀 변환은 그 평행함이 유지되지만 투시 변환에서는 평행함이 유지되지 않는다. 
 
-![이미지의 기하학적 변환](imgs/geometric_transform.png)
+![이미지의 기하학적 변환](imgs/geometric_transform.png){#fig-ImageProcessing_geometric_transform}
 
 </br>
 
 ### 아핀 변환 (Affine transformation) {#sec-ImageProcessing_Affine_transform}
 
-대표적인 아핀 변환으로는 확대, 축소, 회전, 평행이동과 전단 변환등이 있으며, 아핀 변환의 합성도 아핀 변환이다. 아핀 변환은 $3\times 3$ 가역행렬 $\bf{T}$ 에 의해 정해지는 다음과 같은 변환으로 표현된다.
+대표적인 아핀 변환으로는 확대, 축소, 회전, 평행이동과 전단 변환등이 있으며, 아핀 변환의 합성도 아핀 변환이다. 아핀 변환은 $3\times 3$ 가역행렬 $\bf{T}$ 에 의해 정해지는 다음과 같은 변환으로 표현된다. 영상 변환에서는 $2$ 차원 좌표로 $\begin{bmatrix} x & y\end{bmatrix}^T$ 를 사용하지 않고 $\begin{bmatrix}x & y & w \end{bmatrix}^T$ 로 표현되는 소위 **homogeneous coordinate (동차 좌표)** 를 사용한다. $w$ 는 이미지의 스케일에 관련된 값으로 여기서는 우선 $1$ 로 놓을 수 있다. 그리고 변환은 동차 좌표에 대해 수행하며 그 변환 행렬을 $\bf{T}$ 라고 하자. 그렇다면 다음과 같이 쓸 수 있다.
 
 $$
 \begin{bmatrix} x' \\ y' \\1\end{bmatrix} = \bf{T} \begin{bmatrix} x \\ y \\ 1\end{bmatrix}.
@@ -338,16 +330,24 @@ $$
 
 </br>
 
+### 원근 변환 (Perspective transformation)
 
-아핀 변환 $T$ 에 대해 이미지 $f$ 를 변환시킬 때 $g=T[f]$ 인 이미지를 얻고자 한다고 하자. 즉 정해진 $i,\,j$ 의 범위에 대해 $g[i,j]$ 전체를 얻어야 한다. $T$ 가 가역변환이므로 $f=T^{-1}[g]$ 이므로 $f[i',\,j'] = T^{-1}[g][i, j]$ 를 통해 $f[i',\,j']$ 의 값으로 $g[i,\,j]$ 를 채울 수 있으면 좋겠지만 $i',\,j'$ 은 대부분 정수가 아니다. 이 때 보간법(interpolation)을 사용하여, $T[g]^{-1}[i,\,j]$ 로 정해지는 $(x,\,y)$ 근처의 $f[i,j]$ 값을 이용하여 $g[i,\,j]$ 값을 구한다.
+![원근 변환. 출처: https://docs.opencv.org/4.x/d9/dab/tutorial_homography.html](https://docs.opencv.org/4.x/homography_source_desired_images.jpg){#fig-ImageProcessing_example_of_perspective_transformation width=600}
+
+아핀 변환은 평행선이 평행선으로 유지되는 것과는 달리 원근 변환은 평행선이 평행선으로 유지되지 않는다. 원근 변환은 기본적으로 입체인 피사체를 2차원인 영상으로 변환시킬 때 발생하는  왜곡이다. 우리가 담는 피사체의 각 부분과 카메라 사이의 거리가 다르며, 피사체의 방향과 카메라의 방향에 따라 영상이 변형되기 때문이다. 원본 이미지 $f[i, j]=f(j, i)$ 에 대해 원근 변환은 다음과 같은 변환행렬로 표현 할 수 있다. 
+
+$$
+\begin{bmatrix} wx' \\ wy' \\ w'\end{bmatrix} =\bf{P}\begin{bmatrix} x \\ y \\ 1\end{bmatrix},\qquad \text{where }P_{33}=1
+$$
+
+여기서 $w$ 원본 이미지에 대해 변환된 이미지의 스케일을 정하는 값이다. 원근 변환은 행렬 $\bf{P}$ 에 의해 결정되며 $P_{33}=1$ 이어야 하므로 모두 8개의 미지수가 존재한다. 따라서 네 점(물론 네 점의 가운데 아무 세점을 골라도 한 직선상이 있지 않아야 한다) 으로 원근 변환을 결정 할 수 있다. 변환된 이미지 $P[f][i', j'] = P[f][wy',\, wx']$ 이다.  
 
 </br>
 
-### 원근 변환 (Perspective transformation)
+### 보간법 {#sec-ImageProcessing_interpolation}
 
-### 보간법 
 
-이미지 $f[i,\,j]=f(j,\,i)$ 는 자연수인 $i,\,j$ 에 대해 정해져 있다. $x,\,y$ 가 자연수가 아닐 때 $f(x,\,y)$ 값은 **보간법(interpolation)** 으로 정한다.
+아핀 변환 혹은 원근 변환 $T$ 에 대해 이미지 $f$ 를 변환시켜 $g=T[f]$ 인 이미지를 얻고자 한다고 하자. 즉 정해진 $i,\,j$ 의 범위에 대해 $g[i,j]$ 전체를 얻어야 한다. $T$ 가 가역변환이므로 $f=T^{-1}[g]$ 이므로 $f[i',\,j'] = T^{-1}[g][i, j]$ 를 통해 $f[i',\,j']$ 의 값으로 $g[i,\,j]$ 를 채울 수 있으면 좋겠지만 $i',\,j'$ 은 대부분 정수가 아니다. 이 때 **보간법(interpolation)** 을 사용하여, $T[g]^{-1}[i,\,j]$ 로 정해지는 $(x,\,y)$ 근처의 $f[i,j]$ 값을 이용하여 $g[i,\,j]$ 값을 구한다.
 
 </br>
 
@@ -409,13 +409,66 @@ $$
 
 </br>
 
-아핀 변환 행렬과 보간법으로부터 이제 이미지를 변환시킬 수 있다. 
+이제 변환 행렬과 보간법을 사용하여 기하학적으로 이미지를 변환시킬수도, 혹은 변환된 이미지를 복원시킬 수도 있다. 아핀 변환 행렬은 직접 입력할 수도 있고, 원래의 이미지와 변환되는 이미지에서 각 3개(아핀 변환의 경우) 혹은 4개(원근 변환의 경우) 를 선택하여 변환 행렬을 계산 할 수도 있다. 예를 들어 다음과 같이 변환하는 아핀 변환을 생각하자. 
+
+$$
+[1, 1] \to [4, 5],\qquad [2, 1] \to [5, 6], \qquad [3, 3] \to [4, 2]
+$$
+
+아핀 변환을 위해서는 변환된 이미지의 크기를 `OpenCV.Size{UInt32}` 형태의 객체로 전달해야 한다. 이것을 `cvSize` 함수로 구현하였다.
+
+```julia
+function cvSize(w::T1, h::T2) where {T1<:Integer, T2<:Integer}
+    return cv.Size(Int32(w), Int32(h))
+end
+
+p0 = Float32[1 1; 2 1; 3 3]
+q0 = Float32[4 5; 5 6; 4 2]
+p1, q1 = arr2mat(p0), arr2mat(q0)
+
+H = cv.getAffineTransform(p1, q1)
+img1 = cv.warpAffine(img0, H, cvSize(512, 512))
+```
+
+`cv.warpAffine(img0, H, cvSize(512, 512))` 는 이미지 `img0` 를 아핀 변환 행렬 `H` 를 이용하여폭 512, 높이 512 크기의 이미지로 변환하라는 명령이다. 
+
+많이 사용되는 몇몇 변환에 대해서는 아핀 변환 행렬을 얻는 함수가 이미 존재한다. 예를 들어 `(cX, cY)` 를 중심으로 45도 만큼 회전시키며, 스케일을 0.7 배로 줄이는 변환에 대한 변환행렬은
+
+```julia
+M=cv.getRotationMatrix2D(cvPoint(cX, cY), 45.0, 0.7)
+```
+으로 얻을 수 있다. 여기서 `cvPoint` 함수는 2차원 혹은 3차원 상의 점을 OpenCV 의 `OpenCv.Point(x, y)` 객체로 반환하는 함수이다.
+
+```julia
+function cvPoint(x::T1, y::T2) where {T1<:Real, T2<:Real}
+    T = promote_type(T1, T2)
+    return cv.Point{T}(T(x), T(y))
+end
+
+function cvPoint(x::T1, y::T2, z::T3) where {T1<:Real, T2<:Real, T3<:Real}
+    T = promote_type(T1, T2, T3)
+    return cv.Point3{T}(T(x), T(y), T(z))
+end
+```
+</br>
+
+이를 이용하여 이미지를 45도 회전하고 크기를 0.7배로 줄이는 변환을 수행해보자. 두가지 보간법을 사용하였다.
+
+```julia
+h, w = size(img0)[2:3]
+cX, cY = Float32(h/2), Float32(w/2)
+M = cv.getRotationMatrix2D(cvPoint(cX, cY), 45.0, 0.7)
+r1 = cv.warpAffine(img0, M, cvSize(w, h), flags=cv.INTER_NEAREST)
+r2 = cv.warpAffine(img0, M, cvSize(w, h), flags=cv.INTER_CUBIC)
+img3 = arr2mat(cat([r1 r2]; dims=2))
+```
+
+![이미지 회전. (왼쪽) 최근접 보간, (오른쪽) 이중 큐빅 보간](notebooks/imgrotate.png){#fig-ImageProcessing_image_rotation}
+
+보간법에 따른 이미지가 큰 차이가 보이지 않을 수 도 있지만 이것은 아래에서 좀 더 정확히 보일 것이다.
 
 
-
-
-
-`TestImages.jl` 로 부터 $256\times 256$ 이미지 `lena_gray_256` 을 다운 받은 후 $100 \times  100$ 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 결과는 아래와 같다.
+`TestImages.jl` 로 부터 $256\times 256$ 이미지 `cameraman.tif` 을 다운 받은 후 $100 \times  100$ 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 결과는 아래와 같다.
 
 ```julia
 img0= cv.resize(img2mat(testimage("cameraman.tif")), cv.Size{Int32}(100, 100))
@@ -431,28 +484,25 @@ s = arr2mat(cat(img1, img2, img3; dims=2))
 
 ## 공간적 이미지 필터링 {#sec-ImageProcessing_spatial_image_filtering}
 
-공간적 필터링은 이미지를 2차원 공간으로 간주한다. 어떤 픽셀의 값을 그 주변값의 연산을 통해 바꿔서 원하는 목적을 달성하는 것을 공간적 이미지 필터링 이라고 한다. 많은 경우 2차원 배열을 사용하며 이 배열을 **커널(kernel)** 혹은 **마스크(mask)** 라고 한다. 즉 원본 이미지 $I$ 의 픽셀 $[i,\,j]$ 에 대해 부근의 픽셀의 집합 $A_[i,j]$ 을 사용하는 어떤 연산 $F$ 가 정의되어 연산된 이미지 $J$ 가 만들어 진다면, 즉
+공간적 필터링은 이미지를 2차원 공간으로 간주한다. 어떤 픽셀의 값을 그 주변값의 연산을 통해 바꿔서 원하는 목적을 달성하는 것을 공간적 이미지 필터링 이라고 한다. 많은 경우 2차원 배열을 사용하며 이 배열을 **커널(kernel)** 혹은 **마스크(mask)** 라고 한다. 즉 원본 이미지 $I$ 의 픽셀 $[i,\,j]$ 에 대해 부근의 픽셀의 집합 $N_{[i,j]}$ 을 사용하는 어떤 연산 $F$ 가 정의되어 연산된 이미지 $g$ 가 만들어 진다면, 즉
 
 $$
-J[i,j] = F\left(A_{[i,j]}\right)
-$$
+g[i,j] = F\left(N_{[i,j]}\right)
+$$ {#eq-ImageProcessing_spatial_image_filter}
 
-일 때 이 과정을 공간적 이미지 필터링 이라고 한다.
-
-필터링 연산이 선형성을 갖는 경우를 이 필터에 의한 연산을 선형 필터라고 하며 대표적으로 평균값 필터와 가우시안 필터가 있다. 선형 필터가 아닌 필터를 비선형 필터라고 한다. 
-
+일 때 이 과정을 공간적 이미지 필터링 이라고 한다. 만약 $g[i,\,j]$ 가 $N_{[i, j]}$ 의 성분들의 선형결합이라면 이 필터를 선형 필터(linear filter) 라고 하며, 그렇지 않다면 비선형 필터라고 한다. 대표적으로 주변 $n$ 개의 픽셀의 평균값을 취하는 평균값 필터가 선형 필터이며, 중간값을 취하는 중간값 필터는 비선형 필터이다. 선형 필터는 다음에 나올 [합성곱](#sec-ImageProcessing_convolution_and_correlation)으로 표현 할 수 있다.
 
 <br>
 
 ### 가장저리 처리 {#sec-ImageProcessing_padding}
 
-뒤에 나오겠지만 평균값 필터는 이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터이다. 예를 들어 이미지 $I$ 의 $[i, j]$ 픽셀 주위의 9개의 평균값으로 필터링 한다면
+뒤에 나오겠지만 평균값 필터는 이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터이다. 예를 들어 이미지 $f$ 의 $[i, j]$ 를 중심으로 하는 $3\times 3$ 정사각형에 속하는 9개의 픽셀값의 평균값으로 필터링 한다면
 
 $$
-J[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} I[i-p,\,j-q]
+g[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} f[i-p,\,j-q]
 $$
 
-일 것이다. 노이즈 처리에 사용 될 수 있다. 이 경우 가장자리 라면, 예를 들어 $i=0$ 이면 $i-1$ 픽셀이 없으므로 문제가 된다. 일반적으로 필터링의 범위를 고려하여 필터링에 방해가 되지 않도록 이미지의 크기를 일시적으로 키우고 원본 이미지에 없던 부분을 적당한 값으로 채운 후(이를 **패딩(padding)** 이라고 한다) 그 이미지 $\overline{I}$ 에 대해 필터링을 하고, 필터링된 이미지 $\overline{J}$ 를 원본 이미지에 맞게 크기를 줄이게 된다. 패딩을 할 때 특정한 값으로 채울 수도 있고(**상수 패딩(constant padding)**), 가장 가까운 원본 이미지 픽셀값을 복사할 수도 있으며(**복제 패딩(replication padding)**), 패딩되는 픽셀에 가장 가까운 원본 이미지 픽셀을 중심으로 대칭이 되도록 원본 픽셀 값을 복사할 수도 있다(**반사 패딩(reflection padding)**).
+일 것이다. 노이즈 처리에 사용 될 수 있다. 이 경우 가장자리 라면, 예를 들어 $i=1$ 이면 $i-1$ 픽셀이 없으므로 문제가 된다. 일반적으로 필터링의 범위를 고려하여 필터링에 방해가 되지 않도록 이미지의 크기를 일시적으로 키우고 원본 이미지에 없던 부분을 적당한 값으로 채운 후(이 작업을 **패딩(padding)** 이라고 한다) 그 이미지 $\overline{f}$ 에 대해 필터링을 하고, 필터링이 모두 끝난 후 필터링된 이미지 $\overline{g}$ 를 원본 이미지에 맞게 크기를 줄이게 된다. 패딩을 할 때 특정한 값으로 채울 수도 있고(**상수 패딩(constant padding)**), 가장 가까운 원본 이미지 픽셀값을 복사할 수도 있으며(**복제 패딩(replication padding)**), 패딩되는 픽셀에 가장 가까운 원본 이미지 픽셀을 중심으로 대칭이 되도록 원본 픽셀 값을 복사할 수도 있다(**반사 패딩(reflection padding)**).
 
 </br>
 
@@ -464,38 +514,47 @@ $$
 
 </br>
 
+### 평균값 필터 (mean filter)
 
-### 비선형 필터 (nonlinear filter)
+- [https://docs.opencv.org/4.x/d4/d13/tutorial_py_filtering.html](https://docs.opencv.org/4.x/d4/d13/tutorial_py_filtering.html) 를 참고하라.
 
+노이즈를 줄이고 이미지를 부드럽게 하는 데 사용된다. 필터의 크기는 폭 `w`, 높이 `h` 에 대해 `cv2.Size(w, h)` (즉 여기서는 `cvSize(w, h)`) 로 결정한다.
 
+```julia
+cv.blur(img0, 3)
+```
 
-- 중앙값 필터 (median filter) : 노이즈 처리에 좋다.
-
-- 표준편차 필터(standard deviation filter) : 엣지 검출에 좋다.
+![원본 이미지(왼쪽) 와 $5\times 5$ 평균값 필터로 처리된 이미지(오른쪽)](notebooks/meanblur_example.png){#fig-ImageProcessing_mean_blur_example width=500}
 
 </br>
 
-<!-- 
-### 가우시안 필터 (Gaussian filter)
-$I[i,j]$ 를 필터링 할 때 주변 값과 정규분포 관계가 있다고 가정한다. 즉 멀수록 관계가 더 적다고 간주한다. 2차원 가우시안 함수는 다음과 같다.
+### 중앙값 필터 (median filter)
 
-$$
-G(x,\,y | x',\,y') = \dfrac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\dfrac{(x-x')^2+(y-y')^2}{2\sigma^2}\right)
-$$
+비선형 필터의 대표적인 필터는 중앙값 필터로 특히 소금-후추 노이즈를 제거하는데 많이 사용된다. 중앙값 필터는 원본 이미지 `img` 와 커널 크기 `ksize` 에 대해 `OpenCV.medianBlur(img, ksize)` 와 같이 사용한다. `ksize==3` 일 경우 $[i, j]$ 를 중심으로하는 $3 \times 3$ 크기의 부분 이미지에 대한 중간값으로 변환시킨다. 앞의 @fig-ImageProcessing_noise 의 소금-후추 노이즈 이미지(`img_sp`) 를 중간값 처리 한 결과는 아래와 같다.
 
-$J[i,\,j]$ 는 $I[i,\,j]$ 를 중심으로 주변값에 2차원 가우시안 함수에 비례하는 가중치를 두고 그 평균을 계산한 값이 된다. 
-
-python의 cv2 라이브러리에서는 다음과 같이 사용한다.
-
-```python
-filtered_image = cv2.GaussianBlur(original_image, (3, 3), 1.5)
+```julia
+cv.medianBlur(img_sp, 3)
 ```
 
-여기서 `(3, 3)` 은 $3 \times 3$ 크기의 커널을 사용한다는 뜻이고 1.5 는 가우시안 분포의 표준편차이다.
+![소금 후추 노이즈 이미지(왼쪽) 과 중간값 필터로 처리된 이미지(오른쪽)](notebooks/medianblur_example.png){#fig-ImageProcessing_median_blur_example width=500}
 
-</br> -->
+</br>
 
-## 합성곱 개념으로서의 이미지 필터링
+### 표준편차 필터(standard deviation filter) 
+
+표준편차 필터는 주변 픽셀값들의 표준편차로 픽셀값을 변환시킨다. 만약 한 픽셀 주변의 값이 서로 크게 바뀐다면 표준 편차 값이 클 것이다. 한 픽셀 주변 값이 서로 비슷하다면 표준 편차 값이 작을 것이다. 일단 이것을 구현해 보자. 우리는 표준편차가 제곱의 평균값에서 평균값의 제곱을 뺀 값의 양의 제곱근이라는 것을 안다. 
+
+
+
+
+</br>
+
+
+
+
+
+
+## 합성곱 개념으로서의 이미지 필터링 {#sec-ImageProcessing_convolution_and_correlation}
 
 ### 합성곱과 상관값
 
@@ -549,7 +608,7 @@ $$
 
 이다. 그러나 합성곱은 @eq-ImageProcessing_definition_of_convolution_and_correlation 에서 알 수 있듯이 $k$ 의 성분과 대각 위치에 있는 $\tilde{I}_{[i, j]}$ 의 성분의 모든 곱의 합이다. 즉,
 $$
-(k\otimes I)[i, j] = 1\times 2 + (-1)* 4 + 1 * 3 + (-1)\times 1 + 1 \times 1 + (-1)\times 2 = -1
+(k \ast I)[i, j] = 1\times 2 + (-1)* 4 + 1 * 3 + (-1)\times 1 + 1 \times 1 + (-1)\times 2 = -1
 $$
 
 이다. 혹은 합성곱은 커널을 180 도 회전시킨 행렬과의 상관값이라고 생각 할 수도 있다. 또 커널과 합성곱의 중요한 차이는 아래 표와 같다.

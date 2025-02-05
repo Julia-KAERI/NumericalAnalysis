@@ -353,14 +353,16 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#sec-ImageProcessing_Affine_transform" id="toc-sec-ImageProcessing_Affine_transform" class="nav-link" data-scroll-target="#sec-ImageProcessing_Affine_transform"><span class="header-section-number">4.1</span> 아핀 변환 (Affine transformation)</a></li>
   <li><a href="#원근-변환-perspective-transformation" id="toc-원근-변환-perspective-transformation" class="nav-link" data-scroll-target="#원근-변환-perspective-transformation"><span class="header-section-number">4.2</span> 원근 변환 (Perspective transformation)</a></li>
-  <li><a href="#보간법" id="toc-보간법" class="nav-link" data-scroll-target="#보간법"><span class="header-section-number">4.3</span> 보간법</a></li>
+  <li><a href="#sec-ImageProcessing_interpolation" id="toc-sec-ImageProcessing_interpolation" class="nav-link" data-scroll-target="#sec-ImageProcessing_interpolation"><span class="header-section-number">4.3</span> 보간법</a></li>
   </ul></li>
   <li><a href="#sec-ImageProcessing_spatial_image_filtering" id="toc-sec-ImageProcessing_spatial_image_filtering" class="nav-link" data-scroll-target="#sec-ImageProcessing_spatial_image_filtering"><span class="header-section-number">5</span> 공간적 이미지 필터링</a>
   <ul class="collapse">
   <li><a href="#sec-ImageProcessing_padding" id="toc-sec-ImageProcessing_padding" class="nav-link" data-scroll-target="#sec-ImageProcessing_padding"><span class="header-section-number">5.1</span> 가장저리 처리</a></li>
-  <li><a href="#비선형-필터-nonlinear-filter" id="toc-비선형-필터-nonlinear-filter" class="nav-link" data-scroll-target="#비선형-필터-nonlinear-filter"><span class="header-section-number">5.2</span> 비선형 필터 (nonlinear filter)</a></li>
+  <li><a href="#평균값-필터-mean-filter" id="toc-평균값-필터-mean-filter" class="nav-link" data-scroll-target="#평균값-필터-mean-filter"><span class="header-section-number">5.2</span> 평균값 필터 (mean filter)</a></li>
+  <li><a href="#중앙값-필터-median-filter" id="toc-중앙값-필터-median-filter" class="nav-link" data-scroll-target="#중앙값-필터-median-filter"><span class="header-section-number">5.3</span> 중앙값 필터 (median filter)</a></li>
+  <li><a href="#표준편차-필터standard-deviation-filter" id="toc-표준편차-필터standard-deviation-filter" class="nav-link" data-scroll-target="#표준편차-필터standard-deviation-filter"><span class="header-section-number">5.4</span> 표준편차 필터(standard deviation filter)</a></li>
   </ul></li>
-  <li><a href="#합성곱-개념으로서의-이미지-필터링" id="toc-합성곱-개념으로서의-이미지-필터링" class="nav-link" data-scroll-target="#합성곱-개념으로서의-이미지-필터링"><span class="header-section-number">6</span> 합성곱 개념으로서의 이미지 필터링</a>
+  <li><a href="#sec-ImageProcessing_convolution_and_correlation" id="toc-sec-ImageProcessing_convolution_and_correlation" class="nav-link" data-scroll-target="#sec-ImageProcessing_convolution_and_correlation"><span class="header-section-number">6</span> 합성곱 개념으로서의 이미지 필터링</a>
   <ul class="collapse">
   <li><a href="#합성곱과-상관값" id="toc-합성곱과-상관값" class="nav-link" data-scroll-target="#합성곱과-상관값"><span class="header-section-number">6.1</span> 합성곱과 상관값</a></li>
   </ul></li>
@@ -606,17 +608,11 @@ s(r) = \text{round}\left[(L-1)\sum_{i=1}^r \dfrac{h(i)}{\sum_{j=1}^{L-1} h(j)}\r
 </section>
 <section id="노이즈-생성" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="노이즈-생성"><span class="header-section-number">3</span> 노이즈 생성</h2>
-<p>노이즈의 원인은 다양하며, 노이즈에 대한 처리 방법도 다양하고 매우 중요하다. 일단 가장 빈번하고 다루기 쉬우며 보편적인 두가지 노이즈에 대해 알아보자. 노이즈의 원인은 생각하지 않고 실제 나타나는 양상으로만 분류한다. 또한 한 픽셀에서의 노이즈 발생 확률은 다른 픽셀의 노이즈 발셩 여부와 독립적이라고 가정하자. <br></p>
-<section id="가우시안-노이즈" class="level4">
-<h4 class="anchored" data-anchor-id="가우시안-노이즈"><strong>1. 가우시안 노이즈</strong></h4>
-<p>가우시안 노이즈는 어떤 평균에 대해 가우시안 분포를 갖는 노이즈이다. 즉 노이즈를 생성시키려면 평균값과 표준편차로 정의되는 가우시안 분포에 따라 임의의 점에 대해 생성해야 한다.</p>
+<p>노이즈의 원인은 다양하며, 노이즈에 대한 처리 방법도 다양하고 매우 중요하다. 일단 가장 빈번하고 다루기 쉬우며 보편적인 두가지 노이즈, 가우시안 노이즈 와 소금-후추 노이즈에 대해 알아보자. 노이즈의 원인은 생각하지 않고 실제 나타나는 양상으로만 분류한다. 또한 한 픽셀에서의 노이즈 발생 확률은 다른 픽셀의 노이즈 발셩 여부와 독립적이라고 가정하자.</p>
 <p><br></p>
-</section>
-<section id="소금-후추-노이즈" class="level4">
-<h4 class="anchored" data-anchor-id="소금-후추-노이즈"><strong>2. 소금-후추 노이즈</strong></h4>
-<p>소금은 흰색이고 후추는 검은색이다. 소금-후추 노이즈는 보통 픽셀마다 최저값(0) 혹은 최고값 (<code>UInt8</code> 의 경우는 255) 에 가까운 노이즈가 발생하도록 한다. 흑백 이미지 상에서 최저값은 검은색, 최고값은 흰색으로 관례적으로 표현하기 때문에 노이즈가 마치 이미지에 소금과 후추를 뿌린 것 같다는 의미에서 소금-후추 노이즈라고 불린다.</p>
+<p><strong>1. 가우시안 노이즈</strong> : 가우시안 노이즈는 어떤 평균에 대해 가우시안 분포를 갖는 노이즈이다. 즉 노이즈를 생성시키려면 평균값과 표준편차로 정의되는 가우시안 분포에 따라 임의의 점에 대해 생성해야 한다.</p>
+<p><strong>2. 소금-후추 노이즈</strong> : 소금은 흰색이고 후추는 검은색이다. 소금-후추 노이즈는 보통 픽셀마다 최저값(0) 혹은 최고값 (<code>UInt8</code> 의 경우는 255) 에 가까운 노이즈가 발생하도록 한다. 흑백 이미지 상에서 최저값은 검은색, 최고값은 흰색으로 관례적으로 표현하기 때문에 노이즈가 마치 이미지에 소금과 후추를 뿌린 것 같다는 의미에서 소금-후추 노이즈라고 불린다.</p>
 <p><br></p>
-</section>
 <section id="노이즈-생성-코드" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="노이즈-생성-코드"><span class="header-section-number">3.1</span> 노이즈 생성 코드</h3>
 <p>흑백 이미지에 대한 노이즈 생성 코드는 다음과 같다.</p>
@@ -669,22 +665,25 @@ s(r) = \text{round}\left[(L-1)\sum_{i=1}^r \dfrac{h(i)}{\sum_{j=1}^{L-1} h(j)}\r
 </figure>
 </div>
 <p><br></p>
-<p><br></p>
 </section>
 </section>
 <section id="기하학적-변환과-보간법" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="기하학적-변환과-보간법"><span class="header-section-number">4</span> 기하학적 변환과 보간법</h2>
 <p>영상에서 널리 이용되는 기하학적인 변환에는 아핀 변환(Affine transformation) 과 원근 변환(perspective transformation) 이 있다. 아핀 변환과 투시 변환은 모두 2차원 상의 직선이 직선으로 변환되는 공통점을 가지고 있다. 그러나 서로 평행한 두 직선이 변환 될 때 아핀 변환은 그 평행함이 유지되지만 투시 변환에서는 평행함이 유지되지 않는다.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="imgs/geometric_transform.png" class="img-fluid figure-img"></p>
-<figcaption>이미지의 기하학적 변환</figcaption>
+<div id="fig-ImageProcessing_geometric_transform" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_geometric_transform-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="imgs/geometric_transform.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_geometric_transform-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;6: 이미지의 기하학적 변환
+</figcaption>
 </figure>
 </div>
 <p><br></p>
 <section id="sec-ImageProcessing_Affine_transform" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="sec-ImageProcessing_Affine_transform"><span class="header-section-number">4.1</span> 아핀 변환 (Affine transformation)</h3>
-<p>대표적인 아핀 변환으로는 확대, 축소, 회전, 평행이동과 전단 변환등이 있으며, 아핀 변환의 합성도 아핀 변환이다. 아핀 변환은 <span class="math inline">\(3\times 3\)</span> 가역행렬 <span class="math inline">\(\boldsymbol{T}\)</span> 에 의해 정해지는 다음과 같은 변환으로 표현된다.</p>
+<p>대표적인 아핀 변환으로는 확대, 축소, 회전, 평행이동과 전단 변환등이 있으며, 아핀 변환의 합성도 아핀 변환이다. 아핀 변환은 <span class="math inline">\(3\times 3\)</span> 가역행렬 <span class="math inline">\(\boldsymbol{T}\)</span> 에 의해 정해지는 다음과 같은 변환으로 표현된다. 영상 변환에서는 <span class="math inline">\(2\)</span> 차원 좌표로 <span class="math inline">\(\begin{bmatrix} x &amp; y\end{bmatrix}^T\)</span> 를 사용하지 않고 <span class="math inline">\(\begin{bmatrix}x &amp; y &amp; w \end{bmatrix}^T\)</span> 로 표현되는 소위 <strong>homogeneous coordinate (동차 좌표)</strong> 를 사용한다. <span class="math inline">\(w\)</span> 는 이미지의 스케일에 관련된 값으로 여기서는 우선 <span class="math inline">\(1\)</span> 로 놓을 수 있다. 그리고 변환은 동차 좌표에 대해 수행하며 그 변환 행렬을 <span class="math inline">\(\boldsymbol{T}\)</span> 라고 하자. 그렇다면 다음과 같이 쓸 수 있다.</p>
 <p><span class="math display">\[
 \begin{bmatrix} x' \\ y' \\1\end{bmatrix} = \boldsymbol{T} \begin{bmatrix} x \\ y \\ 1\end{bmatrix}.
 \]</span></p>
@@ -715,15 +714,29 @@ s(r) = \text{round}\left[(L-1)\sum_{i=1}^r \dfrac{h(i)}{\sum_{j=1}^{L-1} h(j)}\r
 \]</span></p>
 <p>이다. <span class="math inline">\(\boldsymbol{T}\)</span> 와 <span class="math inline">\(\boldsymbol{T}^{-1}\)</span> 에서 보듯이 <span class="math inline">\(\boldsymbol{T}\)</span> 를 이루는 <span class="math inline">\(\boldsymbol{R}\)</span> 과 <span class="math inline">\(\boldsymbol{t}\)</span> 만으로 아핀 변환과 역변환을 모두 나타낼 수 있으며, OpenCV 의 경우 <span class="math inline">\(2\times 3\)</span> 행렬 <span class="math inline">\(\begin{bmatrix} \boldsymbol{R} &amp; \boldsymbol{t}\end{bmatrix}\)</span> 만으로 2차원 아핀 변환을 나타낸다. 아핀 변환의 미지수는 <span class="math inline">\(\boldsymbol{R}\)</span> 의 행렬 성분 <span class="math inline">\(4\)</span> 개와 <span class="math inline">\(\boldsymbol{t}\)</span> 의 행렬 성분 <span class="math inline">\(2\)</span> 개이며 따라서 6개의 파라미터가 결정되어야 한다. 즉 서로 한 직선상에 위치하지 않은 좌표상의 세 점과 그 점들이 변환되는 점을 안다면 아핀 변환을 결정 할 수 있다.</p>
 <p><br></p>
-<p>아핀 변환 <span class="math inline">\(T\)</span> 에 대해 이미지 <span class="math inline">\(f\)</span> 를 변환시킬 때 <span class="math inline">\(g=T[f]\)</span> 인 이미지를 얻고자 한다고 하자. 즉 정해진 <span class="math inline">\(i,\,j\)</span> 의 범위에 대해 <span class="math inline">\(g[i,j]\)</span> 전체를 얻어야 한다. <span class="math inline">\(T\)</span> 가 가역변환이므로 <span class="math inline">\(f=T^{-1}[g]\)</span> 이므로 <span class="math inline">\(f[i',\,j'] = T^{-1}[g][i, j]\)</span> 를 통해 <span class="math inline">\(f[i',\,j']\)</span> 의 값으로 <span class="math inline">\(g[i,\,j]\)</span> 를 채울 수 있으면 좋겠지만 <span class="math inline">\(i',\,j'\)</span> 은 대부분 정수가 아니다. 이 때 보간법(interpolation)을 사용하여, <span class="math inline">\(T[g]^{-1}[i,\,j]\)</span> 로 정해지는 <span class="math inline">\((x,\,y)\)</span> 근처의 <span class="math inline">\(f[i,j]\)</span> 값을 이용하여 <span class="math inline">\(g[i,\,j]\)</span> 값을 구한다.</p>
-<p><br></p>
 </section>
 <section id="원근-변환-perspective-transformation" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="원근-변환-perspective-transformation"><span class="header-section-number">4.2</span> 원근 변환 (Perspective transformation)</h3>
+<div id="fig-ImageProcessing_example_of_perspective_transformation" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_example_of_perspective_transformation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://docs.opencv.org/4.x/homography_source_desired_images.jpg" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_example_of_perspective_transformation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;7: 원근 변환. 출처: https://docs.opencv.org/4.x/d9/dab/tutorial_homography.html
+</figcaption>
+</figure>
+</div>
+<p>아핀 변환은 평행선이 평행선으로 유지되는 것과는 달리 원근 변환은 평행선이 평행선으로 유지되지 않는다. 원근 변환은 기본적으로 입체인 피사체를 2차원인 영상으로 변환시킬 때 발생하는 왜곡이다. 우리가 담는 피사체의 각 부분과 카메라 사이의 거리가 다르며, 피사체의 방향과 카메라의 방향에 따라 영상이 변형되기 때문이다. 원본 이미지 <span class="math inline">\(f[i, j]=f(j, i)\)</span> 에 대해 원근 변환은 다음과 같은 변환행렬로 표현 할 수 있다.</p>
+<p><span class="math display">\[
+\begin{bmatrix} wx' \\ wy' \\ w'\end{bmatrix} =\boldsymbol{P}\begin{bmatrix} x \\ y \\ 1\end{bmatrix},\qquad \text{where }P_{33}=1
+\]</span></p>
+<p>여기서 <span class="math inline">\(w\)</span> 원본 이미지에 대해 변환된 이미지의 스케일을 정하는 값이다. 원근 변환은 행렬 <span class="math inline">\(\boldsymbol{P}\)</span> 에 의해 결정되며 <span class="math inline">\(P_{33}=1\)</span> 이어야 하므로 모두 8개의 미지수가 존재한다. 따라서 네 점(물론 네 점의 가운데 아무 세점을 골라도 한 직선상이 있지 않아야 한다) 으로 원근 변환을 결정 할 수 있다. 변환된 이미지 <span class="math inline">\(P[f][i', j'] = P[f][wy',\, wx']\)</span> 이다.</p>
+<p><br></p>
 </section>
-<section id="보간법" class="level3" data-number="4.3">
-<h3 data-number="4.3" class="anchored" data-anchor-id="보간법"><span class="header-section-number">4.3</span> 보간법</h3>
-<p>이미지 <span class="math inline">\(f[i,\,j]=f(j,\,i)\)</span> 는 자연수인 <span class="math inline">\(i,\,j\)</span> 에 대해 정해져 있다. <span class="math inline">\(x,\,y\)</span> 가 자연수가 아닐 때 <span class="math inline">\(f(x,\,y)\)</span> 값은 <strong>보간법(interpolation)</strong> 으로 정한다.</p>
+<section id="sec-ImageProcessing_interpolation" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="sec-ImageProcessing_interpolation"><span class="header-section-number">4.3</span> 보간법</h3>
+<p>아핀 변환 혹은 원근 변환 <span class="math inline">\(T\)</span> 에 대해 이미지 <span class="math inline">\(f\)</span> 를 변환시켜 <span class="math inline">\(g=T[f]\)</span> 인 이미지를 얻고자 한다고 하자. 즉 정해진 <span class="math inline">\(i,\,j\)</span> 의 범위에 대해 <span class="math inline">\(g[i,j]\)</span> 전체를 얻어야 한다. <span class="math inline">\(T\)</span> 가 가역변환이므로 <span class="math inline">\(f=T^{-1}[g]\)</span> 이므로 <span class="math inline">\(f[i',\,j'] = T^{-1}[g][i, j]\)</span> 를 통해 <span class="math inline">\(f[i',\,j']\)</span> 의 값으로 <span class="math inline">\(g[i,\,j]\)</span> 를 채울 수 있으면 좋겠지만 <span class="math inline">\(i',\,j'\)</span> 은 대부분 정수가 아니다. 이 때 <strong>보간법(interpolation)</strong> 을 사용하여, <span class="math inline">\(T[g]^{-1}[i,\,j]\)</span> 로 정해지는 <span class="math inline">\((x,\,y)\)</span> 근처의 <span class="math inline">\(f[i,j]\)</span> 값을 이용하여 <span class="math inline">\(g[i,\,j]\)</span> 값을 구한다.</p>
 <p><br></p>
 <section id="최근접-이웃-보간" class="level4">
 <h4 class="anchored" data-anchor-id="최근접-이웃-보간"><strong>최근접 이웃 보간</strong></h4>
@@ -769,18 +782,64 @@ f(x,\,y) = \sum_{k=-1}^2 \sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Comparison_of_1D_and_2D_interpolation.svg/2880px-Comparison_of_1D_and_2D_interpolation.svg.png" class="img-fluid figure-img" width="500">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_interpolations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-그림&nbsp;6: 1차원 및 2차원 보간법(출처 : https://en.wikipedia.org/wiki/Bicubic_interpolation) By <a href="//commons.wikimedia.org/wiki/User:Cmglee" title="User:Cmglee">Cmglee</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=53064904">Link</a>
+그림&nbsp;8: 1차원 및 2차원 보간법(출처 : https://en.wikipedia.org/wiki/Bicubic_interpolation) By <a href="//commons.wikimedia.org/wiki/User:Cmglee" title="User:Cmglee">Cmglee</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=53064904">Link</a>
 </figcaption>
 </figure>
 </div>
 <p><br></p>
-<p>아핀 변환 행렬과 보간법으로부터 이제 이미지를 변환시킬 수 있다.</p>
-<p><code>TestImages.jl</code> 로 부터 <span class="math inline">\(256\times 256\)</span> 이미지 <code>lena_gray_256</code> 을 다운 받은 후 <span class="math inline">\(100 \times  100\)</span> 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 결과는 아래와 같다.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>img0<span class="op">=</span> cv.<span class="fu">resize</span>(<span class="fu">img2mat</span>(<span class="fu">testimage</span>(<span class="st">"cameraman.tif"</span>)), cv.<span class="fu">Size</span><span class="dt">{Int32}</span>(<span class="fl">100</span>, <span class="fl">100</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>img1 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_NEAREST)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>img2 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_LINEAR)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>img3 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_CUBIC)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="fu">arr2mat</span>(<span class="fu">cat</span>(img1, img2, img3; dims<span class="op">=</span><span class="fl">2</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>이제 변환 행렬과 보간법을 사용하여 기하학적으로 이미지를 변환시킬수도, 혹은 변환된 이미지를 복원시킬 수도 있다. 아핀 변환 행렬은 직접 입력할 수도 있고, 원래의 이미지와 변환되는 이미지에서 각 3개(아핀 변환의 경우) 혹은 4개(원근 변환의 경우) 를 선택하여 변환 행렬을 계산 할 수도 있다. 예를 들어 다음과 같이 변환하는 아핀 변환을 생각하자.</p>
+<p><span class="math display">\[
+[1, 1] \to [4, 5],\qquad [2, 1] \to [5, 6], \qquad [3, 3] \to [4, 2]
+\]</span></p>
+<p>아핀 변환을 위해서는 변환된 이미지의 크기를 <code>OpenCV.Size{UInt32}</code> 형태의 객체로 전달해야 한다. 이것을 <code>cvSize</code> 함수로 구현하였다.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cvSize</span>(w<span class="op">::</span><span class="dt">T1</span>, h<span class="op">::</span><span class="dt">T2</span>) <span class="kw">where</span> {T1<span class="op">&lt;:</span><span class="dt">Integer</span>, T2<span class="op">&lt;:</span><span class="dt">Integer</span>}</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(w), <span class="fu">Int32</span>(h))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>p0 <span class="op">=</span> <span class="dt">Float32</span>[<span class="fl">1</span> <span class="fl">1</span>; <span class="fl">2</span> <span class="fl">1</span>; <span class="fl">3</span> <span class="fl">3</span>]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>q0 <span class="op">=</span> <span class="dt">Float32</span>[<span class="fl">4</span> <span class="fl">5</span>; <span class="fl">5</span> <span class="fl">6</span>; <span class="fl">4</span> <span class="fl">2</span>]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>p1, q1 <span class="op">=</span> <span class="fu">arr2mat</span>(p0), <span class="fu">arr2mat</span>(q0)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>H <span class="op">=</span> cv.<span class="fu">getAffineTransform</span>(p1, q1)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>img1 <span class="op">=</span> cv.<span class="fu">warpAffine</span>(img0, H, <span class="fu">cvSize</span>(<span class="fl">512</span>, <span class="fl">512</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>cv.warpAffine(img0, H, cvSize(512, 512))</code> 는 이미지 <code>img0</code> 를 아핀 변환 행렬 <code>H</code> 를 이용하여폭 512, 높이 512 크기의 이미지로 변환하라는 명령이다.</p>
+<p>많이 사용되는 몇몇 변환에 대해서는 아핀 변환 행렬을 얻는 함수가 이미 존재한다. 예를 들어 <code>(cX, cY)</code> 를 중심으로 45도 만큼 회전시키며, 스케일을 0.7 배로 줄이는 변환에 대한 변환행렬은</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>M<span class="op">=</span>cv.<span class="fu">getRotationMatrix2D</span>(<span class="fu">cvPoint</span>(cX, cY), <span class="fl">45.0</span>, <span class="fl">0.7</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>으로 얻을 수 있다. 여기서 <code>cvPoint</code> 함수는 2차원 혹은 3차원 상의 점을 OpenCV 의 <code>OpenCv.Point(x, y)</code> 객체로 반환하는 함수이다.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cvPoint</span>(x<span class="op">::</span><span class="dt">T1</span>, y<span class="op">::</span><span class="dt">T2</span>) <span class="kw">where</span> {T1<span class="op">&lt;:</span><span class="dt">Real</span>, T2<span class="op">&lt;:</span><span class="dt">Real</span>}</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">promote_type</span>(T1, T2)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cv.<span class="fu">Point</span><span class="dt">{T}</span>(<span class="fu">T</span>(x), <span class="fu">T</span>(y))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cvPoint</span>(x<span class="op">::</span><span class="dt">T1</span>, y<span class="op">::</span><span class="dt">T2</span>, z<span class="op">::</span><span class="dt">T3</span>) <span class="kw">where</span> {T1<span class="op">&lt;:</span><span class="dt">Real</span>, T2<span class="op">&lt;:</span><span class="dt">Real</span>, T3<span class="op">&lt;:</span><span class="dt">Real</span>}</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">promote_type</span>(T1, T2, T3)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cv.<span class="fu">Point3</span><span class="dt">{T}</span>(<span class="fu">T</span>(x), <span class="fu">T</span>(y), <span class="fu">T</span>(z))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+<p>이를 이용하여 이미지를 45도 회전하고 크기를 0.7배로 줄이는 변환을 수행해보자. 두가지 보간법을 사용하였다.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>h, w <span class="op">=</span> <span class="fu">size</span>(img0)[<span class="fl">2</span><span class="op">:</span><span class="fl">3</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cX, cY <span class="op">=</span> <span class="fu">Float32</span>(h<span class="op">/</span><span class="fl">2</span>), <span class="fu">Float32</span>(w<span class="op">/</span><span class="fl">2</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> cv.<span class="fu">getRotationMatrix2D</span>(<span class="fu">cvPoint</span>(cX, cY), <span class="fl">45.0</span>, <span class="fl">0.7</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>r1 <span class="op">=</span> cv.<span class="fu">warpAffine</span>(img0, M, <span class="fu">cvSize</span>(w, h), flags<span class="op">=</span>cv.INTER_NEAREST)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>r2 <span class="op">=</span> cv.<span class="fu">warpAffine</span>(img0, M, <span class="fu">cvSize</span>(w, h), flags<span class="op">=</span>cv.INTER_CUBIC)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>img3 <span class="op">=</span> <span class="fu">arr2mat</span>(<span class="fu">cat</span>([r1 r2]; dims<span class="op">=</span><span class="fl">2</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-ImageProcessing_image_rotation" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_image_rotation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="notebooks/imgrotate.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_image_rotation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;9: 이미지 회전. (왼쪽) 최근접 보간, (오른쪽) 이중 큐빅 보간
+</figcaption>
+</figure>
+</div>
+<p>보간법에 따른 이미지가 큰 차이가 보이지 않을 수 도 있지만 이것은 아래에서 좀 더 정확히 보일 것이다.</p>
+<p><code>TestImages.jl</code> 로 부터 <span class="math inline">\(256\times 256\)</span> 이미지 <code>cameraman.tif</code> 을 다운 받은 후 <span class="math inline">\(100 \times  100\)</span> 으로 크기를 줄였다. 그리고 그 이미지를 앞서 소개한 세가지 방법으로 확대하였으며 결과는 아래와 같다.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>img0<span class="op">=</span> cv.<span class="fu">resize</span>(<span class="fu">img2mat</span>(<span class="fu">testimage</span>(<span class="st">"cameraman.tif"</span>)), cv.<span class="fu">Size</span><span class="dt">{Int32}</span>(<span class="fl">100</span>, <span class="fl">100</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>img1 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_NEAREST)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>img2 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_LINEAR)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>img3 <span class="op">=</span> cv.<span class="fu">resize</span>(img0, cv.<span class="fu">Size</span>(<span class="fu">Int32</span>(<span class="fl">256</span>), <span class="fu">Int32</span>(<span class="fl">256</span>));interpolation<span class="op">=</span> cv.INTER_CUBIC)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="fu">arr2mat</span>(<span class="fu">cat</span>(img1, img2, img3; dims<span class="op">=</span><span class="fl">2</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="notebooks/interpolation.png" class="img-fluid figure-img"></p>
@@ -793,20 +852,19 @@ f(x,\,y) = \sum_{k=-1}^2 \sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)
 </section>
 <section id="sec-ImageProcessing_spatial_image_filtering" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="sec-ImageProcessing_spatial_image_filtering"><span class="header-section-number">5</span> 공간적 이미지 필터링</h2>
-<p>공간적 필터링은 이미지를 2차원 공간으로 간주한다. 어떤 픽셀의 값을 그 주변값의 연산을 통해 바꿔서 원하는 목적을 달성하는 것을 공간적 이미지 필터링 이라고 한다. 많은 경우 2차원 배열을 사용하며 이 배열을 <strong>커널(kernel)</strong> 혹은 <strong>마스크(mask)</strong> 라고 한다. 즉 원본 이미지 <span class="math inline">\(I\)</span> 의 픽셀 <span class="math inline">\([i,\,j]\)</span> 에 대해 부근의 픽셀의 집합 <span class="math inline">\(A_[i,j]\)</span> 을 사용하는 어떤 연산 <span class="math inline">\(F\)</span> 가 정의되어 연산된 이미지 <span class="math inline">\(J\)</span> 가 만들어 진다면, 즉</p>
-<p><span class="math display">\[
-J[i,j] = F\left(A_{[i,j]}\right)
-\]</span></p>
-<p>일 때 이 과정을 공간적 이미지 필터링 이라고 한다.</p>
-<p>필터링 연산이 선형성을 갖는 경우를 이 필터에 의한 연산을 선형 필터라고 하며 대표적으로 평균값 필터와 가우시안 필터가 있다. 선형 필터가 아닌 필터를 비선형 필터라고 한다.</p>
+<p>공간적 필터링은 이미지를 2차원 공간으로 간주한다. 어떤 픽셀의 값을 그 주변값의 연산을 통해 바꿔서 원하는 목적을 달성하는 것을 공간적 이미지 필터링 이라고 한다. 많은 경우 2차원 배열을 사용하며 이 배열을 <strong>커널(kernel)</strong> 혹은 <strong>마스크(mask)</strong> 라고 한다. 즉 원본 이미지 <span class="math inline">\(I\)</span> 의 픽셀 <span class="math inline">\([i,\,j]\)</span> 에 대해 부근의 픽셀의 집합 <span class="math inline">\(N_{[i,j]}\)</span> 을 사용하는 어떤 연산 <span class="math inline">\(F\)</span> 가 정의되어 연산된 이미지 <span class="math inline">\(g\)</span> 가 만들어 진다면, 즉</p>
+<p><span id="eq-ImageProcessing_spatial_image_filter"><span class="math display">\[
+g[i,j] = F\left(N_{[i,j]}\right)
+\tag{8}\]</span></span></p>
+<p>일 때 이 과정을 공간적 이미지 필터링 이라고 한다. 만약 <span class="math inline">\(g[i,\,j]\)</span> 가 <span class="math inline">\(N_{[i, j]}\)</span> 의 성분들의 선형결합이라면 이 필터를 선형 필터(linear filter) 라고 하며, 그렇지 않다면 비선형 필터라고 한다. 대표적으로 주변 <span class="math inline">\(n\)</span> 개의 픽셀의 평균값을 취하는 평균값 필터가 선형 필터이며, 중간값을 취하는 중간값 필터는 비선형 필터이다. 선형 필터는 다음에 나올 <a href="#sec-ImageProcessing_convolution_and_correlation">합성곱</a>으로 표현 할 수 있다.</p>
 <p><br></p>
 <section id="sec-ImageProcessing_padding" class="level3" data-number="5.1">
 <h3 data-number="5.1" class="anchored" data-anchor-id="sec-ImageProcessing_padding"><span class="header-section-number">5.1</span> 가장저리 처리</h3>
-<p>뒤에 나오겠지만 평균값 필터는 이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터이다. 예를 들어 이미지 <span class="math inline">\(I\)</span> 의 <span class="math inline">\([i, j]\)</span> 픽셀 주위의 9개의 평균값으로 필터링 한다면</p>
+<p>뒤에 나오겠지만 평균값 필터는 이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터이다. 예를 들어 이미지 <span class="math inline">\(f\)</span> 의 <span class="math inline">\([i, j]\)</span> 를 중심으로 하는 <span class="math inline">\(3\times 3\)</span> 정사각형에 속하는 9개의 픽셀값의 평균값으로 필터링 한다면</p>
 <p><span class="math display">\[
-J[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} I[i-p,\,j-q]
+g[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} f[i-p,\,j-q]
 \]</span></p>
-<p>일 것이다. 노이즈 처리에 사용 될 수 있다. 이 경우 가장자리 라면, 예를 들어 <span class="math inline">\(i=0\)</span> 이면 <span class="math inline">\(i-1\)</span> 픽셀이 없으므로 문제가 된다. 일반적으로 필터링의 범위를 고려하여 필터링에 방해가 되지 않도록 이미지의 크기를 일시적으로 키우고 원본 이미지에 없던 부분을 적당한 값으로 채운 후(이를 <strong>패딩(padding)</strong> 이라고 한다) 그 이미지 <span class="math inline">\(\overline{I}\)</span> 에 대해 필터링을 하고, 필터링된 이미지 <span class="math inline">\(\overline{J}\)</span> 를 원본 이미지에 맞게 크기를 줄이게 된다. 패딩을 할 때 특정한 값으로 채울 수도 있고(<strong>상수 패딩(constant padding)</strong>), 가장 가까운 원본 이미지 픽셀값을 복사할 수도 있으며(<strong>복제 패딩(replication padding)</strong>), 패딩되는 픽셀에 가장 가까운 원본 이미지 픽셀을 중심으로 대칭이 되도록 원본 픽셀 값을 복사할 수도 있다(<strong>반사 패딩(reflection padding)</strong>).</p>
+<p>일 것이다. 노이즈 처리에 사용 될 수 있다. 이 경우 가장자리 라면, 예를 들어 <span class="math inline">\(i=1\)</span> 이면 <span class="math inline">\(i-1\)</span> 픽셀이 없으므로 문제가 된다. 일반적으로 필터링의 범위를 고려하여 필터링에 방해가 되지 않도록 이미지의 크기를 일시적으로 키우고 원본 이미지에 없던 부분을 적당한 값으로 채운 후(이 작업을 <strong>패딩(padding)</strong> 이라고 한다) 그 이미지 <span class="math inline">\(\overline{f}\)</span> 에 대해 필터링을 하고, 필터링이 모두 끝난 후 필터링된 이미지 <span class="math inline">\(\overline{g}\)</span> 를 원본 이미지에 맞게 크기를 줄이게 된다. 패딩을 할 때 특정한 값으로 채울 수도 있고(<strong>상수 패딩(constant padding)</strong>), 가장 가까운 원본 이미지 픽셀값을 복사할 수도 있으며(<strong>복제 패딩(replication padding)</strong>), 패딩되는 픽셀에 가장 가까운 원본 이미지 픽셀을 중심으로 대칭이 되도록 원본 픽셀 값을 복사할 수도 있다(<strong>반사 패딩(reflection padding)</strong>).</p>
 <p><br></p>
 <div id="fig-ImageProcessing_padding" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -814,7 +872,7 @@ J[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} I[i-p,\,j-q]
 <img src="imgs/padding.png" class="img-fluid figure-img" width="550">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_padding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-그림&nbsp;7: 이미지 패딩
+그림&nbsp;10: 이미지 패딩
 </figcaption>
 </figure>
 </div>
@@ -822,36 +880,49 @@ J[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} I[i-p,\,j-q]
 <p>이후로는 이미지 필터를 다룰 때 사용자가 적절한 패딩을 선택했다고 가정한다.</p>
 <p><br></p>
 </section>
-<section id="비선형-필터-nonlinear-filter" class="level3" data-number="5.2">
-<h3 data-number="5.2" class="anchored" data-anchor-id="비선형-필터-nonlinear-filter"><span class="header-section-number">5.2</span> 비선형 필터 (nonlinear filter)</h3>
+<section id="평균값-필터-mean-filter" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="평균값-필터-mean-filter"><span class="header-section-number">5.2</span> 평균값 필터 (mean filter)</h3>
 <ul>
-<li><p>중앙값 필터 (median filter) : 노이즈 처리에 좋다.</p></li>
-<li><p>표준편차 필터(standard deviation filter) : 엣지 검출에 좋다.</p></li>
+<li><a href="https://docs.opencv.org/4.x/d4/d13/tutorial_py_filtering.html">https://docs.opencv.org/4.x/d4/d13/tutorial_py_filtering.html</a> 를 참고하라.</li>
 </ul>
+<p>노이즈를 줄이고 이미지를 부드럽게 하는 데 사용된다. 필터의 크기는 폭 <code>w</code>, 높이 <code>h</code> 에 대해 <code>cv2.Size(w, h)</code> (즉 여기서는 <code>cvSize(w, h)</code>) 로 결정한다.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cv.<span class="fu">blur</span>(img0, <span class="fl">3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-ImageProcessing_mean_blur_example" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_mean_blur_example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="notebooks/meanblur_example.png" class="img-fluid figure-img" width="500">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_mean_blur_example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;11: 원본 이미지(왼쪽) 와 <span class="math inline">\(5\times 5\)</span> 평균값 필터로 처리된 이미지(오른쪽)
+</figcaption>
+</figure>
+</div>
 <p><br></p>
-<!-- 
-### 가우시안 필터 (Gaussian filter)
-$I[i,j]$ 를 필터링 할 때 주변 값과 정규분포 관계가 있다고 가정한다. 즉 멀수록 관계가 더 적다고 간주한다. 2차원 가우시안 함수는 다음과 같다.
-
-$$
-G(x,\,y | x',\,y') = \dfrac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\dfrac{(x-x')^2+(y-y')^2}{2\sigma^2}\right)
-$$
-
-$J[i,\,j]$ 는 $I[i,\,j]$ 를 중심으로 주변값에 2차원 가우시안 함수에 비례하는 가중치를 두고 그 평균을 계산한 값이 된다. 
-
-python의 cv2 라이브러리에서는 다음과 같이 사용한다.
-
-```python
-filtered_image = cv2.GaussianBlur(original_image, (3, 3), 1.5)
-```
-
-여기서 `(3, 3)` 은 $3 \times 3$ 크기의 커널을 사용한다는 뜻이고 1.5 는 가우시안 분포의 표준편차이다.
-
-</br> -->
+</section>
+<section id="중앙값-필터-median-filter" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="중앙값-필터-median-filter"><span class="header-section-number">5.3</span> 중앙값 필터 (median filter)</h3>
+<p>비선형 필터의 대표적인 필터는 중앙값 필터로 특히 소금-후추 노이즈를 제거하는데 많이 사용된다. 중앙값 필터는 원본 이미지 <code>img</code> 와 커널 크기 <code>ksize</code> 에 대해 <code>OpenCV.medianBlur(img, ksize)</code> 와 같이 사용한다. <code>ksize==3</code> 일 경우 <span class="math inline">\([i, j]\)</span> 를 중심으로하는 <span class="math inline">\(3 \times 3\)</span> 크기의 부분 이미지에 대한 중간값으로 변환시킨다. 앞의 <a href="#fig-ImageProcessing_noise" class="quarto-xref">그림&nbsp;5</a> 의 소금-후추 노이즈 이미지(<code>img_sp</code>) 를 중간값 처리 한 결과는 아래와 같다.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cv.<span class="fu">medianBlur</span>(img_sp, <span class="fl">3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fig-ImageProcessing_median_blur_example" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ImageProcessing_median_blur_example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="notebooks/medianblur_example.png" class="img-fluid figure-img" width="500">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ImageProcessing_median_blur_example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+그림&nbsp;12: 소금 후추 노이즈 이미지(왼쪽) 과 중간값 필터로 처리된 이미지(오른쪽)
+</figcaption>
+</figure>
+</div>
+<p><br></p>
+</section>
+<section id="표준편차-필터standard-deviation-filter" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="표준편차-필터standard-deviation-filter"><span class="header-section-number">5.4</span> 표준편차 필터(standard deviation filter)</h3>
+<p>표준편차 필터는 주변 픽셀값들의 표준편차로 픽셀값을 변환시킨다. 만약 한 픽셀 주변의 값이 서로 크게 바뀐다면 표준 편차 값이 클 것이다. 한 픽셀 주변 값이 서로 비슷하다면 표준 편차 값이 작을 것이다. 일단 이것을 구현해 보자. 우리는 표준편차가 제곱의 평균값에서 평균값의 제곱을 뺀 값의 양의 제곱근이라는 것을 안다.</p>
+<p><br></p>
 </section>
 </section>
-<section id="합성곱-개념으로서의-이미지-필터링" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="합성곱-개념으로서의-이미지-필터링"><span class="header-section-number">6</span> 합성곱 개념으로서의 이미지 필터링</h2>
+<section id="sec-ImageProcessing_convolution_and_correlation" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="sec-ImageProcessing_convolution_and_correlation"><span class="header-section-number">6</span> 합성곱 개념으로서의 이미지 필터링</h2>
 <section id="합성곱과-상관값" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="합성곱과-상관값"><span class="header-section-number">6.1</span> 합성곱과 상관값</h3>
 <div class="callout callout-style-simple callout-note no-icon">
@@ -874,7 +945,7 @@ t:&amp;-b,\, -(b-1),\ldots,\, -1,\,0,\,1,\ldots,\,b-1,\,b,
 (k \ast I)[i, j] &amp;:= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t] \,I[i-s,\, j-t],\\[0.3em]
 (k \otimes I)[i,j] &amp;:= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t]\, I[i+s,\, j+t].
 \end{aligned}
-\tag{8}\]</span></span></p>
+\tag{9}\]</span></span></p>
 </div>
 </div>
 </div>
@@ -892,8 +963,8 @@ k = \begin{bmatrix} 1 &amp; 0 &amp; -1 \\ 1 &amp; 0 &amp; -1 \\ 1 &amp; 0 &amp; 
 <p><span class="math display">\[
 (k\otimes I)[i, j] = 1\times 4 + (-1)* 2 + 1 * 1 + (-1)\times 3 + 1 \times 2 + (-1)\times 1 = 1
 \]</span></p>
-<p>이다. 그러나 합성곱은 <a href="#eq-ImageProcessing_definition_of_convolution_and_correlation" class="quarto-xref">식&nbsp;8</a> 에서 알 수 있듯이 <span class="math inline">\(k\)</span> 의 성분과 대각 위치에 있는 <span class="math inline">\(\tilde{I}_{[i, j]}\)</span> 의 성분의 모든 곱의 합이다. 즉, <span class="math display">\[
-(k\otimes I)[i, j] = 1\times 2 + (-1)* 4 + 1 * 3 + (-1)\times 1 + 1 \times 1 + (-1)\times 2 = -1
+<p>이다. 그러나 합성곱은 <a href="#eq-ImageProcessing_definition_of_convolution_and_correlation" class="quarto-xref">식&nbsp;9</a> 에서 알 수 있듯이 <span class="math inline">\(k\)</span> 의 성분과 대각 위치에 있는 <span class="math inline">\(\tilde{I}_{[i, j]}\)</span> 의 성분의 모든 곱의 합이다. 즉, <span class="math display">\[
+(k \ast I)[i, j] = 1\times 2 + (-1)* 4 + 1 * 3 + (-1)\times 1 + 1 \times 1 + (-1)\times 2 = -1
 \]</span></p>
 <p>이다. 혹은 합성곱은 커널을 180 도 회전시킨 행렬과의 상관값이라고 생각 할 수도 있다. 또 커널과 합성곱의 중요한 차이는 아래 표와 같다.</p>
 <div id="tbl-ImageProcessing_convolution_and_correlation" class="quarto-float anchored">
@@ -1097,11 +1168,11 @@ J[i,j]=m_{ij} + \dfrac{\sigma^2_{ij}}{\sigma^2_{ij} + \sigma^2_N} {\big(} I[i,j]
 <section id="파이썬에서의-위너-필터" class="level4">
 <h4 class="anchored" data-anchor-id="파이썬에서의-위너-필터">파이썬에서의 위너 필터</h4>
 <p>파이썬에서는 scipy 에서 wiener filter를 사용한다. Library refence 를 보면 대놓고 matlab의 wiener2 함수를 implementation 했다고 나온다. 사용법은 다음과 같다.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.signal.signaltools <span class="im">import</span> wiener</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img, mysize<span class="op">=</span><span class="dv">3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.signal.signaltools <span class="im">import</span> wiener</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img, mysize<span class="op">=</span><span class="dv">3</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>여기서 mysize 는 kernel size 이다. 자세한 것은 library reference 참고. 이 때 주의할 것은 original_img 가 0 에서 255 사이의 정수값을 갖는, 보통 gray scale image 에서 많이 사용되는 uint8 형식의 정수형이면 안된다. 이 경우 다음과 같이 사용하는 것이 좋다.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img.astype(np.float64), ksize)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>filtered_img <span class="op">=</span> wiener(original_img.astype(np.float64), ksize)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
