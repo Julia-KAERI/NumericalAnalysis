@@ -70,4 +70,4 @@ end
 
 function cvSize(w::T1, h::T2) where {T1<:Integer, T2<:Integer}
     return cv.Size(Int32(w), Int32(h))
-end
+end;

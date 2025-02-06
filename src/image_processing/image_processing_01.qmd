@@ -19,11 +19,11 @@ crossref:
 - 여기서 다루는 이미지는 디지털 이미지이다. 정해진 크기의 수로 이루어진 2차원 배열을 이미지라고 통칭한다.
 - 2차원 배열을 $f[i,j]$ 로 표기하며, 행렬과 같이 $i$ 는 세로 방향의 인덱스, $j$ 는 가로 방향의 인덱스이다.
 
-프로그래밍에서 2차원 배열의 인덱스는 관례적으로 세로축-가로축 순서이지만, 수학에서 함수로서 표현할 때는 관례적으로 가로축-세로축 순서이다. 이것이 매우 혼동을 일으키지만 이 관례를 계속 사용하기로 한다. 즉
+프로그래밍에서 2차원 배열의 인덱스는 행렬 표기의 관례를 따라 세로축-가로축 순서이지만, 수학에서 함수로서 표현할 때는 가로축-세로축 순서이다. 이것이 매우 혼동을 일으키지만 이 관례를 계속 사용하기로 한다. 즉
 
 $$
 \boxed{
-    f[i,\,j]= f(j, i)
+    I[i,\,j]= I(j, i)
 }
 $$
 
@@ -82,7 +82,7 @@ end
 
 - 각 픽셀 단위의 이미지 처리를 의미한다. 즉 픽셀에 대한 연신이 다른 픽셀의 정보와 독립적으로 이루어진다.
 
-- Gray scale image $f[i, j]$ 를 생각하자. $0\le f[i,\,j] \le 255$ 이다.
+- Gray scale image $I[i, j]$ 를 생각하자. $0\le I[i,\,j] \le 255$ 이다.
 
 </br>
 
@@ -90,7 +90,7 @@ end
 
 상수 $a$ 와 $b>0$ 에 대해 
 $$
-T_i[f][i, j] = a-b f[i, j],\qquad 0 \le T_i[f] \le 255
+T_i[I][i, j] = a-b I[i, j],\qquad 0 \le T_i[I] \le 255
 $$
 
 인 이미지 연산을 픽셀 반전법 이라고 한다. $a=255,\, b=1$ 일 경우 완전한 흑백 반전이다. `TestImages.jl` 로부터 테스트 이미지를 다운받아 처리하였다.
@@ -109,11 +109,11 @@ r = arr2mat(cat(img1, img2;dims=2))
 
 - $\gamma>0$ 에 대해 다음과 같이 변환한다.
 $$
-T_\gamma [f][i, j]  = f[i, j]^\gamma 
+T_\gamma [I][i, j]  = I[i, j]^\gamma 
 $$
 
 - $\gamma$ 값이 $1$ 보다 상당히 크면 픽셀 값이 클수록, $\gamma$ 값이 $1$ 보다 상당히 작으면 픽셀값이 작을수록 대조가 현저해진다.
-- $0\le f\le 255$ 일 때 $\gamma<1$ 이면 $f^\gamma < 255$ 이며 $\gamma>1$ 이면 $f^\gamma>255$ 일 수 있으므로 최대값이 255가 넘지 않도록 해 준다.
+- $0\le I[i,j]\le 255$ 일 때 $\gamma<1$ 이면 $I^\gamma[i, j] < 255$ 이며 $\gamma>1$ 이면 $I^\gamma[i,j]>255$ 일 수 있으므로 최대값이 255가 넘지 않도록 해 준다.
 - 원본 이미지가 1024x1024 로 크기 때문에 그 크기를 줄여주었다.
 
 ```julia
@@ -347,7 +347,7 @@ $$
 ### 보간법 {#sec-ImageProcessing_interpolation}
 
 
-아핀 변환 혹은 원근 변환 $T$ 에 대해 이미지 $f$ 를 변환시켜 $g=T[f]$ 인 이미지를 얻고자 한다고 하자. 즉 정해진 $i,\,j$ 의 범위에 대해 $g[i,j]$ 전체를 얻어야 한다. $T$ 가 가역변환이므로 $f=T^{-1}[g]$ 이므로 $f[i',\,j'] = T^{-1}[g][i, j]$ 를 통해 $f[i',\,j']$ 의 값으로 $g[i,\,j]$ 를 채울 수 있으면 좋겠지만 $i',\,j'$ 은 대부분 정수가 아니다. 이 때 **보간법(interpolation)** 을 사용하여, $T[g]^{-1}[i,\,j]$ 로 정해지는 $(x,\,y)$ 근처의 $f[i,j]$ 값을 이용하여 $g[i,\,j]$ 값을 구한다.
+아핀 변환 혹은 원근 변환 $T$ 에 대해 이미지 $F$ 를 변환시켜 $G=T[F]$ 인 이미지를 얻고자 한다고 하자. 즉 정해진 $i,\,j$ 의 범위에 대해 $G[i,j]$ 전체를 얻어야 한다. $T$ 가 가역변환이므로 $F=T^{-1}[G]$ 이므로 $F[i',\,j'] = T^{-1}[G][i, j]$ 를 통해 $F[i',\,j']$ 의 값으로 $g[i,\,j]$ 를 채울 수 있으면 좋겠지만 $i',\,j'$ 은 대부분 정수가 아니다. 이 때 **보간법(interpolation)** 을 사용하여, $T[G]^{-1}[i,\,j]$ 로 정해지는 $(x,\,y)$ 근처의 $F[i,j]$ 값을 이용하여 $G[i,\,j]$ 값을 구한다.
 
 </br>
 
@@ -355,7 +355,7 @@ $$
 
 $(x,\,y)$ 에 가장 가까운 정수 값으로 보간하는 것이다. 즉
 $$
-f(x,\,y) \mapsto f(\text{round}(x),\, \text{round}(y))
+F(x,\,y) \mapsto F(\text{round}(x),\, \text{round}(y))
 $${#eq-ImageProcessing_nearest_neighbor_interpolation}
 
 를 사용한다. 가장 간단하면서도 빠르지만 변환된 이미지의 품질이 좋지 못하다.
@@ -374,8 +374,8 @@ $$
 
 $$
 \begin{aligned}
-f(x,\,y) &= (1-x+j)(1-y+i)f(j, i) + (1-x+j)(y-i)f(j,\,i+1) \\[0.3em]
-&+ (x-j)(1-y+i)f(j+1, i) + (x-j)(y-i)f(j+1, i+1).
+F(x,\,y) &= (1-x+j)(1-y+i)F(j, i) + (1-x+j)(y-i)F(j,\,i+1) \\[0.3em]
+&+ (x-j)(1-y+i)F(j+1, i) + (x-j)(y-i)F(j+1, i+1).
 \end{aligned}
 $$ {#eq-ImageProcessing_bilinear_interpolation}
 
@@ -398,7 +398,7 @@ $$
 
 에 대해 다음 함수를 이용하여 계산한다.
 $$
-f(x,\,y) = \sum_{k=-1}^2 \sum_{m=-1}^2 f(j+k, i+m)d(x- j-k)d(y - i-m)
+F(x,\,y) = \sum_{k=-1}^2 \sum_{m=-1}^2 F(j+k, i+m)d(x- j-k)d(y - i-m)
 $$
 
 </br>
@@ -484,13 +484,13 @@ s = arr2mat(cat(img1, img2, img3; dims=2))
 
 ## 공간적 이미지 필터링 {#sec-ImageProcessing_spatial_image_filtering}
 
-공간적 필터링은 이미지를 2차원 공간으로 간주한다. 어떤 픽셀의 값을 그 주변값의 연산을 통해 바꿔서 원하는 목적을 달성하는 것을 공간적 이미지 필터링 이라고 한다. 많은 경우 2차원 배열을 사용하며 이 배열을 **커널(kernel)** 혹은 **마스크(mask)** 라고 한다. 즉 원본 이미지 $I$ 의 픽셀 $[i,\,j]$ 에 대해 부근의 픽셀의 집합 $N_{[i,j]}$ 을 사용하는 어떤 연산 $F$ 가 정의되어 연산된 이미지 $g$ 가 만들어 진다면, 즉
+공간적 필터링은 이미지를 2차원 공간으로 간주한다. 어떤 픽셀의 값을 그 주변값의 연산을 통해 바꿔서 원하는 목적을 달성하는 것을 공간적 이미지 필터링 이라고 한다. 많은 경우 2차원 배열을 사용하며 이 배열을 **커널(kernel)** 혹은 **마스크(mask)** 라고 한다. 즉 원본 이미지 $F$ 의 픽셀 $[i,\,j]$ 에 대해 부근의 픽셀의 집합 $N_{[i,j]}$ 을 사용하는 어떤 연산 $H$ 가 정의되어 연산된 이미지 $G$ 가 만들어 진다면, 즉
 
 $$
-g[i,j] = F\left(N_{[i,j]}\right)
+G[i,j] = H\left(N_{[i,j]}\right)
 $$ {#eq-ImageProcessing_spatial_image_filter}
 
-일 때 이 과정을 공간적 이미지 필터링 이라고 한다. 만약 $g[i,\,j]$ 가 $N_{[i, j]}$ 의 성분들의 선형결합이라면 이 필터를 선형 필터(linear filter) 라고 하며, 그렇지 않다면 비선형 필터라고 한다. 대표적으로 주변 $n$ 개의 픽셀의 평균값을 취하는 평균값 필터가 선형 필터이며, 중간값을 취하는 중간값 필터는 비선형 필터이다. 선형 필터는 다음에 나올 [합성곱](#sec-ImageProcessing_convolution_and_correlation)으로 표현 할 수 있다.
+일 때 이 과정을 공간적 이미지 필터링 이라고 한다. 만약 $G[i,\,j]$ 가 $N_{[i, j]}$ 의 성분들의 선형결합이라면 이 필터를 선형 필터(linear filter) 라고 하며, 그렇지 않다면 비선형 필터라고 한다. 대표적으로 주변 $n$ 개의 픽셀의 평균값을 취하는 평균값 필터가 선형 필터이며, 중간값을 취하는 중간값 필터는 비선형 필터이다. 선형 필터는 다음에 나올 [합성곱](#sec-ImageProcessing_convolution_and_correlation)으로 표현 할 수 있다.
 
 <br>
 
@@ -499,10 +499,10 @@ $$ {#eq-ImageProcessing_spatial_image_filter}
 뒤에 나오겠지만 평균값 필터는 이미지의 어떤 픽셀과 그 주변의 선택된 픽셀값과의 평균으로 필셀값을 대체하는 필터이다. 예를 들어 이미지 $f$ 의 $[i, j]$ 를 중심으로 하는 $3\times 3$ 정사각형에 속하는 9개의 픽셀값의 평균값으로 필터링 한다면
 
 $$
-g[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} f[i-p,\,j-q]
+G[i,\,j]=\frac{1}{9} \sum_{p=-1,\,0,\,1} \sum_{q=-1,\,0,\,1} F[i-p,\,j-q]
 $$
 
-일 것이다. 노이즈 처리에 사용 될 수 있다. 이 경우 가장자리 라면, 예를 들어 $i=1$ 이면 $i-1$ 픽셀이 없으므로 문제가 된다. 일반적으로 필터링의 범위를 고려하여 필터링에 방해가 되지 않도록 이미지의 크기를 일시적으로 키우고 원본 이미지에 없던 부분을 적당한 값으로 채운 후(이 작업을 **패딩(padding)** 이라고 한다) 그 이미지 $\overline{f}$ 에 대해 필터링을 하고, 필터링이 모두 끝난 후 필터링된 이미지 $\overline{g}$ 를 원본 이미지에 맞게 크기를 줄이게 된다. 패딩을 할 때 특정한 값으로 채울 수도 있고(**상수 패딩(constant padding)**), 가장 가까운 원본 이미지 픽셀값을 복사할 수도 있으며(**복제 패딩(replication padding)**), 패딩되는 픽셀에 가장 가까운 원본 이미지 픽셀을 중심으로 대칭이 되도록 원본 픽셀 값을 복사할 수도 있다(**반사 패딩(reflection padding)**).
+일 것이다. 노이즈 처리에 사용 될 수 있다. 이 경우 가장자리 라면, 예를 들어 $i=1$ 이면 $i-1$ 픽셀이 없으므로 문제가 된다. 일반적으로 필터링의 범위를 고려하여 필터링에 방해가 되지 않도록 이미지의 크기를 일시적으로 키우고 원본 이미지에 없던 부분을 적당한 값으로 채운 후(이 작업을 **패딩(padding)** 이라고 한다) 그 이미지 $\overline{F}$ 에 대해 필터링을 하고, 필터링이 모두 끝난 후 필터링된 이미지 $\overline{g}$ 를 원본 이미지에 맞게 크기를 줄이게 된다. 패딩을 할 때 특정한 값으로 채울 수도 있고(**상수 패딩(constant padding)**), 가장 가까운 원본 이미지 픽셀값을 복사할 수도 있으며(**복제 패딩(replication padding)**), 패딩되는 픽셀에 가장 가까운 원본 이미지 픽셀을 중심으로 대칭이 되도록 원본 픽셀 값을 복사할 수도 있다(**반사 패딩(reflection padding)**).
 
 </br>
 
@@ -544,11 +544,26 @@ cv.medianBlur(img_sp, 3)
 
 표준편차 필터는 주변 픽셀값들의 표준편차로 픽셀값을 변환시킨다. 만약 한 픽셀 주변의 값이 서로 크게 바뀐다면 표준 편차 값이 클 것이다. 한 픽셀 주변 값이 서로 비슷하다면 표준 편차 값이 작을 것이다. 일단 이것을 구현해 보자. 우리는 표준편차가 제곱의 평균값에서 평균값의 제곱을 뺀 값의 양의 제곱근이라는 것을 안다. 
 
+```julia
+imgx = cv.Mat(convert.(Float32, img0))
+imgx_sq = cv.Mat(imgx .* imgx)
+imgx_mu = cv.blur(imgx, cvSize(3, 3))
+imgx_sqmu = cv.blur(imgx_sq, cvSize(3, 3))
+imgx_musq = cv.Mat(imgx_mu .* imgx_mu)
+img_sdfiltered = cv.Mat(imgx_sqmu .- imgx_musq)
+```
+
+![표준편차 필터](notebooks/stdfilter_example.png){#fig-ImageProcessing_stdfilter_example width=500}
+
+
+표준편차 필터는 위의 영상처럼 원본 영상 속 피사체의 윤곽을 도드러지게 보여준다. 
 
 </br>
 
 
 ## 합성곱 개념으로서의 이미지 필터링 {#sec-ImageProcessing_convolution_and_correlation}
+
+합성곱과 상관값은 공간적 이미지 필터링의 일종이다. 
 
 ### 합성곱과 상관값
 
@@ -558,7 +573,7 @@ cv.medianBlur(img_sp, 3)
 
 #### 합성곱과 상관값
 
-원본 이미지 $I[i,\,j]$ 와 커널 $k[s,\,t]$ 을 생각하자. 이 때 커널은 $(2a+1)\times (2b+1)$ 크기의 2차원 배열이며 커널 배열의 인덱스는 
+원본 이미지 $F[i,\,j]$ 와 커널 $K[s,\,t]$ (혹은 마스크(mask) 라고도 한다) 을 생각하자. 이 때 커널은 $(2a+1)\times (2b+1)$ 크기의 2차원 배열이며 커널 배열의 인덱스는 
 
 $$
 \begin{aligned}
@@ -571,8 +586,8 @@ $$
 
 $$
 \begin{aligned}
-(k \ast I)[i, j] &:= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t] \,I[i-s,\, j-t],\\[0.3em]
-(k \otimes I)[i,j] &:= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t]\, I[i+s,\, j+t].
+(K \ast F)[i, j] &:= \sum_{s=-a}^{a} \sum_{t=-b}^b K[s,\,t] \,F[i-s,\, j-t],\\[0.3em]
+(K \otimes F)[i,j] &:= \sum_{s=-a}^{a} \sum_{t=-b}^b K[s,\,t]\, F[i+s,\, j+t].
 \end{aligned}
 $$ {#eq-ImageProcessing_definition_of_convolution_and_correlation}
 
@@ -585,33 +600,33 @@ $$ {#eq-ImageProcessing_definition_of_convolution_and_correlation}
 우선 상관값을 살펴 보자. 커널이 
 
 $$
-k = \begin{bmatrix} 1 & 0 & -1 \\ 1 & 0 & -1 \\ 1 & 0 & -1\end{bmatrix}
+K = \begin{bmatrix} 1 & 0 & -1 \\ 1 & 0 & -1 \\ 1 & 0 & -1\end{bmatrix}
 $$
 
-이고 원본 이미지의 $I[i, j]$ 를 중심으로 한 $3\times 3$ 배열이 
+이고 원본 이미지의 $F[i, j]$ 를 중심으로 한 $3\times 3$ 배열이 
 
 $$
-\tilde{I}_{[i, j]}= I[i-1:i+1, j-1:j+1]= \begin{bmatrix} 4 & 0 & 2 \\ 1 & 0 & 3 \\ 2 & 3 & 1\end{bmatrix}
+\tilde{F}_{[i, j]}= F[i-1:i+1, j-1:j+1]= \begin{bmatrix} 4 & 0 & 2 \\ 1 & 0 & 3 \\ 2 & 3 & 1\end{bmatrix}
 $$
 
-이라면 $(k\otimes I)[i, j]$ 는 $k$ 와 $\tilde{I}_{[i, j]}$ 의 성분별 곱의 합으로 정의된다. 즉
+이라면 $(K\otimes F)[i, j]$ 는 $K$ 와 $\tilde{F}_{[i, j]}$ 의 성분별 곱의 합으로 정의된다. 즉
 
 $$
 (k\otimes I)[i, j] = 1\times 4 + (-1)* 2 + 1 * 1 + (-1)\times 3 + 1 \times 2 + (-1)\times 1 = 1
 $$
 
-이다. 그러나 합성곱은 @eq-ImageProcessing_definition_of_convolution_and_correlation 에서 알 수 있듯이 $k$ 의 성분과 대각 위치에 있는 $\tilde{I}_{[i, j]}$ 의 성분의 모든 곱의 합이다. 즉,
+이다. 그러나 합성곱은 @eq-ImageProcessing_definition_of_convolution_and_correlation 에서 알 수 있듯이 $K$ 의 성분과 대각 위치에 있는 $\tilde{F}_{[i, j]}$ 의 성분의 모든 곱의 합이다. 즉,
 $$
-(k \ast I)[i, j] = 1\times 2 + (-1)* 4 + 1 * 3 + (-1)\times 1 + 1 \times 1 + (-1)\times 2 = -1
+(K \ast F)[i, j] = 1\times 2 + (-1)* 4 + 1 * 3 + (-1)\times 1 + 1 \times 1 + (-1)\times 2 = -1
 $$
 
 이다. 혹은 합성곱은 커널을 180 도 회전시킨 행렬과의 상관값이라고 생각 할 수도 있다. 또 커널과 합성곱의 중요한 차이는 아래 표와 같다.
 
 | 성질 | 합성곱 | 상관값  |
 |:-----:|:-------------:|:-------------:|
-| commtative | $f\ast g = g \ast f$ | $-$ |
-| associative | $f\ast(g \ast h) = (f \ast g)\ast h$ | $-$ |
-| distributive | $f\ast(g+h)= f\ast g + f \ast h$ | $f\otimes (g + h) = f\otimes g + f \otimes h$| 
+| commtative | $F\ast G = G \ast F$ | $-$ |
+| associative | $F\ast(G \ast H) = (F \ast G)\ast H$ | $-$ |
+| distributive | $F\ast(G+H)= F\ast G + F \ast H$ | $F\otimes (G + H) = F\otimes G + F \otimes H$| 
 : 합성곱과 상관값의 수학적 성질 {#tbl-ImageProcessing_convolution_and_correlation}
 
 </br>
@@ -623,14 +638,14 @@ $$
 
 ::: {#exm-ImageProcessing_convolution_and_correlation}
 
-@def-ImageProcessing_convolution_and_correlation 의 커널 인덱스 표기법을 사용하자. 커널이 $k[-s,\,-t] = k[s,\,t]$ 라면 $k\ast I = k \otimes I$ 임을 보일 수 있다.
+@def-ImageProcessing_convolution_and_correlation 의 커널 인덱스 표기법을 사용하자. 커널이 $K[-s,\,-t] = K[s,\,t]$ 라면 $K\ast F =  K \otimes F$ 임을 보일 수 있다.
 
 $$
 \begin{aligned}
-(k \ast I)[i,\,j] &= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\,t] \,I[i-s,\, j-t] &&; s\to -s,\, t\to -t \\
-&=\sum_{s=-a}^{a} \sum_{t=-b}^b k[-s,\, -t] I[i+s,\, j+t] &&;k[-s,\,-t] = k[s,\,t]\\
-&= \sum_{s=-a}^{a} \sum_{t=-b}^b k[s,\, t] I[i+s,\, j+t] \\
-&= (k\otimes I)[i, j]
+(K \ast F)[i,\,j] &= \sum_{s=-a}^{a} \sum_{t=-b}^b K[s,\,t] \,F[i-s,\, j-t] &&; s\to -s,\, t\to -t \\
+&=\sum_{s=-a}^{a} \sum_{t=-b}^b K[-s,\, -t] F[i+s,\, j+t] &&;K[-s,\,-t] = K[s,\,t]\\
+&= \sum_{s=-a}^{a} \sum_{t=-b}^b K[s,\, t] F[i+s,\, j+t] \\
+&= (K\otimes F)[i, j]
 \end{aligned}
 $$
 
@@ -641,20 +656,119 @@ $$
 
 가끔 합성곱과 상관값이 서로 혼용되기도 한다. 예를 들어 신경망의 합성곱 신경망(convolutional neural network, CNN) 에서는 실제로 이름에 나온 합성곱 연산이 아닌 상관 연산을 사용한다. 그러나 역사적, 관례적 이유로 합성곱 신경망이라는 이름을 사용한다.
 
+</br>
+
+### 분리 가능한 필터 커널
+
+
+::: {.callout-note appearance="simple" icon="false"}
+
+::: {#def-ImageProcessing_seperable_kernel}
+#### 분리 가능한 커널
+
+열벡터 $\bf{v},\, \bf{w}$ 에 대해 커널 행렬 $\bf{K}$ 가 
+
+$$
+\bf{K}= \bf{v}\bf{w}^T
+$$
+
+의 형태로 쓸 수 있을 때 이 커널을 분리 가능한 커널이라고 한다. 
+
+:::
+:::
+
+</br>
+
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
+
+::: {#prp-ImageProcessing_seperable_kernel}
+
+$m \times n$ 행렬 $\bf{K}$ 가 @def-ImageProcessing_seperable_kernel 와 같이 분리가능하다면 $\bf{K} = \bf{v}\ast \bf{w}^T$ 이다. 즉 두 벡터의 합성곱이다.
+
+:::
+
+</div>
+</br>
+
+::: {.proof}
+
+$$
+K[i,j] = v_i w_j = v[i, 0] (w^T)[0, j]=\sum_{s=0} \sum_{t=0} v[s, t] w^T[0+s, j+t] = v \ast w^T
+$$
+
+이므로 $\bf{K}$ 는 $\bf{v}$ 와 $\bf{w}^T$ 의 합성곱이다. $\square$
+
+::: 
+
+</br>
+
+$K= v \ast w$ 라면
+
+$$
+K \ast f = (v \ast w) \ast f = v \ast (w \ast f)
+$$
+
+이다. 즉 분리 가능한 커널을 순차적으로 적용시킨 것과 같다. $M \times N$ 이미지 $f$ 에 대해 $m\times n$ 커널 $K$ 를 이용하여 필터링했다면 한 픽셀당 $mn$ 번의 곱셈과 $mn-1$ 번의 덧셈, 그리고 1번의 할당을 수행하며, 이것을 $MN$ 번 수행하므로 모두 $MN(2mn)$ 번의 연산을 수행한다. $(w\ast f)$ 연산에는 $MN(2n)$ 번의 연산을 수행하며 이후 $v$ 를 적용하면 $MN(2m)$ 번의 연산을 수행하므로 모두 $MN(2m+2n)$ 번의 연산을 수행한다. 즉 두가지 동일한 결과를 낳는 연산의 연산 횟수 비가
+
+$$
+\text{ratio}=\dfrac{Mn(2mn)}{Mn(2m+2n)}= \dfrac{mn}{m+n}
+$$
+
+이다. $m=n=5$ 일 경우 분리 가능한 커널을 분리하여 사용하는 것이 연산 횟수가 2.5배 줄며 $m=n=11$ 일 경우 5.5 배 줄게 된다. 물론 연산 횟수의 감소가 그만큼의 시간의 절약을 정확하게 의미하지는 않지만 커널이 클 때 분리가능하다면 이 방법을 사용하는 것은 큰 장점이 된다.
+
+
+</br>
+
+<div class="border" style="background-color:#FFF0F5 ;padding:5px;">
+
+::: {#prp-ImageProcessing_seperable_kernel_and_rank}
+
+영행렬이 아닌 $m \times n$ 행렬 $\bf{K}$ 가 @def-ImageProcessing_seperable_kernel 와 같이 분리가능한 것과 $\rank(\bf{K})=1$ 은 동치이다.
+:::
+
+</div>
+</br>
+
+::: {.proof}
+
+$\bf{K}=\bf{v}\bf{w}^T$ 이고 $\bf{v}$, $\bf{w}$ 가 모두 열벡터 이므로 두 행렬의 $\rank$ 는 $0$ 혹은 $1$ 이다. 둘 중 하나가 $\rank 0$ 이면 $\bf{K}=\bf{0}$ 이므로 가정에 모순된다. 따라서 두 열벡터는 모두 $\rank 1$ 열벡터 이며 따라서 $\rank(\bf{K})=1$ 이다.
+
+이제 $\rank (\bf{K})=1$ 이면 $\bf{K}$ 에는 $\bf{0}^T$ 가 아닌 행 $\bf{k}^T$ 가 존재하며 나머지 행은 $\bf{k}^T$ 의 (0 을 포함한)스칼라 곱이다. 첫번째 행 $\bf{k}^T$ 이 $\bf{0}^T$ 가 아니라고 하자.
+
+$$
+\bf{K} = \begin{bmatrix} \bf{k}^T \\ a_2 \bf{k}^T \\ \vdots \\ a_m \bf{k}^T\end{bmatrix} = \begin{bmatrix} 1 \\ a_2 \\ \vdots \\ a_m \end{bmatrix} \bf{k}^T
+$$
+
+이다. 즉 $\rank(\bf{K})=1$ 이면 $\bf{K}$ 는 분리가능하다. $\square$
+:::
+
+</br>
+
+합성곱은 `cv.filter2D` 함수를 이용한다. [OpenCV 관련 페이지](https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html) 를 참고하라. 뒤에 나올 소벨 커널(@eq-ImageProcessing_sobel_kernel) 의 $G_x$ 를 적용하면
+
+```julia
+K1 = arr2mat(Int32[1 0 -1; 2 0 -2; 1 0 -1])
+cv.filter2D(img0, -1, K1)
+```
+
+![2D 필터](notebooks/filter_example.png){#fig-ImageProcessing_filter_example width=500}
+
+`cv.filter2D` 함수의 두번째 인자 `-1` 은 입력 이미지 `img0` 와 같은 성분의 타입을 사용하라는 의미이다.
 
 </br>
 
 ## 빈도 필터
 
 ### 이미지에 있어 ‘빈도 (frequency)’
-- 이미지에서 어떤 픽셀과 바로 이웃한 픽셀의 값이 매우 큰 차이를 보일 때 그 픽셀을 중심으로 픽셀 값의 ‘변화’는 매우 크다고 할 수 있다. 이렇게 픽셀 값의 변화가 매우 짧은 픽셀 간격에서 나타날 때, 그 픽셀은 <b>높은 주파수 성분</b>, 반대의 경우를 <b>낮은 주파수 성분</b>이라고 부른다.
+
+이미지의 빈도 혹은 주파수(frequency) 는 매우 많이 등장하는 개념이지만 혼동되기 쉽다. 이미지에서 어떤 픽셀과 바로 이웃한 픽셀의 값이 매우 큰 차이를 보일 때 그 픽셀을 중심으로 픽셀 값의 ‘변화’는 매우 크다고 할 수 있다. 이렇게 픽셀 값의 변화가 매우 짧은 픽셀 간격에서 나타날 때, 그 픽셀은 <b>높은 주파수 성분</b>, 반대의 경우를 <b>낮은 주파수 성분</b>이라고 부른다.
 
 <br>
 
-#### 하이패스 필터 (high-pass filter), 로우패스 필터 (low-pass filter)
-- 필터가 낮은 빈도를 나타내는 성분만 제거하거나 픽셀 값을 줄이는 기능을 갖는다면 하이패스 필터라 하고, 그 반대의 경우를 로우패스 필터라 한다.
+#### **하이패스 필터 (high-pass filter)**, **로우패스 필터 (low-pass filter)**
+- 필터가 낮은 빈도를 나타내는 성분만 제거하거나 픽셀 값을 줄이는 기능을 갖는다면 하이패스(high-pass) 필터라 하고, 그 반대의 경우를 로우패스(low-pass) 필터라 한다.
 - 사실 하이패스 필터는 이미지에서 가장자리 (엣지, edge)를 찾아 내거나 가장자리 신호를 선택적으로 강화하는 기능으로 자주 사용된다. 
-- 앞서 살펴 본 평균값, 중간값, 가우시안 필터 등이 로우패스 필터이다. 
+- 로우 패스 필터는 반대로 픽셀 값의 변화를 줄이는 역할을 한다. 일반적으로 노이즈 감소 필터는 로우 패스 필터이다. 앞서 살펴 본 평균값 필터, 중간값 필터, 가우시안 필터 등이 로우패스 필터이다. 로우 필터 패스를 사용하면 영상의 차이가 흐려지는 역할을 하기 때문에 블러링(blurring) 이라고 불리기도 한다.
 
 </br>
 
@@ -663,26 +777,41 @@ $$
 <br>
 
 #### **Unsharp mask**
-- 원본 이미지를 일단 평균값 필터링 같은 로우패스 필터로 블러링 (blurring) 처리한 후, 원본 이미지에서 처리된 이미지를 빼서 차이 값으로 이루어진 행렬을 ‘Unsharp mask’ 라 한다. 원본이미지를 $I[i,j]$, 블러링 된 이미지를 $\overline{I}[i,j]$ 라 하면 unsharp mask $M[i,j]$ 는 다음과 같다.
+- 원본 이미지를 일단 평균값 필터링 같은 로우패스 필터로 블러링 (blurring) 처리한 후, 원본 이미지에서 처리된 이미지를 빼서 차이 값으로 이루어진 행렬을 ‘Unsharp mask’ 라 한다. 원본이미지를 $F[i,j]$, 블러링 된 이미지를 $\overline{F}[i,j]$ 라 하면 unsharp mask $M[i,j]$ 는 다음과 같다.
 
 $$
-M[i,j]=I[i,j]-\overline{I}[i,j]
-$$
+M[i,j]=F[i,j]-\overline{F}[i,j]
+$$ {#eq-ImageProcessing_unsharp_mask}
 
 <br>
 
 #### **Highboost filtering**
-- 이 때 어떤 1보다 큰 양의 실수 $k$ 를 $M[i,j]$ 에 곱해서 원본에 더해준다면 가장자리신호가 더 현저해지며 이것을 highboost filtering 이라 한다. 즉
+- 이 때 어떤 1보다 큰 양의 실수 $c$ 를 $M[i,j]$ 에 곱해서 원본에 더해준다면 가장자리신호가 더 현저해지며 이것을 highboost filtering 이라 한다. 즉
 
 $$
-J[i,j]=I[i,j]+k\,M[i,j] = I[i,j]+k(I[i,j]-\overline{I}[i,j])
-$$
+G[i,j]=F[i,j]+c\,M[i,j] = F[i,j]+c(F[i,j]-\overline{F}[i,j])
+$$ {#eq-ImageProcessing_highboost_filtering}
 
 </br>
 
 ### Differential High-pass Filter
 
-픽셀에 미분을 적용한다면 일단 간단하게 생각하면, $x$ 방향 편미분은 $\partial_x I [i,j]=I[i,j]-I[i-1,j]$ or $\partial_x I[i,j]=I[i+1,j]-I[i,j]$ 이며 $y$ 방향 편미분은 $\partial_y I[i,j]=I[i,j]-I[i,j-1]$ 혹은 $\partial_y I[i,j]=I[i,j+1]-I[i,j]$ 가 될 것이다. 
+픽셀에 미분, 즉 차분을 적용한다고 하자. 일단 가장 간단하게 생각하면 $x$ 방향 편미분은 
+
+$$
+\partial_x F [i,j] = F[i,j]-F[i-1,j],\qquad \text{or} \qquad \partial_x F[i,j] = F[i+1,j]-F[i,j]
+$$
+
+이며 $y$ 방향 편미분은 
+
+$$
+\partial_y F[i,j] = F[i,j]-F[i,j-1],\qquad \text{or} \qquad \partial_y F[i,j]=F[i,j+1]-F[i,j]
+$$
+
+가 될 것이다. 이것을 그대로 적용 시킨 커널을 만들 수도 있지만 노이즈에 취약하기 때문에 거의 사용되지 않는다. 
+
+
+
 
 <br>
 
@@ -692,7 +821,7 @@ $$
 
 $$
 G_x = \begin{bmatrix} +1&0&0 \\ 0&-1&0 \\ 0&0&0 \end{bmatrix}, \quad G_y=\begin{bmatrix}0&+1&0\\-1&0&0\\0&0&0 \end{bmatrix}
-$$
+$$ {#eq-ImageProcessing_roberts_kernel}
 
 <br>
 
@@ -701,7 +830,7 @@ $$
 $$
 G_x = \begin{bmatrix}+1&0&-1\\+1&0&-1\\+1&0&-1\end{bmatrix}, \qquad 
 G_y = \begin{bmatrix}+1&+1&+1\\0&0&0\\-1&-1&-1\end{bmatrix}
-$$
+$$ {#eq-ImageProcessing_prewitt_kernel}
 
 <br>
 
@@ -710,15 +839,15 @@ $$
 $$
 G_x = \begin{bmatrix}+1&0&-1\\+2&0&-2\\+1&0&-1\end{bmatrix},\qquad
 G_y = \begin{bmatrix}+1&+2&+1\\0&0&0\\-1&-2&-1\end{bmatrix}
-$$
+$$ {#eq-ImageProcessing_sobel_kernel}
 
 
 </br>
 
 ### Laplaician filter
 
-- 1차 미분 필터들은 한 번만 차분 값을 계산하기 때문에, 차 분의 크기도 작고, 이로 인해서 경계가 확실한 부분만 추출할 수 있는 반면, 노이즈가 있거나 엣지 (edge)의 강도가 약한 부분에는 불완전한 추출을 보이는 한계가 있다. 
-- 이를 극복하기 위해 개발된 필터가 2차 미분형, 즉, 라플라시안 필터 (Laplacian filter) 이다. 라플라시안 필터는 말 그대로, 연속 함수 f(x,y)의 이계 도함수를 의미하는 라플라시안으로부터 유래한 것으로, 디지털 이미지에 대해, 아래와 같은 근사 공식을 활용하여 만들 수 있다.
+- 1차 미분 필터들은 한 번만 차분 값을 계산하기 때문에, 차분의 크기도 작고, 이로 인해서 경계가 확실한 부분만 추출할 수 있는 반면, 노이즈가 있거나 엣지 (edge)의 강도가 약한 부분에는 불완전한 추출을 보이는 한계가 있다. 
+- 이를 극복하기 위해 개발된 필터가 2차 미분형, 즉, 라플라시안 필터 (Laplacian filter) 이다. 라플라시안 필터는 말 그대로, 연속 함수 $f(x,y)$의 이계 도함수를 의미하는 라플라시안으로부터 유래한 것으로, 디지털 이미지에 대해, 아래와 같은 근사 공식을 활용하여 만들 수 있다.
 
 $$
 \begin{aligned}
