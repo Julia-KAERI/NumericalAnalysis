@@ -1174,6 +1174,9 @@ G[i,j]=F[i,j]+c\,M[i,j] = F[i,j]+c(F[i,j]-\overline{F}[i,j])
 <p><br></p>
 <section id="로버츠-커널-roberts-kernel" class="level4">
 <h4 class="anchored" data-anchor-id="로버츠-커널-roberts-kernel"><strong>로버츠 커널 (Roberts kernel)</strong></h4>
+<p><span class="math display">\[
+J_x[i, j] = F[i+1, j] - F[i, j],\qquad J_y = F[]
+\]</span></p>
 <p>대각선 방향의 편미분에 해당하는 2차원 배열을 로버츠 마스크라 하며 아래와 같다.</p>
 <p><span id="eq-ImageProcessing_roberts_kernel"><span class="math display">\[
 G_x = \begin{bmatrix} +1&amp;0&amp;0 \\ 0&amp;-1&amp;0 \\ 0&amp;0&amp;0 \end{bmatrix}, \quad G_y=\begin{bmatrix}0&amp;+1&amp;0\\-1&amp;0&amp;0\\0&amp;0&amp;0 \end{bmatrix}
