@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>수치해석과 이미지 처리 - 칼라 이미지 처리</title>
+<title>수치해석과 이미지 처리 - 허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../src/image_processing/introduction_to_signal_processing.html" rel="next">
-<link href="../../src/image_processing/image_processing_06.html" rel="prev">
+<link href="../../src/image_processing/image_processing_04.html" rel="next">
+<link href="../../src/image_processing/image_processing_02.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -155,7 +155,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_07.html">칼라 이미지 처리</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_03.html">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -196,25 +196,25 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_04.html" class="sidebar-item-text sidebar-link">
+  <a href="../../src/image_processing/image_processing_03.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_05.html" class="sidebar-item-text sidebar-link">
+  <a href="../../src/image_processing/image_processing_04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">이미지 복원 및 재구성</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_06.html" class="sidebar-item-text sidebar-link">
+  <a href="../../src/image_processing/image_processing_05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">이미지 분할</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_07.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../src/image_processing/image_processing_06.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">칼라 이미지 처리</span></a>
   </div>
 </li>
@@ -290,28 +290,14 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">목차</h2>
-   
-  <ul>
-  <li><a href="#색의-구분" id="toc-색의-구분" class="nav-link active" data-scroll-target="#색의-구분"><span class="header-section-number">1</span> 색의 구분</a>
-  <ul class="collapse">
-  <li><a href="#색상-hue-h-채도-saturation-s-그리고-명-도-brightness-or-value-v" id="toc-색상-hue-h-채도-saturation-s-그리고-명-도-brightness-or-value-v" class="nav-link" data-scroll-target="#색상-hue-h-채도-saturation-s-그리고-명-도-brightness-or-value-v"><span class="header-section-number">1.1</span> 색상 (hue, H), 채도 (saturation, S), 그리고 명 도 (brightness or value, V)</a></li>
-  <li><a href="#cie가-20세기-초반에-했던-실험" id="toc-cie가-20세기-초반에-했던-실험" class="nav-link" data-scroll-target="#cie가-20세기-초반에-했던-실험"><span class="header-section-number">1.2</span> CIE가 20세기 초반에 했던 실험</a></li>
-  <li><a href="#삼색자극갑과-rgb" id="toc-삼색자극갑과-rgb" class="nav-link" data-scroll-target="#삼색자극갑과-rgb"><span class="header-section-number">1.3</span> 삼색자극갑과 RGB</a></li>
-  <li><a href="#rgb-to-hsv" id="toc-rgb-to-hsv" class="nav-link" data-scroll-target="#rgb-to-hsv"><span class="header-section-number">1.4</span> RGB to HSV</a></li>
-  <li><a href="#hsv-to-rgb" id="toc-hsv-to-rgb" class="nav-link" data-scroll-target="#hsv-to-rgb"><span class="header-section-number">1.5</span> HSV to RGB</a></li>
-  </ul></li>
-  <li><a href="#가상-칼라-이미징-pseudocoloring" id="toc-가상-칼라-이미징-pseudocoloring" class="nav-link" data-scroll-target="#가상-칼라-이미징-pseudocoloring"><span class="header-section-number">2</span> 가상 칼라 이미징 (Pseudocoloring)</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_07.html">칼라 이미지 처리</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_03.html">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">칼라 이미지 처리</h1>
+<h1 class="title">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</h1>
 </div>
 
 
@@ -337,84 +323,8 @@ window.Quarto = {
 \]</span></p>
 </div>
 <p><br></p>
-<section id="색의-구분" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="색의-구분"><span class="header-section-number">1</span> 색의 구분</h2>
-<section id="색상-hue-h-채도-saturation-s-그리고-명-도-brightness-or-value-v" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="색상-hue-h-채도-saturation-s-그리고-명-도-brightness-or-value-v"><span class="header-section-number">1.1</span> 색상 (hue, H), 채도 (saturation, S), 그리고 명 도 (brightness or value, V)</h3>
-<ul>
-<li>색상은 여러 파장의 빛이 섞여 있을 때 관찰자 입장 에서 가장 눈에 띄는 대표적인 파장으로 나타나는 색을 의미하며,</li>
-<li>채도는 색상에 얼마나 높은 비율로 하얀색의 빛 (백색광)이 섞여 있는지를 의미하고 (즉, 하얀색은 채도가 0, 삼 원색이나 2차색 (CMY)은 채도가 1),</li>
-<li>명도는 색상 정보와 상관 없이 명암 이미지에서 말 하는 픽셀 값 (강도)를 의미합니다.</li>
-</ul>
-<p><br></p>
-</section>
-<section id="cie가-20세기-초반에-했던-실험" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="cie가-20세기-초반에-했던-실험"><span class="header-section-number">1.2</span> CIE가 20세기 초반에 했던 실험</h3>
-<ul>
-<li>CIE는 인간의 원추 세포가 적어도 단파장, 중파장, 장파장 의 세 가지 빛을 구분할 수 있다는 것을 알고 있었으므로, 원칙적으로 세 개의 변수 만 으로 인간이 인지할 수 있는 색감을 전부 표현할 수 있을 것이라는 가설을 세웠습니다.</li>
-<li>이를 기반으로, CIE는 <b>XYZ 색 공간</b>이라는 개념을 도입하였는데, X, Y, Z는 각 파장 (즉, 각 색깔)에 대응하는 <b>삼색 자극값 (tristimulus values)</b>을 의미합니다. 예를 들어, X 빨강, Y는 초록, Z는 파랑과 비슷한 색깔에 대응합니다. 인간의 색상 인지 특성 중 하나는 다양한 파장을 가진 두 가지 다른 색깔을 섞으면, 다른 색과 비슷하게 보일 수 있다는 것입니다. 이러한 현상을 <b>조건등색 (metamerism)</b> 이라고도 하는데, 두 개의 색깔이 가진 삼색 자극 값의 합은 두 개의 색깔이 갖는 파장과 상관 없이, 똑같아 보이는 다른 색의 삼색 자극 값과 동일함을 의미합니다.</li>
-</ul>
-<p><br></p>
-</section>
-<section id="삼색자극갑과-rgb" class="level3" data-number="1.3">
-<h3 data-number="1.3" class="anchored" data-anchor-id="삼색자극갑과-rgb"><span class="header-section-number">1.3</span> 삼색자극갑과 RGB</h3>
-<p>삼색 자극값 좌표 <span class="math inline">\(\begin{bmatrix} X &amp;Y &amp;Z \end{bmatrix}\)</span> 를 인간이 인지하는 좌표인 <span class="math inline">\(\begin{bmatrix} R &amp; G &amp;B \end{bmatrix}\)</span> 로 바꾸는 것 (혹은 역변환은)은 다음의 행렬 연산 과정을 거치면 됩니다.</p>
-<p><span class="math display">\[
-\begin{aligned}
-\begin{bmatrix} R \\ G \\ B \end{bmatrix} &amp; = \begin{bmatrix} 3.063  &amp; -1.393  &amp; -0.476 \\ -0.969 &amp; 1.876 &amp;  0.042 \\ 0.068  &amp; -0.229 &amp; 1.069 \end{bmatrix} \begin{bmatrix} X \\ Y \\ Z \end{bmatrix} \\
-{}\\
-\begin {bmatrix} X\\ Y \\ Z \end{bmatrix} &amp;=\begin{bmatrix} 0.431  &amp; 1.342  &amp; 0.178 \\ 0.222 &amp; 0.797 &amp;  0.071 \\ 0.020  &amp; 0.130 &amp; 0.939 \end{bmatrix} \begin{bmatrix} R \\ G \\ B \end{bmatrix}
-\end{aligned}
-\]</span></p>
-<p>참고로 <span class="math inline">\(C,\,M,\,Y\)</span> 는 다음과 같이 계산된다. (C=청록, M=분홍, Y= 노랑 으로 색소의 삼원색이다.)</p>
-<p><span class="math display">\[
-\begin{bmatrix} C\\ M \\ Y \end{bmatrix} = \begin{bmatrix} 1\\ 1 \\ 1 \end{bmatrix} - \begin{bmatrix} R\\ G \\ B \end{bmatrix}
-\]</span></p>
-<p><br></p>
-</section>
-<section id="rgb-to-hsv" class="level3" data-number="1.4">
-<h3 data-number="1.4" class="anchored" data-anchor-id="rgb-to-hsv"><span class="header-section-number">1.4</span> RGB to HSV</h3>
-<p><span class="math display">\[
-\begin{aligned}
-V &amp;= \max(R,G,B),\,\\
-\delta &amp;= V -\min (R,G,B) ,\,\\
-S &amp;= \dfrac{\delta}{V} \\
-\end{aligned}
-\]</span></p>
-<p><span class="math display">\[
-\begin{aligned}
-H &amp;= \left \{ \begin{array}{ll}
-\dfrac{G-B}{6\delta} \qquad&amp;\text{when } V=R \\
-\dfrac{1}{6} \left( 2 + \dfrac{B-R}{\delta} \right) &amp; \text{when } V=G \\
-\dfrac{1}{6} \left(4 + \dfrac{R-G}{\delta} \right) &amp; \text{when } V=B
-\end{array}
-\right.
-\end{aligned}
-\]</span></p>
-<p>만약 <span class="math inline">\(H\)</span> 가 음수이면 <span class="math inline">\(1+H\)</span> 값이 대신한다. 또한 다음과 같이 정의한다. <span class="math display">\[
-\begin{bmatrix} R &amp; G &amp; B \end{bmatrix} = \begin{bmatrix} 0 &amp; 0 &amp; 0 \end{bmatrix} \implies \begin{bmatrix} H &amp; S &amp; V \end{bmatrix} = \begin{bmatrix} 0 &amp; 0 &amp; 0 \end{bmatrix}
-\]</span></p>
-</section>
-<section id="hsv-to-rgb" class="level3" data-number="1.5">
-<h3 data-number="1.5" class="anchored" data-anchor-id="hsv-to-rgb"><span class="header-section-number">1.5</span> HSV to RGB</h3>
-<p><span class="math display">\[
-\begin{aligned}
-H' &amp; =  [6H ], \\
-F &amp;= 6H - H', \\
-P &amp;= V (1 -S) , \\
-Q &amp;= V (1- SF) ,\\
-T &amp;= V(1-S(1-F)).
-\end{aligned}
-\]</span></p>
-<p>여기서 <span class="math inline">\([6H]\)</span> 는 소위 가우스 기호로 <span class="math inline">\(6H\)</span> 에 가장 가까운 정수값을 의미한다.</p>
-<p><br></p>
-</section>
-</section>
-<section id="가상-칼라-이미징-pseudocoloring" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="가상-칼라-이미징-pseudocoloring"><span class="header-section-number">2</span> 가상 칼라 이미징 (Pseudocoloring)</h2>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -828,13 +738,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../src/image_processing/image_processing_06.html" class="pagination-link" aria-label="이미지 분할">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">이미지 분할</span>
+      <a href="../../src/image_processing/image_processing_02.html" class="pagination-link" aria-label="푸리에 변환을 이용한 이미지 처리">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">푸리에 변환을 이용한 이미지 처리</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../src/image_processing/introduction_to_signal_processing.html" class="pagination-link" aria-label="디지털 신호처리의 기초">
-        <span class="nav-page-text">디지털 신호처리의 기초</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../src/image_processing/image_processing_04.html" class="pagination-link" aria-label="이미지 복원 및 재구성">
+        <span class="nav-page-text">이미지 복원 및 재구성</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

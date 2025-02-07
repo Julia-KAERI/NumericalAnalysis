@@ -16,14 +16,9 @@ crossref:
 
 ::: {#refs}
 
-
-
 :::
 
 </br>
-
-
-
 
 ## 비선형 최소 제곱 문제(nonlinear least squares problems)
 

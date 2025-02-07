@@ -724,8 +724,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_07.html",
-    "href": "src/image_processing/image_processing_07.html",
+    "objectID": "src/image_processing/image_processing_06.html",
+    "href": "src/image_processing/image_processing_06.html",
     "title": "칼라 이미지 처리",
     "section": "",
     "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
@@ -736,8 +736,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_07.html#색의-구분",
-    "href": "src/image_processing/image_processing_07.html#색의-구분",
+    "objectID": "src/image_processing/image_processing_06.html#색의-구분",
+    "href": "src/image_processing/image_processing_06.html#색의-구분",
     "title": "칼라 이미지 처리",
     "section": "1 색의 구분",
     "text": "1 색의 구분\n\n1.1 색상 (hue, H), 채도 (saturation, S), 그리고 명 도 (brightness or value, V)\n\n색상은 여러 파장의 빛이 섞여 있을 때 관찰자 입장 에서 가장 눈에 띄는 대표적인 파장으로 나타나는 색을 의미하며,\n채도는 색상에 얼마나 높은 비율로 하얀색의 빛 (백색광)이 섞여 있는지를 의미하고 (즉, 하얀색은 채도가 0, 삼 원색이나 2차색 (CMY)은 채도가 1),\n명도는 색상 정보와 상관 없이 명암 이미지에서 말 하는 픽셀 값 (강도)를 의미합니다.\n\n\n\n\n1.2 CIE가 20세기 초반에 했던 실험\n\nCIE는 인간의 원추 세포가 적어도 단파장, 중파장, 장파장 의 세 가지 빛을 구분할 수 있다는 것을 알고 있었으므로, 원칙적으로 세 개의 변수 만 으로 인간이 인지할 수 있는 색감을 전부 표현할 수 있을 것이라는 가설을 세웠습니다.\n이를 기반으로, CIE는 XYZ 색 공간이라는 개념을 도입하였는데, X, Y, Z는 각 파장 (즉, 각 색깔)에 대응하는 삼색 자극값 (tristimulus values)을 의미합니다. 예를 들어, X 빨강, Y는 초록, Z는 파랑과 비슷한 색깔에 대응합니다. 인간의 색상 인지 특성 중 하나는 다양한 파장을 가진 두 가지 다른 색깔을 섞으면, 다른 색과 비슷하게 보일 수 있다는 것입니다. 이러한 현상을 조건등색 (metamerism) 이라고도 하는데, 두 개의 색깔이 가진 삼색 자극 값의 합은 두 개의 색깔이 갖는 파장과 상관 없이, 똑같아 보이는 다른 색의 삼색 자극 값과 동일함을 의미합니다.\n\n\n\n\n1.3 삼색자극갑과 RGB\n삼색 자극값 좌표 \\(\\begin{bmatrix} X &Y &Z \\end{bmatrix}\\) 를 인간이 인지하는 좌표인 \\(\\begin{bmatrix} R & G &B \\end{bmatrix}\\) 로 바꾸는 것 (혹은 역변환은)은 다음의 행렬 연산 과정을 거치면 됩니다.\n\\[\n\\begin{aligned}\n\\begin{bmatrix} R \\\\ G \\\\ B \\end{bmatrix} & = \\begin{bmatrix} 3.063  & -1.393  & -0.476 \\\\ -0.969 & 1.876 &  0.042 \\\\ 0.068  & -0.229 & 1.069 \\end{bmatrix} \\begin{bmatrix} X \\\\ Y \\\\ Z \\end{bmatrix} \\\\\n{}\\\\\n\\begin {bmatrix} X\\\\ Y \\\\ Z \\end{bmatrix} &=\\begin{bmatrix} 0.431  & 1.342  & 0.178 \\\\ 0.222 & 0.797 &  0.071 \\\\ 0.020  & 0.130 & 0.939 \\end{bmatrix} \\begin{bmatrix} R \\\\ G \\\\ B \\end{bmatrix}\n\\end{aligned}\n\\]\n참고로 \\(C,\\,M,\\,Y\\) 는 다음과 같이 계산된다. (C=청록, M=분홍, Y= 노랑 으로 색소의 삼원색이다.)\n\\[\n\\begin{bmatrix} C\\\\ M \\\\ Y \\end{bmatrix} = \\begin{bmatrix} 1\\\\ 1 \\\\ 1 \\end{bmatrix} - \\begin{bmatrix} R\\\\ G \\\\ B \\end{bmatrix}\n\\]\n\n\n\n1.4 RGB to HSV\n\\[\n\\begin{aligned}\nV &= \\max(R,G,B),\\,\\\\\n\\delta &= V -\\min (R,G,B) ,\\,\\\\\nS &= \\dfrac{\\delta}{V} \\\\\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nH &= \\left \\{ \\begin{array}{ll}\n\\dfrac{G-B}{6\\delta} \\qquad&\\text{when } V=R \\\\\n\\dfrac{1}{6} \\left( 2 + \\dfrac{B-R}{\\delta} \\right) & \\text{when } V=G \\\\\n\\dfrac{1}{6} \\left(4 + \\dfrac{R-G}{\\delta} \\right) & \\text{when } V=B\n\\end{array}\n\\right.\n\\end{aligned}\n\\]\n만약 \\(H\\) 가 음수이면 \\(1+H\\) 값이 대신한다. 또한 다음과 같이 정의한다. \\[\n\\begin{bmatrix} R & G & B \\end{bmatrix} = \\begin{bmatrix} 0 & 0 & 0 \\end{bmatrix} \\implies \\begin{bmatrix} H & S & V \\end{bmatrix} = \\begin{bmatrix} 0 & 0 & 0 \\end{bmatrix}\n\\]\n\n\n1.5 HSV to RGB\n\\[\n\\begin{aligned}\nH' & =  [6H ], \\\\\nF &= 6H - H', \\\\\nP &= V (1 -S) , \\\\\nQ &= V (1- SF) ,\\\\\nT &= V(1-S(1-F)).\n\\end{aligned}\n\\]\n여기서 \\([6H]\\) 는 소위 가우스 기호로 \\(6H\\) 에 가장 가까운 정수값을 의미한다.",
@@ -748,8 +748,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_07.html#가상-칼라-이미징-pseudocoloring",
-    "href": "src/image_processing/image_processing_07.html#가상-칼라-이미징-pseudocoloring",
+    "objectID": "src/image_processing/image_processing_06.html#가상-칼라-이미징-pseudocoloring",
+    "href": "src/image_processing/image_processing_06.html#가상-칼라-이미징-pseudocoloring",
     "title": "칼라 이미지 처리",
     "section": "2 가상 칼라 이미징 (Pseudocoloring)",
     "text": "2 가상 칼라 이미징 (Pseudocoloring)",
@@ -760,8 +760,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_05.html",
-    "href": "src/image_processing/image_processing_05.html",
+    "objectID": "src/image_processing/image_processing_04.html",
+    "href": "src/image_processing/image_processing_04.html",
     "title": "이미지 복원 및 재구성",
     "section": "",
     "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
@@ -772,8 +772,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_05.html#이미지-복원",
-    "href": "src/image_processing/image_processing_05.html#이미지-복원",
+    "objectID": "src/image_processing/image_processing_04.html#이미지-복원",
+    "href": "src/image_processing/image_processing_04.html#이미지-복원",
     "title": "이미지 복원 및 재구성",
     "section": "1 이미지 복원",
     "text": "1 이미지 복원\n\n1.1 이미지 정보의 열화, 왜곡 원인\n\n보통 환경적인 요인,\n잡음 (noise),\n이미지 센서의 열화 (degradation),\n화각의 불균형으로 인한 기하학적 왜곡 (distortion)\n\n\n\n\n1.2 수학적 가정\n\n이미지 열화 (degradation)의 원인을 이미지에 작용하는 어떤 선형이고 위치불변인 ’연산자 (operator)’로 표현 할 수 있음.\n\n\n\n선형성 (Linearity)\n행렬에 대한 연산자 \\(\\hat{H}\\) 가 두 행렬 \\(f_1(x,\\,y),\\,f_2 (x,\\,y)\\) 와 임의의 스칼라 \\(a,\\,b\\) 에 대해 다음을 만족시킬 때 \\(\\hat{H}\\) 을 선형연산자라 한다.\n\\[\n\\hat{H} [af_1(x,\\,y)+bf_2(x,\\,y)]= a\\hat{H} [f_1(x,\\,y)] + b\\hat{H}[f_2 (x,\\,y)]\n\\]\n\n\n\n위치불변성 (Position invariance)\n연산자 \\(\\hat{H}\\) 가 이미지 행렬 \\(f(x,\\,y)\\) 에 대해 다음을 만족하면 \\(\\hat{H}\\) 를 위치불변 (position -invariant) 라 한다.\n\\[\ng(x,\\,y) = \\hat{H}[f(x,\\,y)] \\implies \\hat{H}[f(x-a,\\,y-b)] = g(x-a,\\,y-b)\n\\]\n\n이제 선형이고 위치불변인 연산자를 LPI (Linear and Position-Invariant) 연산자라 하자.\n\n\n\n\n\n1.3 역공간에서의 표현\n\n\\(f(x,\\,y) = \\mathfrak{I}^{-1}[F(u,\\,v)]\\) : 원본 이미지\n\\(h(x,\\,y) = \\mathfrak{I}^{-1}[H(u,\\,v)]\\) : 열화 원인 연산자\n\\(\\eta (x,\\,y) = \\mathfrak{I}^{-1} [N(u,\\,v)]\\) : 노이즈 행렬\n\\(g(x,\\,y) = \\mathfrak{I}^{-1}[G (u,\\,v)]\\) : 최종 이미지\n\n라 할 때 실공간과 역공간에서 표현하면 다음과 같은 관계식을 만족한다.\n\\[\n\\begin{aligned}\ng(x,\\,y) &= h(x,\\,y) \\ast f(x,\\,y) + \\eta(x,\\,y)\\\\\nG(u, v) &= H (u, v)  F (u, v) + N (u, v)\n\\end{aligned}\n\\]",
@@ -784,8 +784,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_05.html#노이즈-행렬",
-    "href": "src/image_processing/image_processing_05.html#노이즈-행렬",
+    "objectID": "src/image_processing/image_processing_04.html#노이즈-행렬",
+    "href": "src/image_processing/image_processing_04.html#노이즈-행렬",
     "title": "이미지 복원 및 재구성",
     "section": "2 노이즈 행렬",
     "text": "2 노이즈 행렬\n\n2.1 노이즈의 원인에 따른 분류\n\n백색 잡음 (white noise) : 역공간에서 잡음 행렬의 분포가 일정\n가우시안 잡음 (Gaussian noise) : 온도 분포의 불균일성, 광량의 불균일성 등으로 인해 전자 회로의 노이즈, 센서의 노이즈 때문에 주로 발생\n레일리 잡음 (Rayleigh noise) : 레인지 이미징 (range imaging, High Dynamic Range imaging ,HDRI)에서 주로 발생\n\n\n레인지 이미징 : 주로 피사체의 광량 분포가 불균일할 때, 그것을 균일하게 만들어 주는 이미징을 의미합니다.\n\n\n\n\n2.2 많이 사용되는 노이즈 확률 분포\n\n가우시안 잡음(Gaussian noise)\n레일리 잡음 (Rayleigh noise),\n에를랑 잡음 (Erlang noise or gamma noise),\n지수적 잡음 (exponential noise),\n균일 잡음 (uniform noise),\n임펄스 잡음 (impulse noise)\n\n\n\n가우시안 잡음의 확률분표\n\\[\np(z) =  \\dfrac{1}{\\sqrt{2\\pi \\sigma}} e^{(z - \\langle z \\rangle)^2/2\\sigma^2 }\n\\]\n여기서 \\(\\langle z \\rangle, \\, \\sigma^2\\) 는 가우시안 잡음의 평균과 분산\n\n\n\n레일리 잡음의 확률분포\n\\[\np(z) = \\left\\{\\begin{array}{ll} \\dfrac{2}{b}(z-a)^2 e^{-(z-a)^2/b} \\qquad & \\text{for }z \\ge a \\\\ 0 & \\text{for }z&lt;a \\end{array} \\right.\n\\]\n이 때, \\(z\\) 는 픽셀 값, \\(a\\) 는 픽셀값의 문턱 값이다. 이 확률분포의 평균과 분산은 다음과 같다.\n\\[\n\\langle z \\rangle = a+ \\left(\\dfrac{\\pi b}{4}\\right)^{1/2}, \\qquad \\sigma^2 = \\dfrac{b(4-\\pi)}{4}\n\\]\n\n\n\n에를랑 잡음의 확률 분포\n\\[\np(z) = \\left\\{\\begin{array}{ll}\n\\dfrac{a^bz^{b-1}}{(b-1)!}e^{-az} \\qquad & \\text{for }z \\ge 0 \\\\\n0 & \\text{for } z&lt;0\n\\end{array} \\right.\n\\]\n이 확률분포의 평균과 분산은 다음과 같다.\n\\[\n\\langle z \\rangle = \\dfrac{b}{a},\\qquad \\sigma^2 = \\dfrac{b}{a^2}\n\\]\n\n\n\n지수적 잡음\n\\[\np(z) = \\left\\{\\begin{array}{ll}\nae^{-az} \\qquad & \\text{for }z \\ge 0 \\\\\n0 & \\text{for } z&lt;0\n\\end{array} \\right.\n\\]\n이 확률분포의 평균과 분산은 다음과 같다.\n\\[\n\\langle z \\rangle = \\dfrac{1}{a},\\qquad \\sigma^2 = \\dfrac{1}{a^2}\n\\]\n\n\n\n균일 잡음\n\\[\np(z) = \\left\\{\\begin{array}{ll}\n\\dfrac{1}{b-a} \\qquad & \\text{for } a\\le z \\le  b \\\\\n0 & \\text{otherwise }\n\\end{array} \\right.\n\\]\n이 확률분포의 평균과 분산은 다음과 같다.\n\\[\n\\langle z \\rangle = \\dfrac{a+b}{2},\\qquad \\sigma^2 = \\dfrac{(b-a)^2}{12}\n\\]\n\n\n\n임펄스 잡음\n\\[\np(z) = \\left\\{\\begin{array}{ll} P_a \\qquad & \\text{for }z=a \\\\\nP_b & \\text{for } z=b \\\\ 0 &\\text{otherwise} \\end{array} \\right.\n\\]\n\nSalt-and-Pepper (S&P) 노이즈가 대표적",
@@ -796,8 +796,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_05.html#임펄스-신호-와-lpi-연산자",
-    "href": "src/image_processing/image_processing_05.html#임펄스-신호-와-lpi-연산자",
+    "objectID": "src/image_processing/image_processing_04.html#임펄스-신호-와-lpi-연산자",
+    "href": "src/image_processing/image_processing_04.html#임펄스-신호-와-lpi-연산자",
     "title": "이미지 복원 및 재구성",
     "section": "3 임펄스 신호 와 LPI 연산자",
     "text": "3 임펄스 신호 와 LPI 연산자\n임펄스 신호 \\(\\delta (x-\\alpha,\\,y-\\beta)\\) 를 LPI 연산자 \\(\\hat{H}\\) 에 적용한 것을 \\(h(x,\\,\\alpha,\\,y,\\,\\beta)\\) 라 하자. 즉\n\\[\nh(x,\\,\\alpha,\\,y,\\,\\beta) = \\hat{H}[\\delta (x-\\alpha,\\,y-\\beta)]\n\\]\n이다. \\(\\delta\\) 함수의 성질에 의해 다음이 성립함을 안다.\n\\[\nf(x,\\,y) = \\iint f(\\alpha,\\, \\beta) \\,\\delta(x-\\alpha,\\, y-\\beta)\\, d\\alpha\\,d\\beta\n\\]\n이제 이미지 \\(f(x,\\,y)\\) 에 \\(\\hat{H}\\) 를 적용하면,\n\\[\n\\begin{aligned}\ng(x,\\,y) &= \\hat{H}[f(x,\\,y)] \\\\\n&= \\hat{H} \\left[ \\iint f(\\alpha,\\, \\beta) \\,\\delta(x-\\alpha,\\, y-\\beta)\\, d\\alpha\\,d\\beta \\right] \\\\\n&= \\iint \\hat{H} [f(\\alpha,\\, \\beta) \\,\\delta(x-\\alpha,\\, y-\\beta)] \\, d\\alpha\\,d\\beta \\\\\n&= \\iint f(\\alpha,\\, \\beta) \\,\\hat{H} [\\delta(x-\\alpha,\\, y-\\beta)] \\, d\\alpha\\,d\\beta \\\\\n&= \\iint f(\\alpha,\\, \\beta) \\,h(x,\\,\\alpha,\\, y,\\,\\beta)] \\, d\\alpha\\,d\\beta \\\\\n&= \\iint f(\\alpha,\\,\\beta) \\,h(x-\\alpha,\\, y-\\beta)\\, d\\alpha\\, d\\beta\\\\\n&= h (x,\\,y) * f(x,\\,y)\n\\end{aligned}\n\\]\n위 식에서 적분 내에서 \\(h(x,\\,\\alpha,\\, y,\\,\\beta) \\to h(x-\\alpha,\\, y-\\beta)\\) 로 변환되는 데는 Fredholm integral of the first kind 를 사용하였다. \\(h(x-\\alpha,\\, y-\\beta) = h(x,\\,\\alpha,\\,y,\\,\\beta)\\) 를 점 확산 함수 (point spread function, PSF) 이라 한다.\n\n푸리에 변환의 성질에 의해 역공간에서는\n\\[\nG(u,\\,v) = H(u,\\,v) F(u,\\,v)\n\\]\n가 성립한다.\n\n이를 조금 더 알기 쉽게 설명하자면 이렇습니다. 어떤 이미지가 열화된 것처럼 보인다면, 그 원인에 해당하는 특정한 LPI(라고가정할수있는) 열화연산자 \\(\\hat{H}\\)가 있을것입니다.그리고 또 그것에 해당하는 고유의 점확산함수 \\(h(x,y)\\)가 있을 것이고요. 점,즉 픽셀값이 확산되는 경향 (강도, 방향 등)이 바로 이미지가 열화되는 정도를 결정하는데, 그 정도는 점 확산 함수와 원본 이미지 행렬의 합성곱으로 결정됩니다. 다시 말해, 이미지에 있는 모든 픽셀 (즉, ‘점’)이 얼마나 퍼질 수 있는지 그래서 얼마나 왜곡이 되고 열화되는지가 결과적으로 LPI 연산자의 함수 특성에 의해 결정되는 것입니다.\n\n\n이제 이미지의 열화를 야기한 연산자에 대한 사전 정보가 없을 때, 연산자 정보를 어떻게 추정할 수 있을지 생각해 봅시다. 열화과정은 이미지를 관찰하거나, 실험해 보거나, 수학적으로 모델링함으로써 추정할 수 있습니다.",
@@ -808,8 +808,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_05.html#열화-연산자-모델",
-    "href": "src/image_processing/image_processing_05.html#열화-연산자-모델",
+    "objectID": "src/image_processing/image_processing_04.html#열화-연산자-모델",
+    "href": "src/image_processing/image_processing_04.html#열화-연산자-모델",
     "title": "이미지 복원 및 재구성",
     "section": "4 열화 연산자 모델",
     "text": "4 열화 연산자 모델\n\n\n4.1 공기의 흔들림 (가우시안) 에 의한 이미지 열화\n흔들림 연산자는 수학적으로 다음과 같은 식이 많이 쓰인다. \\[\nH(u,\\,v) = e^{-k(u^2+v^2)^{5/6}}\n\\]\n\n\n4.2 피사체의 흔들림에 의한 열화 (motion blur)\n피사체가 \\(T\\) 의 시간동안 카메라에 노출되어 \\(x,\\,y\\) 방향으로 각각 \\(x_0(t),\\, y_0(t)\\) 만큼 움직이는 이미지는 다음과 같이 표현된다.\n\\[\ng(x,\\,y) = \\int_0^T f[x-x_0(t),\\, y-y_0(t)]\\, dt\n\\]\n이에 대한 푸리에 변환은 다음과 같다.\n\\[\n\\begin{aligned}\nG(u,\\,v) &= \\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} g(x,\\,y)\\, e^{-2i\\pi (ux+vy)}\\,dx\\,dy \\\\\n&=\\int_{-\\infty}^{\\infty} \\int_{-\\infty}^{\\infty} \\left[ \\int_0^Tf(x,\\,y) e^{-2i\\pi(ux+vy)}e^{-2i\\pi(ux_0(t)+vy_0(t))}\\,\\, dt\\right] dx\\,dy \\\\\n&=F(u,\\,v) \\int_0^T e^{-2i\\pi(ux_0(t)+vy_0(t))}\\, dt = F(u,\\,v) H(u,\\,v) \\\\\n&\\qquad \\qquad \\qquad \\text{where }H(u,\\,v) =\\int_0^T e^{-2i\\pi(ux_0(t)+vy_0(t))}\\, dt\n\\end{aligned}\n\\]\n즉 피사체 움직임에 의한 열화 LPI 연산자는 위 식의 \\(H(u,\\,v)\\) 이다.",
@@ -820,8 +820,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_05.html#motion-bluring",
-    "href": "src/image_processing/image_processing_05.html#motion-bluring",
+    "objectID": "src/image_processing/image_processing_04.html#motion-bluring",
+    "href": "src/image_processing/image_processing_04.html#motion-bluring",
     "title": "이미지 복원 및 재구성",
     "section": "5 Motion Bluring",
     "text": "5 Motion Bluring\n카메라에 \\(T\\) 의 시간만큼 노출되며 이 시간동안의 피사체의 움직임을 \\(x_0(t),\\,y_0(t)\\) 로 기술 할 수 있다고 하자. \\(f(x,\\,y)\\) 를 정지상태의 이상적인 피사체의 이미지라 하면, 이 때 피사체의 이미지 \\(g(x,\\,y)\\) 는 다음과 같이 기술된다.\n\\[\ng(x,\\,y) = \\int_0^T f(x-x_0(t),\\, y-y_0(t))\\, dt\n\\] 이를 푸리에 변환하면,\n\\[\n\\begin{aligned}\nG(u,\\,v) &= \\mathfrak{I}[g(x\\,y)] = \\iint g(x,\\,y) e^{-2i\\pi (ux+vy)}\\,dxdy\\\\\n&= \\iint \\left[ \\int_0^T f(x-x_0(t),\\, y-y_0(t))\\, dt\\right] e^{-2i\\pi (ux+vy)}\\,dxdy\\\\\n&= \\int_0^T \\left[\\iint f(x-x_0(t),\\, y-y_0(t)  e^{-2i\\pi (ux+vy)}\\,dxdy\\right] \\, dt\\\\\n&= \\int_0^T F(u,\\,v)  e^{-2i\\pi (ux_0(t)+vy_0(t))}\\,dxdy \\\\\n&= \\int F(u,\\,v) H(u,\\,v),\\qquad \\text{where}\\quad H(u,\\,v) = \\int_0^T e^{-2i\\pi (ux_0(t)+vy_0(t))}\\,dxdy\n\\end{aligned}\n\\]\n즉 피사체의 열화 LPI 연산자 $H(u,,v) = _0^T e^{-2i(ux_0(t)+vy_0(t))},dxdy $ 를 알 수 있다. 만약 피사체가 속도 \\((a/T,\\, b/T)\\) 의 단순선형등속은동을 한다면, \\(x_0(t) = at/T,\\, y_0(t) =bt/T\\) 이므로,\n\\[\nH(u,\\,v) = \\int_0^T e^{-2i\\pi(au+bv)t/T}\\, dt=\\dfrac{T}{au+bv} \\sin \\left[\\pi(au+bv)\\right]e^{-2i\\pi(au+bv)}\n\\]\n가 된다. 이로부터,\n\\[\nf(x,\\,y) = \\mathfrak{I}^{-1}[F(u,\\,v)] = \\mathfrak{I}^{-1}\\left[G(u,\\,v)/H(u,\\,v)\\right]\n\\]\n의 관계를 통해 \\(f(x,\\,y)\\) 를 복원 할 수 있다.\n\n\n5.1 Inverse filtering 을 통한 motion blur 복원\n피사체의 움직임을 단순한 선형 등속 움직임 즉, \\(x_0(t) = \\dfrac{at}{T},\\, y_0(t) = \\dfrac{bt}{T}\\) 라고 표현 할 수 있다고 가정하면,\n\\[\nH(u,\\,v) = \\int_0^T e^{-2i\\pi (ux_0(t)+vy_0(t))} \\, dt = \\dfrac{T}{\\pi (ua+vb)} \\sin (\\pi (ua+vb)) e^{-i\\pi (ua+bv)}\n\\]\n이다.\n\n\n\n5.2 노이즈가 있는 이미지의 복원\n\n사실 노이즈를 처리한 후 열화 연산자를 추정하여 이미지를 복원하는 것은 이상적인 시나리오에 가깝다. 왜냐하면 노이즈의 종류와 열화 연산자의 정체를 미리 알고 있어야만 이러한 처리가 깔끔하게 이루어질 것이기 때문이다. 노이즈의 정체를 모르는 상황이라면 노이즈만 따로 전처리 (pre-treatment)하기 어려울 것이다.\n노이즈가 없는 이미지 \\(f(x,y)\\) 와 노이즈 \\(n(x,y)\\) 를 생각하자. 이미지는 \\(g(x,\\,y)= f(x,\\,y)+n(x,\\,y)\\) 가 될 것이다. 이 때\n\n\\[\n\\begin{aligned}\nF(u,v) &= \\mathfrak{I} [f(x,y)]\\\\\nN(u,v) &= \\mathfrak{I} [n(x,y)]\\\\\nG(u,v) &= \\mathfrak{I}[g(x,y)] = F(u,v)+N(u,v)\n\\end{aligned}\n\\]\n라 하자\n\n노이즈를 처리하지 않은 상황이라면 \\(H\\) 연산에 대해 처리된 결과는 \\(F(u,v)\\) 가 아닌 \\(\\hat{F}(u,\\,v) = F(u,v) +\\dfrac{N(u,v)}{H(u,v)}=\\dfrac{G(u,v)}{H(u,v)}\\) 가 될 것이다.\n\\(\\hat{F}(u,v)\\) 에서 \\(H(u,v)\\) 가 매우 작거나 어떤 노이즈에 의해 \\(N(u,v)\\) 가 매우 크다면 결과적으로 \\(F(u,v)\\) 보다 \\(\\dfrac{N(u,v)}{H(u,v)}\\) 가 더 지배적일 수 있다. 이를 막기 위한 방밥중에는 전에 배웠던 버터워스 필터링, 위너 필터링이 있다.\n\n\n\n\n5.3 계수조절 비너 필터링 (Parametric Wiener filtering)\n\n\n\n5.4 제한된 최소자승법 필터링 (Constrained least squarefiltering, CLSF)\n\n\n\n5.5 기하평균 필터링 (Geometric mean filtering)",
@@ -832,8 +832,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_05.html#이미지-재구성-image-reconstruction",
-    "href": "src/image_processing/image_processing_05.html#이미지-재구성-image-reconstruction",
+    "objectID": "src/image_processing/image_processing_04.html#이미지-재구성-image-reconstruction",
+    "href": "src/image_processing/image_processing_04.html#이미지-재구성-image-reconstruction",
     "title": "이미지 복원 및 재구성",
     "section": "6 이미지 재구성 (Image Reconstruction)",
     "text": "6 이미지 재구성 (Image Reconstruction)\n\n\n6.1 이미지 복원과 이미지 재구성\n\n이미지 복원은 열화된 이미지를 최대한 품질을 개선시키는 방법 에 초점을 맞췄다면, 이미지 재구성은 여러 장의 이미지 혹은 여러 방향에서 찍은 이미 지를 하나의 이미지로 재구축하는 과정에 초점을 맞춥니다.\n이미지 재구성은 CT (computer tomography) 같은 첨단 의료영상정보 처리에 활발하게 활용되는 매우 중요 한 이미지 처리 방법입니다.\n\n\n\n\n6.2 후방 사영법 (Backprojection)\n\n피사체 앞에서 빔을 나란히 쏜 후, 피사체를 통과한 빔의 강도를 후 방에서 모아서 하나의 이미지로 만드는 방법.\n피사체의 부분마다 빔에 대한 투과도 (transmission coefficient)나 흡광도 (absorption coefficient)가 다르다는 것에 착안한 방법.\n예를 들어 암세포는 다른 세포에 비해 X-ray를 더 잘 흡수하는 경향이 있는데, 그 세포를 향해 X-ray를 쏜다면, 세포 뒤에 건판에는 서로 다른 강도의 X-ray 신호가 나타날 것이다. 그리고 그 세포를 향해 쏘는 X-ray의 방향을 계속 돌려 보면, 그 세포의 상대적 위치에 대해 모든 정보를 얻을 수 있을 것이다.\n후방 사영법은 단순하지만 후방 사영하는 각도 단위가 작아질수록 (즉, 해상력 이 높아질수록) 재구축되는 이미지가 더 정교해진다는 장점이 있다.\n그럼에도 불구하고, 후방 사영법만으로는 피사체의 디테일을 전부 다 살리기 어려운데, 그 이유는 후방 사영법의 특징 상, 사영된 이미지의 겹침 과정에서 피사체의 경계 부분이 블러링되는 것을 피할 수 없기 때문. 이 때문에, 후방 사영법을 필터링하는 알고리듬이 필요하다.\n\n\n\n\n6.3 라돈 변환 (Radon Transform)\npython 에서는 opencv 에서는 제공하지 않는 것 같고, skimage 에서 제공한다. 역변환인\nfrom skimage.transform import radon\n# get sinogram by radon transform\nsinogram = radon(img1, theta)\n\n# reconstruct by iradon\nreconstruction_img = iradon(sinogram, theta=theta, filter='ramp')\n으로 사용 할 수 있다.\n아래 radon transform 은 아래 사이트를 참고하라\nhttps://scikit-image.org/docs/dev/auto_examples/transform/plot_radon_transform.html",
@@ -1057,8 +1057,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_04.html",
-    "href": "src/image_processing/image_processing_04.html",
+    "objectID": "src/image_processing/image_processing_03.html",
+    "href": "src/image_processing/image_processing_03.html",
     "title": "허프 변환 및 거리 변환 (Hough & Distance Transform)",
     "section": "",
     "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
@@ -1069,8 +1069,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_06.html",
-    "href": "src/image_processing/image_processing_06.html",
+    "objectID": "src/image_processing/image_processing_05.html",
+    "href": "src/image_processing/image_processing_05.html",
     "title": "이미지 분할",
     "section": "",
     "text": "% %\n%\n\\[\n\\DeclarePairedDelimiters{\\set}{\\{}{\\}}\n\\DeclareMathOperator*{\\argmax}{argmax}\n\\]",
@@ -1081,8 +1081,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_06.html#이미지-분할",
-    "href": "src/image_processing/image_processing_06.html#이미지-분할",
+    "objectID": "src/image_processing/image_processing_05.html#이미지-분할",
+    "href": "src/image_processing/image_processing_05.html#이미지-분할",
     "title": "이미지 분할",
     "section": "1 이미지 분할",
     "text": "1 이미지 분할\n이미지의 어떤 영역 \\(R\\) 을 서로 겹치지 않으며 그 합집합이 영역 \\(R\\) 이 되는 부분집합 \\(R_1,\\ldots,\\,R_n\\) 으로 나누는 것. 즉, 1. \\(R_i \\ne \\varnothing\\) for all \\(i=1,\\ldots,\\,n\\) 2. \\(\\displaystyle \\bigcup_{i=1}^n = R\\) 3. 각각의 \\(R_i\\) 는 연결된 집합. 4. \\(i \\ne j \\implies R_i \\cap R_j = \\varnothing\\)",
@@ -1093,8 +1093,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_06.html#이미지-이진화",
-    "href": "src/image_processing/image_processing_06.html#이미지-이진화",
+    "objectID": "src/image_processing/image_processing_05.html#이미지-이진화",
+    "href": "src/image_processing/image_processing_05.html#이미지-이진화",
     "title": "이미지 분할",
     "section": "2 이미지 이진화",
     "text": "2 이미지 이진화",
@@ -1105,8 +1105,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_06.html#오츠-방법으로-처리된-이진화-thresholding-by-otsus-algorithm",
-    "href": "src/image_processing/image_processing_06.html#오츠-방법으로-처리된-이진화-thresholding-by-otsus-algorithm",
+    "objectID": "src/image_processing/image_processing_05.html#오츠-방법으로-처리된-이진화-thresholding-by-otsus-algorithm",
+    "href": "src/image_processing/image_processing_05.html#오츠-방법으로-처리된-이진화-thresholding-by-otsus-algorithm",
     "title": "이미지 분할",
     "section": "3 오츠 방법으로 처리된 이진화 (Thresholding by Otsu’s algorithm)",
     "text": "3 오츠 방법으로 처리된 이진화 (Thresholding by Otsu’s algorithm)",
@@ -1117,8 +1117,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_06.html#이미지-영역-찾기",
-    "href": "src/image_processing/image_processing_06.html#이미지-영역-찾기",
+    "objectID": "src/image_processing/image_processing_05.html#이미지-영역-찾기",
+    "href": "src/image_processing/image_processing_05.html#이미지-영역-찾기",
     "title": "이미지 분할",
     "section": "4 이미지 영역 찾기",
     "text": "4 이미지 영역 찾기",
@@ -1129,8 +1129,8 @@
     ]
   },
   {
-    "objectID": "src/image_processing/image_processing_06.html#미분기를-활용한-이미지-분할-방법",
-    "href": "src/image_processing/image_processing_06.html#미분기를-활용한-이미지-분할-방법",
+    "objectID": "src/image_processing/image_processing_05.html#미분기를-활용한-이미지-분할-방법",
+    "href": "src/image_processing/image_processing_05.html#미분기를-활용한-이미지-분할-방법",
     "title": "이미지 분할",
     "section": "5 미분기를 활용한 이미지 분할 방법",
     "text": "5 미분기를 활용한 이미지 분할 방법",

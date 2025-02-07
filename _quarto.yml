@@ -100,17 +100,8 @@ website:
     - title: "Topics"
       collapse-level: 2
       contents:
-        # - href: src/topics/topics.qmd
         - href: src/topics/nonlinear_least_square_fit.qmd
-        
-    #     - href: src/tools/Asymptote/asymptote.qmd
-        
-    #     - href: src/tools/tikz/tikz.qmd
-    #     - href: src/tools/tikz/tikz_functions.qmd
-    #     - href: src/tools/tikz/tikz_image.qmd
-    #     - href: src/tools/tikz/tikz_wavelet.qmd
-    #     - href: src/tools/tikz/tikz_pde.qmd
-        # - href: src/tools/tikz/tikz_test.qmd
+
 
 bibliography: references.bib
 

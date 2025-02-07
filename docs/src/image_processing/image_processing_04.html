@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>수치해석과 이미지 처리 - 허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</title>
+<title>수치해석과 이미지 처리 - 이미지 복원 및 재구성</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../src/image_processing/image_processing_05.html" rel="next">
-<link href="../../src/image_processing/image_processing_02.html" rel="prev">
+<link href="../../src/image_processing/image_processing_03.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -155,7 +189,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_04.html">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_04.html">이미지 복원 및 재구성</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -196,25 +230,25 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_04.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../src/image_processing/image_processing_03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_05.html" class="sidebar-item-text sidebar-link">
+  <a href="../../src/image_processing/image_processing_04.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">이미지 복원 및 재구성</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_06.html" class="sidebar-item-text sidebar-link">
+  <a href="../../src/image_processing/image_processing_05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">이미지 분할</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/image_processing/image_processing_07.html" class="sidebar-item-text sidebar-link">
+  <a href="../../src/image_processing/image_processing_06.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">칼라 이미지 처리</span></a>
   </div>
 </li>
@@ -290,14 +324,50 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#이미지-복원" id="toc-이미지-복원" class="nav-link active" data-scroll-target="#이미지-복원"><span class="header-section-number">1</span> 이미지 복원</a>
+  <ul class="collapse">
+  <li><a href="#이미지-정보의-열화-왜곡-원인" id="toc-이미지-정보의-열화-왜곡-원인" class="nav-link" data-scroll-target="#이미지-정보의-열화-왜곡-원인"><span class="header-section-number">1.1</span> 이미지 정보의 열화, 왜곡 원인</a></li>
+  <li><a href="#수학적-가정" id="toc-수학적-가정" class="nav-link" data-scroll-target="#수학적-가정"><span class="header-section-number">1.2</span> 수학적 가정</a></li>
+  <li><a href="#역공간에서의-표현" id="toc-역공간에서의-표현" class="nav-link" data-scroll-target="#역공간에서의-표현"><span class="header-section-number">1.3</span> 역공간에서의 표현</a></li>
+  </ul></li>
+  <li><a href="#노이즈-행렬" id="toc-노이즈-행렬" class="nav-link" data-scroll-target="#노이즈-행렬"><span class="header-section-number">2</span> 노이즈 행렬</a>
+  <ul class="collapse">
+  <li><a href="#노이즈의-원인에-따른-분류" id="toc-노이즈의-원인에-따른-분류" class="nav-link" data-scroll-target="#노이즈의-원인에-따른-분류"><span class="header-section-number">2.1</span> 노이즈의 원인에 따른 분류</a></li>
+  <li><a href="#많이-사용되는-노이즈-확률-분포" id="toc-많이-사용되는-노이즈-확률-분포" class="nav-link" data-scroll-target="#많이-사용되는-노이즈-확률-분포"><span class="header-section-number">2.2</span> 많이 사용되는 노이즈 확률 분포</a></li>
+  </ul></li>
+  <li><a href="#임펄스-신호-와-lpi-연산자" id="toc-임펄스-신호-와-lpi-연산자" class="nav-link" data-scroll-target="#임펄스-신호-와-lpi-연산자"><span class="header-section-number">3</span> 임펄스 신호 와 LPI 연산자</a></li>
+  <li><a href="#열화-연산자-모델" id="toc-열화-연산자-모델" class="nav-link" data-scroll-target="#열화-연산자-모델"><span class="header-section-number">4</span> 열화 연산자 모델</a>
+  <ul class="collapse">
+  <li><a href="#공기의-흔들림-가우시안-에-의한-이미지-열화" id="toc-공기의-흔들림-가우시안-에-의한-이미지-열화" class="nav-link" data-scroll-target="#공기의-흔들림-가우시안-에-의한-이미지-열화"><span class="header-section-number">4.1</span> 공기의 흔들림 (가우시안) 에 의한 이미지 열화</a></li>
+  <li><a href="#피사체의-흔들림에-의한-열화-motion-blur" id="toc-피사체의-흔들림에-의한-열화-motion-blur" class="nav-link" data-scroll-target="#피사체의-흔들림에-의한-열화-motion-blur"><span class="header-section-number">4.2</span> 피사체의 흔들림에 의한 열화 (motion blur)</a></li>
+  </ul></li>
+  <li><a href="#motion-bluring" id="toc-motion-bluring" class="nav-link" data-scroll-target="#motion-bluring"><span class="header-section-number">5</span> Motion Bluring</a>
+  <ul class="collapse">
+  <li><a href="#inverse-filtering-을-통한-motion-blur-복원" id="toc-inverse-filtering-을-통한-motion-blur-복원" class="nav-link" data-scroll-target="#inverse-filtering-을-통한-motion-blur-복원"><span class="header-section-number">5.1</span> Inverse filtering 을 통한 motion blur 복원</a></li>
+  <li><a href="#노이즈가-있는-이미지의-복원" id="toc-노이즈가-있는-이미지의-복원" class="nav-link" data-scroll-target="#노이즈가-있는-이미지의-복원"><span class="header-section-number">5.2</span> 노이즈가 있는 이미지의 복원</a></li>
+  <li><a href="#계수조절-비너-필터링-parametric-wiener-filtering" id="toc-계수조절-비너-필터링-parametric-wiener-filtering" class="nav-link" data-scroll-target="#계수조절-비너-필터링-parametric-wiener-filtering"><span class="header-section-number">5.3</span> 계수조절 비너 필터링 (Parametric Wiener filtering)</a></li>
+  <li><a href="#제한된-최소자승법-필터링-constrained-least-squarefiltering-clsf" id="toc-제한된-최소자승법-필터링-constrained-least-squarefiltering-clsf" class="nav-link" data-scroll-target="#제한된-최소자승법-필터링-constrained-least-squarefiltering-clsf"><span class="header-section-number">5.4</span> 제한된 최소자승법 필터링 (Constrained least squarefiltering, CLSF)</a></li>
+  <li><a href="#기하평균-필터링-geometric-mean-filtering" id="toc-기하평균-필터링-geometric-mean-filtering" class="nav-link" data-scroll-target="#기하평균-필터링-geometric-mean-filtering"><span class="header-section-number">5.5</span> 기하평균 필터링 (Geometric mean filtering)</a></li>
+  </ul></li>
+  <li><a href="#이미지-재구성-image-reconstruction" id="toc-이미지-재구성-image-reconstruction" class="nav-link" data-scroll-target="#이미지-재구성-image-reconstruction"><span class="header-section-number">6</span> 이미지 재구성 (Image Reconstruction)</a>
+  <ul class="collapse">
+  <li><a href="#이미지-복원과-이미지-재구성" id="toc-이미지-복원과-이미지-재구성" class="nav-link" data-scroll-target="#이미지-복원과-이미지-재구성"><span class="header-section-number">6.1</span> 이미지 복원과 이미지 재구성</a></li>
+  <li><a href="#후방-사영법-backprojection" id="toc-후방-사영법-backprojection" class="nav-link" data-scroll-target="#후방-사영법-backprojection"><span class="header-section-number">6.2</span> 후방 사영법 (Backprojection)</a></li>
+  <li><a href="#라돈-변환-radon-transform" id="toc-라돈-변환-radon-transform" class="nav-link" data-scroll-target="#라돈-변환-radon-transform"><span class="header-section-number">6.3</span> 라돈 변환 (Radon Transform)</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_04.html">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/image_processing/index.html">영상 처리 기초</a></li><li class="breadcrumb-item"><a href="../../src/image_processing/image_processing_04.html">이미지 복원 및 재구성</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</h1>
+<h1 class="title">이미지 복원 및 재구성</h1>
 </div>
 
 
@@ -323,8 +393,331 @@ window.Quarto = {
 \]</span></p>
 </div>
 <p><br></p>
+<section id="이미지-복원" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="이미지-복원"><span class="header-section-number">1</span> 이미지 복원</h2>
+<section id="이미지-정보의-열화-왜곡-원인" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="이미지-정보의-열화-왜곡-원인"><span class="header-section-number">1.1</span> 이미지 정보의 열화, 왜곡 원인</h3>
+<ul>
+<li>보통 환경적인 요인,</li>
+<li>잡음 (noise),</li>
+<li>이미지 센서의 열화 (degradation),</li>
+<li>화각의 불균형으로 인한 기하학적 왜곡 (distortion)</li>
+</ul>
+<p><br></p>
+</section>
+<section id="수학적-가정" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="수학적-가정"><span class="header-section-number">1.2</span> 수학적 가정</h3>
+<ul>
+<li>이미지 열화 (degradation)의 원인을 이미지에 작용하는 어떤 선형이고 위치불변인 ’연산자 (operator)’로 표현 할 수 있음.</li>
+</ul>
+<p><br></p>
+<section id="선형성-linearity" class="level4">
+<h4 class="anchored" data-anchor-id="선형성-linearity"><strong>선형성 (Linearity)</strong></h4>
+<p>행렬에 대한 연산자 <span class="math inline">\(\hat{H}\)</span> 가 두 행렬 <span class="math inline">\(f_1(x,\,y),\,f_2 (x,\,y)\)</span> 와 임의의 스칼라 <span class="math inline">\(a,\,b\)</span> 에 대해 다음을 만족시킬 때 <span class="math inline">\(\hat{H}\)</span> 을 선형연산자라 한다.</p>
+<p><span class="math display">\[
+\hat{H} [af_1(x,\,y)+bf_2(x,\,y)]= a\hat{H} [f_1(x,\,y)] + b\hat{H}[f_2 (x,\,y)]
+\]</span></p>
+<p><br></p>
+</section>
+<section id="위치불변성-position-invariance" class="level4">
+<h4 class="anchored" data-anchor-id="위치불변성-position-invariance"><strong>위치불변성 (Position invariance)</strong></h4>
+<p>연산자 <span class="math inline">\(\hat{H}\)</span> 가 이미지 행렬 <span class="math inline">\(f(x,\,y)\)</span> 에 대해 다음을 만족하면 <span class="math inline">\(\hat{H}\)</span> 를 위치불변 (position -invariant) 라 한다.</p>
+<p><span class="math display">\[
+g(x,\,y) = \hat{H}[f(x,\,y)] \implies \hat{H}[f(x-a,\,y-b)] = g(x-a,\,y-b)
+\]</span></p>
+<ul>
+<li>이제 선형이고 위치불변인 연산자를 <strong>LPI</strong> (Linear and Position-Invariant) 연산자라 하자.</li>
+</ul>
+<p><br></p>
+</section>
+</section>
+<section id="역공간에서의-표현" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="역공간에서의-표현"><span class="header-section-number">1.3</span> 역공간에서의 표현</h3>
+<ul>
+<li><span class="math inline">\(f(x,\,y) = \mathfrak{I}^{-1}[F(u,\,v)]\)</span> : 원본 이미지</li>
+<li><span class="math inline">\(h(x,\,y) = \mathfrak{I}^{-1}[H(u,\,v)]\)</span> : 열화 원인 연산자</li>
+<li><span class="math inline">\(\eta (x,\,y) = \mathfrak{I}^{-1} [N(u,\,v)]\)</span> : 노이즈 행렬</li>
+<li><span class="math inline">\(g(x,\,y) = \mathfrak{I}^{-1}[G (u,\,v)]\)</span> : 최종 이미지</li>
+</ul>
+<p>라 할 때 실공간과 역공간에서 표현하면 다음과 같은 관계식을 만족한다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+g(x,\,y) &amp;= h(x,\,y) \ast f(x,\,y) + \eta(x,\,y)\\
+G(u, v) &amp;= H (u, v)  F (u, v) + N (u, v)
+\end{aligned}
+\]</span></p>
+<p><br></p>
+</section>
+</section>
+<section id="노이즈-행렬" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="노이즈-행렬"><span class="header-section-number">2</span> 노이즈 행렬</h2>
+<section id="노이즈의-원인에-따른-분류" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="노이즈의-원인에-따른-분류"><span class="header-section-number">2.1</span> 노이즈의 원인에 따른 분류</h3>
+<ol type="1">
+<li>백색 잡음 (white noise) : 역공간에서 잡음 행렬의 분포가 일정</li>
+<li>가우시안 잡음 (Gaussian noise) : 온도 분포의 불균일성, 광량의 불균일성 등으로 인해 전자 회로의 노이즈, 센서의 노이즈 때문에 주로 발생</li>
+<li>레일리 잡음 (Rayleigh noise) : 레인지 이미징 (range imaging, High Dynamic Range imaging ,HDRI)에서 주로 발생</li>
+</ol>
+<ul>
+<li>레인지 이미징 : 주로 피사체의 광량 분포가 불균일할 때, 그것을 균일하게 만들어 주는 이미징을 의미합니다.</li>
+</ul>
+<p><br></p>
+</section>
+<section id="많이-사용되는-노이즈-확률-분포" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="많이-사용되는-노이즈-확률-분포"><span class="header-section-number">2.2</span> 많이 사용되는 노이즈 확률 분포</h3>
+<ul>
+<li>가우시안 잡음(Gaussian noise)</li>
+<li>레일리 잡음 (Rayleigh noise),</li>
+<li>에를랑 잡음 (Erlang noise or gamma noise),</li>
+<li>지수적 잡음 (exponential noise),</li>
+<li>균일 잡음 (uniform noise),</li>
+<li>임펄스 잡음 (impulse noise)</li>
+</ul>
+<p><br></p>
+<section id="가우시안-잡음의-확률분표" class="level4">
+<h4 class="anchored" data-anchor-id="가우시안-잡음의-확률분표"><strong>가우시안 잡음의 확률분표</strong></h4>
+<p><span class="math display">\[
+p(z) =  \dfrac{1}{\sqrt{2\pi \sigma}} e^{(z - \langle z \rangle)^2/2\sigma^2 }
+\]</span></p>
+<p>여기서 <span class="math inline">\(\langle z \rangle, \, \sigma^2\)</span> 는 가우시안 잡음의 평균과 분산</p>
+<p><br></p>
+</section>
+<section id="레일리-잡음의-확률분포" class="level4">
+<h4 class="anchored" data-anchor-id="레일리-잡음의-확률분포"><strong>레일리 잡음의 확률분포</strong></h4>
+<p><span class="math display">\[
+p(z) = \left\{\begin{array}{ll} \dfrac{2}{b}(z-a)^2 e^{-(z-a)^2/b} \qquad &amp; \text{for }z \ge a \\ 0 &amp; \text{for }z&lt;a \end{array} \right.
+\]</span></p>
+<p>이 때, <span class="math inline">\(z\)</span> 는 픽셀 값, <span class="math inline">\(a\)</span> 는 픽셀값의 문턱 값이다. 이 확률분포의 평균과 분산은 다음과 같다.</p>
+<p><span class="math display">\[
+\langle z \rangle = a+ \left(\dfrac{\pi b}{4}\right)^{1/2}, \qquad \sigma^2 = \dfrac{b(4-\pi)}{4}
+\]</span></p>
+<p><br></p>
+</section>
+<section id="에를랑-잡음의-확률-분포" class="level4">
+<h4 class="anchored" data-anchor-id="에를랑-잡음의-확률-분포"><strong>에를랑 잡음의 확률 분포</strong></h4>
+<p><span class="math display">\[
+p(z) = \left\{\begin{array}{ll}
+\dfrac{a^bz^{b-1}}{(b-1)!}e^{-az} \qquad &amp; \text{for }z \ge 0 \\
+0 &amp; \text{for } z&lt;0
+\end{array} \right.
+\]</span></p>
+<p>이 확률분포의 평균과 분산은 다음과 같다.</p>
+<p><span class="math display">\[
+\langle z \rangle = \dfrac{b}{a},\qquad \sigma^2 = \dfrac{b}{a^2}
+\]</span></p>
+<p><br></p>
+</section>
+<section id="지수적-잡음" class="level4">
+<h4 class="anchored" data-anchor-id="지수적-잡음"><strong>지수적 잡음</strong></h4>
+<p><span class="math display">\[
+p(z) = \left\{\begin{array}{ll}
+ae^{-az} \qquad &amp; \text{for }z \ge 0 \\
+0 &amp; \text{for } z&lt;0
+\end{array} \right.
+\]</span></p>
+<p>이 확률분포의 평균과 분산은 다음과 같다.</p>
+<p><span class="math display">\[
+\langle z \rangle = \dfrac{1}{a},\qquad \sigma^2 = \dfrac{1}{a^2}
+\]</span></p>
+<p><br></p>
+</section>
+<section id="균일-잡음" class="level4">
+<h4 class="anchored" data-anchor-id="균일-잡음"><strong>균일 잡음</strong></h4>
+<p><span class="math display">\[
+p(z) = \left\{\begin{array}{ll}
+\dfrac{1}{b-a} \qquad &amp; \text{for } a\le z \le  b \\
+0 &amp; \text{otherwise }
+\end{array} \right.
+\]</span></p>
+<p>이 확률분포의 평균과 분산은 다음과 같다.</p>
+<p><span class="math display">\[
+\langle z \rangle = \dfrac{a+b}{2},\qquad \sigma^2 = \dfrac{(b-a)^2}{12}
+\]</span></p>
+<p><br></p>
+</section>
+<section id="임펄스-잡음" class="level4">
+<h4 class="anchored" data-anchor-id="임펄스-잡음"><strong>임펄스 잡음</strong></h4>
+<p><span class="math display">\[
+p(z) = \left\{\begin{array}{ll} P_a \qquad &amp; \text{for }z=a \\
+P_b &amp; \text{for } z=b \\ 0 &amp;\text{otherwise} \end{array} \right.
+\]</span></p>
+<ul>
+<li>Salt-and-Pepper (S&amp;P) 노이즈가 대표적</li>
+</ul>
+<p><br></p>
+</section>
+</section>
+</section>
+<section id="임펄스-신호-와-lpi-연산자" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="임펄스-신호-와-lpi-연산자"><span class="header-section-number">3</span> 임펄스 신호 와 LPI 연산자</h2>
+<p>임펄스 신호 <span class="math inline">\(\delta (x-\alpha,\,y-\beta)\)</span> 를 LPI 연산자 <span class="math inline">\(\hat{H}\)</span> 에 적용한 것을 <span class="math inline">\(h(x,\,\alpha,\,y,\,\beta)\)</span> 라 하자. 즉</p>
+<p><span class="math display">\[
+h(x,\,\alpha,\,y,\,\beta) = \hat{H}[\delta (x-\alpha,\,y-\beta)]
+\]</span></p>
+<p>이다. <span class="math inline">\(\delta\)</span> 함수의 성질에 의해 다음이 성립함을 안다.</p>
+<p><span class="math display">\[
+f(x,\,y) = \iint f(\alpha,\, \beta) \,\delta(x-\alpha,\, y-\beta)\, d\alpha\,d\beta
+\]</span></p>
+<p>이제 이미지 <span class="math inline">\(f(x,\,y)\)</span> 에 <span class="math inline">\(\hat{H}\)</span> 를 적용하면,</p>
+<p><span class="math display">\[
+\begin{aligned}
+g(x,\,y) &amp;= \hat{H}[f(x,\,y)] \\
+&amp;= \hat{H} \left[ \iint f(\alpha,\, \beta) \,\delta(x-\alpha,\, y-\beta)\, d\alpha\,d\beta \right] \\
+&amp;= \iint \hat{H} [f(\alpha,\, \beta) \,\delta(x-\alpha,\, y-\beta)] \, d\alpha\,d\beta \\
+&amp;= \iint f(\alpha,\, \beta) \,\hat{H} [\delta(x-\alpha,\, y-\beta)] \, d\alpha\,d\beta \\
+&amp;= \iint f(\alpha,\, \beta) \,h(x,\,\alpha,\, y,\,\beta)] \, d\alpha\,d\beta \\
+&amp;= \iint f(\alpha,\,\beta) \,h(x-\alpha,\, y-\beta)\, d\alpha\, d\beta\\
+&amp;= h (x,\,y) * f(x,\,y)
+\end{aligned}
+\]</span></p>
+<p>위 식에서 적분 내에서 <span class="math inline">\(h(x,\,\alpha,\, y,\,\beta) \to h(x-\alpha,\, y-\beta)\)</span> 로 변환되는 데는 Fredholm integral of the first kind 를 사용하였다. <span class="math inline">\(h(x-\alpha,\, y-\beta) = h(x,\,\alpha,\,y,\,\beta)\)</span> 를 <strong>점 확산 함수 (point spread function, PSF)</strong> 이라 한다.</p>
+<p><br></p>
+<p>푸리에 변환의 성질에 의해 역공간에서는</p>
+<p><span class="math display">\[
+G(u,\,v) = H(u,\,v) F(u,\,v)
+\]</span></p>
+<p>가 성립한다.</p>
+<blockquote class="blockquote">
+<p>이를 조금 더 알기 쉽게 설명하자면 이렇습니다. 어떤 이미지가 열화된 것처럼 보인다면, 그 원인에 해당하는 특정한 LPI(라고가정할수있는) 열화연산자 <span class="math inline">\(\hat{H}\)</span>가 있을것입니다.그리고 또 그것에 해당하는 고유의 점확산함수 <span class="math inline">\(h(x,y)\)</span>가 있을 것이고요. 점,즉 픽셀값이 확산되는 경향 (강도, 방향 등)이 바로 이미지가 열화되는 정도를 결정하는데, 그 정도는 점 확산 함수와 원본 이미지 행렬의 합성곱으로 결정됩니다. 다시 말해, 이미지에 있는 모든 픽셀 (즉, ‘점’)이 얼마나 퍼질 수 있는지 그래서 얼마나 왜곡이 되고 열화되는지가 결과적으로 LPI 연산자의 함수 특성에 의해 결정되는 것입니다.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>이제 이미지의 열화를 야기한 연산자에 대한 사전 정보가 없을 때, 연산자 정보를 어떻게 추정할 수 있을지 생각해 봅시다. 열화과정은 이미지를 관찰하거나, 실험해 보거나, 수학적으로 모델링함으로써 추정할 수 있습니다.</p>
+</blockquote>
+<p><br></p>
+</section>
+<section id="열화-연산자-모델" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="열화-연산자-모델"><span class="header-section-number">4</span> 열화 연산자 모델</h2>
+<p><br></p>
+<section id="공기의-흔들림-가우시안-에-의한-이미지-열화" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="공기의-흔들림-가우시안-에-의한-이미지-열화"><span class="header-section-number">4.1</span> 공기의 흔들림 (가우시안) 에 의한 이미지 열화</h3>
+<p>흔들림 연산자는 수학적으로 다음과 같은 식이 많이 쓰인다. <span class="math display">\[
+H(u,\,v) = e^{-k(u^2+v^2)^{5/6}}
+\]</span></p>
+</section>
+<section id="피사체의-흔들림에-의한-열화-motion-blur" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="피사체의-흔들림에-의한-열화-motion-blur"><span class="header-section-number">4.2</span> 피사체의 흔들림에 의한 열화 (motion blur)</h3>
+<p>피사체가 <span class="math inline">\(T\)</span> 의 시간동안 카메라에 노출되어 <span class="math inline">\(x,\,y\)</span> 방향으로 각각 <span class="math inline">\(x_0(t),\, y_0(t)\)</span> 만큼 움직이는 이미지는 다음과 같이 표현된다.</p>
+<p><span class="math display">\[
+g(x,\,y) = \int_0^T f[x-x_0(t),\, y-y_0(t)]\, dt
+\]</span></p>
+<p>이에 대한 푸리에 변환은 다음과 같다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+G(u,\,v) &amp;= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} g(x,\,y)\, e^{-2i\pi (ux+vy)}\,dx\,dy \\
+&amp;=\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \left[ \int_0^Tf(x,\,y) e^{-2i\pi(ux+vy)}e^{-2i\pi(ux_0(t)+vy_0(t))}\,\, dt\right] dx\,dy \\
+&amp;=F(u,\,v) \int_0^T e^{-2i\pi(ux_0(t)+vy_0(t))}\, dt = F(u,\,v) H(u,\,v) \\
+&amp;\qquad \qquad \qquad \text{where }H(u,\,v) =\int_0^T e^{-2i\pi(ux_0(t)+vy_0(t))}\, dt
+\end{aligned}
+\]</span></p>
+<p>즉 피사체 움직임에 의한 열화 LPI 연산자는 위 식의 <span class="math inline">\(H(u,\,v)\)</span> 이다.</p>
+<p><br></p>
+</section>
+</section>
+<section id="motion-bluring" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="motion-bluring"><span class="header-section-number">5</span> Motion Bluring</h2>
+<p>카메라에 <span class="math inline">\(T\)</span> 의 시간만큼 노출되며 이 시간동안의 피사체의 움직임을 <span class="math inline">\(x_0(t),\,y_0(t)\)</span> 로 기술 할 수 있다고 하자. <span class="math inline">\(f(x,\,y)\)</span> 를 정지상태의 이상적인 피사체의 이미지라 하면, 이 때 피사체의 이미지 <span class="math inline">\(g(x,\,y)\)</span> 는 다음과 같이 기술된다.</p>
+<p><span class="math display">\[
+g(x,\,y) = \int_0^T f(x-x_0(t),\, y-y_0(t))\, dt
+\]</span> 이를 푸리에 변환하면,</p>
+<p><span class="math display">\[
+\begin{aligned}
+G(u,\,v) &amp;= \mathfrak{I}[g(x\,y)] = \iint g(x,\,y) e^{-2i\pi (ux+vy)}\,dxdy\\
+&amp;= \iint \left[ \int_0^T f(x-x_0(t),\, y-y_0(t))\, dt\right] e^{-2i\pi (ux+vy)}\,dxdy\\
+&amp;= \int_0^T \left[\iint f(x-x_0(t),\, y-y_0(t)  e^{-2i\pi (ux+vy)}\,dxdy\right] \, dt\\
+&amp;= \int_0^T F(u,\,v)  e^{-2i\pi (ux_0(t)+vy_0(t))}\,dxdy \\
+&amp;= \int F(u,\,v) H(u,\,v),\qquad \text{where}\quad H(u,\,v) = \int_0^T e^{-2i\pi (ux_0(t)+vy_0(t))}\,dxdy
+\end{aligned}
+\]</span></p>
+<p>즉 피사체의 열화 LPI 연산자 $H(u,,v) = _0^T e^{-2i(ux_0(t)+vy_0(t))},dxdy $ 를 알 수 있다. 만약 피사체가 속도 <span class="math inline">\((a/T,\, b/T)\)</span> 의 단순선형등속은동을 한다면, <span class="math inline">\(x_0(t) = at/T,\, y_0(t) =bt/T\)</span> 이므로,</p>
+<p><span class="math display">\[
+H(u,\,v) = \int_0^T e^{-2i\pi(au+bv)t/T}\, dt=\dfrac{T}{au+bv} \sin \left[\pi(au+bv)\right]e^{-2i\pi(au+bv)}
+\]</span></p>
+<p>가 된다. 이로부터,</p>
+<p><span class="math display">\[
+f(x,\,y) = \mathfrak{I}^{-1}[F(u,\,v)] = \mathfrak{I}^{-1}\left[G(u,\,v)/H(u,\,v)\right]
+\]</span></p>
+<p>의 관계를 통해 <span class="math inline">\(f(x,\,y)\)</span> 를 복원 할 수 있다.</p>
+<p><br></p>
+<section id="inverse-filtering-을-통한-motion-blur-복원" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="inverse-filtering-을-통한-motion-blur-복원"><span class="header-section-number">5.1</span> Inverse filtering 을 통한 motion blur 복원</h3>
+<p>피사체의 움직임을 단순한 선형 등속 움직임 즉, <span class="math inline">\(x_0(t) = \dfrac{at}{T},\, y_0(t) = \dfrac{bt}{T}\)</span> 라고 표현 할 수 있다고 가정하면,</p>
+<p><span class="math display">\[
+H(u,\,v) = \int_0^T e^{-2i\pi (ux_0(t)+vy_0(t))} \, dt = \dfrac{T}{\pi (ua+vb)} \sin (\pi (ua+vb)) e^{-i\pi (ua+bv)}
+\]</span></p>
+<p>이다.</p>
+<p><br></p>
+</section>
+<section id="노이즈가-있는-이미지의-복원" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="노이즈가-있는-이미지의-복원"><span class="header-section-number">5.2</span> 노이즈가 있는 이미지의 복원</h3>
+<ul>
+<li><p>사실 노이즈를 처리한 후 열화 연산자를 추정하여 이미지를 복원하는 것은 이상적인 시나리오에 가깝다. 왜냐하면 노이즈의 종류와 열화 연산자의 정체를 미리 알고 있어야만 이러한 처리가 깔끔하게 이루어질 것이기 때문이다. 노이즈의 정체를 모르는 상황이라면 노이즈만 따로 전처리 (pre-treatment)하기 어려울 것이다.</p></li>
+<li><p>노이즈가 없는 이미지 <span class="math inline">\(f(x,y)\)</span> 와 노이즈 <span class="math inline">\(n(x,y)\)</span> 를 생각하자. 이미지는 <span class="math inline">\(g(x,\,y)= f(x,\,y)+n(x,\,y)\)</span> 가 될 것이다. 이 때</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+F(u,v) &amp;= \mathfrak{I} [f(x,y)]\\
+N(u,v) &amp;= \mathfrak{I} [n(x,y)]\\
+G(u,v) &amp;= \mathfrak{I}[g(x,y)] = F(u,v)+N(u,v)
+\end{aligned}
+\]</span></p>
+<p>라 하자</p>
+<ul>
+<li>노이즈를 처리하지 않은 상황이라면 <span class="math inline">\(H\)</span> 연산에 대해 처리된 결과는 <span class="math inline">\(F(u,v)\)</span> 가 아닌 <span class="math inline">\(\hat{F}(u,\,v) = F(u,v) +\dfrac{N(u,v)}{H(u,v)}=\dfrac{G(u,v)}{H(u,v)}\)</span> 가 될 것이다.</li>
+<li><span class="math inline">\(\hat{F}(u,v)\)</span> 에서 <span class="math inline">\(H(u,v)\)</span> 가 매우 작거나 어떤 노이즈에 의해 <span class="math inline">\(N(u,v)\)</span> 가 매우 크다면 결과적으로 <span class="math inline">\(F(u,v)\)</span> 보다 <span class="math inline">\(\dfrac{N(u,v)}{H(u,v)}\)</span> 가 더 지배적일 수 있다. 이를 막기 위한 방밥중에는 전에 배웠던 버터워스 필터링, 위너 필터링이 있다.</li>
+</ul>
+<p><br></p>
+</section>
+<section id="계수조절-비너-필터링-parametric-wiener-filtering" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="계수조절-비너-필터링-parametric-wiener-filtering"><span class="header-section-number">5.3</span> 계수조절 비너 필터링 (Parametric Wiener filtering)</h3>
+<p><br></p>
+</section>
+<section id="제한된-최소자승법-필터링-constrained-least-squarefiltering-clsf" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="제한된-최소자승법-필터링-constrained-least-squarefiltering-clsf"><span class="header-section-number">5.4</span> 제한된 최소자승법 필터링 (Constrained least squarefiltering, CLSF)</h3>
+<p><br></p>
+</section>
+<section id="기하평균-필터링-geometric-mean-filtering" class="level3" data-number="5.5">
+<h3 data-number="5.5" class="anchored" data-anchor-id="기하평균-필터링-geometric-mean-filtering"><span class="header-section-number">5.5</span> 기하평균 필터링 (Geometric mean filtering)</h3>
+<p><br></p>
+</section>
+</section>
+<section id="이미지-재구성-image-reconstruction" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="이미지-재구성-image-reconstruction"><span class="header-section-number">6</span> 이미지 재구성 (Image Reconstruction)</h2>
+<p><br></p>
+<section id="이미지-복원과-이미지-재구성" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="이미지-복원과-이미지-재구성"><span class="header-section-number">6.1</span> 이미지 복원과 이미지 재구성</h3>
+<ul>
+<li><p>이미지 복원은 열화된 이미지를 최대한 품질을 개선시키는 방법 에 초점을 맞췄다면, 이미지 재구성은 여러 장의 이미지 혹은 여러 방향에서 찍은 이미 지를 하나의 이미지로 재구축하는 과정에 초점을 맞춥니다.</p></li>
+<li><p>이미지 재구성은 CT (computer tomography) 같은 첨단 의료영상정보 처리에 활발하게 활용되는 매우 중요 한 이미지 처리 방법입니다.</p></li>
+</ul>
+<p><br></p>
+</section>
+<section id="후방-사영법-backprojection" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="후방-사영법-backprojection"><span class="header-section-number">6.2</span> 후방 사영법 (Backprojection)</h3>
+<ul>
+<li>피사체 앞에서 빔을 나란히 쏜 후, 피사체를 통과한 빔의 강도를 후 방에서 모아서 하나의 이미지로 만드는 방법.</li>
+<li>피사체의 부분마다 빔에 대한 투과도 (transmission coefficient)나 흡광도 (absorption coefficient)가 다르다는 것에 착안한 방법.</li>
+<li>예를 들어 암세포는 다른 세포에 비해 X-ray를 더 잘 흡수하는 경향이 있는데, 그 세포를 향해 X-ray를 쏜다면, 세포 뒤에 건판에는 서로 다른 강도의 X-ray 신호가 나타날 것이다. 그리고 그 세포를 향해 쏘는 X-ray의 방향을 계속 돌려 보면, 그 세포의 상대적 위치에 대해 모든 정보를 얻을 수 있을 것이다.</li>
+<li>후방 사영법은 단순하지만 후방 사영하는 각도 단위가 작아질수록 (즉, 해상력 이 높아질수록) 재구축되는 이미지가 더 정교해진다는 장점이 있다.</li>
+<li>그럼에도 불구하고, 후방 사영법만으로는 피사체의 디테일을 전부 다 살리기 어려운데, 그 이유는 후방 사영법의 특징 상, 사영된 이미지의 겹침 과정에서 피사체의 경계 부분이 블러링되는 것을 피할 수 없기 때문. 이 때문에, 후방 사영법을 필터링하는 알고리듬이 필요하다.</li>
+</ul>
+<p><br></p>
+</section>
+<section id="라돈-변환-radon-transform" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="라돈-변환-radon-transform"><span class="header-section-number">6.3</span> 라돈 변환 (Radon Transform)</h3>
+<p>python 에서는 opencv 에서는 제공하지 않는 것 같고, skimage 에서 제공한다. 역변환인</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimage.transform <span class="im">import</span> radon</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># get sinogram by radon transform</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sinogram <span class="op">=</span> radon(img1, theta)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># reconstruct by iradon</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>reconstruction_img <span class="op">=</span> iradon(sinogram, theta<span class="op">=</span>theta, <span class="bu">filter</span><span class="op">=</span><span class="st">'ramp'</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>으로 사용 할 수 있다.</p>
+<p>아래 radon transform 은 아래 사이트를 참고하라</p>
+<p>https://scikit-image.org/docs/dev/auto_examples/transform/plot_radon_transform.html</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -738,13 +1131,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../src/image_processing/image_processing_02.html" class="pagination-link" aria-label="푸리에 변환을 이용한 이미지 처리">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">푸리에 변환을 이용한 이미지 처리</span>
+      <a href="../../src/image_processing/image_processing_03.html" class="pagination-link" aria-label="허프 변환 및 거리 변환 (Hough &amp; Distance Transform)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">허프 변환 및 거리 변환 (Hough &amp; Distance Transform)</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../src/image_processing/image_processing_05.html" class="pagination-link" aria-label="이미지 복원 및 재구성">
-        <span class="nav-page-text">이미지 복원 및 재구성</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../src/image_processing/image_processing_05.html" class="pagination-link" aria-label="이미지 분할">
+        <span class="nav-page-text">이미지 분할</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
