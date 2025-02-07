@@ -871,6 +871,8 @@ X(2^n) = 2^{n+1} + (n-1)2^{n-1} \approx n 2^{n} = 2^n \log_2 (2^n) = N \log_2(N)
 <p><code>cv.dft</code> 즉 <code>OpenCV.dft</code> 가 2차원 이산 푸리에 변환을 수행하는 함수이며 <code>flag=cv.DFT_COMPLEX_OUTPUT</code> 은 푸리에 변환의 결과를 복소수를 표현하는 2채널 행렬로 반환하라는 의미이다.</p>
 <p>물론 <code>FFTW.jl</code> 과 같은 julia 의 FFT 패키지를 사용 할 수도 있지만 이 경우 <code>OpenCV.Mat</code> 을 juila 배열로 변환하고 푸리에 변환 이후에 다시 <code>OpenCV.Mat</code> 으로 변환시켜야 하기 때문에 여기서는 다소 번거롭더라도 <code>OpenCV.dft</code> 를 사용하였다.</p>
 <p><br></p>
+<p>…. fftshfit 에 관한 내용 을 채워야 한다…</p>
+<p><br></p>
 <section id="ideal-low-pass-filtering" class="level3" data-number="7.1">
 <h3 data-number="7.1" class="anchored" data-anchor-id="ideal-low-pass-filtering"><span class="header-section-number">7.1</span> Ideal Low Pass Filtering</h3>
 <p>2D DFT 행렬을 DC 인자를 중앙에 배치하여 재배열했을 경우, 원본 이미지에서 낮은 픽셀 빈도를 갖는 성분은 중앙 (즉, <span class="math inline">\((u,v) \approx (0,0)\)</span>) 근처 에 모이게 된다. 낮은 빈도를 갖는다는 것은 공간 상에서 신호 주기가 크다는 의미고, 역공간에서는 ’1/주기’가 작은 값으로 대응이 될 것이므로, <span class="math inline">\((u, v)\)</span> 가 중앙 부분으로 몰리게 되는 것이다. 따라서, 원본 이미지의 로우-패스 필터링을 하고 싶다면, 푸리에 변환 된 행렬의 중앙 부분만 따로 골라내어 다시 역변환하면 될 것이다.</p>
