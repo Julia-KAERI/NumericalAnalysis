@@ -518,7 +518,8 @@ $$
 
 - [https://docs.opencv.org/4.x/d4/d13/tutorial_py_filtering.html](https://docs.opencv.org/4.x/d4/d13/tutorial_py_filtering.html) 를 참고하라.
 
-노이즈를 줄이고 이미지를 부드럽게 하는 데 사용된다. 필터의 크기는 폭 `w`, 높이 `h` 에 대해 `cv2.Size(w, h)` (즉 여기서는 `cvSize(w, h)`) 로 결정한다.
+
+픽셀 $F[i,j]$ 주변의 선택된 픽섹에 대한 평균값으로 이미지를 변환시키는 것을 평균값 필터라고 한다. 노이즈를 줄이고 이미지를 부드럽게 하는 데 사용된다. 필터의 크기는 폭 `w`, 높이 `h` 에 대해 `cv2.Size(w, h)` (즉 여기서는 `cvSize(w, h)`) 로 결정한다.
 
 ```julia
 cv.blur(img0, 3)
@@ -658,7 +659,7 @@ $$
 
 </br>
 
-### 분리 가능한 필터 커널
+### 분리 가능한 필터 커널 {#sec-ImageProcessing_separable_kernel}
 
 
 ::: {.callout-note appearance="simple" icon="false"}
@@ -757,6 +758,25 @@ cv.filter2D(img0, -1, K1)
 
 </br>
 
+### 가우시안 필터 {#sec-ImageProcessing_gaussian_filtering}
+
+가우시안 블러링 이라고도 한다. 평균값 필터와 비슷한 역할로 노이즈와 이미지의 급격환 변화를 줄이는 역할을 한다. $m \times n$ 커널에 대해 커널의 중심 $c_x,\,c_y$ 와 표준편차 $\sigma_x,\, \sigma_y$ 에 의한  2차원 가우스 분포를 갖는 커널에 의한 변환이다. 
+
+$$
+G[i,j] = \dfrac{1}{a} \exp \left[-\dfrac{(c_x-j)^2}{2\sigma_x^2} - \dfrac{(c_y-i)^2}{2\sigma_x^2}\right]
+$$ 
+
+여기서 $a$ 는 전체 커널의 성분의 합이 $1$ 이 되도록 하는 상수이다. OpenCV 에서 가우시안 필터링은 다음과 같이 수행한다.
+
+```julia
+cv.GaussianBlur(img0, cvSize(5, 5), 1.3)
+```
+
+여기서 `img0` 는 원본 이미지 이며, `cvSize(5, 5)` 는 가우시안 커널 사이즈의 높이와 폭을 의미한다. 그 다름은 가우시안 커널의 $x$ 방향 표준편차이며, 이후 $y$ 방향 표준편차를 정해주지 않는다면 $x$ 방향 표준편차와 동일하게 잡는다. 
+
+
+</br>
+
 ## 빈도 필터
 
 ### 이미지에 있어 ‘빈도 (frequency)’
@@ -794,55 +814,76 @@ $$ {#eq-ImageProcessing_highboost_filtering}
 
 </br>
 
-### Differential High-pass Filter
+### 경계 검출을 위한 하이 패스 필터 커널
 
-픽셀에 미분, 즉 차분을 적용한다고 하자. 일단 가장 간단하게 생각하면 $x$ 방향 편미분은 
-
-$$
-\partial_x F [i,j] = F[i,j]-F[i-1,j],\qquad \text{or} \qquad \partial_x F[i,j] = F[i+1,j]-F[i,j]
-$$
-
-이며 $y$ 방향 편미분은 
+경계 검출을 위해서는 일반적으로 2차원 공간에서의 미분, 즉 gradient 를 사용한다. 영상의 특정 픽셀에서의 미분을 구한다고 하자.
 
 $$
-\partial_y F[i,j] = F[i,j]-F[i,j-1],\qquad \text{or} \qquad \partial_y F[i,j]=F[i,j+1]-F[i,j]
+\nabla_F F[i, j] = (F[i, j+1] - F[i, j],\, F[i+1, j]-F[i, j]) 
+$$ {#eq-ImageProcessing_forward_difference}
+
+로 구할 수 있다. 이를 전방 미분, 혹은 전방 차분이라고 한다. 다른 방법으로
+
+$$
+\nabla_B F[i, j] = (F[i, j] - F[i, j-1],\, F[i+1, j]-F[i, j+1]) 
+$${#eq-ImageProcessing_backward_difference}
+
+로 구할 수 있다. 이를 후방 미분, 혹은 후방 차분이라고 한다. 경계 검출에는 가로 방향의 하이패스 필터와 세로 방향의 하이패스 필터를 모두 고려해야 하며 보통
+
+$$
+G[i, j] = \| \nabla F[i,\,j]\| \qquad \text{or} \qquad \| \nabla F[i,\,j]\|^2
 $$
 
-가 될 것이다. 이것을 그대로 적용 시킨 커널을 만들 수도 있지만 노이즈에 취약하기 때문에 거의 사용되지 않는다. 
-
-
+를 사용한다. 단순히 미분만을 고려한 위의 방법은 노이즈에 취약하기 때문에 잘 사용되지 않으며 아래의 방법이 많이 사용된다.
 
 
 <br>
 
 #### **로버츠 커널 (Roberts kernel)**
 
+커널 
 $$
-J_x[i, j] = F[i+1, j] - F[i, j],\qquad J_y = F[]
-$$
-
-대각선 방향의 편미분에 해당하는 2차원 배열을 로버츠 마스크라 하며 아래와 같다.
-
-$$
-G_x = \begin{bmatrix} +1&0&0 \\ 0&-1&0 \\ 0&0&0 \end{bmatrix}, \quad G_y=\begin{bmatrix}0&+1&0\\-1&0&0\\0&0&0 \end{bmatrix}
+K_1 = \begin{bmatrix} 0 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1 \end{bmatrix}, \quad K_2=\begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & -1 \\0&1&0 \end{bmatrix}
 $$ {#eq-ImageProcessing_roberts_kernel}
 
-<br>
-
-#### **Prewitt kernel**
+을 로버츠 커널이라고 한다. $K_1,\,K_2$ 는 사선 방향의 차분임을 알 수 있다. 이 커널에 대해 $J_1 = K_1 \ast F,\, J_2 = K_2 \ast F$ 를 얻고
 
 $$
-G_x = \begin{bmatrix}+1&0&-1\\+1&0&-1\\+1&0&-1\end{bmatrix}, \qquad 
-G_y = \begin{bmatrix}+1&+1&+1\\0&0&0\\-1&-1&-1\end{bmatrix}
+J[i,j] = \sqrt{J_1[i, j]^2 + J_2[i,j]^2}
+$$
+
+으로 변환된 이미지를 얻으면 경계에 대한 정보를 얻을 수 있다. 단순 차분 커널보다는 낳지만 역시 노이즈에 취약하며 아래에 설명할 커널들보다 검출 성능이 좋지 않다.
+
+<br>
+
+#### **프리윗 커널(Prewitt kernel)**
+
+전방 차분과 후방 차분의 평균을 구하되, 차분을 구하는 방향에 대해 수직한 이웃 픽셀을 포함하여 구한다고 하자. 예를 들어
+
+$$
+\partial_x F[i, j] = \dfrac{(F[i+1, j]- F[i, j]) + (F[i, j]- F[i, j-1])}{2}= \dfrac{F[i+1, j]- F[i-1, j]}{2}
+$$
+
+이다. 이것을 $j-1,\,j,\,j+1$ 에 대해 모두 구하여 더한다고 하자. 여기서는 변하는 비율이 중요하기 때문에 가장 간단하게 하는 비례상수를 곱하면 아래의 식 @eq-ImageProcessing_prewitt_kernel 의 $P_x$ 가 나온다. $y$ 방향 편미분은 $P_y$ 이다. 이렇게 구성된 커널 $P_x,\,P_y$ 를 프레윗 커널(Prewitt kernel) 이라고 한다.
+
+$$
+P_x = \begin{bmatrix}+1&0&-1\\+1&0&-1\\+1&0&-1\end{bmatrix}, \qquad 
+P_y = \begin{bmatrix}+1&+1&+1\\0&0&0\\-1&-1&-1\end{bmatrix}
 $$ {#eq-ImageProcessing_prewitt_kernel}
 
+역시 이미지 $F$ 에 대해 프리윗 커널로 변환시킨 이미지는 $G=\sqrt{(P_x \ast F)^2 + (P_y \ast F)^2}$ 이다.
+
 <br>
 
-#### **Sobel kernel**
+
+
+#### **소벨 커널(Sobel kernel)**
+
+프리윗 커널은 차분을 구하는 픽셀 과 그 주변 픽셀 2개의 차분을 더하지만 같은 중요도로 더한다. 여기에 변환시키는 픽셀에 가중치를 조금 더 준것이 소벨 커널이다. 다음을 보라.
 
 $$
-G_x = \begin{bmatrix}+1&0&-1\\+2&0&-2\\+1&0&-1\end{bmatrix},\qquad
-G_y = \begin{bmatrix}+1&+2&+1\\0&0&0\\-1&-2&-1\end{bmatrix}
+S_x = \begin{bmatrix}+1&0&-1\\+2&0&-2\\+1&0&-1\end{bmatrix},\qquad
+S_y = \begin{bmatrix}+1&+2&+1\\0&0&0\\-1&-2&-1\end{bmatrix}
 $$ {#eq-ImageProcessing_sobel_kernel}
 
 
@@ -850,90 +891,48 @@ $$ {#eq-ImageProcessing_sobel_kernel}
 
 ### Laplaician filter
 
-- 1차 미분 필터들은 한 번만 차분 값을 계산하기 때문에, 차분의 크기도 작고, 이로 인해서 경계가 확실한 부분만 추출할 수 있는 반면, 노이즈가 있거나 엣지 (edge)의 강도가 약한 부분에는 불완전한 추출을 보이는 한계가 있다. 
-- 이를 극복하기 위해 개발된 필터가 2차 미분형, 즉, 라플라시안 필터 (Laplacian filter) 이다. 라플라시안 필터는 말 그대로, 연속 함수 $f(x,y)$의 이계 도함수를 의미하는 라플라시안으로부터 유래한 것으로, 디지털 이미지에 대해, 아래와 같은 근사 공식을 활용하여 만들 수 있다.
+1차 미분 필터들은 한 번만 차분 값을 계산하기 때문에, 차분의 크기도 작고, 이로 인해서 경계가 확실한 부분만 추출할 수 있는 반면, 노이즈가 있거나 엣지 (edge)의 강도가 약한 부분에는 불완전한 추출을 보이는 한계가 있다. 이를 극복하기 위해 개발된 필터가 2차 미분형, 즉, 라플라시안 필터 (Laplacian filter) 이다. 라플라시안 필터는 말 그대로, 연속 함수 $f(x,y)$의 이계 도함수를 의미하는 라플라시안으로부터 유래한 것으로, 디지털 이미지에 대해, 아래와 같은 근사 공식을 활용하여 만들 수 있다.
+
+라플라스 연산자 $\nabla^2$ 는 다음과 같이 정의된다.
+
+$$
+\nabla^2 F= \partial_x^2 F + \partial_y^2 F 
+$$
+
+우리는 앞서 전진 미분과 후진 미분에 대해 알아보았다. 이미지 처리에서 $\partial^2$ 는 전진 미분에서 후진미분을 뺀 것이다. 따라서,
 
 $$
 \begin{aligned}
-\nabla^2 f &= \partial_x^2 f + \partial_y^2 f \\ 
-\partial_x^2 I[i,j] & = I[i-1,j]+I[i+1,j]-2I[i,j] \\
-\partial_y^2 I[i,j] & = I[i,j-1]+I[i,k+1]-2I[i,j] \\
-\nabla^2 I[i,j] &= \partial_x^2 I[i,j]+ \partial_y^2 I[i,j] =I[i-1,j]+I[i+1,j]+I[i,j-1]+I[i,k+1]-4I[i,j]
+\nabla^2 F &= (\nabla_F F - \nabla_B F)_x +  (\nabla_F F - \nabla_B F)_y \\[0.3em]
+&=(F[i+1, j] + F[i-1, j] - 2F[i, j]) + (F[i, j+1] + F[i, j-1]-2F[i, j]) \\[0.3em]
+&= F[i+1, j] + F[i-1, j] + F[i, j+1] + F[i, j-1] - 4F[i, j].
 \end{aligned}
 $$
 
+이다. 따라서 $3 \times 3$ 행렬로 커널을 구성할 수 있으며 라플라시안 커널 $L$ 은 아래와 같다.
 
-- 라플라시안 필터는, 앞서 살펴 본 1차 미분형 필터보다, 더 넓은 범위에서 그리고 모든 방향을 고려하여 차분 값을 계산할 수 있기 때문에, 경계선에서 픽셀 값이 변화하는 것 을 훨씬 강한 강도로 잡아낼 수 있으며, 이로 인해, 잡음에도 강하고, 엣지 정보를 더 잘 추출할 수 있다는 장점이 있다. 다만, 계산 시간은 1차 미분형 필터보다는 늘어나게 된다.
+$$
+L = \begin {bmatrix} 0 & 1 & 0 \\ 1 & -4 & 1 \\ 0 & 1 & 0 \end{bmatrix}
+$$ {#eq-ImageProcessing_laplacian_kernel}
 
+```julia
+img0= img2mat(testimage("cameraman.tif"));
+L=arr2mat(Int32[0 1 0 ; 1 -4 1 ;0  1 0])
+cv.filter2D(img0, -1, L)
+```
 
-- Matlab 에서는 `fspecial(‘laplacian’,alpha)` 의 명령어로 laplacian kernel 을 만드는데 이는 보통의 laplacian kernel을 약간 수정한 것으로 다음과 같이 정의된다.
-  $$
-  \dfrac{1}{1+\alpha} \begin{bmatrix} \alpha & 1-\alpha & \alpha  \\ - \alpha & 4 & - \alpha \\ \alpha & 1-\alpha & \alpha\end{bmatrix}
-  $$
+![라플라시안 필터](notebooks/laplacian_filter_example.png){#fig-ImageProcessing_laplacian_filter_example width=500}
 
-  Matlab 에서는 $\alpha$ 값을 $[0,\,1)$ 에서 조정한다고 하는데, cv2 에서는 이러한 함수를 찾을 수 없어서 직접 만들어 사용하였다. 
-
-</br>
 
 ### Laplacian of Gaussian Filter (LoG filter)
 
-- 원본 이미지에 가우시안 블러링을 한 후 라플라시안 필터를 적용한다.
-
-- 이 때 LoG filter 는 다음과 같은 꼴을 띈다.
+원본 이미지에 가우시안 필터링 $G$ 을 한 후 라플라시안 필터 $L$ 를 적용하는 것을 Laplacian of gaussian filter, 즉 Log 필터 라고 한다. 합성곱의 associative 특성에 의해 $G\ast (L \ast F) = (G \ast L)\ast F$ 이므로 $G \ast L$ 을 LoG 필터라고 부를 수 있다. 이 때 LoG filter 는 다음과 같은 꼴을 띈다.
 
 $$
-\nabla^2 \left( G_{\sigma} (x,\,y) \right) = \dfrac{x^2+y^2-2\sigma^2}{\sigma^4} \exp \left(- \dfrac{x^2+y^2}{2\sigma^2}\right)
-$$
+(G \ast L)[i, j] := \dfrac{(c_x-j)^2+(c_y-i)^2-2\sigma^2}{\sigma^4} \exp \left(- \dfrac{(c_x-j)^2+(c_y-i)^2}{2\sigma^2}\right)
+$$ {#eq-ImageProcessing_laplacian_of_gaussian_filter}
 
-- 라플라시안 필터와 유사하게, LoG 필터도 이미지에서 엣지 부분의 정보를 효과적으로 추출할 수 있다. 특히, 라플라시안 필터보다 더 넓은 범위에서 이미지 합성 곱을 하기 때문에, 이미지 추출 과정에서 왜곡 가능성을 줄일 수 있다는 장점이 있다.
+
+라플라시안 필터와 유사하게, LoG 필터도 이미지에서 엣지 부분의 정보를 효과적으로 추출할 수 있다. 특히, 라플라시안 필터보다 더 넓은 범위에서 이미지 합성 곱을 하기 때문에, 이미지 추출 과정에서 왜곡 가능성을 줄일 수 있다는 장점이 있다.
 
 </br>
-
-### 위너 필터 (Wiener filter)
-
-원본 이미지 I 와 노이즈 처리된 이미지 J 사이의 차이를 통계적 관점에서 (혹은 확률적 관점에서) 정량화 하는 방법으로는 평균제곱편차 mean square error (MSE) 가 있다. MSE의 정의는 아래와 같다.
-
-$$
-\text{MSE} = \dfrac{1}{N} \sum_{i,\,j} \left[ I[i,\,j]-J[i,\,j]\right]^2
-$$
-
-위너 필터는 이러한 이미지 간 차이를 최소화하는 모든 종류의 비선형 필터를 의미한다. 
-
-<br>
-
-#### 위너 필터의 노이즈 감소 기능
-
-- 원본 이미지 I에 노이즈 N 이 낀 이미지 I' 를 생각하자. 즉 다음과 같은 식을 생각하자.
-
-$$
-I'[i,j]=I[i,j]+N[i,j]
-$$
-
-- 노이즈의 경우 특별한 언급이 없으면 가우시안 노이즈를 생각한다. 그렇다면 노이즈의 평균은 $0$ 이 될 것이며 노이즈의 분산 $\sigma_N^2$ 는 $0$ 이 아닌 값을 갖는다. 어떤 픽셀을 중심으로 커널 배열을 덮어서 움직인다고 하자. 커널은 보통 원본 배열보다 아주 작기때문에 커널에 덮이는 영역의 평균은 $0$ 될 확률이 매우 낮으므로 그 평균값을 $m_{ij}$, 분산을 $\sigma^2_{ij}$ 라 하자. 이 때 해당 영역의 노이즈를 최소화하는 방식으로 노이즈를 처리하면 다음과 같은 관계식을 얻는다.
-
-$$
-J[i,j]=m_{ij} + \dfrac{\sigma^2_{ij}}{\sigma^2_{ij} + \sigma^2_N} {\big(} I[i,j]-m_{ij}{\big)}
-$$
-
-- 그런데 많은 경우 우리는 원본 이미지가 없이 노이즈가 낀 이미지만 있으므로 노이즈의 분산 $\sigma_N^2$ 를 모른다. 여기에 괜찮은 방법이 있는데, 그것은 바로 $\sigma_N^2$ 를 모든 로컬 분산 $\sigma_{ij}^2$ 의 평균으로 잡는 것이다. 
-
-$$
-\sigma_N^2 = \dfrac{1}{N} \sum_{i,j} \sigma^2_{i,j}
-$$
-
-
-#### 파이썬에서의 위너 필터
-
-파이썬에서는 scipy 에서 wiener filter를 사용한다. Library refence 를 보면 대놓고 matlab의 wiener2 함수를 implementation 했다고 나온다. 사용법은 다음과 같다.
-
-~~~python
-from scipy.signal.signaltools import wiener
-
-filtered_img = wiener(original_img, mysize=3)
-~~~
-
-여기서 mysize 는 kernel size 이다. 자세한 것은 library reference 참고. 이 때 주의할 것은 original_img 가 0 에서 255 사이의 정수값을 갖는, 보통 gray scale image 에서 많이 사용되는 uint8 형식의 정수형이면 안된다. 이 경우 다음과 같이 사용하는 것이 좋다.
-
-~~~python
-filtered_img = wiener(original_img.astype(np.float64), ksize)
-~~~
