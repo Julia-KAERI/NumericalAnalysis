@@ -79,15 +79,12 @@ website:
           - href: src/image_processing/index.qmd
           - href: src/image_processing/image_processing_01.qmd
           - href: src/image_processing/image_processing_02.qmd          
-          # - href: src/image_processing/image_processing_03.qmd
+          - href: src/image_processing/image_processing_03.qmd
           - href: src/image_processing/image_processing_04.qmd
           - href: src/image_processing/image_processing_05.qmd
           - href: src/image_processing/image_processing_06.qmd
-          - href: src/image_processing/image_processing_07.qmd
-
-
           - href: src/image_processing/introduction_to_signal_processing.qmd
-          #- href: src/image_processing/fourier_transform_for_image_processing.qmd
+
         - section : 푸리에 변환과 웨이블릿 변환
           contents :
           - href: src/image_processing/wavelet/fourier_transform.qmd
