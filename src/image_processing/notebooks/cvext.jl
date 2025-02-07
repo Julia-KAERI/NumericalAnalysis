@@ -13,7 +13,7 @@ end
 
 function img2arr(img)
     T = typeof(img[1, 1].val.i)
-    broadcast(q->T(q.val.i),img)
+    broadcast(q->T(q.val.i), img)
 end
 
 function img2mat(img) 
@@ -71,3 +71,8 @@ end
 function cvSize(w::T1, h::T2) where {T1<:Integer, T2<:Integer}
     return cv.Size(Int32(w), Int32(h))
 end;
+
+
+function cvConvertTo(mat::OpenCV.Mat, t::T) where T<:Type
+    return cv.Mat(convert.(t, mat.data))
+end
