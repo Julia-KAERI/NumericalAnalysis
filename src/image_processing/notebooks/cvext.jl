@@ -70,9 +70,9 @@ end
 
 function cvSize(w::T1, h::T2) where {T1<:Integer, T2<:Integer}
     return cv.Size(Int32(w), Int32(h))
-end;
+end
 
 
 function cvConvertTo(mat::OpenCV.Mat, t::T) where T<:Type
     return cv.Mat(convert.(t, mat.data))
-end
+end;
