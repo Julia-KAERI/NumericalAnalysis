@@ -21,8 +21,6 @@ website:
         text : "수치해석 I"
       - href : src/numerical_analysis_using_julia/index_part2.qmd
         text : "수치해석 II"
-      # - href : src/numerical_analysis_using_julia/index.qmd
-      #   text : "수학"
       - href :  src/image_processing/index.qmd
         text : "영상 처리/토모그래피"
       - href : src/topics/nonlinear_least_square_fit.qmd
