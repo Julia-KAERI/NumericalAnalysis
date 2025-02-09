@@ -336,8 +336,9 @@ window.Quarto = {
   </ul></li>
   <li><a href="#푸리에-변환" id="toc-푸리에-변환" class="nav-link" data-scroll-target="#푸리에-변환"><span class="header-section-number">2</span> 푸리에 변환</a>
   <ul class="collapse">
-  <li><a href="#푸리에-변환의-몇가지-수학적-성질" id="toc-푸리에-변환의-몇가지-수학적-성질" class="nav-link" data-scroll-target="#푸리에-변환의-몇가지-수학적-성질"><span class="header-section-number">2.1</span> 푸리에 변환의 몇가지 수학적 성질</a></li>
-  <li><a href="#주기적-임펄스-함수의-푸리에-변환" id="toc-주기적-임펄스-함수의-푸리에-변환" class="nav-link" data-scroll-target="#주기적-임펄스-함수의-푸리에-변환"><span class="header-section-number">2.2</span> 주기적 임펄스 함수의 푸리에 변환</a></li>
+  <li><a href="#sec-ImageProcessing_fourier_and_inverse_fourier_transform" id="toc-sec-ImageProcessing_fourier_and_inverse_fourier_transform" class="nav-link" data-scroll-target="#sec-ImageProcessing_fourier_and_inverse_fourier_transform"><span class="header-section-number">2.1</span> 푸리에 변환과 역변환</a></li>
+  <li><a href="#푸리에-변환의-몇가지-수학적-성질" id="toc-푸리에-변환의-몇가지-수학적-성질" class="nav-link" data-scroll-target="#푸리에-변환의-몇가지-수학적-성질"><span class="header-section-number">2.2</span> 푸리에 변환의 몇가지 수학적 성질</a></li>
+  <li><a href="#주기적-임펄스-함수의-푸리에-변환" id="toc-주기적-임펄스-함수의-푸리에-변환" class="nav-link" data-scroll-target="#주기적-임펄스-함수의-푸리에-변환"><span class="header-section-number">2.3</span> 주기적 임펄스 함수의 푸리에 변환</a></li>
   </ul></li>
   <li><a href="#합성곱의-푸리에-변환" id="toc-합성곱의-푸리에-변환" class="nav-link" data-scroll-target="#합성곱의-푸리에-변환"><span class="header-section-number">3</span> 합성곱의 푸리에 변환</a></li>
   <li><a href="#푸리에-변환과-샘플링-sampling" id="toc-푸리에-변환과-샘플링-sampling" class="nav-link" data-scroll-target="#푸리에-변환과-샘플링-sampling"><span class="header-section-number">4</span> 푸리에 변환과 샘플링 (sampling)</a>
@@ -462,6 +463,7 @@ f(t) &amp;= \sum_{n=-\infty}^{\infty} c_n e^{in\omega t}\,,\\
 \langle \phi,\, \psi \rangle = \int_{-T/2}^{T/2} \psi^\ast(t)\, \phi(t)\, dt
 \]</span></p>
 <p>수학적으로 푸리에 급수가 의미 있기 위해서는 <span class="math inline">\(\omega = 2\pi/T\)</span> 에 대해 <span class="math inline">\(\{e^{in\omega t} : n\in \mathbb{Z}\}\)</span> 가 <span class="math inline">\([T/2,\,T/2]\)</span> 구간에서 연속인 모든 복소 함수의 집합에 대해 정규직교기저이어야 한다. 직교성은 보이기 쉽지만 completeness 즉, 주기 <span class="math inline">\(T\)</span> 인 모든 함수가 <span class="math inline">\(\{\sin (n\omega t),\, \cos (n \omega t) : n \in \mathbb{Z}\}\)</span> 의 선형결합으로 표현되는 것은 여기의 범위를 벗어난다. 단지 직교성과 completeness 를 알고 넘어가자.</p>
+<p><br></p>
 </section>
 <section id="sec-ImageProcessing_orthogonality_of_fourier_basis" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="sec-ImageProcessing_orthogonality_of_fourier_basis"><span class="header-section-number">1.2</span> 기저함수의 직교성</h3>
@@ -491,7 +493,7 @@ f(t) &amp;= \sum_{n=-\infty}^{\infty} c_n e^{in\omega t}\,,\\
 <p><span class="math display">\[
 \begin{aligned}
 \mathfrak{F}\left[ f(t)\right] (\omega) &amp;:= \int_{-\infty}^{\infty} f(t) \, e^{-2i\pi u t} \, dt,\\
-\mathfrak{F}^{-1}[F(u)](t) &amp;:= \int_{-\infty}^{\infty} F(u)\, e^{2i \pi u t} \, du\,.
+\mathfrak{F}^{-1}[g(u)](t) &amp;:= \int_{-\infty}^{\infty} g(u)\, e^{2i \pi u t} \, du\,.
 \end{aligned}
 \]</span></p>
 </div>
@@ -508,8 +510,8 @@ f(t) &amp;= \sum_{n=-\infty}^{\infty} c_n e^{in\omega t}\,,\\
 <p><span class="theorem-title"><strong>정의 4 (2차원 푸리에 변환)</strong></span> 함수 <span class="math inline">\(f:\mathbb{R}^2 \to \mathbb{R}\)</span> 에 대한 푸리에 변환은 <span class="math inline">\(\mathfrak{F}[f(x, y)]\)</span> 로 쓰고 다음과 같이 정의된다. 푸리에 변환에 대한 역변환 <span class="math inline">\(\mathfrak{F}^{-1}\)</span> 도 아래와 같이 정의된다.</p>
 <p><span class="math display">\[
 \begin{aligned}
-\mathfrak{F} \left[f(t)\right] (u,\,v) &amp;:=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} f(x,\,y)e^{-2i\pi (ux+vy)}\, dxdy\,, \\
-\mathfrak{F}^{-1} \left[F(u,\,v)\right](x,\,y) &amp;:= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} F(u, v) e^{2i \pi (ux+vy)} \, dudv
+\mathfrak{F} \left[F(x, y)\right] (u,\,v) &amp;:=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} F(x,\,y)e^{-2i\pi (ux+vy)}\, dxdy\,, \\
+\mathfrak{F}^{-1} \left[G(u,\,v)\right](x,\,y) &amp;:= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} G(u, v) e^{2i \pi (ux+vy)} \, dudv
 \end{aligned}
 \]</span></p>
 </div>
@@ -517,64 +519,77 @@ f(t) &amp;= \sum_{n=-\infty}^{\infty} c_n e^{in\omega t}\,,\\
 </div>
 </div>
 <p><br></p>
-<p><span class="math inline">\(F(u,\,v) = \mathfrak{F}[f](u,\,v)\)</span> 는 복소수이므로 다음과 같이 표현 할 수 있다.</p>
+<p><span class="math inline">\(\tilde{F}(u,\,v) = \mathfrak{F}[F](u,\,v)\)</span> 는 복소수이므로 다음과 같이 표현 할 수 있다.</p>
 <p><span class="math display">\[
-F(u,\,v) = |F(u,\,v)| e^{i\Phi(u,\,v)}
+\tilde{F}(u,\,v) = |\tilde{F}(u,\,v)| e^{i\Phi(u,\,v)}
 \]</span></p>
-<p>이 때 <span class="math inline">\(|F(u,\,v)|\)</span> 를 <strong>푸리에 스펙트럼 (Fourier spectrum)</strong> 이라 하고, <span class="math inline">\(\Phi(u,\,v)\)</span> 를 <strong>위상 (phase)</strong> 이라 한다. 또한 <span class="math inline">\(P(u,\,v) =|F(u,\,v)|^2\)</span> 를 <strong>푸리에 파워 스펙트럼 (Fourier power spectrum)</strong> 이라 한다.</p>
+<p>이 때 <span class="math inline">\(|\tilde{F}(u,\,v)|\)</span> 를 <strong>푸리에 스펙트럼 (Fourier spectrum)</strong> 이라 하고, <span class="math inline">\(\Phi(u,\,v)\)</span> 를 <strong>위상 (phase)</strong> 이라 한다. 또한 <span class="math inline">\(P(u,\,v) =|\tilde{F}(u,\,v)|^2\)</span> 를 <strong>푸리에 파워 스펙트럼 (Fourier power spectrum)</strong> 이라 한다.</p>
 <p><br></p>
-<section id="푸리에-변환의-몇가지-수학적-성질" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="푸리에-변환의-몇가지-수학적-성질"><span class="header-section-number">2.1</span> 푸리에 변환의 몇가지 수학적 성질</h3>
+<section id="sec-ImageProcessing_fourier_and_inverse_fourier_transform" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="sec-ImageProcessing_fourier_and_inverse_fourier_transform"><span class="header-section-number">2.1</span> 푸리에 변환과 역변환</h3>
+<p>함수 <span class="math inline">\(f:\mathbb{R}\to R\)</span> 에 대해 <span class="math inline">\(\int_{-\infty}^\infty |f(t)|^2\, dt &lt;\infty\)</span> 일 때, 함수 <span class="math inline">\(f\)</span> 에 대해 다음이 성립한다.</p>
+<p><span id="eq-ImageProcessing_fourier_and_inverse_fourier"><span class="math display">\[
+\mathfrak{F}^{-1}\left[\mathfrak{F}[f]\right] = f.
+\tag{2}\]</span></span></p>
+<p><br></p>
+<p>즉 푸리에 변환에 대한 역변환은 항등변환이다. 푸리에 역변환에 대한 푸리에 변환도 마찬가지이다.</p>
+<p><br></p>
+</section>
+<section id="푸리에-변환의-몇가지-수학적-성질" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="푸리에-변환의-몇가지-수학적-성질"><span class="header-section-number">2.2</span> 푸리에 변환의 몇가지 수학적 성질</h3>
 <p>2차원 푸리에 변환에 대해서 증명한다. 1차원에 대해서는 그 결과를 쉽게 유추 할 수 있다.</p>
 <br>
 <div class="border" style="background-color:#FFF0F5 ;padding:5px;">
 <div id="prp-fourier_linearity" class="theorem proposition">
-<p><span class="theorem-title"><strong>명제 1</strong></span> <span class="math inline">\(F=\mathfrak{F}[f],\, G=\mathfrak{F}[g]\)</span>, 상수 <span class="math inline">\(a,\,b\)</span> 에 대해 다음이 성립한다.</p>
-<p><strong>1. Linearity</strong> : <span class="math inline">\(\mathfrak{F}[af(x, y) + bg(x, y)] = aF(u,\, v) + bG(u,\,v)\)</span>,</p>
-<p><strong>2. Similarity</strong> : <span class="math inline">\(\mathfrak{F}[f(ax,\,by)] =\dfrac{1}{ab} F\left(\dfrac{u}{a},\, \dfrac{v}{b}\right)\)</span>,</p>
-<p><strong>3. Shift property</strong> : <span class="math inline">\(\mathfrak{F}[f(x-a,\, y-b)] = \exp (i2\pi (au+bv)) F(u,\,v)\)</span>,</p>
-<p><strong>4. Derivative</strong> : <span class="math inline">\(\mathfrak{F}\left[ \dfrac{d^k}{dx^k}f(x) \right] =( 2i\pi u)^k F(u)\)</span>,</p>
+<p><span class="theorem-title"><strong>명제 1</strong></span> <span class="math inline">\(\tilde{f} = \mathfrak{F}[f]\)</span>, <span class="math inline">\(\tilde{F}(u, v)=\mathfrak{F}[F(x, y)](u, v),\, \tilde{G}(u, v)=\mathfrak{F}[G(x, y)](u, v)\)</span>, 상수 <span class="math inline">\(a,\,b\)</span> 에 대해 다음이 성립한다.</p>
+<p><strong>1. Linearity</strong> : <span class="math inline">\(\mathfrak{F}[aF(x, y) + bG(x, y)] = a\tilde{F}(u,\, v) + b\tilde{G}(u,\,v)\)</span>,</p>
+<p><strong>2. Similarity</strong> : <span class="math inline">\(\mathfrak{F}[F(ax,\,by)] =\dfrac{1}{ab} \tilde{F}\left(\dfrac{u}{a},\, \dfrac{v}{b}\right)\)</span>,</p>
+<p><strong>3. Shift property</strong> : <span class="math inline">\(\mathfrak{F}[F(x-a,\, y-b)] = \exp (i2\pi (au+bv)) \tilde{F}(u,\,v)\)</span>,</p>
+<p><strong>4. Derivative</strong> : <span class="math inline">\(\mathfrak{F}\left[ \dfrac{d^k}{dx^k}f(x) \right] =( 2i\pi u)^k \tilde{f}(u)\)</span>,</p>
 </div>
 </div>
 <p><br></p>
 <div class="proof">
 <p><span class="proof-title"><em>(증명)</em>. </span>(<span class="math inline">\(1\)</span>) <span class="math display">\[
 \begin{aligned}
-\mathfrak{F}[af(x, y) + bg(x, y)]&amp;= \iint (af(x, y) + bg(x, y)) e^{-2i\pi (ux+vy)}\, dxdy \\
-&amp;= \iint af(x, y)  e^{-2i\pi (ux+vy)}\, dxdy + \iint  bg(x, y) e^{-2i\pi (ux+vy)}\, dxdy  \\
-&amp;=  a\mathfrak{F}[f(x, y)] + b\mathfrak{F}[g(x, y)] \qquad \square
+\mathfrak{F}[aF(x, y) + bG(x, y)]&amp;= \iint (aF(x, y) + bG(x, y)) e^{-2i\pi (ux+vy)}\, dxdy \\
+&amp;= \iint aF(x, y)  e^{-2i\pi (ux+vy)}\, dxdy + \iint  bG(x, y) e^{-2i\pi (ux+vy)}\, dxdy  \\
+&amp;=  a\mathfrak{F}[F(x, y)] + b\mathfrak{F}[G(x, y)] \qquad \square
 \end{aligned}
 \]</span></p>
 <p>(<span class="math inline">\(2\)</span>) <span class="math display">\[
 \begin{aligned}
-\mathfrak{F}[f(ax,\,by)] &amp;= \iint f(ax,\, by) e^{-2i\pi (ux+vy)}\,dxdy \qquad &amp;; t=ax,\, s=by\\
-&amp;= \dfrac{1}{ab} \iint f(s,\,t) e^{-2i \pi (ut/a+vs/b)}\, dtds \\
-&amp;= \dfrac{1}{ab} F \left(\dfrac{u}{a},\, \dfrac{v}{b} \right)
+\mathfrak{F}[F(ax,\,by)] &amp;= \iint F(ax,\, by) e^{-2i\pi (ux+vy)}\,dxdy \qquad &amp;; t=ax,\, s=by\\
+&amp;= \dfrac{1}{ab} \iint F(s,\,t) e^{-2i \pi (ut/a+vs/b)}\, dtds \\
+&amp;= \dfrac{1}{ab} \tilde{F} \left(\dfrac{u}{a},\, \dfrac{v}{b} \right)
 \end{aligned}
 \]</span></p>
 <p>(<span class="math inline">\(3\)</span>) <span class="math display">\[
 \begin{aligned}
-\mathfrak{F}[f(x-a,\, y-b) ]&amp;= \iint f(x-a,\, y-b) e^{-2i\pi (ux+vy)} \,dxdy \qquad &amp;; t=x-a,\, s=y-b\\
-&amp;=\iint f(t,\,s) e^{-2i\pi (ux+vy)} e^{2i\pi (au+bv)} \, dxdy \\
-&amp;= e^{2i\pi (au+bv)}F(u,\,v)
+\mathfrak{F}[F(x-a,\, y-b) ]&amp;= \iint F(x-a,\, y-b) e^{-2i\pi (ux+vy)} \,dxdy \qquad &amp;; t=x-a,\, s=y-b\\
+&amp;=\iint F(t,\,s) e^{-2i\pi (ux+vy)} e^{2i\pi (au+bv)} \, dxdy \\
+&amp;= e^{2i\pi (au+bv)}\tilde{F}(u,\,v)
 \end{aligned}
 \]</span></p>
-<p>(<span class="math inline">\(4\)</span>) <span class="math inline">\(k=1\)</span> 인 경우만 보이면 나머지는 쉽게 일반화 된다.<span class="math inline">\(f(x)=\displaystyle \int_{-\infty}^{\infty} F(u)e^{2i\pi ux}\, du\)</span> 이므로</p>
+<p>(<span class="math inline">\(4\)</span>) <span class="math inline">\(k=1\)</span> 인 경우만 보이면 나머지는 쉽게 일반화 된다.<span class="math inline">\(f(x)=\displaystyle \int_{-\infty}^{\infty} \tilde{f}(u)e^{2i\pi ux}\, du\)</span> 이므로</p>
 <p><span class="math display">\[
-f'(x) =  \int_{-\infty}^{\infty}(2i\pi u) F(u)e^{2i \pi ux} \, du
+f'(x) =  \int_{-\infty}^{\infty}(2i\pi u) \tilde{f}(u)e^{2i \pi ux} \, du
 \]</span></p>
 <p>이다. 따라서</p>
 <p><span class="math display">\[
-\mathfrak{F}[f'(x)] = (2i\pi u) F(u)
+\mathfrak{F}[f'(x)] = (2i\pi u) \tilde{f}(u)
 \]</span> 이다. <span class="math inline">\(\square\)</span></p>
 </div>
 <p><br></p>
 <div class="border" style="background-color:#F2F4F4  ;padding:5px;">
 <div id="exm-fourier_transform_of_rect_fuction" class="theorem example">
-<p><span class="theorem-title"><strong>예제 1</strong></span> <span class="math inline">\(\text{rect}\left(\dfrac{x}{w}\right)\)</span> 함수의 푸리에 변환은 다음과 같다.</p>
+<p><span class="theorem-title"><strong>예제 1</strong></span> <span class="math display">\[
+\text{rect}(t) = \left\{\begin{array}{ll} 1, \qquad &amp;\text{if } |x|&lt;1, \\ 0, &amp;\text{otherwise}\end{array}\right.
+\]</span></p>
+<p>일 때 <span class="math inline">\(\text{rect}\left(\dfrac{x}{w}\right)\)</span> 함수의 푸리에 변환은 다음과 같다.</p>
 <p><span class="math display">\[
 \begin{aligned}
-F(u) = \mathfrak{F}\left[\text{rect}\left(\dfrac{x}{w}\right)\right] &amp;= \int_{-w/2}^{w/2} e^{-2\pi i u t}\, dt = \dfrac{\sin \pi w u}{\pi u}
+\tilde{f}(u) = \mathfrak{F}\left[\text{rect}\left(\dfrac{x}{w}\right)\right] &amp;= \int_{-w/2}^{w/2} e^{-2\pi i u t}\, dt = \dfrac{\sin \pi w u}{\pi u}
 \end{aligned}
 \]</span></p>
 <p>이것을 그래프로 그리면 아래 그림과 같다.</p>
@@ -588,18 +603,17 @@ F(u) = \mathfrak{F}\left[\text{rect}\left(\dfrac{x}{w}\right)\right] &amp;= \int
 </figcaption>
 </figure>
 </div>
-<p><span class="math inline">\(\text{rect}\left(\dfrac{x}{w}\right)\)</span> 함수의 폭은 <span class="math inline">\(w\)</span> 이다. 그리고 <span class="math inline">\(F(u) =0\)</span> 을 만족하는 주기는 <span class="math inline">\(u=0\)</span> 일 때를 제외하면 <span class="math inline">\(1/w\)</span> 이다. 즉 신호의 폭과, 푸리에 변환된 신호의 폭은 대략적으로 반비례 관계에 있다는 것을 알 수 있다.</p>
+<p><span class="math inline">\(\text{rect}\left(\dfrac{x}{w}\right)\)</span> 함수의 폭은 <span class="math inline">\(w\)</span> 이다. 그리고 <span class="math inline">\(\hat{f}(u) =0\)</span> 을 만족하는 주기는 <span class="math inline">\(u=0\)</span> 일 때를 제외하면 <span class="math inline">\(1/w\)</span> 이다. 즉 신호의 폭과, 푸리에 변환된 신호의 폭은 대략적으로 반비례 관계에 있다는 것을 알 수 있다.</p>
 </div>
 </div>
-<p><br></p>
 <p><br></p>
 </section>
-<section id="주기적-임펄스-함수의-푸리에-변환" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="주기적-임펄스-함수의-푸리에-변환"><span class="header-section-number">2.2</span> 주기적 임펄스 함수의 푸리에 변환</h3>
-<p>단위 임펄스 함수(디렉 델타 함수)가 <span class="math inline">\(T\)</span> 를 주기로 반복되는 함수를 주기적 임펄스 함수라 하며 이를 <span class="math inline">\(S_T(t)\)</span> 라 하자. 이는 주기함수이므로 푸리에 급수로 표현 할 수 있으며 다음과 같다.</p>
+<section id="주기적-임펄스-함수의-푸리에-변환" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="주기적-임펄스-함수의-푸리에-변환"><span class="header-section-number">2.3</span> 주기적 임펄스 함수의 푸리에 변환</h3>
+<p>단위 임펄스 함수(디렉 델타 함수)가 <span class="math inline">\(T\)</span> 를 주기로 반복되는 함수를 주기적 임펄스 함수라 하며 이를 <span class="math inline">\(s_T(t)\)</span> 라 하자. 이는 주기함수이므로 푸리에 급수로 표현 할 수 있으며 다음과 같다.</p>
 <p><span class="math display">\[
 \begin{aligned}
-S_T(t) &amp;= \sum_{n=-\infty}^{\infty} \delta \left(t-nT \right) =\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \exp \left( \dfrac{-i2n\pi t}{T}\right)
+s_T(t) &amp;= \sum_{n=-\infty}^{\infty} \delta \left(t-nT \right) =\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \exp \left( \dfrac{-i2n\pi t}{T}\right)
 \end{aligned}
 \]</span></p>
 <p>단일 임펄스 함수 <span class="math inline">\(\delta(\mu-\mu_0)\)</span> 에 대한 푸리에 변환은 다음과 같다.</p>
@@ -610,9 +624,12 @@ S_T(t) &amp;= \sum_{n=-\infty}^{\infty} \delta \left(t-nT \right) =\dfrac{1}{T} 
 <p><span class="math display">\[
 \mathfrak{F}^{-1} \left[ \delta \left( \mu-\dfrac{n}{T} \right) \right] = \exp \left( \dfrac{2in\pi t}{t} \right) \iff \mathfrak{F}\left[  \exp \left( \dfrac{2in\pi t}{t} \right) \right] =  \delta \left( \mu-\dfrac{n}{T} \right)
 \]</span></p>
-<p>이다. 이를 이용하면 <span class="math inline">\(s_T(t)\)</span> 의 푸리에 변환식 <span class="math inline">\(S(\mu)=\mathfrak{F}[s_N(t)]\)</span> 를 계산 할 수 있으며 다음과 같다.</p>
+<p>이다. 이를 이용하면 <span class="math inline">\(s_T(t)\)</span> 의 푸리에 변환식 <span class="math inline">\(\tilde{s}(\mu)=\mathfrak{F}[s_N(t)]\)</span> 를 계산 할 수 있으며 다음과 같다.</p>
 <p><span class="math display">\[
-S (\mu) = \mathfrak{F}\left[\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \exp \left( \dfrac{-i2n\pi t}{T}\right)\right] = \dfrac{1}{T} \sum_{n=-\infty}^{\infty} \mathfrak{F}\left[ \exp \left( \dfrac{-i2n\pi t}{T}\right) \right] = \dfrac{1}{T} \sum_{n=-\infty}^{\infty} \delta \left(\mu - \dfrac{n}{T}\right)
+\begin{aligned}
+\tilde{s} (\mu) &amp;= \mathfrak{F}\left[\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \exp \left( \dfrac{-i2n\pi t}{T}\right)\right] = \dfrac{1}{T} \sum_{n=-\infty}^{\infty} \mathfrak{F}\left[ \exp \left( \dfrac{-i2n\pi t}{T}\right) \right] \\
+&amp;=\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \delta \left(\mu - \dfrac{n}{T}\right)
+\end{aligned}
 \]</span></p>
 <p><br></p>
 </section>
@@ -623,51 +640,55 @@ S (\mu) = \mathfrak{F}\left[\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \exp \left( \
 <p><span class="math display">\[
 f(t) \ast g(t) := \int_{-\infty}^{\infty} f(\tau) g(t-\tau) \, d\tau
 \]</span></p>
-<p><span class="math inline">\(F(\mu)= \mathfrak{F}[f(t)],\, G(\mu)=\mathfrak{F}[g(t)]\)</span> 라 할 때, <span class="math inline">\(f(t)\ast g(t)\)</span> 의 푸리에 변환을 구하면,</p>
+<p><span class="math inline">\(\hat{f}(\mu)= \mathfrak{F}[f(t)],\, \hat{g}(\mu)=\mathfrak{F}[g(t)]\)</span> 라 할 때, <span class="math inline">\(f(t)\ast g(t)\)</span> 의 푸리에 변환을 구하면,</p>
 <p><span class="math display">\[
 \begin{aligned}
 \mathfrak{F}[f(t) \ast g(t)] &amp;= \int_{-\infty}^{\infty} \left[ \int_{-\infty}^{\infty} f(\tau)g(t-\tau) d\tau\right] e^{-2in\pi \mu t}\, dt \\
 &amp;= \int_{-\infty}^{\infty}f(\tau) \left[  \int_{-\infty}^{\infty} g(t-\tau)e^{-2in \pi \mu t}\, dt\right] \,d\tau \\
-&amp;= \int_{-\infty}^{\infty} f(\tau) G(\mu)e^{-2in \pi \mu \tau} \, d\tau \\
-&amp;= F(\mu)G(\mu)
+&amp;= \int_{-\infty}^{\infty} f(\tau) \hat{g}(\mu)e^{-2in \pi \mu \tau} \, d\tau \\
+&amp;= \hat{f}(\mu)\hat{g}(\mu)
 \end{aligned}
 \]</span></p>
-<p>즉 합성곱의 푸리에 변환은 푸리에 변환의 곱이다. 이를 응용하면 두 함수의 곱의 푸리에변환은 합성곱이 됨을 보일 수 있다. 즉,</p>
-<p><span class="math display">\[
-\mathfrak{F}[f(t)g(t)]=F(\mu)\ast G(\mu)
-\]</span></p>
-<p>가 된다.</p>
+<p>즉 합성곱의 푸리에 변환은 푸리에 변환의 곱이다. 이를 응용하면 두 함수의 곱의 푸리에변환은 합성곱이 됨을 보일 수 있다. 이를 용약하면 다음과 같다.</p>
+<p><span id="eq-ImageProcessing_fourier_transform_and_convolution"><span class="math display">\[
+\boxed{
+    \begin{aligned}
+    \qquad \mathfrak{F}[f \ast g](u) &amp;= \hat{f}(u) \hat{g}(u),\qquad\\[0.3em]
+    \mathfrak{F}[fg](u) &amp;= \hat{f}(u)\ast \hat{g}(u).
+    \end{aligned}}
+\tag{3}\]</span></span></p>
 <p><br></p>
 </section>
 <section id="푸리에-변환과-샘플링-sampling" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="푸리에-변환과-샘플링-sampling"><span class="header-section-number">4</span> 푸리에 변환과 샘플링 (sampling)</h2>
 <section id="샘플링" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="샘플링"><span class="header-section-number">4.1</span> 샘플링</h3>
-<p>임의의 연속함수 <span class="math inline">\(f(t)\)</span> 를 <span class="math inline">\(T\)</span> 를 주기로 샘플링 하였다고 하자. 그렇다면 이 샘플링 <span class="math inline">\(\tilde{f}(t)\)</span> 은 다음과 같은 식으로 표현 할 수 있다.</p>
+<p>임의의 연속함수 <span class="math inline">\(f(t)\)</span> 를 <span class="math inline">\(T\)</span> 를 주기로 샘플링 하였다고 하자. 그렇다면 이 샘플링 <span class="math inline">\(f_I(t)\)</span> 은 다음과 같은 식으로 표현 할 수 있다.</p>
 <p><span class="math display">\[
-\tilde{f}(t) = f(t)S_T(t)\sum_{n=-\infty}^{\infty} f(t) \delta (t-nT)
+f_I(t) = f(t)s_T(t)\sum_{n=-\infty}^{\infty} f(t) \delta (t-nT)
 \]</span></p>
 <p>즉 연속 신호에 대해 주기적으로 신호를 뽑아 불연속 신호로 만드는 것을 <strong>sampling</strong> 이라 한다.</p>
 <p><br></p>
 </section>
 <section id="샘플링-된-신호의-푸리에-변환" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="샘플링-된-신호의-푸리에-변환"><span class="header-section-number">4.2</span> 샘플링 된 신호의 푸리에 변환</h3>
-<p>이 때 <span class="math inline">\(\mathfrak{F}[f(t)]= F(\mu),\, \mathfrak{F}[s_T(t)]= S(\mu)\)</span> 라 하자 <span class="math inline">\(\displaystyle S(\mu)=\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \delta \left( \mu - \dfrac{n}{T}\right)\)</span> 임은 알고 있다. 그렇다면 <span class="math inline">\(\tilde{F}(\mu)=\mathfrak{I}\left[\tilde{f}(t) \right]\)</span> 를 구하면,</p>
+<p>이 때 <span class="math inline">\(\mathfrak{F}[f(t)]= \hat{f}(\mu),\, \mathfrak{F}[s_T(t)]= \hat{s}(\mu)\)</span> 라 하자 <span class="math inline">\(\displaystyle \hat{s}(\mu)=\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \delta \left( \mu - \dfrac{n}{T}\right)\)</span> 임은 알고 있다. 그렇다면 <span class="math inline">\(\hat{f}_I(\mu)=\mathfrak{F}\left[f_I(t) \right](\mu)\)</span> 를 구하면,</p>
 <p><span class="math display">\[
 \begin{aligned}
-\tilde{F}(\mu) &amp; = F(\mu)\ast S(\mu) = \int_{-\infty}^{\infty} F(\tau)S(\mu-\tau)\, d\tau \\
-&amp;= \dfrac{1}{T} \sum_{n=-\infty}^{\infty}\int_{-\infty} F(\tau) \delta \left(\mu-\tau-\dfrac{n}{T}\right)\, d\tau \\
-&amp;= \dfrac{1}{T}\sum_{n=-\infty}^{\infty} F\left( \mu - \dfrac{n}{T} \right)
+\hat{f}_I(\mu) &amp; = \hat{f}(\mu)\ast S(\mu) = \int_{-\infty}^{\infty} \hat{f}(\tau)S(\mu-\tau)\, d\tau \\
+&amp;= \dfrac{1}{T} \sum_{n=-\infty}^{\infty}\int_{-\infty} \hat{f}(\tau) \delta \left(\mu-\tau-\dfrac{n}{T}\right)\, d\tau \\
+&amp;= \dfrac{1}{T}\sum_{n=-\infty}^{\infty} \hat{f}\left( \mu - \dfrac{n}{T} \right)
 \end{aligned}
 \]</span></p>
-<p>이다. 즉, 주기 <span class="math inline">\(T\)</span> 로 샘플링된 연속 함수 <span class="math inline">\(f(t)\)</span>의 함수의 푸리에 변환은 원래 함수의 푸리에 변환 <span class="math inline">\(F(\mu)\)</span> 를 주기 <span class="math inline">\(1/T\)</span> 를 갖는 임펄스 함수로 바꾼 형태임을 알 수 있다.</p>
+<p>이다. 즉, 주기 <span class="math inline">\(T\)</span> 로 샘플링된 연속 함수 <span class="math inline">\(f(t)\)</span>의 함수의 푸리에 변환은 원래 함수의 푸리에 변환 <span class="math inline">\(\hat{f}(\mu)\)</span> 를 주기 <span class="math inline">\(1/T\)</span> 를 갖는 임펄스 함수로 바꾼 형태임을 알 수 있다.</p>
 <p><br></p>
 </section>
 <section id="밴드-한계-신호-band-limited-signal-over-sampling-under-sampling-critical-sampling-aliasing" class="level3" data-number="4.3">
 <h3 data-number="4.3" class="anchored" data-anchor-id="밴드-한계-신호-band-limited-signal-over-sampling-under-sampling-critical-sampling-aliasing"><span class="header-section-number">4.3</span> 밴드-한계 신호 (band-limited signal), Over-sampling, under-sampling, critical-sampling, aliasing</h3>
+<p><em>to be completed</em></p>
 <ul>
-<li><p>위의 그림을 보자. 원본연속함수(연속신호) <span class="math inline">\(f(t)\)</span> 를 푸리에 변환한 함수 중, 그래프 (a) 와 같이 일부 구간 <span class="math inline">\([-\mu_M,\,\mu_M]\)</span>에 대한 변환 신호 <span class="math inline">\(F(\mu)\)</span> 만을 알고 있는 상황이라고 가정하자. 이렇계 특정 구간을 제외하고 <span class="math inline">\(F(\mu)=0\)</span> 일 때 이를 밴드한계신호라 한다.</p></li>
-<li><p><span class="math inline">\(f (t)\)</span> 를 주기 <span class="math inline">\(T\)</span> 를 조절해 가며 샘플링한 함수를 푸리에 변환한다고 하자. 만약, 주기를 <span class="math inline">\(1/T&gt;2\mu_M\)</span> 이 되도록 샘플링하면 <span class="math inline">\(F(\mu)\)</span> 가 주기적으로 배열되며 그간격은 <span class="math inline">\(1/T\)</span> 가 이되겠지만, <span class="math inline">\(1/T&gt;2\mu_M\)</span> 이므로, 결과는 그림 (b) 와 같이 띄엄띄엄 배열된 삼각형 신호가 될 것이다. 즉 <span class="math inline">\(\tilde{F}(\mu)\)</span> 가 불연속 함수가 된다. 그러나 원래 <span class="math inline">\(F(\mu)\)</span> 가 가지고 있던 함수정보가 고스란히 남아 있으므로, 결과물로 부터 다시 역변환을 취하면 원래 함수 (신호값) 을 복원 할 수 있다. 이러한 결과를 <strong>오버-샘플링 (over-sampling)</strong> 이라 한다.</p></li>
+<li><p>위의 그림을 보자. 원본연속함수(연속신호) <span class="math inline">\(f(t)\)</span> 를 푸리에 변환한 함수 중, 그래프 (a) 와 같이 일부 구간 <span class="math inline">\([-\mu_M,\,\mu_M]\)</span>에 대한 변환 신호 <span class="math inline">\(F(\mu)\)</span> 만을 알고 있는 상황이라고 가정하자. 이렇계 특정 구간을 제외하고 <span class="math inline">\(\hat{f}(\mu)=0\)</span> 일 때 이를 밴드한계신호라 한다.</p></li>
+<li><p><span class="math inline">\(f (t)\)</span> 를 주기 <span class="math inline">\(T\)</span> 를 조절해 가며 샘플링한 함수를 푸리에 변환한다고 하자. 만약, 주기를 <span class="math inline">\(1/T&gt;2\mu_M\)</span> 이 되도록 샘플링하면 <span class="math inline">\(\hat{f}(\mu)\)</span> 가 주기적으로 배열되며 그간격은 <span class="math inline">\(1/T\)</span> 가 이되겠지만, <span class="math inline">\(1/T&gt;2\mu_M\)</span> 이므로, 결과는 그림 (b) 와 같이 띄엄띄엄 배열된 삼각형 신호가 될 것이다. 즉 <span class="math inline">\(\tilde{F}(\mu)\)</span> 가 불연속 함수가 된다. 그러나 원래 <span class="math inline">\(\hat{f}(\mu)\)</span> 가 가지고 있던 함수정보가 고스란히 남아 있으므로, 결과물로 부터 다시 역변환을 취하면 원래 함수 (신호값) 을 복원 할 수 있다. 이러한 결과를 <strong>오버-샘플링 (over-sampling)</strong> 이라 한다.</p></li>
 <li><p>만약, 주기 조건이 <span class="math inline">\(1/T &lt; 2\mu_M\)</span> 이라면 이번에도 <span class="math inline">\(F(\mu)\)</span> 가 주기적으로 배열되겠지만, <span class="math inline">\(1/T &lt; 2\mu_M\)</span> 이므로, 결과는 그래프 (d) 처럼 삼각형 신호 중 일부가 파묻힌 결과가 될 것이다. 비록 <span class="math inline">\(F(\mu)\)</span> 는 연속 함수가 되었지만, 원래의 정보를 잃어 버리게 되며, 이러한 결과를 <strong>언더-샘플링 (under-sampling)</strong> 이라 한다.</p></li>
 <li><p>만약 주기가 <span class="math inline">\(1/T= 2\mu_M\)</span> 로서 딱 맞다면, 그림 (c) 처럼, <span class="math inline">\(F(\mu)\)</span> 는 삼각형 신호가 제대로 연속 배열된 결과가 된다. 이러한 결과를 <strong>critical-sampling</strong> 이라 한다.</p></li>
 <li><p>따라서 원래 함수의 신호를 복원하기 위한 샘플링 충분 조건은 <span class="math inline">\(1/T\ge 2\mu_M\)</span> 이 될 것이다. 이것은 소위 나이퀴스트-샤논 샘플링 정리의 결과이다.</p></li>
@@ -688,20 +709,20 @@ f(t) \ast g(t) := \int_{-\infty}^{\infty} f(\tau) g(t-\tau) \, d\tau
 <p><span class="math display">\[
 \ldots , \underline{1, 3, 2 , 4}, 1, 3,2,4, \underline{1, 3, 2,4},\ldots
 \]</span></p>
-<p>에 대한 푸리에 변환이라는 의미이다 (주기적으로 반복되는 것을 잘 보이게 하기 위해 밑줄로 표현하였다). <span class="math inline">\(N\)</span> 개의 데이터가 <span class="math inline">\(N\)</span> 의 주기로 반복되기 때문에 전체적으로 주기는 <span class="math inline">\(0, 1,\ldots,\, N-1\)</span> 이며, 이 때 <span class="math inline">\(\mathfrak{F}[f]=\langle F\rangle = (F_1,\ldots,\,F_{N})\)</span> 의 <span class="math inline">\(F_u\)</span> 는 다음과 같이 구할 수 있다.</p>
+<p>에 대한 푸리에 변환이라는 의미이다 (주기적으로 반복되는 것을 잘 보이게 하기 위해 밑줄로 표현하였다). <span class="math inline">\(N\)</span> 개의 데이터가 <span class="math inline">\(N\)</span> 의 주기로 반복되기 때문에 전체적으로 주기는 <span class="math inline">\(0, 1,\ldots,\, N-1\)</span> 이며, 이 때 <span class="math inline">\(\mathfrak{F}[f]=\langle F\rangle = (\hat{f}_1,\ldots,\,\hat{f}_{N})\)</span> 의 <span class="math inline">\(\hat{f}_u\)</span> 는 다음과 같이 구할 수 있다.</p>
 <p><span class="math display">\[
-F_u = \mathfrak{F}[f]_u=\dfrac{1}{N} \sum_{k=1}^{N} f_k \exp\left(-\dfrac{i2\pi (u-1) }{N} (k-1) \right).
+\hat{f}_u = \mathfrak{F}[f]_u=\dfrac{1}{N} \sum_{k=1}^{N} f_k \exp\left(-\dfrac{i2\pi (u-1) }{N} (k-1) \right).
 \]</span></p>
 <p>위의 식, 그리고 아래에서 에서 <span class="math inline">\((u-1)\)</span> 이라던가 <span class="math inline">\((n-1)\)</span> 같은 약간 어색한 항이 있는 이유는 우리가 앞으로 사용할 이산 푸리에 변환 라이브러리가 C/C++ 언어 기반이며, 따라서 인덱스가 0 부터 시작하기 때문이다.</p>
 <p>또한 <span class="math inline">\(f_k\)</span> 는 다음과 같이 표현 할 수 있다.</p>
 <p><span class="math display">\[
-f_k = \mathfrak{F}^{-1}[F]_k = \sum_{u=1}^{N} F_u \exp \left(\dfrac{i2\pi (k-1)}{N} (u-1) \right)
+f_k = \mathfrak{F}^{-1}\left[\hat{f}\right]_k = \sum_{u=1}^{N} \hat{f}_u \exp \left(\dfrac{i2\pi (k-1)}{N} (u-1) \right)
 \]</span></p>
 <p><br></p>
 <p>이제 푸리에 변환과 역변환을 통해 <span class="math inline">\(f_k\)</span> 를 복원 할 수 있음을 보이자. 증명을 좀 더 깔끔하게 하기 위해 <span class="math inline">\(\sum_{1}^N\)</span> 을 <span class="math inline">\(\sum_{0}^{N-1}\)</span> 로 바꾸었다.</p>
 <p><span class="math display">\[
 \begin{aligned}
-f_{k'} = \mathfrak{F}^{-1}[F]_{k'} &amp;=  \sum_{u=0}^{N-1} F_u \exp \left(\dfrac{i2\pi k'u}{N}  \right) \\
+f_{k'} = \mathfrak{F}^{-1}\left[\hat{f}\right]_{k'} &amp;=  \sum_{u=0}^{N-1} \hat{f}_u \exp \left(\dfrac{i2\pi k'u}{N}  \right) \\
 &amp;= \dfrac{1}{N}\sum_{u=0}^{N-1} \left[\sum_{k=0}^{N-1} f_k \exp \left(\dfrac{-i2\pi k u}{N}  \right)  \right]\exp \left(\dfrac{i2\pi k'u}{N} \right)  \\
 &amp;= \dfrac{1}{N}\sum_{k=0}^{N-1} f_k \sum_{u=0}^{N-1} \exp\left( \dfrac{2\pi i (k'-k)u}{N}  \right) \\
 % &amp;= \dfrac{1}{N}\sum_{k=0}^{N-1} f_k \dfrac{{1-\exp \left( \dfrac{2\pi i (k'-k) N}{N}\right)}}{1-\exp \left( \dfrac{2\pi i (k'-k)}{N}\right)}
@@ -711,12 +732,12 @@ f_{k'} = \mathfrak{F}^{-1}[F]_{k'} &amp;=  \sum_{u=0}^{N-1} F_u \exp \left(\dfra
 <p><span class="math display">\[
 \sum_{u=0}^{N-1} \exp\left( \dfrac{2\pi i (k'-k)u}{N}  \right) = \dfrac{{1-\exp \left( \dfrac{2\pi i (k'-k) N}{N}\right)}}{1-\exp \left( \dfrac{2\pi i (k'-k)}{N}\right)} = 0
 \]</span></p>
-<p>이며, 이로부터 <span class="math inline">\(\mathfrak{F}^{-1}[F]_{k} = f_k\)</span> 을 얻었다. 즉 DFT 로도 푸리에 변환과 역변환이 똑같이 성립한다.</p>
+<p>이며, 이로부터 <span class="math inline">\(\mathfrak{F}^{-1}\left[\hat{f}\right]_{k} = f_k\)</span> 을 얻었다. 즉 DFT 로도 푸리에 변환과 역변환이 똑같이 성립한다.</p>
 <p><br></p>
 <p>우리는 위의 식으로 부터 다음을 알 수 있다.</p>
 <ul>
-<li><p>푸리에 변환으로 얻는 <span class="math inline">\(F_u = \mathfrak{F}[f_k]\)</span> 의 변수 <span class="math inline">\(u\)</span> 는 각진동수(angular frequency) 이다. 따라서 이 신호를 진동수(frequency) 에 대한 신호로 바꾸고 싶다면 변수를 <span class="math inline">\(2\pi u\)</span> 로 변경시켜야 한다.</p></li>
-<li><p>입력되는 신호 <span class="math inline">\(f\)</span> 가 실수 신호더라도 푸리에 변환 신호는 복소수가 된다. 각진동수에 대한 분포를 알고싶다면 <span class="math inline">\(|F_u|\)</span> 를 보아야 한다. Julia 에서는 <code>abs</code> 함수가 복소수에 대한 절대값을 반환한다.</p></li>
+<li><p>푸리에 변환으로 얻는 <span class="math inline">\(\hat{f}_u = \mathfrak{F}[f_k]\)</span> 의 변수 <span class="math inline">\(u\)</span> 는 각진동수(angular frequency) 이다. 따라서 이 신호를 진동수(frequency) 에 대한 신호로 바꾸고 싶다면 변수를 <span class="math inline">\(2\pi u\)</span> 로 변경시켜야 한다.</p></li>
+<li><p>입력되는 신호 <span class="math inline">\(f\)</span> 가 실수 신호더라도 푸리에 변환 신호는 복소수가 된다. 각진동수에 대한 분포를 알고싶다면 <span class="math inline">\(\left|\hat{f}_u\right|\)</span> 를 보아야 한다.</p></li>
 </ul>
 <p>다음은 1차원 DFT 와 IDFT 를 julia 로 구현한 것이다. 1차원 벡터 <code>x</code> 에 대해 <code>dft(x)</code> 나 <code>idft(x)</code> 와 같이 사용한다. 하지만 아래의 코드는 앞으로 사용하지 않는다. 그 이유는 곧 밝힌다.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">_dft</span>(</span>
@@ -751,24 +772,27 @@ f_{k'} = \mathfrak{F}^{-1}[F]_{k'} &amp;=  \sum_{u=0}^{N-1} F_u \exp \left(\dfra
 <p>참고로 정수 <span class="math inline">\(k,\, N\)</span> 에 대해 <span class="math inline">\(1 = e^{-i2\pi } = e^{-i 2 \pi N(k-1)/N}\)</span> 이므로</p>
 <p><span class="math display">\[
 \begin{aligned}
-F_{-u} &amp;= \dfrac{1}{N} \sum_{k=1}^N f_k \exp \left( \dfrac{i 2 \pi (u +1)(k-1) }{N}\right) \\
+\hat{f}_{-u} &amp;= \dfrac{1}{N} \sum_{k=1}^N f_k \exp \left( \dfrac{i 2 \pi (u +1)(k-1) }{N}\right) \\
 &amp;= \dfrac{1}{N} \sum_{k=1}^N f_k \exp \left( \dfrac{i 2 \pi (u +1)(k-1) }{N}\right) \exp \left( \dfrac{-i 2 \pi N (k-1)}{N} \right) \\
 &amp;= \dfrac{1}{N} \sum_{k=1}^Nf_k \exp \left( \dfrac{i 2 \pi (N-u-1)(k-1)}{N}\right) \\
-&amp;= F_{N-u}
+&amp;= \hat{f}_{N-u}
 \end{aligned}
 \]</span></p>
-<p>이다. 이때문에 <span class="math inline">\(u\)</span> 의 범위를 <span class="math inline">\(1\le u \le N\)</span> 로 표현하는 것보다 <span class="math inline">\(N\)</span> 이 홀수일 때는 <span class="math inline">\(-\dfrac{N-1}{2} \le u \le \dfrac{N-1}{2}\)</span> 로, <span class="math inline">\(N\)</span> 이 짝수일 때는 <span class="math inline">\(-\dfrac{N}{2} \le u \le \dfrac{N}{2}-1\)</span> 로 관례적으로 표현한다.</p>
+<p>이다. 이때문에 푸리에 변환에 대한 빈도를 아래와 같이 두가지 방법 가운데 하나로 잡는 것이 일반적이다.</p>
+<p>(<span class="math inline">\(1\)</span>) <span class="math inline">\(u\)</span> 의 범위를 <span class="math inline">\(1\le u \le N\)</span> 로 잡고 푸리에 변환을 표현하거나,</p>
+<p>(<span class="math inline">\(2\)</span>) <span class="math inline">\(N\)</span> 이 홀수일 때는 <span class="math inline">\(-\dfrac{N-1}{2} \le u \le \dfrac{N-1}{2}\)</span> 로, <span class="math inline">\(N\)</span> 이 짝수일 때는 <span class="math inline">\(-\dfrac{N}{2} \le u \le \dfrac{N}{2}-1\)</span> 로 잡아 표현한다. 빈도 분포 에서 빈도 <span class="math inline">\(0\)</span> 가 중앙에 가도록 잡거나.</p>
+<p><br></p>
 </section>
 <section id="차원-dft-1" class="level3" data-number="5.2">
 <h3 data-number="5.2" class="anchored" data-anchor-id="차원-dft-1"><span class="header-section-number">5.2</span> 2차원 DFT</h3>
 <p>2차원 DFT 의 경우 <span class="math inline">\(F(u, v)\)</span> 는 아래와 같이 구할 수 있다.</p>
 <p><span class="math display">\[
 \begin{aligned}
-F_{uv} &amp;= \dfrac{1}{MN} \sum_{j=1}^{M}\sum_{k=1}^{N} f_{jk} \exp \left[-2i\pi \left(\dfrac{(j-1)(u-1)}{M}+\dfrac{(k-1)(v-1)}{N}\right)\right] \\
-f_{jk} &amp;=  \sum_{j=1}^{M}\sum_{k=1}^{N} F_{uv} \exp \left[2i\pi \left(\dfrac{(j-1)(u-1)}{M}+\dfrac{(k-1)(v-1)}{N}\right)\right]
+\hat{F}_{uv} &amp;= \dfrac{1}{MN} \sum_{j=1}^{M}\sum_{k=1}^{N} F_{jk} \exp \left[-2i\pi \left(\dfrac{(j-1)(u-1)}{M}+\dfrac{(k-1)(v-1)}{N}\right)\right] \\
+F_{jk} &amp;=  \sum_{j=1}^{M}\sum_{k=1}^{N} \hat{F}_{uv} \exp \left[2i\pi \left(\dfrac{(j-1)(u-1)}{M}+\dfrac{(k-1)(v-1)}{N}\right)\right]
 \end{aligned}
 \]</span></p>
-<p>여기서도 <span class="math inline">\(\mathfrak{F}^{-1}\left[\mathfrak{F}[f]\right] = f\)</span> 와 <span class="math inline">\(\mathfrak{F}\left[\mathfrak{F}^{-1}[F]\right]=F\)</span> 가 성립한다.</p>
+<p>여기서도 <span class="math inline">\(\mathfrak{F}^{-1}\left[\mathfrak{F}[F]\right] = F\)</span> 와 <span class="math inline">\(\mathfrak{F}\left[\mathfrak{F}^{-1}[\hat{F}]\right]=\hat{F}\)</span> 가 성립한다.</p>
 <p><br></p>
 </section>
 <section id="연속-푸리에-변환과의-관계에서-보는-dft-의-성질." class="level3" data-number="5.3">
@@ -777,19 +801,19 @@ f_{jk} &amp;=  \sum_{j=1}^{M}\sum_{k=1}^{N} F_{uv} \exp \left[2i\pi \left(\dfrac
 <p><strong>1. 주기성</strong> : 연속 푸리에 변환은 앞서 보았듯이 아래와 같다.</p>
 <p><span class="math display">\[
 \begin{aligned}
-F(u,\,v) &amp;= \mathfrak{I} \left[f(x,\,y)\right]=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} f(x,\,y)e^{-2i\pi (ux+vy)}\, dxdy\,, \\
-f (x,\,y) &amp;= \mathfrak{I}^{-1} \left[F(u,\,v)\right] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} F(\mu) e^{2i \pi (ux+vy)} \, dudv
+\hat{F}(u,\,v) &amp;= \mathfrak{F} \left[F(x,\,y)\right]=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} F(x,\,y)e^{-2i\pi (ux+vy)}\, dxdy\,, \\
+F (x,\,y) &amp;= \mathfrak{F}^{-1} \left[\hat{F}(u,\,v)\right] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \hat{F}(u,\,v) e^{2i \pi (ux+vy)} \, dudv
 \end{aligned}
 \]</span></p>
 <p>불연속 푸리에 변환쌍 에서는 <span class="math inline">\(x, y\)</span> 대신 <span class="math inline">\(x/N, y/M\)</span>가,그리고 <span class="math inline">\(u,v\)</span> 대신 <span class="math inline">\(u/N, v/M\)</span> 가 쓰였다. 이는 원본 함수가 정해진 구간 <span class="math inline">\(x = 0,\,1,\ldots,\,N-1\)</span> 혹은 <span class="math inline">\(y=1,\ldots,\,M-1\)</span> 을 벗어나면 다시 주기 <span class="math inline">\(N, M\)</span> 을 가지고 모든 1차원 공간에서 반복된다는 가정이 내포되어 있다. 즉, 정수 <span class="math inline">\(p,\,q\)</span> 에 대해</p>
 <p><span class="math display">\[
 \begin{aligned}
-f(x+pN,\, y+qN) &amp;= f(x,\, y) \\
-F(u+pN,\, v+qN) &amp;= F(u,\, v)
+F(x+pN,\, y+qN) &amp;= F(x,\, y) \\
+\hat{F}(u+pN,\, v+qN) &amp;= \hat{F}(u,\, v)
 \end{aligned}
 \]</span> 가 성립한다는 뜻이다.</p>
 <p><br></p>
-<p><strong>2. 정규화 인자 (normalization factor)</strong> : 또한, <span class="math inline">\(F(u,\,v)\)</span> 의 계수에 연속 푸리에 변환에는 없던 <span class="math inline">\(\dfrac{1}{NM}\)</span> 가 생긴것을 볼 수 있다.우리가 다루는 이미지 같은 신호는 공간상에서 제약이 있고 (즉, 가로와 세로의 길이가 정해져 있고), 또한 신호들은 불연속적으로 나열되어 있으므로, 이를 푸리에 변환 과정에서 보상하기 위해, <span class="math inline">\(F (u,\,v)\)</span> 의 계수에 <span class="math inline">\(\dfrac{1}{MN}\)</span> 가 정규화 인자 (normalization factor)로서 생긴 것이다.</p>
+<p><strong>2. 정규화 인자 (normalization factor)</strong> : 또한, <span class="math inline">\(\hat{F}(u,\,v)\)</span> 의 계수에 연속 푸리에 변환에는 없던 <span class="math inline">\(\dfrac{1}{NM}\)</span> 가 생긴것을 볼 수 있다.우리가 다루는 이미지 같은 신호는 공간상에서 제약이 있고 (즉, 가로와 세로의 길이가 정해져 있고), 또한 신호들은 불연속적으로 나열되어 있으므로, 이를 푸리에 변환 과정에서 보상하기 위해, <span class="math inline">\(F (u,\,v)\)</span> 의 계수에 <span class="math inline">\(\dfrac{1}{MN}\)</span> 가 정규화 인자 (normalization factor)로서 생긴 것이다.</p>
 <p><br></p>
 </section>
 </section>
@@ -820,11 +844,11 @@ b_k &amp;= f_{2k+1}
 &amp;= \sum_{k=0}^{M-1}a_k {w_N}^{2uk} + \sum_{k=0}^{M-1} b_k {w_N}^{(2k+1)u}\\
 &amp;= \sum_{k=0}^{M-1} a_k (w_M)^{uk} + \left({w_N}^u\right) \sum_{k=0}^{M-1} b_k (w_M)^{uk} \\
 \end{aligned}
-\tag{2}\]</span></span></p>
+\tag{4}\]</span></span></p>
 <p>이다. <span class="math inline">\(M-1\)</span> 개의 점에 대한 <span class="math inline">\((a_k)\)</span> 와 <span class="math inline">\((b_k)\)</span> 의 푸리에 변환 <span class="math inline">\(\mathfrak{F}[a]_u,\, \mathfrak{F}[b]_u\)</span> 를 생각하자. <span class="math inline">\(0 \le u \le M-1\)</span> 일 경우</p>
 <p><span id="eq-ImageProcessing_fft_2"><span class="math display">\[
 \mathfrak{F}[f]_{u} = \mathfrak{F}[a]_u + ({w_N}^u) \mathfrak{F}[b]_u
-\tag{3}\]</span></span></p>
+\tag{5}\]</span></span></p>
 <p>이며, <span class="math inline">\(M\le u \le N-1\)</span> 일 경우 <span class="math inline">\(v=u-M\)</span> 으로 놓고 <span class="math inline">\({w_N}^{-M} = (e^{-2\pi i /N})^{-M} = e^{i\pi} = -1\)</span> 과 <span class="math inline">\({w_M}^M=1\)</span> 을 이용하면,</p>
 <p><span id="eq-ImageProcessing_fft_3"><span class="math display">\[
 \begin{aligned}
@@ -833,14 +857,14 @@ b_k &amp;= f_{2k+1}
 &amp;= \sum_{k=0}^{M-1} a_k (w_M)^{vk} - ({w_N}^v) \sum_{k=0}^{M-1} b_k (w_M)^{vk} \\
 &amp;= \mathfrak{F}[a]_{u-M} - ({w_N}^{u-M}) \mathfrak{F}[b]_{u-M}
 \end{aligned}
-\tag{4}\]</span></span></p>
+\tag{6}\]</span></span></p>
 <p>이다. 즉 <span class="math inline">\(1\le u\le M\)</span> 에 대해</p>
 <p><span id="eq-ImageProcessing_fft_4"><span class="math display">\[
 \begin{aligned}
 \mathfrak{F}[f]_u &amp;= \mathfrak{F}[a]_u + ({w_N}^u) \mathfrak{F}[b]_u, \\[0.3em]
 \mathfrak{F}[f]_{u+M} &amp;= \mathfrak{F}[a]_u - ({w_N}^u) \mathfrak{F}[b]_u,
 \end{aligned}
-\tag{5}\]</span></span></p>
+\tag{7}\]</span></span></p>
 <p>이다. 우리는 <span class="math inline">\(N=2^n\)</span> 개의 점에 대한 DFT 가 <span class="math inline">\(M=N/2\)</span> 인 두 푸리에 변환의 선형결합과 같다는 것을 알게 되었다. 만약 <span class="math inline">\(N\)</span> 개의 점에 대한 DFT 의 연산 횟수를 <span class="math inline">\(X(N)\)</span> 이라고 하자. <span class="math inline">\(N=2^n\)</span> 일 때 <span class="math inline">\(N/2=2^{n-1}\)</span> 개의 점에 대한 두번의 DFT 와 <span class="math inline">\((w_N^m)\)</span> 과 <span class="math inline">\(\mathfrak{F}[b]_u\)</span> 와의 <span class="math inline">\(N/2\)</span> 번의 곱셈 연산이 필요하므로</p>
 <p><span class="math display">\[
 \begin{aligned}
