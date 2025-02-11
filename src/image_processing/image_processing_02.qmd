@@ -132,14 +132,14 @@ $$
 
 </br>
 
-$\tilde{F}(u,\,v) = \mathfrak{F}[F](u,\,v)$ 는 복소수이므로 다음과 같이 표현 할 수 있다. 
+$\hat{F}(u,\,v) = \mathfrak{F}[F](u,\,v)$ 는 복소수이므로 다음과 같이 표현 할 수 있다. 
 
 $$
-\tilde{F}(u,\,v) = |\tilde{F}(u,\,v)| e^{i\Phi(u,\,v)}
+\hat{F}(u,\,v) = |\hat{F}(u,\,v)| e^{i\Phi(u,\,v)}
 $$
 
 
-이 때 $|\tilde{F}(u,\,v)|$ 를 **푸리에 스펙트럼 (Fourier spectrum)** 이라 하고, $\Phi(u,\,v)$ 를 **위상 (phase)** 이라 한다. 또한 $P(u,\,v) =|\tilde{F}(u,\,v)|^2$ 를 **푸리에 파워 스펙트럼 (Fourier power spectrum)** 이라 한다.
+이 때 $|\hat{F}(u,\,v)|$ 를 **푸리에 스펙트럼 (Fourier spectrum)** 이라 하고, $\Phi(u,\,v)$ 를 **위상 (phase)** 이라 한다. 또한 $P(u,\,v) =|\hat{F}(u,\,v)|^2$ 를 **푸리에 파워 스펙트럼 (Fourier power spectrum)** 이라 한다.
 
 </br>
 
@@ -167,15 +167,15 @@ $$ {#eq-ImageProcessing_fourier_and_inverse_fourier}
 
 ::: {#prp-fourier_linearity}
 
-$\tilde{f} = \mathfrak{F}[f]$, $\tilde{F}(u, v)=\mathfrak{F}[F(x, y)](u, v),\, \tilde{G}(u, v)=\mathfrak{F}[G(x, y)](u, v)$, 상수 $a,\,b$ 에 대해 다음이 성립한다.
+$\hat{f} = \mathfrak{F}[f]$, $\hat{F}(u, v)=\mathfrak{F}[F(x, y)](u, v),\, \hat{G}(u, v)=\mathfrak{F}[G(x, y)](u, v)$, 상수 $a,\,b$ 에 대해 다음이 성립한다.
 
-**1. Linearity** : $\mathfrak{F}[aF(x, y) + bG(x, y)] = a\tilde{F}(u,\, v) + b\tilde{G}(u,\,v)$, 
+**1. Linearity** : $\mathfrak{F}[aF(x, y) + bG(x, y)] = a\hat{F}(u,\, v) + b\hat{G}(u,\,v)$, 
 
-**2. Similarity** : $\mathfrak{F}[F(ax,\,by)] =\dfrac{1}{ab} \tilde{F}\left(\dfrac{u}{a},\, \dfrac{v}{b}\right)$, 
+**2. Similarity** : $\mathfrak{F}[F(ax,\,by)] =\dfrac{1}{ab} \hat{F}\left(\dfrac{u}{a},\, \dfrac{v}{b}\right)$, 
 
-**3. Shift property** : $\mathfrak{F}[F(x-a,\, y-b)] = \exp (i2\pi (au+bv)) \tilde{F}(u,\,v)$, 
+**3. Shift property** : $\mathfrak{F}[F(x-a,\, y-b)] = \exp (i2\pi (au+bv)) \hat{F}(u,\,v)$, 
 
-**4. Derivative** : $\mathfrak{F}\left[ \dfrac{d^k}{dx^k}f(x) \right] =( 2i\pi u)^k \tilde{f}(u)$,
+**4. Derivative** : $\mathfrak{F}\left[ \dfrac{d^k}{dx^k}f(x) \right] =( 2i\pi u)^k \hat{f}(u)$,
 
 :::
 
@@ -197,7 +197,7 @@ $$
 \begin{aligned}
 \mathfrak{F}[F(ax,\,by)] &= \iint F(ax,\, by) e^{-2i\pi (ux+vy)}\,dxdy \qquad &; t=ax,\, s=by\\
 &= \dfrac{1}{ab} \iint F(s,\,t) e^{-2i \pi (ut/a+vs/b)}\, dtds \\
-&= \dfrac{1}{ab} \tilde{F} \left(\dfrac{u}{a},\, \dfrac{v}{b} \right)
+&= \dfrac{1}{ab} \hat{F} \left(\dfrac{u}{a},\, \dfrac{v}{b} \right)
 \end{aligned}
 $$
 
@@ -206,20 +206,20 @@ $$
 \begin{aligned}
 \mathfrak{F}[F(x-a,\, y-b) ]&= \iint F(x-a,\, y-b) e^{-2i\pi (ux+vy)} \,dxdy \qquad &; t=x-a,\, s=y-b\\
 &=\iint F(t,\,s) e^{-2i\pi (ux+vy)} e^{2i\pi (au+bv)} \, dxdy \\
-&= e^{2i\pi (au+bv)}\tilde{F}(u,\,v)
+&= e^{2i\pi (au+bv)}\hat{F}(u,\,v)
 \end{aligned}
 $$
 
-($4$) $k=1$ 인 경우만 보이면 나머지는 쉽게 일반화 된다.$f(x)=\displaystyle \int_{-\infty}^{\infty} \tilde{f}(u)e^{2i\pi ux}\, du$ 이므로
+($4$) $k=1$ 인 경우만 보이면 나머지는 쉽게 일반화 된다.$f(x)=\displaystyle \int_{-\infty}^{\infty} \hat{f}(u)e^{2i\pi ux}\, du$ 이므로
 
 $$
-f'(x) =  \int_{-\infty}^{\infty}(2i\pi u) \tilde{f}(u)e^{2i \pi ux} \, du
+f'(x) =  \int_{-\infty}^{\infty}(2i\pi u) \hat{f}(u)e^{2i \pi ux} \, du
 $$
 
 이다. 따라서 
 
 $$
-\mathfrak{F}[f'(x)] = (2i\pi u) \tilde{f}(u)
+\mathfrak{F}[f'(x)] = (2i\pi u) \hat{f}(u)
 $$
 이다. $\square$ 
 :::
@@ -238,7 +238,7 @@ $$
 
 $$
 \begin{aligned}
-\tilde{f}(u) = \mathfrak{F}\left[\text{rect}\left(\dfrac{x}{w}\right)\right] &= \int_{-w/2}^{w/2} e^{-2\pi i u t}\, dt = \dfrac{\sin \pi w u}{\pi u}
+\hat{f}(u) = \mathfrak{F}\left[\text{rect}\left(\dfrac{x}{w}\right)\right] &= \int_{-w/2}^{w/2} e^{-2\pi i u t}\, dt = \dfrac{\sin \pi w u}{\pi u}
 \end{aligned}
 $$
 
@@ -276,18 +276,18 @@ $$
 \mathfrak{F}^{-1} \left[ \delta \left( \mu-\dfrac{n}{T} \right) \right] = \exp \left( \dfrac{2in\pi t}{t} \right) \iff \mathfrak{F}\left[  \exp \left( \dfrac{2in\pi t}{t} \right) \right] =  \delta \left( \mu-\dfrac{n}{T} \right)
 $$
 
-이다. 이를 이용하면 $s_T(t)$ 의 푸리에 변환식 $\tilde{s}(\mu)=\mathfrak{F}[s_N(t)]$ 를 계산 할 수 있으며 다음과 같다.
+이다. 이를 이용하면 $s_T(t)$ 의 푸리에 변환식 $\hat{s}(\mu)=\mathfrak{F}[s_N(t)]$ 를 계산 할 수 있으며 다음과 같다.
 
 $$
 \begin{aligned}
-\tilde{s} (\mu) &= \mathfrak{F}\left[\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \exp \left( \dfrac{-i2n\pi t}{T}\right)\right] = \dfrac{1}{T} \sum_{n=-\infty}^{\infty} \mathfrak{F}\left[ \exp \left( \dfrac{-i2n\pi t}{T}\right) \right] \\
+\hat{s} (\mu) &= \mathfrak{F}\left[\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \exp \left( \dfrac{-i2n\pi t}{T}\right)\right] = \dfrac{1}{T} \sum_{n=-\infty}^{\infty} \mathfrak{F}\left[ \exp \left( \dfrac{-i2n\pi t}{T}\right) \right] \\
 &=\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \delta \left(\mu - \dfrac{n}{T}\right)
 \end{aligned}
-$$
+$$ {#eq-ImageProcessing_fourier_transform_of_periodic_pulse}
 
 </br>
 
-## 합성곱의 푸리에 변환
+### 합성곱의 푸리에 변환 {#sec-ImageProcessing_fourier_transform_of_convolution}
 
 두 함수 $f(t),\, g(t)$ 의 convolution  $f(t) \ast g(t)$ 은 다음과 같이 정의된다.
 
@@ -319,53 +319,55 @@ $$ {#eq-ImageProcessing_fourier_transform_and_convolution}
 
 </br>
 
+이 결과는 매우 중요한데 이미지 처리에 있어 합성곱을 직접 계산하는 것보다 푸리에변환 → 성분별 곱 → 역푸리에 변환이 계산적으로 더 저렴할 수 있기 때문이다. 일반적으로 커널 크기가 이미지 크기에 비해 매우 작을 경우는 직접 합성곱을 계산 하는 것이 빠르고, 커널 크기가 어느 정도 이상 크다면 합성곱을 이용하여 푸리에 변환을 하는 것이 빠르다. 
+
+</br>
+
+
 ## 푸리에 변환과 샘플링 (sampling)
 
-### 샘플링
-임의의 연속함수 $f(t)$ 를 $T$ 를 주기로 샘플링 하였다고 하자. 그렇다면 이 샘플링 $f_I(t)$ 은 다음과 같은 식으로 표현 할 수 있다.
+### 샘플링과 샘플링 된 신호의 푸리에 변환 {#sec-ImageProcessing_sampling}
+
+![(위) 함수와 측정 주기(붉은색 수직선). (아래) 샘플링된 신호](notebooks/sampling.png){#fig-ImageProcessing_sampling width=400}
+
+임의의 연속함수 $f(t)$ 를 $T$ 를 주기로 샘플링 하였다고 하자. 그렇다면 이 샘플링 $f_s(t)$ 은 다음과 같은 식으로 표현 할 수 있다.
 
 $$
-f_I(t) = f(t)s_T(t)\sum_{n=-\infty}^{\infty} f(t) \delta (t-nT)
+f_s(t) = f(t)s_T(t)\sum_{n=-\infty}^{\infty} f(t) \delta (t-nT)
 $$
 
-즉 연속 신호에 대해 주기적으로 신호를 뽑아 불연속 신호로 만드는 것을 **sampling** 이라 한다. 
-
-<br>
-
-### 샘플링 된 신호의 푸리에 변환
-
-이 때 $\mathfrak{F}[f(t)]= \hat{f}(\mu),\, \mathfrak{F}[s_T(t)]= \hat{s}(\mu)$ 라 하자 $\displaystyle \hat{s}(\mu)=\dfrac{1}{T} \sum_{n=-\infty}^{\infty} \delta \left( \mu - \dfrac{n}{T}\right)$ 임은 알고 있다. 그렇다면 $\hat{f}_I(\mu)=\mathfrak{F}\left[f_I(t) \right](\mu)$ 를 구하면,
+즉 연속 신호에 대해 주기적으로 신호를 뽑아 불연속 신호로 만드는 것을 **sampling** 이라 한다. 이 때 $\mathfrak{F}[f(t)]= \hat{f}$, $\mathfrak{F}[s_T(t)]= \hat{s}$ 라 하자. $\hat{s}(\mu)$ 는 @eq-ImageProcessing_fourier_transform_of_periodic_pulse 와 같다. 그렇다면 $\hat{f}_s(\mu)=\mathfrak{F}\left[f_s(t) \right](\mu)$ 를 구하면,
 
 $$
 \begin{aligned}
-\hat{f}_I(\mu) & = \hat{f}(\mu)\ast S(\mu) = \int_{-\infty}^{\infty} \hat{f}(\tau)S(\mu-\tau)\, d\tau \\
+\hat{f}_s(\mu) & = \hat{f}(\mu)\ast S(\mu) = \int_{-\infty}^{\infty} \hat{f}(\tau)S(\mu-\tau)\, d\tau \\
 &= \dfrac{1}{T} \sum_{n=-\infty}^{\infty}\int_{-\infty} \hat{f}(\tau) \delta \left(\mu-\tau-\dfrac{n}{T}\right)\, d\tau \\
 &= \dfrac{1}{T}\sum_{n=-\infty}^{\infty} \hat{f}\left( \mu - \dfrac{n}{T} \right)
 \end{aligned}
-$$
+$$ {#eq-ImageProcessing_fourier_transform_of_sampling_signal}
 
 이다. 즉, 주기 $T$ 로 샘플링된 연속 함수 $f(t)$의 함수의 푸리에 변환은 원래 함수의 푸리에 변환 $\hat{f}(\mu)$ 를 주기 $1/T$ 를 갖는 임펄스 함수로 바꾼 형태임을 알 수 있다.
 
 </br>
 
-### 밴드-한계 신호 (band-limited signal), Over-sampling, under-sampling, critical-sampling, aliasing
+### 대역 제한 신호 (band-limited signal), Over-sampling, under-sampling, critical-sampling, aliasing
+
+![대역제한신호와 샘플링](notebooks/sample_freqdomain.png){#fig-ImageProcessing_sampling_in_freq width=400}
 
 
-*to be completed*
+- 위의 그림을 보자. 원본연속함수(연속신호) $f(t)$ 를 푸리에 변환한 함수 중, 그래프 (a) 와 같이 일부 구간 $[-\mu_M,\,\mu_M]$에 대한 변환 신호 $\hat{f}(\mu)$ 만을 알고 있는 상황이라고 가정하자. 이렇계 특정 구간을 제외하고 $\hat{f}(\mu)=0$ 일 때 이를 **대역 제한 신호(band-limitid signal)** 이라 한다.
 
-- 위의 그림을 보자. 원본연속함수(연속신호) $f(t)$ 를 푸리에 변환한 함수 중, 그래프 (a) 와 같이 일부 구간 $[-\mu_M,\,\mu_M]$에 대한 변환 신호 $F(\mu)$ 만을 알고 있는 상황이라고 가정하자. 이렇계 특정 구간을 제외하고 $\hat{f}(\mu)=0$ 일 때 이를 밴드한계신호라 한다.
+- $f (t)$ 를 주기 $T$ 를 조절해 가며 샘플링한 함수를 푸리에 변환한다고 하자. 만약, 주기를 $1/T>2\mu_M$ 이 되도록 샘플링하면 $\hat{f}(\mu)$ 가 주기적으로 배열되며 그간격은 $1/T$ 가 이되겠지만, $1/T>2\mu_M$ 이므로, 결과는 그림 $(b)$ 와 같이 띄엄띄엄 배열된 삼각형 신호가 될 것이다. 즉 $\hat{f}_s(\mu)$ 가 불연속 함수가 된다. 그러나 원래 $\hat{f}(\mu)$ 가 가지고 있던 함수정보가 고스란히 남아 있으므로, 결과물로 부터 다시 역변환을 취하면 원래 함수 (신호값) 을 복원 할 수 있다. 이러한 결과를 **오버-샘플링 (over-sampling)** 이라 한다.
 
-- $f (t)$ 를 주기 $T$ 를 조절해 가며 샘플링한 함수를 푸리에 변환한다고 하자. 만약, 주기를 $1/T>2\mu_M$ 이 되도록 샘플링하면 $\hat{f}(\mu)$ 가 주기적으로 배열되며 그간격은 $1/T$ 가 이되겠지만, $1/T>2\mu_M$ 이므로, 결과는 그림 (b) 와 같이 띄엄띄엄 배열된 삼각형 신호가 될 것이다. 즉 $\tilde{F}(\mu)$ 가 불연속 함수가 된다. 그러나 원래 $\hat{f}(\mu)$ 가 가지고 있던 함수정보가 고스란히 남아 있으므로, 결과물로 부터 다시 역변환을 취하면 원래 함수 (신호값) 을 복원 할 수 있다. 이러한 결과를 **오버-샘플링 (over-sampling)** 이라 한다.
+- 만약, 주기 조건이 $1/T < 2\mu_M$ 이라면 이번에도 $\hat{f}_s(\mu)$ 가 주기적으로 배열되겠지만, $1/T < 2\mu_M$ 이므로, 결과는 그래프 $(d)$ 처럼 삼각형 신호 중 일부가 파묻힌 결과가 될 것이다. 비록 $\hat{f}_S(\mu)$ 는 연속 함수가 되었지만, 원래의 정보를 잃어 버리게 되며, 이러한 결과를 **언더-샘플링 (under-sampling)** 이라 한다.
 
-- 만약, 주기 조건이 $1/T < 2\mu_M$ 이라면 이번에도 $F(\mu)$ 가 주기적으로 배열되겠지만, $1/T < 2\mu_M$ 이므로, 결과는 그래프 (d) 처럼 삼각형 신호 중 일부가 파묻힌 결과가 될 것이다. 비록 $F(\mu)$ 는 연속 함수가 되었지만, 원래의 정보를 잃어 버리게 되며, 이러한 결과를 **언더-샘플링 (under-sampling)** 이라 한다.
-
-- 만약 주기가 $1/T= 2\mu_M$ 로서 딱 맞다면, 그림 (c) 처럼, $F(\mu)$ 는 삼각형 신호가 제대로 연속 배열된 결과가 된다. 이러한 결과를 **critical-sampling** 이라 한다.
+- 만약 주기가 $1/T= 2\mu_M$ 로서 딱 맞다면, 그림 $(c)$ 처럼, $\hat{f}_s(\mu)$ 는 삼각형 신호가 제대로 연속 배열된 결과가 된다. 이러한 결과를 **critical-sampling** 이라 한다.
 
 - 따라서 원래 함수의 신호를 복원하기 위한 샘플링 충분 조건은 $1/T\ge 2\mu_M$ 이 될 것이다. 이것은 소위 나이퀴스트-샤논 샘플링 정리의 결과이다.
 
 - 이 정리에 따르면, 어떤 신호든 밴드-한계 함수가 그 함수의 샘플들로부터 복원되기 위해서는, 샘플링 주기의 역수$1/T$ 가 샘플링된 밴드의 최대값의 두 배보다 커야 한다. 만약, 주기의 역수가 이 조건을 만족시키지 못한다면 (즉, 언더-샘플링된 상황), 복원된 신호는 완벽하지 않을 것이며, 이러한 상황을 **주파수 앨리어싱 (frequency aliasing)** 혹은 그냥 **앨리어싱** 이라고 한다.
 
-- 앨리어싱은 주로 원래 이미지의 해상도보다 낮은 해상도로 이미지를 샘플링하거나, 이미지 획득 장치의 샘플링 간격이 피사체 자체의 고유 구조 특징보다 더 클 때 발생합니다.
+- 앨리어싱은 주로 원래 이미지의 해상도보다 낮은 해상도로 이미지를 샘플링하거나, 이미지 획득 장치의 샘플링 간격이 피사체 자체의 고유 구조 특징보다 더 클 때 발생한다.
 
 </br>
 
@@ -373,7 +375,7 @@ $$
 ## 이산 푸리에 변환 (Discrete Fourier Transformation, DFT)
 
 
-### 1차원 DFT
+### 1차원 DFT {#sec-ImageProcessing_1d_dft}
 
 1차원 공간상의 함수 $f$ 에 대해 $k$ 번째 에서의 값을 $f_k$ 라 하자. 그리고 이 수열을 $\langle f\rangle$ 라 하자. 즉,
 $$
@@ -431,7 +433,7 @@ $$
 - 입력되는 신호 $f$ 가 실수 신호더라도 푸리에 변환 신호는 복소수가 된다. 각진동수에 대한 분포를 알고싶다면 $\left|\hat{f}_u\right|$ 를 보아야 한다. 
 
 
-다음은 1차원 DFT 와 IDFT 를 julia 로 구현한 것이다. 1차원 벡터 `x` 에 대해 `dft(x)` 나 `idft(x)` 와 같이 사용한다. 하지만 아래의 코드는 앞으로 사용하지 않는다. 그 이유는 곧 밝힌다.
+다음은 1차원 DFT 와 IDFT 를 julia 로 구현한 것이다. 1차원 벡터 `x` 에 대해 `dft(x)` 나 `idft(x)` 와 같이 사용한다. 하지만 아래의 코드는 앞으로 사용하지 않는데 그 이유는 DFT 를 훨씬 더 빠르게 계산하는 알고리즘이 있기 때문이다.  
 
 ```julia
 function _dft(
@@ -465,6 +467,8 @@ idft = v-> _dft(v, true)
 ```
 </br>
 
+### 1차원 DFT 의 fftshift {#sec-ImageProcessing_ffhshift_of_1D_fft}
+
 참고로 정수 $k,\, N$ 에 대해 $1 = e^{-i2\pi } = e^{-i 2 \pi N(k-1)/N}$ 이므로 
 
 $$
@@ -474,7 +478,7 @@ $$
 &= \dfrac{1}{N} \sum_{k=1}^Nf_k \exp \left( \dfrac{i 2 \pi (N-u-1)(k-1)}{N}\right) \\
 &= \hat{f}_{N-u}
 \end{aligned}
-$$
+$$ {#eq-ImageProcessing_negative_frequency}
 
 이다. 이때문에 푸리에 변환에 대한 빈도를 아래와 같이 두가지 방법 가운데 하나로 잡는 것이 일반적이다.
 
@@ -482,9 +486,12 @@ $$
 
 ($2$) $N$ 이 홀수일 때는 $-\dfrac{N-1}{2} \le u \le \dfrac{N-1}{2}$ 로, $N$ 이 짝수일 때는 $-\dfrac{N}{2} \le u \le \dfrac{N}{2}-1$ 로 잡아 표현한다. 빈도 분포 에서 빈도 $0$ 가 중앙에 가도록 잡거나.
 
+많이 사용하는 DFT 라이브러리는 일반적으로 ($1$) 의 방식으로 계산하며, ($1$) 의 결과를 ($2$) 로 바꾸거나, 혹은 ($2$) 의 결과를 ($1$) 로 바꾸는 기능을 제공한다. 아쉽게도 OpenCV 자체는 이런 변환 기능이 없어서 직접 계산해야 한다. Python, Julia, Matlab 의 DFT 라이브러리들은 이 변환 기능을 `fftshift` 라는 함수 이름으로 제공한다. 이런 기능에 대하 딱히 다른 이름이 있는 것도 아닌것 같아서 앞으로도 **fftshift** 라고 사용하도록 하자.
+
+
 </br>
 
-### 2차원 DFT
+### 2차원 DFT {#sec-ImageProcessing_2d_dft}
 
 2차원 DFT 의 경우 $F(u, v)$ 는 아래와 같이 구할 수 있다.
 
@@ -497,11 +504,14 @@ $$
 
 여기서도 $\mathfrak{F}^{-1}\left[\mathfrak{F}[F]\right] = F$ 와 $\mathfrak{F}\left[\mathfrak{F}^{-1}[\hat{F}]\right]=\hat{F}$ 가 성립한다. 
 
+</br>
+
+2차원 DFT 에도 마찬가지로 **fftshift** 를 사용 할 수 있으며, 이것은 주파수 빈도에 따른 이미지 처리에 유용하다. 
 
 
 </br>
 
-### 연속 푸리에 변환과의 관계에서 보는 DFT 의 성질.
+### 연속 푸리에 변환과의 관계에서 보는 DFT 의 성질 {#sec-ImageProcessing_properties_of_dft}
 
 <br>
 
@@ -532,8 +542,7 @@ $$
 </br>
 
 
-## 고속 푸리에 변환 (FFT)
-
+## 고속 푸리에 변환 (Fast fourier transform, FFT)
 
 고속 푸리에 변환(Fast Fourier Transform, FFT)은 DFT 과 그 역변환을 빠르게 수행하는 효율적인 알고리즘이다. 위의 이산 푸리에 변환은 $N^2$ 번의 곱셉과 $N(N-1)$ 번의 덧셈 연산, 즉 대략 $2N^2$ 번의 연산이 필요하지만 FFT를 이용하면 대략 $\mathcal{O}(N \log_2 N)$ 의 연산만으로 가능하다. 기본적인 아이디어는 가우스가 생각했었으나 잊혀졌고 이후 Cooley 와 Tukey 가 1965년도에 고속 푸리에 변환 알고리즘을 발표하였으며 이후 전 세계적으로 광범위하게 사용되었으며 다양한 다른 방법들도 개발되었다. 여기서는 Cooley 와 Turkey 의 기본적인 알고리즘을 알아보기로 하자.
 
@@ -641,8 +650,10 @@ ft1 = cv.dft(img1, flags=cv.DFT_COMPLEX_OUTPUT);
 
 </br>
 
-.... fftshfit 에 관한 내용 을 채워야 한다...
+### fftshift {#sec-ImageProcessing_fftshift}
 
+
+[1차원 DFT](#sec-ImageProcessing_1d_dft) 의 @eq-ImageProcessing_negative_frequency 와 이후의 논의에서 알 수 있듯이 $N$ 개의 값을 갖는 신호의 푸리에 변환에 대해 $\hat{f}_{-u} = \hat{f}_{N-u}$ 이다. 일반적인 푸리에 변환 알고리즘은 주파수의 범위를 $0 \le u \le N-1$ 로 잡고 $\hat{f}_0,\ldots,\, \hat{f}_{N-1}$ 을 반환한다. 이것을 $\hat{f}_0$ 를 중앙에 놓도록, 
 
 
 
