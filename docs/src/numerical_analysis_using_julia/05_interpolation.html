@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>수치해석과 이미지 처리 - 다항식을 이용한 1차원 보간법</title>
+<title>다항식을 이용한 1차원 보간법 – 수치해석과 이미지 처리</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -148,7 +148,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -179,18 +179,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/05_interpolation.html">다항식을 이용한 1차원 보간법</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -559,7 +559,7 @@ f(x) = P_{n-1}(x) + \dfrac{f^{(n)}(\xi)}{n!}\prod_{i=1}^n (x-x_i)
 <section id="전역적-보간법의-문제점" class="level3" data-number="2.5">
 <h3 data-number="2.5" class="anchored" data-anchor-id="전역적-보간법의-문제점"><span class="header-section-number">2.5</span> 전역적 보간법의 문제점</h3>
 <p>데이터 갯수가 많을 경우 고차다항식으로 보간을 하게 되는데, 이 경우 다항식이 심하게 진동하는 경우가 있을 수 있다. 아래 그림의 데이터는 15개의 포인트로 가우스 분포 <span class="math inline">\(e^{-(x-x_0)/2\sigma^2}\)</span> 를 그린 것이며, 라그랑쥬나 뉴턴 방법을 통해 14차 다항식으로 보간한 결과를 같이 보여준다.</p>
-<div id="fig-interpolation_oscillation_1" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-interpolation_oscillation_1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-interpolation_oscillation_1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/interpolation_oscillation.png" class="img-fluid figure-img" style="width:100.0%">
@@ -570,7 +570,7 @@ f(x) = P_{n-1}(x) + \dfrac{f^{(n)}(\xi)}{n!}\prod_{i=1}^n (x-x_i)
 </figure>
 </div>
 <p>게다가 데이터 갯수가 상당히 많으면 수치적으로 불안정해 진다. 예를 들어, 25개의 데이터에 대한 가우스 분포를 다항식으로 보간하면 아래와 같이 더 이상 사용할 수 없는 결과가 발생한다.</p>
-<div id="fig-interpolation_oscillation_2" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-interpolation_oscillation_2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-interpolation_oscillation_2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/interpolation_oscillation2.png" class="img-fluid figure-img" style="width:100.0%">
@@ -592,7 +592,7 @@ f(x) = P_{n-1}(x) + \dfrac{f^{(n)}(\xi)}{n!}\prod_{i=1}^n (x-x_i)
 P_{k,\ldots,\,m}(x) = \dfrac{(x-x_k)P_{k+1,\ldots,m}(x) - (x-x_m)P_{k,\ldots,\,m-1}(x)}{x_m-x_k}
 \tag{7}\]</span></span></p>
 <p>4 개의 점 <span class="math inline">\(\{(x_1,\,y_1),\ldots,\,(x_4,\,y_4)\}\)</span> 으로 이루어진 데이터를 다항식으로 보간한다고 생각하자. 각 <span class="math inline">\(P_i(x)\)</span> 는 <span class="math inline">\(y_i\)</span> 의 값을 갖는 상수함수로 놓는다. <span class="math inline">\(P_1,\,P_2,\,P_3,\,P_4\)</span> 를 이용하여 <span class="math inline">\(P_{1,\,2}\)</span>, <span class="math inline">\(P_{2,\,3}\)</span>, <span class="math inline">\(P_{3,4}\)</span> 를 계산하며, 이를 이용하여 <span class="math inline">\(P_{1,2,3}\)</span> 와 <span class="math inline">\(P_{2,3,4}\)</span> 를 계산한다. 마지막으로 이를 이용하여 <span class="math inline">\(P_{1,2,3,4}\)</span> 를 계산하면 종료된다.</p>
-<table class="table-striped table-hover table">
+<table class="table-striped table-hover caption-top table">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -788,7 +788,7 @@ l_i (x) = \dfrac{y_{i+1}-y_i}{x_{+1}-x_i} (x-x_i) + y_i
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp_linear</span>(xp, yp, xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>blue, label<span class="op">=</span>L<span class="st">"\mathrm{Linear}"</span>)</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp_cubic</span>(xp, yp, xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>green, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic}"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
-<div id="fig-interpolation_3" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-interpolation_3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-interpolation_3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/Interpolation.png" class="img-fluid figure-img" style="width:100.0%">
@@ -912,7 +912,7 @@ M_{4n-4, 4n-6}=1,\, M_{4n-4, 4n-5}=2x_n,\, M_{4n-4,4n-4}=3(x_n)^2,\, b_{4n-4}=f'
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp2</span>.(xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>red, ls <span class="op">=</span> <span class="op">:</span>dash, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic\;Spline\;with\;natural\;BC}"</span>)</span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot!</span>(xt, <span class="fu">interp3</span>.(xt), lw<span class="op">=</span><span class="fl">2</span>, lc<span class="op">=:</span>blue, ls <span class="op">=</span> <span class="op">:</span>dot, label<span class="op">=</span>L<span class="st">"\mathrm{Cubic\;Spline\;with\;clamped\;BC}"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>이 결과로 다음의 그래프를 얻었다.</p>
-<div id="fig-interpolatino_spline" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-interpolatino_spline" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-interpolatino_spline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/test_spline.png" class="img-fluid figure-img" style="width:100.0%">
@@ -965,18 +965,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1008,7 +997,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -1016,7 +1027,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
