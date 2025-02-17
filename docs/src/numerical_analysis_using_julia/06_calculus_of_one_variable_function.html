@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>일변수 함수의 미분과 적분 – 수치해석과 이미지 처리</title>
+<title>수치해석과 이미지 처리 - 일변수 함수의 미분과 적분</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -123,7 +123,7 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -168,7 +168,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="탐색 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -199,18 +199,18 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
     <a href="mailto:julia.kaeri@gmail.com" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-envelope"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/numerical_analysis_using_julia/06_calculus_of_one_variable_function.html">일변수 함수의 미분과 적분</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -434,7 +434,7 @@ f''(x) &amp;=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h
 \end{aligned}
 \tag{6}\]</span></span></p>
 <p>이 때 수치해석적으로 계산한 미분의 오차는 <span class="math inline">\(h^2\)</span> 에 비례한다. 따라서 <span class="math inline">\(h\)</span> 을 작게 잡을 수록 오차가 작아지며 충분히 작을 때 전방차분이나 후방차분보다 오차가 작을 것을 기대 할 수 있다. 위의 식에 의해 구한 미분의 추정값을 <strong>중앙 차분 (central difference)</strong> 라고 한다. 아래 그림은 함수 <span class="math inline">\(f\)</span> 에 대한 전방 차분, 후방 차분, 중앙 차분값을 그림으로 표현하였다.</p>
-<div id="fig-comparision_of_differences" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-comparision_of_differences" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-comparision_of_differences-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/difference_01.png" class="img-fluid figure-img" width="500">
@@ -449,7 +449,7 @@ f''(x) &amp;=  \dfrac{f(x+h) - 2f(x) + f(x-h)}{h^2} - \dfrac{f^{(4)}(\xi')}{12}h
 <section id="roundoff-에러" class="level3" data-number="1.5">
 <h3 data-number="1.5" class="anchored" data-anchor-id="roundoff-에러"><span class="header-section-number">1.5</span> Roundoff 에러</h3>
 <p><span class="math inline">\(h\)</span> 값이 작을 수록 오차가 작아지지만 <span class="math inline">\(h\)</span> 값이 어느 이하로 작아지면 에러가 발생한다. 아래는 쉬운 예를 보여준다. 우리는 <span class="math inline">\(f(x)=e^x\)</span> 의 도함수는 자기 자신과 같으며, <span class="math inline">\(f(0)=f'(0)=1\)</span> 임을 알고 있다. 앞의 전방, 후반 차분법과 보통의 차분법에 대해 <span class="math inline">\(h\)</span> 값을 변화시키며 <span class="math inline">\(f'(0)\)</span> 의 값을 계산하였다. <span class="math inline">\(h\)</span> 값이 충분히 작지 않을 때는 오차가 발생하였으나 어느 정도 작아지면 그 값이 정확하고 안정적이다. 그러나 <span class="math inline">\(h\)</span> 값이 <span class="math inline">\(10^{-13}\)</span> 보다 작아지면 roundoff 에러가 발생하여 불안정해지는 것을 알 수 있다.</p>
-<div id="fig-round_off_error_of_differnce" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-round_off_error_of_differnce" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-round_off_error_of_differnce-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/difference_02.png" class="img-fluid figure-img" width="500">
@@ -493,7 +493,7 @@ f''(x) &amp;= \dfrac{-f(x-2h) + 16f(x-h) -30 f(x) + 16 f(x+h) - f(x+2h)}{12h^2} 
 <p>이다.</p>
 <p>다음 그림은 함수 <span class="math inline">\(f(x) = x\sin (x)\)</span> 에 대해 <span class="math inline">\(h\)</span> 를 변화시켜 가면서로 잡고 위에서 설명한 두가지 방법을 이용하여 도함수를 구했을때의 그래프(“3 Points”, “5 Points”) 와 <span class="math inline">\(f'(x) = \sin (x) + x\cos (x)\)</span> 의 그래프 (“Analytical”) 를 같이 그린 것이다. <span class="math inline">\(h=1\times 10^{-1}\)</span> 에서는 첫번째 수치미분보다 두번째 수치미분이 좀 더 실제 값에 가까우며 <span class="math inline">\(1 \times 10^{-2}\)</span> 부터 <span class="math inline">\(1.0 \times 10^{-14}\)</span> 까지는 두 방법 모두 상당히 정확한 값을 보여준다. 그러나 <span class="math inline">\(h\)</span> 값이 <span class="math inline">\(1.0\times 10^{-15}\)</span> 보다 작아지면서부터는 뚜렷하게 오차를 보여준다. 이것은 수치 미분을 구할 때 분모를 <span class="math inline">\(h\)</span> 로 나누게 되는데, 이 값이 작을수록 round-off 에러가 발생하기 때문이다. 따라서 적당한 <span class="math inline">\(h\)</span> 값을 잡는 것이 중요하다.</p>
 <p><br></p>
-<div id="fig-numerical_differentiation_with_different_denomiator" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-numerical_differentiation_with_different_denomiator" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-numerical_differentiation_with_different_denomiator-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="figure/derivative1.png" class="img-fluid figure-img">
@@ -1146,7 +1146,7 @@ p(x_i) = r(x_i)
 <p>이다.</p>
 </div>
 <p>이제 <span class="math inline">\(P_n(x)\)</span> 에 대한 근을 통해 <span class="math inline">\(\displaystyle C_n^i = \left[\prod_{j=1,j\ne i}^n \int_{-1}^1 \dfrac{x-x_j}{x_i-x_j}\, dx \right]\)</span> 를 테이블로 가지고 있다면 우리는 적분을 쉽게 계산 할 수 있다. 아래는 <span class="math inline">\(n=2\)</span> 부터 <span class="math inline">\(n=7\)</span> 까지의 테이블이다.</p>
-<table class="caption-top table">
+<table class="table">
 <caption>르장드르 함수를 이요한 가우스 구적법 {#tbl-gauss_quadrature} <br></caption>
 <thead>
 <tr class="header">
@@ -1347,7 +1347,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1379,29 +1390,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/julia-kaeri\.github\.io\/");
@@ -1409,7 +1398,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
