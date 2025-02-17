@@ -7,7 +7,7 @@
 module cvx
     using OpenCV
     using Distributions
-    export arr2mat, img2arr, img2mat, mat2arr, histogram1d, gaussian_noise, salt_pepper_noise, Point, Size, ConvertTo
+    export arr2mat, img2arr, img2mat, mat2arr, histogram1d, gaussian_noise, salt_pepper_noise, Point, Size, ConvertTo, fftshift, ifftshift, fftfreq
 
     Mat = OpenCV.Mat
     dft = OpenCV.dft
@@ -95,17 +95,17 @@ module cvx
     end 
 
 
-    function fftshift(A::Matrix)
-        h, w = size(A)
+    function fftshift(A::OpenCV.Mat)
+        c, h, w = size(A)
         m = iseven(h) ? div(h, 2) : div(h, 2)+1
         n = iseven(w) ? div(w, 2) : div(w, 2)+1
-        return [A[m+1:end, n+1:end] A[m+1:end, 1:n] ; A[1:m, n+1:end] A[1:m, 1:n] ]
+        return OpenCV.Mat(stack([[A[i, m+1:end, n+1:end] A[i, m+1:end, 1:n] ; A[i, 1:m, n+1:end] A[i, 1:m, 1:n] ] for i in 1:c], dims=1))
     end
 
-    function fftshift(A::OpenCV.Mat)
-        # to be imporved by reducing array allocation
-        return arr2mat(fftshift(mat2arr(A)[:,:,1]))
-    end
+    # function fftshift(A::OpenCV.Mat)
+    #     # to be imporved by reducing array allocation
+    #     return arr2mat(fftshift(mat2arr(A)[:,:,1]))
+    # end
 
     function ifftshift(v::Vector)
         m = length(v)
@@ -122,8 +122,24 @@ module cvx
     end
 
     function ifftshift(A::OpenCV.Mat)
-        # to be imporved by reducing array allocation
-        return arr2mat(ifftshift(mat2arr(A)[:,:,1]))
+        c, h, w = size(A)
+        m = iseven(h) ? div(h, 2) : div(h, 2)
+        n = iseven(w) ? div(w, 2) : div(w, 2)
+        return OpenCV.Mat(stack([[A[i, m+1:end, n+1:end] A[i, m+1:end, 1:n] ; A[i, 1:m, n+1:end] A[i, 1:m, 1:n] ] for i in 1:c], dims=1))
+    end
+
+
+    function fftfreq(n::Integer, d::Real =1)
+        @assert n>0
+        m = n>>1
+        if isodd(n)
+            return [collect(0:m); collect(-(m):-1)]./(n*d)
+        else
+            
+            return [collect(0:m-1); collect(-(m):-1)]./(n*d)
+        end
     end
 
 end;
+
+

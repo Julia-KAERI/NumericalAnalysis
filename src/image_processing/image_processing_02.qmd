@@ -386,13 +386,13 @@ $$
 
 $$
 \ldots , \underline{1, 3, 2 , 4}, 1, 3,2,4, \underline{1, 3, 2,4},\ldots
-$$
+$$ 
 
 에 대한 푸리에 변환이라는 의미이다 (주기적으로 반복되는 것을 잘 보이게 하기 위해 밑줄로 표현하였다). $N$ 개의 데이터가 $N$ 의 주기로 반복되기 때문에 전체적으로 주기는 $0, 1,\ldots,\, N-1$ 이며, 이 때 $\mathfrak{F}[f]=\langle F\rangle = (\hat{f}_1,\ldots,\,\hat{f}_{N})$ 의 $\hat{f}_u$ 는 다음과 같이 구할 수 있다.
 
 $$
-\hat{f}_u = \mathfrak{F}[f]_u=\dfrac{1}{N} \sum_{k=1}^{N} f_k \exp\left(-\dfrac{i2\pi (u-1) }{N} (k-1) \right).
-$$
+\hat{f}_u = \mathfrak{F}[f]_u= \sum_{k=1}^{N} f_k \exp\left(-\dfrac{i2\pi (u-1) }{N} (k-1) \right).
+$${#eq-ImageProcessing_fft}
 
 위의 식, 그리고 아래에서 에서 $(u-1)$ 이라던가 $(k-1)$ 같은 약간 어색한 부분이 있는 이유는 
 
@@ -404,8 +404,16 @@ $$
 또한 푸리에 역변환은 다음과 같이 표현 할 수 있다.
 
 $$
-f_k = \mathfrak{F}^{-1}\left[\hat{f}\right]_k = \sum_{u=1}^{N} \hat{f}_u \exp \left(\dfrac{i2\pi (k-1)}{N} (u-1) \right)
-$$
+f_k = \mathfrak{F}^{-1}\left[\hat{f}\right]_k = \dfrac{1}{N}\sum_{u=1}^{N} \hat{f}_u \exp \left(\dfrac{i2\pi (k-1)}{N} (u-1) \right)
+$${#eq-ImageProcessing_ifft}
+
+</br>
+
+::: {.callout-note}
+
+@eq-ImageProcessing_fft 와 @eq-ImageProcessing_ifft 을 보면 @eq-ImageProcessing_ifft 에만 $1/N$ 곱해져 있다.이 $1/N$ 을 정규화 인자(normalization factor) 라고 하며 $\mathfrak{F}[\mathfrak{F}^{-1}[f]] = f$ 을 보장하기 위해 곱해진다. 실제로 어떤 방식에는 푸리에 변환에, 어떤 방식은 푸리에 역변환에 곱해지지만 수학적으로는 어떤 방식이든 상관 없고 OpenCV 나 FFTW.jl 에서 쓰는 방식이 위의 방식이기 때문에 이렇게 사용하였다. 
+
+:::
 
 </br>
 
@@ -413,7 +421,7 @@ $$
 
 $$
 \begin{aligned}
-f_{k'} = \mathfrak{F}^{-1}\left[\hat{f}\right]_{k'} &=  \sum_{u=0}^{N-1} \hat{f}_u \exp \left(\dfrac{i2\pi k'u}{N}  \right) \\
+f_{k'} = \mathfrak{F}^{-1}\left[\hat{f}\right]_{k'} &=  \dfrac{1}{N}\sum_{u=0}^{N-1} \hat{f}_u \exp \left(\dfrac{i2\pi k'u}{N}  \right) \\
 &= \dfrac{1}{N}\sum_{u=0}^{N-1} \left[\sum_{k=0}^{N-1} f_k \exp \left(\dfrac{-i2\pi k u}{N}  \right)  \right]\exp \left(\dfrac{i2\pi k'u}{N} \right)  \\
 &= \dfrac{1}{N}\sum_{k=0}^{N-1} f_k \sum_{u=0}^{N-1} \exp\left( \dfrac{2\pi i (k'-k)u}{N}  \right) \\
 % &= \dfrac{1}{N}\sum_{k=0}^{N-1} f_k \dfrac{{1-\exp \left( \dfrac{2\pi i (k'-k) N}{N}\right)}}{1-\exp \left( \dfrac{2\pi i (k'-k)}{N}\right)}
@@ -477,9 +485,9 @@ idft = v-> _dft(v, true)
 
 $$
 \begin{aligned}
-\hat{f}_{-u} &= \dfrac{1}{N} \sum_{k=1}^N f_k \exp \left( \dfrac{i 2 \pi (u +1)(k-1) }{N}\right) \\
-&= \dfrac{1}{N} \sum_{k=1}^N f_k \exp \left( \dfrac{i 2 \pi (u +1)(k-1) }{N}\right) \exp \left( \dfrac{-i 2 \pi N (k-1)}{N} \right) \\
-&= \dfrac{1}{N} \sum_{k=1}^Nf_k \exp \left( \dfrac{i 2 \pi (N-u-1)(k-1)}{N}\right) \\
+\hat{f}_{-u} &= \sum_{k=1}^N f_k \exp \left( \dfrac{i 2 \pi (u +1)(k-1) }{N}\right) \\
+&= \sum_{k=1}^N f_k \exp \left( \dfrac{i 2 \pi (u +1)(k-1) }{N}\right) \exp \left( \dfrac{-i 2 \pi N (k-1)}{N} \right) \\
+&=  \sum_{k=1}^Nf_k \exp \left( \dfrac{i 2 \pi (N-u-1)(k-1)}{N}\right) \\
 &= \hat{f}_{N-u}
 \end{aligned}
 $$ {#eq-ImageProcessing_negative_frequency}
@@ -490,8 +498,10 @@ $$ {#eq-ImageProcessing_negative_frequency}
 
 ($2$) $N$ 이 홀수일 때는 $-\dfrac{N-1}{2} \le u \le \dfrac{N-1}{2}$ 로, $N$ 이 짝수일 때는 $-\dfrac{N}{2} \le u \le \dfrac{N}{2}-1$ 로 잡아 표현한다. 빈도 분포 에서 빈도 $0$ 가 중앙에 가도록 잡거나.
 
-많이 사용하는 DFT 라이브러리는 일반적으로 ($1$) 의 방식으로 계산하며, ($1$) 의 결과를 ($2$) 로 바꾸거나, 혹은 ($2$) 의 결과를 ($1$) 로 바꾸는 기능을 제공한다. 아쉽게도 OpenCV 자체는 이런 변환 기능이 없어서 직접 계산해야 한다. Python, Julia, Matlab 의 DFT 라이브러리들은 이 변환 기능을 `fftshift` 라는 함수 이름으로 제공한다. 이런 기능에 대하 딱히 다른 이름이 있는 것도 아닌것 같아서 앞으로도 **fftshift** 라고 사용하도록 하자.
+많이 사용하는 DFT 라이브러리는 일반적으로 ($1$) 의 방식으로 계산하며, ($1$) 의 결과를 ($2$) 로 바꾸거나, 혹은 ($2$) 의 결과를 ($1$) 로 바꾸는 기능을 제공한다. 아쉽게도 OpenCV 자체는 이런 변환 기능이 없어서 직접 계산해야 한다. Python, Julia, Matlab 의 DFT 라이브러리들은 이 변환 기능을 `fftshift` 라는 함수 이름으로 제공한다. 이런 기능에 대하 딱히 다른 이름이 있는 것도 아닌것 같아서 앞으로도 **fftshift** 라고 사용하도록 하자. 아래 그림은 몇몇 함수에 대한 1차원 DFT 의 결과에 대한 그래프이다. 주파수는 fftshift 를 사용하여 변환시킨 것이다. 
 
+
+![1차원 DFT](notebooks/fftexam.png){#fig-ImageProcessing_1dfft width=600}
 
 </br>
 
@@ -501,12 +511,18 @@ $$ {#eq-ImageProcessing_negative_frequency}
 
 $$
 \begin{aligned}
-\hat{F}_{uv} &= \dfrac{1}{MN} \sum_{j=1}^{M}\sum_{k=1}^{N} F_{jk} \exp \left[-2i\pi \left(\dfrac{(j-1)(u-1)}{M}+\dfrac{(k-1)(v-1)}{N}\right)\right] \\
-F_{jk} &=  \sum_{j=1}^{M}\sum_{k=1}^{N} \hat{F}_{uv} \exp \left[2i\pi \left(\dfrac{(j-1)(u-1)}{M}+\dfrac{(k-1)(v-1)}{N}\right)\right]
+\hat{F}_{uv} &= \sum_{j=1}^{M}\sum_{k=1}^{N} F_{jk} \exp \left[-2i\pi \left(\dfrac{(j-1)(u-1)}{M}+\dfrac{(k-1)(v-1)}{N}\right)\right] \\
+F_{jk} &=  \dfrac{1}{MN} \sum_{j=1}^{M}\sum_{k=1}^{N} \hat{F}_{uv} \exp \left[2i\pi \left(\dfrac{(j-1)(u-1)}{M}+\dfrac{(k-1)(v-1)}{N}\right)\right]
 \end{aligned}
-$$
+$$ {#eq-ImageProcessing_2d_dft}
 
 여기서도 $\mathfrak{F}^{-1}\left[\mathfrak{F}[F]\right] = F$ 와 $\mathfrak{F}\left[\mathfrak{F}^{-1}[\hat{F}]\right]=\hat{F}$ 가 성립한다. 
+
+::: {.callout-warning}
+
+OpenCV 에서는 푸리에 역변환에서 $1/MN$ 곱을 제외한 항으로 계산하여 반환한다.
+
+:::
 
 </br>
 
@@ -541,7 +557,7 @@ $$
 
 <br>
 
-**2. 정규화 인자 (normalization factor)** : 또한, $\hat{F}(u,\,v)$ 의 계수에 연속 푸리에 변환에는 없던 $\dfrac{1}{NM}$ 가 생긴것을 볼 수 있다.우리가 다루는 이미지 같은 신호는 공간상에서 제약이 있고 (즉, 가로와 세로의 길이가 정해져 있고), 또한 신호들은 불연속적으로 나열되어 있으므로, 이를 푸리에 변환 과정에서 보상하기 위해, $F (u,\,v)$ 의 계수에 $\dfrac{1}{MN}$ 가 정규화 인자 (normalization factor)로서 생긴 것이다.
+**2. 정규화 인자 (normalization factor)** : 앞서 언급한대로 $\mathfrak{F}^{-1}[\mathfrak{F}[F]]=F$ 를 보장하기 위해 정규화 인자 $1/MN$ 이 푸리에 역변환에 일반적으로 곱해진다. 그러나 OpenCV 에서는 정규화를 수행하지 않아 $\mathfrak{F}^{-1}[\mathfrak{F}[F]]= (MN)F$ 이다. 
 
 </br>
 
@@ -557,7 +573,7 @@ $$
 우선 $N=2^n$ 일 경우에 대해 생각하자. 그리고 우리는 $f_k$ 의 인덱스 $k$ 를 $1\le k \le N$ 에서 생각했지만 여기서는 $0\le k \le N-1$ 로 생각하자. 이 경우, 
 
 $$
-\mathfrak{F}[f]_u=\dfrac{1}{N}\sum_{k=0}^{N-1} f_k e^{-2 \pi i ku /N},\qquad u=0,\ldots,N-1
+\mathfrak{F}[f]_u = \sum_{k=0}^{N-1} f_k e^{-2 \pi i ku /N},\qquad u=0,\ldots,N-1
 $$
 이다. $k=0,\ldots,\,N-1$ 에 대해 $(f_k)$ 의 짝수 인덱스만 모아 수열 $(a_k)$ 를 만들고 홀수 인덱스만 모아 수열 $(b_k)$ 를 만든다. 
 
@@ -657,7 +673,12 @@ ft1 = cv.dft(img1, flags=cv.DFT_COMPLEX_OUTPUT);
 ### fftshift {#sec-ImageProcessing_fftshift}
 
 
-[1차원 DFT](#sec-ImageProcessing_1d_dft) 의 @eq-ImageProcessing_negative_frequency 와 이후의 논의에서 알 수 있듯이 $N$ 개의 값을 갖는 신호의 푸리에 변환에 대해 $\hat{f}_{-u} = \hat{f}_{N-u}$ 이다. 일반적인 푸리에 변환 알고리즘은 주파수의 범위를 $0 \le u \le N-1$ 로 잡고 $\hat{f}_0,\ldots,\, \hat{f}_{N-1}$ 을 반환한다. 이것을 $\hat{f}_0$ 를 중앙에 놓도록,  
+[1차원 DFT](#sec-ImageProcessing_1d_dft) 의 @eq-ImageProcessing_negative_frequency 와 이후의 논의에서 알 수 있듯이 $N$ 개의 값을 갖는 신호의 푸리에 변환에 대해 $\hat{f}_{-u} = \hat{f}_{N-u}$ 이다. 일반적인 푸리에 변환 알고리즘은 주파수의 범위를 $0 \le u \le N-1$ 로 잡고 $\hat{f}_0,\ldots,\, \hat{f}_{N-1}$ 을 반환한다. 이것을 $\hat{f}_0$ 를 중앙에 놓도록 데이터를 재배치한다.
+
+
+야래 그림은 $X$ 의 이미지를 푸리에 변환한 것의 실수부, 허수부, 절대값이이다. 정확히는 $\log (1+ |\mathfrak{F}[X]|)$ 값이다. 푸리에 변환 값이 크게 변하기 때문에, 그리고 0 값을 피하기 위해 1을 더하고 로그를 취한 값에 대한 이미지를 그리는 것이 2차원 푸리에 변환을 이미지로 보여줄 때의 일반적인 방법이다.
+
+![2D FFT 예. 이미지 $X$ 의 푸리에 변환에 대해 실수부 $\text{Re}(\mathfrak{F}[X])$, 허수무 $\text{Im}(\mathfrak{F}[X])$, 그리고 절대값 $|\mathfrak{F}[X]|$. 정확히는 위의 값에 1을 더하고 로그를 취한 이미지이다.](notebooks/2dfft_exam1.png)
 
 
 
